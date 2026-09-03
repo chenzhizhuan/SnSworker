@@ -19,7 +19,7 @@ WORKDIR /app
 
 FROM base AS builder
 
-COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc tsconfig.base.json ./
 COPY packages ./packages
 COPY scripts ./scripts
 

@@ -26,7 +26,7 @@ WORKDIR /app
 FROM base AS builder
 
 # workspace 骨架 + 全量 packages（根 .dockerignore 已剔除 node_modules/dist）
-COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc tsconfig.base.json ./
 COPY scripts ./scripts
 COPY packages ./packages
 
