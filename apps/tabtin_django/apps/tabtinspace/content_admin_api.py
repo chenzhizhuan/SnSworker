@@ -14,6 +14,7 @@ from django.utils import timezone
 from ninja import Router
 from ninja.errors import HttpError
 
+from apps.services.email.models import EmailRecord
 from apps.services.oss.models import FileRecord
 from apps.tabdata.constants import TABDATA_DB_ALIAS
 from apps.tabdata.models import Table
@@ -84,6 +85,21 @@ def admin_content_overview(request):
             all_slides.aggregate(total_pages=Sum("page_count")).get("total_pages") or 0
         ),
     }
+    # 邮件（出站发送记录 EmailRecord）。社区版无独立 IMAP 邮箱账号体系，
+    # 这里以系统发信记录近似前端 ContentOverviewMailSummary 的契约字段：
+    # error_accounts=pending+failed+bounced（需处理/异常），unread_messages=success
+    # （已发出、等待打开），pending_drafts=0。字段名必须与前端严格一致。
+    mail_summary = {
+        "total_accounts": EmailRecord.objects.count(),
+        "active_accounts": EmailRecord.objects.exclude(status__in=["failed", "bounced"]).count(),
+        "syncing_accounts": EmailRecord.objects.filter(status="pending").count(),
+        "error_accounts": EmailRecord.objects.filter(
+            status__in=["failed", "bounced"]
+        ).count(),
+        "total_messages": EmailRecord.objects.count(),
+        "unread_messages": EmailRecord.objects.filter(status="success").count(),
+        "pending_drafts": 0,
+    }
     assets_summary = {
         "total_files": all_oss_files.count(),
         "completed_files": all_oss_files.filter(status="completed").count(),
@@ -126,6 +142,7 @@ def admin_content_overview(request):
         "tables": tables_summary,
         "docs": docs_summary,
         "slides": slides_summary,
+        "mail": mail_summary,
         "assets": assets_summary,
         "trash": trash_summary,
         "totals": {

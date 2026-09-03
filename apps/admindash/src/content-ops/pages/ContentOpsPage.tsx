@@ -128,6 +128,16 @@ export function ContentOpsPage() {
 
   const totalManagedResources = useMemo(() => data?.totals.managed_resources ?? 0, [data])
   const pendingAttention = useMemo(() => data?.totals.pending_attention ?? 0, [data])
+  // 后端若缺少 mail 字段（契约漂移/旧版本），回退到零值，避免整页白屏。
+  const mail = data?.mail ?? {
+    total_accounts: 0,
+    active_accounts: 0,
+    syncing_accounts: 0,
+    error_accounts: 0,
+    total_messages: 0,
+    unread_messages: 0,
+    pending_drafts: 0,
+  }
   const attentionQueues = useMemo<AttentionQueueItem[]>(() => {
     if (!data) {
       return []
@@ -143,16 +153,16 @@ export function ContentOpsPage() {
       },
       {
         type: '异常邮箱',
-        count: data.mail.error_accounts,
+        count: mail.error_accounts,
         href: '/mail?attention=error',
-        priority: data.mail.error_accounts > 0 ? '紧急' : '普通',
+        priority: mail.error_accounts > 0 ? '紧急' : '普通',
         action: '处理',
       },
       {
         type: '未读邮件',
-        count: data.mail.unread_messages,
+        count: mail.unread_messages,
         href: '/mail?attention=unread',
-        priority: data.mail.unread_messages > 0 ? '高' : '普通',
+        priority: mail.unread_messages > 0 ? '高' : '普通',
         action: '查看',
       },
       {
@@ -210,13 +220,13 @@ export function ContentOpsPage() {
       },
       {
         title: '邮件',
-        count: String(data.mail.total_accounts),
-        issueCount: data.mail.error_accounts,
+        count: String(mail.total_accounts),
+        issueCount: mail.error_accounts,
         icon: Mail,
         href: '/mail',
         updatedAt: '—',
-        status: data.mail.error_accounts > 0 ? 'danger' : 'normal',
-        tone: data.mail.error_accounts > 0 ? 'danger' : 'default',
+        status: mail.error_accounts > 0 ? 'danger' : 'normal',
+        tone: mail.error_accounts > 0 ? 'danger' : 'default',
       },
       {
         title: '回收站',
@@ -229,7 +239,7 @@ export function ContentOpsPage() {
         tone: data.trash.expiring_soon_3_days > 0 ? 'warning' : 'default',
       },
     ]
-  }, [data])
+  }, [data, mail])
 
   return (
     <AdminPage>
@@ -271,10 +281,10 @@ export function ContentOpsPage() {
         />
         <CompactKpi
           title="未读邮件"
-          value={loading && !data ? '加载中…' : (data?.mail.unread_messages ?? 0)}
-          status={(data?.mail.unread_messages ?? 0) > 0 ? '待查看' : '正常'}
+          value={loading && !data ? '加载中…' : mail.unread_messages}
+          status={mail.unread_messages > 0 ? '待查看' : '正常'}
           icon={Mail}
-          tone={(data?.mail.unread_messages ?? 0) > 0 ? 'warning' : 'default'}
+          tone={mail.unread_messages > 0 ? 'warning' : 'default'}
           onClick={() => navigate('/mail?attention=unread')}
         />
         <CompactKpi

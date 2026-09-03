@@ -242,6 +242,8 @@ export function MailManagementPage() {
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState<string | null>(null)
 
+  const [featureUnavailable, setFeatureUnavailable] = useState(false)
+
   const [actionLoading, setActionLoading] = useState(false)
   const [actionMessage, setActionMessage] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
@@ -270,7 +272,15 @@ export function MailManagementPage() {
       })
       setListData(response)
     } catch (loadError: unknown) {
-      setListError(getErrorMessage(loadError, '加载邮箱账户失败'))
+      // 社区版未部署邮箱账号管理后端：/auth/admin/mail/accounts 返回 404。
+      // 识别为「功能未启用」而非普通错误，给出明确说明而非白屏/误导。
+      const msg = loadError instanceof Error ? loadError.message : ''
+      if (/HTTP 404/.test(msg)) {
+        setFeatureUnavailable(true)
+        setListError(null)
+      } else {
+        setListError(getErrorMessage(loadError, '加载邮箱账户失败'))
+      }
     } finally {
       setListLoading(false)
     }
@@ -618,6 +628,22 @@ export function MailManagementPage() {
       impact: `该操作会改变选中 ${pendingSensitiveAction.accountIds.length} 个账户的可用状态，不会影响客户端其他数据。`,
       confirmText: pendingSensitiveAction.nextActive ? '启用' : '停用',
     }
+  }
+
+  if (featureUnavailable) {
+    return (
+      <AdminPage>
+        <AdminPageHeader title="邮件" icon={Mail} />
+        <div className="rounded-lg border border-dashed bg-muted/30 px-6 py-12 text-center">
+          <Mail className="mx-auto h-8 w-8 text-muted-foreground" />
+          <h3 className="mt-4 text-title font-semibold">邮箱账户管理未启用</h3>
+          <p className="mx-auto mt-2 max-w-md text-body text-muted-foreground">
+            当前部署（社区版）尚未包含邮箱账户（IMAP）管理后端，因此无法查看或同步邮箱账户。
+            该页面功能需要部署对应的后端模块后才会生效。系统发信记录可在「资源管理 › 内容总览」中查看。
+          </p>
+        </div>
+      </AdminPage>
+    )
   }
 
   return (

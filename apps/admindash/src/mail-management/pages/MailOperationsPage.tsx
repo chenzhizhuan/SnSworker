@@ -103,6 +103,8 @@ export function MailOperationsPage() {
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState<string | null>(null)
 
+  const [featureUnavailable, setFeatureUnavailable] = useState(false)
+
   const loadOperations = useCallback(async () => {
     setLoading(true)
     setError(null)
@@ -118,7 +120,13 @@ export function MailOperationsPage() {
       })
       setData(response)
     } catch (loadError: unknown) {
-      setError(getErrorMessage(loadError, '加载治理日志失败'))
+      const msg = loadError instanceof Error ? loadError.message : ''
+      if (/HTTP 404/.test(msg)) {
+        setFeatureUnavailable(true)
+        setError(null)
+      } else {
+        setError(getErrorMessage(loadError, '加载治理日志失败'))
+      }
     } finally {
       setLoading(false)
     }
@@ -236,6 +244,21 @@ export function MailOperationsPage() {
     () => items.find((item) => item.id === selectedOperationId) ?? null,
     [items, selectedOperationId]
   )
+
+  if (featureUnavailable) {
+    return (
+      <AdminPage>
+        <AdminPageHeader title="TabMail 治理日志" icon={MessageSquareText} />
+        <div className="rounded-lg border border-dashed bg-muted/30 px-6 py-12 text-center">
+          <Mail className="mx-auto h-8 w-8 text-muted-foreground" />
+          <h3 className="mt-4 text-title font-semibold">邮箱治理日志未启用</h3>
+          <p className="mx-auto mt-2 max-w-md text-body text-muted-foreground">
+            当前部署（社区版）尚未包含邮箱账户（IMAP）管理后端，治理日志不可用。
+          </p>
+        </div>
+      </AdminPage>
+    )
+  }
 
   return (
     <AdminPage>
