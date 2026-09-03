@@ -69,8 +69,19 @@ x-web-public-env: &web-public-env
   CELERY_BROKER_URL: redis://redis:6379/0
   CENTRIFUGO_API_URL: http://centrifugo:8100/api
   SERVICES_SMS_PROVIDER: disabled
-  SERVICES_EMAIL_PROVIDER: disabled
-  EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+  # ── 邮件服务（QQ 个人邮箱，SMTP over SSL）─────────────────────────────
+  # 密码放在根 .env（web-up.sh 以 --env-file 加载并做 ${} 插值），不写进本文件。
+  # 这里覆盖 community 默认的 console/disabled，让 django + 各 celery worker
+  # （异步发件由 worker 处理）都启用真实 SMTP。
+  SERVICES_EMAIL_PROVIDER: tencent
+  EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+  EMAIL_HOST: smtp.qq.com
+  EMAIL_PORT: '465'
+  EMAIL_USE_SSL: 'True'
+  EMAIL_USE_TLS: 'False'
+  EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+  EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+  DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL}
   SERVICES_OSS_PROVIDER: local
   LOCAL_OSS_BUCKET_NAME: tabtin-community-local
   LOCAL_OSS_ROOT: /var/lib/tabtin/objects
