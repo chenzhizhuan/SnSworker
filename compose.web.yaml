@@ -1,0 +1,271 @@
+# Web 部署形态 overlay（Ubuntu 单机 / 公网 IP + HTTP / 13490~13494）
+#
+# 用法：
+#   SERVER_IP=<公网IP> bash scripts/community/web-up.sh
+#
+# ⚠️ 不要直接 docker compose up。本文件依赖 web-up.sh 先做两件事：
+#    1) 渲染 community-assets/centrifugo.web.template.json（否则 Centrifugo
+#       配置生成阶段报 missing Community Centrifugo template）；
+#    2) 导出 SERVER_IP 与 COLLAB_LIVE_SECRET（否则下面的 ${...} 插值为空，
+#       Django 的 ALLOWED_HOSTS/CORS 与 collab-live 的鉴权全部失效）。
+#    调试用的直连命令见 docs/development/web-docker-deploy.md。
+#
+# 端口映射（宿主机 → 容器）：
+#   13490 → tabtin-web:80      13491 → admindash:80     13492 → django:6060
+#   13493 → collab-live:4100   13494 → centrifugo:8100
+#   postgres / redis 刻意不映射宿主机端口：仅容器网络内按服务名访问。
+#
+# 与 compose.yaml 的关系：本文件只做「改端口 + 改地址 + 补服务」。
+# 新增的 8 个 worker + beat 不用 extends 继承 celery 的 environment——
+# Compose 的 extends 在两边都带 environment 时，merge 行为（深合并 vs 浅替换）
+# 因 Compose 版本而异，静态不可知；一旦浅替换，worker 会丢掉
+# PG_DB_HOST / REDIS_URL / SECRET_KEY_FILE 等全部 DB/Redis/密钥配置，
+# 启动即崩。因此这里直接内联全部必要环境变量，自洽不依赖 extends。
+#
+# x-web-public-env 包含两部分：
+#   (a) compose.yaml 里 &django-environment 的全部 52 个变量（含 DB/Redis/密钥路径），
+#       值与 compose.yaml 完全一致，仅 ALLOWED_HOSTS / CSRF / CORS / PUBLIC_BASE
+#       四个字段在 web-public-env 里被 web 形态的值覆盖（见下方 web 形态段）。
+#   (b) web 形态额外需要的变量（COLLAB_LIVE_URL / COLLAB_LIVE_SECRET 等）。
+#
+# 代价：~50 行变量在此重复出现，是有意选择——比依赖 extends merge 语义更可控。
+# 若 compose.yaml 的 django-environment 将来有改动，这里必须同步更新。
+
+x-worker-common: &worker-common
+  image: tabtin/community-django:local
+  command: ['worker']
+  env_file:
+    - ./.env.community-runtime
+  user: '10001:10001'
+  restart: unless-stopped
+  volumes:
+    - installation-secrets:/run/tabtin-community-secrets:ro
+    - local-objects:/var/lib/tabtin/objects
+  networks: [community]
+  depends_on:
+    django: { condition: service_healthy }
+    redis: { condition: service_healthy }
+
+x-web-public-env: &web-public-env
+  # ── (a) 与 compose.yaml &django-environment 保持一致的基础变量 ──────────
+  TABTIN_DATABASE_MODE: single_pg
+  DEBUG: 'True'
+  ENABLE_HTTPS_SECURITY: 'false'
+  TABTIN_REQUIRE_INVITE_CODE: 'false'
+  SECRET_KEY_FILE: /run/tabtin-community-secrets/SECRET_KEY
+  JWT_SECRET_KEY_FILE: /run/tabtin-community-secrets/JWT_SECRET_KEY
+  CREDENTIAL_ENCRYPTION_KEY_FILE: /run/tabtin-community-secrets/CREDENTIAL_ENCRYPTION_KEY
+  CENTRIFUGO_API_KEY_FILE: /run/tabtin-community-secrets/CENTRIFUGO_API_KEY
+  CENTRIFUGO_PROXY_SECRET_FILE: /run/tabtin-community-secrets/CENTRIFUGO_PROXY_SECRET
+  CENTRIFUGO_TOKEN_SECRET_FILE: /run/tabtin-community-secrets/CENTRIFUGO_TOKEN_SECRET
+  PG_DB_NAME: tabtin
+  PG_DB_USER: tabtin_runtime
+  PG_DB_PASSWORD_FILE: /run/tabtin-community-secrets/PG_RUNTIME_PASSWORD
+  PG_DB_HOST: postgres
+  PG_DB_PORT: '5432'
+  REDIS_URL: redis://redis:6379/0
+  REDIS_CACHE_URL: redis://redis:6379/1
+  REDIS_CHANNEL_URL: redis://redis:6379/2
+  CELERY_BROKER_URL: redis://redis:6379/0
+  CENTRIFUGO_API_URL: http://centrifugo:8100/api
+  SERVICES_SMS_PROVIDER: disabled
+  SERVICES_EMAIL_PROVIDER: disabled
+  EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+  SERVICES_OSS_PROVIDER: local
+  LOCAL_OSS_BUCKET_NAME: tabtin-community-local
+  LOCAL_OSS_ROOT: /var/lib/tabtin/objects
+  ENABLE_JINBAO_BOT: 'false'
+  SEARCH_ENGINE_ENABLED: 'false'
+  RAG_ENABLED: 'false'
+  RUN_MIGRATIONS: 'false'
+  RUN_BOOTSTRAP: 'false'
+  LOG_TO_FILE: 'false'
+  # ── (b) web 形态覆盖 + 新增 ────────────────────────────────────────────
+  # 客户端实际可达地址。TABTIN_PUBLIC_BASE_URL 的 hostname 必须非环回，
+  # 否则 apps/services/oss/services/factory.py:144 的 local OSS 守卫会拒绝。
+  ALLOWED_HOSTS: localhost,127.0.0.1,django,${SERVER_IP}
+  CSRF_TRUSTED_ORIGINS: http://${SERVER_IP}:13492,http://${SERVER_IP}:13490,http://${SERVER_IP}:13491
+  CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490,http://${SERVER_IP}:13491
+  TABTIN_PUBLIC_BASE_URL: http://${SERVER_IP}:13492
+  TABTIN_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
+  ALLOW_LAN_HOSTS_IN_DEBUG: 'True'
+  # collab-live 双向鉴权（X-Live-Secret），三方必须同值
+  COLLAB_LIVE_URL: http://collab-live:4100
+  COLLAB_LIVE_SECRET: ${COLLAB_LIVE_SECRET}
+  # 显式钉死 tracker 队列名。settings.py:_default_tracker_agent_queue() 会在
+  # TABTIN_INFRA_MODE=remote 且非 K8s 时派生成 tracker_agent_<主机名>；本形态
+  # 不设该变量本就走 canonical 名，但钉死可保证 producer 与 consumer 永不分叉。
+  TRACKER_AGENT_QUEUE: tracker_agent
+
+services:
+  django:
+    environment:
+      <<: *web-public-env
+      # 指向 web 形态的 Centrifugo 模板（allowed_origins 换成 13490/13491）。
+      # 该变量 compose.yaml:108 已存在，故无需改 community_secrets.py。
+      TABTIN_COMMUNITY_CENTRIFUGO_TEMPLATE: /app/community-assets/centrifugo.web.template.json
+    volumes:
+      # 镜像里只 COPY 了 centrifugo.template.json，web 模板由宿主机提供
+      # （web-up.sh 从 .in 源文件渲染生成）。
+      #
+      # 刻意挂整个目录而非单个文件，与 compose.community-dev.yaml:18 同惯例：
+      # 单文件挂载时若宿主机上该文件还不存在，Docker 会在该路径建出一个**目录**，
+      # 之后 read_text() 抛 IsADirectoryError，报错难懂。挂目录则退化为
+      # community_secrets 的 "missing Community Centrifugo template"，一眼可懂。
+      - ./community-assets:/app/community-assets:ro
+    ports: !override
+      - '0.0.0.0:13492:6060'
+
+  centrifugo:
+    ports: !override
+      - '0.0.0.0:13494:8100'
+
+  # ── Celery workers ────────────────────────────────────────────────────
+  # 严格对齐 apps/tabtin_django/tabtin/runtime/registry.py 的 WORKER_REGISTRY：
+  # 8 类 worker 覆盖 QUEUE_REGISTRY 全部 14 个队列。改这里要同步改注册表。
+  #
+  # 服务名保持 celery（overlay 不能删除基础文件里的服务），职责收窄为
+  # WORKER_REGISTRY 的 worker-critical：只吃 critical，不再吃 default，
+  # 否则会与下面的 worker-default 重复消费同一队列。
+  celery:
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: critical
+      CELERY_CONCURRENCY: '2'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  worker-default:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: default,low_priority
+      CELERY_CONCURRENCY: '4'
+      CELERY_PREFETCH_MULTIPLIER: '4'
+
+  worker-realtime:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: realtime_delivery
+      CELERY_CONCURRENCY: '4'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  worker-search:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: search_indexing
+      CELERY_CONCURRENCY: '4'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  worker-data-ai:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: rag_indexing,doc_merge
+      CELERY_CONCURRENCY: '4'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  worker-heavy:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: heavy,media,docparse,tabdata_conversion,pptx_import_oss
+      CELERY_CONCURRENCY: '1'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  worker-ai-background:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: ai_background
+      CELERY_CONCURRENCY: '1'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  worker-tracker:
+    <<: *worker-common
+    environment:
+      <<: *web-public-env
+      CELERY_QUEUES: tracker_agent
+      CELERY_CONCURRENCY: '2'
+      CELERY_PREFETCH_MULTIPLIER: '1'
+
+  # ── Celery beat ───────────────────────────────────────────────────────
+  # compose.yaml 原本完全没有 beat，导致 BEAT_REGISTRY 的 15 个定时任务全都没在跑。
+  # 必须严格单实例：多副本会让同一定时任务重复触发。
+  beat:
+    <<: *worker-common
+    command: ['beat']
+    environment:
+      <<: *web-public-env
+      # 说明：extends 会带进 celery 的 CELERY_QUEUES，但 docker-entrypoint.sh 的
+      # beat 分支根本不读它（只 exec celery beat）。beat 只投递不消费，无副作用。
+    deploy:
+      replicas: 1
+    # 继承来的 healthcheck 是 `celery inspect ping`，那是 worker 探活手段，
+    # beat 不是 worker、不响应 ping，必须关掉否则永远 unhealthy。
+    healthcheck:
+      disable: true
+
+  # ── collab-live（Hocuspocus Y.js 实时协作）─────────────────────────────
+  collab-live:
+    image: tabtin/collab-live:local
+    build:
+      context: .
+      dockerfile: apps/collab-live/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: '4100'
+      DJANGO_API_URL: http://django:6060
+      COLLAB_LIVE_SECRET: ${COLLAB_LIVE_SECRET}
+      COLLAB_LIVE_REQUIRE_SECRET: 'true'
+      # Redis DB 14：避开 Django 的 0/1/2 与 Centrifugo 的 13
+      REDIS_URL: redis://redis:6379/14
+      CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490
+      MAX_CONNECTIONS_PER_DOCUMENT: '50'
+    depends_on:
+      django: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    ports:
+      - '0.0.0.0:13493:4100'
+    networks: [community]
+
+  # ── 前端静态站点 ───────────────────────────────────────────────────────
+  # ⚠️ VITE_* 是构建期内联：换 IP / 换域名必须重新 build 这两个镜像，
+  #    重启容器无效。见 apps/tabtin-web/Dockerfile 顶部说明。
+  tabtin-web:
+    image: tabtin/tabtin-web:local
+    build:
+      context: .
+      dockerfile: apps/tabtin-web/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://${SERVER_IP}:13492/api
+        VITE_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
+        VITE_COLLAB_WS_BASE: ws://${SERVER_IP}:13493
+        VITE_CENTRIFUGO_WS_URL: ws://${SERVER_IP}:13494/connection/websocket
+        VITE_AUTH_EMAIL_LOGIN_ENABLED: 'true'
+        VITE_DOC_COLLAB_ENABLED: 'true'
+    restart: unless-stopped
+    depends_on:
+      django: { condition: service_healthy }
+    ports:
+      - '0.0.0.0:13490:80'
+    networks: [community]
+
+  admindash:
+    image: tabtin/admindash:local
+    build:
+      context: .
+      dockerfile: apps/admindash/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://${SERVER_IP}:13492/api
+        VITE_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
+        VITE_AUTH_EMAIL_LOGIN_ENABLED: 'true'
+    restart: unless-stopped
+    depends_on:
+      django: { condition: service_healthy }
+    ports:
+      - '0.0.0.0:13491:80'
+    networks: [community]

@@ -107,6 +107,10 @@ backups/
 dev-db-dumps/*.sql.gz
 dev-db-dumps/*.sql
 
+# Web 形态的 Centrifugo 运行时模板：由 scripts/community/web-up.sh 按 SERVER_IP
+# 从同名 .in 源文件渲染生成，含部署地址，不进 git。源文件 .in 是要提交的。
+community-assets/centrifugo.web.template.json
+
 # IDE
 .vscode/
 .idea/

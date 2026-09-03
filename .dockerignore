@@ -40,4 +40,10 @@ apps/tabtin-ios
 apps/tabtin-android
 apps/tabtin-harmony
 
+# 例外：pnpm-lock.yaml 里 apps/tabtin-electron 是 workspace importer 之一。
+# collab-live / tabtin-web / admindash 镜像用 --frozen-lockfile 安装，workspace
+# importer 集合必须与 lockfile 一致，否则 pnpm 可能判定 lockfile 过期而失败。
+# 只放行这一个 manifest（几 KB），electron 源码与资源仍然全部排除。
+!apps/tabtin-electron/package.json
+
 .DS_Store
