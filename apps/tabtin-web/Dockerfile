@@ -23,6 +23,7 @@ FROM base AS builder
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc tsconfig.base.json ./
 COPY packages ./packages
 COPY scripts ./scripts
+COPY contracts ./contracts
 
 # lockfile 有 5 个 apps/* importer；--frozen-lockfile 要求 workspace importer
 # 集合与之一致，故这 5 个 manifest 都得在（只要 package.json，不要源码）。
