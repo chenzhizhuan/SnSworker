@@ -310,3 +310,5 @@ tools/daemon-control-deploy/
 
 # 产品支持材料不随开源快照分发
 /support/
+
+.temp/
