@@ -53,7 +53,11 @@ if [ -f "$PACK_TIMING_SCRIPT" ]; then
   source "$PACK_TIMING_SCRIPT"
 else
   pack_time_begin() { :; }
-  pack_time_step() { "$@"; }
+  pack_time_step() {
+    # 兜底：丢弃步骤名参数后执行真正的命令（对齐 timing.sh 的 pack_time_step 语义）
+    shift
+    "$@"
+  }
   pack_time_summary() { :; }
 fi
 
