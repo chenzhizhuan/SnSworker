@@ -82,7 +82,7 @@ export const SYSTEM_SECTION_NAMES = {
   stall_detection: 'stall_detection',
   /**
    * Wave 6 Repetition detection nudge (sibling of `stall_detection`).
-   * 当 LLM 在 30s 窗口内对同 (tool, inputDigest) 反复成功 emit 时，runtime
+   * 当 LLM 在窗口内（默认 15min）对同 (tool, inputDigest) 反复成功 emit 时，runtime
    * 注入此段提醒 "Do NOT re-issue the same tool with the same input"。
    * 与 stall_detection 正交：前者看失败 streak，本段看成功复读总计数。
    * 详见 `engine/tool-repetition-tracker.ts`。

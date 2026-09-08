@@ -611,6 +611,44 @@ export class RunTerminator {
     return true;
   }
 
+  /**
+   * 单次 run 最大耗时熔断（死循环兜底，P2）。
+   *
+   * 死循环形态：「成功 + 空结果 + 模型失忆」时，单轮命令执行可能超过
+   * 复读检测的时间窗，轮次墙若也被绕过（Infinity / 未配置），run 可无限
+   * 跑下去（2026-09-06 tender-analysis 8 小时实证）。本方法在主循环每轮
+   * 工具收尾后检查 `Date.now() - runStartedAt`，超时即收尾——复用
+   * MAX_TURNS_EXCEEDED 的 DONE 协议（不改 wire 枚举 / 前端映射），
+   * 只是触发语义是耗时而非轮数。
+   */
+  *maxRunDurationExceeded(
+    runStartedAt: number,
+    maxRunDurationMs: number,
+    snapshot: AssistantPersistSnapshot,
+  ): Generator<StreamEvent, boolean, undefined> {
+    const ctx = this.ctx;
+    if (maxRunDurationMs <= 0) return false;
+    const elapsedMs = Date.now() - runStartedAt;
+    if (elapsedMs < maxRunDurationMs) return false;
+    const terminalInfo = buildMappedErrorMessageStopErrorInfo({
+      errorClass: 'MAX_TURNS_EXCEEDED',
+      category: 'budget_exceeded',
+    });
+    yield* this.persistTerminalMessage({ errorInfoJson: { ...terminalInfo }, snapshot });
+    yield* closeEnvelopeForTerminalError({
+      envelopeEmitter: ctx.envelopeEmitter,
+      stopReason: 'error',
+      errorInfo: { errorInfo: terminalInfo },
+    });
+    yield new RuntimeDoneEvent(buildErrorDonePayload(
+        'MAX_TURNS_EXCEEDED',
+        `Max run duration exceeded (${Math.round(elapsedMs / 1000)}s / ${Math.round(maxRunDurationMs / 1000)}s).`,
+        this.usage,
+        ctx.traceId,
+    )).toStreamEvent();
+    return true;
+  }
+
   /** budget guard 的 force-final 信号收尾。 */
   *forceFinal(
     snapshot: AssistantPersistSnapshot,

@@ -49,6 +49,12 @@ vi.mock('../../auth', () => ({
 vi.mock('electron-log', () => ({
   default: {
     transports: { file: {}, console: {} },
+    scope: vi.fn(() => ({
+      info: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      debug: vi.fn(),
+    })),
     info: vi.fn(),
     warn: vi.fn(),
     error: vi.fn(),
@@ -197,7 +203,7 @@ describe('SD-031: wrapTinInstruction must have boundary markers and trailing sys
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'Do something' },
     )
-    expect(result.success).toBe(true)
+    expect(result.ok).toBe(true)
     const wrapped = result.data.reply
     expect(wrapped).toMatch(/---TIN-[0-9a-f]{16}---/)
     expect(wrapped).toContain('Do something')
@@ -290,8 +296,8 @@ describe('SD-053: runAgent must reject when organizationId is empty', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'Do something' },
     )
-    expect(result.success).toBe(false)
-    expect(result.error).toContain('organization')
+    expect(result.ok).toBe(false)
+    expect(result.error?.message).toContain('organization')
   })
 
   it('rejects when organization_id is undefined', async () => {
@@ -301,8 +307,8 @@ describe('SD-053: runAgent must reject when organizationId is empty', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'Do something' },
     )
-    expect(result.success).toBe(false)
-    expect(result.error).toContain('organization')
+    expect(result.ok).toBe(false)
+    expect(result.error?.message).toContain('organization')
   })
 
   it('allows when organization_id is present', async () => {
@@ -312,7 +318,7 @@ describe('SD-053: runAgent must reject when organizationId is empty', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'Do something' },
     )
-    expect(result.success).toBe(true)
+    expect(result.ok).toBe(true)
   })
 })
 

@@ -1,13 +1,39 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 
 const appRoot = new URL('../', import.meta.url)
 const buildScript = new URL('build-packaged-app.sh', import.meta.url)
 
+/**
+ * Windows 上裸 `bash` 会被解析到 System32 的 WSL 启动器（未装发行版时立即失败），
+ * 项目主流程统一使用 Git Bash，这里按同样优先级解析。
+ */
+function resolveBash() {
+  if (process.platform !== 'win32') return 'bash'
+  const candidates = [
+    process.env.TABTIN_BASH,
+    'C:\\Program Files\\Git\\bin\\bash.exe',
+    'C:\\Program Files\\Git\\usr\\bin\\bash.exe',
+  ].filter(Boolean)
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) return candidate
+  }
+  return 'bash'
+}
+
+/** Git Bash (MSYS) 只认 /c/... 风格路径；URL.pathname 的 /C:/... 会 ENOENT。 */
+function toMsysPath(url) {
+  const p = fileURLToPath(url)
+  if (process.platform !== 'win32') return p
+  const msys = p.replace(/^([A-Za-z]):/, (_, drive) => `/${drive.toLowerCase()}`)
+  return msys.replaceAll('\\', '/')
+}
+
 function validateProfile(extraEnv = {}) {
-  return spawnSync('bash', [buildScript.pathname, 'mac', 'community'], {
+  return spawnSync(resolveBash(), [toMsysPath(buildScript), 'mac', 'community'], {
     cwd: appRoot,
     encoding: 'utf8',
     env: {

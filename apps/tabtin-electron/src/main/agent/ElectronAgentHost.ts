@@ -69,6 +69,7 @@ import type {
 // permissions / host / terminal / capability injectors）改从包入口
 // `@tabtin/agent-runtime` import。
 import {
+  DEFAULT_MAX_TURNS,
   SessionStorage,
   reconstructMessagesFromTranscriptEntries,
   //  message block 权威：block 记录 → UI 冷启动读取形态。
@@ -5012,7 +5013,13 @@ export class ElectronAgentHost {
         // 优先，缺省才使用 Workspace / Agent 解析后的 executionLimits。
         const effectiveMaxTurns = request.maxTurns
           ?? request.executionLimits?.max_iterations_per_run
-          ?? undefined
+          // ：死循环治理 P0 兜底。此前 `?? undefined` 会把 undefined 传给
+          // runtime，loop.ts 静默回落 `Number.POSITIVE_INFINITY` → IterationBudget
+          // 通路禁用 + maxTurnsExceeded 永不触发（iteration < Infinity 恒真），
+          // "成功+空结果+可无限重复"组合无人兜底（2026-09-06 tender-analysis
+          // 8 小时死循环实证）。DEFAULT_MAX_TURNS=500 与 UI 推荐值 / Django
+          // ExecutionProfile.max_iterations 对齐，作为未配置时的 fail-safe 硬墙。
+          ?? DEFAULT_MAX_TURNS
         const attachmentMessageBlocks = buildAttachmentMessageBlocks(request.attachments)
         const userMessageBlocks = [
           ...(request.userMessageBlocks ?? []),

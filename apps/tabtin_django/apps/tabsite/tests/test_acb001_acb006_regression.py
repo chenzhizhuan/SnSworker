@@ -19,6 +19,7 @@ django.setup()
 
 import logging  # noqa: E402
 import uuid  # noqa: E402
+from unittest import skipUnless  # noqa: E402
 from unittest.mock import patch, MagicMock  # noqa: E402
 
 from django.test import RequestFactory, SimpleTestCase  # noqa: E402
@@ -26,7 +27,15 @@ from django.test import RequestFactory, SimpleTestCase  # noqa: E402
 from apps.tabsite.views import site_access  # noqa: E402
 from apps.services.common.app_registry import APP_SECTIONS  # noqa: E402
 
-SECTION_TABSITE = APP_SECTIONS["tabsite"]
+# W10/M1: builtin prompt .py 源已删除，tabsite 不在 APP_SECTIONS（marketplace
+# 注册表仅扫 packages/apps/<id>/prompts/<lang>/system.md）。prompt 内容断言仅在
+# 源回归注册时执行，否则整类跳过（ACB-001 视图回归不受影响）。
+SECTION_TABSITE = APP_SECTIONS.get("tabsite")  # noqa: E402
+
+requires_tabsite_prompt = skipUnless(
+    SECTION_TABSITE is not None,
+    "tabsite prompt 源已随 W10/M1 迁移删除；APP_SECTIONS 回归注册后自动恢复",
+)
 
 
 def _make_site(**overrides):
@@ -131,6 +140,7 @@ class TestACB001_PasswordBypass(SimpleTestCase):
         mock_filter.update.assert_called_once()
 
 
+@requires_tabsite_prompt
 class TestACB006_PromptNoPasswordMisleading(SimpleTestCase):
     """ACB-006: Agent 提示词不应误导 Agent 设置密码保护。"""
 

@@ -43,7 +43,8 @@ export function publicWebBaseFromHostname(hostname: string | undefined): string 
 
   // admin-test.example.com / api-test.example.com → https://web-test.example.com
   // admin.example.com / api.example.com → https://web.example.com
-  const sibling = host.match(/^(?:admin|api|web)(-[a-z0-9]+)?\.tabtin\.com$/)
+  // 同时保留 tabtin.com 真实域名映射（开源示例域名 example.com 共用同一规则）。
+  const sibling = host.match(/^(?:admin|api|web)(-[a-z0-9]+)?\.(?:tabtin|example)\.com$/)
   if (sibling) {
     return `https://web${sibling[1] || ''}.example.com`
   }

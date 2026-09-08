@@ -208,6 +208,9 @@ class TestRelayRevertFinalizeOnUserMessage:
         with patch(self._CLEANUP) as cleanup:
             ok = _finalize_pending_revert_for_relay_user_message(
                 "s1", [self._user_evt(message_kind="agent_profile_context")],
+            )
+        cleanup.assert_not_called()
+        assert ok is True
 
     def test_system_prompt_context_does_not_trigger_cleanup(self):
         with patch(self._CLEANUP) as cleanup:

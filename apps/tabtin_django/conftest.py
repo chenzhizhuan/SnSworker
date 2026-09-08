@@ -676,6 +676,14 @@ def pytest_collection_modifyitems(
             deselected.append(item)
             continue
 
+        # Guard: items collected from outside this conftest's tree (e.g.
+        # ``packages/`` suites dragged in by a repo-root invocation) would
+        # raise ValueError from ``relative_to`` and abort the whole run
+        # (pytest INTERNALERROR). Skip marker auto-apply for those items.
+        if not item_path.is_relative_to(_CONFTEST_DIR):
+            kept.append(item)
+            continue
+
         rel = item_path.relative_to(_CONFTEST_DIR).as_posix()
         if rel in _REQUIRES_PG_NATIVE:
             item.add_marker(pg_mark)

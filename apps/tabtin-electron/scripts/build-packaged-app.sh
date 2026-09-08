@@ -1420,7 +1420,10 @@ if [ -d "$APP_DIR/build" ]; then
 fi
 if [ -d "$REPO_ROOT/packages/tabsite-templates" ]; then
   rm -rf "$DEPLOY_DIR/tabsite-templates-src"
-  cp -R "$REPO_ROOT/packages/tabsite-templates" "$DEPLOY_DIR/tabsite-templates-src"
+  # pnpm workspace 依赖是 NTFS junction（无 SeCreateSymbolicLinkPrivilege 时 MSYS cp -R
+  # 复制 junction 会先落成目录再尝试补建 symlink，报 "File exists"）。模板 src 只需要
+  # 真实文件，用 -L 解引用复制，让 junction 指向的 workspace 包落成真实目录。
+  cp -RL "$REPO_ROOT/packages/tabsite-templates" "$DEPLOY_DIR/tabsite-templates-src"
   prune_packaged_resource_tree "$DEPLOY_DIR/tabsite-templates-src"
   prune_tabsite_template_sources "$DEPLOY_DIR/tabsite-templates-src"
 fi
@@ -2114,7 +2117,7 @@ if [ ! -f "$ELECTRON_BUILDER_PACKAGE_JSON" ] || [ ! -f "$ELECTRON_BUILDER_CLI" ]
   echo "  ✗ 找不到项目锁定的 electron-builder；请先在主 worktree 准备依赖" >&2
   exit 1
 fi
-ACTUAL_ELECTRON_BUILDER_VERSION="$(node -p "require('$ELECTRON_BUILDER_PACKAGE_JSON').version")"
+ACTUAL_ELECTRON_BUILDER_VERSION="$(node -p "require('$(node_path "$ELECTRON_BUILDER_PACKAGE_JSON")').version")"
 if [ "$ACTUAL_ELECTRON_BUILDER_VERSION" != "$EXPECTED_ELECTRON_BUILDER_VERSION" ]; then
   echo "  ✗ electron-builder 版本不匹配：期望 ${EXPECTED_ELECTRON_BUILDER_VERSION}，实际 ${ACTUAL_ELECTRON_BUILDER_VERSION}" >&2
   exit 1
@@ -2129,7 +2132,7 @@ INSTALLED_ELECTRON_PACKAGE_JSON="$APP_DIR/node_modules/electron/package.json"
 INSTALLED_ELECTRON_DIST="$APP_DIR/node_modules/electron/dist"
 if [ "$HOST_RUNTIME" = "$TARGET_RUNTIME" ] && [ "$HOST_ARCH" = "$ARCH" ] && \
    [ -f "$INSTALLED_ELECTRON_PACKAGE_JSON" ] && [ -d "$INSTALLED_ELECTRON_DIST" ]; then
-  INSTALLED_ELECTRON_VERSION="$(node -p "require('$INSTALLED_ELECTRON_PACKAGE_JSON').version")"
+  INSTALLED_ELECTRON_VERSION="$(node -p "require('$(node_path "$INSTALLED_ELECTRON_PACKAGE_JSON")').version")"
   ALL_BUILDER_ARGS+=(
     "--config.electronVersion=$INSTALLED_ELECTRON_VERSION"
     "--config.electronDist=$INSTALLED_ELECTRON_DIST"

@@ -34,9 +34,9 @@ import {
 const ENV_NONE: NodeJS.ProcessEnv = {};
 
 describe('ToolRepetitionTracker — defaults & basic threshold triggers', () => {
-  it('exposes documented default config values (notice=2 / nudge=3 / window=30s)', () => {
+  it('exposes documented default config values (notice=2 / nudge=3 / window=15min)', () => {
     expect(DEFAULT_TOOL_REPETITION_THRESHOLDS).toEqual({ notice: 2, nudge: 3, terminate: 6 });
-    expect(DEFAULT_TOOL_REPETITION_WINDOW_MS).toBe(30_000);
+    expect(DEFAULT_TOOL_REPETITION_WINDOW_MS).toBe(15 * 60 * 1000);
     expect(DEFAULT_TOOL_REPETITION_MAX_BUFFER).toBe(256);
     expect(DEFAULT_TOOL_REPETITION_TRACKER_CONFIG.enabled).toBe(true);
   });
@@ -63,7 +63,7 @@ describe('ToolRepetitionTracker — defaults & basic threshold triggers', () => 
     expect(evaluation.stage).toBe('notice');
     expect(evaluation.trigger?.tool).toBe('ask_user');
     expect(evaluation.trigger?.count).toBe(2);
-    expect(evaluation.trigger?.windowMs).toBe(30_000);
+    expect(evaluation.trigger?.windowMs).toBe(DEFAULT_TOOL_REPETITION_WINDOW_MS);
   });
 
   it('triggers nudge at exactly 3 same-input successes within window', () => {
@@ -115,8 +115,8 @@ describe('ToolRepetitionTracker — window expiration semantics', () => {
 
     // 第 1 次 @ ts=1_000_000
     tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
-    // 跨过 30s + 1
-    now += 30_001;
+    // 跨过窗口 + 1
+    now += DEFAULT_TOOL_REPETITION_WINDOW_MS + 1;
     // 第 2 次 @ ts=1_030_001
     tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
 
@@ -132,19 +132,21 @@ describe('ToolRepetitionTracker — window expiration semantics', () => {
       now: () => now,
     });
 
-    // 三次调用跨越 90s（每次间隔 30s+），任何时刻窗口内最多 1 次
+    // 三次调用跨越 3×窗口，任何时刻窗口内最多 1 次
     for (let i = 0; i < 3; i++) {
       tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
-      now += 30_001;
+      now += DEFAULT_TOOL_REPETITION_WINDOW_MS + 1;
     }
     expect(tracker.evaluate().stage).toBe('normal');
   });
 
   it('still triggers when calls cluster within window even if total span > window', () => {
     let now = 1_000_000;
+    // 用显式小窗口（30s）验证"簇内计数"语义，与默认窗口解耦
     const tracker = new ToolRepetitionTracker({
       env: ENV_NONE,
       now: () => now,
+      config: { windowMs: 30_000 },
     });
 
     // 第 1 次 @ ts=1_000_000，后 31s 已过期
@@ -173,8 +175,8 @@ describe('ToolRepetitionTracker — window expiration semantics', () => {
     }
     expect(tracker.evaluate().stage).toBe('nudge');
 
-    // 时钟跨过 30s 但**不**新 record——下次 evaluate 应当 prune 干净 → normal
-    now += 30_000;
+    // 时钟跨过窗口但**不**新 record——下次 evaluate 应当 prune 干净 → normal
+    now += DEFAULT_TOOL_REPETITION_WINDOW_MS;
     expect(tracker.evaluate().stage).toBe('normal');
     expect(tracker.snapshot().length).toBe(0);
   });
@@ -191,8 +193,8 @@ describe('ToolRepetitionTracker — window expiration semantics', () => {
 
     // entry @ ts=1_000_000
     tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
-    // 时钟前进恰好 windowMs（30_000）
-    now += 30_000;
+    // 时钟前进恰好窗口（DEFAULT_TOOL_REPETITION_WINDOW_MS）
+    now += DEFAULT_TOOL_REPETITION_WINDOW_MS;
     // cutoff = now - windowMs = 1_000_000；entry.ts = 1_000_000；
     // 1_000_000 < 1_000_000 = false → entry **不**被 prune（仍在窗口内）
     tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
@@ -208,8 +210,8 @@ describe('ToolRepetitionTracker — window expiration semantics', () => {
     });
 
     tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
-    // 时钟前进 windowMs + 1（30_001）
-    now += 30_001;
+    // 时钟前进窗口 + 1
+    now += DEFAULT_TOOL_REPETITION_WINDOW_MS + 1;
     // cutoff = 1_000_001；entry.ts = 1_000_000 < 1_000_001 → 过期
     tracker.recordSuccess({ tool: 'a', input: { x: 1 } });
     expect(tracker.snapshot().length).toBe(1);
@@ -702,8 +704,8 @@ describe('ToolRepetitionTracker — composite scenarios', () => {
     }
     expect(tracker.evaluate().stage).toBe('nudge');
 
-    // 跨过 30s+ → 全部过期
-    now += 31_000;
+    // 跨过窗口 → 全部过期
+    now += DEFAULT_TOOL_REPETITION_WINDOW_MS + 1000;
     expect(tracker.evaluate().stage).toBe('normal');
 
     // 第二窗口：再 2 次 → notice 新触发

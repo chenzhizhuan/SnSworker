@@ -199,6 +199,7 @@ import type {
 // ：临时隐藏 skill 名单（tabvideo）由宿主注入。
 import { TEMPORARILY_HIDDEN_SKILLS } from '@tabtin/agent-host/capabilities';
 import type { PersistedEntryOwner } from '@tabtin/agent-runtime';
+import { DEFAULT_MAX_TURNS } from '@tabtin/agent-runtime';
 // W4a S3-S5（PR2）：live 依赖重绑 + 完成回调契约类型（与 Electron 对称）。
 import {
   daemonHostRuntimeOptions,
@@ -2843,7 +2844,7 @@ export class DaemonAgentHost {
         const ctx = ctxOf(query.identity.runId);
         const request = ctx?.request;
         if (!request) return base;
-        const effectiveMaxTurns = request.maxTurns ?? request.executionLimits?.max_iterations_per_run ?? undefined;
+        const effectiveMaxTurns = request.maxTurns ?? request.executionLimits?.max_iterations_per_run ?? DEFAULT_MAX_TURNS;
         // ：与 Electron 同源——request.userMessageBlocks（context）+ attachments 派生块。
         const attachmentMessageBlocks = buildAttachmentMessageBlocks(request.attachments);
         const userMessageBlocks = [

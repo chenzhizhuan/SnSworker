@@ -4,10 +4,22 @@ LLM Admin 表单验证测试
 测试条件验证逻辑是否正确工作
 """
 
+import pytest
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from apps.services.llm.models import LLMProvider, LLMModel
-from apps.services.llm.admin import LLMModelAdminForm
+try:
+    from apps.services.llm.admin import LLMModelAdminForm  # noqa: F401
+except ImportError:  # Django Admin 表面已退役（LLMModel 不再经 admin 管理）
+    LLMModelAdminForm = None
+
+if LLMModelAdminForm is None:
+    pytest.skip(
+        "LLMModelAdminForm 已随 Django Admin 表面退役移除；"
+        "计费校验语义已迁移至 API 层（api_admin_models / schemas）",
+        allow_module_level=True,
+    )
 from decimal import Decimal
 
 

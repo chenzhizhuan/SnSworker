@@ -20,6 +20,33 @@ import { queryClient } from '@/lib/query-client'
 const log = createLogger('Auth')
 
 /**
+ * FP-026：zustand persist（localStorage）中 user 仅保留非 PII 字段白名单。
+ * email/phone/bio/date_joined/last_login 属于个人敏感信息，不得落盘；
+ * 内存态不受影响（登录后由后端 profile 回填，且 loadAuthFromStorage 成功
+ * 后会触发 refreshProfileFromServer 重新拉全量资料）。
+ */
+const PII_SAFE_USER_KEYS = [
+  'id',
+  'username',
+  'nickname',
+  'avatar',
+  'is_verified_email',
+  'is_verified_phone',
+  'login_count',
+  'invite_code_required',
+  'invite_code_redeemed',
+] as const satisfies readonly (keyof UserInfo)[]
+
+function sanitizeUserForPersist(user: UserInfo | null): UserInfo | null {
+  if (!user) return null
+  const safe = {} as Record<keyof UserInfo, unknown>
+  for (const key of PII_SAFE_USER_KEYS) {
+    if (key in user) safe[key] = user[key]
+  }
+  return safe as UserInfo
+}
+
+/**
  * TabDoc collab 等旁路走 refreshAuthToken；须与 api.handleRefreshFailure 同口径：
  * 瞬时失败保留凭证，仅确定性拒绝才 logout。
  */
@@ -589,7 +616,7 @@ export const useAuthStore = create<AuthStore>()(
         storage: createJSONStorage(() => createMigratingStorage(localStorage, ['tabtin-auth-store'])),
         partialize: (state) => ({
           authPhase: state.authPhase === 'initializing' ? 'unauthenticated' as const : state.authPhase,
-          user: state.user,
+          user: sanitizeUserForPersist(state.user),
           logoutReason: state.logoutReason,
         }),
         version: 3,

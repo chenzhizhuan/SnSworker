@@ -203,6 +203,7 @@ class AgentLoop {
   private readonly envelopeEmitter: EnvelopeEmitter;
   private readonly toolStreamEmitter: ToolStreamEmitter;
   private readonly maxTurns: number;
+  private readonly maxRunDurationMs: number;
   private readonly toolMap: Map<string, Tool>;
   private readonly toolRegistry = new ToolRegistry();
   private readonly toolResultStorage: ReturnType<typeof resolveToolResultStorage>;
@@ -283,6 +284,10 @@ class AgentLoop {
     // ：未显式传入 maxTurns 时不套产品推荐值硬墙（Infinity = 不限制轮次）。
     // IterationBudget 对非有限 max 会禁用 iteration 通路，与 CostCap credits 语义一致。
     this.maxTurns = params.maxTurns ?? config.maxTurns ?? Number.POSITIVE_INFINITY;
+    this.maxRunDurationMs =
+      typeof config.maxRunDurationMs === 'number' && config.maxRunDurationMs > 0
+        ? config.maxRunDurationMs
+        : 0;
     this.systemPromptRaw = params.systemPrompt ?? config.systemPrompt;
     const allTools = config.tools.getTools();
     this.toolParams = buildToolParams(allTools);
@@ -1070,6 +1075,12 @@ class AgentLoop {
       return 'break';
     }
     if (yield* this.terminator.maxTurnsExceeded(assistantPersistSnapshot)) return 'break';
+    // 死循环兜底：单轮耗时可能超过复读检测窗口，轮次墙被绕过时靠总时长硬墙收尾。
+    if (yield* this.terminator.maxRunDurationExceeded(
+      this.runStartedAt,
+      this.maxRunDurationMs,
+      assistantPersistSnapshot,
+    )) return 'break';
     updateContextPressureAfterTurn(this.state, this.config, this.tokenEstimator);
     if (yield* this.terminator.forceFinal(assistantPersistSnapshot)) return 'break';
     return 'continue';

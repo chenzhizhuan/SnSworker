@@ -11,14 +11,21 @@ const quickMacBuildScript = fs.readFileSync(
 )
 const installer = fs.readFileSync(installerPath, 'utf8')
 
-assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="TabTin Preprod"'))
-assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.app.preprod"'))
-assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-preprod"'))
-assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="TabTin Preprod"'))
-assert.ok(buildScript.includes('"--config.win.executableName=$PROFILE_EXECUTABLE_NAME"'))
+// 开源版发行身份：Local（本地自测）+ Community（社区发行）。
+// 内部版 Preprod profile 已在开源化时移除（installer.nsh 仍保留 Preprod 残留清理）。
+assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="TabTin Local"'))
+assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.app.local"'))
+assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-local"'))
+assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="TabTin Local"'))
+assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="TabTin Community"'))
+assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.community"'))
+assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-community"'))
+assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="TabTin Community"'))
+// executableName 的目标平台已参数化（win/dmg 共用同一段）。
+assert.ok(buildScript.includes('"--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"'))
 assert.ok(buildScript.includes('"--config.nsis.shortcutName=$PROFILE_SHORTCUT_NAME"'))
-assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="TabTin Preprod"'))
-assert.ok(quickMacBuildScript.includes('PROFILE_APP_ID="com.tabtin.app.preprod"'))
+assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="TabTin Local"'))
+assert.ok(quickMacBuildScript.includes('PROFILE_APP_ID="com.tabtin.app.local"'))
 
 const appIdentity = fs.readFileSync(
   path.join(__dirname, '..', 'src', 'main', 'app-identity.ts'),

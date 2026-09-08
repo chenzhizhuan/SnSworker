@@ -38,6 +38,18 @@ export default defineConfig({
       'scripts/**/*.test.ts',
     ],
     setupFiles: ['src/__tests__/setup.ts'],
+    // Windows 下 vitest 对 node_modules 的 ESM 外部化会让
+    // ``@electron-toolkit/utils``（其 dist/index.mjs 对 CJS 的 electron 做
+    // ``import { BrowserWindow } from 'electron'`` 具名导入）被 Node 原生
+    // ESM loader 加载，而 Node 不会给 CJS 做 named-exports interop —— 报
+    // "SyntaxError: Named export 'BrowserWindow' not found"，且测试文件里的
+    // vi.mock('electron') 也被绕过。强制内联后 vite 以自己的 CJS interop
+    // 管道加载它，具名导入恢复正常，mock 也重新生效。
+    server: {
+      deps: {
+        inline: ['@electron-toolkit/utils'],
+      },
+    },
     // 单库 dev 整理把连接端口集中到仓库根 `.env`，但 vitest 的 envDir 是本包，
     // 读不到根 `.env`；`@tabtin/config` 的 `readEnv()` 会回退 `process.env`，故在此给
     // 测试一个合法 API base（单库 dev 默认 6060；单测不打真实后端，仅满足配置校验）。

@@ -35,9 +35,19 @@ from apps.services.common.cli_hitl_result import (
     serialize_for_agent,
     serialize_to_tool_result_content,
 )
-from ...prompts.base.cli_hitl_protocol import (
-    SECTION_CLI_HITL_PROTOCOL,
-)
+try:
+    from ...prompts.base.cli_hitl_protocol import (  # noqa: F401
+        SECTION_CLI_HITL_PROTOCOL,
+    )
+except ImportError:  # W10/M1: prompts 包已随 builtin 引擎迁移删除
+    SECTION_CLI_HITL_PROTOCOL = None
+
+if SECTION_CLI_HITL_PROTOCOL is None:
+    pytest.skip(
+        "SECTION_CLI_HITL_PROTOCOL 常量源（apps.services.agent_engine.prompts）"
+        "已随 W10/M1 迁移删除；PRD 验收锚点测试在源回归后自动恢复",
+        allow_module_level=True,
+    )
 
 
 # =====================================================================

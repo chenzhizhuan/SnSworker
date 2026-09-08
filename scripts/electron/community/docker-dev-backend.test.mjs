@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import path from 'node:path';
 import { test } from 'node:test';
 
 import {
@@ -22,7 +23,9 @@ test('Docker dev Compose uses the root env file and ignores shell edition overri
     '--project-directory',
     '/repo',
     '--env-file',
-    '/repo/.env',
+    // 期望值用 path.join 动态计算：win32 语义下 join('/repo','.env') 为 '\repo\.env'，
+    // 与实现一致；POSIX 下为 '/repo/.env'。断言意图是 env-file 指向 root 下的 .env。
+    path.join('/repo', '.env'),
   ]);
   assert.equal(Object.hasOwn(env, 'TABTIN_EDITION'), false);
   assert.equal(Object.hasOwn(env, 'AUTH_FIXED_VERIFICATION_CODE'), false);

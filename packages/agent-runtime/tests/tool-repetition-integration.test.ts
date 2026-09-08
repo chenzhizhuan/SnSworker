@@ -48,6 +48,7 @@ import type {
 } from '../src/engine/contracts/kernel.js';
 import { jsonError } from '../src/capability/core/_utils.js';
 import { NETWORK_FAILED } from '../src/engine/errors/error-kinds.js';
+import { DEFAULT_TOOL_REPETITION_WINDOW_MS } from '../src/engine/guards/tool-repetition-tracker.js';
 
 // ─── helpers ─────────────────────────────────────────────────────────
 
@@ -240,7 +241,7 @@ describe('Wave 6 repetition detector — 2 / 3 thresholds + system injection', (
     const payload = noticeEvents[0]!.payload as Record<string, unknown>;
     expect(payload.tool).toBe('ask_choice');
     expect(payload.count).toBe(2);
-    expect(payload.window_ms).toBe(30_000);
+    expect(payload.window_ms).toBe(DEFAULT_TOOL_REPETITION_WINDOW_MS);
     expect(payload.nudge_threshold).toBe(3);
     // content 是中文 fallback（前端走 i18n）
     expect(typeof payload.content).toBe('string');
@@ -270,7 +271,7 @@ describe('Wave 6 repetition detector — 2 / 3 thresholds + system injection', (
       const nudgePayload = nudgeEvents[0]!.payload as Record<string, unknown>;
       expect(nudgePayload.tool).toBe('ask_choice');
       expect(nudgePayload.count).toBe(3);
-      expect(nudgePayload.window_ms).toBe(30_000);
+      expect(nudgePayload.window_ms).toBe(DEFAULT_TOOL_REPETITION_WINDOW_MS);
 
       // 第 4 轮 LLM 调用（index=3）的 system prompt 应含 [系统 / 重复检测]
       // 注入。前 3 轮都没注入（count 还没到 nudge 阈值）。
@@ -303,7 +304,7 @@ describe('Wave 6 repetition detector — 2 / 3 thresholds + system injection', (
       expect(noticeTel[0]!.payload.count).toBe(2);
       expect(nudgeTel[0]!.payload.count).toBe(3);
       expect(nudgeTel[0]!.payload.injection_pending).toBe(true);
-      expect(nudgeTel[0]!.payload.window_ms).toBe(30_000);
+      expect(nudgeTel[0]!.payload.window_ms).toBe(DEFAULT_TOOL_REPETITION_WINDOW_MS);
     });
   });
 

@@ -1,10 +1,10 @@
-"""os_errors 模块单测。可直接 `pytest apps/tabtin_django/apps/services/tools/__tests__/test_os_errors.py` 执行。"""
+"""os_errors 模块单测。在 tabtin_django 根目录执行: `pytest apps/services/tools/__tests__/test_os_errors.py`。"""
 from __future__ import annotations
 
 import json
 import pytest
 
-from apps.tabtin_django.apps.services.tools.os_errors import (
+from apps.services.tools.os_errors import (
     OS_ERROR_CODES,
     OSToolError,
     as_tool_failure,

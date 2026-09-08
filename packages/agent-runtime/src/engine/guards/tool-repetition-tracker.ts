@@ -1,7 +1,8 @@
 /**
  * Wave 6 — Tool repetition tracker (sibling of `tool-failure-tracker`).
  *
- * 当 LLM 在 30 秒窗口内对同一个工具用**完全相同**的 input 反复成功 emit 时，
+ * 当 LLM 在窗口内（默认 15 分钟，见 DEFAULT_TOOL_REPETITION_WINDOW_MS）对
+ * 同一个工具用**完全相同**的 input 反复成功 emit 时，
  * runtime 主动给下一轮 LLM context 注入一段简短英文 system reminder，让它
  * 知道"用户/系统已经收到你刚才的调用结果，不要再用同 input 重发"。同时给
  * 真实用户发一条中文 SYSTEM_NOTICE 让他们感知 runtime 在帮兜底。
@@ -53,7 +54,7 @@
  *
  * - **normal**：未达阈值，runtime 不做事。
  * - **notice**：达 `notice` 阈值（默认 2）——给用户发一条中文 SYSTEM_NOTICE，
- *   告诉用户"工具 X 在 30s 内被同输入调用 N 次"；**不**注入 LLM context
+ *   告诉用户"工具 X 在窗口内被同输入调用 N 次"；**不**注入 LLM context
  *   （nudge 阶段才注入，避免单次过敏感的复读 false-positive 打扰 LLM）。
  * - **nudge**：达 `nudge` 阈值（默认 3）——除发 SYSTEM_NOTICE，**注入**
  *   一段英文 system reminder 到下一轮 LLM context，明确告诉 LLM "Do NOT
@@ -80,23 +81,23 @@
  *
  * ### 窗口策略
  *
- * 30 秒滑动窗口（按 `ts` 过期）。每次 `recordSuccess` 后 in-place prune
+ * 15 分钟滑动窗口（按 `ts` 过期；2026-09-06 死循环治理从 30s 放大——单轮
+ * 约 2 分钟、30s 窗口计数恒为 1 无法凑齐阈值）。每次 `recordSuccess` 后 in-place prune
  * 过期 entry；evaluate 用**窗口内同 (tool, digest) 总计数**（**不要求连续**）。
  *
  * **为什么不要求连续**：
  *   - 同 (tool, digest) 复读的反模式不依赖"中间是否被打断"。LLM 调一次
- *     `ask_choice(input)` 拿到 user response 后，30s 内再调同 input
+ *     `ask_choice(input)` 拿到 user response 后，窗口内再调同 input
  *     就是 ignore 了 user response，中间夹一次 `read_file` 不改变这个事实。
  *   - per-query tracker：用户新消息 = 新 query = 新 tracker → 窗口自然清空，
  *     "用户显式 reframe"场景不会被误判。
  *
  * **已知 limitation（漏报场景，不是误伤）**：
  *   - **ask 类工具用户慢思考超过 windowMs**：用户对 ask_choice 第一次思考
- *     ≥ 30s 才回答，第二次 ask_choice 触发时第一次的 ts 已经落出窗口 →
+ *     ≥ windowMs 才回答，第二次 ask_choice 触发时第一次的 ts 已经落出窗口 →
  *     count=1 → 不触发。calculator dogfood 里用户每次都秒答（4 次密集），
  *     这个边界没踩到；真出现"用户慢思考 + LLM 复读"场景属于漏报，不是
- *     误伤，可接受（runtime 不能比"30s 窗口"更激进，否则会把"用户深思后
- *     合理重试"误判为复读）。
+ *     误伤，可接受（窗口已放大到 15 分钟，正常人类思考远不会触发）。
  *   - **跨 query 复读**：用户新消息 = 新 query = 新 tracker，跨 query 的
  *     同 input 复读不会累积。这是有意设计——跨 query 已经经过用户中介，
  *     视为合法 reframe。
@@ -123,7 +124,7 @@
  *   - `TABTIN_TOOL_REPETITION_TRACKER_ENABLED`：true/false 总开关
  *   - `TABTIN_TOOL_REPETITION_NOTICE_COUNT`：notice 阈值（默认 2）
  *   - `TABTIN_TOOL_REPETITION_NUDGE_COUNT`：nudge 阈值（默认 3）
- *   - `TABTIN_TOOL_REPETITION_WINDOW_MS`：窗口毫秒（默认 30000）
+ *   - `TABTIN_TOOL_REPETITION_WINDOW_MS`：窗口毫秒（默认 900000）
  *
  * 解析规则与 tool-failure-tracker 完全对齐：非法值（NaN / 越界 / notice ≥
  * nudge）整 thresholds 回落默认（不局部修复以免反直觉）。
@@ -197,7 +198,7 @@ export interface ToolRepetitionEvaluation {
 export interface ToolRepetitionTrackerConfig {
   readonly enabled: boolean;
   readonly thresholds: ToolRepetitionThresholds;
-  /** 滑动窗口毫秒数。默认 30_000（30s）。 */
+  /** 滑动窗口毫秒数。默认 900_000（15min）。 */
   readonly windowMs: number;
   /**
    * buffer 上限。窗口内极端高频调用（比如某 bug 让工具 1ms 调一次）才会
@@ -279,18 +280,18 @@ export const DEFAULT_TOOL_REPETITION_THRESHOLDS: ToolRepetitionThresholds = {
   notice: 2,
   nudge: 3,
   // terminate=6：nudge=3 软提示后，再给模型 3 次停手机会；窗口内同一工具+相同
-  // 输入仍复读到 6 次就硬停本轮。30s 窗口内同输入 6 次成功复读是确定的死循环
+  // 输入仍复读到 6 次就硬停本轮。窗口内同输入 6 次成功复读是确定的死循环
   // 信号。1 周 dogfood 后基于 telemetry 调整。
   terminate: 6,
 };
 
-/** 默认窗口：30 秒（与 PRD §Wave 6 北极星条款一致）。 */
-export const DEFAULT_TOOL_REPETITION_WINDOW_MS = 30_000;
+/** 默认窗口：15 分钟（2026-09-06 死循环治理从 30s 放大，见下方注释）。 */
+export const DEFAULT_TOOL_REPETITION_WINDOW_MS = 15 * 60 * 1000;
 
 /**
  * 默认 buffer 上限：256。
  *
- * 30s 窗口正常使用远到不了——LLM 单 query 通常 < 30 步。256 是防御极端
+ * 15min 窗口正常使用远到不了——LLM 单 query 通常 < 30 步。256 是防御极端
  * 情形（比如某 bug 让工具 ms 级重入）的内存兜底，每 entry < 100 B，
  * 256 entry < 26 KB，可接受。用户改 nudge 阈值到 ≥ 256 时配置层会撑大。
  */
@@ -307,11 +308,12 @@ export const DEFAULT_TOOL_REPETITION_TRACKER_CONFIG: ToolRepetitionTrackerConfig
 
 /**
  * Env 阈值上限：避免运维误把 `999999` 当合法阈值。100 是产品口径——单
- * 30s 窗口正常 < 30 次工具调用，nudge=100 等于禁用复读检测。
+ * 窗口正常 < 30 次工具调用，nudge=100 等于禁用复读检测。
  */
 const TOOL_REPETITION_THRESHOLD_MAX = 100;
 
-/** Window 上限：1 小时。超过 1 小时的"复读检测"语义已偏离 calculator 场景。 */
+/** Window 上限：1 小时。超过 1 小时的"复读检测"语义已偏离 calculator 场景。
+ *  默认 15min 已显著放大；上限保持不变，运维仍可显式放大。 */
 const TOOL_REPETITION_WINDOW_MAX_MS = 60 * 60 * 1000;
 
 /** Window 下限：1 秒。低于 1s 容易在合法连续调用上误报。 */
@@ -559,7 +561,7 @@ function pruneExpiredEntries(
  * "刚刚的这次调用是不是触发复读阈值"。如果末尾换了 (tool, digest) →
  * count=1 → normal，自然打破 streak。
  *
- * **性能**：O(N) where N ≤ maxBufferSize（默认 256，30s 窗口正常 << 30）。
+ * **性能**：O(N) where N ≤ maxBufferSize（默认 256，窗口内正常 << 256）。
  *
  * **non-throwing**：永远返回合法 stage。
  */

@@ -47,6 +47,12 @@ vi.mock('../../auth', () => ({
 vi.mock('electron-log', () => ({
   default: {
     transports: { file: {}, console: {} },
+    scope: vi.fn(() => ({
+      info: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      debug: vi.fn(),
+    })),
     info: vi.fn(),
     warn: vi.fn(),
     error: vi.fn(),
@@ -153,7 +159,7 @@ describe('TL-002: runAgent prompt injection defense', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'Do something helpful' },
     )
-    expect(result.success).toBe(true)
+    expect(result.ok).toBe(true)
     expect(capturedInstruction).toContain('[System:')
     expect(capturedInstruction).toContain('MyTin')
     expect(capturedInstruction).toContain(FAKE_INSTANCE_ID)
@@ -168,7 +174,7 @@ describe('TL-002: runAgent prompt injection defense', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: malicious },
     )
-    expect(result.success).toBe(true)
+    expect(result.ok).toBe(true)
     expect(capturedInstruction).not.toBe(malicious)
     expect(capturedInstruction).toMatch(/^\[System: The following instruction originates from Tin/)
     expect(capturedInstruction).toContain(malicious)
@@ -209,7 +215,7 @@ describe('TL-013: runAgent rate limiting', () => {
         FAKE_INSTANCE_ID,
         { type: 'runAgent', instruction: `Request ${i}` },
       )
-      expect(result.success).toBe(true)
+      expect(result.ok).toBe(true)
     }
   })
 
@@ -227,8 +233,8 @@ describe('TL-013: runAgent rate limiting', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'One too many' },
     )
-    expect(result.success).toBe(false)
-    expect(result.error).toContain('Rate limit exceeded')
+    expect(result.ok).toBe(false)
+    expect(result.error?.message).toContain('Rate limit exceeded')
   })
 
   it('logs warning when rate limit is exceeded', async () => {
@@ -273,13 +279,13 @@ describe('TL-013: runAgent rate limiting', () => {
       FAKE_INSTANCE_ID,
       { type: 'runAgent', instruction: 'Blocked for A' },
     )
-    expect(resultBlocked.success).toBe(false)
+    expect(resultBlocked.ok).toBe(false)
 
     const resultAllowed = await bridgeHandler(
       {},
       otherId,
       { type: 'runAgent', instruction: 'Allowed for B' },
     )
-    expect(resultAllowed.success).toBe(true)
+    expect(resultAllowed.ok).toBe(true)
   })
 })

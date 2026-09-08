@@ -108,6 +108,25 @@ export function buildShellLlmContextContent(envelope: Record<string, unknown>): 
     if (exitedBy && exitedBy !== 'normal_exit') {
       llm.exited_by = exitedBy;
     }
+
+    // 空结果语义提示（死循环防线）：
+    // exit_code=0 但 stdout 为空 → 明确告知「无输出」并建议换策略。
+    // 弱模型（如 27B INT4 量化）在收到「成功 + 空结果」时倾向原样重试同一命令；
+    // 若不加提示，命令每轮都以 exitCode=0 的空输出返回，复读检测因单轮耗时长
+    // 计数凑不齐，系统无任何纠偏信号，模型会无限复读同一检索（2026-09-06 线上
+    // tender-analysis 死循环即此形态）。此提示让空结果成为可感知的「结果」，
+    // 而不是模型眼中的「静默成功」。
+    const stdoutRaw = envelope.stdout;
+    const stdoutEmpty =
+      stdoutRaw === undefined ||
+      stdoutRaw === null ||
+      (typeof stdoutRaw === 'string' && stdoutRaw.trim().length === 0) ||
+      (Array.isArray(stdoutRaw) && stdoutRaw.length === 0);
+    if (stdoutEmpty) {
+      llm.stdout_empty_note =
+        '命令以 exit_code=0 完成但无任何输出。若本次检索/查找/扫描没有命中，' +
+        '这本身就是结果：请换用不同关键词、不同文件或不同命令继续，不要重复执行同一命令。';
+    }
   } else {
     copyIfPresent(llm, envelope, 'exit_code');
     copyIfPresent(llm, envelope, 'stdout');

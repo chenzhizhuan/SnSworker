@@ -58,6 +58,12 @@ const PROTECTED_TOOLS = new Set([
   'request_approval',
   'skills_read',
   'skills_search',
+  // 死循环治理（2026-09-06 tender-analysis 8 小时实证）：`run_terminal_command`
+  // 的 tool_result 是模型判断"某命令是否已尝试过、是否空结果"的关键记忆。
+  // 此前它不在保护集，compact 时被 prune 成占位符 → 模型失忆"已搜过为空"，
+  // 复读同一命令（成功+空结果+可无限重复）。保留其 tool_result 让模型
+  // 跨轮看到"这命令我跑过、输出为空"，是防死循环的最后一层记忆锚点。
+  'run_terminal_command',
 ]);
 
 // ─── Helpers ─────────────────────────────────────────────────────────

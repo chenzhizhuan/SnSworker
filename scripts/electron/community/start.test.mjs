@@ -82,7 +82,10 @@ test('runtime env contains only the two public root switches', async () => {
       await fs.readFile(runtimeEnvFile, 'utf8'),
       'TABTIN_EDITION=community\nAUTH_FIXED_VERIFICATION_CODE=888888\n',
     );
-    assert.equal((await fs.stat(runtimeEnvFile)).mode & 0o777, 0o600);
+    // POSIX 权限位在 Windows/NTFS 上不可见（恒为 0o666），仅在 POSIX 平台断言 0600。
+    if (process.platform !== 'win32') {
+      assert.equal((await fs.stat(runtimeEnvFile)).mode & 0o777, 0o600);
+    }
   } finally {
     await fs.rm(rootDir, { recursive: true, force: true });
   }

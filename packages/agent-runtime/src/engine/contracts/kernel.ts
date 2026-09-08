@@ -926,6 +926,20 @@ export interface EngineConfig {
   /** Per-run credits limit (triggers stop when exceeded) */
   maxRunCredits?: number;
   /**
+   * 单次 run 最大耗时（毫秒）。缺省 / 0 / 负数 = 不启用。
+   *
+   * 死循环治理兜底（2026-09-06 tender-analysis 8 小时死循环实证）：
+   * 即使 maxTurns 与复读检测都失效，"单轮耗时 > 复读窗口"的死循环
+   * （成功+空结果+模型失忆）仍会无限跑下去。此字段让 run 有硬墙：
+   * 从 run 开始计时，超时后主循环每轮末尾强制收尾（复用 MAX_TURNS_EXCEEDED
+   * 的 DONE 路径，不改 wire 协议）。
+   *
+   * 宿主可在装配层按需注入（如 Django execution_limits 扩展或本地默认值）；
+   * 缺省 0 保持"未配置不设墙"的既有 fail-open 语义（与 maxTurns / credits
+   * 一致），fail-safe 默认由宿主装配层提供。
+   */
+  maxRunDurationMs?: number;
+  /**
    * 当前 runtime 交互档。可以传函数，query.ts 每次构造 ToolContext 时实时读取，
    * 以兼容 Electron host 复用 runtime 但按会话临时切到 scheduled 的 forward 路径。
    */
@@ -1464,7 +1478,7 @@ export interface EngineConfig {
    * Wave 6 · Tool-repetition tracker 配置覆盖（sibling of `toolFailureTracker`）。
    *
    * 默认 `DEFAULT_TOOL_REPETITION_TRACKER_CONFIG`（notice=2 / nudge=3 /
-   * windowMs=30_000 / maxBufferSize=256）。Host 通过
+   * windowMs=900_000 / maxBufferSize=256）。Host 通过
    * `TABTIN_TOOL_REPETITION_NOTICE_COUNT` / `_NUDGE_COUNT` /
    * `_WINDOW_MS` / `_TRACKER_ENABLED` env 覆盖；解析在两宿主 `host-knobs.ts`
    * 完成（非法值 logger.warn + 回落默认），与 `toolFailureTracker` 同 ops 模式。
