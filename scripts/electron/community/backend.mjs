@@ -65,7 +65,7 @@ export function classifyPortOwner({
   if (dockerOwners.length > 0) {
     const currentCommunity = dockerOwners.every(
       (owner) =>
-        owner.labels?.['com.docker.compose.project'] === 'tabtin-community',
+        owner.labels?.['com.docker.compose.project'] === 'sns-worker',
     );
     if (currentCommunity) {
       return { kind: 'current-community', reusable: true, owners: ownerNames };

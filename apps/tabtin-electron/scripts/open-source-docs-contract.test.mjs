@@ -220,11 +220,11 @@ test('the root README keeps the two copyable local-development prompts stable', 
   const readme = readFileSync(new URL('README.md', repositoryRoot), 'utf8');
   assert.match(
     readme,
-    /请运行 https:\/\/github\.com\/tabtin-ai\/SnSworker 的「快速预览」/,
+    /请运行 https:\/\/github\.com\/snsworker-ai\/SnSworker 的「快速预览」/,
   );
   assert.match(
     readme,
-    /请运行 https:\/\/github\.com\/tabtin-ai\/SnSworker 的「全量预览」/,
+    /请运行 https:\/\/github\.com\/snsworker-ai\/SnSworker 的「全量预览」/,
   );
   assert.match(readme, /pnpm dev/);
   assert.match(readme, /\.env\.local/);

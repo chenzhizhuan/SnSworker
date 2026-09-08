@@ -16,7 +16,7 @@ If a problem occurs only on an older release, first check whether it can be repr
 
 ## Report a vulnerability privately
 
-Prefer **Report a vulnerability** on the [SnSworker public repository's Security page](https://github.com/tabtin-ai/SnSworker/security). If that entry is not yet visible, email [issue@larchiveai.com](mailto:issue@larchiveai.com) with `[SECURITY]` in the subject. Do not disclose an unpatched vulnerability through a normal Issue, Discussion, Pull Request, group chat, or social media.
+Prefer **Report a vulnerability** on the [SnSworker public repository's Security page](https://github.com/snsworker-ai/SnSworker/security). If that entry is not yet visible, email [issue@larchiveai.com](mailto:issue@larchiveai.com) with `[SECURITY]` in the subject. Do not disclose an unpatched vulnerability through a normal Issue, Discussion, Pull Request, group chat, or social media.
 
 Include as much of the following as possible:
 

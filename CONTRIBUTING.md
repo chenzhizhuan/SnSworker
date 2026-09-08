@@ -18,7 +18,7 @@
 
 ## 开发流程
 
-1. Fork [SnSworker 公开仓库](https://github.com/tabtin-ai/SnSworker)。
+1. Fork [SnSworker 公开仓库](https://github.com/snsworker-ai/SnSworker)。
 2. 从最新 `main` 创建一个聚焦单一问题的分支。
 3. 按公开快速开始和开发文档配置环境。
 4. 修改代码，并运行与改动相关的测试和静态检查。

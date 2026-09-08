@@ -34,7 +34,7 @@ The following behavior violates this Code:
 
 ## Private reporting
 
-Use **Report a vulnerability** on the [SnSworker public repository's Security page](https://github.com/tabtin-ai/SnSworker/security) and prefix the title with **Code of Conduct**. If that entry is not yet visible, email [issue@larchiveai.com](mailto:issue@larchiveai.com) with `[Code of Conduct]` in the subject. Include the time, location, relevant accounts, verifiable records, impact, and requested protective measures.
+Use **Report a vulnerability** on the [SnSworker public repository's Security page](https://github.com/snsworker-ai/SnSworker/security) and prefix the title with **Code of Conduct**. If that entry is not yet visible, email [issue@larchiveai.com](mailto:issue@larchiveai.com) with `[Code of Conduct]` in the subject. Include the time, location, relevant accounts, verifiable records, impact, and requested protective measures.
 
 Do not publish information through Issues, Discussions, or social media if doing so could cause further harm.
 

@@ -296,7 +296,7 @@ Expected: FAIL，原因是环境模块尚不存在。
 
 ```js
 test('writes through a sibling temporary file and preserves explicit values', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'tabtin-community-env-'))
+  const dir = await mkdtemp(join(tmpdir(), 'sns-worker-env-'))
   const file = join(dir, '.env.opensource.local')
   await writeFile(file, 'VITE_DEV_SERVER_PORT=5199\n', 'utf8')
   const result = await ensureCommunityEnvFile(file)
@@ -441,7 +441,7 @@ test('treats a missing Electron module as a cache miss', async () => {
 
 - [x] **Step 2: 实现非敏感安装标记**
 
-使用 `node:crypto` 对根 `pnpm-lock.yaml`、根 `package.json` 和 Electron `package.json` 内容计算 SHA-256。标记写到 `node_modules/.cache/tabtin-community-bootstrap.json`，只保存指纹、区域和成功时间；Electron 包不可解析时一律 cache miss。
+使用 `node:crypto` 对根 `pnpm-lock.yaml`、根 `package.json` 和 Electron `package.json` 内容计算 SHA-256。标记写到 `node_modules/.cache/sns-worker-bootstrap.json`，只保存指纹、区域和成功时间；Electron 包不可解析时一律 cache miss。
 
 - [x] **Step 3: 写顶层阶段顺序失败测试**
 

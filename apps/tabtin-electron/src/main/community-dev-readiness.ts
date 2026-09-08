@@ -1,4 +1,4 @@
-export const COMMUNITY_DEV_READY_MARKER = '[tabtin-community] electron-ready'
+export const COMMUNITY_DEV_READY_MARKER = '[sns-worker] electron-ready'
 
 interface CommunityDevReadinessOptions {
   env?: Record<string, string | undefined>

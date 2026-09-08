@@ -16,7 +16,7 @@ SnSworker is an open-source collaboration platform for people and Agents, built 
 >
 > **Business inquiries:** For deployment assessments, migration assistance, commercial licensing, or custom services, contact [contact@larchiveai.com](mailto:contact@larchiveai.com).
 
-Public repository: [github.com/tabtin-ai/SnSworker](https://github.com/tabtin-ai/SnSworker)
+Public repository: [github.com/snsworker-ai/SnSworker](https://github.com/snsworker-ai/SnSworker)
 
 > We want work to feel easier, collaboration smoother, and task execution clearer—while making each person's work visible, their decisions understandable, and their contributions verifiable.
 
@@ -107,13 +107,13 @@ After the environment is ready, ask the Agent to run one of these previews:
 Send one of these instructions to the Agent:
 
 ```text
-Run the “Quick Preview” for https://github.com/tabtin-ai/SnSworker.
+Run the “Quick Preview” for https://github.com/snsworker-ai/SnSworker.
 ```
 
 or:
 
 ```text
-Run the “Full Preview” for https://github.com/tabtin-ai/SnSworker.
+Run the “Full Preview” for https://github.com/snsworker-ai/SnSworker.
 ```
 
 Quick Preview and Full Preview are local development entry points, not Community distribution packages or production release builds. Android and iOS debug packages must be built separately on their target platforms. The Agent may report success only after the backend is healthy, Electron is ready, and the relevant acceptance conditions are met.

@@ -108,12 +108,12 @@ RUN set -euo pipefail \
     && echo "[django-image] agent templates=${agent_manifest_count} packages/skills/bundled=ok"
 
 RUN chmod +x /app/apps/tabtin_django/docker-entrypoint.sh \
-    && groupadd --gid 10001 tabtin-community \
-    && useradd --uid 10001 --gid 10001 --home-dir /app --shell /usr/sbin/nologin tabtin-community \
+    && groupadd --gid 10001 sns-worker \
+    && useradd --uid 10001 --gid 10001 --home-dir /app --shell /usr/sbin/nologin sns-worker \
     && mkdir -p /app/apps/tabtin_django/logs /app/apps/tabtin_django/media /app/apps/tabtin_django/staticfiles \
         /var/lib/tabtin/objects \
     && mkdir -p /ms-playwright \
-    && chown -R tabtin-community:tabtin-community /app /var/lib/tabtin/objects /ms-playwright
+    && chown -R sns-worker:sns-worker /app /var/lib/tabtin/objects /ms-playwright
 
 LABEL com.tabtin.community.dev-dependency-fingerprint=${TABTIN_DEV_DEPENDENCY_FINGERPRINT}
 
@@ -123,7 +123,7 @@ ARG TABTIN_SOURCE_SHA=""
 ENV TABTIN_SERVER_VERSION=${TABTIN_SERVER_VERSION} \
     TABTIN_SOURCE_SHA=${TABTIN_SOURCE_SHA}
 
-USER tabtin-community
+USER sns-worker
 
 EXPOSE 6060
 

@@ -22,7 +22,7 @@ SnSworker 是一个开源的人与 Agent 协作平台，面向希望把 Agent �
 >
 > **企业合作：** 如需部署评估、迁移协助、商业授权或定制服务，请联系 [contact@larchiveai.com](mailto:contact@larchiveai.com)。
 
-公开仓库：[github.com/tabtin-ai/SnSworker](https://github.com/tabtin-ai/SnSworker)
+公开仓库：[github.com/snsworker-ai/SnSworker](https://github.com/snsworker-ai/SnSworker)
 
 > 我们希望工作因此更轻松，协作更顺畅，任务推进更清晰；每个人的工作被看见、判断被理解、贡献有据可验。
 
@@ -113,13 +113,13 @@ SnSworker 开放的是实际产品代码，而不是为开源单独制作的简�
 发送给 Agent 的指令可以是：
 
 ```text
-请运行 https://github.com/tabtin-ai/SnSworker 的「快速预览」
+请运行 https://github.com/snsworker-ai/SnSworker 的「快速预览」
 ```
 
 或：
 
 ```text
-请运行 https://github.com/tabtin-ai/SnSworker 的「全量预览」
+请运行 https://github.com/snsworker-ai/SnSworker 的「全量预览」
 ```
 
 快速预览和全量预览都是本地开发入口，不是 Community 分发包或正式 Release 构建。Android 和 iOS Debug 包需要在对应平台单独构建，不会由全量预览自动启动。只有后端健康、Electron 窗口就绪并满足对应验收条件时，Agent 才能报告启动成功。

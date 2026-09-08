@@ -31,13 +31,13 @@ Agent 不得覆盖已有本地配置、修改全局 npm registry、绕过健康�
 环境准备完成后，告诉 Agent 运行以下提示词之一：
 
 ```text
-请运行 https://github.com/tabtin-ai/SnSworker 的「快速预览」
+请运行 https://github.com/snsworker-ai/SnSworker 的「快速预览」
 ```
 
 快速预览启动服务端和 Electron 桌面客户端，适合尽快体验桌面端，不启动 AdminDash 运管后台和 tabtin-web 在线平台。
 
 ```text
-请运行 https://github.com/tabtin-ai/SnSworker 的「全量预览」
+请运行 https://github.com/snsworker-ai/SnSworker 的「全量预览」
 ```
 
 全量预览启动服务端、AdminDash 运管后台、tabtin-web 在线平台和 Electron 桌面客户端，并覆盖桌面、Android、iOS Debug 包的验收入口。Android 和 iOS 包需要在对应平台单独构建，不会由全量预览命令自动启动。

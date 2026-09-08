@@ -24,7 +24,7 @@ initialize_community_database() {
   python -m tabtin.community_database finalize
 
   echo "[entrypoint] applying idempotent Community bootstrap"
-  gosu tabtin-community python manage.py tabtin_bootstrap --edition community
+  gosu sns-worker python manage.py tabtin_bootstrap --edition community
 }
 
 case "${role}" in
@@ -38,7 +38,7 @@ case "${role}" in
     chown -R 10001:10001 /var/lib/tabtin/objects /ms-playwright
     unset PG_INIT_PASSWORD_FILE PG_MIGRATOR_PASSWORD_FILE TABTIN_COMMUNITY_DATABASE_SQL_ROOT
     echo "[entrypoint] starting Community Daphne from bind-mounted source"
-    exec gosu tabtin-community python -m daphne \
+    exec gosu sns-worker python -m daphne \
       --ping-interval 45 \
       --ping-timeout 60 \
       --websocket_timeout 3600 \
@@ -60,7 +60,7 @@ case "${role}" in
     # read the root/postgres-owned one-shot password files.
     unset PG_INIT_PASSWORD_FILE PG_MIGRATOR_PASSWORD_FILE TABTIN_COMMUNITY_DATABASE_SQL_ROOT
     echo "[entrypoint] starting Community daphne on 0.0.0.0:6060"
-    exec gosu tabtin-community python -m daphne \
+    exec gosu sns-worker python -m daphne \
       --ping-interval 45 \
       --ping-timeout 60 \
       --websocket_timeout 3600 \

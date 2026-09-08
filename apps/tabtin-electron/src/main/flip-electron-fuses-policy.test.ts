@@ -42,7 +42,7 @@ describe('flip-electron-fuses profile policy', () => {
       'resources/app.asar': { algorithm: 'SHA256', hash: 'header-hash' },
     }
 
-    await restoreWindowsAsarIntegrity('/pack/tabtin-community.exe', {
+    await restoreWindowsAsarIntegrity('/pack/sns-worker.exe', {
       computeData: async (options: unknown) => {
         calls.push({ kind: 'compute', value: options })
         return asarIntegrity
@@ -63,7 +63,7 @@ describe('flip-electron-fuses profile policy', () => {
       {
         kind: 'write',
         value: {
-          exePath: '/pack/tabtin-community.exe',
+          exePath: '/pack/sns-worker.exe',
           integrity: asarIntegrity,
         },
       },

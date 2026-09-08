@@ -108,7 +108,7 @@
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tabtin-ai/SnSworker.git"
+    "url": "https://github.com/snsworker-ai/SnSworker.git"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "1.4.0",

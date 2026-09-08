@@ -39,7 +39,7 @@ x-worker-common: &worker-common
   user: '10001:10001'
   restart: unless-stopped
   volumes:
-    - installation-secrets:/run/tabtin-community-secrets:ro
+    - installation-secrets:/run/sns-worker-secrets:ro
     - local-objects:/var/lib/tabtin/objects
   networks: [community]
   depends_on:
@@ -52,15 +52,15 @@ x-web-public-env: &web-public-env
   DEBUG: 'True'
   ENABLE_HTTPS_SECURITY: 'false'
   TABTIN_REQUIRE_INVITE_CODE: 'false'
-  SECRET_KEY_FILE: /run/tabtin-community-secrets/SECRET_KEY
-  JWT_SECRET_KEY_FILE: /run/tabtin-community-secrets/JWT_SECRET_KEY
-  CREDENTIAL_ENCRYPTION_KEY_FILE: /run/tabtin-community-secrets/CREDENTIAL_ENCRYPTION_KEY
-  CENTRIFUGO_API_KEY_FILE: /run/tabtin-community-secrets/CENTRIFUGO_API_KEY
-  CENTRIFUGO_PROXY_SECRET_FILE: /run/tabtin-community-secrets/CENTRIFUGO_PROXY_SECRET
-  CENTRIFUGO_TOKEN_SECRET_FILE: /run/tabtin-community-secrets/CENTRIFUGO_TOKEN_SECRET
+  SECRET_KEY_FILE: /run/sns-worker-secrets/SECRET_KEY
+  JWT_SECRET_KEY_FILE: /run/sns-worker-secrets/JWT_SECRET_KEY
+  CREDENTIAL_ENCRYPTION_KEY_FILE: /run/sns-worker-secrets/CREDENTIAL_ENCRYPTION_KEY
+  CENTRIFUGO_API_KEY_FILE: /run/sns-worker-secrets/CENTRIFUGO_API_KEY
+  CENTRIFUGO_PROXY_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_PROXY_SECRET
+  CENTRIFUGO_TOKEN_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_TOKEN_SECRET
   PG_DB_NAME: tabtin
   PG_DB_USER: tabtin_runtime
-  PG_DB_PASSWORD_FILE: /run/tabtin-community-secrets/PG_RUNTIME_PASSWORD
+  PG_DB_PASSWORD_FILE: /run/sns-worker-secrets/PG_RUNTIME_PASSWORD
   PG_DB_HOST: postgres
   PG_DB_PORT: '5432'
   REDIS_URL: redis://redis:6379/0
@@ -83,7 +83,7 @@ x-web-public-env: &web-public-env
   EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
   DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL}
   SERVICES_OSS_PROVIDER: local
-  LOCAL_OSS_BUCKET_NAME: tabtin-community-local
+  LOCAL_OSS_BUCKET_NAME: sns-worker-local
   LOCAL_OSS_ROOT: /var/lib/tabtin/objects
   ENABLE_JINBAO_BOT: 'false'
   SEARCH_ENGINE_ENABLED: 'false'

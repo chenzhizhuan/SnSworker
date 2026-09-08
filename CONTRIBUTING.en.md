@@ -18,7 +18,7 @@ By contributing, you agree to follow the project's [Code of Conduct](CODE_OF_CON
 
 ## Development flow
 
-1. Fork the [SnSworker public repository](https://github.com/tabtin-ai/SnSworker).
+1. Fork the [SnSworker public repository](https://github.com/snsworker-ai/SnSworker).
 2. Create a branch from the latest `main` and keep it focused on one problem.
 3. Configure the environment using the public Getting Started and development documentation.
 4. Make the change and run relevant tests and static checks.

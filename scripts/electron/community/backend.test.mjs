@@ -57,9 +57,9 @@ test('8100 owned by the current Community project is reused', () => {
       rootDir: '/repo',
       dockerOwners: [
         {
-          name: 'tabtin-community-centrifugo-1',
+          name: 'sns-worker-centrifugo-1',
           labels: {
-            'com.docker.compose.project': 'tabtin-community',
+            'com.docker.compose.project': 'sns-worker',
             'com.docker.compose.project.working_dir': '/old/linked-worktree',
             'com.docker.compose.service': 'centrifugo',
           },
@@ -70,7 +70,7 @@ test('8100 owned by the current Community project is reused', () => {
     {
       kind: 'current-community',
       reusable: true,
-      owners: ['tabtin-community-centrifugo-1'],
+      owners: ['sns-worker-centrifugo-1'],
     },
   );
 });

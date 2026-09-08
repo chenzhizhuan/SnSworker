@@ -1,4 +1,4 @@
-name: tabtin-community
+name: sns-worker
 
 x-django-image: &django-image
   image: tabtin/community-django:local
@@ -22,15 +22,15 @@ x-django-environment: &django-environment
   CSRF_TRUSTED_ORIGINS: http://localhost:6060,http://127.0.0.1:6060
   CORS_ALLOWED_ORIGINS: http://localhost:5175,http://127.0.0.1:5175
   TABTIN_REQUIRE_INVITE_CODE: 'false'
-  SECRET_KEY_FILE: /run/tabtin-community-secrets/SECRET_KEY
-  JWT_SECRET_KEY_FILE: /run/tabtin-community-secrets/JWT_SECRET_KEY
-  CREDENTIAL_ENCRYPTION_KEY_FILE: /run/tabtin-community-secrets/CREDENTIAL_ENCRYPTION_KEY
-  CENTRIFUGO_API_KEY_FILE: /run/tabtin-community-secrets/CENTRIFUGO_API_KEY
-  CENTRIFUGO_PROXY_SECRET_FILE: /run/tabtin-community-secrets/CENTRIFUGO_PROXY_SECRET
-  CENTRIFUGO_TOKEN_SECRET_FILE: /run/tabtin-community-secrets/CENTRIFUGO_TOKEN_SECRET
+  SECRET_KEY_FILE: /run/sns-worker-secrets/SECRET_KEY
+  JWT_SECRET_KEY_FILE: /run/sns-worker-secrets/JWT_SECRET_KEY
+  CREDENTIAL_ENCRYPTION_KEY_FILE: /run/sns-worker-secrets/CREDENTIAL_ENCRYPTION_KEY
+  CENTRIFUGO_API_KEY_FILE: /run/sns-worker-secrets/CENTRIFUGO_API_KEY
+  CENTRIFUGO_PROXY_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_PROXY_SECRET
+  CENTRIFUGO_TOKEN_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_TOKEN_SECRET
   PG_DB_NAME: tabtin
   PG_DB_USER: tabtin_runtime
-  PG_DB_PASSWORD_FILE: /run/tabtin-community-secrets/PG_RUNTIME_PASSWORD
+  PG_DB_PASSWORD_FILE: /run/sns-worker-secrets/PG_RUNTIME_PASSWORD
   PG_DB_HOST: postgres
   PG_DB_PORT: '5432'
   REDIS_URL: redis://redis:6379/0
@@ -42,7 +42,7 @@ x-django-environment: &django-environment
   SERVICES_EMAIL_PROVIDER: disabled
   EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
   SERVICES_OSS_PROVIDER: local
-  LOCAL_OSS_BUCKET_NAME: tabtin-community-local
+  LOCAL_OSS_BUCKET_NAME: sns-worker-local
   LOCAL_OSS_ROOT: /var/lib/tabtin/objects
   TABTIN_PUBLIC_BASE_URL: http://127.0.0.1:6060
   ENABLE_JINBAO_BOT: 'false'
@@ -61,10 +61,10 @@ services:
     environment:
       POSTGRES_DB: tabtin
       POSTGRES_USER: tabtin_init
-      POSTGRES_PASSWORD_FILE: /run/tabtin-community-secrets/PG_INIT_PASSWORD
+      POSTGRES_PASSWORD_FILE: /run/sns-worker-secrets/PG_INIT_PASSWORD
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - installation-secrets:/run/tabtin-community-secrets
+      - installation-secrets:/run/sns-worker-secrets
       - ./community-assets/postgres-entrypoint.sh:/usr/local/bin/community-postgres-entrypoint.sh:ro
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U tabtin_init -d tabtin']
@@ -96,10 +96,10 @@ services:
     command: ['community-web']
     environment:
       <<: *django-environment
-      TABTIN_COMMUNITY_SECRET_ROOT: /run/tabtin-community-secrets
-      PG_INIT_PASSWORD_FILE: /run/tabtin-community-secrets/PG_INIT_PASSWORD
-      PG_MIGRATOR_PASSWORD_FILE: /run/tabtin-community-secrets/PG_MIGRATOR_PASSWORD
-      PG_RUNTIME_PASSWORD_FILE: /run/tabtin-community-secrets/PG_RUNTIME_PASSWORD
+      TABTIN_COMMUNITY_SECRET_ROOT: /run/sns-worker-secrets
+      PG_INIT_PASSWORD_FILE: /run/sns-worker-secrets/PG_INIT_PASSWORD
+      PG_MIGRATOR_PASSWORD_FILE: /run/sns-worker-secrets/PG_MIGRATOR_PASSWORD
+      PG_RUNTIME_PASSWORD_FILE: /run/sns-worker-secrets/PG_RUNTIME_PASSWORD
       TABTIN_COMMUNITY_DATABASE_SQL_ROOT: /app/community-assets/postgres
       TABTIN_COMMUNITY_RUNTIME_UID: '10001'
       TABTIN_COMMUNITY_RUNTIME_GID: '10001'
@@ -107,7 +107,7 @@ services:
       TABTIN_COMMUNITY_POSTGRES_GID: '999'
       TABTIN_COMMUNITY_CENTRIFUGO_TEMPLATE: /app/community-assets/centrifugo.template.json
     volumes:
-      - installation-secrets:/run/tabtin-community-secrets
+      - installation-secrets:/run/sns-worker-secrets
       - local-objects:/var/lib/tabtin/objects
     depends_on:
       postgres: { condition: service_healthy }
@@ -140,7 +140,7 @@ services:
       CELERY_PREFETCH_MULTIPLIER: '1'
       CELERY_MAX_MEMORY: '700000'
     volumes:
-      - installation-secrets:/run/tabtin-community-secrets:ro
+      - installation-secrets:/run/sns-worker-secrets:ro
       - local-objects:/var/lib/tabtin/objects
     depends_on:
       django: { condition: service_healthy }
@@ -165,12 +165,12 @@ services:
       [
         'centrifugo',
         '-c',
-        '/run/tabtin-community-secrets/centrifugo.json',
+        '/run/sns-worker-secrets/centrifugo.json',
         '-p',
         '8100',
       ]
     volumes:
-      - installation-secrets:/run/tabtin-community-secrets:ro
+      - installation-secrets:/run/sns-worker-secrets:ro
     depends_on:
       django: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -190,15 +190,15 @@ services:
 
 networks:
   community:
-    name: tabtin-community
+    name: sns-worker
     driver: bridge
 
 volumes:
   postgres-data:
-    name: tabtin-community-postgres-data
+    name: sns-worker-postgres-data
   redis-data:
-    name: tabtin-community-redis-data
+    name: sns-worker-redis-data
   installation-secrets:
-    name: tabtin-community-installation-secrets
+    name: sns-worker-installation-secrets
   local-objects:
-    name: tabtin-community-local-objects
+    name: sns-worker-local-objects

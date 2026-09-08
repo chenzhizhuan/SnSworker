@@ -31,13 +31,13 @@ The Agent must not overwrite local configuration, change the global npm registry
 After the environment is ready, ask the Agent to run one of these prompts:
 
 ```text
-Run the “Quick Preview” for https://github.com/tabtin-ai/SnSworker.
+Run the “Quick Preview” for https://github.com/snsworker-ai/SnSworker.
 ```
 
 Quick Preview starts the backend and Electron desktop client for a fast desktop experience. It does not start AdminDash or tabtin-web.
 
 ```text
-Run the “Full Preview” for https://github.com/tabtin-ai/SnSworker.
+Run the “Full Preview” for https://github.com/snsworker-ai/SnSworker.
 ```
 
 Full Preview starts the backend, AdminDash, tabtin-web, and Electron desktop client, and provides the acceptance entry points for desktop, Android, and iOS debug packages. Android and iOS packages are built separately on their target platforms; the Full Preview command does not start them automatically.

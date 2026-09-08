@@ -34,7 +34,7 @@
 
 ## 私密举报
 
-通过 [SnSworker 公开仓库的 Security 页面](https://github.com/tabtin-ai/SnSworker/security)进入 **Report a vulnerability** 私密报告，并在标题前注明 **Code of Conduct**。如果该入口暂未显示，请发送邮件至 [issue@larchiveai.com](mailto:issue@larchiveai.com)，并在主题中注明 `[Code of Conduct]`。请提供时间、位置、相关账号、可验证记录、影响和希望采取的保护措施。
+通过 [SnSworker 公开仓库的 Security 页面](https://github.com/snsworker-ai/SnSworker/security)进入 **Report a vulnerability** 私密报告，并在标题前注明 **Code of Conduct**。如果该入口暂未显示，请发送邮件至 [issue@larchiveai.com](mailto:issue@larchiveai.com)，并在主题中注明 `[Code of Conduct]`。请提供时间、位置、相关账号、可验证记录、影响和希望采取的保护措施。
 
 不要在公开 Issue、Discussion 或社交媒体中发布可能使当事人再次受到伤害的信息。
 

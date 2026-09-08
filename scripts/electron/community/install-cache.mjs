@@ -5,7 +5,7 @@ import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 const MARKER_PATH = [
   'node_modules',
   '.cache',
-  'tabtin-community-bootstrap.json',
+  'sns-worker-bootstrap.json',
 ];
 const COMMUNITY_BOOTSTRAP_VERSION = '2';
 

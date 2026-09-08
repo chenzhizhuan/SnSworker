@@ -19,7 +19,7 @@ assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-local"'))
 assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker Local"'))
 assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker"'))
 assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.community"'))
-assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-community"'))
+assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="sns-worker"'))
 assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker"'))
 // executableName 的目标平台已参数化（win/dmg 共用同一段）。
 assert.ok(buildScript.includes('"--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"'))

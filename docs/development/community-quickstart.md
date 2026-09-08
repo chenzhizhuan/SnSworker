@@ -4,7 +4,7 @@
 
 > 目标：安装 Docker → 启动 SnSworker Server → 启动 Desktop Client → 配置自己的模型 → 开始第一次对话。
 >
-> 当前公开仓库地址：`https://github.com/tabtin-ai/SnSworker`。文中的示例地址和 API Key 均为公开占位值，请替换为自己的配置。
+> 当前公开仓库地址：`https://github.com/snsworker-ai/SnSworker`。文中的示例地址和 API Key 均为公开占位值，请替换为自己的配置。
 
 ## 一、最短版本
 
@@ -67,7 +67,7 @@ docker compose version
 普通用户可以打开仓库页面，选择 **Code → Download ZIP**，下载后解压。开发者可以使用：
 
 ```bash
-git clone https://github.com/tabtin-ai/SnSworker.git
+git clone https://github.com/snsworker-ai/SnSworker.git
 cd SnSworker
 ```
 

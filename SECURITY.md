@@ -16,7 +16,7 @@ SnSworker 只承诺支持最新公开稳定版本。Public Preview 或实验性�
 
 ## 私密报告漏洞
 
-请优先使用 [SnSworker 公开仓库的 Security 页面](https://github.com/tabtin-ai/SnSworker/security)中的 **Report a vulnerability** 私密漏洞报告入口。如果该入口暂未显示，请发送邮件至 [issue@larchiveai.com](mailto:issue@larchiveai.com)，并在主题中注明 `[SECURITY]`。不要通过普通 Issue、Discussion、Pull Request、群聊或社交媒体披露未修复漏洞。
+请优先使用 [SnSworker 公开仓库的 Security 页面](https://github.com/snsworker-ai/SnSworker/security)中的 **Report a vulnerability** 私密漏洞报告入口。如果该入口暂未显示，请发送邮件至 [issue@larchiveai.com](mailto:issue@larchiveai.com)，并在主题中注明 `[SECURITY]`。不要通过普通 Issue、Discussion、Pull Request、群聊或社交媒体披露未修复漏洞。
 
 报告中请尽量提供：
 

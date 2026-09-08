@@ -817,7 +817,7 @@ case "$PROFILE" in
   community)
     PROFILE_PRODUCT_NAME="SnSworker"
     PROFILE_APP_ID="com.tabtin.community"
-    PROFILE_EXECUTABLE_NAME="tabtin-community"
+    PROFILE_EXECUTABLE_NAME="sns-worker"
     PROFILE_SHORTCUT_NAME="SnSworker"
     ;;
 esac
