@@ -7,7 +7,7 @@ import org.junit.Test
 class DocLinkActivationPolicyTest {
     @Test
     fun `only http https mailto and tel activate`() {
-        assertTrue(DocLinkActivationPolicy.canActivate("https://tabtin.ai"))
+        assertTrue(DocLinkActivationPolicy.canActivate("https://worker.sns.app"))
         assertTrue(DocLinkActivationPolicy.canActivate("http://example.com"))
         assertTrue(DocLinkActivationPolicy.canActivate("mailto:a@b.com"))
         assertTrue(DocLinkActivationPolicy.canActivate("tel:+8613800138000"))

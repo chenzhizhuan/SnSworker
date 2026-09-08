@@ -442,7 +442,7 @@ class ChatMessageDecodingTest {
               "content": "[工具调用]",
               "content_blocks_json": [
                 {"type":"server_tool_use","id":"srv-1","name":"web_search","input":{"query":"SnSworker"}},
-                {"type":"web_search_tool_result","tool_use_id":"srv-1","content":[{"type":"web_search_result","title":"SnSworker","url":"https://tabtin.ai"}]},
+                {"type":"web_search_tool_result","tool_use_id":"srv-1","content":[{"type":"web_search_result","title":"SnSworker","url":"https://worker.sns.app"}]},
                 {"type":"tabtin_rich_content","kind":"search_results","summary":"legacy artifact"}
               ]
             }
@@ -452,6 +452,6 @@ class ChatMessageDecodingTest {
 
         assertEquals(3, message.blocksJson?.size)
         assertEquals("server_tool_use", message.blocksJson?.get(0)?.type)
-        assertTrue(message.blocksJson?.get(1)?.content?.contains("https://tabtin.ai") == true)
+        assertTrue(message.blocksJson?.get(1)?.content?.contains("https://worker.sns.app") == true)
     }
 }

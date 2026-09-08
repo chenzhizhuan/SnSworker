@@ -81,7 +81,7 @@ def _summarize(samples: list[float]) -> MetricSummary:
 def _build_markdown(size_kb: int, seed: int) -> str:
     target_bytes = max(1, size_kb) * 1024
     header = f"# TabDoc Benchmark {seed}\n\n"
-    line = f"- 行 {seed}: 这是一段用于性能压测的正文，包含 **加粗**、`code`、链接 https://tabtin.ai\n"
+    line = f"- 行 {seed}: 这是一段用于性能压测的正文，包含 **加粗**、`code`、链接 https://worker.sns.app\n"
     body_parts: list[str] = [header]
     while len("".join(body_parts).encode("utf-8")) < target_bytes:
         body_parts.append(line)

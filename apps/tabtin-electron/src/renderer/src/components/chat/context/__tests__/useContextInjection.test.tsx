@@ -18,11 +18,11 @@ describe('useContextInjection', () => {
     act(() => {
       emitContextInject({
         type: 'web_selection',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '这里是一段网页引用',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           pageTitle: 'SnSworker 文档',
         },
       })
@@ -31,10 +31,10 @@ describe('useContextInjection', () => {
     expect(result.current.contextRefs).toHaveLength(1)
     expect(result.current.contextRefs[0]).toMatchObject({
       type: 'web_selection',
-      resourceId: 'https://tabtin.ai/docs',
+      resourceId: 'https://worker.sns.app/docs',
       label: 'SnSworker 文档',
       meta: expect.objectContaining({
-        url: 'https://tabtin.ai/docs',
+        url: 'https://worker.sns.app/docs',
         pageTitle: 'SnSworker 文档',
         preview: '这里是一段网页引用',
       }),
@@ -43,7 +43,7 @@ describe('useContextInjection', () => {
       {
         type: 'web_selection',
         preview: '这里是一段网页引用',
-        url: 'https://tabtin.ai/docs',
+        url: 'https://worker.sns.app/docs',
         page_title: 'SnSworker 文档',
       },
     ])
@@ -55,12 +55,12 @@ describe('useContextInjection', () => {
     act(() => {
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '选中的网页文字',
         tabType: 'tabweb',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           pageTitle: 'SnSworker 文档',
           selection: { kind: 'text', text: '选中的网页文字' },
           rect: { x: 10, y: 20, width: 100, height: 32 },
@@ -76,7 +76,7 @@ describe('useContextInjection', () => {
         type: 'web_annotation',
         preview: '选中的网页文字',
         tab_type: 'tabweb',
-        url: 'https://tabtin.ai/docs',
+        url: 'https://worker.sns.app/docs',
         page_title: 'SnSworker 文档',
         selection: { kind: 'text', text: '选中的网页文字' },
         rect: { x: 10, y: 20, width: 100, height: 32 },
@@ -93,12 +93,12 @@ describe('useContextInjection', () => {
     act(() => {
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '第一次',
         tabType: 'tabweb',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           pageTitle: 'SnSworker 文档',
           annotationId: 'ann-old',
           selection: { kind: 'element', text: '按钮' },
@@ -108,12 +108,12 @@ describe('useContextInjection', () => {
       })
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '第二次',
         tabType: 'tabweb',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           pageTitle: 'SnSworker 文档',
           annotationId: 'ann-new',
           selection: { kind: 'element', text: '按钮' },
@@ -139,22 +139,22 @@ describe('useContextInjection', () => {
     act(() => {
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '按钮',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           selection: { kind: 'element', text: '按钮' },
           dom: { tag: 'button', selector: 'button:nth-of-type(1)' },
         },
       })
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '输入框',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           selection: { kind: 'element', text: '输入框' },
           dom: { tag: 'input', selector: 'input:nth-of-type(1)' },
         },
@@ -170,11 +170,11 @@ describe('useContextInjection', () => {
     act(() => {
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '重复文字',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           selection: { kind: 'text', text: '重复文字' },
           rect: { x: 10, y: 20, width: 80, height: 20 },
           dom: { tag: 'p', selector: 'p:nth-of-type(1)' },
@@ -182,11 +182,11 @@ describe('useContextInjection', () => {
       })
       emitContextInject({
         type: 'web_annotation',
-        resourceId: 'https://tabtin.ai/docs',
+        resourceId: 'https://worker.sns.app/docs',
         label: 'SnSworker 文档',
         preview: '重复文字',
         meta: {
-          url: 'https://tabtin.ai/docs',
+          url: 'https://worker.sns.app/docs',
           selection: { kind: 'text', text: '重复文字' },
           rect: { x: 10, y: 80, width: 80, height: 20 },
           dom: { tag: 'p', selector: 'p:nth-of-type(1)' },

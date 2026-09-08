@@ -226,7 +226,7 @@ final class MessageHistoryTests: XCTestCase {
         {"messages":[
           {"id":"tool-1","role":"assistant","content":"[工具调用]","content_blocks_json":[
             {"type":"server_tool_use","id":"srv-9","name":"web_search","input":{"query":"SnSworker"}},
-            {"type":"web_search_tool_result","tool_use_id":"srv-9","content":[{"type":"web_search_result","title":"SnSworker","url":"https://tabtin.ai"}]}
+            {"type":"web_search_tool_result","tool_use_id":"srv-9","content":[{"type":"web_search_result","title":"SnSworker","url":"https://worker.sns.app"}]}
           ]},
           {"id":"artifact-1","role":"assistant","content":"","message_kind":"tool_artifact","content_blocks_json":[
             {"type":"tabtin_rich_content","kind":"search_results","summary":"web_search: SnSworker (12)","payload":{"query":"SnSworker"}}
@@ -249,7 +249,7 @@ final class MessageHistoryTests: XCTestCase {
               "summary":"知识库检索: 报销流程 (3)",
               "payload":{
                 "query":"报销流程",
-                "search_results":[{"title":"报销制度","url":"https://tabtin.ai/doc/1"}]
+                "search_results":[{"title":"报销制度","url":"https://worker.sns.app/doc/1"}]
               }
             }
           ]}
@@ -320,7 +320,7 @@ final class MessageHistoryTests: XCTestCase {
         {"messages":[
           {"id":"search-1","role":"assistant","content":"[工具调用]","content_blocks_json":[
             {"type":"server_tool_use","id":"srv-1","name":"web_search","input":{"query":"SnSworker"}},
-            {"type":"web_search_tool_result","tool_use_id":"srv-1","content":[{"type":"web_search_result","title":"SnSworker","url":"https://tabtin.ai"}]},
+            {"type":"web_search_tool_result","tool_use_id":"srv-1","content":[{"type":"web_search_result","title":"SnSworker","url":"https://worker.sns.app"}]},
             {"type":"tabtin_rich_content","kind":"search_results","summary":"旧搜索 artifact"}
           ]}
         ]}
@@ -330,7 +330,7 @@ final class MessageHistoryTests: XCTestCase {
         XCTAssertEqual(message.toolCalls.count, 1)
         XCTAssertEqual(message.toolCalls[0].name, "web_search")
         XCTAssertTrue(message.toolCalls[0].inputJson.contains("SnSworker"))
-        XCTAssertTrue(message.toolCalls[0].resultText?.contains("https://tabtin.ai") == true)
+        XCTAssertTrue(message.toolCalls[0].resultText?.contains("https://worker.sns.app") == true)
         XCTAssertFalse(message.blocks.contains { if case .richContent = $0 { return true }; return false })
     }
 

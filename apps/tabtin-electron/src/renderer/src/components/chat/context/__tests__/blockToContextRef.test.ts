@@ -279,9 +279,9 @@ describe('blockToContextRef — 6 种 tab 资源类型还原', () => {
     const ref = blockToContextRef({
       type: 'webpage',
       preview: 'SnSworker 官网',
-      url: 'https://tabtin.ai',
+      url: 'https://worker.sns.app',
       page_title: 'SnSworker',
-      favicon: 'https://tabtin.ai/favicon.ico',
+      favicon: 'https://worker.sns.app/favicon.ico',
       space_id: 'space-1',
       space_name: 'Space 1',
       tab_type: 'tabweb',
@@ -289,14 +289,14 @@ describe('blockToContextRef — 6 种 tab 资源类型还原', () => {
     expect(ref).not.toBeNull()
     expect(ref).toMatchObject({
       type: 'webpage',
-      resourceId: 'https://tabtin.ai',
+      resourceId: 'https://worker.sns.app',
       label: 'SnSworker 官网',
       tabType: 'tabweb',
       spaceId: 'space-1',
       spaceName: 'Space 1',
       meta: {
         pageTitle: 'SnSworker',
-        favicon: 'https://tabtin.ai/favicon.ico',
+        favicon: 'https://worker.sns.app/favicon.ico',
       },
     })
   })
@@ -605,11 +605,11 @@ describe('blockToContextRef ↔ contextRefsToBlocks 双向同构', () => {
     {
       name: 'webpage',
       build: () =>
-        createContextRef('webpage', 'https://tabtin.ai', 'SnSworker', {
+        createContextRef('webpage', 'https://worker.sns.app', 'SnSworker', {
           spaceId: 'sp1',
           spaceName: 'SP1',
           tabType: 'tabweb',
-          meta: { pageTitle: 'SnSworker', favicon: 'https://tabtin.ai/favicon.ico' },
+          meta: { pageTitle: 'SnSworker', favicon: 'https://worker.sns.app/favicon.ico' },
         }),
     },
     {

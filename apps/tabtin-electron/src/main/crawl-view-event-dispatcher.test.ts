@@ -28,7 +28,7 @@ describe('crawl-view-event-dispatcher', () => {
     dispatchCrawlViewEvent({
       type: 'page:loaded',
       data: {
-        url: 'https://tabtin.ai',
+        url: 'https://worker.sns.app',
         title: 'SnSworker',
       },
       fallbackViewId: 'view-1',
@@ -47,12 +47,12 @@ describe('crawl-view-event-dispatcher', () => {
       type: 'page:loaded',
       timestamp: 123,
       data: {
-        url: 'https://tabtin.ai',
+        url: 'https://worker.sns.app',
         title: 'SnSworker',
         viewId: 'view-1',
       },
       context: {
-        url: 'https://tabtin.ai',
+        url: 'https://worker.sns.app',
         title: 'SnSworker',
         error: undefined,
       },
@@ -62,7 +62,7 @@ describe('crawl-view-event-dispatcher', () => {
       timestamp: 123,
       runId: 'run-1',
       data: {
-        url: 'https://tabtin.ai',
+        url: 'https://worker.sns.app',
         title: 'SnSworker',
         viewId: 'view-1',
       },
@@ -72,7 +72,7 @@ describe('crawl-view-event-dispatcher', () => {
       timestamp: 123,
       runId: 'run-1',
       data: {
-        url: 'https://tabtin.ai',
+        url: 'https://worker.sns.app',
         title: 'SnSworker',
         viewId: 'view-1',
       },
@@ -82,7 +82,7 @@ describe('crawl-view-event-dispatcher', () => {
       timestamp: 123,
       runId: 'run-1',
       data: {
-        url: 'https://tabtin.ai',
+        url: 'https://worker.sns.app',
         title: 'SnSworker',
         viewId: 'view-1',
       },

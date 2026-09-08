@@ -140,14 +140,14 @@ public fun AboutScreen(onBack: () -> Unit) {
                     AboutExternalLinkRow(
                         icon = Icons.Default.Security,
                         title = stringResource(R.string.about_privacy_policy),
-                        url = "https://assets.example.com/tabtin-agreement/SnSworker%E6%A1%8C%E9%9D%A2%E7%AB%AF%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96-V1.0%E4%B8%AD%E8%8B%B1%E5%8F%8C%E8%AF%AD%E7%89%88.pdf",
+                        url = "https://assets.example.com/snsworker-agreement/SnSworker%E6%A1%8C%E9%9D%A2%E7%AB%AF%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96-V1.0%E4%B8%AD%E8%8B%B1%E5%8F%8C%E8%AF%AD%E7%89%88.pdf",
                         onOpen = { openAboutLink(context, it) },
                     )
                     SettingsHomeDivider()
                     AboutExternalLinkRow(
                         icon = Icons.Default.Description,
                         title = stringResource(R.string.about_terms_of_service),
-                        url = "https://assets.example.com/tabtin-agreement/SnSworker%E6%A1%8C%E9%9D%A2%E7%AB%AF%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE-V1.0%E4%B8%AD%E8%8B%B1%E5%8F%8C%E8%AF%AD%E7%89%88.pdf",
+                        url = "https://assets.example.com/snsworker-agreement/SnSworker%E6%A1%8C%E9%9D%A2%E7%AB%AF%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE-V1.0%E4%B8%AD%E8%8B%B1%E5%8F%8C%E8%AF%AD%E7%89%88.pdf",
                         onOpen = { openAboutLink(context, it) },
                     )
                 }

@@ -651,7 +651,7 @@ describe('ask_form (W4 R3: 多字段表单)', () => {
           placeholder: 'example.com',
         },
       ],
-    }, makeCtx(events, { field_values: { domain: 'tabtin.ai' } }))
+    }, makeCtx(events, { field_values: { domain: 'worker.sns.app' } }))
 
     expect(result.isError).toBeUndefined()
     const event = events[0] as { payload: { fields: Array<Record<string, unknown>> } }
