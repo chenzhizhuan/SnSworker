@@ -304,10 +304,10 @@
   "insertEmoji": "Emoji",
   "emojiMostUsed": "Recently used",
   "emojiDefault": "Default emoji",
-  "emojiTabtin": "TabTin",
+  "emojiTabtin": "SnSworker",
   "openStickerPreview": "Open sticker preview",
   "stickers": {
-    "neutral": "TabTin bot",
+    "neutral": "SnSworker bot",
     "happy": "Happy",
     "sad": "Sad",
     "surprise": "Surprise",

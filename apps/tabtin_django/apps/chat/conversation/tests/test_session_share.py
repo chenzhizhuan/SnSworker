@@ -315,7 +315,7 @@ class SessionShareTestCase(TestCase):
             "user",
             [{
                 "type": "text",
-                "text": "帮我看下 /Users/developer/dev/TabTin/apps/tabtin_django/settings.py 的配置",
+                "text": "帮我看下 /Users/developer/dev/SnSworker/apps/tabtin_django/settings.py 的配置",
             }],
             minute=0,
             sender_user_id=str(self.owner.id),

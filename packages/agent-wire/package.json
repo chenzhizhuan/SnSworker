@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/agent-wire",
   "version": "0.1.0",
-  "description": "Shared wire protocol definitions for TabTin external Agent communication",
+  "description": "Shared wire protocol definitions for SnSworker external Agent communication",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -28,7 +28,7 @@
     "wire",
     "protocol"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "dependencies": {
     "@tabtin/contracts": "workspace:*",

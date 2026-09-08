@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // link 命令组：关联字段的结构创建 + 边上的挂/解绑 + 候选查询。

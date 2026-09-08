@@ -98,7 +98,7 @@ describe("fetchJSON timeout (P0-2)", () => {
 
     const callArgs = (globalThis.fetch as any).mock.calls[0];
     expect(callArgs[1].headers).toMatchObject({
-      "X-TabTin-Parent-Document-Id": "doc-parent",
+      "X-SnSworker-Parent-Document-Id": "doc-parent",
     });
   });
 
@@ -194,7 +194,7 @@ describe("verifyCollabAccess timeout (P0-2)", () => {
     const callArgs = (globalThis.fetch as any).mock.calls[0];
     expect(callArgs[1].headers).toMatchObject({
       Authorization: "Bearer jwt-token",
-      "X-TabTin-Parent-Document-Id": "doc-parent",
+      "X-SnSworker-Parent-Document-Id": "doc-parent",
     });
   });
 
@@ -220,7 +220,7 @@ describe("verifyCollabAccess timeout (P0-2)", () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 403,
-      headers: new Headers({ "X-TabTin-Embedded-Access-Unavailable": "1" }),
+      headers: new Headers({ "X-SnSworker-Embedded-Access-Unavailable": "1" }),
       text: () => Promise.resolve(JSON.stringify({
         status: "error",
         code: "PERMISSION_DENIED",

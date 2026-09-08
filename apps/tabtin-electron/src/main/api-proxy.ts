@@ -767,7 +767,7 @@ function makeRequest(options: {
     }, absoluteTimeout)
 
       const requestHeaders: Record<string, string> = {
-        'User-Agent': 'TabTin-Crawl/1.0.0',
+        'User-Agent': 'SnSworker-Crawl/1.0.0',
         Accept: 'application/json',
         ...headers
       }

@@ -148,7 +148,7 @@ export const TERMINAL_TOOL_CARDS: Record<string, ToolCardDescriptor> = {
 }
 
 /**
- * Historical transcript display only. These names are not current TabTin tool
+ * Historical transcript display only. These names are not current SnSworker tool
  * registry keys; keep them only so imported / old external-agent messages render.
  */
 export const HISTORICAL_TERMINAL_TOOL_CARDS: Record<string, ToolCardDescriptor> = {

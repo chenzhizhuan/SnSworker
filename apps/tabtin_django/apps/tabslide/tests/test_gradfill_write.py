@@ -402,8 +402,8 @@ class AIGCMetadataInjectionTests(TestCase):
                 ct_xml = zf.read("[Content_Types].xml")
                 rels_xml = zf.read("_rels/.rels")
 
-            # custom.xml 含 TabTin property + JSON 载荷
-            self.assertIn(b"TabTin", custom_xml)
+            # custom.xml 含 SnSworker property + JSON 载荷
+            self.assertIn(b"SnSworker", custom_xml)
             self.assertIn(b"proj-uuid-001", custom_xml)
             self.assertIn(b"wt-uuid-001", custom_xml)
             self.assertIn(b"sp-uuid-001", custom_xml)
@@ -412,7 +412,7 @@ class AIGCMetadataInjectionTests(TestCase):
             ns_cp = "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"
             ns_vt = "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
             props = root.findall(f"{{{ns_cp}}}property")
-            tabtin_props = [p for p in props if p.get("name") == "TabTin"]
+            tabtin_props = [p for p in props if p.get("name") == "SnSworker"]
             self.assertEqual(len(tabtin_props), 1)
             self.assertEqual(
                 tabtin_props[0].get("fmtid"),
@@ -420,7 +420,7 @@ class AIGCMetadataInjectionTests(TestCase):
             )
             lpwstr = tabtin_props[0].find(f"{{{ns_vt}}}lpwstr")
             self.assertIsNotNone(lpwstr)
-            self.assertIn("TabTin", lpwstr.text)
+            self.assertIn("SnSworker", lpwstr.text)
             self.assertIn("proj-uuid-001", lpwstr.text)
 
             # Content_Types.xml 含 custom-properties Override
@@ -446,7 +446,7 @@ class AIGCMetadataInjectionTests(TestCase):
                 names = zf.namelist()
                 if "docProps/custom.xml" in names:
                     custom_xml = zf.read("docProps/custom.xml")
-                    self.assertNotIn(b"TabTin", custom_xml)
+                    self.assertNotIn(b"SnSworker", custom_xml)
         finally:
             try:
                 os.unlink(tmp_path)
@@ -454,7 +454,7 @@ class AIGCMetadataInjectionTests(TestCase):
                 pass
 
     def test_idempotent_update(self):
-        """同一份文件被注入 2 次：name='TabTin' 的 property 仍只有 1 个。"""
+        """同一份文件被注入 2 次：name='SnSworker' 的 property 仍只有 1 个。"""
         with tempfile.NamedTemporaryFile(suffix=".pptx", delete=False) as tmp:
             tmp_path = tmp.name
         try:
@@ -471,7 +471,7 @@ class AIGCMetadataInjectionTests(TestCase):
             root = etree.fromstring(custom_xml)
             ns_cp = "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"
             tabtin_props = [
-                p for p in root.findall(f"{{{ns_cp}}}property") if p.get("name") == "TabTin"
+                p for p in root.findall(f"{{{ns_cp}}}property") if p.get("name") == "SnSworker"
             ]
             self.assertEqual(len(tabtin_props), 1)
             # 内容应是后写入的

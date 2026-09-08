@@ -128,7 +128,7 @@ export type ImportJobState = 'running' | 'completed' | 'cancelled' | 'error'
 export interface ImportRunReport {
   /** 可见（未归档且有正文）落库会话数。 */
   visible: number
-  /** 源侧已归档、落 TabTin archived 态的会话数。 */
+  /** 源侧已归档、落 SnSworker archived 态的会话数。 */
   archived: number
   /** header_only / 无正文、仅落标题 + 一条占位说明消息的会话数。 */
   titleOnly: number

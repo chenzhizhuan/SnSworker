@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { dirsAffectedByFsChange } from '../path-ops'
 
 describe('dirsAffectedByFsChange', () => {
-  const tabTin = '/space/Support/TabTin'
-  const organizations = '/space/Support/TabTin/organizations'
+  const tabTin = '/space/Support/SnSworker'
+  const organizations = '/space/Support/SnSworker/organizations'
 
   it('parent 在 expanded 中时刷新 parent', () => {
     expect(dirsAffectedByFsChange(tabTin, [tabTin])).toContain(tabTin)
@@ -22,11 +22,11 @@ describe('dirsAffectedByFsChange', () => {
 
   it('normalizes Windows separators for watch refresh keys', () => {
     const dirs = dirsAffectedByFsChange(
-      'C:\\space\\Support\\TabTin',
-      ['C:\\space\\Support\\TabTin\\organizations'],
+      'C:\\space\\Support\\SnSworker',
+      ['C:\\space\\Support\\SnSworker\\organizations'],
     )
 
-    expect(dirs).toContain('C:/space/Support/TabTin')
-    expect(dirs).toContain('C:/space/Support/TabTin/organizations')
+    expect(dirs).toContain('C:/space/Support/SnSworker')
+    expect(dirs).toContain('C:/space/Support/SnSworker/organizations')
   })
 })

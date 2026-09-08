@@ -66,14 +66,14 @@ class CreateDefaultLocalWorkspaceIdempotentTests(TestCase):
             organization_id=self.organization.id,
             name=DEFAULT_ONBOARDING_SPACE_NAME,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Idempotent Org/默认 Workspace",
+            working_dir="/Users/me/SnSworker/Idempotent Org/默认 Workspace",
             working_dir_type="mixed",
         )
         second = self.service.create_space(
             organization_id=self.organization.id,
             name=DEFAULT_ONBOARDING_SPACE_NAME,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Idempotent Org/默认 Workspace-2",
+            working_dir="/Users/me/SnSworker/Idempotent Org/默认 Workspace-2",
             working_dir_type="mixed",
         )
 
@@ -93,14 +93,14 @@ class CreateDefaultLocalWorkspaceIdempotentTests(TestCase):
             organization_id=self.organization.id,
             name=DEFAULT_ONBOARDING_SPACE_NAME,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Idempotent Org/默认 Workspace",
+            working_dir="/Users/me/SnSworker/Idempotent Org/默认 Workspace",
             working_dir_type="mixed",
         )
         other = self.service.create_space(
             organization_id=self.organization.id,
             name="市场专家",
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Idempotent Org/市场专家",
+            working_dir="/Users/me/SnSworker/Idempotent Org/市场专家",
             working_dir_type="mixed",
         )
 

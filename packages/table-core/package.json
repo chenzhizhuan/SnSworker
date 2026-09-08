@@ -30,7 +30,7 @@
     "core",
     "runtime"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "dependencies": {
     "@tabtin/app-host-sdk": "workspace:*",

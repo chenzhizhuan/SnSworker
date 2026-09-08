@@ -25,7 +25,7 @@ internal enum class TabTinAppIconVariant {
 }
 
 /**
- * TabTin 品牌图标。始终用 [Image] 保留彩色资产，禁止 [Icon]+tint 抹成单色。
+ * SnSworker 品牌图标。始终用 [Image] 保留彩色资产，禁止 [Icon]+tint 抹成单色。
  */
 @Composable
 internal fun TabTinAppIcon(

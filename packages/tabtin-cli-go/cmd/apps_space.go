@@ -6,10 +6,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/cmd/table"
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/cmd/table"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // newCmdSpace 是 `tabtin workspace` 的过渡期兼容别名。

@@ -90,7 +90,7 @@ public object AgentStreamEvent {
 
     // W4 R3（2026-05-11）：ask 三件套并存。
     // - ASK_USER_REQUIRED：ask_user 工具（multi-choice）
-    // - ASK_FORM_REQUIRED：ask_form 工具（多字段填表，TabTin HITL 扩展）
+    // - ASK_FORM_REQUIRED：ask_form 工具（多字段填表，SnSworker HITL 扩展）
     // - REQUEST_APPROVAL_REQUIRED：request_approval 工具（已决方案审批）
     // schema 源：packages/agent-wire/src/approval.ts
     public const val ASK_USER_REQUIRED: String = "ask_user_required"

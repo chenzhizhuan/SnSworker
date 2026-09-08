@@ -15,11 +15,11 @@ const SKILL: LocalSkill = {
   source: 'platform',
   scope: 'shared',
   slug: 'tabtin-widget',
-  name: 'TabTin Widget',
+  name: 'SnSworker Widget',
   description: 'Render a widget',
   docPath: '/skills/tabtin-widget/SKILL.md',
   realpath: '/skills/tabtin-widget/SKILL.md',
-  content: '# TabTin Widget',
+  content: '# SnSworker Widget',
   rootKind: 'builtin/shared',
   indexedAt: 1,
 }

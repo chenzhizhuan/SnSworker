@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 func driveBodyString(body map[string]any, key string) string {

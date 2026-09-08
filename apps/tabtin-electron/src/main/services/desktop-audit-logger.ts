@@ -391,8 +391,8 @@ export function writeAuditLog(entry: AuditLogEntry): void {
     // 被丢弃 → OPS 仍然看不到。改用主进程 `createLogger('DesktopAudit').warn(...)`：
     //   - 开发环境：走 console.warn → 直接看到
     //   - 生产环境：走 electron-log scope file transport → 写入 main.log
-    //     （路径：macOS `~/Library/Logs/TabTin/main.log` / Linux
-    //     `~/.config/TabTin/logs/main.log` / Windows `%APPDATA%\TabTin\logs\main.log`）
+    //     （路径：macOS `~/Library/Logs/SnSworker/main.log` / Linux
+    //     `~/.config/SnSworker/logs/main.log` / Windows `%APPDATA%\SnSworker\logs\main.log`）
     // 这样 OPS 远程排障时只需 tail main.log 即可看到 audit 失败事件。
     //
     // **不用 desktopAuditLogger 自己的原因**：那个局部实例 `electronLog.create({logId:'desktop-audit'})`

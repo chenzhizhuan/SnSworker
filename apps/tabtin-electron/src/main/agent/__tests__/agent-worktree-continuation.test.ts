@@ -77,8 +77,8 @@ describe('buildAgentWorktreeContinuation', () => {
   })
 
   it.each([
-    ['/Users/me/worktrees/TabTin/wt-feat', '` wt-feat `'],
-    ['C:\\Users\\me\\AppData\\Local\\TabTin\\worktrees\\wt-feat', '` wt-feat `'],
+    ['/Users/me/worktrees/SnSworker/wt-feat', '` wt-feat `'],
+    ['C:\\Users\\me\\AppData\\Local\\SnSworker\\worktrees\\wt-feat', '` wt-feat `'],
     ['/Users/me/worktrees/root`name', '`` root`name ``'],
   ])('系统消息把代码根 %s 显示为不可点击的紧凑名称', (rootPath, label) => {
     const continuation = buildAgentWorktreeContinuation(

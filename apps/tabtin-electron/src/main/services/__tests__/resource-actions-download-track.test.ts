@@ -91,7 +91,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
 
   it('net 直下成功后登记（url 路径，无 viewId）', async () => {
     download.mockResolvedValue({
-      filePath: '/tmp/TabTin/photo.jpg',
+      filePath: '/tmp/SnSworker/photo.jpg',
       size: 2048,
       mimeType: 'image/jpeg',
     })
@@ -102,7 +102,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
     expect(trackExternalDownload).toHaveBeenCalledTimes(1)
     expect(trackExternalDownload).toHaveBeenCalledWith({
       url: 'https://example.com/photo.jpg',
-      savePath: '/tmp/TabTin/photo.jpg',
+      savePath: '/tmp/SnSworker/photo.jpg',
       size: 2048,
       mimeType: 'image/jpeg',
       viewId: undefined,
@@ -111,7 +111,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
 
   it('data: URL 无 contentRef 时走 saveCapturedContent 静默落盘', async () => {
     saveCapturedContent.mockResolvedValue({
-      filePath: '/tmp/TabTin/image.png',
+      filePath: '/tmp/SnSworker/image.png',
       size: 12,
       mimeType: 'image/png',
     })
@@ -131,7 +131,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
     )
     expect(trackExternalDownload).toHaveBeenCalledWith(
       expect.objectContaining({
-        savePath: '/tmp/TabTin/image.png',
+        savePath: '/tmp/SnSworker/image.png',
       }),
     )
   })
@@ -144,7 +144,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
       contentRef: { kind: 'data_url', data: 'data:video/mp4;base64,AAAA' },
     })
     saveCapturedContent.mockResolvedValue({
-      filePath: '/tmp/TabTin/video.mp4',
+      filePath: '/tmp/SnSworker/video.mp4',
       size: 4096,
       mimeType: 'video/mp4',
     })
@@ -157,7 +157,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
     expect(trackExternalDownload).toHaveBeenCalledWith(
       expect.objectContaining({
         url: 'https://example.com/video.mp4',
-        savePath: '/tmp/TabTin/video.mp4',
+        savePath: '/tmp/SnSworker/video.mp4',
         viewId: 'view-1',
       }),
     )
@@ -174,7 +174,7 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
 
   it('登记抛错不影响下载结果', async () => {
     download.mockResolvedValue({
-      filePath: '/tmp/TabTin/doc.pdf',
+      filePath: '/tmp/SnSworker/doc.pdf',
       size: 100,
       mimeType: 'application/pdf',
     })
@@ -185,6 +185,6 @@ describe('#4871 handleDownloadResource → trackExternalDownload 登记契约', 
     const result = await handleDownloadResource({ url: 'https://example.com/doc.pdf' })
 
     expect(result.success).toBe(true)
-    expect(result.data?.filePath).toBe('/tmp/TabTin/doc.pdf')
+    expect(result.data?.filePath).toBe('/tmp/SnSworker/doc.pdf')
   })
 })

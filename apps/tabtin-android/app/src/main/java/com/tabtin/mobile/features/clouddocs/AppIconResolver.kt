@@ -5,7 +5,7 @@ import com.tabtin.mobile.R
 import com.tabtin.mobile.data.model.SpaceResource
 
 /**
- * TabTin App 图标解析。与 iOS `AppIconResolver` 对齐。
+ * SnSworker App 图标解析。与 iOS `AppIconResolver` 对齐。
  *
  * - [resolveAppIcon]：有白底底座的完整 App icon（工作台磁贴 / 「全部应用」）
  * - [resolveContentGlyph]：无白底内容字形（列表行 / App Home 资源行 / 对话资源卡）

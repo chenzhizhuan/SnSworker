@@ -354,7 +354,7 @@ function stubRoute(res: http.ServerResponse, domain: string): void {
     'NOT_IMPLEMENTED',
     `/${domain} 命令在 Daemon 模式下尚未实现`,
     { suggestions: [
-      '请使用 TabTin 桌面客户端（Electron）执行此操作',
+      '请使用 SnSworker 桌面客户端（Electron）执行此操作',
       '或等待后续版本支持',
     ] },
   ));

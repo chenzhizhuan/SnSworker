@@ -105,7 +105,7 @@ function buildDogfoodMessagesBySessionId(): HistorySourceMessage[] {
           tool_call_id: 'list_directory:0',
           tool_name: 'list_directory',
           input: {
-            path: '/Users/developer/dev/TabTin/TabTinAgent/packages/skills/bundled/platform/device/operations',
+            path: '/Users/developer/dev/SnSworker/TabTinAgent/packages/skills/bundled/platform/device/operations',
           },
           output: '{"success":true,"path":"/.../operations","count":1,"entries":["SKILL.md"]}',
         },

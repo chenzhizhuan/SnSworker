@@ -165,13 +165,13 @@ describe('IMResourceCard', () => {
         name="Space 定位与 Agent 工作关系对齐稿"
         spaceId="host-space-1"
         organizationId="organization-1"
-        description={'关系总览\nTabTin 的 Space 与 Agent 在同一 Organization 下协作。'}
+        description={'关系总览\nSnSworker 的 Space 与 Agent 在同一 Organization 下协作。'}
       />,
     )
 
     expect(screen.getByText('Space 定位与 Agent 工作关系对齐稿')).toBeTruthy()
     expect(screen.getByText('关系总览')).toBeTruthy()
-    expect(screen.getByText('TabTin 的 Space 与 Agent 在同一 Organization 下协作。')).toBeTruthy()
+    expect(screen.getByText('SnSworker 的 Space 与 Agent 在同一 Organization 下协作。')).toBeTruthy()
     expect(screen.getByText('云文档')).toBeTruthy()
     expect(screen.getByText('你可编辑')).toBeTruthy()
   })

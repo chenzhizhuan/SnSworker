@@ -36,7 +36,7 @@ describe('parseResourcePointer · self format', () => {
   })
 
   it.each(['tabtin-preprod', 'tabtin-dev'] as const)(
-    'parses %s resource links as TabTin self format while preserving raw',
+    'parses %s resource links as SnSworker self format while preserving raw',
     (scheme) => {
       const raw = `${scheme}://resource/table/tbl_x?hint=tabdata&recordIds=rec_1`
       const p = parseResourcePointer(raw)

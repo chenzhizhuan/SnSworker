@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "tabtin-filegen"
 version = "0.1.0"
-description = "TabTin file generation CLI — produce xlsx/docx/pptx/pdf from JSON specs"
+description = "SnSworker file generation CLI — produce xlsx/docx/pptx/pdf from JSON specs"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
-authors = [{ name = "TabTin Team" }]
+authors = [{ name = "SnSworker Team" }]
 keywords = ["tabtin", "cli", "xlsx", "docx", "pptx", "pdf", "filegen"]
 classifiers = [
     "Development Status :: 3 - Alpha",

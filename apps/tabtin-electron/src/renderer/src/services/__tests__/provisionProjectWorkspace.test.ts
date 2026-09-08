@@ -56,7 +56,7 @@ describe('provisionProjectCompanionWorkspace', () => {
     registerCurrentDeviceMock.mockResolvedValue({ id: 'device-1' })
     ensureDefaultAgentDirMock.mockResolvedValue({
       success: true,
-      path: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      path: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
     })
     createWithWorkspaceMock.mockResolvedValue({
       project: { id: 'project-1', name: 'Launch' },
@@ -66,7 +66,7 @@ describe('provisionProjectCompanionWorkspace', () => {
         organization_id: 'organization-1',
         project_id: 'project-1',
         type: 'workspace',
-        working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+        working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
         execution_agent_id: null,
         control_device_id: 'device-1',
         control_device_status: 'online',
@@ -95,7 +95,7 @@ describe('provisionProjectCompanionWorkspace', () => {
       name: 'Launch',
       description: 'Ship',
       device_id: 'device-1',
-      working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
       working_dir_type: 'mixed',
     })
     expect(ensureMyWorkspaceMock).not.toHaveBeenCalled()
@@ -105,12 +105,12 @@ describe('provisionProjectCompanionWorkspace', () => {
     registerCurrentDeviceMock.mockResolvedValue({ id: 'device-1' })
     ensureDefaultAgentDirMock.mockResolvedValue({
       success: true,
-      path: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      path: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
     })
     ensureMyWorkspaceMock.mockResolvedValue({
       id: 'workspace-1',
       name: 'Launch 项目的默认工作空间',
-      working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
     })
 
     const result = await provisionProjectCompanionWorkspace({
@@ -126,7 +126,7 @@ describe('provisionProjectCompanionWorkspace', () => {
       workspace: {
         id: 'workspace-1',
         name: 'Launch 项目的默认工作空间',
-        working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+        working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
       },
     })
     expect(registerCurrentDeviceMock).toHaveBeenCalledWith('organization-1')
@@ -136,7 +136,7 @@ describe('provisionProjectCompanionWorkspace', () => {
     })
     expect(ensureMyWorkspaceMock).toHaveBeenCalledWith('project-1', {
       device_id: 'device-1',
-      working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
       working_dir_type: 'mixed',
     })
     expect(acceptInvitationMock).not.toHaveBeenCalled()
@@ -146,7 +146,7 @@ describe('provisionProjectCompanionWorkspace', () => {
     registerCurrentDeviceMock.mockResolvedValue({ id: 'device-1' })
     ensureDefaultAgentDirMock.mockResolvedValue({
       success: true,
-      path: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      path: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
     })
     acceptInvitationMock.mockResolvedValue({
       project_id: 'project-1',
@@ -155,7 +155,7 @@ describe('provisionProjectCompanionWorkspace', () => {
       workspace: {
         id: 'workspace-1',
         name: 'Launch 项目的默认工作空间',
-        working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+        working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
       },
     })
 
@@ -172,12 +172,12 @@ describe('provisionProjectCompanionWorkspace', () => {
       workspace: {
         id: 'workspace-1',
         name: 'Launch 项目的默认工作空间',
-        working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+        working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
       },
     })
     expect(acceptInvitationMock).toHaveBeenCalledWith('project-1', {
       device_id: 'device-1',
-      working_dir: 'C:\\Users\\me\\TabTin\\Team\\Launch',
+      working_dir: 'C:\\Users\\me\\SnSworker\\Team\\Launch',
       working_dir_type: 'mixed',
     })
     expect(ensureMyWorkspaceMock).not.toHaveBeenCalled()

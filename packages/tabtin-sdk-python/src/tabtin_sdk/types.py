@@ -1,4 +1,4 @@
-"""Core types for the TabTin SDK."""
+"""Core types for the SnSworker SDK."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ T = TypeVar("T")
 
 
 class TabTinError(Exception):
-    """Error returned by the TabTin API."""
+    """Error returned by the SnSworker API."""
 
     def __init__(
         self,

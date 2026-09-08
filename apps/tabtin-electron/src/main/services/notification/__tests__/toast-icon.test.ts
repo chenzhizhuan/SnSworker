@@ -21,8 +21,8 @@ describe('isWinRtReadableFsPath', () => {
 
 describe('resolveWinRtToastIconFileUrl', () => {
   it('prefers extraResources physical path over asar when both exist', () => {
-    const resourcesPath = 'C:/TabTin Preprod/resources'
-    const appPath = 'C:/TabTin Preprod/resources/app.asar'
+    const resourcesPath = 'C:/SnSworker Preprod/resources'
+    const appPath = 'C:/SnSworker Preprod/resources/app.asar'
 
     const url = resolveWinRtToastIconFileUrl({
       resourcesPath,
@@ -62,11 +62,11 @@ describe('resolveWinRtToastIconFileUrl', () => {
   it('uses real appPath in unpackaged/dev layout', () => {
     const url = resolveWinRtToastIconFileUrl({
       resourcesPath: '',
-      appPath: 'C:/tabtin/TabTin/apps/tabtin-electron',
+      appPath: 'C:/tabtin/SnSworker/apps/tabtin-electron',
       existsSync: (p) =>
-        p.replace(/\\/g, '/') === 'C:/tabtin/TabTin/apps/tabtin-electron/static/icon.png',
+        p.replace(/\\/g, '/') === 'C:/tabtin/SnSworker/apps/tabtin-electron/static/icon.png',
     })
-    expect(url).toBe('file:///C:/tabtin/TabTin/apps/tabtin-electron/static/icon.png')
+    expect(url).toBe('file:///C:/tabtin/SnSworker/apps/tabtin-electron/static/icon.png')
   })
 
   it('candidate order puts resources/static before asar appPath', () => {

@@ -6,7 +6,7 @@
  *
  * ## 背景
  *
- * TabTin 的多 Space 协作模型要求 hot Space "切走但仍挂载"——切回零延迟、零闪烁。
+ * SnSworker 的多 Space 协作模型要求 hot Space "切走但仍挂载"——切回零延迟、零闪烁。
  * 但「挂载着」不等于「应该跑所有 effect」：
  *
  *   - 后台 Space 的 UI 渲染相关 effect（ResizeObserver 测量、scroll 跟随、
@@ -227,7 +227,7 @@ const rule = {
     docs: {
       description:
         '在 React effect 内引导走 useScoped* 包装 hook（避免 hot-Space 子树的 zombie effect）',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinprefer-scoped-activity-effects',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinprefer-scoped-activity-effects',
     },
     schema: [],
     messages: {

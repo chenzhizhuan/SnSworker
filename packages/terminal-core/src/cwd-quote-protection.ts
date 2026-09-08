@@ -4,9 +4,9 @@
  *
  * **要解决的真实问题**（dogfood 实测痛点）：
  *   macOS workspace 默认在
- *     `~/Library/Application Support/TabTin/organizations/<wt>/spaces/<sp>`
+ *     `~/Library/Application Support/SnSworker/organizations/<wt>/spaces/<sp>`
  *   含空格。LLM 不熟 shell 引号规则时常常写
- *     `pdftoppm /tmp/x.pdf /Users/foo/Application Support/TabTin/...`
+ *     `pdftoppm /tmp/x.pdf /Users/foo/Application Support/SnSworker/...`
  *   bash 把含空格的路径拆成两个 argv，导致 `pdftoppm` 报 usage / 输出
  *   到错误位置。LLM 看到的 stderr 是"`Application` not a valid argument"
  *   这种工具自身的 usage 文案，完全不知道**真实原因是路径未加引号**。

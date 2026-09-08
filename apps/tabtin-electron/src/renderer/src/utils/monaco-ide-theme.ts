@@ -1,5 +1,5 @@
 /**
- * TabTin IDE Monaco themes — muted palette.
+ * SnSworker IDE Monaco themes — muted palette.
  *
  * Light: rose keywords, violet strings, terracotta functions, teal types,
  * steel variables. Dark is the desaturated counterpart — avoid neon Dark+

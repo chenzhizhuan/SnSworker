@@ -10,7 +10,7 @@
  * defaultSession 事件桥接（`request-completed` 事件），待后续迁移到
  * 独立的轻量级事件转发服务后可完全移除。
  *
- * @author TabTin Team
+ * @author SnSworker Team
  * @date 2025-11-19
  */
 

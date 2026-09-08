@@ -127,7 +127,7 @@ export const WorktreeSection: React.FC<WorktreeSectionProps> = ({
   );
 
   // `git worktree list` 恒定把主工作树排在第一位（man git-worktree）；
-  // 第一批只标「linked worktree」，不去猜测/伪造来源（TabTin 创建 vs 外部创建）。
+  // 第一批只标「linked worktree」，不去猜测/伪造来源（SnSworker 创建 vs 外部创建）。
   const mainWorktreePath = worktrees[0]?.path;
   const isLinkedWorktree = useCallback(
     (path: string) =>

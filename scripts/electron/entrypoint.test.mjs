@@ -12,7 +12,7 @@ const rootDir = path.resolve(
 );
 
 test('frontend entry resolves native Windows and POSIX restart commands', () => {
-  const windows = resolveFrontendCommand('win32', 'C:\\TabTin');
+  const windows = resolveFrontendCommand('win32', 'C:\\SnSworker');
   assert.equal(windows.args.at(-1), 'scripts\\electron\\restart.bat');
 
   for (const platform of ['darwin', 'linux']) {

@@ -1,10 +1,10 @@
 # SnSworker 快速开始
 
-本指南合并自 Windows 与 macOS 社区安装指引，面向第一次接触 TabTin 的普通用户和开发者。
+本指南合并自 Windows 与 macOS 社区安装指引，面向第一次接触 SnSworker 的普通用户和开发者。
 
 > 目标：安装 Docker → 启动 SnSworker Server → 启动 Desktop Client → 配置自己的模型 → 开始第一次对话。
 >
-> 当前公开仓库地址：`https://github.com/tabtin-ai/TabTin`。文中的示例地址和 API Key 均为公开占位值，请替换为自己的配置。
+> 当前公开仓库地址：`https://github.com/tabtin-ai/SnSworker`。文中的示例地址和 API Key 均为公开占位值，请替换为自己的配置。
 
 ## 一、最短版本
 
@@ -14,7 +14,7 @@
 2. 下载并解压 SnSworker。
 3. 双击 `start.bat`。
 4. 等待显示 `SnSworker READY`。
-5. 启动 TabTin Desktop Client。
+5. 启动 SnSworker Desktop Client。
 6. 注册或登录。
 7. 进入“设置 → 模型配置 → BYOK”。
 8. 添加自己的模型并开始聊天。
@@ -27,7 +27,7 @@
 2. 下载并解压 SnSworker。
 3. 双击 `start.command`。
 4. 等待显示 `SnSworker READY`。
-5. 启动 TabTin Desktop Client。
+5. 启动 SnSworker Desktop Client。
 6. 注册或登录。
 7. 进入“设置 → 模型配置 → BYOK”。
 8. 添加自己的模型并开始聊天。
@@ -36,7 +36,7 @@
 
 ## 二、安装 Docker Desktop
 
-SnSworker Server 运行在 Docker 中。用户不需要单独安装 PostgreSQL、Redis、Python、Celery 或 Centrifugo，这些服务由 TabTin 的 Community 环境启动。
+SnSworker Server 运行在 Docker 中。用户不需要单独安装 PostgreSQL、Redis、Python、Celery 或 Centrifugo，这些服务由 SnSworker 的 Community 环境启动。
 
 下载：[Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
@@ -67,8 +67,8 @@ docker compose version
 普通用户可以打开仓库页面，选择 **Code → Download ZIP**，下载后解压。开发者可以使用：
 
 ```bash
-git clone https://github.com/tabtin-ai/TabTin.git
-cd TabTin
+git clone https://github.com/tabtin-ai/SnSworker.git
+cd SnSworker
 ```
 
 进入根目录后，应能看到 `README.md`、`compose.yaml`、启动/停止/状态脚本和 `apps/` 目录。普通用户只需要关心当前系统对应的启动、停止和状态脚本：
@@ -132,7 +132,7 @@ http://127.0.0.1:6060
 Realtime:
 ws://127.0.0.1:8100
 Next:
-1. Start TabTin Desktop Client
+1. Start SnSworker Desktop Client
 2. Register or Login
 3. Settings → Model Configuration → BYOK
 4. Start chatting
@@ -173,7 +173,7 @@ Centrifugo: ws://127.0.0.1:8100/connection/websocket
 
 普通用户不需要手动配置这些地址。
 
-## 七、启动 TabTin Desktop Client
+## 七、启动 SnSworker Desktop Client
 
 Server 显示 READY 后，启动桌面客户端：
 
@@ -228,7 +228,7 @@ Model:    <your-model-name>
 进入 Chat / Agent，输入“你好”。正常链路是：
 
 ```text
-TabTin Desktop
+SnSworker Desktop
     ↓
 SnSworker Server
     ↓
@@ -252,7 +252,7 @@ Assistant Response
 1. 启动 Docker Desktop。
 2. 等待 Docker Engine Running。
 3. Windows 双击 `start.bat`，macOS 双击 `start.command`。
-4. 启动 TabTin Desktop Client。
+4. 启动 SnSworker Desktop Client。
 
 默认数据会继续保留。
 
@@ -264,7 +264,7 @@ Assistant Response
 
 ## 十一、不要使用这些危险命令
 
-如果只是正常停止 TabTin，不要执行：
+如果只是正常停止 SnSworker，不要执行：
 
 ```bash
 docker compose down -v
@@ -284,7 +284,7 @@ docker system prune --volumes
 docker info
 ```
 
-如果仍然失败，重新启动 Docker Desktop 后再启动 TabTin。
+如果仍然失败，重新启动 Docker Desktop 后再启动 SnSworker。
 
 ### 第一次启动很慢
 
@@ -297,7 +297,7 @@ netstat -ano | findstr :6060
 netstat -ano | findstr :8100
 ```
 
-停止占用端口的其他程序后再启动 TabTin。
+停止占用端口的其他程序后再启动 SnSworker。
 
 ### macOS 端口 6060 或 8100 被占用
 
@@ -306,7 +306,7 @@ lsof -i :6060
 lsof -i :8100
 ```
 
-停止占用端口的其他程序后再启动 TabTin。
+停止占用端口的其他程序后再启动 SnSworker。
 
 ### Server READY，但不能聊天
 
@@ -325,7 +325,7 @@ lsof -i :8100
     ↓
 Docker Engine Running
     ↓
-下载并解压 TabTin
+下载并解压 SnSworker
     ↓
 启动 start.bat / start.command
     ↓
@@ -349,5 +349,5 @@ Assistant 正常返回
 给普通用户的最终记忆方式：
 
 ```text
-Docker Desktop → start.bat / start.command → TabTin Desktop → BYOK → Chat
+Docker Desktop → start.bat / start.command → SnSworker Desktop → BYOK → Chat
 ```

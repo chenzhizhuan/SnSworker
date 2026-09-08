@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/TabTin/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/config"
 )
 
 type DjangoTransport struct {

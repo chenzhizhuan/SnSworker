@@ -51,7 +51,7 @@ export function resolveOpenedExternalArchiveTarget(
   return null
 }
 
-/** 仅在本机已灌入消息、且能确认没有 TabTin 续聊时删除导入。消息未加载则不当未续聊。 */
+/** 仅在本机已灌入消息、且能确认没有 SnSworker 续聊时删除导入。消息未加载则不当未续聊。 */
 export function shouldDeleteOpenedExternalArchiveSession(
   sessionId: string,
   isExternalOpened: boolean,

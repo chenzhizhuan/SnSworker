@@ -73,7 +73,7 @@ describe('downloadPreviewResource remote http', () => {
   it('uses main-process downloadResource for https and does not call fetch', async () => {
     const downloadResource = vi.fn().mockResolvedValue({
       success: true,
-      data: { filePath: '/tmp/Downloads/TabTin/widget.png' },
+      data: { filePath: '/tmp/Downloads/SnSworker/widget.png' },
     })
     Object.defineProperty(window, 'tabtin', {
       configurable: true,
@@ -128,7 +128,7 @@ describe('downloadPreviewResource remote http', () => {
       .mockResolvedValueOnce({ success: false, error: 'HTTP 403' })
       .mockResolvedValueOnce({
         success: true,
-        data: { filePath: '/tmp/Downloads/TabTin/widget.png' },
+        data: { filePath: '/tmp/Downloads/SnSworker/widget.png' },
       })
     resolveOssFileAccessUrl.mockResolvedValue('https://oss.example.com/fresh.png')
     Object.defineProperty(window, 'tabtin', {
@@ -164,7 +164,7 @@ describe('downloadPreviewResource remote http', () => {
 
     const downloadResource = vi.fn().mockResolvedValue({
       success: true,
-      data: { filePath: '/tmp/Downloads/TabTin/diagram.svg' },
+      data: { filePath: '/tmp/Downloads/SnSworker/diagram.svg' },
     })
     Object.defineProperty(window, 'tabtin', {
       configurable: true,
@@ -199,7 +199,7 @@ describe('downloadPreviewResource remote http', () => {
 
     const downloadResource = vi.fn().mockResolvedValue({
       success: true,
-      data: { filePath: '/tmp/Downloads/TabTin/image.png' },
+      data: { filePath: '/tmp/Downloads/SnSworker/image.png' },
     })
     Object.defineProperty(window, 'tabtin', {
       configurable: true,

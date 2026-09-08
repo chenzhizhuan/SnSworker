@@ -1,6 +1,6 @@
 # Electron 开源开发指南
 
-本文只覆盖 TabTin 桌面客户端。默认路径面向全球开发者，同时提供显式的中国大陆下载配置，而且不会修改开发者的全局 npm 配置。
+本文只覆盖 SnSworker 桌面客户端。默认路径面向全球开发者，同时提供显式的中国大陆下载配置，而且不会修改开发者的全局 npm 配置。
 
 ## 社区开发快速开始
 
@@ -125,7 +125,7 @@ macOS 的 `local` 构建统一使用 ad-hoc 签名，不读取 Keychain 中的 D
 - 必须提供 API、Collab WebSocket、Centrifugo WebSocket、公开 Web 四个公开端点。自建 TabChat 使用同一 API Origin 下的 Django `/api/im`，腾讯控制面会被关闭。它们共同构成社区包的完整信任边界，并在构建时写入安装包。
 - 未设置 `TABTIN_COMMUNITY_UPDATE_FEED_URL` 时，自动更新默认关闭。
 - 配置更新源时必须使用 HTTPS，地址会写入打包元数据；运行时环境变量不能替换或扩大信任范围。
-- 社区构建默认跳过 TabTin 官方 sourcemap 上传和公证服务。
+- 社区构建默认跳过 SnSworker 官方 sourcemap 上传和公证服务。
 
 Linux/macOS shell 示例（不启用自动更新）：
 
@@ -177,4 +177,4 @@ pnpm --dir apps/tabtin-electron audit:opensource
 
 ## 不会启动的内容（What This Does Not Start）
 
-一键入口会按需调用项目已有的后端启动脚本，但不会实现或改造后端启动逻辑。它不会启动 TabTin Daemon、AdminDash、iOS 或 Android，也不会创建公开仓库、改写 Git 历史、决定项目级许可证或治理根 `.env`。这些属于 Electron 工作流以外、由其他负责人处理的项目级开源事项。
+一键入口会按需调用项目已有的后端启动脚本，但不会实现或改造后端启动逻辑。它不会启动 SnSworker Daemon、AdminDash、iOS 或 Android，也不会创建公开仓库、改写 Git 历史、决定项目级许可证或治理根 `.env`。这些属于 Electron 工作流以外、由其他负责人处理的项目级开源事项。

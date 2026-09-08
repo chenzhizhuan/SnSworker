@@ -3,7 +3,7 @@ package table
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // sub-record 命令组：同一张表内的树形结构（父/子记录，自引用 link）。

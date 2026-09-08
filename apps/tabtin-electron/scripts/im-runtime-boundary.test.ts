@@ -36,6 +36,6 @@ describe('Django IM process boundary', () => {
     )
     expect(settings).not.toContain('IM_INTERNAL_SERVICE_TOKEN')
     expect(notificationApi).not.toContain('/internal/im-message')
-    expect(notificationApi).not.toContain('X-TabTin-IM-Service-Token')
+    expect(notificationApi).not.toContain('X-SnSworker-IM-Service-Token')
   })
 })

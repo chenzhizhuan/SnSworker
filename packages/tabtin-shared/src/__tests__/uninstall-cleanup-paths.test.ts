@@ -31,10 +31,10 @@ describe('uninstall-cleanup-paths', () => {
       appDataRoot: appData,
       localCacheRoot: localCache,
     })
-    expect(paths).toContain(path.join(appData, 'TabTin', 'credentials.json'))
-    expect(paths).toContain(path.join(appData, 'TabTin', 'device-credential.json'))
-    expect(paths).toContain(path.join(appData, 'TabTin', 'app-config.json'))
-    expect(paths).toContain(path.join(appData, 'TabTin', 'Partitions'))
+    expect(paths).toContain(path.join(appData, 'SnSworker', 'credentials.json'))
+    expect(paths).toContain(path.join(appData, 'SnSworker', 'device-credential.json'))
+    expect(paths).toContain(path.join(appData, 'SnSworker', 'app-config.json'))
+    expect(paths).toContain(path.join(appData, 'SnSworker', 'Partitions'))
     expect(paths).toContain(path.join(home, '.tabtin', 'desktop-approval.json'))
     expect(paths).toContain(path.join(home, '.tabtin-daemon'))
     expect(paths).toContain(path.join(localCache, 'com.tabtin.app-updater'))
@@ -43,16 +43,16 @@ describe('uninstall-cleanup-paths', () => {
       expect(p.includes(`${path.sep}organizations`)).toBe(false)
       expect(TABTIN_PROTECTED_DIR_NAMES.every((name) => !p.endsWith(path.sep + name))).toBe(true)
     }
-    expect(paths).not.toContain(path.join(appData, 'TabTin'))
+    expect(paths).not.toContain(path.join(appData, 'SnSworker'))
   })
 
   it('isProtectedWorkspacePath guards organizations trees', () => {
-    const ws = path.join(appData, 'TabTin', 'organizations', 'org1', 'spaces', 'sp1')
+    const ws = path.join(appData, 'SnSworker', 'organizations', 'org1', 'spaces', 'sp1')
     expect(
       isProtectedWorkspacePath(ws, { homeDir: home, appDataRoot: appData }),
     ).toBe(true)
     expect(
-      isProtectedWorkspacePath(path.join(appData, 'TabTin', 'credentials.json'), {
+      isProtectedWorkspacePath(path.join(appData, 'SnSworker', 'credentials.json'), {
         homeDir: home,
         appDataRoot: appData,
       }),
@@ -66,7 +66,7 @@ describe('uninstall-cleanup-paths', () => {
 
   it('mac app bundles are under /Applications', () => {
     expect(resolveMacAppBundlePaths()).toContain(
-      path.join('/Applications', 'TabTin.app'),
+      path.join('/Applications', 'SnSworker.app'),
     )
   })
 

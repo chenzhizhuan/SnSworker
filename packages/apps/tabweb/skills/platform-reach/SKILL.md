@@ -73,7 +73,7 @@ metadata:
 
 ## 前置
 
-- 需 TabTin **Electron 桌面客户端**运行；Daemon 无头模式暂不可用。
+- 需 SnSworker **Electron 桌面客户端**运行；Daemon 无头模式暂不可用。
 - 命令都走 `run_terminal_command` 调 `tabtin reach ...`。
 
 ---

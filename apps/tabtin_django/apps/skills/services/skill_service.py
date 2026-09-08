@@ -2650,7 +2650,7 @@ metadata:
 
         try:
             req = urllib.request.Request(
-                normalized_url, headers={"User-Agent": "TabTin-SkillImport/1.0"},
+                normalized_url, headers={"User-Agent": "SnSworker-SkillImport/1.0"},
             )
             with urllib.request.urlopen(req, timeout=30) as resp:
                 data = resp.read(10 * 1024 * 1024)

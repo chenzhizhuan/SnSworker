@@ -213,7 +213,7 @@ async function requestIM<T>(
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
-          'X-TabTin-IM-Protocol': '2',
+          'X-SnSworker-IM-Protocol': '2',
         },
         ...(serializedBody !== undefined ? { body: serializedBody } : {}),
       })
@@ -1677,7 +1677,7 @@ export interface CreateSessionShareParams {
   granteeUserId: string
   canFork?: boolean
   canChat?: boolean
-  /** 当前 TabTin 会话提示；服务端会校验双方成员，不信任前端归属。 */
+  /** 当前 SnSworker 会话提示；服务端会校验双方成员，不信任前端归属。 */
   conversationId?: string
   /** 调用方持有的幂等键；同一次请求重试必须复用。 */
   clientRequestId?: string

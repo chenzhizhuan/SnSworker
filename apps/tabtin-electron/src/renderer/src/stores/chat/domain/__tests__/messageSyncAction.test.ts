@@ -327,7 +327,7 @@ describe('mergeMessagesFromServer', () => {
 
   it('temp-user 合并时保留比 text_summary 更长的本地正文（防 200 字截断）', () => {
     const now = new Date()
-    const fullPrompt = '帮我做一份 TabTin 产品介绍包。' + 'x'.repeat(400)
+    const fullPrompt = '帮我做一份 SnSworker 产品介绍包。' + 'x'.repeat(400)
     const truncatedSummary = fullPrompt.slice(0, 200)
     const tempMsg = msg({
       id: 'temp-user-long',

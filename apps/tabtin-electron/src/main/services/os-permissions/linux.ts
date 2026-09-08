@@ -1,7 +1,7 @@
 /**
  * Linux 系统权限实现（fallback）
  *
- * Linux 桌面权限模型分散（X11 / Wayland / PulseAudio），TabTin 当前没在 Linux
+ * Linux 桌面权限模型分散（X11 / Wayland / PulseAudio），SnSworker 当前没在 Linux
  * 上深度集成系统权限管理。统一返回 not-applicable，UI 也会相应隐藏入口。
  */
 

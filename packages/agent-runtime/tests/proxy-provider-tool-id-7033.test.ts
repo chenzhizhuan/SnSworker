@@ -1,5 +1,5 @@
 /**
- *  — 入站 SSE tool id 映射为 TabTin 权威 `tu_*`（默认 vitest 套件必跑）。
+ *  — 入站 SSE tool id 映射为 SnSworker 权威 `tu_*`（默认 vitest 套件必跑）。
  *
  * 钉住：
  * - OpenAI / Anthropic 两条路径的 tool_use id 均为 `tu_*`

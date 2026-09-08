@@ -1092,7 +1092,7 @@ describe('ChatInput', () => {
       <ChatInput
         onSend={onSend}
         spaceId="space-1"
-        spaceName="TabTin"
+        spaceName="SnSworker"
         sessionId={null}
         onExecutionSpaceChange={onExecutionSpaceChange}
         enableAgentPicker
@@ -1105,17 +1105,17 @@ describe('ChatInput', () => {
       <ChatInput
         onSend={onSend}
         spaceId="space-1"
-        spaceName="TabTin"
+        spaceName="SnSworker"
         sessionId="session-1"
         onExecutionSpaceChange={onExecutionSpaceChange}
       />,
     )
 
     expect(screen.queryByTestId('space-switcher-popover')).toBeNull()
-    expect(screen.getByLabelText('input.executionTarget · TabTin')).toBeTruthy()
-    expect(screen.getByText('input.executionTarget · TabTin')).toBeTruthy()
+    expect(screen.getByLabelText('input.executionTarget · SnSworker')).toBeTruthy()
+    expect(screen.getByText('input.executionTarget · SnSworker')).toBeTruthy()
     expect(screen.queryByText('input.executionTarget')).toBeNull()
-    expect(screen.getByText('TabTin')).toBeTruthy()
+    expect(screen.getByText('SnSworker')).toBeTruthy()
   })
 
   it('当前上下文绝对定位在输入文字下方、底部工具栏上方', async () => {

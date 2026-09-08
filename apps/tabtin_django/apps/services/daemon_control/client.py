@@ -171,7 +171,7 @@ def verify_device_credential(
             json={"owner_user_id": str(owner_user_id).strip()},
             headers={
                 "Authorization": f"Bearer {token}",
-                "X-TabTin-Device-Credential-SHA256": credential_sha256,
+                "X-SnSworker-Device-Credential-SHA256": credential_sha256,
             },
             timeout=5,
             allow_redirects=False,

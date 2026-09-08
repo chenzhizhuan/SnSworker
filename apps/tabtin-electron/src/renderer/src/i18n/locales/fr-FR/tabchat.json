@@ -302,10 +302,10 @@
   "insertEmoji": "Émoji",
   "emojiMostUsed": "Récemment utilisé",
   "emojiDefault": "Emoji par défaut",
-  "emojiTabtin": "TabTin",
+  "emojiTabtin": "SnSworker",
   "openStickerPreview": "Ouvrir l'aperçu de l'autocollant",
   "stickers": {
-    "neutral": "Bot TabTin",
+    "neutral": "Bot SnSworker",
     "happy": "Heureux",
     "sad": "Triste",
     "surprise": "Surprise",

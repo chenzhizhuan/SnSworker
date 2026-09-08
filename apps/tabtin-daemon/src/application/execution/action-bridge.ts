@@ -234,7 +234,7 @@ export class DaemonActionBridge {
   // 升格为主路径）。daemon 端 commit 时不再返回 `changed_files`。
   //
   // 设计取舍：不维护 per-turn changedFiles 数组；
-  // SSoT 是 readFileState（mtime 漂移反推）+ fileHistoryState（备份）。TabTin
+  // SSoT 是 readFileState（mtime 漂移反推）+ fileHistoryState（备份）。SnSworker
   // 因为有 Shadow Git 这层更强的兜底，可以更激进地把 SSoT 完全归到 git diff。
 
   private static readonly DISPOSE_GRACE_MS = 3_000;

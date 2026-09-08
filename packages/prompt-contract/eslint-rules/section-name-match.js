@@ -97,7 +97,7 @@ const rule = {
     docs: {
       description:
         '按字符串名引用 prompt section 时（appendSection / SYSTEM_SECTION_NAMES / SECTION_REGISTRY[...]），name 必须命中 SECTION_REGISTRY。否则提示走 0_active_renderers.md 登记 + rerun extract_renderers.py。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/packages/prompt-contract/eslint-rules/README.md#section-name-match',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/packages/prompt-contract/eslint-rules/README.md#section-name-match',
     },
     schema: [],
     messages: {

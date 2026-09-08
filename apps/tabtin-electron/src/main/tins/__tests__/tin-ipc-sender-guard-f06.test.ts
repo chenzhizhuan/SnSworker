@@ -130,7 +130,7 @@ describe('CR-009: Tin 沙箱 file:// 不能调用 tins:* 管理 IPC', () => {
   it('Tin 沙箱无法读取所有 Tin 激活状态（信息泄漏防护）', async () => {
     const handler = handlers.get('tins:get-activation-states')!
     const sandboxEvent = {
-      senderFrame: { url: 'file:///home/user/.config/TabTin/tin-sandboxes/abc-123/panel.html' },
+      senderFrame: { url: 'file:///home/user/.config/SnSworker/tin-sandboxes/abc-123/panel.html' },
       sender: { id: 42 },
     }
 
@@ -144,7 +144,7 @@ describe('CR-009: Tin 沙箱 file:// 不能调用 tins:* 管理 IPC', () => {
   it('Tin 沙箱无法切换其他 Tin 面板可见性（UI 操纵防护）', async () => {
     const handler = handlers.get('tins:toggle-panel')!
     const sandboxEvent = {
-      senderFrame: { url: 'file:///home/user/.config/TabTin/tin-sandboxes/abc-123/panel.html' },
+      senderFrame: { url: 'file:///home/user/.config/SnSworker/tin-sandboxes/abc-123/panel.html' },
       sender: { id: 42 },
     }
 

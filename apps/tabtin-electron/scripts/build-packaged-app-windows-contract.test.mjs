@@ -133,7 +133,7 @@ assert_windows_installer_artifact artifact
     'assert_windows_installer_artifact',
     String.raw`
 mkdir -p artifact/win-unpacked
-touch artifact/TabTin-Setup.exe
+touch artifact/SnSworker-Setup.exe
 assert_windows_installer_artifact artifact
 `,
   )

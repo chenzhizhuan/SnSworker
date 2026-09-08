@@ -2229,7 +2229,7 @@ struct IMMessage: Decodable, Sendable, Identifiable, Equatable {
     var attachmentFileName: String { metadata?.fileName ?? "" }
     var attachmentFileSize: Int? { metadata?.fileSize }
 
-    /// 附件换链端点使用 TabTin 消息表主键，不使用传输游标。
+    /// 附件换链端点使用 SnSworker 消息表主键，不使用传输游标。
     /// REST 历史消息本身的 `id` 就是后端主键；兼容消息可从 metadata 取后端主键。
     var attachmentLookupMessageId: Int? {
         if let tabtinMessageId = metadata?.tabtinMessageId.flatMap(Int.init) { return tabtinMessageId }

@@ -33,7 +33,7 @@
     "field-validation",
     "filter"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "8.57.0",

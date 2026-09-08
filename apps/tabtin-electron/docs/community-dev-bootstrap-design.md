@@ -8,7 +8,7 @@
 
 ## 背景
 
-社区开发者从干净克隆到看到 TabTin Electron 窗口，当前需要分别理解工具链检查、国内或海外依赖源、根环境变量、后端服务启动、健康检查和 Electron 启动。仓库已经具备这些局部能力，但入口分散：
+社区开发者从干净克隆到看到 SnSworker Electron 窗口，当前需要分别理解工具链检查、国内或海外依赖源、根环境变量、后端服务启动、健康检查和 Electron 启动。仓库已经具备这些局部能力，但入口分散：
 
 - `scripts/electron/install-dependencies.mjs` 支持官方源和中国大陆镜像。
 - `scripts/electron/dev.mjs` 提供跨平台 Electron dev 启动。

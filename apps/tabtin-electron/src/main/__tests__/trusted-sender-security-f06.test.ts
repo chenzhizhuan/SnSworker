@@ -8,8 +8,8 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const MOCK_APP_PATH = '/opt/TabTin/resources/app.asar'
-const MOCK_USER_DATA = '/home/testuser/.config/TabTin'
+const MOCK_APP_PATH = '/opt/SnSworker/resources/app.asar'
+const MOCK_USER_DATA = '/home/testuser/.config/SnSworker'
 
 vi.mock('keytar', () => ({
   default: {

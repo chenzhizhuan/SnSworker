@@ -203,7 +203,7 @@ describe('useEnsureAgentReady 根因2', () => {
     const agent = setStores({ controlDeviceId: null, workingDir: '' })
     h.ensureDefaultAgentDir.mockResolvedValue({
       success: true,
-      path: '/Users/a/TabTin/Org/Space',
+      path: '/Users/a/SnSworker/Org/Space',
     })
     h.loadAgent.mockResolvedValue({
       id: 'ag-1',
@@ -219,7 +219,7 @@ describe('useEnsureAgentReady 根因2', () => {
       expect(h.updateSpace).toHaveBeenCalledWith(
         'sp-1',
         expect.objectContaining({
-          working_dir: '/Users/a/TabTin/Org/Space',
+          working_dir: '/Users/a/SnSworker/Org/Space',
           working_dir_type: 'mixed',
           device_fingerprint: 'fp-A',
         }),

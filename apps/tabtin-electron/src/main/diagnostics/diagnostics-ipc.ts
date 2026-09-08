@@ -39,7 +39,7 @@ const CH_OPEN_LOG_DIR = 'diagnostics:open-log-dir'
 const CH_GET_HOST_ENV = 'diagnostics:get-host-env'
 const CH_QUEUE_SUPPORT_UPLOAD = 'diagnostics:queue-support-upload'
 
-const SUBDIR = path.join('TabTin', 'diagnostics')
+const SUBDIR = path.join('SnSworker', 'diagnostics')
 
 function resolveDiagnosticsDir(): string {
   return path.join(app.getPath('downloads'), SUBDIR)

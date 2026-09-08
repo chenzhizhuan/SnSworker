@@ -1,10 +1,10 @@
 # @tabtin/cli
 
-TabTin 统一 CLI（`tabtin`）的**本地安装包**。把 `packages/tabtin-cli-go` 编译出的
+SnSworker 统一 CLI（`tabtin`）的**本地安装包**。把 `packages/tabtin-cli-go` 编译出的
 Go 二进制打进一个 npm 包，靠标准 `npm i -g` 完成全局安装 + PATH 挂载，免去手工
 `symlink` 到 `~/.local/bin`。
 
-对应 issue [#5888](https://github.com/larchiveai/TabTin/issues/5888) 工作包二（CLI 云端 /
+对应 issue [#5888](https://github.com/larchiveai/SnSworker/issues/5888) 工作包二（CLI 云端 /
 独立分发）。
 
 > **仅供内部分发，不发布到公共 npm registry。** `package.json` 已设 `"private": true`；

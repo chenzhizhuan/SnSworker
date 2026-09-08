@@ -6,23 +6,23 @@ import {
 } from '../agent-worktree-path'
 
 describe('Agent managed worktree path', () => {
-  it('builds the macOS/Linux path below the TabTin managed root', () => {
+  it('builds the macOS/Linux path below the SnSworker managed root', () => {
     expect(buildManagedAgentWorktreeBasePath({
       managedRoot: '/Users/me/.tabtin/worktrees',
-      repositoryRoot: '/Users/me/projects/TabTin',
+      repositoryRoot: '/Users/me/projects/SnSworker',
       branch: 'feat/10498 Agent Worktree',
     }, path.posix)).toBe(
-      '/Users/me/.tabtin/worktrees/TabTin/wt-feat-10498-Agent-Worktree',
+      '/Users/me/.tabtin/worktrees/SnSworker/wt-feat-10498-Agent-Worktree',
     )
   })
 
   it('uses native Windows separators and keeps the path below the user .tabtin root', () => {
     expect(buildManagedAgentWorktreeBasePath({
       managedRoot: 'C:\\Users\\me\\.tabtin\\worktrees',
-      repositoryRoot: 'D:\\projects\\TabTin',
+      repositoryRoot: 'D:\\projects\\SnSworker',
       branch: 'feat/10498 Agent Worktree',
     }, path.win32)).toBe(
-      'C:\\Users\\me\\.tabtin\\worktrees\\TabTin\\wt-feat-10498-Agent-Worktree',
+      'C:\\Users\\me\\.tabtin\\worktrees\\SnSworker\\wt-feat-10498-Agent-Worktree',
     )
   })
 
@@ -37,7 +37,7 @@ describe('Agent managed worktree path', () => {
   })
 
   it('adds a deterministic suffix without overwriting an occupied directory', () => {
-    const base = '/Users/me/.tabtin/worktrees/TabTin/wt-feat-demo'
+    const base = '/Users/me/.tabtin/worktrees/SnSworker/wt-feat-demo'
     const occupied = new Set([base, `${base}-2`])
 
     expect(chooseAvailableAgentWorktreePath(base, (candidate) => occupied.has(candidate)))

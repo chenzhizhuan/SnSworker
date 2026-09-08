@@ -176,7 +176,7 @@ import {
 } from '@tabtin/agent-runtime/capability';
 // ：平台目录类 Cap（SkillsCap）已迁至共享宿主包。
 // ：受限 shell 动词表 / Plan 浏览器导航豁免 / untrusted 判定 / 烤图 /
-// present 资源策略 / 本地产物 URI / 隐藏 skill 名单——TabTin 业务知识由宿主注入。
+// present 资源策略 / 本地产物 URI / 隐藏 skill 名单——SnSworker 业务知识由宿主注入。
 import {
   SkillsCap,
   RESTRICTED_READONLY_VERBS,
@@ -2070,7 +2070,7 @@ export class DaemonRuntimeAssembly {
           return null;
         },
         allowedCwdRoot: this.ports.workspaceRoot,
-        // ：TabTin CLI 只读兜底动词表由宿主注入，core 默认空集。
+        // ：SnSworker CLI 只读兜底动词表由宿主注入，core 默认空集。
         readonlyVerbs: RESTRICTED_READONLY_VERBS,
         // ：仅 Plan 模式放行浏览器导航（open/nav/tab switch）；ask/study 保持纯只读。
         ...(agentMode === 'plan' ? { browserNavAllowlist: RESTRICTED_BROWSER_NAV_ALLOWLIST } : {}),

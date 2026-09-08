@@ -19,7 +19,7 @@ type IpcSenderEvent = {
 const log = createLogger('TokenManager')
 
 // 服务名称与账号标识
-const SERVICE_NAME = 'TabTin'
+const SERVICE_NAME = 'SnSworker'
 const AUTH_ACCOUNT = 'auth_bundle'
 
 type AuthBundle = {

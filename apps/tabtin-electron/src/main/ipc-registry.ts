@@ -485,7 +485,7 @@ export function registerMainProcessIPCHandlers(
   // ── OS 系统权限管理（macOS TCC / Windows 应用权限）─────────────────────
   // 与上面的 desktop:* 是两层正交概念：
   //   - desktop:* 管业务层的 HITL 桌面操控授权（24h TTL）
-  //   - osPermissions:* 管「操作系统给 TabTin 这个 App 的能力」（辅助功能 / 录屏 / 麦克风 …）
+  //   - osPermissions:* 管「操作系统给 SnSworker 这个 App 的能力」（辅助功能 / 录屏 / 麦克风 …）
   // 渲染层 Settings「授权」面板消费 osPermissions:*；ApprovalManager 那条线不动。
   guardedHandle('osPermissions:list', async () => {
     try {

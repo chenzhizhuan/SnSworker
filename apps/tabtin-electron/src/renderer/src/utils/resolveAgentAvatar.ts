@@ -27,7 +27,7 @@ export function extractAgentAvatarUrl(
 
 /**
  * 解析 Agent 身份头像展示 URL。
- * 有已解析头像时使用；否则回退 TabTin logo（与 Space 无头像兜底同源）。
+ * 有已解析头像时使用；否则回退 SnSworker logo（与 Space 无头像兜底同源）。
  */
 export function resolveAgentAvatarUrl(avatarUrl?: string | null): string {
   const trimmed = avatarUrl?.trim()

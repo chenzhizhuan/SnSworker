@@ -1707,7 +1707,7 @@ BYTEDANCE_TTS_DEFAULT_SPEAKER = os.getenv('BYTEDANCE_TTS_DEFAULT_SPEAKER', 'zh_f
 FREESOUND_API_KEY = os.getenv('FREESOUND_API_KEY', '')
 
 # Email Configuration
-COMPANY_NAME = os.getenv('COMPANY_NAME', 'TabTin')
+COMPANY_NAME = os.getenv('COMPANY_NAME', 'SnSworker')
 if IS_COMMUNITY_EDITION:
     EMAIL_BACKEND = (
         os.getenv('EMAIL_BACKEND', '').strip()

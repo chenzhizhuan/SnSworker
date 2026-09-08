@@ -12,7 +12,7 @@ describe('oauthPageLooksUnsupported', () => {
 
   it('ignores normal authorize copy', () => {
     expect(
-      oauthPageLooksUnsupported('Allow TabTin to access your Notion workspace?'),
+      oauthPageLooksUnsupported('Allow SnSworker to access your Notion workspace?'),
     ).toBe(false)
   })
 })

@@ -736,7 +736,7 @@ private fun WebView.loadAuthenticatedUrl(
                 ${mobileHostInjectionScript(expectedOrigin, mobileFormFactor)}
                 ${androidViewportHeightFallbackScript(expectedOrigin)}
               } catch (error) {
-                console.error('TabTin auth bootstrap failed', error && (error.stack || error.message || String(error)));
+                console.error('SnSworker auth bootstrap failed', error && (error.stack || error.message || String(error)));
               }
               window.location.replace(${JSONObject.quote(url)});
             </script>

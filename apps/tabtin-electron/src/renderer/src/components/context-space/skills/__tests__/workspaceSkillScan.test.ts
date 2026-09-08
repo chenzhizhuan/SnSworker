@@ -179,7 +179,7 @@ describe('workspaceSkillScan', () => {
   it('defaults agent_enabled to false until an Agent explicitly carries it', () => {
     const skill = mapWorkspaceScanToSkillIndexEntry(
       { key: 'workspace:a/b', slug: 'b', name: 'b' },
-      { spaceId: 's1', spaceName: 'TabTin' },
+      { spaceId: 's1', spaceName: 'SnSworker' },
     )
     expect(skill.agent_enabled).toBe(false)
   })
@@ -315,7 +315,7 @@ describe('workspaceSkillScan', () => {
   it('hides make-team-visible for workspace scan skills', () => {
     const skill = mapWorkspaceScanToSkillIndexEntry(
       { key: 'workspace:a/b', slug: 'b', name: 'b' },
-      { spaceId: 's1', spaceName: 'TabTin' },
+      { spaceId: 's1', spaceName: 'SnSworker' },
     )
     const state = getSkillDetailProductState(skill, 'user-1', 'mine', false)
     expect(state.detailKind).toBe('device_local')

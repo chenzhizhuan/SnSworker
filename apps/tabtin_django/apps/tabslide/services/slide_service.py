@@ -2347,7 +2347,7 @@ class SlideService(BaseService):
 
         headers = {
             "Host": hostname,
-            "User-Agent": "TabTin-TabSlide/1.0",
+            "User-Agent": "SnSworker-TabSlide/1.0",
             "Accept": "image/*,*/*;q=0.8",
         }
 

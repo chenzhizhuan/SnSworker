@@ -85,12 +85,12 @@ export async function registerCurrentElectronDevice(
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
           ...(deviceCredential
-            ? { 'X-TabTin-Device-Credential': deviceCredential }
+            ? { 'X-SnSworker-Device-Credential': deviceCredential }
             : {}),
         },
         body: JSON.stringify({
           installation_id: installationId,
-          name: hostname().trim().slice(0, 120) || 'TabTin Device',
+          name: hostname().trim().slice(0, 120) || 'SnSworker Device',
           kind: 1, // DEVICE_KIND_ELECTRON
           ...runtimeProfile,
         }),

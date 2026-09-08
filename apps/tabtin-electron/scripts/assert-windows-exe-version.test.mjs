@@ -41,9 +41,9 @@ describe('selectElectronBuilderNsisSetup', () => {
   it('picks version-matching builder Setup, not renamed share artifacts', () => {
     const dir = mkdtempSync(join(tmpdir(), 'win-setup-select-'))
     try {
-      const stale = join(dir, 'TabTin Setup 0.7.54.exe')
-      const current = join(dir, 'TabTin Preprod Setup 0.7.56.exe')
-      const renamed = join(dir, 'TabTin-beta-0.7.56-x64-plain-upload-local-fast-setup.exe')
+      const stale = join(dir, 'SnSworker Setup 0.7.54.exe')
+      const current = join(dir, 'SnSworker Preprod Setup 0.7.56.exe')
+      const renamed = join(dir, 'SnSworker-beta-0.7.56-x64-plain-upload-local-fast-setup.exe')
       writeFileSync(stale, '54')
       writeFileSync(current, '56')
       writeFileSync(renamed, 'renamed')
@@ -52,19 +52,19 @@ describe('selectElectronBuilderNsisSetup', () => {
       utimesSync(current, now - 100, now - 100)
       utimesSync(stale, now, now)
 
-      assert.equal(isElectronBuilderNsisSetupName('TabTin Setup 0.7.54.exe'), true)
+      assert.equal(isElectronBuilderNsisSetupName('SnSworker Setup 0.7.54.exe'), true)
       assert.equal(isElectronBuilderNsisSetupName(basenameRenamed()), false)
-      assert.equal(setupNameMatchesVersion('TabTin Preprod Setup 0.7.56.exe', '0.7.56'), true)
+      assert.equal(setupNameMatchesVersion('SnSworker Preprod Setup 0.7.56.exe', '0.7.56'), true)
 
       const selected = selectElectronBuilderNsisSetup(dir, '0.7.56')
       assert.ok(selected)
-      assert.equal(selected.name, 'TabTin Preprod Setup 0.7.56.exe')
+      assert.equal(selected.name, 'SnSworker Preprod Setup 0.7.56.exe')
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }
 
     function basenameRenamed() {
-      return 'TabTin-beta-0.7.56-x64-plain-upload-local-fast-setup.exe'
+      return 'SnSworker-beta-0.7.56-x64-plain-upload-local-fast-setup.exe'
     }
   })
 })

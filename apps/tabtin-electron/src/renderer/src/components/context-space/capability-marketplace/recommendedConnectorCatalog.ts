@@ -10,7 +10,7 @@
  * 产品授权分类（官网核对后）：
  * - `oauth` + `oauthGate: ready`：标准 MCP OAuth，可直接做引导流（Stripe / Notion / Supabase / Neon / Cloudflare / 天眼查）
  * - `oauth` + `oauthGate: ready` + `oauthHost: tabtin_backend`：须平台注册 App，后端保管 secret（GitHub）
- * - `oauth` + `oauthGate: vendor_pending`：支持 OAuth，但 TabTin 须先完成厂商注册/审核（Vercel / Canva）
+ * - `oauth` + `oauthGate: vendor_pending`：支持 OAuth，但 SnSworker 须先完成厂商注册/审核（Vercel / Canva）
  * - `api_key`：主路径粘贴密钥（同花顺）
  * - `app_credentials`：管理员建企业应用后填 Client ID/Secret（钉钉）
  */
@@ -33,7 +33,7 @@ export type RecommendedConnectorAuthKind =
 /** 仅 authKind=oauth 时有意义 */
 export type RecommendedConnectorOAuthGate = 'ready' | 'vendor_pending'
 
-/** OAuth 宿主：mcp-remote 本机动态注册，或 TabTin 后端代理（保管 client_secret） */
+/** OAuth 宿主：mcp-remote 本机动态注册，或 SnSworker 后端代理（保管 client_secret） */
 export type RecommendedConnectorOAuthHost = 'mcp_remote' | 'tabtin_backend'
 
 export type RecommendedConnectorVendorGate =
@@ -99,7 +99,7 @@ function remoteStdio(url: string, extraArgs: string[] = []): LocalMcpTransportCo
 /**
  * OAuth 远程 MCP。部分授权服不接受 mcp-remote 默认 OIDC scope，
  * 需用 `--static-oauth-client-metadata` 显式声明（Stripe 为正典样板：`{"scope":"mcp"}`）。
- * `client_name: TabTin` 对齐原型授权页「允许 TabTin 访问…」。
+ * `client_name: SnSworker` 对齐原型授权页「允许 SnSworker 访问…」。
  * `--auth-timeout` 与探测预算对齐（秒），避免网页授权中途 long-poll 过早结束。
  */
 function remoteOAuthStdio(
@@ -108,7 +108,7 @@ function remoteOAuthStdio(
   extraArgs: string[] = [],
 ): LocalMcpTransportConfig {
   const metadata = {
-    client_name: 'TabTin',
+    client_name: 'SnSworker',
     ...(clientMetadata ?? {}),
   }
   return remoteStdio(url, [
@@ -178,7 +178,7 @@ export const RECOMMENDED_CONNECTOR_CATALOG: readonly RecommendedConnectorCatalog
     name: 'GitHub',
     descriptionKey: 'github',
     category: 'dev',
-    // 官方远程 MCP；须 TabTin 注册的 GitHub OAuth App（不支持动态客户端注册）
+    // 官方远程 MCP；须 SnSworker 注册的 GitHub OAuth App（不支持动态客户端注册）
     transport: githubHttpTransport(),
     ...withAuth('oauth', { gate: 'ready', oauthHost: 'tabtin_backend' }),
     docsUrl: 'https://github.com/github/github-mcp-server',

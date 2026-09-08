@@ -88,7 +88,7 @@ class GitHubOAuthClient:
         }
         headers = {
             "Accept": "application/json",
-            "User-Agent": "TabTin-GitHub-OAuth",
+            "User-Agent": "SnSworker-GitHub-OAuth",
         }
         with self._http() as client:
             resp = client.post(GITHUB_TOKEN_URL, data=data, headers=headers)
@@ -107,7 +107,7 @@ class GitHubOAuthClient:
         headers = {
             "Accept": "application/vnd.github+json",
             "Authorization": f"Bearer {access_token}",
-            "User-Agent": "TabTin-GitHub-OAuth",
+            "User-Agent": "SnSworker-GitHub-OAuth",
             "X-GitHub-Api-Version": "2022-11-28",
         }
         with self._http() as client:

@@ -327,7 +327,7 @@ export function usePermissionsState(): UsePermissionsStateResult {
   useEffect(() => {
     const timer = setInterval(() => {
       if (!mountedRef.current) return
-      // 窗口最小化/完全不可见时不空转；并排改系统设置时 TabTin 仍可见，会继续刷
+      // 窗口最小化/完全不可见时不空转；并排改系统设置时 SnSworker 仍可见，会继续刷
       if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return
       void refresh({ silent: true })
     }, PERMISSIONS_PAGE_POLL_INTERVAL_MS)

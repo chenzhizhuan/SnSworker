@@ -141,7 +141,7 @@ describe('ClearConfirmDialog (W3.2 D-4 守护)', () => {
       id: 'data:soft',
       category: 'data',
       requiresConfirmation: 'soft',
-      displayName: 'work-for-TabTin · 项目操作快照',
+      displayName: 'work-for-SnSworker · 项目操作快照',
     })
 
     render(
@@ -160,7 +160,7 @@ describe('ClearConfirmDialog (W3.2 D-4 守护)', () => {
     expect(screen.getByTestId('clear-confirm-fill-name')).toBeTruthy()
 
     fireEvent.click(screen.getByTestId('clear-confirm-fill-name'))
-    expect(input.value).toBe('work-for-TabTin · 项目操作快照')
+    expect(input.value).toBe('work-for-SnSworker · 项目操作快照')
     expect(confirmBtn.disabled).toBe(false)
 
     fireEvent.click(confirmBtn)

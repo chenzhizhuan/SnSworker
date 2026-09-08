@@ -6,7 +6,7 @@
  *   - mcp_tool_result（user；MCP connector 结果）
  *
  * UI 通用 JSON 视图 + MCP server 标识：让用户清楚知道这是远端 MCP server
- * 提供的工具（不是 TabTin 内置 / Anthropic 服务端工具）。
+ * 提供的工具（不是 SnSworker 内置 / Anthropic 服务端工具）。
  *
  * **W4c · W4b P1-c**：MCP tool_use 与常规 tool_use 对齐 partial parse 流式逻辑。
  * 流式期间 `block.input={}`，真实 JSON 在 `entry.pendingInputJson` 累积；本组件

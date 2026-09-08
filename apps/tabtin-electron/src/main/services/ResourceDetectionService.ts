@@ -11,7 +11,7 @@
  * - per-view 隔离：每个视图独立的资源列表，导航时自动清空
  * - per-session listener：crawlspace 视图使用分区 session，需要独立挂载 listener
  *
- * @author TabTin Team
+ * @author SnSworker Team
  */
 
 import { EventEmitter } from 'events'

@@ -111,7 +111,7 @@ describe('useFileOpenAction · 路径 helper', () => {
 
     it('绝对路径保持原值，不被拼到 working_dir 下', () => {
       expect(resolveFileCardPath('/tmp/report.md', '/Users/me/space')).toBe('/tmp/report.md')
-      expect(resolveFileCardPath('D:/TabTin/report.md', 'C:/Users/me/space')).toBe('D:/TabTin/report.md')
+      expect(resolveFileCardPath('D:/SnSworker/report.md', 'C:/Users/me/space')).toBe('D:/SnSworker/report.md')
     })
 
     it('没有 working_dir 时保留原始相对路径，交给下游权限层拒绝或处理', () => {

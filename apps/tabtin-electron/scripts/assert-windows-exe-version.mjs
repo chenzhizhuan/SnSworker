@@ -47,7 +47,7 @@ export function desktopVersionsAligned(expected, actual) {
   return false
 }
 
-/** electron-builder NSIS：`TabTin Setup 0.7.56.exe` / `TabTin Preprod Setup 0.7.56.exe` */
+/** electron-builder NSIS：`SnSworker Setup 0.7.56.exe` / `SnSworker Preprod Setup 0.7.56.exe` */
 export function isElectronBuilderNsisSetupName(name) {
   return / Setup .+\.exe$/i.test(String(name || ''))
 }

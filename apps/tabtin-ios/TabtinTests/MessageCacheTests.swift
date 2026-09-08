@@ -25,7 +25,7 @@ final class MessageCacheTests: XCTestCase {
                 messageId: "m1",
                 index: 3,
                 kind: "search_results",
-                summary: "web_search: TabTin",
+                summary: "web_search: SnSworker",
                 title: nil,
                 groupId: nil,
                 tableRows: [],
@@ -44,10 +44,10 @@ final class MessageCacheTests: XCTestCase {
                 format: nil,
                 sourceCode: nil,
                 mermaidSource: nil,
-                query: "TabTin",
+                query: "SnSworker",
                 searchResults: [
                     RichSearchResult(
-                        title: "TabTin",
+                        title: "SnSworker",
                         url: "https://www.example.com/",
                         snippet: "Agent 协作平台",
                         score: 0.9,
@@ -81,7 +81,7 @@ final class MessageCacheTests: XCTestCase {
         guard case let .richContent(rich) = decoded[3] else {
             return XCTFail("第 3 块应为 rich content")
         }
-        XCTAssertEqual(rich.query, "TabTin")
+        XCTAssertEqual(rich.query, "SnSworker")
         XCTAssertEqual(rich.totalCount, 1)
         XCTAssertEqual(rich.searchResults.first?.url, "https://www.example.com/")
         XCTAssertEqual(rich.fileId, "file-rich-1")

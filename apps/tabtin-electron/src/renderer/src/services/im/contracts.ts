@@ -34,7 +34,7 @@ export interface Conversation {
   /**
    * Internal identity of a pointer-backed latest message.
    *
-   * The message body stays in TabTin; this reference lets the Renderer merge
+   * The message body stays in SnSworker; this reference lets the Renderer merge
    * an already hydrated local message without guessing from timestamps.
    */
   last_message_reference?: {
@@ -52,7 +52,7 @@ export interface Conversation {
   /** 外部联系人关系校验结果；只有 friend 可发送。 */
   external_contact_relationship?: 'friend' | 'blocked' | 'suspended' | 'removed'
   pinned?: boolean
-  /** 字段事实来源；冲突时 TabTin 服务端持久值优先于旧传输快照。 */
+  /** 字段事实来源；冲突时 SnSworker 服务端持久值优先于旧传输快照。 */
   pinned_source?: 'tabtin' | 'tencent'
   pinned_revision?: number
   is_muted?: boolean

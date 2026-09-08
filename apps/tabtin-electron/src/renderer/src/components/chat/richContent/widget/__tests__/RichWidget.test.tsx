@@ -1087,7 +1087,7 @@ describe('Widget Wave 4.10 — 桌面端右键菜单', () => {
 
     const downloadResource = vi.fn().mockResolvedValue({
       success: true,
-      data: { filePath: '/tmp/Downloads/TabTin/架构图.png' },
+      data: { filePath: '/tmp/Downloads/SnSworker/架构图.png' },
     })
     Object.defineProperty(window, 'tabtin', {
       configurable: true,

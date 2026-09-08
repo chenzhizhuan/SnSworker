@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // registerDriveCollectionCommands —  Organization 云盘文件夹 CRUD。

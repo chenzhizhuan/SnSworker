@@ -115,7 +115,7 @@ describe('collectDiagnosticsMeta', () => {
       macTranslated: 0,
       macSupportsArm64: 0,
       osBuild: '19H2',
-      execBasename: 'TabTin',
+      execBasename: 'SnSworker',
       runtimeLabel: 'intel-native',
     })
 

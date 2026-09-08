@@ -30,7 +30,7 @@ export const resetAllStorePools = pool.resetAllStorePools
 
 export function createEmbeddedTableStorePool(parentDocumentId: string) {
   const requestHeaders = {
-    'X-TabTin-Parent-Document-Id': parentDocumentId,
+    'X-SnSworker-Parent-Document-Id': parentDocumentId,
   }
   return createTableStorePool<TableStoreApi, ViewStoreApi, RecordStoreApi>({
     createTableStore: () => createTableStore(false, requestHeaders),

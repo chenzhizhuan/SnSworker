@@ -444,7 +444,7 @@ describe('FR-07 — every in-package builtin tool accepts a valid sample input',
     ask_form: {
       title: 'Project info',
       fields: [
-        { key: 'name', label: 'Project name', type: 'input', placeholder: 'TabTin' },
+        { key: 'name', label: 'Project name', type: 'input', placeholder: 'SnSworker' },
         { key: 'desc', label: 'Description', type: 'textarea', description: 'Short summary of the project.' },
       ],
     },

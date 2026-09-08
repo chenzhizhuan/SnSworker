@@ -4,7 +4,7 @@
  * 每项告诉 UI：
  *  - icon 用哪个 lucide
  *  - i18n key 是什么
- *  - 关联到 TabTin 的哪个业务功能（让用户理解"为什么我要给这个权限"）
+ *  - 关联到 SnSworker 的哪个业务功能（让用户理解"为什么我要给这个权限"）
  *
  * 与 main 进程的 PermissionKind / PermissionStatus 对齐，不引入业务概念。
  */

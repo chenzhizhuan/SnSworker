@@ -20,7 +20,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // TestApiParseDataInlineJSON 验证字面 JSON 字符串仍能正常解析（向后兼容旧 contract）。

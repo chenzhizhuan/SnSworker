@@ -41,17 +41,17 @@ describe('RichSearchResults', () => {
         query: 'tabtin docs',
         total_count: 1,
         search_results: [
-          { title: 'TabTin manual', url: 'https://example.com/manual', snippet: 'snippet A' },
+          { title: 'SnSworker manual', url: 'https://example.com/manual', snippet: 'snippet A' },
         ],
       })} />,
     )
     // 折叠态：header 上的 query 可见，但结果体（标题 / 摘要）不渲染
     expect(container.textContent).toContain('tabtin docs')
-    expect(screen.queryByText('TabTin manual')).toBeNull()
+    expect(screen.queryByText('SnSworker manual')).toBeNull()
     expect(screen.queryByText('snippet A')).toBeNull()
 
     expandCard(container)
-    expect(screen.getByText('TabTin manual')).toBeTruthy()
+    expect(screen.getByText('SnSworker manual')).toBeTruthy()
     expect(screen.getByText('snippet A')).toBeTruthy()
   })
 
@@ -62,13 +62,13 @@ describe('RichSearchResults', () => {
         query: 'tabtin docs',
         total_count: 2,
         search_results: [
-          { title: 'TabTin manual', url: 'https://example.com/manual', snippet: 'snippet A' },
+          { title: 'SnSworker manual', url: 'https://example.com/manual', snippet: 'snippet A' },
           { title: 'Quickstart', url: 'https://example.com/quickstart', snippet: 'snippet B' },
         ],
       })} />,
     )
     expandCard(container)
-    expect(screen.getByText('TabTin manual')).toBeTruthy()
+    expect(screen.getByText('SnSworker manual')).toBeTruthy()
     expect(screen.getByText('snippet A')).toBeTruthy()
     expect(screen.getByText('Quickstart')).toBeTruthy()
   })

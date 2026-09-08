@@ -165,14 +165,14 @@ describe('FolderSearch —  搜索功能无效修复回归', () => {
     mockRipgrepSearch.mockResolvedValue({
       success: true,
       results: [
-        { file: 'C:\\Users\\me\\TabTin\\agent\\notes.md', line: 3, column: 0, text: '# title', matchText: 'title' },
+        { file: 'C:\\Users\\me\\SnSworker\\agent\\notes.md', line: 3, column: 0, text: '# title', matchText: 'title' },
       ],
       truncated: false,
     })
 
     render(
       <FolderSearch
-        rootPath="C:/Users/me/TabTin/agent"
+        rootPath="C:/Users/me/SnSworker/agent"
         onSelectResult={vi.fn()}
         onClose={vi.fn()}
       />,
@@ -183,7 +183,7 @@ describe('FolderSearch —  搜索功能无效修复回归', () => {
 
     expect(screen.getByText('notes.md')).toBeTruthy()
     // 关键回归点：不能把整个 Windows 绝对路径铺到 UI
-    expect(screen.queryByText('C:\\Users\\me\\TabTin\\agent\\notes.md')).toBeNull()
+    expect(screen.queryByText('C:\\Users\\me\\SnSworker\\agent\\notes.md')).toBeNull()
     expect(screen.queryByText(/C:\\Users\\/)).toBeNull()
   })
 
@@ -193,7 +193,7 @@ describe('FolderSearch —  搜索功能无效修复回归', () => {
       success: true,
       results: [
         {
-          file: 'C:\\Users\\me\\TabTin\\agent\\666-folder',
+          file: 'C:\\Users\\me\\SnSworker\\agent\\666-folder',
           line: 0,
           column: 0,
           text: '666-folder',
@@ -207,7 +207,7 @@ describe('FolderSearch —  搜索功能无效修复回归', () => {
 
     render(
       <FolderSearch
-        rootPath="C:/Users/me/TabTin/agent"
+        rootPath="C:/Users/me/SnSworker/agent"
         onSelectResult={onSelectResult}
         onClose={vi.fn()}
       />,
@@ -225,7 +225,7 @@ describe('FolderSearch —  搜索功能无效修复回归', () => {
 
     fireEvent.click(screen.getByText('666-folder'))
     expect(onSelectResult).toHaveBeenCalledWith(
-      'C:\\Users\\me\\TabTin\\agent\\666-folder',
+      'C:\\Users\\me\\SnSworker\\agent\\666-folder',
       0,
       true,
     )

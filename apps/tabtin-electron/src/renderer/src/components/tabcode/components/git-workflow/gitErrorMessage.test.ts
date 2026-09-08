@@ -43,7 +43,7 @@ const enT = makeT({
 describe('formatGitErrorForToast', () => {
   it('localizes git index.lock fatal errors for Chinese UI', () => {
     const raw = [
-      "fatal: Unable to create 'C:/workspace/TabTin-feature/TabTin/.git/index.lock': File exists.",
+      "fatal: Unable to create 'C:/workspace/SnSworker-feature/SnSworker/.git/index.lock': File exists.",
       '',
       'Another git process seems to be running in this repository, e.g.',
       'an editor opened by git commit. Please make sure all processes',

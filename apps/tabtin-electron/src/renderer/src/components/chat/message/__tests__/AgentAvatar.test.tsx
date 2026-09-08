@@ -70,7 +70,7 @@ describe('getAgentIdentityAvatar', () => {
 })
 
 describe('AgentAvatar 组件', () => {
-  it('无自定义头像时渲染 TabTin logo 图，并用 aria-label 暴露名字', () => {
+  it('无自定义头像时渲染 SnSworker logo 图，并用 aria-label 暴露名字', () => {
     render(<AgentAvatar agentId="agent-1" name="查令" />)
     const avatar = screen.getByTestId('agent-avatar')
     expect(avatar.tagName).toBe('IMG')

@@ -455,7 +455,7 @@ export async function handleDesktopRoute(
       DesktopErrorCode.UNSUPPORTED_PLATFORM,
       `不支持此操作：桌面操控仅在 macOS 和 Windows 可用。` +
       `当前系统识别为 ${process.platform}，本次请求未执行；所有桌面操控命令在本机不可用。` +
-      `如需桌面操控，请在 macOS 或 Windows 上运行 TabTin 客户端。`,
+      `如需桌面操控，请在 macOS 或 Windows 上运行 SnSworker 客户端。`,
     ))
     return
   }
@@ -464,8 +464,8 @@ export async function handleDesktopRoute(
   if (!executor) {
     sendJSON(res, 503, desktopErrorPayload(
       DesktopErrorCode.INTERNAL_ERROR,
-      `桌面操控暂不可用：执行器尚未初始化。本次请求未执行。请确认 TabTin 桌面客户端已完全启动后重试。`,
-      { suggestions: ['等待 TabTin 桌面客户端完全启动后再发起请求'] },
+      `桌面操控暂不可用：执行器尚未初始化。本次请求未执行。请确认 SnSworker 桌面客户端已完全启动后重试。`,
+      { suggestions: ['等待 SnSworker 桌面客户端完全启动后再发起请求'] },
     ))
     return
   }
@@ -945,7 +945,7 @@ export async function handleDesktopRoute(
           const code = DesktopErrorCode.VALIDATION_ERROR
           sendJSON(res, statusFromErrorCode(code), desktopErrorPayload(
             code,
-            `「${appName}」是系统终端。用户说「打开终端」应打开 TabTin 应用内终端，请改用：tabtin terminal open。若用户明确要求外部系统终端，请加 --external：tabtin desktop open "${appName}" --external。`,
+            `「${appName}」是系统终端。用户说「打开终端」应打开 SnSworker 应用内终端，请改用：tabtin terminal open。若用户明确要求外部系统终端，请加 --external：tabtin desktop open "${appName}" --external。`,
             {
               suggestions: [
                 'tabtin terminal open',
@@ -1294,7 +1294,7 @@ export async function handleDesktopRoute(
         code,
         message,
         code === DesktopErrorCode.TCC_DENIED
-          ? { suggestions: ['在 macOS 系统设置 → 隐私与安全 → 辅助功能 中启用 TabTin'] }
+          ? { suggestions: ['在 macOS 系统设置 → 隐私与安全 → 辅助功能 中启用 SnSworker'] }
           : undefined,
       ),
     )

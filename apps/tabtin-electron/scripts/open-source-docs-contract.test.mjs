@@ -118,14 +118,14 @@ test('root READMEs front-load the hosted service and business contact', () => {
   for (const entry of [
     {
       file: 'README.md',
-      boundary: '## 为什么做 TabTin',
-      website: '[访问 TabTin 官网](https://tabtin.com/)',
+      boundary: '## 为什么做 SnSworker',
+      website: '[访问 SnSworker 官网](https://tabtin.com/)',
       business: '[contact@larchiveai.com](mailto:contact@larchiveai.com)',
     },
     {
       file: 'README.en.md',
-      boundary: '## Why TabTin',
-      website: '[Visit the TabTin website](https://tabtin.com/)',
+      boundary: '## Why SnSworker',
+      website: '[Visit the SnSworker website](https://tabtin.com/)',
       business: '[contact@larchiveai.com](mailto:contact@larchiveai.com)',
     },
   ]) {
@@ -220,11 +220,11 @@ test('the root README keeps the two copyable local-development prompts stable', 
   const readme = readFileSync(new URL('README.md', repositoryRoot), 'utf8');
   assert.match(
     readme,
-    /请运行 https:\/\/github\.com\/tabtin-ai\/TabTin 的「快速预览」/,
+    /请运行 https:\/\/github\.com\/tabtin-ai\/SnSworker 的「快速预览」/,
   );
   assert.match(
     readme,
-    /请运行 https:\/\/github\.com\/tabtin-ai\/TabTin 的「全量预览」/,
+    /请运行 https:\/\/github\.com\/tabtin-ai\/SnSworker 的「全量预览」/,
   );
   assert.match(readme, /pnpm dev/);
   assert.match(readme, /\.env\.local/);

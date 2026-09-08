@@ -37,7 +37,7 @@ export interface ConnectorOAuthDialogProps {
 
 /**
  * 标准 MCP OAuth 引导：说明 → 系统浏览器授权 → 探测工具 → 成功/失败。
- * Token 仍由 mcp-remote / 厂商侧持有，TabTin 只编排体验。
+ * Token 仍由 mcp-remote / 厂商侧持有，SnSworker 只编排体验。
  */
 export function ConnectorOAuthAuthorizeDialog({
   open,
@@ -112,7 +112,7 @@ export function ConnectorOAuthAuthorizeDialog({
                 size="sm"
                 description={t('mcpConnections.marketplace.oauthDialog.browserHint', {
                   name: connectorName,
-                  defaultValue: `将在系统默认浏览器中打开授权页。若尚未登录 ${connectorName}，会先出现登录页；登录后才会看到「允许 TabTin 访问」确认。`,
+                  defaultValue: `将在系统默认浏览器中打开授权页。若尚未登录 ${connectorName}，会先出现登录页；登录后才会看到「允许 SnSworker 访问」确认。`,
                 })}
               />
               <ul className="space-y-3 text-body text-muted-foreground">

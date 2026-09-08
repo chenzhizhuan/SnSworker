@@ -108,7 +108,7 @@ export function parseCommunityDevArgs(argv) {
 
 ```js
 test('uses cmd.exe and the native batch entry on Windows', () => {
-  assert.deepEqual(resolveBackendCommand('win32', 'C:\\TabTin Repo'), {
+  assert.deepEqual(resolveBackendCommand('win32', 'C:\\SnSworker Repo'), {
     command: process.env.ComSpec || 'cmd.exe',
     args: ['/d', '/s', '/c', 'call', 'scripts\\start-all.bat'],
   })
@@ -116,9 +116,9 @@ test('uses cmd.exe and the native batch entry on Windows', () => {
 
 test('uses bash and start-all.sh on macOS and Linux', () => {
   for (const platform of ['darwin', 'linux']) {
-    const plan = resolveBackendCommand(platform, '/workspace/TabTin')
+    const plan = resolveBackendCommand(platform, '/workspace/SnSworker')
     assert.equal(plan.command, 'bash')
-    assert.deepEqual(plan.args, ['/workspace/TabTin/scripts/backend/start.sh'])
+    assert.deepEqual(plan.args, ['/workspace/SnSworker/scripts/backend/start.sh'])
   }
 })
 ```
@@ -378,7 +378,7 @@ test('does not hide a non-zero native backend exit code', () => {
   assert.throws(
     () => startCommunityBackend({
       platform: 'win32',
-      rootDir: 'C:\\TabTin',
+      rootDir: 'C:\\SnSworker',
       spawnSyncImpl: () => ({ status: 7 }),
     }),
     /退出码 7/,

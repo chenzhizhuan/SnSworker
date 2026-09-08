@@ -70,7 +70,7 @@ export const MUTUALLY_EXCLUSIVE_PARAMS = 'mutually_exclusive_params' as const;
 /**
  * 工具需要前端 UI 连接（emitStreamEvent / waitForUserInput）才能完成，但当前
  * 宿主不支持（典型：Daemon headless 模式调 show_widget / present_to_user）。
- * 文案给用户："此功能需在 TabTin 桌面端使用"
+ * 文案给用户："此功能需在 SnSworker 桌面端使用"
  */
 export const NO_UI_SESSION = 'no_ui_session' as const;
 

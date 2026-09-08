@@ -41,8 +41,8 @@ vi.mock('@components/context-space/folder', () => ({
     folders: {},
     userFolders: {
       'user-folder': {
-        title: 'TabTin',
-        rootPath: 'C:\\workspace\\TabTin-feature\\TabTin',
+        title: 'SnSworker',
+        rootPath: 'C:\\workspace\\SnSworker-feature\\SnSworker',
         kind: 'user',
         updatedAt: 1,
       },
@@ -89,12 +89,12 @@ describe('CanvasPaneContent user directory metadata', () => {
     )
 
     expect(screen.getByTestId('folder-pane').textContent)
-      .toBe('C:\\workspace\\TabTin-feature\\TabTin')
+      .toBe('C:\\workspace\\SnSworker-feature\\SnSworker')
     expect(mocks.renderPane).toHaveBeenCalledWith(
       expect.objectContaining({
         id: 'user-folder',
         meta: expect.objectContaining({
-          path: 'C:\\workspace\\TabTin-feature\\TabTin',
+          path: 'C:\\workspace\\SnSworker-feature\\SnSworker',
           kind: 'user',
         }),
       }),

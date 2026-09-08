@@ -30,7 +30,7 @@ function message(overrides: Partial<IMMessage> = {}): IMMessage {
   }
 }
 
-describe('TabTin message references', () => {
+describe('SnSworker message references', () => {
   it('keeps the PostgreSQL identity as a decimal string', () => {
     const encoded = encodeTabTinMessageReference({
       messageRef: MESSAGE_REF,
@@ -128,7 +128,7 @@ describe('TabTin message references', () => {
     expect(hydrateTabTinReferenceMessages([pointer], [hydrated])[0]?.id).toBe(700)
   })
 
-  it('does not coerce a numeric message id into a TabTin reference', () => {
+  it('does not coerce a numeric message id into a SnSworker reference', () => {
     const pointer = message({
       id: 700,
       seq: 700,

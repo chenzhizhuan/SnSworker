@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://www.example.com/schemas/client-observability-context.schema.json",
-  "title": "TabTin Client Observability Context",
+  "title": "SnSworker Client Observability Context",
   "type": "object",
   "required": ["tags", "contexts"],
   "properties": {

@@ -1,7 +1,7 @@
 /**
  * CLI Profile Bootstrap
  *
- * 首次启动 TabTin 后，Go CLI 在 `~/.tabtin/config.json` 里看不到 profile.token
+ * 首次启动 SnSworker 后，Go CLI 在 `~/.tabtin/config.json` 里看不到 profile.token
  * 会触发 fail-fast 闸门（`packages/tabtin-cli-go/internal/cmdutil/pipeline.go`
  * 中 `RequiresAuth: true` 命令的预检），所有 `tabtin doc/table/space/...`
  * 等命令立刻报 UNAUTHORIZED——即使用户已经在 Electron 应用里登录了。
@@ -64,7 +64,7 @@ function buildPlaceholderConfig(): CLIProfileConfig {
       default: {
         baseURL: API_BASE_URL,
         token: CLI_PLACEHOLDER_TOKEN,
-        label: 'TabTin App',
+        label: 'SnSworker App',
       },
     },
     defaults: {},

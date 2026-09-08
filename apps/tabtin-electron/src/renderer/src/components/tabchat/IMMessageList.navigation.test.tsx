@@ -130,7 +130,7 @@ describe('IMMessageList navigation locate vs auto-stick', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     const messages = [
       msg(1),
-      msg(2, `${'很长的历史消息 '.repeat(80)}https://github.com/larchiveai/TabTin/issues/7632`),
+      msg(2, `${'很长的历史消息 '.repeat(80)}https://github.com/larchiveai/SnSworker/issues/7632`),
       msg(3),
       msg(4),
       msg(5),

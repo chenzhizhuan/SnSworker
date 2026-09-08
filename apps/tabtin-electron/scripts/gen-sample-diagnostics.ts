@@ -3,7 +3,7 @@
  *
  * 复用**真实**的 redact 脱敏函数 + jszip，喂入一段模拟「用户操作 Space」产生的
  * 日志（用 Space 模块本轮实际埋点的格式），生成一个真实的诊断包 zip 落到
- * ~/Downloads/TabTin/diagnostics/，用于直观查看：诊断包结构 / Space 埋点样子 /
+ * ~/Downloads/SnSworker/diagnostics/，用于直观查看：诊断包结构 / Space 埋点样子 /
  * 脱敏是否生效。
  *
  * 跑法：cd apps/tabtin-electron && npx tsx scripts/gen-sample-diagnostics.ts
@@ -35,7 +35,7 @@ const meta = {
     macTranslated: 0,
     macSupportsArm64: 1,
     osBuild: '24F74',
-    execBasename: 'TabTin',
+    execBasename: 'SnSworker',
     runtimeLabel: 'apple-silicon-native',
   },
   session: { sessionId: 's_ab12cd', deviceId: 'd_ff9021' },
@@ -95,7 +95,7 @@ const recentErrors = [
 ]
 
 const README = [
-  'TabTin 客户端诊断包（样例）',
+  'SnSworker 客户端诊断包（样例）',
   '='.repeat(40),
   '',
   `导出时间：${meta.generatedAt}`,
@@ -126,7 +126,7 @@ async function main(): Promise<void> {
   zip.file('recent-errors.json', redactJson(recentErrors))
 
   const buf = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' })
-  const outDir = join(homedir(), 'Downloads', 'TabTin', 'diagnostics')
+  const outDir = join(homedir(), 'Downloads', 'SnSworker', 'diagnostics')
   mkdirSync(outDir, { recursive: true })
   const stamp = new Date().toISOString().replace(/[:.]/g, '').replace('T', '-').slice(0, 15)
   const outPath = join(outDir, `tabtin-diag-sample-${meta.profile}-${meta.appVersion}-${stamp}.zip`)

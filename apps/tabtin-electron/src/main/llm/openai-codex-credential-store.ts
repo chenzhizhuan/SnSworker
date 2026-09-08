@@ -87,7 +87,7 @@ export class OpenAICodexCredentialStore {
 
   private async readStoredCredential(accountName: string): Promise<OpenAICodexOAuthCredential | null> {
     let stored = await this.dependencies.getPassword(SERVICE_NAME, accountName)
-    // 一次性迁移旧版全设备 `default` 凭据到当前 TabTin 用户桶。迁移后立即删除
+    // 一次性迁移旧版全设备 `default` 凭据到当前 SnSworker 用户桶。迁移后立即删除
     // legacy，避免下一位登录用户再次继承同一份 ChatGPT 额度。
     if (!stored && accountName !== ACCOUNT_NAME) {
       const legacy = await this.dependencies.getPassword(SERVICE_NAME, ACCOUNT_NAME)
@@ -104,7 +104,7 @@ export class OpenAICodexCredentialStore {
 
   private async requireAccountName(): Promise<string> {
     const accountName = await this.dependencies.resolveAccountName()
-    if (!accountName) throw new Error('TabTin authentication is required for ChatGPT Codex')
+    if (!accountName) throw new Error('SnSworker authentication is required for ChatGPT Codex')
     return accountName
   }
 
@@ -159,7 +159,7 @@ async function resolveCurrentTabTinAccountName(): Promise<string | null> {
   return userId ? `user:${userId}` : null
 }
 
-/** 进程内单例：按 TabTin 用户隔离；IPC / login / runtime 共用同一串行锁。 */
+/** 进程内单例：按 SnSworker 用户隔离；IPC / login / runtime 共用同一串行锁。 */
 export const sharedOpenAICodexCredentialStore = new OpenAICodexCredentialStore({
   resolveAccountName: resolveCurrentTabTinAccountName,
 })

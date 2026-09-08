@@ -509,7 +509,7 @@ describe('buildResourceMonitorViewModel', () => {
             createdAt: 1,
             source: 'user',
             status: 'active',
-            cwd: '/Users/developer/dev/TabTin',
+            cwd: '/Users/developer/dev/SnSworker',
           },
         ],
       },

@@ -1,4 +1,4 @@
-"""TabTin Data SDK — fluent query API for TabData."""
+"""SnSworker Data SDK — fluent query API for TabData."""
 
 from tabtin_sdk.client import Client
 from tabtin_sdk.table import TableHandle

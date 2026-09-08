@@ -175,7 +175,7 @@ describe('hasTabtinContinuationMessages', () => {
     ])).toBe(false)
   })
 
-  it('detects a live TabTin turn', () => {
+  it('detects a live SnSworker turn', () => {
     expect(hasTabtinContinuationMessages([
       msg({
         id: 'ext-a1',

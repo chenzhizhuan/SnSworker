@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest'
 import { buildCompactGitChangeTree, flattenCompactGitChangeTree } from './gitCompactTree'
 
 describe('gitCompactTree', () => {
-  const rootPath = 'C:/workspace/TabTin-feature/TabTin'
+  const rootPath = 'C:/workspace/SnSworker-feature/SnSworker'
 
   it('compresses a single-directory chain into one expandable folder row', () => {
     const tree = buildCompactGitChangeTree(rootPath, [
       {
-        path: 'C:\\workspace\\TabTin-feature\\TabTin\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
+        path: 'C:\\workspace\\SnSworker-feature\\SnSworker\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
         status: 'M',
       },
     ])
@@ -20,8 +20,8 @@ describe('gitCompactTree', () => {
         children: [
           {
             type: 'file',
-            id: 'C:\\workspace\\TabTin-feature\\TabTin\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
-            path: 'C:\\workspace\\TabTin-feature\\TabTin\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
+            id: 'C:\\workspace\\SnSworker-feature\\SnSworker\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
+            path: 'C:\\workspace\\SnSworker-feature\\SnSworker\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
             name: 'SKILL.md',
             status: 'M',
           },
@@ -32,8 +32,8 @@ describe('gitCompactTree', () => {
 
   it('stops compression at branches so changed folders remain navigable', () => {
     const rows = flattenCompactGitChangeTree(buildCompactGitChangeTree(rootPath, [
-      { path: 'C:/workspace/TabTin-feature/TabTin/apps/tabtin-electron/src/main/git-ipc.ts', status: 'M' },
-      { path: 'C:/workspace/TabTin-feature/TabTin/apps/tabtin-electron/src/renderer/src/components/tabcode/TabCodePaneHost.tsx', status: 'M' },
+      { path: 'C:/workspace/SnSworker-feature/SnSworker/apps/tabtin-electron/src/main/git-ipc.ts', status: 'M' },
+      { path: 'C:/workspace/SnSworker-feature/SnSworker/apps/tabtin-electron/src/renderer/src/components/tabcode/TabCodePaneHost.tsx', status: 'M' },
     ]), new Set())
 
     expect(rows.map(row => ({
@@ -52,7 +52,7 @@ describe('gitCompactTree', () => {
   it('hides children for collapsed compact folders', () => {
     const tree = buildCompactGitChangeTree(rootPath, [
       {
-        path: 'C:/workspace/TabTin-feature/TabTin/.cursor/skills/linux-commit-discipline/SKILL.md',
+        path: 'C:/workspace/SnSworker-feature/SnSworker/.cursor/skills/linux-commit-discipline/SKILL.md',
         status: 'M',
       },
     ])

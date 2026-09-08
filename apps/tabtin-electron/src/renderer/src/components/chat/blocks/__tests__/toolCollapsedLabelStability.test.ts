@@ -20,7 +20,7 @@ describe('tool collapsed label stability during partial JSON streaming', () => {
     expect(getCollapsedToolLabel({
       input: {
         description: '读取工具卡实现',
-        path: '/Users/user/PycharmProjects/TabTin/apps/tabtin-electron/src/ToolStepCard.tsx',
+        path: '/Users/user/PycharmProjects/SnSworker/apps/tabtin-electron/src/ToolStepCard.tsx',
       },
       inputFinalized: true,
       compactSummary: 'ToolStepCard.tsx',

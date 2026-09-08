@@ -28,7 +28,7 @@ LLM 通过 `run_terminal_command` 工具执行 shell 命令。命令由一次性
 
 ## 用户要「打开终端」→ 应用内可交互终端
 
-用户说「打开终端 / 开个终端 / 给我一个终端」时，**优先**打开 TabTin 应用内可交互终端：
+用户说「打开终端 / 开个终端 / 给我一个终端」时，**优先**打开 SnSworker 应用内可交互终端：
 
 ```
 run_terminal_command(command="tabtin terminal open")
@@ -53,7 +53,7 @@ run_terminal_command(command="tabtin terminal open")
 - **实时看输出**——命令 stdout / stderr 合流后出现在 tab 里
 - **手动停止 background 任务**——用户关闭 Agent tab 或 LLM 跑 `run_terminal_command("kill <pid>")` 都会让 bridge 终止仍在跑的 child process
 
-这是 TabTin 的产品基本盘：Agent 在做的每一步都看得见、能干预。**不要刻意隐藏命令输出**——LLM 看到的 stdout 与用户在 tab 看到的是同源。
+这是 SnSworker 的产品基本盘：Agent 在做的每一步都看得见、能干预。**不要刻意隐藏命令输出**——LLM 看到的 stdout 与用户在 tab 看到的是同源。
 
 ## 工作流
 

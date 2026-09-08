@@ -53,7 +53,7 @@ function fallbackBrowserDownload(jsonText: string, filename: string): void {
 }
 
 /**
- * 静默落到 ~/Downloads/TabTin/exports/，再 showItemInFolder——与「导出诊断日志」同款。
+ * 静默落到 ~/Downloads/SnSworker/exports/，再 showItemInFolder——与「导出诊断日志」同款。
  * IPC 不可用时降级为浏览器下载（无路径可 reveal）。
  */
 async function saveAndRevealExportJson(jsonText: string, filename: string): Promise<void> {

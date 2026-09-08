@@ -270,7 +270,7 @@ enum StreamUpdate: Sendable {
     case sshOutput(messageId: String?, output: AgentSSHOutput)
     /// 富内容块（表格、文件、图片、资源引用等），直播和历史复用同一 UI block。
     case richContent(messageId: String?, index: Int, block: RichContentBlock)
-    /// TabTin 来源引用块，映射到聊天内上下文卡片（可见、可点击、可缓存）。
+    /// SnSworker 来源引用块，映射到聊天内上下文卡片（可见、可点击、可缓存）。
     case contextRef(messageId: String?, index: Int, block: ContextRefBlock)
     case messageStop(messageId: String?, stopReason: String?)
     case messagePersisted(messageId: String?, persistedId: String?, messageIds: [MessageIdMapping] = [])

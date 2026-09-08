@@ -12,7 +12,7 @@ const CURRENT_REVISION = '31fb996c27b18852c943c3da662fd53b6fd1b492'
 function buildInfo(revision = CURRENT_REVISION) {
   return [
     'tabtin: go1.26.1',
-    '\tpath\tgithub.com/TabTin/tabtin-cli',
+    '\tpath\tgithub.com/SnSworker/tabtin-cli',
     '\tbuild\tGOOS=darwin',
     '\tbuild\tGOARCH=arm64',
     `\tbuild\tvcs.revision=${revision}`,

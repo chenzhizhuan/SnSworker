@@ -114,7 +114,7 @@ const rule = {
     docs: {
       description:
         'chat 模块设计语言守门：禁用硬编码 Tailwind 原色 / 违规透明度 /50 /70 / 默认字号 / 像素字号。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-chat-design-violations',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-chat-design-violations',
     },
     schema: [],
     messages: MESSAGES,

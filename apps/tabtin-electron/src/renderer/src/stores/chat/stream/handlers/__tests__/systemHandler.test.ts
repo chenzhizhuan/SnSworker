@@ -333,7 +333,7 @@ describe('systemHandler', () => {
           window_ms: 30_000,
           nudge_threshold: 3,
           content:
-            '工具「ask_user」在 30 秒内被相同输入调用了 2 次。TabTin 正在关注，再重复几次会主动提示 Agent 别再重发。',
+            '工具「ask_user」在 30 秒内被相同输入调用了 2 次。SnSworker 正在关注，再重复几次会主动提示 Agent 别再重发。',
         },
       },
       ctx,

@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 const tabtrackerCapabilitiesRelPath = "../../../docs/agent/cli-capabilities/tabtracker-cli-capabilities.md"

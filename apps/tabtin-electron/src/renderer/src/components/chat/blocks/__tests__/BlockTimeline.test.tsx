@@ -206,7 +206,7 @@ describe('BlockTimeline', () => {
           type: 'server_tool_use',
           id: 'srvtoolu_1',
           name: 'web_search',
-          input: { query: 'TabTin' },
+          input: { query: 'SnSworker' },
         } as ContentBlockEntry['block'],
         finalized: true,
         partial: false,
@@ -221,7 +221,7 @@ describe('BlockTimeline', () => {
             {
               type: 'web_search_result',
               url: 'https://example.com/tabtin',
-              title: 'TabTin',
+              title: 'SnSworker',
             },
           ],
         } as ContentBlockEntry['block'],
@@ -234,7 +234,7 @@ describe('BlockTimeline', () => {
 
     expect(screen.getAllByTestId('block-server-tool-use')).toHaveLength(1)
     fireEvent.click(screen.getByRole('button'))
-    expect(screen.getByText('TabTin')).toBeTruthy()
+    expect(screen.getByText('SnSworker')).toBeTruthy()
     expect(screen.getByTestId('block-timeline').children).toHaveLength(1)
   })
 

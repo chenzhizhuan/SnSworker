@@ -9,7 +9,7 @@
  * 支持的格式（两种都吃）：
  *   ① 标准 mcpServers 文档：`{ "mcpServers": { "<名字>": <serverConfig> } }`
  *      —— Cursor / Claude Desktop / Windsurf 通用；VS Code 用 `servers` 键。
- *   ② 裸单 server 对象：`{ "url": ... }` 或 `{ "command": ... }`（TabTin 手动添加历史格式）。
+ *   ② 裸单 server 对象：`{ "url": ... }` 或 `{ "command": ... }`（SnSworker 手动添加历史格式）。
  *
  * server config 字段（与 discover 侧一致）：
  *   - http：`url`（必填）+ `headers`（string map）

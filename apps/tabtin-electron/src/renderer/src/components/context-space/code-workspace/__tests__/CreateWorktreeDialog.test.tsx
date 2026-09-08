@@ -86,15 +86,15 @@ vi.mock('@components/tabcode/components/git-workflow/gitErrorMessage', () => ({
 const baseProps = {
   open: true,
   onOpenChange: vi.fn(),
-  repoRoot: '/Users/me/project/TabTin',
+  repoRoot: '/Users/me/project/SnSworker',
   currentBranch: 'main',
   branchNames: ['main', 'feat/demo'],
-  existingWorktreePaths: ['/Users/me/project/TabTin'],
+  existingWorktreePaths: ['/Users/me/project/SnSworker'],
   defaultBaseBranch: 'main',
   sessionId: 's1',
   spaceId: 'space-1',
   tabScopeKey: 'conversation:s1',
-  previousRootPath: '/Users/me/project/TabTin',
+  previousRootPath: '/Users/me/project/SnSworker',
   onCreated: vi.fn(),
   onError: vi.fn(),
 }
@@ -110,7 +110,7 @@ describe('CreateWorktreeDialog', () => {
       ok: true,
       created: true,
       switched: true,
-      rootPath: '/Users/me/project/TabTin-feat-login',
+      rootPath: '/Users/me/project/SnSworker-feat-login',
     })
   })
 
@@ -127,7 +127,7 @@ describe('CreateWorktreeDialog', () => {
     render(<CreateWorktreeDialog {...baseProps} />)
     fillBranch('feat/login')
     expect(screen.getByTestId('worktree-location-preview').textContent).toBe(
-      '将创建目录 TabTin-feat-login',
+      '将创建目录 SnSworker-feat-login',
     )
 
     fireEvent.click(screen.getByTestId('code-workspace-create-and-switch'))
@@ -135,7 +135,7 @@ describe('CreateWorktreeDialog', () => {
       expect(createSessionWorktree).toHaveBeenCalledWith(
         expect.objectContaining({
           branch: 'feat/login',
-          path: '/Users/me/project/TabTin-feat-login',
+          path: '/Users/me/project/SnSworker-feat-login',
           createBranch: true,
         }),
       )
@@ -171,11 +171,11 @@ describe('CreateWorktreeDialog', () => {
       ok: true,
       created: true,
       switched: true,
-      rootPath: '/Users/me/project/TabTin-feat-login',
+      rootPath: '/Users/me/project/SnSworker-feat-login',
     })
     await waitFor(() => {
       expect(baseProps.onCreated).toHaveBeenCalledWith({
-        rootPath: '/Users/me/project/TabTin-feat-login',
+        rootPath: '/Users/me/project/SnSworker-feat-login',
         switched: true,
       })
     })

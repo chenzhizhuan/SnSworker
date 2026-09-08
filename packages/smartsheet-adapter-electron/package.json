@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/smartsheet-adapter-electron",
   "version": "0.1.0",
-  "description": "Electron platform adapter for TabTin applications",
+  "description": "Electron platform adapter for SnSworker applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -29,7 +29,7 @@
     "electron",
     "platform"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "peerDependencies": {
     "@tabtin/smartsheet": "workspace:*",

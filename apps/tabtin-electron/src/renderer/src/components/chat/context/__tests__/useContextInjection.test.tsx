@@ -19,11 +19,11 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_selection',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '这里是一段网页引用',
         meta: {
           url: 'https://tabtin.ai/docs',
-          pageTitle: 'TabTin 文档',
+          pageTitle: 'SnSworker 文档',
         },
       })
     })
@@ -32,10 +32,10 @@ describe('useContextInjection', () => {
     expect(result.current.contextRefs[0]).toMatchObject({
       type: 'web_selection',
       resourceId: 'https://tabtin.ai/docs',
-      label: 'TabTin 文档',
+      label: 'SnSworker 文档',
       meta: expect.objectContaining({
         url: 'https://tabtin.ai/docs',
-        pageTitle: 'TabTin 文档',
+        pageTitle: 'SnSworker 文档',
         preview: '这里是一段网页引用',
       }),
     })
@@ -44,7 +44,7 @@ describe('useContextInjection', () => {
         type: 'web_selection',
         preview: '这里是一段网页引用',
         url: 'https://tabtin.ai/docs',
-        page_title: 'TabTin 文档',
+        page_title: 'SnSworker 文档',
       },
     ])
   })
@@ -56,12 +56,12 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '选中的网页文字',
         tabType: 'tabweb',
         meta: {
           url: 'https://tabtin.ai/docs',
-          pageTitle: 'TabTin 文档',
+          pageTitle: 'SnSworker 文档',
           selection: { kind: 'text', text: '选中的网页文字' },
           rect: { x: 10, y: 20, width: 100, height: 32 },
           dom: { tag: 'p', selector: 'p:nth-of-type(1)' },
@@ -77,7 +77,7 @@ describe('useContextInjection', () => {
         preview: '选中的网页文字',
         tab_type: 'tabweb',
         url: 'https://tabtin.ai/docs',
-        page_title: 'TabTin 文档',
+        page_title: 'SnSworker 文档',
         selection: { kind: 'text', text: '选中的网页文字' },
         rect: { x: 10, y: 20, width: 100, height: 32 },
         dom: { tag: 'p', selector: 'p:nth-of-type(1)' },
@@ -94,12 +94,12 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '第一次',
         tabType: 'tabweb',
         meta: {
           url: 'https://tabtin.ai/docs',
-          pageTitle: 'TabTin 文档',
+          pageTitle: 'SnSworker 文档',
           annotationId: 'ann-old',
           selection: { kind: 'element', text: '按钮' },
           rect: { x: 10, y: 20, width: 100, height: 32 },
@@ -109,12 +109,12 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '第二次',
         tabType: 'tabweb',
         meta: {
           url: 'https://tabtin.ai/docs',
-          pageTitle: 'TabTin 文档',
+          pageTitle: 'SnSworker 文档',
           annotationId: 'ann-new',
           selection: { kind: 'element', text: '按钮' },
           rect: { x: 11, y: 21, width: 100, height: 32 },
@@ -140,7 +140,7 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '按钮',
         meta: {
           url: 'https://tabtin.ai/docs',
@@ -151,7 +151,7 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '输入框',
         meta: {
           url: 'https://tabtin.ai/docs',
@@ -171,7 +171,7 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '重复文字',
         meta: {
           url: 'https://tabtin.ai/docs',
@@ -183,7 +183,7 @@ describe('useContextInjection', () => {
       emitContextInject({
         type: 'web_annotation',
         resourceId: 'https://tabtin.ai/docs',
-        label: 'TabTin 文档',
+        label: 'SnSworker 文档',
         preview: '重复文字',
         meta: {
           url: 'https://tabtin.ai/docs',

@@ -48,7 +48,7 @@ class TeamSpaceVisibilityTests(TestCase):
             organization_id=self.organization.id,
             name="Owner Workspace",
             device_id=self.device.id,
-            working_dir="/Users/owner/TabTin/team-space-owner-workspace",
+            working_dir="/Users/owner/SnSworker/team-space-owner-workspace",
             working_dir_type="mixed",
         )
         self.assertIsNotNone(self.execution_space)

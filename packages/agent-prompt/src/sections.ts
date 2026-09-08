@@ -185,7 +185,7 @@ export function buildEnvironmentSection(identity?: RuntimeIdentity): string {
   if (!identity) {
     return [
       '<environment>',
-      '你运行在 TabTin 工作空间中。',
+      '你运行在 SnSworker 工作空间中。',
       '',
       ...termLines,
       '</environment>',
@@ -204,7 +204,7 @@ export function buildEnvironmentSection(identity?: RuntimeIdentity): string {
   // label 中文化（阶段 1 P3 audit 抓出来的真问题：原英文 label 让段判 mixed）。
   return [
     '<environment>',
-    '你运行在 TabTin 工作空间中。',
+    '你运行在 SnSworker 工作空间中。',
     '',
     '## 当前运行环境',
     '',
@@ -592,7 +592,7 @@ export function buildCustomRulesBlock(input: {
 /** 宿主按代码场景注入的对话 worktree 路由规则。 */
 export function buildWorktreeRoutingSection(): string {
   return `<worktree_routing>
-在当前 TabTin 对话中创建或切换 Git worktree，分别使用 \`tabtin code worktree create\` / \`tabtin code worktree switch\`，不得直接执行 \`git worktree\` 或仓库脚本。必须在前台等待命令完成，不得后台执行。项目规则 / Skill 仍用于确定 branch、base 与 GitFlow；若其中写的是原生命令或脚本，把创建 / 切换步骤转换为上述 TabTin CLI。用户未指定路径时不要添加 \`--path\`，由 TabTin 选择托管目录。
+在当前 SnSworker 对话中创建或切换 Git worktree，分别使用 \`tabtin code worktree create\` / \`tabtin code worktree switch\`，不得直接执行 \`git worktree\` 或仓库脚本。必须在前台等待命令完成，不得后台执行。项目规则 / Skill 仍用于确定 branch、base 与 GitFlow；若其中写的是原生命令或脚本，把创建 / 切换步骤转换为上述 SnSworker CLI。用户未指定路径时不要添加 \`--path\`，由 SnSworker 选择托管目录。
 </worktree_routing>`;
 }
 
@@ -687,7 +687,7 @@ ${trimmed}
 export function buildUserPortraitSection(content?: string): string {
   if (!content?.trim()) return '';
   return `<user_portrait>
-[系统说明] 下面是当前用户的"小传"，由 TabTin 自动从他的笔记里整理出来。把它当作背景上下文用来个性化你的回复，**不要**明说"我从你的个人资料看到..."这种话。把这些信息自然融入对话即可。
+[系统说明] 下面是当前用户的"小传"，由 SnSworker 自动从他的笔记里整理出来。把它当作背景上下文用来个性化你的回复，**不要**明说"我从你的个人资料看到..."这种话。把这些信息自然融入对话即可。
 
 如果小传里的内容和用户当前消息冲突，以用户当前消息为准——小传是历史上下文摘要，不是权威事实。
 
@@ -850,7 +850,7 @@ const TOOL_CATEGORIES: ToolCategory[] = [
  * `buildToolsReferenceSection` 仍保留供快照/对照；builder 不再注入该段。
  */
 const CROSS_TOOL_DECISIONS: readonly string[] = [
-  '- **TabTin 业务能力（browser / table / doc / slide / tracker / fetch）不是 FC，通过 `run_terminal_command` 调 `tabtin <subcommand>` CLI 触达**。用 `tabtin commands --format json | jq` 发现可用命令；可解析输出始终带 `--format json`；平台会把 TabTin CLI 的 JSON 表 / 记录自动渲染成富 UI 卡片。',
+  '- **SnSworker 业务能力（browser / table / doc / slide / tracker / fetch）不是 FC，通过 `run_terminal_command` 调 `tabtin <subcommand>` CLI 触达**。用 `tabtin commands --format json | jq` 发现可用命令；可解析输出始终带 `--format json`；平台会把 SnSworker CLI 的 JSON 表 / 记录自动渲染成富 UI 卡片。',
   '- **文件搜索**：搜文件路径 → `glob_search`（不是 find）；搜文件内容（正则）→ `grep_search`（不是 grep / rg）。**搜 Agent 自己的笔记 / 用户记忆** → `memory_search`（不是 grep）。',
   '- **TabDoc 找文档（关键词）**：用户说找/搜/检索**当前工作空间里的文档**（标题或正文含关键词）→ `run_terminal_command` + `tabtin doc search --query "…" --format json`（见 tabdoc-operator Skill）。**禁止**用 `doc list` 标题过滤代替；0 命中也要在回复里说明，**不要**静默降级 list。',
   '- **跨资源语义探索**：跨表 / 邮件等「类似内容 / 概念关联」→ 当前版本无专用语义搜索工具，用 `tabtin <sub> list` + `tabtin <sub> search` 按对象类型查。用户明确要 TabDoc 关键词找文档时走上一条的 `doc search` CLI。',
@@ -861,7 +861,7 @@ const CROSS_TOOL_DECISIONS: readonly string[] = [
   '- **长任务 / Background**：`wait_ms: 0` 把命令立即背景化，命令完成时 push 通知会激活下一轮 turn——你可以继续做别的事不用主动等。想看进度用 `read_file(output_file)`；想停掉用 `run_terminal_command` 跑 `kill <pid>`（pid 在 status="running" envelope 里返回）。',
   '- **Web 抓取**：核查→ `web_search`；静态正文 → `tabtin fetch`；读渲染页正文 → `tabtin browser print --save <path>` 落盘后按需读；网页/列表落 TabData → 先读 Browser Skill，走 `tab list`（复用已打开页，保登录态）→ `open` → `network` / `eval` 拿接口数据 → API 复刻 → 写入 TabData；表名由你根据用户意图、页面标题/域名和字段语义判断并显式传入。表单/翻页走 open/act：先用返回清单的 ref，目标不在清单再 glance 一次；读正文用 print/fetch。',
   '- **Skills**：`skills_search` 查找，`skills_read` 读取完整内容。用户通过 `/skill` 明确选定的 Skill 会在模型调用前自动注入，无需再调用激活工具。有 `tabtin` CLI 等价的操作型 skill 优先走 CLI。',
-  '- **能力发现**：用户问「有没有工具能做 X / TabTin 里有什么能力」→ `run_terminal_command` + `tabtin capabilities discover`（查工具/能力表）。用户问「有没有 skill 能做 X」→ `skills_search`。二者不要混用。',
+  '- **能力发现**：用户问「有没有工具能做 X / SnSworker 里有什么能力」→ `run_terminal_command` + `tabtin capabilities discover`（查工具/能力表）。用户问「有没有 skill 能做 X」→ `skills_search`。二者不要混用。',
   '- **MCP**：先 `tabtin mcp list-servers` / `tabtin mcp list-tools --server-name <n>` 发现工具，再 `mcp_call_tool` 调；其它 `tabtin mcp list-resources` / `read-resource` / `list-prompts` / `get-prompt` 是 CLI。',
 ];
 

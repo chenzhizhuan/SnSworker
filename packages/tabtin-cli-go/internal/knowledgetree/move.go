@@ -9,8 +9,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 const maxResolvePages = 20

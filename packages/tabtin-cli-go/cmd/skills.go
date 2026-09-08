@@ -6,11 +6,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/skillbundle"
-	"github.com/TabTin/tabtin-cli/internal/version"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/skillbundle"
+	"github.com/SnSworker/tabtin-cli/internal/version"
 )
 
 // newCmdSkills 复数 skills：面向第三方 Agent 的包内 Skill 内省与 ~/.agents/skills 生命周期。
@@ -78,7 +78,7 @@ func newCmdSkills(f *cmdutil.Factory) *cobra.Command {
 			Short: "将包内 Skill 物化到第三方 Agent 目录（默认 ~/.agents/skills）",
 			Long: `把包内 Skill 复制到第三方 Agent 可扫描目录（默认 ~/.agents/skills）。
 
-每个目录写入 .tabtin-skill.json 所有权标记。同名但非 TabTin 管理的目录会报冲突，不覆盖。
+每个目录写入 .tabtin-skill.json 所有权标记。同名但非 SnSworker 管理的目录会报冲突，不覆盖。
 
 常见陷阱：安装不等于设备/登录态可用；runtime 元数据仍需 Agent 自行诊断。`,
 			Example: `  tabtin skills install --target agents
@@ -102,7 +102,7 @@ func newCmdSkills(f *cmdutil.Factory) *cobra.Command {
 		},
 		{
 			Use:   "sync",
-			Short: "用包内权威版本覆盖本包已安装的 Skill（不碰非 TabTin 目录）",
+			Short: "用包内权威版本覆盖本包已安装的 Skill（不碰非 SnSworker 目录）",
 			Long: `将 ~/.agents/skills 下本包管理的 tabtin-* 目录强制同步回当前包内版本。
 
 只改带 .tabtin-skill.json 且 managed_by=tabtin 的目录；冲突目录跳过并列入 conflicts。
@@ -365,7 +365,7 @@ func skillsInstallExecute(f *cmdutil.Factory) func(*cmdutil.RunContext) error {
 				return output.PrintErrorAndExit(output.ErrorEnvelopeWith(
 					string(errcode.Conflict),
 					c.Error(),
-					"请手动处理冲突目录，或换 TABTIN_AGENTS_SKILLS_DIR；sync/remove 不会覆盖非 TabTin Skill",
+					"请手动处理冲突目录，或换 TABTIN_AGENTS_SKILLS_DIR；sync/remove 不会覆盖非 SnSworker Skill",
 					output.ExitGeneral,
 					output.ErrorEnvelopeOpts{
 						Detail: map[string]any{

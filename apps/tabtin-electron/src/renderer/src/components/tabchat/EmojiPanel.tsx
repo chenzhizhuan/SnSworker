@@ -2,7 +2,7 @@
  * EmojiPanel — 输入与 reaction 共用的 emoji 选择面板。
  *
  * compact 用于消息悬浮 reaction；full 用于输入框，提供「最近使用 + 默认表情」。
- * TabTin 小机器人贴纸入口暂时关闭，底层贴纸消息的渲染与兼容逻辑保持不变。
+ * SnSworker 小机器人贴纸入口暂时关闭，底层贴纸消息的渲染与兼容逻辑保持不变。
  */
 
 import React, { useCallback, useMemo, useState } from 'react'
@@ -49,7 +49,7 @@ function readRecentEmojis(): string[] {
 interface Props {
   onPick: (emoji: string) => void
   /**
-   * 为贴纸发送链路保留的兼容参数；当前 TabTin 贴纸入口已关闭，面板不会消费。
+   * 为贴纸发送链路保留的兼容参数；当前 SnSworker 贴纸入口已关闭，面板不会消费。
    */
   onPickSticker?: (sticker: TabtinRobotSticker) => void
   className?: string

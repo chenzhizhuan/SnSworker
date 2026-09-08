@@ -588,7 +588,7 @@ export const IMMessageInput: React.FC<Props> = ({
     setShowEmojiPanel(false)
   }, [applyComposerCaret])
 
-  // TabTin 贴纸：点选后立刻作为 IMAGE + metadata.sticker 发出，不插入输入框。
+  // SnSworker 贴纸：点选后立刻作为 IMAGE + metadata.sticker 发出，不插入输入框。
   const handlePickSticker = useCallback(async (sticker: TabtinRobotSticker) => {
     if (!allowRichContent || isSendingSticker || isUploading || isSending || editingMessage) return
     setIsSendingSticker(true)

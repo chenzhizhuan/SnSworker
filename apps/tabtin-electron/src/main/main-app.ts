@@ -120,7 +120,7 @@ const exitGuard = createExitGuardController({
 //     才装配 ToolProvider，那时 hook 已注册。读取走 getAppBeforeRelaunch()
 //
 // reason 'app-relaunch'（M-3 修订）：让对话框文案显示"重启前确认未保存改动 ...
-// 重启完成后 TabTin 会自动重新打开"——而不是"退出前确认"那种让用户怀疑"我
+// 重启完成后 SnSworker 会自动重新打开"——而不是"退出前确认"那种让用户怀疑"我
 // 不是说让你重启吗，怎么变成退出了？"的认知断裂措辞。
 //
 // 拼装逻辑抽到 makeExitGuardRelaunchHook（exit-guard-relaunch-hook.ts）便于单测。

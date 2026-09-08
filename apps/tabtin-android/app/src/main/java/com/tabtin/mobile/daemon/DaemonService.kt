@@ -365,10 +365,10 @@ public class DaemonService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "TabTin 受控端",
+                "SnSworker 受控端",
                 NotificationManager.IMPORTANCE_LOW,
             ).apply {
-                description = "TabTin 受控端后台运行通知"
+                description = "SnSworker 受控端后台运行通知"
             }
             val nm = getSystemService(NotificationManager::class.java)
             nm.createNotificationChannel(channel)
@@ -377,7 +377,7 @@ public class DaemonService : Service() {
 
     private fun buildNotification(text: String): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("TabTin 受控端")
+            .setContentTitle("SnSworker 受控端")
             .setContentText(text)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setOngoing(true)

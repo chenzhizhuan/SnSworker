@@ -6,10 +6,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/knowledgetree"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/knowledgetree"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // newCmdContextItem 知识库树 ContextItem 操作（与运行时 `tabtin context` 不同）。

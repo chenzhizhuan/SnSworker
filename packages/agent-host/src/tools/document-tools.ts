@@ -129,7 +129,7 @@ function buildDocumentReadRequest(
   )
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (deps.apiAuthToken) headers['Authorization'] = `Bearer ${deps.apiAuthToken}`
-  if (deps.organizationId) headers['X-TabTin-Organization-Id'] = deps.organizationId
+  if (deps.organizationId) headers['X-SnSworker-Organization-Id'] = deps.organizationId
   return { url, headers }
 }
 

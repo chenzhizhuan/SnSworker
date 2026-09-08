@@ -35,7 +35,7 @@ private struct DeactivatedAgentAvatarView: View {
     }
 }
 
-/// AI 分身头像：预设头像优先；没有预设时尝试自定义 URL，加载失败或缺失则统一回退 TabTin 品牌图标。
+/// AI 分身头像：预设头像优先；没有预设时尝试自定义 URL，加载失败或缺失则统一回退 SnSworker 品牌图标。
 /// 不复用 SpaceAvatar，避免 AI 分身在历史数据缺少头像字段时退回名称首字母。
 private struct AgentIdentityFallbackAvatar: View {
     let imageURL: URL?
@@ -420,7 +420,7 @@ struct AgentEditSheet: View {
             } header: {
                 Text("头像")
             } footer: {
-                Text("从 TabTin 预置头像中选择。")
+                Text("从 SnSworker 预置头像中选择。")
             }
             Section {
                 TextField(L10n.Project.myAgentsPersonaPlaceholder, text: $rules, axis: .vertical)
@@ -495,7 +495,7 @@ private struct AgentCreateSheet: View {
             } header: {
                 Text("头像")
             } footer: {
-                Text("从 TabTin 预置头像中选择。")
+                Text("从 SnSworker 预置头像中选择。")
             }
 
             Section(L10n.Project.myAgentsTemplate) {

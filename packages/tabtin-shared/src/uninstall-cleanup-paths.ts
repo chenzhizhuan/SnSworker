@@ -24,10 +24,10 @@ import path from 'node:path'
 
 /** Electron userData 目录名（与 app-identity.userDataDirName 对齐，含历史遗留） */
 export const TABTIN_USER_DATA_DIR_NAMES = [
-  'TabTin',
-  'TabTin Dev',
-  'TabTin Local',
-  'TabTin Preprod',
+  'SnSworker',
+  'SnSworker Dev',
+  'SnSworker Local',
+  'SnSworker Preprod',
   'tabtin-electron',
 ] as const
 
@@ -95,17 +95,17 @@ export const TABTIN_UPDATER_CACHE_DIR_NAMES = [
   'com.tabtin.app.dev-updater',
   'com.tabtin.app.local-updater',
   'com.tabtin.app.preprod-updater',
-  'TabTin-updater',
-  'TabTin Dev-updater',
-  'TabTin Local-updater',
-  'TabTin Preprod-updater',
+  'SnSworker-updater',
+  'SnSworker Dev-updater',
+  'SnSworker Local-updater',
+  'SnSworker Preprod-updater',
 ] as const
 
 /** macOS /Applications 下可能存在的 .app 名（卸载助手移入废纸篓用） */
 export const TABTIN_MAC_APP_BUNDLE_NAMES = [
-  'TabTin.app',
-  'TabTin Local.app',
-  'TabTin Dev.app',
+  'SnSworker.app',
+  'SnSworker Local.app',
+  'SnSworker Dev.app',
 ] as const
 
 export interface UninstallPathResolveOptions {
@@ -228,8 +228,8 @@ export function isProtectedWorkspacePath(
     ...TABTIN_USER_DATA_DIR_NAMES.map((name) =>
       path.join(appData, name, 'organizations'),
     ),
-    path.join(home, 'Library', 'Application Support', 'TabTin', 'organizations'),
-    path.join(appData, 'TabTin', 'organizations'),
+    path.join(home, 'Library', 'Application Support', 'SnSworker', 'organizations'),
+    path.join(appData, 'SnSworker', 'organizations'),
     path.join(home, '.tabtin', 'organizations'),
   ]
 

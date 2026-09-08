@@ -68,7 +68,7 @@ public class ThemeManager @Inject constructor(
     }
 
     /**
-     * 把 TabTin 内的主题选择同步给系统启动窗口。
+     * 把 SnSworker 内的主题选择同步给系统启动窗口。
      *
      * Android 12+ 的 SplashScreen 在应用内容创建前由系统绘制；只改变 Compose 主题会让
      * 系统首帧与后续开屏动画使用不同的明暗资源。平台会持久化这个应用级设置，因此

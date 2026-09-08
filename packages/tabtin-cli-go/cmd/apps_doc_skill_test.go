@@ -3,7 +3,7 @@
 //
 // 为什么需要这一层
 // ----------------
-// SKILL.md (packages/apps/tabdoc/skills/tabdoc-operator/SKILL.md) 是 TabTin
+// SKILL.md (packages/apps/tabdoc/skills/tabdoc-operator/SKILL.md) 是 SnSworker
 // Agent 与 tabdoc 交互的「宪法」——LLM 拿它当 prompt context，照着里面的命令
 // 示例去 execute_command。但目前没机制保证 SKILL.md 跟 cobra 命令树同步：
 //
@@ -12,7 +12,7 @@
 // - 退役命令（FC tabdoc_create_document → CLI doc create）→ SKILL 没擦干净
 //
 // 任一项 SKILL 漂移 = LLM 拿到错的指南 = agent 跑出 "unknown command" 然后
-// 进入 unrecoverable retry loop。生产环境直接表现为「TabTin 突然不能写文档了」。
+// 进入 unrecoverable retry loop。生产环境直接表现为「SnSworker 突然不能写文档了」。
 //
 // 钉死什么
 // --------
@@ -47,7 +47,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // SKILL.md 在仓库的位置（相对 packages/tabtin-cli-go/cmd/）。

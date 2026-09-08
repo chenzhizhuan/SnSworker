@@ -1021,7 +1021,7 @@ const purgeSession = async (payload: PurgeSessionPayload) => {
 }
 
 /**
- * 打开 / 聚焦 TabTin 应用内可交互终端（node-pty + xterm）。
+ * 打开 / 聚焦 SnSworker 应用内可交互终端（node-pty + xterm）。
  * CLI：`tabtin terminal open [--cwd] [--title] [--session-id]`
  */
 export const invokeOpenTerminalTab = (payload: OpenTerminalTabPayload) => {

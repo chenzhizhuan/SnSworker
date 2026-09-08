@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/knowledgetree"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/knowledgetree"
 )
 
 func NewCmdTable(f *cmdutil.Factory) *cobra.Command {
@@ -327,7 +327,7 @@ func registerTopLevel(parent *cobra.Command, f *cmdutil.Factory) {
 		},
 		{
 			Use: "query [sql]", Short: "只读 SQL 查询",
-			Long: `对 Space 内 TabData 表执行只读 SQL（SELECT），TabTin 特色能力。
+			Long: `对 Space 内 TabData 表执行只读 SQL（SELECT），SnSworker 特色能力。
 设计理由：跨表只读分析、复杂筛选比多次 record list 更高效；与 execute 严格分工。
 常见陷阱：query 拒绝写语句——UPDATE/DELETE 走 execute 并带确认 flag。`,
 			Example: "  tabtin table query \"SELECT * FROM users LIMIT 10\"\n" +

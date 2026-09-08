@@ -3,7 +3,7 @@
  *
  * **定位**：core 的 context-injector（agent-runtime `capability/injectors/context-injector.ts`）
  * 只保留中性框架（focused / open_tabs 拼接、anchor 注入、字节稳定）；「按 appType 渲染
- * 具体资源详情行」这套业务（TabTin 产品名、各 App 的字段口径、tabtin CLI 配方）从 core
+ * 具体资源详情行」这套业务（SnSworker 产品名、各 App 的字段口径、tabtin CLI 配方）从 core
  * 迁到这个宿主实现，经 `buildContextInjectorHook` 的 `formatAppMeta` option 注入
  * （Electron / Daemon 在装配 context-injector 时传入 `createAppMetaFormatter()`）。
  *

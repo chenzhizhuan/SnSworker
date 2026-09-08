@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { resolveReadReceiptMemberPresentation } from './readReceiptMemberPresentation'
 
 describe('resolveReadReceiptMemberPresentation', () => {
-  it('prefers the TabTin nickname over the Tencent account-style nickname', () => {
+  it('prefers the SnSworker nickname over the Tencent account-style nickname', () => {
     expect(resolveReadReceiptMemberPresentation({
       user_id: 'user-id-5318',
       name: 'user_5318',

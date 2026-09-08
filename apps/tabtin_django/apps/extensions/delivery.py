@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_TIMEOUT = 10
 AUTO_DISABLE_THRESHOLD = 10
-USER_AGENT = "TabTin-Extension/1.0"
+USER_AGENT = "SnSworker-Extension/1.0"
 
 
 def validate_webhook_url(url: str) -> Optional[str]:
@@ -50,11 +50,11 @@ def build_headers(
     headers = {
         "Content-Type": "application/json; charset=utf-8",
         "User-Agent": USER_AGENT,
-        "X-TabTin-Event": event_type,
-        "X-TabTin-Delivery": delivery_id or str(uuid.uuid4()),
+        "X-SnSworker-Event": event_type,
+        "X-SnSworker-Delivery": delivery_id or str(uuid.uuid4()),
     }
     if signature:
-        headers["X-TabTin-Signature"] = f"sha256={signature}"
+        headers["X-SnSworker-Signature"] = f"sha256={signature}"
     return headers
 
 

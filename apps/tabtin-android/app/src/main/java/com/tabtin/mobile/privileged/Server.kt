@@ -2516,7 +2516,7 @@ private fun handleSaveToDevice(params: JsonObject): ActionResult {
     val saveTo = params["save_to"]?.jsonPrimitive?.contentOrNull?.trim()?.lowercase() ?: "gallery"
     val baseDir = when (saveTo) {
         "downloads" -> "/sdcard/Download"
-        else -> "/sdcard/DCIM/TabTin"
+        else -> "/sdcard/DCIM/SnSworker"
     }
 
     val rawFilename = params["filename"]?.jsonPrimitive?.contentOrNull?.trim()

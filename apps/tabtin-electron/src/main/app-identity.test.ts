@@ -100,19 +100,19 @@ describe('app-identity', () => {
     expect(identity).toMatchObject({
       profile: 'development',
       appId: 'com.tabtin.app.dev',
-      productName: 'TabTin Dev',
+      productName: 'SnSworker Dev',
     })
-    expect(mocks.app.setName).toHaveBeenCalledWith('TabTin Dev')
+    expect(mocks.app.setName).toHaveBeenCalledWith('SnSworker Dev')
     expect(mocks.app.setPath).toHaveBeenCalledWith(
       'userData',
-      join('/Users/test/Library/Application Support', 'TabTin Dev'),
+      join('/Users/test/Library/Application Support', 'SnSworker Dev'),
     )
     expect(process.env.TABTIN_APP_ID).toBe('com.tabtin.app.dev')
     expect(process.env.TABTIN_DATA_ROOT).toBe(
-      join('/Users/test/Library/Application Support', 'TabTin Dev'),
+      join('/Users/test/Library/Application Support', 'SnSworker Dev'),
     )
     expect(process.env.TABTIN_RUNTIME_ROOT).toBe(
-      join('/Users/test/Library/Application Support', 'TabTin Dev', 'runtime'),
+      join('/Users/test/Library/Application Support', 'SnSworker Dev', 'runtime'),
     )
     expect(process.env.TABTIN_CONFIG_DIR).toBe(process.env.TABTIN_RUNTIME_ROOT)
   })
@@ -122,27 +122,27 @@ describe('app-identity', () => {
 
     applyRuntimeAppIdentity()
 
-    expect(mocks.app.setName).toHaveBeenCalledWith('TabTin Dev (im-2)')
+    expect(mocks.app.setName).toHaveBeenCalledWith('SnSworker Dev (im-2)')
     expect(mocks.app.setPath).toHaveBeenCalledWith(
       'userData',
-      join('/Users/test/Library/Application Support', 'TabTin Dev-im-2'),
+      join('/Users/test/Library/Application Support', 'SnSworker Dev-im-2'),
     )
   })
 
   it('packaged preprod runtime is inferred from the packaged app name', () => {
     mocks.app.isPackaged = true
-    mocks.app.getName.mockReturnValue('TabTin Preprod')
+    mocks.app.getName.mockReturnValue('SnSworker Preprod')
 
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'preprod',
       appId: 'com.tabtin.app.preprod',
-      productName: 'TabTin Preprod',
+      productName: 'SnSworker Preprod',
     })
   })
 
   it('packaged preprod runtime is inferred from packaged metadata when app name is shared', () => {
     mocks.app.isPackaged = true
-    mocks.app.getName.mockReturnValue('TabTin')
+    mocks.app.getName.mockReturnValue('SnSworker')
     mocks.app.getAppPath.mockReturnValue('/tmp/tabtin-preprod-app')
     mocks.readFileSync.mockReturnValue(JSON.stringify({
       build: {
@@ -157,7 +157,7 @@ describe('app-identity', () => {
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'preprod',
       appId: 'com.tabtin.app.preprod',
-      productName: 'TabTin Preprod',
+      productName: 'SnSworker Preprod',
     })
   })
 
@@ -187,35 +187,35 @@ describe('app-identity', () => {
 
   it('packaged preprod runtime is inferred from the app bundle resources path', () => {
     mocks.app.isPackaged = true
-    mocks.app.getName.mockReturnValue('TabTin')
+    mocks.app.getName.mockReturnValue('SnSworker')
     Object.defineProperty(process, 'resourcesPath', {
       configurable: true,
-      value: '/Applications/TabTin Preprod.app/Contents/Resources',
+      value: '/Applications/SnSworker Preprod.app/Contents/Resources',
     })
 
     expect(resolvePackagedRuntimeProfileFromHost()).toBe('preprod')
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'preprod',
       appId: 'com.tabtin.app.preprod',
-      productName: 'TabTin Preprod',
+      productName: 'SnSworker Preprod',
     })
   })
 
   it('explicit local profile overrides packaged app name inference', () => {
     mocks.app.isPackaged = true
-    mocks.app.getName.mockReturnValue('TabTin Preprod')
+    mocks.app.getName.mockReturnValue('SnSworker Preprod')
     process.env.TABTIN_RUNTIME_PROFILE = 'local'
 
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'local',
       appId: 'com.tabtin.app.local',
-      productName: 'TabTin Local',
+      productName: 'SnSworker Local',
     })
   })
 
   it('packaged runtime defaults to production when no profile marker exists', () => {
     mocks.app.isPackaged = true
-    mocks.app.getName.mockReturnValue('TabTin')
+    mocks.app.getName.mockReturnValue('SnSworker')
     delete process.env.TABTIN_RUNTIME_PROFILE
     delete process.env.VITE_BUILD_PROFILE
     delete process.env.TABTIN_BUILD_PROFILE
@@ -223,7 +223,7 @@ describe('app-identity', () => {
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'production',
       appId: 'com.tabtin.app',
-      productName: 'TabTin',
+      productName: 'SnSworker',
     })
   })
 
@@ -259,15 +259,15 @@ describe('app-identity', () => {
 
     process.env.TABTIN_RUNTIME_PROFILE = 'preprod'
     applyRuntimeAppIdentity()
-    expect(mocks.app.setName).toHaveBeenLastCalledWith('TabTin Preprod')
+    expect(mocks.app.setName).toHaveBeenLastCalledWith('SnSworker Preprod')
   })
 
   it('keeps production default Workspace root compatible while isolating other profiles', () => {
-    expect(resolveDefaultWorkspaceDirectoryName('production')).toBe('TabTin')
+    expect(resolveDefaultWorkspaceDirectoryName('production')).toBe('SnSworker')
     expect(resolveDefaultWorkspaceDirectoryName('community')).toBe('SnSworker')
-    expect(resolveDefaultWorkspaceDirectoryName('preprod')).toBe('TabTin Preprod')
-    expect(resolveDefaultWorkspaceDirectoryName('development')).toBe('TabTin Dev')
-    expect(resolveDefaultWorkspaceDirectoryName('local')).toBe('TabTin Local')
+    expect(resolveDefaultWorkspaceDirectoryName('preprod')).toBe('SnSworker Preprod')
+    expect(resolveDefaultWorkspaceDirectoryName('development')).toBe('SnSworker Dev')
+    expect(resolveDefaultWorkspaceDirectoryName('local')).toBe('SnSworker Local')
   })
 })
 

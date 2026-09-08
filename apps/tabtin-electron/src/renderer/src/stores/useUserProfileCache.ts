@@ -55,7 +55,7 @@ function shouldReplaceProfile(current: UserProfile | undefined, incoming: UserPr
 
 interface UserProfileCacheState {
   profiles: Record<string, UserProfile>
-  /** 已由 TabTin 服务端确认的资料；实时提示不得覆盖。 */
+  /** 已由 SnSworker 服务端确认的资料；实时提示不得覆盖。 */
   authoritativeIds: Set<string>
   loading: Set<string>
   ensureProfiles: (userIds: string[]) => void

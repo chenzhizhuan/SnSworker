@@ -2,7 +2,7 @@
  * cwd-quote-protection.test.ts —— W1 北极星 #5
  *
  * `detectUnquotedWorkspacePath` 的精度回归。问题陈述：
- *   macOS workspace 默认在 `~/Library/Application Support/TabTin/...`
+ *   macOS workspace 默认在 `~/Library/Application Support/SnSworker/...`
  *   含空格。LLM 把字面量路径直接拼到命令里时漏掉引号 → bash word-split
  *   → 命令实际跑成多 argv → 工具回报 usage 错误 → LLM 完全不知道根因。
  *
@@ -17,7 +17,7 @@
 import { describe, it, expect } from 'vitest';
 import { detectUnquotedWorkspacePath } from '../src/cwd-quote-protection';
 
-const SPACED = '/Users/foo/Application Support/TabTin/spaces/wt/sp';
+const SPACED = '/Users/foo/Application Support/SnSworker/spaces/wt/sp';
 const NO_SPACE = '/Users/foo/.tabtin/spaces';
 
 // ─── 1. 含空格路径 + 未引号 = 命中 ──────────────────────────────────

@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/table-engine-canvas",
   "version": "0.1.0",
-  "description": "Canvas renderer engine for TabTin table",
+  "description": "Canvas renderer engine for SnSworker table",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -51,7 +51,7 @@
     "engine",
     "canvas"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "dependencies": {
     "@floating-ui/react": "0.27.16",

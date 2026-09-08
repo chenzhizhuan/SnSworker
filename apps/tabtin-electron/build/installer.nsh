@@ -1,4 +1,4 @@
-; TabTin NSIS uninstall hooks — keep path names in sync with
+; SnSworker NSIS uninstall hooks — keep path names in sync with
 ; packages/tabtin-shared/src/uninstall-cleanup-paths.ts
 ;
 ; Policy:
@@ -12,7 +12,7 @@
 !insertmacro GetOptions
 
 ; Windows merges the current user's Desktop with the public Desktop. When an
-; older per-user TabTin is replaced by an all-users install, its shortcut can
+; older per-user SnSworker is replaced by an all-users install, its shortcut can
 ; remain visible beside the new public shortcut. Keep electron-builder's
 ; shortcut ($newDesktopLink) and remove the current user's duplicate.
 ;
@@ -53,10 +53,10 @@
 !macroend
 
 !macro deleteTabTinCredentials
-  Delete "$APPDATA\TabTin\credentials.json"
-  Delete "$APPDATA\TabTin Dev\credentials.json"
-  Delete "$APPDATA\TabTin Local\credentials.json"
-  Delete "$APPDATA\TabTin Preprod\credentials.json"
+  Delete "$APPDATA\SnSworker\credentials.json"
+  Delete "$APPDATA\SnSworker Dev\credentials.json"
+  Delete "$APPDATA\SnSworker Local\credentials.json"
+  Delete "$APPDATA\SnSworker Preprod\credentials.json"
   Delete "$APPDATA\tabtin-electron\credentials.json"
 !macroend
 
@@ -92,10 +92,10 @@
 !macroend
 
 !macro wipeTabTinLocalData
-  !insertmacro wipeTabTinProfileConfig "$APPDATA\TabTin"
-  !insertmacro wipeTabTinProfileConfig "$APPDATA\TabTin Dev"
-  !insertmacro wipeTabTinProfileConfig "$APPDATA\TabTin Local"
-  !insertmacro wipeTabTinProfileConfig "$APPDATA\TabTin Preprod"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker Dev"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker Local"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker Preprod"
   !insertmacro wipeTabTinProfileConfig "$APPDATA\tabtin-electron"
   ; ~/.tabtin：只删配置文件，保留 checkpoints / file-history / 用户相关内容
   Delete "$PROFILE\.tabtin\desktop-approval.json"
@@ -106,10 +106,10 @@
   RMDir /r "$LOCALAPPDATA\com.tabtin.app.dev-updater"
   RMDir /r "$LOCALAPPDATA\com.tabtin.app.local-updater"
   RMDir /r "$LOCALAPPDATA\com.tabtin.app.preprod-updater"
-  RMDir /r "$LOCALAPPDATA\TabTin-updater"
-  RMDir /r "$LOCALAPPDATA\TabTin Dev-updater"
-  RMDir /r "$LOCALAPPDATA\TabTin Local-updater"
-  RMDir /r "$LOCALAPPDATA\TabTin Preprod-updater"
+  RMDir /r "$LOCALAPPDATA\SnSworker-updater"
+  RMDir /r "$LOCALAPPDATA\SnSworker Dev-updater"
+  RMDir /r "$LOCALAPPDATA\SnSworker Local-updater"
+  RMDir /r "$LOCALAPPDATA\SnSworker Preprod-updater"
 !macroend
 
 !macro customUnInstall
@@ -127,7 +127,7 @@
     ${Else}
       ${IfNot} ${Silent}
         MessageBox MB_YESNO|MB_ICONQUESTION \
-          "Login credentials have been removed.$\r$\n$\r$\nAlso delete local TabTin config and cache?$\r$\n(Workspace folders and bound local directories are NEVER deleted.)$\r$\n$\r$\n登录凭证已清除。$\r$\n$\r$\n是否同时删除本地配置与缓存？$\r$\n（工作区目录与绑定的本机目录一律保留，不会删除。）" \
+          "Login credentials have been removed.$\r$\n$\r$\nAlso delete local SnSworker config and cache?$\r$\n(Workspace folders and bound local directories are NEVER deleted.)$\r$\n$\r$\n登录凭证已清除。$\r$\n$\r$\n是否同时删除本地配置与缓存？$\r$\n（工作区目录与绑定的本机目录一律保留，不会删除。）" \
           IDYES tabtinFullWipe IDNO tabtinSkipFullWipe
         tabtinFullWipe:
           StrCpy $0 "1"

@@ -302,7 +302,7 @@ def test_status_is_read_only_and_distinguishes_starting_from_not_ready() -> None
         )
         assert starting.returncode == 0, starting.stdout + starting.stderr
         assert "Docker: RUNNING" in starting.stdout
-        assert "TabTin Server: STARTING" in starting.stdout
+        assert "SnSworker Server: STARTING" in starting.stdout
         assert "Realtime: NOT READY" in starting.stdout
         calls = trace.read_text(encoding="utf-8")
         assert " compose " in calls
@@ -318,7 +318,7 @@ def test_status_is_read_only_and_distinguishes_starting_from_not_ready() -> None
             extra_env={"FAKE_SERVER_READY": "1", "FAKE_REALTIME_READY": "1"},
         )
         assert ready.returncode == 0, ready.stdout + ready.stderr
-        assert "TabTin Server: READY" in ready.stdout
+        assert "SnSworker Server: READY" in ready.stdout
         assert "Realtime: READY" in ready.stdout
 
 

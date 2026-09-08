@@ -12,11 +12,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 // apps_feishu.go — `tabtin feishu`：飞书 OAuth 连接 + 同通道导入（多维表→TabData / Docx→TabDoc）。
@@ -31,7 +31,7 @@ func newCmdFeishu(f *cmdutil.Factory) *cobra.Command {
 		Short: "飞书连接与导入（多维表 / 云文档 → 组织）",
 		Long: `把飞书多维表格与新版云文档（Docx）一次性导入当前 Organization 云盘。
 
-走 TabTin 自有 OAuth + OpenAPI 管线（/api/integrations/feishu），与 Electron
+走 SnSworker 自有 OAuth + OpenAPI 管线（/api/integrations/feishu），与 Electron
 「新建 → 外部资源 → 飞书」同一套 runner。不要用外部 lark-cli / Cursor lark-doc
 代替迁入。
 

@@ -31,7 +31,7 @@ export const GENERATED_TS_DIR = resolve(GENERATED_DIR, 'typescript');
 /** vendor in 各端目标路径（实测 4 端工程结构后选定） */
 export const VENDOR_PATHS = {
   electron: resolve(REPO_ROOT, 'apps/tabtin-electron/src/shared/wire-generated'),
-  ios: resolve(REPO_ROOT, 'apps/tabtin-ios/tabtin-ios-odd/TabTin/Sources/Models/Wire'),
+  ios: resolve(REPO_ROOT, 'apps/tabtin-ios/tabtin-ios-odd/SnSworker/Sources/Models/Wire'),
   // 新 iOS 客户端。旧 tabtin-ios 暂存于 apps/tabtin-ios/tabtin-ios-odd。
   iosRebuild: resolve(REPO_ROOT, 'apps/tabtin-ios/Tabtin/Core/Wire'),
   android: resolve(

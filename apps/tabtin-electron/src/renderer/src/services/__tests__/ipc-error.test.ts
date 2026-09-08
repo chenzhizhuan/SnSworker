@@ -13,7 +13,7 @@ function t(key: string, options?: { defaultValue?: string }): string {
 describe('formatDirReadErrorForUser', () => {
   it('localizes outside-workspace directory read errors', () => {
     const message = formatDirReadErrorForUser(
-      new Error("Path 'C:\\Program Files\\TabTin Preprod\\tabtin-desktop' is outside your workspace. Open this folder in TabFolder/TabCode to authorize, or toggle Super Permissions in Agent Security settings."),
+      new Error("Path 'C:\\Program Files\\SnSworker Preprod\\tabtin-desktop' is outside your workspace. Open this folder in TabFolder/TabCode to authorize, or toggle Super Permissions in Agent Security settings."),
       t,
     )
 

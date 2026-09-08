@@ -156,7 +156,7 @@ public class DiagnosticRecorder @Inject constructor(
         private const val EXPORT_RETENTION_MS = 24 * 60 * 60 * 1000L
         private val FILE_TIMESTAMP_FORMATTER: DateTimeFormatter =
             DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss").withZone(ZoneOffset.UTC)
-        private const val README = """TabTin Android diagnostic bundle
+        private const val README = """SnSworker Android diagnostic bundle
 
 This bundle contains bounded, structured application, HTTP and WebSocket metadata.
 It intentionally excludes request/response bodies, header values, URL queries, tokens,

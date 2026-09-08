@@ -180,7 +180,7 @@ describe('DOMOperationHelper shadow', () => {
     });
 
     const result = await DOMOperationHelper.runAction(makeCtx(), {
-      selector: '#notes', action: 'fill', value: 'TabTin agent form test',
+      selector: '#notes', action: 'fill', value: 'SnSworker agent form test',
       waitForVisible: false, scrollIntoView: false,
     });
 

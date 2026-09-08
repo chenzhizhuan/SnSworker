@@ -47,9 +47,9 @@
 		<true/>
 	</dict>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>连接同一 Wi‑Fi 下的 TabTin 开发服务器，用于本地联调登录与推送。</string>
+	<string>连接同一 Wi‑Fi 下的 SnSworker 开发服务器，用于本地联调登录与推送。</string>
 	<key>NSCameraUsageDescription</key>
-	<string>拍照发送给 AI 助手，或扫描 TabTin 环境配置二维码</string>
+	<string>拍照发送给 AI 助手，或扫描 SnSworker 环境配置二维码</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>录制语音输入并转写为聊天文字</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

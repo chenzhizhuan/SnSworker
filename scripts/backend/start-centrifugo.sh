@@ -191,7 +191,7 @@ _centrifugo_install_from_legacy_path() {
 _centrifugo_install_from_cache() {
     _centrifugo_resolve_asset || return 1
 
-    local cache_root="${TABTIN_DEV_CACHE_ROOT:-/Volumes/Share/TabTin/dev-cache}"
+    local cache_root="${TABTIN_DEV_CACHE_ROOT:-/Volumes/Share/SnSworker/dev-cache}"
     local archive="${cache_root}/centrifugo/${CENTRIFUGO_ASSET}"
     local bin_dir="$SCRIPT_DIR/bin"
 

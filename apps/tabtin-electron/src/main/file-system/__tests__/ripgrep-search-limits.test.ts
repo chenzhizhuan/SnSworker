@@ -17,7 +17,7 @@ const mocks = vi.hoisted(() => ({
   showItemInFolder: vi.fn(),
   execFileAsync: vi.fn(),
   rgPath:
-    'C:\\Program Files\\TabTin\\resources\\app.asar\\node_modules\\@vscode\\ripgrep\\bin\\rg.exe',
+    'C:\\Program Files\\SnSworker\\resources\\app.asar\\node_modules\\@vscode\\ripgrep\\bin\\rg.exe',
   isPathSafe: vi.fn(() => true),
   resolveSpacesRoot: vi.fn(() => '/tmp/sandbox'),
   sanitizePathSegment: vi.fn((s: string) => s),
@@ -788,7 +788,7 @@ describe('fs:ripgrepSearch 输入校验与 DoS 边界', () => {
     const handler = getRipgrepHandler();
     const previousRgPath = mocks.rgPath;
     mocks.rgPath =
-      '/Applications/TabTin.app/Contents/Resources/app.asar/node_modules/@vscode/ripgrep-darwin-arm64/bin/rg';
+      '/Applications/SnSworker.app/Contents/Resources/app.asar/node_modules/@vscode/ripgrep-darwin-arm64/bin/rg';
 
     const enotdirErr = new Error('spawn ENOTDIR') as Error & { code: string };
     enotdirErr.code = 'ENOTDIR';

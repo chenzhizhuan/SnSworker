@@ -58,7 +58,7 @@ const { data } = await tabtin
         </div>
 
         <p className="mt-6 text-caption text-muted-foreground">
-          Powered by TabTin · React + Vite + Tailwind CSS
+          Powered by SnSworker · React + Vite + Tailwind CSS
         </p>
       </div>
     </div>

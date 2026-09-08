@@ -12,8 +12,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/cmd/agent"
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/cmd/agent"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 const agentMemoryCapabilitiesRelPath = "../../../docs/agent/cli-capabilities/agent-memory-cli-capabilities.md"

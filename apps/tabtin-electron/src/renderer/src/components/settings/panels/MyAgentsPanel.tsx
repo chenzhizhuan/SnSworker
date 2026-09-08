@@ -76,7 +76,7 @@ export function formatAgentRelativeTime(
   return new Date(ts).toLocaleDateString()
 }
 
-/** 列表行与详情头共用圆形身份头像：自定义图或 TabTin logo。 */
+/** 列表行与详情头共用圆形身份头像：自定义图或 SnSworker logo。 */
 export const AgentListIdentityAvatar: React.FC<{
   agent: OrganizationAgentSummary
   /**

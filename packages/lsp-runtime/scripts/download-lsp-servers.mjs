@@ -3,7 +3,7 @@
  * Pre-build 脚本：下载 LSP server tarball 并解压到 `lsp-servers/`。
  *
  * 设计理由：
- *   - 国内用户首次启动 TabTin 时 npm registry 访问不稳定 → 不能"按需下载到 cache"
+ *   - 国内用户首次启动 SnSworker 时 npm registry 访问不稳定 → 不能"按需下载到 cache"
  *   - 解决：build 时预下载，打进 Electron 安装包（asarUnpack）
  *
  * 下载策略：
@@ -29,7 +29,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const SERVERS_DIR = join(ROOT, 'lsp-servers');
 
-// 锁定版本 —— 跟随 TabTin 发布一起更新，避免上游 breaking change 偷偷生效
+// 锁定版本 —— 跟随 SnSworker 发布一起更新，避免上游 breaking change 偷偷生效
 const SERVERS = [
   { name: 'typescript-language-server', version: '5.2.0' },
   { name: 'typescript', version: '5.6.3' }, // 兜底（用户项目没装 typescript 时用）
@@ -159,7 +159,7 @@ async function main() {
 
   if (success < SERVERS.length) {
     warn(
-      `Some packages failed to download. TabTin will still work but LSP integration may be limited until packages are available.`,
+      `Some packages failed to download. SnSworker will still work but LSP integration may be limited until packages are available.`,
     );
   }
 }

@@ -101,7 +101,7 @@ describe('#4871 trackExternalDownload', () => {
     expect(() =>
       manager.trackExternalDownload({
         url: 'https://example.com/photo.jpg',
-        savePath: '/tmp/tabtin-test-downloads/TabTin/photo.jpg',
+        savePath: '/tmp/tabtin-test-downloads/SnSworker/photo.jpg',
         size: 2048,
         mimeType: 'image/jpeg',
         viewId: 'view-1',
@@ -128,7 +128,7 @@ describe('#4871 trackExternalDownload', () => {
     const manager = getDownloadManager()
     const input = {
       url: 'https://example.com/photo.jpg',
-      savePath: '/tmp/tabtin-test-downloads/TabTin/photo.jpg',
+      savePath: '/tmp/tabtin-test-downloads/SnSworker/photo.jpg',
       size: 2048,
     }
 
@@ -157,7 +157,7 @@ describe('#4871 trackExternalDownload', () => {
 
     manager.trackExternalDownload({
       url: 'https://example.com/doc.pdf',
-      savePath: '/tmp/tabtin-test-downloads/TabTin/doc.pdf',
+      savePath: '/tmp/tabtin-test-downloads/SnSworker/doc.pdf',
       size: 100,
       mimeType: 'application/pdf',
     })

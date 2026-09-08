@@ -25,7 +25,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // newTestDocCmd 构造一棵 doc 命令树供单测断言。
@@ -776,8 +776,8 @@ func TestLooksLikeBareMarkdownFilePath(t *testing.T) {
 	}{
 		{name: "正常正文", in: "# 标题\n\n正文一段。", want: false},
 		{name: "短标题带井号", in: "# 周报", want: false},
-		{name: "Windows 绝对路径 md", in: `C:\Users\Lenovo\TabTin\默认 Agent-2\淬炼盛夏荣光.md`, want: true},
-		{name: "POSIX 绝对路径", in: "/Users/me/TabTin/workspace/report.md", want: true},
+		{name: "Windows 绝对路径 md", in: `C:\Users\Lenovo\SnSworker\默认 Agent-2\淬炼盛夏荣光.md`, want: true},
+		{name: "POSIX 绝对路径", in: "/Users/me/SnSworker/workspace/report.md", want: true},
 		{name: "相对路径带斜杠", in: "./drafts/weekly.md", want: true},
 		{name: "反斜杠相对路径", in: `artifacts\news.md`, want: true},
 		{name: "单独文件名 md", in: "report.md", want: true},

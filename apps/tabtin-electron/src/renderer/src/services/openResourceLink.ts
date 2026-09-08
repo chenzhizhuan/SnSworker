@@ -260,7 +260,7 @@ export function openResourceUrlInSpace(
   }
   return resourceRouter.open(spaceId, pointer, {
     triggerSource: 'window_open_fallback',
-    // 没有关联 Space 的 IM 会话仍可能交付 TabTin 内部资源。此时必须让
+    // 没有关联 Space 的 IM 会话仍可能交付 SnSworker 内部资源。此时必须让
     // ResourceRouter 按内部载体分发，不能把 tabtin:// 交给 shell.openExternal
     // （后者只允许 http/https/mailto）。外链则继续沿用原有外开兜底，协议
     // 白名单仍由 main IPC 统一执行。

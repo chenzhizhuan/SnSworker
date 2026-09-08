@@ -22,7 +22,7 @@ public object TTColors {
 
     // endregion
 
-    // region Brand (TabTin Orange · HSL 28 — 与 iOS/Electron 对齐)
+    // region Brand (SnSworker Orange · HSL 28 — 与 iOS/Electron 对齐)
 
     public val Primary: Color get() = light(currentTokens.bgAccent)
     public val PrimaryVariant: Color get() = light(currentTokens.bgAccentPressed)
@@ -133,7 +133,7 @@ public object TTColors {
 
         // endregion
 
-        // region Brand (TabTin Orange · HSL 28 — 与 iOS/Electron 对齐)
+        // region Brand (SnSworker Orange · HSL 28 — 与 iOS/Electron 对齐)
 
         public val Primary: Color get() = dark(TTColors.currentTokens.bgAccent)
         public val PrimaryVariant: Color get() = dark(TTColors.currentTokens.bgAccentPressed)

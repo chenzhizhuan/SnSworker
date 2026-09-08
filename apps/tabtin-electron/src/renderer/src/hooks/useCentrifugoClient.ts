@@ -1,7 +1,7 @@
 /**
  * useCentrifugoClient — Centrifugo 连接管理 Hook
  *
- * 单例 Centrifuge 连接，通过 Connect Proxy 用 TabTin JWT 鉴权。
+ * 单例 Centrifuge 连接，通过 Connect Proxy 用 SnSworker JWT 鉴权。
  * 自动订阅 personal:{userId}，支持 token 自动刷新，并承载非 IM 产品事件。
  *
  * 连接维度绑定**用户**而非 organization。

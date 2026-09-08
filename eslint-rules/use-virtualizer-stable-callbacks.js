@@ -85,7 +85,7 @@ const rule = {
     docs: {
       description:
         '强制 useVirtualizer 的 measurement-affecting 回调（getItemKey / estimateSize / getScrollElement / rangeExtractor 等）使用稳定引用，避免 react-virtual 3.13+ 测量缓存失效引发的 "Maximum update depth exceeded" 死循环。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinuse-virtualizer-stable-callbacks',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinuse-virtualizer-stable-callbacks',
     },
     schema: [],
     messages: {

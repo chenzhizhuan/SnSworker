@@ -221,7 +221,7 @@ class TranslateSkillErrorTests(SimpleTestCase):
     def test_translation_strips_internal_paths(self):
         """charter §4.4:翻译输出经 sanitize 仍要无内部路径。"""
         result = translate_skill_error(
-            "permission denied at /Users/developer/dev/TabTin/TabTinAgent/apps/...",
+            "permission denied at /Users/developer/dev/SnSworker/TabTinAgent/apps/...",
         )
         self.assertNotIn("/Users", result["message"])
         self.assertNotIn("TabTinAgent", result["message"])

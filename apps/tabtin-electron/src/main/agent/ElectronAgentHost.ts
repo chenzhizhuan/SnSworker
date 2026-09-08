@@ -1084,7 +1084,7 @@ export class ElectronAgentHost {
    * 第一次创建 session（拿到 workspace root）时 init lsp-runtime + register
    * passive feedback handler。后续 session 共享同一个 singleton。
    *
-   * 单例语义：lsp-runtime 是 process-wide singleton，TabTin 一个 Electron
+   * 单例语义：lsp-runtime 是 process-wide singleton，SnSworker 一个 Electron
    * 实例只会跑一份 LSP server pool。多 session 用同一个 server pool 路由。
    * 当 workspace root 切换时（如用户切到不同代码项目），通过
    * `reinitializeLspServerManager` 重建——但当前 v0.1 简化处理：第一次 init
@@ -2876,7 +2876,7 @@ export class ElectronAgentHost {
 
     // 长上下文档位（Context Tier）同步：renderer 切档后调用此 IPC，
     // main 立即更新 sessionContextTiers Map，下次 LLM 请求 buildHeaders
-    // 时透传 X-TabTin-Context-Tier 给 Django proxy。
+    // 时透传 X-SnSworker-Context-Tier 给 Django proxy。
     guardedHandle(
       'agent-engine:set-session-context-tier',
       (

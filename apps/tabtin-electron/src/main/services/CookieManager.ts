@@ -17,7 +17,7 @@
  * const json = await cookieManager.exportCookies(page);
  * ```
  *
- * @author TabTin Team
+ * @author SnSworker Team
  * @date 2025-11-21
  */
 

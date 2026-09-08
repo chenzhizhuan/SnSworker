@@ -368,7 +368,7 @@ describe('CollapsedCanvasRail', () => {
       id: 'space-1',
       name: '默认工作空间',
       type: 'workspace',
-      working_dir: 'C:\\Users\\me\\TabTin\\默认工作空间-2',
+      working_dir: 'C:\\Users\\me\\SnSworker\\默认工作空间-2',
       working_dir_type: 'mixed',
       execution_agent_id: 'agent-1',
     }]
@@ -389,7 +389,7 @@ describe('CollapsedCanvasRail', () => {
     expect(executionRoot.compareDocumentPosition(pinnedDoc) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(pinnedDoc.compareDocumentPosition(workbench) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     const executionButton = screen.getByRole('button', { name: '目录' })
-    expect(executionButton.getAttribute('title')).toBe('C:\\Users\\me\\TabTin\\默认工作空间-2')
+    expect(executionButton.getAttribute('title')).toBe('C:\\Users\\me\\SnSworker\\默认工作空间-2')
 
     fireEvent.click(executionButton)
     expect(expandCanvas).toHaveBeenCalledTimes(1)

@@ -137,9 +137,9 @@ function checkScreenCapture(): PermissionStatus {
 
 function resolveProcessLabel(): string {
   try {
-    return app.getName() || 'TabTin'
+    return app.getName() || 'SnSworker'
   } catch {
-    return 'TabTin'
+    return 'SnSworker'
   }
 }
 

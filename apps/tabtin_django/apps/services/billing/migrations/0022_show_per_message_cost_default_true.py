@@ -1,7 +1,7 @@
 """
 PRD-04 Wave 5：回滚 0021，把 show_per_message_cost 默认值改回 True。
 
-产品决策：用户在消息气泡上默认能看到每条消息费用——TabTin"透明"承诺的底线。
+产品决策：用户在消息气泡上默认能看到每条消息费用——SnSworker"透明"承诺的底线。
 管理员仍可在 AdminDash 手动关闭。0021 保留在历史里（默认值演进记录），不删除。
 
 本迁移同时做 data migration：正向 update(pk=1, show_per_message_cost=True) 覆盖

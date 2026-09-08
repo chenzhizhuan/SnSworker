@@ -72,7 +72,7 @@ function guardedHandle(
 
 describe('isTrustedSender', () => {
   it('接受 file:// 协议（本地打包页面）', () => {
-    expect(isTrustedSender('file:///Users/me/TabTin/index.html')).toBe(true)
+    expect(isTrustedSender('file:///Users/me/SnSworker/index.html')).toBe(true)
   })
 
   it('接受 http://localhost 开头的 URL（开发模式）', () => {

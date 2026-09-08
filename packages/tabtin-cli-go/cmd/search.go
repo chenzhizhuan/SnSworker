@@ -1,4 +1,4 @@
-// Wave 4 of TabTin Unified Search Engine — `tabtin search` CLI command.
+// Wave 4 of SnSworker Unified Search Engine — `tabtin search` CLI command.
 //
 // 用法：
 //
@@ -33,9 +33,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // 允许的 query 参数白名单（与 Electron CLI 路由 / Django SearchParams 对齐）
@@ -94,7 +94,7 @@ func newCmdSearch(f *cmdutil.Factory) *cobra.Command {
 		Short: "统一搜索消息 / 资源 / Agent / Space / 备忘录 / IM",
 		Long: `统一搜索：在当前 Organization 范围内一次命中 6 类对象。
 
-结果与用户在 TabTin 桌面端按 Cmd+K 看到的完全一致：相同的权限边界、
+结果与用户在 SnSworker 桌面端按 Cmd+K 看到的完全一致：相同的权限边界、
 相同的 RRF 排序、相同的降级语义。Agent 通过 CLI 调用同一份能力。
 
 示例：
@@ -295,7 +295,7 @@ func printSearchHTTPError(status int, body []byte) error {
 	}
 	// Wave 4 Review H3 用户修复：透传 djangoRequest 准备好的 suggestions
 	// （cli/routes/shared/error-handler.ts 的 ELECTRON_SUGGESTIONS）到 hint
-	// 例：401 → "请先登录 TabTin 应用; 确保在 TabTin 内置终端中运行命令"
+	// 例：401 → "请先登录 SnSworker 应用; 确保在 SnSworker 内置终端中运行命令"
 	hint := joinSuggestions(body)
 	var errData map[string]any
 	if json.Unmarshal(body, &errData) == nil {

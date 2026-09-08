@@ -36,7 +36,7 @@ const VALID_CARDS: Record<TabTinCustomCardType, Record<string, unknown>> = {
   },
 }
 
-describe('TabTin custom card model', () => {
+describe('SnSworker custom card model', () => {
   it('keeps the supported type list and parser in sync', () => {
     expect(Object.keys(VALID_CARDS)).toEqual(TABTIN_CUSTOM_CARD_TYPES)
     for (const card of Object.values(VALID_CARDS)) {

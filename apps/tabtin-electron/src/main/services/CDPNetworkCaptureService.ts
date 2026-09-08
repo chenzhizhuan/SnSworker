@@ -10,7 +10,7 @@
  * - 不需要 DOM 注入强制触发
  * - 统一的网络层拦截
  *
- * @author TabTin Team
+ * @author SnSworker Team
  * @date 2025-11-19
  */
 

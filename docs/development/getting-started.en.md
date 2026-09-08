@@ -2,7 +2,7 @@
 
 [中文](getting-started.md)
 
-This guide runs TabTin from source. Unless noted otherwise, run commands from the repository root.
+This guide runs SnSworker from source. Unless noted otherwise, run commands from the repository root.
 
 ## Two startup routes
 
@@ -31,20 +31,20 @@ The Agent must not overwrite local configuration, change the global npm registry
 After the environment is ready, ask the Agent to run one of these prompts:
 
 ```text
-Run the “Quick Preview” for https://github.com/tabtin-ai/TabTin.
+Run the “Quick Preview” for https://github.com/tabtin-ai/SnSworker.
 ```
 
 Quick Preview starts the backend and Electron desktop client for a fast desktop experience. It does not start AdminDash or tabtin-web.
 
 ```text
-Run the “Full Preview” for https://github.com/tabtin-ai/TabTin.
+Run the “Full Preview” for https://github.com/tabtin-ai/SnSworker.
 ```
 
 Full Preview starts the backend, AdminDash, tabtin-web, and Electron desktop client, and provides the acceptance entry points for desktop, Android, and iOS debug packages. Android and iOS packages are built separately on their target platforms; the Full Preview command does not start them automatically.
 
 ### Default server address for Full Preview
 
-When the user does not explicitly provide a server IP, the Agent must detect an active LAN IPv4 address on the computer running the TabTin server and use it as the default server address for all three packaged clients. It must not put `localhost` or `127.0.0.1` into a package that other devices need to access. An explicitly provided server IP always takes precedence.
+When the user does not explicitly provide a server IP, the Agent must detect an active LAN IPv4 address on the computer running the SnSworker server and use it as the default server address for all three packaged clients. It must not put `localhost` or `127.0.0.1` into a package that other devices need to access. An explicitly provided server IP always takes precedence.
 
 Use the same `<LAN_IP>` for desktop, Android, and iOS:
 

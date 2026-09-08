@@ -55,7 +55,7 @@ function listMcpRemoteConfigDirs(): string[] {
 
 /**
  * mcp-remote 会复用 ~/.mcp-auth 里旧的动态注册客户端；
- * 若 client_name 不是 TabTin，授权页会显示「MCP CLI Proxy」等，和原型不符。
+ * 若 client_name 不是 SnSworker，授权页会显示「MCP CLI Proxy」等，和原型不符。
  * 发现不一致时删掉该 server 的 client_info / tokens，强制按货架 metadata 重新注册。
  */
 export function ensureMcpRemoteClientName(serverUrl: string, expectedClientName: string): void {

@@ -17,7 +17,7 @@ metadata:
 
 ## 概述
 
-Skill 是 TabTin 平台的能力包（用户 / 应用 / 平台预先写好的"知识包"）。本 SKILL 覆盖
+Skill 是 SnSworker 平台的能力包（用户 / 应用 / 平台预先写好的"知识包"）。本 SKILL 覆盖
 Skill 的**平台生命周期管理**——安装 / 卸载 / 启用 / 禁用 / 详情 / 市场 / 搜索 / 更新。
 
 **入口规范**：所有操作通过 `tabtin skill` CLI 触发，由 Agent 通过 `run_terminal_command`

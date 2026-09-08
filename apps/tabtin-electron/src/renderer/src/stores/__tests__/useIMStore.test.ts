@@ -3676,7 +3676,7 @@ describe('useIMStore organization isolation', () => {
     useIMStore.setState({
       conversations: [buildConversation({
         id: 'conv-notification-sender',
-        name: 'TabTin private conversation',
+        name: 'SnSworker private conversation',
       })] as never,
     })
 

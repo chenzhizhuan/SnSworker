@@ -1272,7 +1272,7 @@ struct ToolPresentation {
         )
     }
 
-    /// TabTin 内置 App 的工具名持续增长；按 App + 动作语义做通用映射，避免新工具回退成扳手。
+    /// SnSworker 内置 App 的工具名持续增长；按 App + 动作语义做通用映射，避免新工具回退成扳手。
     private static func tabAppPresentation(_ name: String) -> ToolPresentation? {
         guard name.hasPrefix("tab") else { return nil }
 

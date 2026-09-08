@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 func newTestFileCmd(t *testing.T) *cmdutil.Factory {

@@ -30,7 +30,7 @@
     "kernel",
     "adapter"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "dependencies": {
     "@tabtin/table-kernel": "workspace:*",

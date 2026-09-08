@@ -21,7 +21,7 @@ describe('ConfigService filesystem persistence', () => {
 
   beforeEach(() => {
     tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tabtin-config-service-'))
-    mockState.userDataPath = path.join(tmpRoot, 'TabTin Dev')
+    mockState.userDataPath = path.join(tmpRoot, 'SnSworker Dev')
     vi.resetModules()
   })
 

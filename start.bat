@@ -36,7 +36,7 @@ echo ========================================
 echo SnSworker is READY
 echo ========================================
 echo.
-echo 1. Start TabTin Desktop Client
+echo 1. Start SnSworker Desktop Client
 echo.
 echo 2. Register / Login
 echo.
@@ -72,6 +72,6 @@ echo Run status.bat to check the current status, then review Docker Desktop logs
 exit /b 1
 
 :ready_timeout
-echo ERROR: TabTin Server did not become ready within 180 seconds.
+echo ERROR: SnSworker Server did not become ready within 180 seconds.
 echo Run status.bat and inspect logs with: docker compose --env-file .env logs --tail 200
 exit /b 1

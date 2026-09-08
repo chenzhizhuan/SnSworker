@@ -17,7 +17,7 @@ function jsonResponse(body: unknown, status = 400): Response {
 }
 
 describe('resolveBillingExportErrorMessage ', () => {
-  it('reads TabTin http_error_handler envelope message', async () => {
+  it('reads SnSworker http_error_handler envelope message', async () => {
     const msg = await resolveBillingExportErrorMessage(
       jsonResponse({
         success: false,

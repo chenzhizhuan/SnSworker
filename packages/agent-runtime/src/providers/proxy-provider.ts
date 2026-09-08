@@ -247,7 +247,7 @@ export interface ProxyProviderConfig {
   /**
    * 业务对话 thread ID（落 `session_id` 字段透传给 wire / proxy）。
    * §17.6 D4：从原 `sessionId` 改名 `threadId`，让命名跟物理含义匹配。
-   * 注意：wire 层的 `session_id` HTTP body key 与 `X-TabTin-Session-Id` header
+   * 注意：wire 层的 `session_id` HTTP body key 与 `X-SnSworker-Session-Id` header
    * 名**不动**（外部 proxy 契约，改名牵动 server 侧）—— 只改本接口字段名。
    */
   threadId?: string;
@@ -295,7 +295,7 @@ export interface ProxyProviderConfig {
    * 由宿主从 ChatSession.context_tier_id 读取后注入。每次发请求时才
    * 取值，所以支持函数形式以便在切档后立即生效（无需重建 provider）。
    *
-   * 透传链路：buildHeaders → `X-TabTin-Context-Tier` → Django proxy
+   * 透传链路：buildHeaders → `X-SnSworker-Context-Tier` → Django proxy
    * → `tiered_pricing.tiers[i].extra_headers`（如 `anthropic-beta`）
    * → 上游 ZenMux/Claude → 1M 上下文。
    */
@@ -551,7 +551,7 @@ interface SSEParseContext {
   toolAccumulators: Map<number, ToolCallAccumulator>;
   anthropicToolBlocks: Map<number, { id: string; name: string }>;
   envelopeState: BlockEnvelopeState;
-  /** 单次 LLM SSE 流内的 model tool id → TabTin `tu_*` 映射 */
+  /** 单次 LLM SSE 流内的 model tool id → SnSworker `tu_*` 映射 */
   toolIdMapper: ToolIdMapper;
 }
 
@@ -1076,7 +1076,7 @@ export class TabTinProxyProvider implements LLMProvider {
       // content_block_start 时记录、content_block_delta 时复用、content_block_stop 时清理。
       anthropicToolBlocks: new Map<number, { id: string; name: string }>(),
       envelopeState,
-      // ：上游 `{name}_{n}` 会在长会话回绕撞号；本流内映射为 TabTin 权威 id。
+      // ：上游 `{name}_{n}` 会在长会话回绕撞号；本流内映射为 SnSworker 权威 id。
       toolIdMapper: new ToolIdMapper(),
     };
     const reader = body.getReader();
@@ -1893,26 +1893,26 @@ export class TabTinProxyProvider implements LLMProvider {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     };
-    if (this.config.agentId) h['X-TabTin-Agent-Id'] = this.config.agentId;
-    // wire 协议头名 `X-TabTin-Session-Id` 不动（外部 proxy 契约），值改用 threadId
-    if (this.config.threadId) h['X-TabTin-Session-Id'] = this.config.threadId;
-    if (request.requestSource) h['X-TabTin-Request-Source'] = request.requestSource;
+    if (this.config.agentId) h['X-SnSworker-Agent-Id'] = this.config.agentId;
+    // wire 协议头名 `X-SnSworker-Session-Id` 不动（外部 proxy 契约），值改用 threadId
+    if (this.config.threadId) h['X-SnSworker-Session-Id'] = this.config.threadId;
+    if (request.requestSource) h['X-SnSworker-Request-Source'] = request.requestSource;
     const logicalBillingKey = this.resolveLogicalBillingKey(request);
     if (logicalBillingKey) {
       const attemptBillingKey = `${logicalBillingKey}:attempt:${attemptIndex}`;
-      h['X-TabTin-Billing-Idempotency-Key'] = attemptBillingKey;
-      h['X-TabTin-Billing-Logical-Key'] = logicalBillingKey;
-      h['X-TabTin-Billing-Attempt-Key'] = attemptBillingKey;
-      h['X-TabTin-Billing-Attempt-Index'] = String(attemptIndex);
+      h['X-SnSworker-Billing-Idempotency-Key'] = attemptBillingKey;
+      h['X-SnSworker-Billing-Logical-Key'] = logicalBillingKey;
+      h['X-SnSworker-Billing-Attempt-Key'] = attemptBillingKey;
+      h['X-SnSworker-Billing-Attempt-Index'] = String(attemptIndex);
     }
     const wt = typeof this.config.organizationId === 'function'
       ? this.config.organizationId()
       : this.config.organizationId;
-    if (wt) h['X-TabTin-Organization-Id'] = wt;
+    if (wt) h['X-SnSworker-Organization-Id'] = wt;
     const tier = typeof this.config.contextTierId === 'function'
       ? this.config.contextTierId()
       : this.config.contextTierId;
-    if (tier) h['X-TabTin-Context-Tier'] = tier;
+    if (tier) h['X-SnSworker-Context-Tier'] = tier;
     return h;
   }
 

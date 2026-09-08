@@ -1,4 +1,4 @@
-/** TabTin 自定义 IM 卡片的类型与能力单一入口。 */
+/** SnSworker 自定义 IM 卡片的类型与能力单一入口。 */
 
 export const TABTIN_CUSTOM_CARD_TYPES = [
   'space',
@@ -174,7 +174,7 @@ function isSharedTaskCard(card: Record<string, unknown>): boolean {
 }
 
 function assertNever(value: never): never {
-  throw new Error(`Unhandled TabTin custom card contract: ${String(value)}`)
+  throw new Error(`Unhandled SnSworker custom card contract: ${String(value)}`)
 }
 
 export function isTabTinCustomCardType(value: unknown): value is TabTinCustomCardType {

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# TabTin Agent Daemon Installer
+# SnSworker Agent Daemon Installer
 # Usage: curl -fsSL https://install.example.com | bash -s -- --token "eyJ..."
 
 TABTIN_DAEMON_PKG="@tabtin/daemon"
@@ -136,7 +136,7 @@ install_from_tarball() {
   npm install -g "$TARBALL_URL" 2>&1
 }
 
-log "Installing TabTin Daemon (${DAEMON_VERSION})..."
+log "Installing SnSworker Daemon (${DAEMON_VERSION})..."
 if ! install_from_npm 2>/dev/null; then
   warn "npm registry install failed, trying tarball download..."
   if ! install_from_tarball; then
@@ -183,14 +183,14 @@ else
 fi
 
 ok "============================================"
-ok "  TabTin Daemon installed successfully!"
+ok "  SnSworker Daemon installed successfully!"
 ok "============================================"
 ok ""
 ok "  Status:  tabtin-daemon status"
 ok "  Doctor:  tabtin-daemon doctor"
 ok "  Config:  $INSTALL_DIR/config.json"
 ok ""
-ok "  The daemon is connecting to TabTin backend."
+ok "  The daemon is connecting to SnSworker backend."
 ok "  Check your DevicePanel — the device should"
 ok "  appear online within a few seconds."
 ok ""

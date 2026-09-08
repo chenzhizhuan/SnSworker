@@ -6,13 +6,13 @@ import os from 'os';
 import path from 'path';
 
 /*
- * 把正在运行的 TabTin 客户端「当前这一屏」冻成自包含单文件 HTML，供 html.to.design 灌进 Figma。
+ * 把正在运行的 SnSworker 客户端「当前这一屏」冻成自包含单文件 HTML，供 html.to.design 灌进 Figma。
  *
  * 前置：客户端需以调试端口启动（CDP 9222）。dev 下 pnpm dev 已带；若没有，用
  *   ELECTRON_EXTRA_ARGS 或启动参数加 --remote-debugging-port=9222。
  *
  * 用法：
- *   node snapshot-to-figma.mjs                 # 抓主窗口→自动用 Arc 打开快照，产物落 ~/Downloads/TabTin/figma-snapshots/
+ *   node snapshot-to-figma.mjs                 # 抓主窗口→自动用 Arc 打开快照，产物落 ~/Downloads/SnSworker/figma-snapshots/
  *   node snapshot-to-figma.mjs <名字>          # 自定义产物名
  *   node snapshot-to-figma.mjs <名字> <页面URL> # 指定抓哪个页面(默认主窗口 http://127.0.0.1:5175/)
  *   附加开关：--no-open 抓完不自动开浏览器；--verify 额外出无头复验图(慢 ~3s)
@@ -31,7 +31,7 @@ const WANT_VERIFY = argv.includes('--verify');
 const positional = argv.filter(a => !a.startsWith('--'));
 const NAME = positional[0] || 'tabtin-' + new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const TARGET_URL = positional[1] || 'http://127.0.0.1:5175/';
-const OUT_DIR = path.join(os.homedir(), 'Downloads', 'TabTin', 'figma-snapshots');
+const OUT_DIR = path.join(os.homedir(), 'Downloads', 'SnSworker', 'figma-snapshots');
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const OUT = path.join(OUT_DIR, NAME);
 

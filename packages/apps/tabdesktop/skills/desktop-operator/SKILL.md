@@ -52,7 +52,7 @@ metadata:
 | 打开应用（按名称或 .app 路径） | `tabtin desktop open "App Name"` / `tabtin desktop open "/Applications/X.app"` |
 | **批处理多步**（Wave 3） | `tabtin desktop batch -` (读 stdin) / `tabtin desktop batch --file ops.json` |
 
-> **禁止误开系统终端**：用户说「打开终端」指的是 **TabTin 应用内终端**，请用 `tabtin terminal open`，**不要**用 `tabtin desktop open "PowerShell"` / `"Windows Terminal"` / `"cmd"`。只有用户明确要求外部系统终端时，才用 `tabtin desktop open "PowerShell" --external`。
+> **禁止误开系统终端**：用户说「打开终端」指的是 **SnSworker 应用内终端**，请用 `tabtin terminal open`，**不要**用 `tabtin desktop open "PowerShell"` / `"Windows Terminal"` / `"cmd"`。只有用户明确要求外部系统终端时，才用 `tabtin desktop open "PowerShell" --external`。
 
 **会话与授权管理**（元命令，详见下方「会话与授权管理」章节）：
 
@@ -122,7 +122,7 @@ tabtin desktop type "你好世界" --clipboard
 这三件事是用户每天都会撞上的，Agent 必须主动向用户解释：
 
 - **「总是允许」有 24 小时 TTL**：用户首次点「总是允许」后，接下来 **24 小时内**的桌面操控不再弹审批；过了 24 小时，下一次 `tabtin desktop screenshot` 会再次弹窗。用户以为"永久允许"而第二天又看到弹窗是常见误解，要主动说明
-- **随时可撤销授权**：用户可在 TabTin「设置 → 凭据与授权 → 桌面操控授权」面板**随时撤销**当前持久化的「总是允许」记录；CLI 等价命令：`tabtin desktop revoke-approval`（见下方元命令专章）
+- **随时可撤销授权**：用户可在 SnSworker「设置 → 凭据与授权 → 桌面操控授权」面板**随时撤销**当前持久化的「总是允许」记录；CLI 等价命令：`tabtin desktop revoke-approval`（见下方元命令专章）
 - **Space 管理员可关闭桌面操控**：管理员或用户把 `device_permissions.desktop_observe` 设为 `block` 时，本 Space 的所有 `tabtin desktop` 命令（除 `accessibility` 诊断外）都会返回 `POLICY_BLOCKED` 三段式错误。遇到此错误时，应告知用户"当前 Space 关闭了桌面操控权限"并让用户或管理员去 **Space 设置 → 授权策略** 打开，**不要**尝试用 `osascript` / PowerShell / `run_terminal_command` 绕路执行等价操作——那是幻觉，云端 / 客户端两侧都会拦
 
 ### 紧急中止快捷键
@@ -223,8 +223,8 @@ run_terminal_command(command="tabtin desktop session end")
 run_terminal_command(command="tabtin desktop revoke-approval")
 ```
 
-- **等价 UI 路径**：TabTin「设置 → 凭据与授权 → 桌面操控授权 → 撤销」
-- **何时用**：用户说"不想再给 TabTin 桌面权限了"、或怀疑"总是允许"被误点、或排障时想强制重新走一次审批流程
+- **等价 UI 路径**：SnSworker「设置 → 凭据与授权 → 桌面操控授权 → 撤销」
+- **何时用**：用户说"不想再给 SnSworker 桌面权限了"、或怀疑"总是允许"被误点、或排障时想强制重新走一次审批流程
 - **作用范围**：只清持久化授权，不会中止当前正在进行的 session（想中止 session 按 Cmd+Shift+Esc / Ctrl+Alt+Esc）
 
 ## 注意事项

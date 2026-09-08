@@ -66,7 +66,7 @@ describe('diagnostics handlers envelope contract ', () => {
         })),
         mkdir: vi.fn(async () => undefined),
         writeFile: vi.fn(async () => undefined),
-        resolveDir: () => '/tmp/TabTin/diagnostics',
+        resolveDir: () => '/tmp/SnSworker/diagnostics',
         reveal: vi.fn(),
       },
     )

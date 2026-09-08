@@ -9,7 +9,7 @@ import type {
 } from './types.js'
 
 /**
- * TabTin SDK client.
+ * SnSworker SDK client.
  *
  * ```ts
  * import { createClient } from '@tabtin/sdk'

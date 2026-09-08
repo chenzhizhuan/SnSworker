@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // stdinReader 是 input 抽象读 stdin 时用的源。
@@ -342,7 +342,7 @@ func resolveInputAbstraction(def CommandDef, ctx *RunContext) error {
 	return nil
 }
 
-// ParseDataOrFile 解析一个 JSON 输入字符串，支持 TabTin 标准 input 抽象：
+// ParseDataOrFile 解析一个 JSON 输入字符串，支持 SnSworker 标准 input 抽象：
 //
 //   - "@path/to/file"  → 从文件读取 JSON
 //   - "-"              → 从 stdin 读取 JSON

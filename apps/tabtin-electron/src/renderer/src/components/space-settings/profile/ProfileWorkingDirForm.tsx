@@ -7,7 +7,7 @@
  *   - 失效：path 非空但 OS 检测不存在，红色警告 + 重新选择（选完自动 updateSpace）
  *   - 正常：显示当前 path（只读）+ 类型可改；不提供「更换目录」（创建时绑定，避免改绑丢现场）
  *
- * 设计原则（PRD §2.4）："TabTin 挂载物理实在，但不创造物理实在"——只支持选已存在
+ * 设计原则（PRD §2.4）："SnSworker 挂载物理实在，但不创造物理实在"——只支持选已存在
  * 的目录，不建目录。
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'

@@ -16,9 +16,9 @@ describe('FileTree rootPath key normalization', () => {
   }
 
   it('maps Windows backslash skill dirs to the same key loadDirectory stores', () => {
-    const windowsRoot = 'C:\\Users\\demo\\TabTin\\skills\\brainstorming-3'
+    const windowsRoot = 'C:\\Users\\demo\\SnSworker\\skills\\brainstorming-3'
     const storedByLoadDirectory = fileTreeRootKey(windowsRoot)
-    expect(storedByLoadDirectory).toBe('C:/Users/demo/TabTin/skills/brainstorming-3')
+    expect(storedByLoadDirectory).toBe('C:/Users/demo/SnSworker/skills/brainstorming-3')
     // 未 normalize 时 flatten(entriesByDir[windowsRoot]) 会 miss
     expect(windowsRoot === storedByLoadDirectory).toBe(false)
     expect(fileTreeRootKey(windowsRoot)).toBe(storedByLoadDirectory)

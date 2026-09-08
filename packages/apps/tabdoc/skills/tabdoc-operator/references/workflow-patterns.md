@@ -436,7 +436,7 @@ tabtin doc update-html <document-id> <block-id> --file /tmp/edit.html --format j
 
 - **markdown 块契约固定**：`:::htmlblock{fileId="..." src="..." title="..." height="480"}`，属性顺序 `fileId, src, title, height`；`height` 是数字。新块 `src=""`；历史块可能仍有非空 `src`（仅兼容回退）。命令替你拼，一般无需手写——若手写走 `insert-block --markdown`，属性顺序/引号别错。
 - **新 HTML 默认私有，权限跟随文档**：成员走文档 viewer ACL；访客走 DocumentShare。不要假设 `src` 可匿名打开。
-- **iframe 是沙箱**：渲染时无宿主权限——拿不到 TabTin cookie / 登录态、调不了 TabTin API、跨不了同源。HTML 必须能独立运行。
+- **iframe 是沙箱**：渲染时无宿主权限——拿不到 SnSworker cookie / 登录态、调不了 SnSworker API、跨不了同源。HTML 必须能独立运行。
 - **必须自包含单文件**：CSS/JS 尽量内联；外链资源必须 **https** 且沙箱内可达（公网 CDN 行，内网 / 需登录的不行）。
 - **上传路径白名单**：`--file` 只接 `$HOME` / `/tmp` 下路径（symlink 被拒），单文件 ≤100MB——先把 HTML 写到 `~/` 或 `/tmp/` 再传。
 - **写块失败可重试不必重传**：若上传成功但插块 / 替换失败，错误 `detail` 保留 `file_id` + 已拼好的 `markdown` + 一条 `recovery_command`（`doc insert-block` / `doc update-block`），直接跑那条补写即可，不用重新上传。

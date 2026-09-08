@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/TabTin/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/config"
 )
 
 const maxDiscoveryFileAge = 7 * 24 * time.Hour

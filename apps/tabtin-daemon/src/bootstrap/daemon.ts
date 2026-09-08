@@ -17,7 +17,7 @@ declare global {
 }
 
 interface TabtinGlobal {
-  /** Base URL of the TabTin server (without /api suffix). */
+  /** Base URL of the SnSworker server (without /api suffix). */
   apiBaseUrl: string;
   auth: {
     /** Returns the current gateway access token (may be stale if gateway not yet connected). */
@@ -278,7 +278,7 @@ export class TabTinDaemon {
       });
       this.lifecycle.own('action-execution', 'workload', () => this.bridge.dispose());
       this.lifecycle.own('action-ingress', 'ingress', () => this.bridge.suspendIngress());
-      this.logger.info(`TabTin Daemon v${process.env.npm_package_version ?? '0.1.0'} starting...`);
+      this.logger.info(`SnSworker Daemon v${process.env.npm_package_version ?? '0.1.0'} starting...`);
       this.logger.info(`Device: ${this.config.device_name} (${this.config.device_id})`);
       this.logger.info(`Server: ${this.config.server_url}`);
 
@@ -692,7 +692,7 @@ export class TabTinDaemon {
         if (this.mcpServer === server) this.mcpServer = null;
         await server.stop();
       });
-      this.logger.info(`TabTin MCP Server started on port ${port} (bearer token written to ~/.tabtin/mcp-server.json)`);
+      this.logger.info(`SnSworker MCP Server started on port ${port} (bearer token written to ~/.tabtin/mcp-server.json)`);
       // WP5 D8（2026-05-14）：显式 log 通告 MCP 不暴露的 llm_facing=false 工具，
       // 便于运维 / dogfood 排查"Claude Desktop 看不到 execute_in_terminal"为何。
       const nonLlmFacing = this.mcpServer.getNonLlmFacingAdapterToolNames();
@@ -805,7 +805,7 @@ export class TabTinDaemon {
     } else {
       this.logger.warn(
         '[Daemon] FFmpeg not verified by capability detector — video export unavailable. ' +
-        'Install FFmpeg, then refresh device capabilities or restart TabTin Daemon.',
+        'Install FFmpeg, then refresh device capabilities or restart SnSworker Daemon.',
       );
     }
   }

@@ -10,7 +10,7 @@
  * - forDebug() 方法
  * - validateConfig() 方法
  *
- * @author TabTin Team
+ * @author SnSworker Team
  * @date 2025-11-21
  */
 

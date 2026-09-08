@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/knowledgetree"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/knowledgetree"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // knowledgeTreeMoveByResourceFunc：用 document/table 的 resource_id 解析 ContextItem 后改挂。

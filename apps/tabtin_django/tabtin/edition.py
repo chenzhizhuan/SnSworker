@@ -1,4 +1,4 @@
-"""TabTin edition resolution.
+"""SnSworker edition resolution.
 
 Keep edition parsing independent from Django settings so every process entry
 point can make the same decision before importing optional integrations.

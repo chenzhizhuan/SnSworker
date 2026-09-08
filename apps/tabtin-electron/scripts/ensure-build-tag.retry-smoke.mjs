@@ -34,7 +34,7 @@ const current = existsSync(counterPath) ? Number(readFileSync(counterPath, 'utf-
 writeFileSync(counterPath, String(current + 1))
 
 if (current < 2) {
-  console.error("fatal: unable to access 'https://github.com/larchiveai/TabTin.git/': Failed to connect to github.com port 443 after 21095 ms: Could not connect to server")
+  console.error("fatal: unable to access 'https://github.com/larchiveai/SnSworker.git/': Failed to connect to github.com port 443 after 21095 ms: Could not connect to server")
   process.exit(128)
 }
 process.exit(0)

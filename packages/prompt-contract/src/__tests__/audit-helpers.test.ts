@@ -143,7 +143,7 @@ describe('checkPresenceInvariants', () => {
 
 describe('detectLanguage', () => {
   it('纯中文段 → zh', () => {
-    expect(detectLanguage('你是 TabTin AI Agent，运行环境是用户本地。')).toBe('zh');
+    expect(detectLanguage('你是 SnSworker AI Agent，运行环境是用户本地。')).toBe('zh');
   });
 
   it('纯英文段 → en', () => {
@@ -162,7 +162,7 @@ describe('detectLanguage', () => {
 
   it('中文段含路径 / errno / 缩写 → 不被误判', () => {
     const text =
-      'archive 在 /Users/foo/Library/Application Support/TabTin 下，遇到 EACCES 错误时调用 JSON API 返回 UTF-8 数据。';
+      'archive 在 /Users/foo/Library/Application Support/SnSworker 下，遇到 EACCES 错误时调用 JSON API 返回 UTF-8 数据。';
     expect(detectLanguage(text)).toBe('zh');
   });
 

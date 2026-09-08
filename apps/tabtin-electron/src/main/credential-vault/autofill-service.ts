@@ -930,7 +930,7 @@ function notifyRendererAgentAutofillFailed(
  * last_used_at 第一条）叠加，Wave 4 上线后 Agent 在不可见的后台 view 上自动用
  * 用户保存的密码登录任何网站——包括银行 / 支付 / 邮箱。本期不做敏感网站
  * 守门是产品决策，但**用户必须**至少**事后**能看到"Agent 刚刚用了某账号
- * 自动登录某站"。否则用户体感是"TabTin 擅自动我账户"——信任崩盘。
+ * 自动登录某站"。否则用户体感是"SnSworker 擅自动我账户"——信任崩盘。
  *
  * 这条 toast 是 PD-9 的"产品诚实度"兜底：不挡 Agent 行动，但不让动作隐形。
  *

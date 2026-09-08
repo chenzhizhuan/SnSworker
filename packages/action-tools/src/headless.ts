@@ -27,7 +27,7 @@ export type {
 // ========== Manifest (pure data query, GUI-free — safe for headless) ==========
 //
 // 暴露 manifest 查询给 daemon 等 headless 消费者过滤工具时按 `llm_facing` 字段
-// 决策（如 MCP server 不暴露 4 件套作为 D8「TabTin 不做 MCP 输出」的执行）。
+// 决策（如 MCP server 不暴露 4 件套作为 D8「SnSworker 不做 MCP 输出」的执行）。
 // 这是纯静态数据查询，没有 runtime 副作用，可以放心放进 headless 子入口。
 export {
   getToolManifests,

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// TabTin 间距令牌
+/// SnSworker 间距令牌
 ///
 /// 与 Android `TTSpacing` 完全对齐，数值相同、命名相同。
 ///
@@ -45,7 +45,7 @@ public enum TTSpacing {
     }
 }
 
-/// TabTin 圆角令牌。
+/// SnSworker 圆角令牌。
 ///
 /// 对齐 Electron：交互控件统一 8pt（`rounded-interactive`）；
 /// 12 / 16 / 20 仅作结构面档位。详见 `apps/tabtin-ios/docs/design-system.md`。

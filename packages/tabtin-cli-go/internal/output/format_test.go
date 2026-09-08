@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/TabTin/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
 )
 
 // TestParseFormat 锁定**容错**语义：合法值正确解析、未知/空回退 FormatJSON。

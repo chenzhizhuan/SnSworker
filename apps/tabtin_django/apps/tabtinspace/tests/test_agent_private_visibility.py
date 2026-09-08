@@ -54,14 +54,14 @@ class AgentPrivateVisibilityTests(TestCase):
             organization_id=self.organization.id,
             name="Owner Private Bot",
             device_fingerprint=self.owner_device.fingerprint,
-            working_dir="/Users/owner/TabTin/owner-private",
+            working_dir="/Users/owner/SnSworker/owner-private",
             working_dir_type="mixed",
         )
         self.member_agent, _member_space, _warning = AgentService(user=self.member).create_agent_workspace(
             organization_id=self.organization.id,
             name="Member Private Bot",
             device_fingerprint=self.member_device.fingerprint,
-            working_dir="/Users/member/TabTin/member-private",
+            working_dir="/Users/member/SnSworker/member-private",
             working_dir_type="mixed",
         )
 
@@ -91,7 +91,7 @@ class AgentPrivateVisibilityTests(TestCase):
         workspace = Workspace.objects.get(id=self.owner_space.id)
         self.assertEqual(workspace.created_by_id, self.owner.id)
         self.assertEqual(workspace.device_id, self.owner_device.id)
-        self.assertEqual(workspace.working_dir, "/Users/owner/TabTin/owner-private")
+        self.assertEqual(workspace.working_dir, "/Users/owner/SnSworker/owner-private")
 
     def test_agent_detail_and_update_require_agent_owner(self) -> None:
         member_service = AgentService(user=self.member)

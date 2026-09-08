@@ -124,7 +124,7 @@ export class StreamDownloadService extends EventEmitter {
       resource: options.resource ?? null
     })
 
-    const outputDir = options.outputDir || path.join(app.getPath('downloads'), 'TabTin')
+    const outputDir = options.outputDir || path.join(app.getPath('downloads'), 'SnSworker')
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true })
     }

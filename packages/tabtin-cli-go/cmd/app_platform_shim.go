@@ -21,7 +21,7 @@ package cmd
 //  4. 系统 PATH 中的 python3（最后兜底，依赖用户 PYTHONPATH 已配好）
 //
 // 这种分层 fallback 允许：
-//   - 开发场景：用户 cd 到 repo 或 TabTin Electron bundle 里的 binary 自动定位
+//   - 开发场景：用户 cd 到 repo 或 SnSworker Electron bundle 里的 binary 自动定位
 //   - CI 场景：显式 TABTIN_PYTHON 指 venv python
 //   - 生产场景（H2）：Electron 打包时可直接设置 TABTIN_PYTHON 指向 bundle python
 //
@@ -36,7 +36,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 const (

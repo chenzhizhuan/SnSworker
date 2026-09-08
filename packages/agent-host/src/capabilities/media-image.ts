@@ -25,7 +25,7 @@ export const MEDIA_IMAGE_CLI_INSTRUCTION =
   '确认有正式产物或临时预览后只需用一两句文字确认即可，**严禁**再调用 `present_to_user` / `show_widget` 展示同一张图' +
   '（重复调用会导致双图或 URL 转义损坏后的「图片加载失败」）。' +
   'headless / Daemon 无 UI 会话时直接返回 HTTPS URL 和简短说明，不要调用 `present_to_user`。' +
-  '通用文生图优先走上述 TabTin 原生 CLI；LibTV 等扩展 Skill 仅在用户明确点名，' +
+  '通用文生图优先走上述 SnSworker 原生 CLI；LibTV 等扩展 Skill 仅在用户明确点名，' +
   '或该 Skill 密钥可用且任务明确需要其专有能力时使用。' +
   '若命令未出现或模型目录为空，明确说明该能力未开通；禁止用 SVG / `show_widget` / ' +
   '`create_file` / 外部占位图冒充 AI 生成图片。';

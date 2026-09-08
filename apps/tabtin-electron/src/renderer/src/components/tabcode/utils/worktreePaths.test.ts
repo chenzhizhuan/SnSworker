@@ -28,23 +28,23 @@ describe('suggestSiblingWorktreePath', () => {
   it('默认生成 <parent>/<repo>-<branch-slug>', () => {
     expect(
       suggestSiblingWorktreePath({
-        repoRoot: '/Users/me/tabtin-project/TabTin',
+        repoRoot: '/Users/me/tabtin-project/SnSworker',
         branch: 'feat/foo',
       }),
-    ).toBe('/Users/me/tabtin-project/TabTin-feat-foo')
+    ).toBe('/Users/me/tabtin-project/SnSworker-feat-foo')
   })
 
   it('repoRoot 带尾部斜杠时结果不受影响', () => {
     expect(
       suggestSiblingWorktreePath({
-        repoRoot: '/Users/me/tabtin-project/TabTin/',
+        repoRoot: '/Users/me/tabtin-project/SnSworker/',
         branch: 'feat/foo',
       }),
-    ).toBe('/Users/me/tabtin-project/TabTin-feat-foo')
+    ).toBe('/Users/me/tabtin-project/SnSworker-feat-foo')
   })
 
   it('冲突时依次追加 -2 -3', () => {
-    const repoRoot = '/Users/me/tabtin-project/TabTin'
+    const repoRoot = '/Users/me/tabtin-project/SnSworker'
     const branch = 'feat/foo'
     const first = suggestSiblingWorktreePath({ repoRoot, branch })
 
@@ -64,7 +64,7 @@ describe('suggestSiblingWorktreePath', () => {
   })
 
   it('existingPaths 比较忽略反斜杠与尾部斜杠差异', () => {
-    const repoRoot = '/Users/me/tabtin-project/TabTin'
+    const repoRoot = '/Users/me/tabtin-project/SnSworker'
     const branch = 'feat/foo'
     const base = suggestSiblingWorktreePath({ repoRoot, branch })
 
@@ -79,9 +79,9 @@ describe('suggestSiblingWorktreePath', () => {
 
 describe('splitParentAndName / joinParentAndName', () => {
   it('拆出父目录和最后一段目录名', () => {
-    expect(splitParentAndName('/Users/me/project/TabTin-feat-foo')).toEqual({
+    expect(splitParentAndName('/Users/me/project/SnSworker-feat-foo')).toEqual({
       parent: '/Users/me/project',
-      name: 'TabTin-feat-foo',
+      name: 'SnSworker-feat-foo',
     })
   })
 
@@ -90,8 +90,8 @@ describe('splitParentAndName / joinParentAndName', () => {
   })
 
   it('拼回绝对路径并去掉尾斜杠', () => {
-    expect(joinParentAndName('/Users/me/project/', 'TabTin-feat-foo')).toBe(
-      '/Users/me/project/TabTin-feat-foo',
+    expect(joinParentAndName('/Users/me/project/', 'SnSworker-feat-foo')).toBe(
+      '/Users/me/project/SnSworker-feat-foo',
     )
   })
 })

@@ -4,7 +4,7 @@
  * 守住：
  *   1. _sanitizeFilename 拒绝路径分隔符 / `..` / 非法字符
  *   2. _sanitizeFilename 接受合法名（含中文、含 ISO timestamp）
- *   3. resolveExportDir 返回 `{downloads}/TabTin/exports`
+ *   3. resolveExportDir 返回 `{downloads}/SnSworker/exports`
  *
  * 不测试 IPC handler 注册本身——`guardedHandle` 依赖 isTrustedSender，
  * 在单测里 mock 复杂；这部分由 e2e（用户实跑）兜底。
@@ -78,10 +78,10 @@ describe('StorageExportFileWriter · sanitize + 路径解析', () => {
     expect(__internal.sanitizeFilename('connector.json')).toBe('connector.json')
   })
 
-  it('resolveExportDir 返回 {downloads}/TabTin/exports', async () => {
+  it('resolveExportDir 返回 {downloads}/SnSworker/exports', async () => {
     const { __internal } = await import('../StorageExportFileWriter')
     expect(__internal.resolveExportDir()).toBe(
-      path.join('/Users/tester/Downloads', 'TabTin', 'exports'),
+      path.join('/Users/tester/Downloads', 'SnSworker', 'exports'),
     )
   })
 

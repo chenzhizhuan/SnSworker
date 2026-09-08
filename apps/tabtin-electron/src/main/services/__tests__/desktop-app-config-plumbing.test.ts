@@ -186,7 +186,7 @@ describe('app.json plumbing · loadAppConfig 端到端（v2.1 模块零 · 规�
     })
   })
 
-  describe('plumbing 容错（保护 TabTin 启动不被 app.json 错误卡死）', () => {
+  describe('plumbing 容错（保护 SnSworker 启动不被 app.json 错误卡死）', () => {
     it('app.json 不存在 → loadAppConfig 走 defaults，行为完全等价 v1.7 hard-default', () => {
       const cfg = loadAppConfig<DesktopRuntimeConfig>(
         'tabdesktop', HARD_DEFAULTS, { manifestRoot: tmpRoot },

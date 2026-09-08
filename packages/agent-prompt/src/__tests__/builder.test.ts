@@ -79,11 +79,11 @@ describe('buildSystemPrompt', () => {
     expect(result).toContain('<agent_mode>');
   });
 
-  it('principle section has no hardcoded TabTin AI Agent persona line', () => {
+  it('principle section has no hardcoded SnSworker AI Agent persona line', () => {
     // ：具体 Agent 身份走 agent-profile；principle 只保留默认原则。
     const result = buildSystemPrompt({ tools: [] });
     expect(result).toContain('<principle>');
-    expect(result).not.toContain('你是 TabTin AI Agent');
+    expect(result).not.toContain('你是 SnSworker AI Agent');
     expect(result).not.toContain('## 平台岗位');
     expect(result).not.toMatch(/<principle>[\s\S]*## 术语[\s\S]*<\/principle>/);
     expect(result).toMatch(/<environment>[\s\S]*## 术语[\s\S]*<\/environment>/);
@@ -340,7 +340,7 @@ describe('buildSystemPrompt', () => {
   it('execution section stays capability-neutral instead of restoring a tool encyclopedia', () => {
     // ：具体路由留给动态 apps / tools，不复制具体命令、参数和 description。
     expect(SECTION_EXECUTION).not.toContain('## 工具路由决策');
-    expect(SECTION_EXECUTION).not.toContain('TabTin 业务能力 vs FC 边界');
+    expect(SECTION_EXECUTION).not.toContain('SnSworker 业务能力 vs FC 边界');
     expect(SECTION_EXECUTION).not.toContain('tabtin mcp list-servers');
     expect(SECTION_EXECUTION).not.toContain('tabtin file create');
     expect(SECTION_EXECUTION).not.toContain('tabtin fetch <url>');
@@ -540,7 +540,7 @@ describe('buildSystemPrompt', () => {
     expect(result).toContain('`tabtin code worktree switch`');
     expect(result).toContain('不得直接执行 `git worktree` 或仓库脚本');
     expect(result).toContain('Skill');
-    expect(result).toContain('转换为上述 TabTin CLI');
+    expect(result).toContain('转换为上述 SnSworker CLI');
     expect(result).toContain('用户未指定路径时不要添加 `--path`');
     expect(result).toContain('必须在前台等待命令完成');
   });

@@ -900,7 +900,7 @@ describe('collectTurnArtifacts', () => {
         created_untracked_count: 1,
         deleted_count: 0,
         modified_count: 0,
-        created_paths: ['artifacts/TabTin.dmg'],
+        created_paths: ['artifacts/SnSworker.dmg'],
         scan_truncated: false,
         scan_failed: false,
         track_failed_count: 0,
@@ -920,7 +920,7 @@ describe('collectTurnArtifacts', () => {
             type: 'tool_use',
             id: 'tu_shell',
             name: 'run_terminal_command',
-            input: { command: 'hdiutil create ... artifacts/TabTin.dmg' },
+            input: { command: 'hdiutil create ... artifacts/SnSworker.dmg' },
           },
           { type: 'tool_result', tool_use_id: 'tu_shell', content: shellContent },
         ],
@@ -936,12 +936,12 @@ describe('collectTurnArtifacts', () => {
           {
             type: 'tabtin_rich_content',
             kind: 'file',
-            summary: 'TabTin.dmg',
+            summary: 'SnSworker.dmg',
             payload: {
               artifact_kind: 'local_file',
               file_type: 'dmg',
-              relative_path: 'artifacts/TabTin.dmg',
-              filename: 'TabTin.dmg',
+              relative_path: 'artifacts/SnSworker.dmg',
+              filename: 'SnSworker.dmg',
             },
           },
         ],
@@ -949,7 +949,7 @@ describe('collectTurnArtifacts', () => {
     ]
     const artifacts = collectTurnArtifacts(turn)
     expect(artifacts).toHaveLength(1)
-    expect(artifacts[0]?.title).toBe('TabTin.dmg')
+    expect(artifacts[0]?.title).toBe('SnSworker.dmg')
   })
 
   it('skips file_history paths on non-zero exit / temp / hidden / extensionless', () => {

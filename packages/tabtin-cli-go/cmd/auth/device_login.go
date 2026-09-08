@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/TabTin/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/config"
 )
 
 // deviceCodeResponse 对齐 Django POST /api/auth/device/code 的 data 字段。

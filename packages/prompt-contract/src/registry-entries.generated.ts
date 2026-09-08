@@ -1347,7 +1347,7 @@ export const REGISTRY_ENTRIES: SectionDescriptor[] = [
     "injectionTiming": "on-demand",
     "role": "user",
     "position": "head",
-    "description": "用户 @ 引用 TabTin 资源（表 / 文档 / memo 等）时，走 `buildUserContextWrapper('referenced', ...)` SSoT 套 `<context type=\"referenced\" stale_after_turn=\"<localUserMsgId>\">...</context>` 外壳并拼进 user message 持久化。跨轮重放阶段 select-recent-history 检测 stale 替换 body 为指针。",
+    "description": "用户 @ 引用 SnSworker 资源（表 / 文档 / memo 等）时，走 `buildUserContextWrapper('referenced', ...)` SSoT 套 `<context type=\"referenced\" stale_after_turn=\"<localUserMsgId>\">...</context>` 外壳并拼进 user message 持久化。跨轮重放阶段 select-recent-history 检测 stale 替换 body 为指针。",
     "writerLocations": [
       "apps/tabtin-electron/src/renderer/src/stores/chat/actions/sendMessageAction.ts:1150-1180",
       "apps/tabtin_django/apps/services/agent_execution/context_assembler.py:402 (Python 复刻 SSoT)",

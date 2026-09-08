@@ -6,15 +6,15 @@ describe('context code source navigation', () => {
   it('opens relative code context paths under the Agent working directory', () => {
     const target = resolveContextCodeNavigationTarget(
       { file_path: 'src/app.ts' },
-      'C:\\work\\TabTin',
+      'C:\\work\\SnSworker',
     )
 
     expect(target).toMatchObject({
-      rootPath: 'C:/work/TabTin',
-      absoluteFilePath: 'C:/work/TabTin/src/app.ts',
-      title: 'TabTin',
+      rootPath: 'C:/work/SnSworker',
+      absoluteFilePath: 'C:/work/SnSworker/src/app.ts',
+      title: 'SnSworker',
     })
-    expect(target?.tabId).toBe(btoa(unescape(encodeURIComponent('C:/work/TabTin'))))
+    expect(target?.tabId).toBe(btoa(unescape(encodeURIComponent('C:/work/SnSworker'))))
   })
 
   it('uses explicit context root_path when it matches the Agent working directory', () => {

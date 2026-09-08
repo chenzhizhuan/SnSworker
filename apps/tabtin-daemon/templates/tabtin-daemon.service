@@ -1,5 +1,5 @@
 [Unit]
-Description=TabTin Agent Daemon
+Description=SnSworker Agent Daemon
 Documentation=https://docs.example.com/daemon
 After=network-online.target
 Wants=network-online.target

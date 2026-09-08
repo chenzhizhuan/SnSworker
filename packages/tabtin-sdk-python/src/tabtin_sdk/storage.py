@@ -1,4 +1,4 @@
-"""Storage client for TabTin SDK — file upload, download, list, delete."""
+"""Storage client for SnSworker SDK — file upload, download, list, delete."""
 
 from __future__ import annotations
 

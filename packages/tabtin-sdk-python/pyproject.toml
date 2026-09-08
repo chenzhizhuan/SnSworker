@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "tabtin-sdk"
 version = "0.1.0"
-description = "TabTin Data SDK — fluent query API for TabData"
+description = "SnSworker Data SDK — fluent query API for TabData"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
-authors = [{ name = "TabTin Team" }]
+authors = [{ name = "SnSworker Team" }]
 keywords = ["tabtin", "sdk", "database", "baas"]
 classifiers = [
     "Development Status :: 3 - Alpha",

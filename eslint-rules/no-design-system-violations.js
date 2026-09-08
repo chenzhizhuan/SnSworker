@@ -82,7 +82,7 @@ const rule = {
     docs: {
       description:
         'renderer 全域设计系统 token 守门：禁用默认字号 / 像素字号 / 违规透明度 /50 /70 / 硬编码 z-index / 浮层实底 bg-popover。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-design-system-violations',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-design-system-violations',
     },
     schema: [],
     messages: MESSAGES,

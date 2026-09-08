@@ -33,7 +33,7 @@
     "app-host",
     "sdk"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "peerDependencies": {
     "react": "^19.0.0"

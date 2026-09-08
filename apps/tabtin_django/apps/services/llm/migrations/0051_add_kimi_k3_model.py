@@ -7,7 +7,7 @@
   - **没有** K2.x 的 thinking 开关；temperature 等采样参数固定，应省略
   - 国内站人民币牌价（元 / 1M tokens）：
       输入缓存命中 ¥2 / 未命中 ¥20 / 输出 ¥100
-    → 写入 TabTin 单价（元 / 1k）：0.002 / 0.02 / 0.1
+    → 写入 SnSworker 单价（元 / 1k）：0.002 / 0.02 / 0.1
 
 能力声明从同 provider 的 kimi-k2.6（或 k2.7-code）克隆，再把
 wire_adapter.reasoning.param_path 改为 reasoning_effort，并刷新 context 上限。

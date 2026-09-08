@@ -42,7 +42,7 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
 }
 
 async function persistBlob(blob: Blob, fileName: string) {
-  // 与 Agent 预览 downloadPreviewResource 对齐：优先静默落 ~/Downloads/TabTin
+  // 与 Agent 预览 downloadPreviewResource 对齐：优先静默落 ~/Downloads/SnSworker
   try {
     const dataUrl = await blobToDataUrl(blob)
     const mainPath = await downloadViaMainProcess(dataUrl, fileName || 'download')

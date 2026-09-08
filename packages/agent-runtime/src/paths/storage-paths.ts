@@ -21,7 +21,7 @@ export function getHomeTabtinPath(...subSegments: string[]): string {
 
 /**
  * Platform base：env `TABTIN_PLATFORM_BASE_ROOT` 优先，否则按 OS 分档。
- * darwin → Application Support/TabTin；win32 → APPDATA/TabTin；其它 → ~/.tabtin。
+ * darwin → Application Support/SnSworker；win32 → APPDATA/SnSworker；其它 → ~/.tabtin。
  */
 export function getPlatformBaseRoot(): string {
   const envRoot = (process.env.TABTIN_PLATFORM_BASE_ROOT || '').trim();
@@ -29,11 +29,11 @@ export function getPlatformBaseRoot(): string {
     return path.resolve(envRoot);
   }
   if (process.platform === 'darwin') {
-    return path.join(os.homedir(), 'Library', 'Application Support', 'TabTin');
+    return path.join(os.homedir(), 'Library', 'Application Support', 'SnSworker');
   }
   if (process.platform === 'win32') {
     const appData = process.env.APPDATA || path.join(os.homedir(), 'AppData', 'Roaming');
-    return path.join(appData, 'TabTin');
+    return path.join(appData, 'SnSworker');
   }
   return path.join(os.homedir(), '.tabtin');
 }

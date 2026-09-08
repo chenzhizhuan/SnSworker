@@ -12,11 +12,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 // agent_memory.go — `tabtin agent memory` 子命令组（ W4b · CLI 层解耦）。
@@ -42,7 +42,7 @@ const agentMemoryBasePath = "/api/agent-memory/memories"
 const agentMemoryRecordDisabledCode = "AGENT_MEMORY_RECORD_DISABLED"
 
 // agentMemoryDisabledHint 是收到 RECORD_DISABLED 时补的人话——不静默、给可执行指引。
-const agentMemoryDisabledHint = "记忆总闸当前关闭：写入 / 更正被拒。请在 TabTin『记忆』App →『记忆偏好』→『让 Agent 记笔记』重新开启后重试（关闭期间读取按空处理，不会返回既有记忆）。"
+const agentMemoryDisabledHint = "记忆总闸当前关闭：写入 / 更正被拒。请在 SnSworker『记忆』App →『记忆偏好』→『让 Agent 记笔记』重新开启后重试（关闭期间读取按空处理，不会返回既有记忆）。"
 
 // agentMemoryTypes 是 Agent 记忆四类（与后端 AgentMemory.MemoType Literal 对齐）。
 var agentMemoryTypes = []string{"about_you", "insight", "task_summary", "diary"}

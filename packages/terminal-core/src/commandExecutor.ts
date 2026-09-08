@@ -273,7 +273,7 @@ export class CommandExecutor {
     // ── W1（路径含空格保护）────────────────────────────────────────
     //
     // 当 TABTIN_* 平台环境变量的值含有空格时（典型：macOS 的
-    // `/Users/foo/Application Support/TabTin/spaces`），shell 对
+    // `/Users/foo/Application Support/SnSworker/spaces`），shell 对
     // 未加引号的变量引用（`$TABTIN_WORKSPACE`）会做 word-splitting，
     // 导致 `cp $TABTIN_WORKSPACE/file.txt /tmp/` 被拆成三个参数。
     //

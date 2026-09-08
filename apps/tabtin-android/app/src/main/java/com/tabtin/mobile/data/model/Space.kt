@@ -409,7 +409,7 @@ public data class UpdateWorkspaceRequest(
 @Serializable
 public data class AgentSettings(
     @SerialName("avatar_url") val avatarUrl: String? = null,
-    /** 与 iOS / Electron 共用的内置头像 key；缺失时使用 TabTin 品牌图标兜底。 */
+    /** 与 iOS / Electron 共用的内置头像 key；缺失时使用 SnSworker 品牌图标兜底。 */
     @SerialName("avatar_key") val avatarKey: String? = null,
 )
 

@@ -2,7 +2,7 @@
 
 [English](getting-started.en.md)
 
-这是一份从源码运行 TabTin 的执行指南。除非另有说明，命令均从仓库根目录执行。
+这是一份从源码运行 SnSworker 的执行指南。除非另有说明，命令均从仓库根目录执行。
 
 ## 两条启动路线
 
@@ -31,20 +31,20 @@ Agent 不得覆盖已有本地配置、修改全局 npm registry、绕过健康�
 环境准备完成后，告诉 Agent 运行以下提示词之一：
 
 ```text
-请运行 https://github.com/tabtin-ai/TabTin 的「快速预览」
+请运行 https://github.com/tabtin-ai/SnSworker 的「快速预览」
 ```
 
 快速预览启动服务端和 Electron 桌面客户端，适合尽快体验桌面端，不启动 AdminDash 运管后台和 tabtin-web 在线平台。
 
 ```text
-请运行 https://github.com/tabtin-ai/TabTin 的「全量预览」
+请运行 https://github.com/tabtin-ai/SnSworker 的「全量预览」
 ```
 
 全量预览启动服务端、AdminDash 运管后台、tabtin-web 在线平台和 Electron 桌面客户端，并覆盖桌面、Android、iOS Debug 包的验收入口。Android 和 iOS 包需要在对应平台单独构建，不会由全量预览命令自动启动。
 
 ### 全量预览的默认服务端地址
 
-当用户没有明确指定服务端 IP 时，Agent 必须先探测运行 TabTin 服务端这台电脑当前可用的局域网 IPv4 地址，并将它作为三端打包的默认服务端地址；不得把 `localhost` 或 `127.0.0.1` 写入需要被其他设备访问的包中。用户明确指定服务端 IP 时，以用户指定值为准。
+当用户没有明确指定服务端 IP 时，Agent 必须先探测运行 SnSworker 服务端这台电脑当前可用的局域网 IPv4 地址，并将它作为三端打包的默认服务端地址；不得把 `localhost` 或 `127.0.0.1` 写入需要被其他设备访问的包中。用户明确指定服务端 IP 时，以用户指定值为准。
 
 使用同一个 `<LAN_IP>` 配置桌面端、Android 和 iOS：
 

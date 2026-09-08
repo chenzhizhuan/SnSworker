@@ -1,7 +1,7 @@
 """Add Doubao Seed Evolving to the global Volcengine model catalog.
 
 Seed Evolving uses a stable model ID whose backing model is upgraded weekly.
-Prices are the Volcengine China rates in CNY per 1K tokens, matching TabTin's
+Prices are the Volcengine China rates in CNY per 1K tokens, matching SnSworker's
 credits billing semantics.
 """
 

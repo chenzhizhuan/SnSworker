@@ -37,17 +37,17 @@ describe('crawl-view-webcontents-events', () => {
     const cleanup = bindCrawlViewWebContentsEvents(webContents, bindings)
 
     webContents.emit('did-finish-load')
-    webContents.emit('page-title-updated', {}, 'TabTin')
+    webContents.emit('page-title-updated', {}, 'SnSworker')
 
     expect(bindings.onDidFinishLoad).toHaveBeenCalledTimes(1)
-    expect(bindings.onPageTitleUpdated).toHaveBeenCalledWith({}, 'TabTin')
+    expect(bindings.onPageTitleUpdated).toHaveBeenCalledWith({}, 'SnSworker')
     expect(externalDidFinishLoad).toHaveBeenCalledTimes(1)
-    expect(externalTitleUpdated).toHaveBeenCalledWith({}, 'TabTin')
+    expect(externalTitleUpdated).toHaveBeenCalledWith({}, 'SnSworker')
 
     cleanup()
 
     webContents.emit('did-finish-load')
-    webContents.emit('page-title-updated', {}, 'TabTin 2')
+    webContents.emit('page-title-updated', {}, 'SnSworker 2')
 
     expect(bindings.onDidFinishLoad).toHaveBeenCalledTimes(1)
     expect(bindings.onPageTitleUpdated).toHaveBeenCalledTimes(1)

@@ -352,7 +352,7 @@ async function handleRun(
 
   const executor = getCLIActionExecutor()
   if (!executor) {
-    sendJSON(res, 503, errorResponse('INTERNAL_ERROR', 'TabTin 界面尚未就绪（浏览器执行器未初始化）', {
+    sendJSON(res, 503, errorResponse('INTERNAL_ERROR', 'SnSworker 界面尚未就绪（浏览器执行器未初始化）', {
       retryable: true,
     }))
     return

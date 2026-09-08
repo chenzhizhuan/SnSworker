@@ -135,8 +135,8 @@ function installTabTinApi(options?: { withAuthorization?: boolean }) {
 function renderUserDirectory() {
   return render(
     <LocalDirAutoPane
-      rootPath={'C:\\workspace\\TabTin-feature\\TabTin'}
-      title="TabTin"
+      rootPath={'C:\\workspace\\SnSworker-feature\\SnSworker'}
+      title="SnSworker"
       spaceId="space-1"
       resourceId="user-folder"
       kind="user"
@@ -164,7 +164,7 @@ describe('LocalDirAutoPane session authorization gate', () => {
 
     expect(mocks.appendSessionAllowedPath).toHaveBeenCalledWith({
       spaceId: 'space-1',
-      path: 'C:\\workspace\\TabTin-feature\\TabTin',
+      path: 'C:\\workspace\\SnSworker-feature\\SnSworker',
     })
     expect(mocks.isGitRepo).not.toHaveBeenCalled()
     expect(screen.queryByTestId('file-explorer')).toBeNull()
@@ -172,7 +172,7 @@ describe('LocalDirAutoPane session authorization gate', () => {
     finishAuthorization?.()
 
     await waitFor(() => {
-      expect(mocks.isGitRepo).toHaveBeenCalledWith('C:\\workspace\\TabTin-feature\\TabTin')
+      expect(mocks.isGitRepo).toHaveBeenCalledWith('C:\\workspace\\SnSworker-feature\\SnSworker')
       expect(screen.getByTestId('file-explorer')).toBeTruthy()
     })
   })

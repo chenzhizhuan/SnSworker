@@ -128,7 +128,7 @@ function buildMessage(overrides: Partial<IMMessage>): IMMessage {
 }
 
 describe('IMMessageBubble stickers', () => {
-  it('renders TabTin sticker images at sticker size', async () => {
+  it('renders SnSworker sticker images at sticker size', async () => {
     const { IMMessageBubble } = await import('./IMMessageBubble')
     render(
       <IMMessageBubble

@@ -144,7 +144,7 @@ export interface SystemPromptConfig {
 /**
  * 单个 App 的 Agent-facing 描述。
  *
- * 同一个 App 在 TabTin 内部其实有多套名字共存（历史包袱）：
+ * 同一个 App 在 SnSworker 内部其实有多套名字共存（历史包袱）：
  *   - `key`：handler 注册时的 type，譬如 `tabdata` / `tabmemo`。tab payload 里
  *     的 type 字段、`agent-engine:update-context` 里的 appType 都是这个。
  *   - `cliKey`：CLI 工具的前缀，来自 `backendAliases[0]`，譬如 tabdata 的 cliKey

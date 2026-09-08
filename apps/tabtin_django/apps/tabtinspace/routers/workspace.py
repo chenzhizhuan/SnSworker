@@ -60,7 +60,7 @@ class WorkspaceCreate(Schema):
 class HomeWorkspaceEnsure(Schema):
     organization_id: UUID = Field(..., description="个人组织 ID")
     device_id: UUID = Field(..., description="本机执行设备 ID")
-    working_dir: str = Field(..., description="客户端解析的 ~/TabTin/Home 绝对路径")
+    working_dir: str = Field(..., description="客户端解析的 ~/SnSworker/Home 绝对路径")
     working_dir_type: Optional[str] = Field(default="mixed", description="缺省 mixed")
     name: Optional[str] = Field(default="", description="本地化展示名（中「主场」/英「Home」）")
 

@@ -99,7 +99,7 @@ test('macOS packaging repairs flattened framework aliases before signing', (t) =
   }
   const root = mkdtempSync(join(tmpdir(), 'tabtin-framework-links-'))
   t.after(() => rmSync(root, { recursive: true, force: true }))
-  const appBundle = join(root, 'TabTin.app')
+  const appBundle = join(root, 'SnSworker.app')
   const framework = join(appBundle, 'Contents', 'Frameworks', 'Example.framework')
   const version = join(framework, 'Versions', 'A')
 

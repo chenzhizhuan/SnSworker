@@ -109,7 +109,7 @@ describe('ForwardDialog message identity', () => {
       source_message_id: '42',
       tabtin_message_id: '43',
     }],
-    ['TabTin 稳定引用', {
+    ['SnSworker 稳定引用', {
       kind: 'tabtin_ref',
       agent_session_ref: '018f4b30-a7ad-7b32-b946-827ea2a26983',
       tabtin_message_id: '43',

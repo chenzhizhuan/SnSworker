@@ -133,11 +133,11 @@
     },
     "browser:bookmarks": {
       "title": "브라우저 북마크",
-      "description": "TabTin 내장 브라우저에 저장한 북마크"
+      "description": "SnSworker 내장 브라우저에 저장한 북마크"
     },
     "browser:browsing-history": {
       "title": "검색 기록",
-      "description": "TabTin 내장 브라우저에서 방문한 페이지"
+      "description": "SnSworker 내장 브라우저에서 방문한 페이지"
     },
     "tin:sandboxes": {
       "title": "샌드박스 앱 데이터",

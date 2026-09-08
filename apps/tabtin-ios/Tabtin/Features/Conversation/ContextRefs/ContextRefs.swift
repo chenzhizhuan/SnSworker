@@ -210,7 +210,7 @@ struct ContextRefChip: View {
 
 }
 
-/// Composer 上下文资源图标：云文档 / 多维表使用 TabTin 无白底 glyph；普通文件按
+/// Composer 上下文资源图标：云文档 / 多维表使用 SnSworker 无白底 glyph；普通文件按
 /// MIME / 扩展名复用云盘分类；其余内置资源复用同一套 App 资产。
 struct ContextResourceIcon: View {
     let itemType: String

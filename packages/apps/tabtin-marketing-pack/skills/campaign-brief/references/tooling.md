@@ -2,7 +2,7 @@
 
 ## Read First
 
-- Prefer existing TabTin operator skills before inventing new persistence paths.
+- Prefer existing SnSworker operator skills before inventing new persistence paths.
 - Use `tabtin` CLI when a documented command covers the step.
 - Keep outputs in Space resources (TabDoc / TabData / TabMemo / Tracker) when the user wants durable results.
 

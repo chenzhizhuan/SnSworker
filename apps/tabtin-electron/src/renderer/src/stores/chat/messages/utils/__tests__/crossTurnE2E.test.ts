@@ -267,7 +267,7 @@ describe('E2E 场景 3 · W4.3.2 dogfood "用户同时请求两件事" P0 真根
         '当前文件夹包含...',
         'list_directory:0',
         'list_directory',
-        { path: '/Users/developer/dev/TabTin/TabTinAgent/packages/skills/bundled/platform/device/operations' },
+        { path: '/Users/developer/dev/SnSworker/TabTinAgent/packages/skills/bundled/platform/device/operations' },
         '{"success":true,"entries":["SKILL.md"]}',
       ),
       mkUser('temp-user-T2-CURRENT', '那你阅读一下这个 skill'),

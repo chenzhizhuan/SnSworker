@@ -261,7 +261,7 @@ export const PROFILE_SECTION_PARENT_MAP: Partial<Record<ProfileSettingsSection, 
 
 /** 设备侧子 section → 父组 section。
  *  授权（authorization）已迁到个人设置「系统权限」，不再是设备侧子项；
- *  设备「关于 TabTin」（permissionUpdate）只承载 about。 */
+ *  设备「关于 SnSworker」（permissionUpdate）只承载 about。 */
 export const DEVICE_SECTION_PARENT_MAP: Partial<Record<DeviceSettingsSection, DeviceSettingsSection>> = {
   about: 'permissionUpdate',
   'credentials-browser': 'browserSession',

@@ -172,7 +172,7 @@ def resolve_organization_id_from_request(request: Any, fallback_to_personal: boo
 
     兼容 billing decorator 设置的 _billing_organization_id，
     API Key 鉴权设置的 api_key_organization_id，
-    以及 HTTP header X-TabTin-Organization-Id。
+    以及 HTTP header X-SnSworker-Organization-Id。
     """
     result = _resolve_from_request_attrs(request)
     if result:

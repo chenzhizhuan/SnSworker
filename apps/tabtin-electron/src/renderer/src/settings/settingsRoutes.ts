@@ -8,7 +8,7 @@ export const PROFILE_SETTINGS_SECTIONS = [
   'myAI',              // 组合：personalRules + skillLibrary + resourceOpenPreferences（用量概览当前前端隐藏）
   // ── 当前隐藏的连接账号能力 ──
   'credentials',       // 组合：AI 服务 / 应用 两个 tab（浏览器已迁入设备组）
-  'developer',         // account 内部 tab：DeveloperApiKeyPanel（TabTin API Key + CLI）
+  'developer',         // account 内部 tab：DeveloperApiKeyPanel（SnSworker API Key + CLI）
   // ── credentials 内部 tab（仅剩 AI / 应用） ──
   'credentials-ai',
   'credentials-apps',

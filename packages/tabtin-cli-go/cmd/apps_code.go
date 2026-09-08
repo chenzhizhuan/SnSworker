@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // ─── Code ────────────────────────────────────────────────────────
@@ -195,7 +195,7 @@ func newCmdCode(f *cmdutil.Factory) *cobra.Command {
 		Example: "  tabtin code worktree create --new-branch feat/123-task --base release/260812\n  tabtin code worktree create --path /absolute/path/to/wt --existing-branch feat/123-task",
 		Route:   cmdutil.RouteCliServer, Method: "POST", Path: "/code/worktree/create",
 		Flags: []cmdutil.FlagDef{
-			{Name: "path", Type: cmdutil.FlagString, Desc: "新 worktree 的绝对路径；省略时使用 TabTin 托管目录"},
+			{Name: "path", Type: cmdutil.FlagString, Desc: "新 worktree 的绝对路径；省略时使用 SnSworker 托管目录"},
 			{Name: "new-branch", Type: cmdutil.FlagString, Desc: "要创建的新分支"},
 			{Name: "existing-branch", Type: cmdutil.FlagString, Desc: "要检出的已有分支"},
 			{Name: "base", Type: cmdutil.FlagString, Desc: "新分支起点（仅与 --new-branch 同用）"},

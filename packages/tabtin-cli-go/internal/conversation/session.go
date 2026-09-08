@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 type SessionClient struct {

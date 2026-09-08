@@ -108,7 +108,7 @@ describe('Electron 设备自动登记', () => {
     const [url, request] = fetchMock.mock.calls[0]
     expect(url).toBe('http://127.0.0.1:6080/api/daemon-control/v1/devices/register')
     expect(request.headers.Authorization).toBe('Bearer access-token')
-    expect(request.headers['X-TabTin-Device-Credential']).toBe('device-secret')
+    expect(request.headers['X-SnSworker-Device-Credential']).toBe('device-secret')
     expect(request.redirect).toBe('error')
     expect(JSON.parse(request.body)).toMatchObject({
       installation_id: 'electron-installation-1',

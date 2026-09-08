@@ -1,7 +1,7 @@
 /**
  * AuthorizationSystemPanel —— 「授权」面板（OS 系统权限）
  *
- * 单一职责：展示和管理操作系统给 TabTin 这个 App 的能力，对齐 macOS 系统设置
+ * 单一职责：展示和管理操作系统给 SnSworker 这个 App 的能力，对齐 macOS 系统设置
  * 「隐私与安全性」/ Windows「应用权限」的心智。
  *
  * 不包括（这些在别处管，不要拉回来）：

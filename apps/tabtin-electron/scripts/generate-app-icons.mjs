@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 从仓库根目录 TabTin-icon.png 一键生成全平台 app 图标资源
+ * 从仓库根目录 SnSworker-icon.png 一键生成全平台 app 图标资源
  *
  * 输出：
  *   build/icon-source/icon-master.png   完整 1024 PNG（规范化源图）
@@ -13,7 +13,7 @@
  *   ../tabtin-ios/.../AppIcon-1024.png  iOS AppIcon
  *   ../tabtin-android/...               Android launcher foreground
  *
- * 调整图标只需替换仓库根目录 TabTin-icon.png 后重跑：
+ * 调整图标只需替换仓库根目录 SnSworker-icon.png 后重跑：
  *   node scripts/generate-app-icons.mjs
  *
  * 设计规范见 docs/app-icon.md
@@ -37,7 +37,7 @@ const REPO_ROOT = resolve(ROOT, '../..');
 // ---------- 配置 ----------
 const CONFIG = {
   // 完整 app 图标源图。优先使用本地设计交付图，缺失时回退到已入库源图。
-  localSourcePng: resolve(REPO_ROOT, 'TabTin-icon.png'),
+  localSourcePng: resolve(REPO_ROOT, 'SnSworker-icon.png'),
   trackedSourcePng: resolve(ROOT, 'build/icon-source/icon-master.png'),
 
   // 输出根目录
@@ -51,7 +51,7 @@ const CONFIG = {
   wwwFavicon: resolve(REPO_ROOT, 'apps/tabtin-www/favicon.png'),
   wwwFaviconIco: resolve(REPO_ROOT, 'apps/tabtin-www/favicon.ico'),
   iosAppIcon: resolve(REPO_ROOT, 'apps/tabtin-ios/Tabtin/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'),
-  iosOddAppIcon: resolve(REPO_ROOT, 'apps/tabtin-ios/tabtin-ios-odd/TabTin/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'),
+  iosOddAppIcon: resolve(REPO_ROOT, 'apps/tabtin-ios/tabtin-ios-odd/SnSworker/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'),
   androidForeground: resolve(REPO_ROOT, 'apps/tabtin-android/app/src/main/res/drawable/ic_launcher_foreground.png'),
 
   // 画布尺寸

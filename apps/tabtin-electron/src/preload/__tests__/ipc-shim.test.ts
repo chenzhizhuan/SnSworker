@@ -674,7 +674,7 @@ describe('LEGACY_HANDLERS sanity', () => {
   it('passes through WipeResult {ok:true} without throwing ', async () => {
     const wipeResult = {
       ok: true,
-      removed: ['C:\\Users\\x\\AppData\\Roaming\\TabTin\\credentials.json'],
+      removed: ['C:\\Users\\x\\AppData\\Roaming\\SnSworker\\credentials.json'],
       failed: [] as Array<{ path: string; error: string }>,
       skippedProtected: [] as string[],
     }

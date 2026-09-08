@@ -532,8 +532,8 @@ export type PermissionDecision =
  *   - W4 一度合一为单 `ask_user`，复盘后 R3 决定恢复三件套并存：
  *       - `ask_user`（替代 ask_choice，多选问答 HITL，
  *         multi-choice + 自动 Other 选项 + W4 改进文案/dedup）
- *       - `ask_form`（多字段填表，TabTin HITL 扩展）
- *       - `request_approval`（高风险方案审批，TabTin HITL 扩展，必带 risk_level）
+ *       - `ask_form`（多字段填表，SnSworker HITL 扩展）
+ *       - `request_approval`（高风险方案审批，SnSworker HITL 扩展，必带 risk_level）
  *
  * 分立后语义：
  *   - `kind: 'choice'` → 必有 `questions[]`；不能有 fields / rationale

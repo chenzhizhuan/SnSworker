@@ -19,7 +19,7 @@ describe('git-ipc-lock', () => {
     it('detects index.lock File exists errors', () => {
       const error = Object.assign(new Error('Command failed'), {
         stderr:
-          "fatal: Unable to create '/Users/tabtin/Desktop/TabTin/.git/index.lock': File exists.\n" +
+          "fatal: Unable to create '/Users/tabtin/Desktop/SnSworker/.git/index.lock': File exists.\n" +
           'Another git process seems to be running in this repository',
       })
       expect(isGitIndexLockError(error)).toBe(true)

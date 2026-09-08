@@ -29,7 +29,7 @@ import javax.crypto.spec.GCMParameterSpec
  * entry key，直接用 String key 存到底层 SharedPreferences；EncryptedSharedPreferences
  * 默认走 `PrefKeyEncryptionScheme.AES256_SIV` 把 key 编成不可读 base64。
  * 此处选不加密 key 的理由：
- * - TabTin 的 prefs key 名都是技术常量（`auth_token` / `device_id` 等），不含 PII
+ * - SnSworker 的 prefs key 名都是技术常量（`auth_token` / `device_id` 等），不含 PII
  * - `/data/data/<app>/shared_prefs/<name>.xml` 在非 root 设备上不可读，root 用户已经能
  *   绕过任何应用层加密，加密 key 提供的边际价值低
  * - SIV 确定性加密需独立 key + 复杂度，不值得

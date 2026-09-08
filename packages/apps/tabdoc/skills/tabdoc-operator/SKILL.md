@@ -330,7 +330,7 @@ tabtin doc update-html <document-id> <block-id> --file /tmp/edit.html
 **雷区（必读）**：
 
 1. **新 HTML 默认私有，权限跟随所属文档**——成员按文档 viewer ACL 读；访客仅在文档开启分享后按 DocumentShare 规则读。不要假设 `src` 可匿名打开；历史公开直链（旧块非空 `src`）仍可能可达，但这不是新契约。
-2. **iframe 是沙箱**——渲染时**没有宿主权限**：拿不到 TabTin 的 cookie/登录态、调不了 TabTin API、跨不了同源。HTML 要能独立运行。
+2. **iframe 是沙箱**——渲染时**没有宿主权限**：拿不到 SnSworker 的 cookie/登录态、调不了 SnSworker API、跨不了同源。HTML 要能独立运行。
 3. **必须自包含单文件**——CSS/JS 尽量内联进这一个 `.html`；外链资源必须是 **https** 且**沙箱内可达**（公网 CDN 可以，内网/需登录的不行）。
 4. **上传路径白名单**——`--file` 只接 `$HOME` 或 `/tmp` 下的路径（symlink 会被拒），单文件 ≤100MB。先把 HTML 写到 `~/` 或 `/tmp/` 再传。
 5. **失败可重试不必重传**——若"上传成功但插块/替换失败"，错误 `detail` 里保留 `file_id` + 已拼好的 markdown + 一条 `recovery_command`，直接跑那条 `doc insert-block` / `doc update-block` 补写即可，不用重新上传。
@@ -338,7 +338,7 @@ tabtin doc update-html <document-id> <block-id> --file /tmp/edit.html
 ## 用户给了 URL 不是 doc_id 怎么办
 
 agent 拿到的 doc id 99% 是 chat 上下文里前一步返回的字面 id（如 `doc_xxx`）。但偶尔用户会贴
-TabTin URL 进 chat：
+SnSworker URL 进 chat：
 
 ```
 https://www.example.com/docs/doc_xxx

@@ -224,7 +224,7 @@ const VALID_CONTENT_BLOCK_TYPES = new Set<string>([
   'mcp_tool_result',
   'container_upload',
   'search_result',
-  // 6 TabTin 受控扩展 block.type（v2 §2.2.3 + W4c 全栈渲染）
+  // 6 SnSworker 受控扩展 block.type（v2 §2.2.3 + W4c 全栈渲染）
   'tabtin_rich_content',
   'tabtin_composer_preset',
   'tabtin_ask_user_fields',
@@ -2917,7 +2917,7 @@ interface TabTinAPIShape {
      * Wave 4 三视角 Review 视角 2 P1 发现 2 自修：成功路径也通知用户。
      *
      * **为什么必须订阅**：PD-9 不挡 Agent 自动登录任何网站（含银行/支付）；
-     * 不通知 = "TabTin 擅自动我账户" → 用户信任崩盘。
+     * 不通知 = "SnSworker 擅自动我账户" → 用户信任崩盘。
      *
      * payload **不含密码** 且 ``maskedUsername`` 已经在主进程脱敏
      * （`alice@example.com → a***@example.com`）。
@@ -4548,7 +4548,7 @@ const api = {
      * 设置 / 重置某个 session 的长上下文档位（Context Tier）。
      *
      * 调用时机：用户在 ChatInput 切档后立即调用，main 进程更新 sessionContextTiers
-     * Map，下一次 LLM 请求时 buildHeaders 会自动透传 X-TabTin-Context-Tier，
+     * Map，下一次 LLM 请求时 buildHeaders 会自动透传 X-SnSworker-Context-Tier，
      * Django proxy 据此往上游注入 anthropic-beta 等档位 header（如 ZenMux 1M）。
      *
      * @param sessionId 目标会话 UUID

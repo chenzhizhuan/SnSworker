@@ -48,12 +48,12 @@ describe('TabTinProxyProvider billing headers', () => {
     const attempt0 = provider.buildHeaders(request, 'token', 0);
     const attempt1 = provider.buildHeaders(request, 'token', 1);
 
-    expect(attempt0['X-TabTin-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
-    expect(attempt1['X-TabTin-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
-    expect(attempt0['X-TabTin-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:0');
-    expect(attempt1['X-TabTin-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:1');
-    expect(attempt0['X-TabTin-Billing-Idempotency-Key']).toBe('agent-turn:a:b:1:attempt:0');
-    expect(attempt1['X-TabTin-Billing-Idempotency-Key']).toBe('agent-turn:a:b:1:attempt:1');
+    expect(attempt0['X-SnSworker-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
+    expect(attempt1['X-SnSworker-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
+    expect(attempt0['X-SnSworker-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:0');
+    expect(attempt1['X-SnSworker-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:1');
+    expect(attempt0['X-SnSworker-Billing-Idempotency-Key']).toBe('agent-turn:a:b:1:attempt:0');
+    expect(attempt1['X-SnSworker-Billing-Idempotency-Key']).toBe('agent-turn:a:b:1:attempt:1');
   });
 
   it('passes the retry attempt index through createStream headers', async () => {
@@ -81,12 +81,12 @@ describe('TabTinProxyProvider billing headers', () => {
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     const attempt0 = fetchSpy.mock.calls[0]?.[1]?.headers as Record<string, string>;
     const attempt1 = fetchSpy.mock.calls[1]?.[1]?.headers as Record<string, string>;
-    expect(attempt0['X-TabTin-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
-    expect(attempt1['X-TabTin-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
-    expect(attempt0['X-TabTin-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:0');
-    expect(attempt1['X-TabTin-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:1');
-    expect(attempt0['X-TabTin-Billing-Attempt-Index']).toBe('0');
-    expect(attempt1['X-TabTin-Billing-Attempt-Index']).toBe('1');
+    expect(attempt0['X-SnSworker-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
+    expect(attempt1['X-SnSworker-Billing-Logical-Key']).toBe('agent-turn:a:b:1');
+    expect(attempt0['X-SnSworker-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:0');
+    expect(attempt1['X-SnSworker-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:1');
+    expect(attempt0['X-SnSworker-Billing-Attempt-Index']).toBe('0');
+    expect(attempt1['X-SnSworker-Billing-Attempt-Index']).toBe('1');
   });
 
   it('emits attempt index 0 when there is no retry', () => {
@@ -99,8 +99,8 @@ describe('TabTinProxyProvider billing headers', () => {
 
     const headers = provider.buildHeaders(request, 'token');
 
-    expect(headers['X-TabTin-Billing-Attempt-Index']).toBe('0');
-    expect(headers['X-TabTin-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:0');
+    expect(headers['X-SnSworker-Billing-Attempt-Index']).toBe('0');
+    expect(headers['X-SnSworker-Billing-Attempt-Key']).toBe('agent-turn:a:b:1:attempt:0');
   });
 
   it('treats legacy billingIdempotencyKey as the logical billing key', () => {
@@ -112,8 +112,8 @@ describe('TabTinProxyProvider billing headers', () => {
 
     const headers = provider.buildHeaders(request, 'token', 0);
 
-    expect(headers['X-TabTin-Billing-Logical-Key']).toBe('legacy-key');
-    expect(headers['X-TabTin-Billing-Attempt-Key']).toBe('legacy-key:attempt:0');
-    expect(headers['X-TabTin-Billing-Idempotency-Key']).toBe('legacy-key:attempt:0');
+    expect(headers['X-SnSworker-Billing-Logical-Key']).toBe('legacy-key');
+    expect(headers['X-SnSworker-Billing-Attempt-Key']).toBe('legacy-key:attempt:0');
+    expect(headers['X-SnSworker-Billing-Idempotency-Key']).toBe('legacy-key:attempt:0');
   });
 });

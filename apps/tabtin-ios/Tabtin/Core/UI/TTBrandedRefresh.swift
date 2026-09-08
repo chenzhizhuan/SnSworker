@@ -6,7 +6,7 @@ private enum TTBrandedRefreshPhase: Equatable {
 }
 
 public extension View {
-    /// 保留系统下拉手势与刷新任务，只将系统指示器覆盖为 TabTin 品牌反馈。
+    /// 保留系统下拉手势与刷新任务，只将系统指示器覆盖为 SnSworker 品牌反馈。
     func ttBrandedRefreshable(action: @escaping @Sendable () async -> Void) -> some View {
         modifier(TTBrandedRefreshModifier(action: action))
     }

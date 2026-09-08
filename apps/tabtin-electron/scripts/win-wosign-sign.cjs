@@ -64,7 +64,7 @@ function shouldSignFile(filePath) {
   if (basename.toLowerCase() === 'tabtin-desktop.exe') {
     return true
   }
-  // electron-builder NSIS：如 "TabTin Setup 0.7.36.exe"
+  // electron-builder NSIS：如 "SnSworker Setup 0.7.36.exe"
   if (/setup/i.test(basename)) {
     return true
   }

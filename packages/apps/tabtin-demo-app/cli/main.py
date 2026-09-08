@@ -1,6 +1,6 @@
 """tabtin-demo-app CLI 主入口。
 
-遵守 TabTin CLI envelope 协议（marketplace-app-boundary.md §3.2）：
+遵守 SnSworker CLI envelope 协议（marketplace-app-boundary.md §3.2）：
   - stdout 仅输出 envelope JSON（{ok, data} 或 {ok, error}）
   - stderr 输出诊断、进度、人类可读提示
   - exit code 跟随 envelope（成功 0，失败 1+）

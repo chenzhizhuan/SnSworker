@@ -92,19 +92,19 @@ public class AdbKeyManager @Inject constructor(
     private val certificate: X509Certificate by lazy {
         val signer = JcaContentSignerBuilder("SHA256withRSA").build(privateKey)
         val x509Cert = X509v3CertificateBuilder(
-            X500Name("CN=TabTin"),
+            X500Name("CN=SnSworker"),
             BigInteger.ONE,
             Date(0),
             Date(2461449600 * 1000),
             Locale.ROOT,
-            X500Name("CN=TabTin"),
+            X500Name("CN=SnSworker"),
             SubjectPublicKeyInfo.getInstance(publicKey.encoded),
         ).build(signer)
         CertificateFactory.getInstance("X.509")
             .generateCertificate(ByteArrayInputStream(x509Cert.encoded)) as X509Certificate
     }
 
-    public val adbPublicKey: ByteArray by lazy { publicKey.adbEncoded("TabTin@Android") }
+    public val adbPublicKey: ByteArray by lazy { publicKey.adbEncoded("SnSworker@Android") }
 
     public val hasPreviouslyPaired: Boolean
         get() = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

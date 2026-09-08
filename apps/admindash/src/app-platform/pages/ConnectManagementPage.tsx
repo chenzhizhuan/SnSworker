@@ -79,7 +79,7 @@ export function ConnectManagementPage() {
         <h2 className="text-body font-semibold">相关入口</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           <a
-            href="https://github.com/larchiveai/TabTin/issues/2032"
+            href="https://github.com/larchiveai/SnSworker/issues/2032"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded border px-3 py-1.5 text-sm hover:bg-muted"

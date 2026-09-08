@@ -104,7 +104,7 @@ describe('deep-link toast navigate ', () => {
       id: 'conv-1',
       organizationId: 'org-1',
     })
-    controller.handleSecondInstance(['TabTin.exe', url])
+    controller.handleSecondInstance(['SnSworker.exe', url])
 
     await Promise.resolve()
     await Promise.resolve()
@@ -154,7 +154,7 @@ describe('deep-link toast navigate ', () => {
       getMainWindow: () => mainWindow as never,
     })
 
-    controller.handleSecondInstance(['TabTin.exe', 'tabtin://focus'])
+    controller.handleSecondInstance(['SnSworker.exe', 'tabtin://focus'])
     await Promise.resolve()
     await Promise.resolve()
 

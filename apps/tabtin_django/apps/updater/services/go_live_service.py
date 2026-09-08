@@ -453,7 +453,7 @@ class DesktopGoLiveService:
         for slug in slugs:
             url = urljoin(base + "/", f"dl/{slug}")
             try:
-                request = Request(url, method="GET", headers={"User-Agent": "TabTin-GoLiveProbe/1.0"})
+                request = Request(url, method="GET", headers={"User-Agent": "SnSworker-GoLiveProbe/1.0"})
                 with urlopen(request, timeout=20) as response:  # noqa: S310
                     # urlopen 默认跟随重定向；用最终 URL 校验
                     final_url = response.geturl()

@@ -1,7 +1,7 @@
 /**
  * Risk level vocabulary alignment .
  *
- * Two vocabularies coexist in TabTin:
+ * Two vocabularies coexist in SnSworker:
  * - **Registration / product**: `safe` / `review` / `strict`
  *   (Django BaseTool.risk_level, action-tools manifest, tool cards)
  * - **Wire / HITL**: `low` / `medium` / `high`

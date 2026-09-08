@@ -6,7 +6,7 @@
  * 的产品介绍，不如直接在侧边栏里完成 auth 流程。这样：
  *   1. 零多余点击 — 看到表单立刻就能填
  *   2. 主区域的 hero + Demo 始终可见，转化路径不被打断
- *   3. 符合 TabTin "看得见的工作" 哲学：登录这件事也"看得见"，不藏在模态里
+ *   3. 符合 SnSworker "看得见的工作" 哲学：登录这件事也"看得见"，不藏在模态里
  *
  * 与全屏 LoginForm/RegisterForm 的区别：
  *   - 视觉为 ~200px 内容宽度优化（输入框无 Label，placeholder 表达字段）
@@ -86,7 +86,7 @@ export const SidebarAuthInline: React.FC = () => {
           />
           <div className="text-center space-y-1">
             <div className="text-subtitle font-semibold text-foreground leading-tight">
-              TabTin
+              SnSworker
             </div>
             <div
               className={cn(

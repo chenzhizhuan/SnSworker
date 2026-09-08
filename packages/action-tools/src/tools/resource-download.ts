@@ -7,7 +7,7 @@
  *
  * 与 get_detected_resources 配合使用：先检测 → 再下载/解析
  *
- * @author TabTin Team
+ * @author SnSworker Team
  */
 
 import type { AgentTool } from '../types'

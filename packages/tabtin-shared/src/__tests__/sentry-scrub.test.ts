@@ -73,8 +73,8 @@ describe('scrubSentryEvent（契约：docs/agent/error-context-schema.md 脱敏�
         values: [{
           stacktrace: {
             frames: [
-              { abs_path: 'C:\\Users\\Alice\\TabTin\\main.js', filename: 'C:\\Users\\Alice\\main.js' },
-              { abs_path: '/Users/Alice/TabTin/main.js', filename: '/home/alice/main.js' },
+              { abs_path: 'C:\\Users\\Alice\\SnSworker\\main.js', filename: 'C:\\Users\\Alice\\main.js' },
+              { abs_path: '/Users/Alice/SnSworker/main.js', filename: '/home/alice/main.js' },
             ],
           },
         }],

@@ -730,7 +730,7 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
             </DialogTitle>
             <DialogDescription>
               {t('myAgents.avatarPresetHint', {
-                defaultValue: '暂不支持上传，请从 TabTin 品牌头像中选择。',
+                defaultValue: '暂不支持上传，请从 SnSworker 品牌头像中选择。',
               })}
             </DialogDescription>
           </DialogHeader>

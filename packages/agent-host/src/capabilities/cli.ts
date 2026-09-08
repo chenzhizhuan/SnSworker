@@ -1,7 +1,7 @@
 /**
  * CliCap —— tabtin CLI 命令的上下文注入。
  *
- * **目标**：TabTin 是 CLI-first 平台，能力都暴露成 `tabtin <命令>`（数百条）。让 Agent
+ * **目标**：SnSworker 是 CLI-first 平台，能力都暴露成 `tabtin <命令>`（数百条）。让 Agent
  * 开局就知道有哪些命令域、以及跟本轮请求相关的命令细节，不必先跑 `tabtin commands` 探。
  * 命令通过 `run_terminal_command` 执行——本 Cap 只注入认知，不新增工具。
  *

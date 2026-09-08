@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/TabTin/tabtin-cli/internal/conversation"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/conversation"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // resolveOutputFormat 实施 agent run 的输出格式协议（v10.11 P1 + P2：明示互斥矩阵 + Changed 边界）。

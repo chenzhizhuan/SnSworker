@@ -29,7 +29,7 @@ describe('crawl-view-event-dispatcher', () => {
       type: 'page:loaded',
       data: {
         url: 'https://tabtin.ai',
-        title: 'TabTin',
+        title: 'SnSworker',
       },
       fallbackViewId: 'view-1',
       mainWindow: {
@@ -48,12 +48,12 @@ describe('crawl-view-event-dispatcher', () => {
       timestamp: 123,
       data: {
         url: 'https://tabtin.ai',
-        title: 'TabTin',
+        title: 'SnSworker',
         viewId: 'view-1',
       },
       context: {
         url: 'https://tabtin.ai',
-        title: 'TabTin',
+        title: 'SnSworker',
         error: undefined,
       },
     })
@@ -63,7 +63,7 @@ describe('crawl-view-event-dispatcher', () => {
       runId: 'run-1',
       data: {
         url: 'https://tabtin.ai',
-        title: 'TabTin',
+        title: 'SnSworker',
         viewId: 'view-1',
       },
     })
@@ -73,7 +73,7 @@ describe('crawl-view-event-dispatcher', () => {
       runId: 'run-1',
       data: {
         url: 'https://tabtin.ai',
-        title: 'TabTin',
+        title: 'SnSworker',
         viewId: 'view-1',
       },
     })
@@ -83,7 +83,7 @@ describe('crawl-view-event-dispatcher', () => {
       runId: 'run-1',
       data: {
         url: 'https://tabtin.ai',
-        title: 'TabTin',
+        title: 'SnSworker',
         viewId: 'view-1',
       },
     })

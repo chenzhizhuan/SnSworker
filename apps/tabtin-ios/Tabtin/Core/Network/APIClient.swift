@@ -60,7 +60,7 @@ actor APIClient {
     static func makeSessionConfiguration() -> URLSessionConfiguration {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
-        // TabTin API responses are mutable user state (会话摘要、未读、权限、任务状态等)。
+        // SnSworker API responses are mutable user state (会话摘要、未读、权限、任务状态等)。
         // 默认 URLSession 会按 HTTP 缓存规则复用旧 GET；冷启动时即使请求“成功”，也可能
         // 根本没有访问后端，让消息列表长期停在旧摘要。统一禁用 URLCache，实时断线后的
         // REST 追平才能拿到权威快照。

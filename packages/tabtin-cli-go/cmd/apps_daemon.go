@@ -12,10 +12,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // ─── Daemon ──────────────────────────────────────────────────────
@@ -268,7 +268,7 @@ func resolveDaemonLauncher(extraArgs []string) (string, []string, string, error)
 			"  2. monorepo 内构建：pnpm --filter @tabtin/daemon build （会生成 apps/tabtin-daemon/dist/index.js）\n" +
 			"  3. monorepo dev 模式：cd apps/tabtin-daemon && pnpm dev start\n" +
 			"安装好后请先 tabtin-daemon init --token <token>，再 tabtin-daemon start。\n" +
-			"（如果你只是想用桌面端，启动 TabTin Electron App 即可，无需 daemon）",
+			"（如果你只是想用桌面端，启动 SnSworker Electron App 即可，无需 daemon）",
 	)
 }
 

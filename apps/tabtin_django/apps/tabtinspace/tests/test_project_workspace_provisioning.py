@@ -65,7 +65,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
             project=self.project,
             user=self.owner,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
 
         self.assertEqual(workspace.created_by_id, self.owner.id)
@@ -81,11 +81,11 @@ class ProjectWorkspaceProvisioningTests(TestCase):
     def test_ensure_is_idempotent_per_project_and_user(self):
         first = ensure_project_workspace(
             project=self.project, user=self.owner, device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
         second = ensure_project_workspace(
             project=self.project, user=self.owner, device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
 
         self.assertEqual(first.id, second.id)
@@ -97,7 +97,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
     def test_ensure_returns_existing_linked_workspace_without_renaming(self):
         """已挂 PMW 的现场直接复用；展示名由调用方治理，ensure 不再改名。"""
         legacy_name = f'{self.project.name} 的伴生 Workspace'
-        working_dir = '/Users/me/TabTin/team/launch-project'
+        working_dir = '/Users/me/SnSworker/team/launch-project'
         legacy = self._create_owned_workspace(legacy_name, working_dir)
         ProjectMemberWorkspace.objects.create(
             project=self.project,
@@ -138,7 +138,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
 
         companion = ensure_project_workspace(
             project=self.project, user=self.owner, device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
 
         resolved = resolve_project_execution_workspace(project=self.project, user=self.owner)
@@ -196,7 +196,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
         result = ProjectService(user=self.owner).ensure_my_workspace(
             project_id=self.project.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
         workspace = Workspace.objects.get(id=result["id"])
         self.assertTrue(ProjectMemberWorkspace.objects.filter(
@@ -214,7 +214,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
             name="New Launch",
             description="Ship it",
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/new-launch",
+            working_dir="/Users/me/SnSworker/team/new-launch",
             working_dir_type="mixed",
         )
 
@@ -231,7 +231,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
             user=self.owner,
             workspace=workspace,
         ).exists())
-        self.assertEqual(workspace.working_dir, "/Users/me/TabTin/team/new-launch")
+        self.assertEqual(workspace.working_dir, "/Users/me/SnSworker/team/new-launch")
         self.assertEqual(workspace_payload["organization_id"], str(self.organization.id))
         self.assertEqual(workspace_payload["project_id"], str(project.id))
         self.assertEqual(workspace_payload["type"], "workspace")
@@ -254,7 +254,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
     def test_router_serializes_my_workspace_for_current_user(self):
         workspace = ensure_project_workspace(
             project=self.project, user=self.owner, device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
 
         service = ProjectService(user=self.owner)
@@ -272,7 +272,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
         personal = self._create_owned_workspace("Personal Workspace", "/Users/me/personal")
         companion = ensure_project_workspace(
             project=self.project, user=self.owner, device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
 
         personal_payload = serialize_workspace(personal)
@@ -300,7 +300,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
             project=self.project,
             user=self.owner,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
         workspace.refresh_from_db()
         self.assertEqual(
@@ -330,7 +330,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
     def test_ensure_reuses_existing_user_workspace_without_rewriting_source(self):
         existing = self._create_owned_workspace(
             "Already Mine",
-            "/Users/me/TabTin/team/launch-project",
+            "/Users/me/SnSworker/team/launch-project",
         )
         self.assertEqual(existing.provisioning_source, Workspace.ProvisioningSource.USER)
 
@@ -338,7 +338,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
             project=self.project,
             user=self.owner,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
         self.assertEqual(workspace.id, existing.id)
         workspace.refresh_from_db()
@@ -347,7 +347,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
 
     def test_ensure_does_not_reuse_previous_users_workspace_on_same_device(self):
         """设备切换账号后，Project 伴生现场也必须按当前用户隔离。"""
-        working_dir = "/Users/me/TabTin/team/shared-project"
+        working_dir = "/Users/me/SnSworker/team/shared-project"
         previous_workspace = self._create_owned_workspace(
             "Previous User Workspace",
             working_dir,
@@ -387,7 +387,7 @@ class ProjectWorkspaceProvisioningTests(TestCase):
         personal = self._create_owned_workspace("Personal Workspace", "/Users/me/personal")
         companion = ensure_project_workspace(
             project=self.project, user=self.owner, device_id=self.device.id,
-            working_dir="/Users/me/TabTin/team/launch-project",
+            working_dir="/Users/me/SnSworker/team/launch-project",
         )
 
         space_ids = set(Workspace.objects.filter(

@@ -1253,7 +1253,7 @@ public data class ImMessage(
     public val attachmentFileName: String get() = metadata?.fileName ?: ""
     public val attachmentFileSize: Int? get() = metadata?.fileSize
 
-    /** 附件换链使用 TabTin 消息表主键；传输游标不能直接访问 REST 消息端点。 */
+    /** 附件换链使用 SnSworker 消息表主键；传输游标不能直接访问 REST 消息端点。 */
     public val attachmentLookupMessageId: Int?
         get() = metadata?.tabtinMessageId?.toIntOrNull() ?: id.takeIf { it > 0 }
 

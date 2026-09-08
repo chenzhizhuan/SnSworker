@@ -42,7 +42,7 @@ vi.mock('@stores/useIMStore', () => {
       id: 'dm-1',
       organization_id: 'org-1',
       type: CONVERSATION_TYPE_DM,
-      name: 'TabTin private conversation',
+      name: 'SnSworker private conversation',
       avatar_url: 'https://example.invalid/transport-avatar.png',
       dm_peer_user_id: 'user-1',
     },
@@ -109,7 +109,7 @@ describe('MessageSearch server pagination', () => {
     mockSearchGroups.mockResolvedValueOnce({
       groups: [{
         conversation_id: 'dm-1',
-        conversation_name: 'TabTin private conversation',
+        conversation_name: 'SnSworker private conversation',
         conversation_type: CONVERSATION_TYPE_DM,
         conversation_avatar_url: 'https://example.invalid/transport-avatar.png',
         match_count: 5,
@@ -155,7 +155,7 @@ describe('MessageSearch server pagination', () => {
 
     fireEvent.change(screen.getByLabelText('searchPlaceholder'), { target: { value: '命中' } })
     await waitFor(() => expect(screen.getByText('小叶')).toBeTruthy())
-    expect(screen.queryByText('TabTin private conversation')).toBeNull()
+    expect(screen.queryByText('SnSworker private conversation')).toBeNull()
 
     rerender(<MessageSearch organizationId="org-2"><div>会话列表</div></MessageSearch>)
 
@@ -220,7 +220,7 @@ describe('MessageSearch server pagination', () => {
     expect(mockNavigateToMessage).not.toHaveBeenCalled()
   })
 
-  it('opens the mapped TabTin conversation and locates the Tencent sequence', async () => {
+  it('opens the mapped SnSworker conversation and locates the Tencent sequence', async () => {
     const { MessageSearch } = await import('./MessageSearch')
     render(<MessageSearch organizationId="org-1"><div>会话列表</div></MessageSearch>)
 

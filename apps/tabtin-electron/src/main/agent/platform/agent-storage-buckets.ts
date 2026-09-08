@@ -335,7 +335,7 @@ interface SyncOwner {
 
 export interface RegisterAgentBucketsOptions {
   /**
-   * TabTin 本地数据根（ SSoT， 硬切唯一扫描根）。
+   * SnSworker 本地数据根（ SSoT， 硬切唯一扫描根）。
    *
    * bucket 内部按
    * `{dataRoot}/users/{userId}/organizations/{orgId}/workspaces/{workspaceId}/conversations/...`

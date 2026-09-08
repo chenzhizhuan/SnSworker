@@ -43,7 +43,7 @@ const rule = {
     docs: {
       description:
         '禁止 `catch {}` / `catch (_) {}` 形态的空 catch 子句静默吞错。如属合法 fail-soft，请在 catch 上方写 `// fail-soft: <理由>` 注释。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-empty-catch',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-empty-catch',
     },
     schema: [],
     messages: {

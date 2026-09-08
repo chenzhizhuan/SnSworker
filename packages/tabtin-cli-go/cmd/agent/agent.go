@@ -12,12 +12,12 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/conversation"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/conversation"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 func NewCmdAgent(f *cmdutil.Factory) *cobra.Command {
@@ -200,7 +200,7 @@ func newCmdRun(f *cmdutil.Factory) *cobra.Command {
 			if tr.Type() == transport.TypeDjango {
 				return output.PrintErrorAndExit(output.ErrorEnvelope(
 					string(errcode.Unavailable),
-					"'agent run' 需要 TabTin 桌面端或 Daemon 运行。当前为 API 直连模式。",
+					"'agent run' 需要 SnSworker 桌面端或 Daemon 运行。当前为 API 直连模式。",
 					"tabtin daemon start",
 					output.ExitServiceUnavail,
 				))
@@ -370,7 +370,7 @@ func runInteractive(parentCtx context.Context, st transport.StreamTransport, pst
 	// v10.8 P1：交互模式也服从 quiet（虽然交互场景下加 quiet 罕见，但协议一致）
 	renderer := conversation.NewRendererWithQuiet(verbose, output.IsQuietMode())
 
-	fmt.Fprintf(os.Stderr, "TabTin Agent 交互模式\n")
+	fmt.Fprintf(os.Stderr, "SnSworker Agent 交互模式\n")
 	fmt.Fprintf(os.Stderr, "  输入消息开始对话，/exit 退出，/help 查看帮助\n\n")
 
 	signal.Reset(os.Interrupt)
@@ -965,7 +965,7 @@ func newCmdHistory(f *cmdutil.Factory) *cobra.Command {
 			if tr.Type() == transport.TypeDjango {
 				return output.PrintErrorAndExit(output.ErrorEnvelope(
 					string(errcode.Unavailable),
-					"'agent history' 需要 TabTin 桌面端或 Daemon 运行。当前为 API 直连模式。",
+					"'agent history' 需要 SnSworker 桌面端或 Daemon 运行。当前为 API 直连模式。",
 					"tabtin daemon start",
 					output.ExitServiceUnavail,
 				))
@@ -1007,7 +1007,7 @@ func newCmdModels(f *cmdutil.Factory) *cobra.Command {
 			if tr.Type() == transport.TypeDjango {
 				return output.PrintErrorAndExit(output.ErrorEnvelope(
 					string(errcode.Unavailable),
-					"'agent models' 需要 TabTin 桌面端或 Daemon 运行。当前为 API 直连模式。",
+					"'agent models' 需要 SnSworker 桌面端或 Daemon 运行。当前为 API 直连模式。",
 					"tabtin daemon start",
 					output.ExitServiceUnavail,
 				))

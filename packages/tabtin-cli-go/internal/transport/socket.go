@@ -92,7 +92,7 @@ func (t *SocketTransport) doStream(ctx context.Context, method, path string, bod
 	req.Header.Set("Cache-Control", "no-cache")
 	setCommonHeaders(req)
 	setLocalHeaders(req)
-	req.Header.Set("X-TabTin-Token", token)
+	req.Header.Set("X-SnSworker-Token", token)
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
@@ -153,7 +153,7 @@ func (t *SocketTransport) doRequest(ctx context.Context, method, path string, bo
 	if err != nil {
 		return &Response{
 			Status: 502,
-			Data:   BuildErrorResponse(errCodeConnRefused, "无法连接到 TabTin CLI Server，请确保 TabTin 应用正在运行", map[string]any{"socket_path": socketPath, "system_error": err.Error()}),
+			Data:   BuildErrorResponse(errCodeConnRefused, "无法连接到 SnSworker CLI Server，请确保 SnSworker 应用正在运行", map[string]any{"socket_path": socketPath, "system_error": err.Error()}),
 		}, nil
 	}
 	defer conn.Close()
@@ -175,7 +175,7 @@ func (t *SocketTransport) doRequest(ctx context.Context, method, path string, bo
 	req.Header.Set("Content-Type", "application/json")
 	setCommonHeaders(req)
 	setLocalHeaders(req)
-	req.Header.Set("X-TabTin-Token", token)
+	req.Header.Set("X-SnSworker-Token", token)
 	if contentLength > 0 {
 		req.ContentLength = int64(contentLength)
 	}

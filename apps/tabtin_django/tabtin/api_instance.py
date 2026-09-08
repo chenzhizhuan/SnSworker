@@ -13,9 +13,9 @@ from apps.users.auth.permissions import JWTAuth
 api = NinjaAPI(
     title="Tabtin API",
     description="""
-    ## TabTin 核心 API 服务
+    ## SnSworker 核心 API 服务
 
-    TabTin 是人与 AI Agent 团队协作的统一工作平台，提供 Table、Docs、Design、Browser 等多种 App 的后端支撑。
+    SnSworker 是人与 AI Agent 团队协作的统一工作平台，提供 Table、Docs、Design、Browser 等多种 App 的后端支撑。
 
     ### 🔐 用户认证服务
     - 用户注册/登录（支持邮箱、手机号、验证码登录）

@@ -16,10 +16,10 @@ describe('packaged app install identity', () => {
       const script = readBuildScript(scriptName);
 
       expect(script).toMatch(
-        /production\)(?:(?!;;)[\s\S])*?PROFILE_PRODUCT_NAME="TabTin"(?:(?!;;)[\s\S])*?;;/,
+        /production\)(?:(?!;;)[\s\S])*?PROFILE_PRODUCT_NAME="SnSworker"(?:(?!;;)[\s\S])*?;;/,
       );
       expect(script).toMatch(
-        /preprod\)(?:(?!;;)[\s\S])*?PROFILE_PRODUCT_NAME="TabTin Preprod"(?:(?!;;)[\s\S])*?;;/,
+        /preprod\)(?:(?!;;)[\s\S])*?PROFILE_PRODUCT_NAME="SnSworker Preprod"(?:(?!;;)[\s\S])*?;;/,
       );
       expect(script).toMatch(
         /preprod\)(?:(?!;;)[\s\S])*?PROFILE_APP_ID="com\.tabtin\.app\.preprod"(?:(?!;;)[\s\S])*?;;/,

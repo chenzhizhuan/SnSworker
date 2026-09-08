@@ -91,7 +91,7 @@ export async function uploadIMAttachment(
 }
 
 /**
- * IM 附件走 TabTin OSS（上传时 isPublic=true）。按 file_id 换取当前可用下载 URL。
+ * IM 附件走 SnSworker OSS（上传时 isPublic=true）。按 file_id 换取当前可用下载 URL。
  */
 export async function resolveIMAttachmentDownloadUrl(input: {
   fileId: string

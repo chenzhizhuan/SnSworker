@@ -28,7 +28,7 @@ describe('EmojiPanel', () => {
 
     expect(screen.getByText('最近使用')).toBeTruthy()
     expect(screen.getByText('默认表情')).toBeTruthy()
-    expect(screen.queryByLabelText('TabTin')).toBeNull()
+    expect(screen.queryByLabelText('SnSworker')).toBeNull()
     expect(screen.queryByTestId('emoji-tab-tabtin')).toBeNull()
     expect(screen.queryByTestId('emoji-tabtin-section')).toBeNull()
 

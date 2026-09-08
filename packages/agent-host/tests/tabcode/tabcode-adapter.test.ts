@@ -1547,7 +1547,7 @@ describe('grep_search adapter', () => {
 
   it('grep_search files_with_matches 截断时 Found 头带 (limit, offset)（B3）', async () => {
     // 截断时输出 `Found N files` 带头，含
-    // pagination = limit: ${limit}, offset: ${offset}]`，TabTin 等价精神：
+    // pagination = limit: ${limit}, offset: ${offset}]`，SnSworker 等价精神：
     // `Found N files (limit: 250, offset: 0)\n<list>`
     for (let i = 0; i < 5; i++) await writeTempFile(`many-${i}.ts`, 'B3_LIMIT_MARKER\n');
     const ctx = makeCtx(new Map());

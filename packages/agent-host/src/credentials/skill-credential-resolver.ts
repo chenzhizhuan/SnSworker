@@ -7,7 +7,7 @@
  *   401/404/410/422/429 失败降级、缓存失效钩子、`warnings` 透传。
  * - 两端此前各写一份会漂移（历史上 Electron 已经走过一轮；PROD-3 拍板
  *   Daemon 补接入时决定**直接搬到共享位置一次到位**，避免再复制）。
- * - 凭据解析是 TabTin 宿主业务，不属于通用执行循环；放在 agent-host
+ * - 凭据解析是 SnSworker 宿主业务，不属于通用执行循环；放在 agent-host
  *   保持 Electron / Daemon 单源，同时避免 agent-runtime 依赖产品后端。
  *
  * **职责**：
@@ -159,7 +159,7 @@ async function verifySkillCredentialStillActive(
     Accept: 'application/json',
     Authorization: `Bearer ${token}`,
   }
-  if (deps.organizationId) headers['X-TabTin-Organization-Id'] = deps.organizationId
+  if (deps.organizationId) headers['X-SnSworker-Organization-Id'] = deps.organizationId
 
   let response: Response
   try {
@@ -285,7 +285,7 @@ async function fetchCredentialReveal(args: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   }
-  if (deps.organizationId) headers['X-TabTin-Organization-Id'] = deps.organizationId
+  if (deps.organizationId) headers['X-SnSworker-Organization-Id'] = deps.organizationId
 
   const body = JSON.stringify({
     space_id: request.spaceId,

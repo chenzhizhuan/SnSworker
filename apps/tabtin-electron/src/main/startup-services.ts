@@ -203,7 +203,7 @@ const registerCoreProcessHandlers = (): void => {
 
   // W3.3 D-5 §6：把 storage-manager:save-export IPC 挂上——渲染端
   // exportToFile helper 拿到 ExportPayload 后调本 IPC 落到
-  // ~/Downloads/TabTin/exports/。失败仅 warn 不阻塞启动。
+  // ~/Downloads/SnSworker/exports/。失败仅 warn 不阻塞启动。
   try {
     registerStorageExportFileWriter()
   } catch (err) {

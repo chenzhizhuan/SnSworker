@@ -118,7 +118,7 @@ community-assets/centrifugo.web.template.json
 *.swo
 *~
 .DS_Store
-TabTin-icon.png
+SnSworker-icon.png
 # git merge / rebase 自动生成的备份残留
 *.orig
 *.rej
@@ -202,7 +202,7 @@ scripts/backup-*.sh
 
 open-source/
 
-# TabTin local index (per-project)
+# SnSworker local index (per-project)
 .tabtin/
 
 # Project-specific AI agent rules (debug branch only)
@@ -289,7 +289,7 @@ coverage/
 .superset/
 scripts/.cache/
 
-# Mini deployment source mirror (runtime cache; not TabTin source)
+# Mini deployment source mirror (runtime cache; not SnSworker source)
 tools/daemon-control-deploy/
 
 # 废弃 iOS 旧工程，不参与开源主客户端构建

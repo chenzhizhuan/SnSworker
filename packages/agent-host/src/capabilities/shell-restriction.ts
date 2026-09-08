@@ -1,7 +1,7 @@
 /**
- * `@tabtin/agent-host` 受限 shell / 不可信输出的 TabTin 业务判定。
+ * `@tabtin/agent-host` 受限 shell / 不可信输出的 SnSworker 业务判定。
  *
- * 这三样是 TabTin CLI 特有知识，从中性 agent-runtime 内核迁出，由两宿主
+ * 这三样是 SnSworker CLI 特有知识，从中性 agent-runtime 内核迁出，由两宿主
  * （electron / daemon）装配时注入：
  *   - {@link RESTRICTED_READONLY_VERBS}：受限模式下 schema 未命中时判「只读」的
  *     启发式动词表（注入 `createTabtinReadonlyChecker` 的 `readonlyVerbs`）。

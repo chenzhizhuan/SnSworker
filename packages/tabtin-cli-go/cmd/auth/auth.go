@@ -7,21 +7,21 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 func AuthCommandSchemas() map[string]cmdutil.CommandDef {
 	return map[string]cmdutil.CommandDef{
 		"login": {
-			Use: "login", Short: "登录 TabTin",
+			Use: "login", Short: "登录 SnSworker",
 			Example: "  tabtin auth login\n" +
 				"  tabtin auth login --url https://api.example.com --token ttn_xxx",
 			Route: cmdutil.RouteDirect,
 			Risk:  cmdutil.RiskWrite, RiskDeclared: true, // ：写本地 profile 凭证
 			Flags: []cmdutil.FlagDef{
-				{Name: "url", Type: cmdutil.FlagString, Desc: "TabTin API 地址（默认 TABTIN_API_URL 或 https://api.example.com）"},
+				{Name: "url", Type: cmdutil.FlagString, Desc: "SnSworker API 地址（默认 TABTIN_API_URL 或 https://api.example.com）"},
 				{Name: "token", Type: cmdutil.FlagString, Desc: "API Token / UserApiKey（CI 非交互；与设备码二选一）"},
 				{Name: "profile", Type: cmdutil.FlagString, Desc: "目标 Profile 名称"},
 				{Name: "label", Type: cmdutil.FlagString, Desc: "Profile 标签"},
@@ -70,7 +70,7 @@ func newCmdLogin(f *cmdutil.Factory) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "login",
-		Short: "登录 TabTin",
+		Short: "登录 SnSworker",
 		Long: `默认使用浏览器/设备码完成用户授权（OAuth Device Flow）。
 CI / 自动化可传 --url 与 --token（UserApiKey），或设置环境变量 TABTIN_API_URL + TABTIN_TOKEN。`,
 		Example: `  tabtin auth login
@@ -135,7 +135,7 @@ CI / 自动化可传 --url 与 --token（UserApiKey），或设置环境变量 T
 		},
 	}
 
-	cmd.Flags().StringVar(&flagURL, "url", "", "TabTin API 地址")
+	cmd.Flags().StringVar(&flagURL, "url", "", "SnSworker API 地址")
 	cmd.Flags().StringVar(&flagToken, "token", "", "API Token / UserApiKey（CI 非交互）")
 	cmd.Flags().StringVar(&flagProfile, "profile", "", "目标 Profile 名称")
 	cmd.Flags().StringVar(&flagLabel, "label", "", "Profile 标签")

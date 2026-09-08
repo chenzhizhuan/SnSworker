@@ -1113,7 +1113,7 @@ def bookmark_preview(request, payload: BookmarkPreviewRequest):
             allow_redirects=True,
             max_redirects=5,
             stream=True,
-            headers={"User-Agent": "TabTin-Bot/1.0"},
+            headers={"User-Agent": "SnSworker-Bot/1.0"},
         )
         resp.raise_for_status()
 

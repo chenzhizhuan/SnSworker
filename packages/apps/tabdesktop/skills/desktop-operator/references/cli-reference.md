@@ -216,7 +216,7 @@ Wave 3 开启了"点击前 9×9 像素陈旧度校验"（规范 § 4.5.3，默�
 
 pixelCompare 每次 `click` / `drag` 前会多一次 `desktopCapturer` 截屏（~100ms 在主流机器上）+ 2 次 9×9 raw byte 比对（<1ms）。单次点击的额外开销用户察觉不到；**batch 内连续 click** 时，N 次点击会累计 `N × ~100ms`——例如 batch 内 10 次连续 click 会额外增加约 1 秒。如果你的场景是"已经确信屏幕稳定的大量连续点击"（例如 Agent 跑单元测试 UI 脚本、批量填数据 1000 行），可以关掉 pixelCompare 换速度：
 
-- **开关现状（v2.1 模块零起 plumbing 已通）**：pixelCompare **默认启用**。管理员 / 工程师可改 `packages/apps/tabdesktop/app.json` 的 `tabdesktop.pixelCompare.enabled = false` 后**重启 TabTin 客户端**关闭——v2.1 模块零（规范 § 3.5.5）打通了 app.json → runtime plumbing，改配置重启即生效（v1.8 的"声明了不生效"债已偿还）。运行时还可走 `DesktopExecutorService.setPixelCompareEnabled(false)`（Space 切换 / 测试场景），不必重启。**注意**：实时热更新（不重启就生效）由后续 Space 配置热更新 Wave 提供，模块零阶段需要重启一次。
+- **开关现状（v2.1 模块零起 plumbing 已通）**：pixelCompare **默认启用**。管理员 / 工程师可改 `packages/apps/tabdesktop/app.json` 的 `tabdesktop.pixelCompare.enabled = false` 后**重启 SnSworker 客户端**关闭——v2.1 模块零（规范 § 3.5.5）打通了 app.json → runtime plumbing，改配置重启即生效（v1.8 的"声明了不生效"债已偿还）。运行时还可走 `DesktopExecutorService.setPixelCompareEnabled(false)`（Space 切换 / 测试场景），不必重启。**注意**：实时热更新（不重启就生效）由后续 Space 配置热更新 Wave 提供，模块零阶段需要重启一次。
 - **判断准则**：场景里"屏幕被外部改变"的概率可忽略（关掉风险低），而点击次数 ≥ 10 且对延迟敏感（收益高）——满足这两条再考虑关
 - **默认不要关**：Agent 正常操控场景（动态 UI / 用户可能切屏 / 页面有动画）pixelCompare 的"防盲点击"价值 > 每步 100ms 的延迟
 - **关闭后的 Agent 行为契约**：若工程侧关闭了 pixelCompare，Agent 将不再收到"屏幕内容与上次截图不一致"错误；若场景本身 UI 不稳定（动画 / 异步加载 / 弹窗），建议 Agent 在关键节点手动插入 `screenshot` 校验代偿。
@@ -268,7 +268,7 @@ tabtin desktop open "/Applications/Visual Studio Code.app" # 打开应用（按 
   {
     "id": "0",
     "app": "Code",
-    "title": "SKILL.md — TabTin",
+    "title": "SKILL.md — SnSworker",
     "position": { "x": 0, "y": 25 },
     "size": { "width": 1280, "height": 775 },
     "focused": true

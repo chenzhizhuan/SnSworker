@@ -126,7 +126,7 @@ export function renderForCLI(err: OSError, opts: RenderCLIOptions = {}): string 
   if (err.terminal) {
     lines.push('');
     lines.push(
-      `  ${c.yellow}注意：完成上述操作后再次运行此命令；TabTin 主进程则需要重启才能让权限生效。${c.reset}`,
+      `  ${c.yellow}注意：完成上述操作后再次运行此命令；SnSworker 主进程则需要重启才能让权限生效。${c.reset}`,
     );
   }
 

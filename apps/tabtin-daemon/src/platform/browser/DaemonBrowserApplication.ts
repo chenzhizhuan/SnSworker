@@ -2206,7 +2206,7 @@ export class DaemonBrowserApplication implements BrowserApplicationPort {
         case 'collect.table':
           return failure(501, 'NOT_IMPLEMENTED', 'Daemon 模式当前不支持 Browser-to-Table 直接创建 TabData 表；请在 Electron 端执行，或使用 --input fixture 验证 browser-core 采集逻辑。', {
             suggestions: [
-              '在 TabTin 桌面端采集：tabtin browser open 打开页面 → tabtin browser network 取接口数据 → 写入 TabData 表',
+              '在 SnSworker 桌面端采集：tabtin browser open 打开页面 → tabtin browser network 取接口数据 → 写入 TabData 表',
               '复用已打开页面：tabtin browser tab list 找 tabId 后用 tabtin browser network 取接口数据',
               '需要离线分析时先导出 network JSON，再在 Electron 端导入 TabData',
             ],

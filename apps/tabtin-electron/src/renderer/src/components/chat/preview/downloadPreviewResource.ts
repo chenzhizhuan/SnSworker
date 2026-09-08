@@ -72,7 +72,7 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
 }
 
 /**
- * blob/data 落盘：优先主进程静默写入 ~/Downloads/TabTin（与 https 一致）；
+ * blob/data 落盘：优先主进程静默写入 ~/Downloads/SnSworker（与 https 一致）；
  * 主进程不可用时才回退 saveExportBlob（会弹系统「存储为」）。
  */
 async function persistBlob(blob: Blob, fileName: string) {

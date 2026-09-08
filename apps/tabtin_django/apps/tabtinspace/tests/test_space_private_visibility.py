@@ -55,7 +55,7 @@ class SpacePrivateVisibilityTests(TestCase):
             owner=self.owner,
             device=self.device,
             name="Private Workspace",
-            working_dir="/Users/owner/TabTin/private-space",
+            working_dir="/Users/owner/SnSworker/private-space",
             working_dir_type="mixed",
         )
         self.private_space = created["space"]
@@ -131,7 +131,7 @@ class SpacePrivateVisibilityTests(TestCase):
             owner=self.member,
             device=member_device,
             name="Member Private",
-            working_dir="/Users/member/TabTin/member-only",
+            working_dir="/Users/member/SnSworker/member-only",
             working_dir_type="mixed",
         )["space"]
         self.assertIsNotNone(member_space)
@@ -157,7 +157,7 @@ class SpacePrivateVisibilityTests(TestCase):
             agent=bot_agent,
             name="Bot Space",
             device=self.device,
-            working_dir="/Users/owner/TabTin/bot-space",
+            working_dir="/Users/owner/SnSworker/bot-space",
             created_by_id=self.owner.id,
         )
         ensure_user_membership(bot_space, self.owner.id, "owner")

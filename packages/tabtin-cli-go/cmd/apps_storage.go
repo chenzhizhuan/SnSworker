@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 func adaptStorageBatchDelete(ctx *cmdutil.RunContext, method, path string, body map[string]any) (string, string, map[string]any, error) {

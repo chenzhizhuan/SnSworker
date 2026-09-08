@@ -36,7 +36,7 @@ describe('resolveAgentAvatar', () => {
     })).toBe('https://cdn.example.com/custom.png')
   })
 
-  it('resolveAgentAvatarUrl 无自定义时回退 TabTin logo', () => {
+  it('resolveAgentAvatarUrl 无自定义时回退 SnSworker logo', () => {
     expect(resolveAgentAvatarUrl(null)).toBe(TABTIN_APP_ICON_URL)
     expect(resolveAgentAvatarUrl('')).toBe(TABTIN_APP_ICON_URL)
     expect(resolveAgentAvatarUrl('https://cdn.example.com/a.png')).toBe(

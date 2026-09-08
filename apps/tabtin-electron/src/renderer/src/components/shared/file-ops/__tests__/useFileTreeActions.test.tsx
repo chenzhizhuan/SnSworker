@@ -59,12 +59,12 @@ describe('useFileTreeActions', () => {
     installFileSystem({
       writeFile: vi.fn().mockResolvedValue({
         success: false,
-        error: 'Path E:\\TabTin\\TabTin Preprod\\tabtin-desktop is outside your workspace. Open this folder in TabFolder/TabCode to authorize, or toggle Super Permissions in Agent Security settings.',
+        error: 'Path E:\\SnSworker\\SnSworker Preprod\\tabtin-desktop is outside your workspace. Open this folder in TabFolder/TabCode to authorize, or toggle Super Permissions in Agent Security settings.',
       }),
     })
     const onRefresh = vi.fn()
     const { result } = renderHook(() => useFileTreeActions({
-      rootPath: 'E:/TabTin/TabTin Preprod',
+      rootPath: 'E:/SnSworker/SnSworker Preprod',
       onRefresh,
       i18nNamespace: 'context',
       showSuccessToast: false,
@@ -72,7 +72,7 @@ describe('useFileTreeActions', () => {
 
     let ok = true
     await act(async () => {
-      ok = await result.current.createFile('E:/TabTin/TabTin Preprod/tabtin-desktop', 'notes.md')
+      ok = await result.current.createFile('E:/SnSworker/SnSworker Preprod/tabtin-desktop', 'notes.md')
     })
 
     expect(ok).toBe(false)

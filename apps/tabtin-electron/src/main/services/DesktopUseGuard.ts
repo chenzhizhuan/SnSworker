@@ -69,7 +69,7 @@ function registerAbortShortcut(controller: AbortController): void {
 
   abortShortcutRegistered = true
   sendNotification(
-    'TabTin 正在操控你的电脑',
+    'SnSworker 正在操控你的电脑',
     `按 ${ABORT_SHORTCUT_LABEL} 可随时停止 Agent 操控。`,
   )
 }
@@ -172,9 +172,9 @@ async function requestDesktopApproval(sessionId: string): Promise<boolean> {
       const opts: Electron.MessageBoxOptions = {
         type: 'info',
         title: '需要系统权限',
-        message: `TabTin 需要这些权限才能操控桌面：${missing.join('、')}`,
+        message: `SnSworker 需要这些权限才能操控桌面：${missing.join('、')}`,
         detail:
-          '请在系统设置 → 隐私与安全性 中允许 TabTin 访问以下项：\n' +
+          '请在系统设置 → 隐私与安全性 中允许 SnSworker 访问以下项：\n' +
           missing.map((name) => `  • ${name}`).join('\n') +
           '\n\n授权后重新发起桌面操控请求即可。',
         buttons: ['知道了'],

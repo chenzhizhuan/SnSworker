@@ -1,15 +1,15 @@
 /**
  * StorageExportFileWriter — D-5 §6 把 storage-manager 导出 payload
- * 落地到 `~/Downloads/TabTin/exports/` 的主进程 IPC handler。
+ * 落地到 `~/Downloads/SnSworker/exports/` 的主进程 IPC handler。
  *
  * ## 为什么走主进程
  *
- * 1. **可寻址路径**：`~/Downloads/TabTin/exports/storage-{bucketId}-{ts}.json`
+ * 1. **可寻址路径**：`~/Downloads/SnSworker/exports/storage-{bucketId}-{ts}.json`
  *    在所有平台都是用户能直接打开的"约定俗成"位置；浏览器原生
  *    `a.click` 下载只能落到默认 Downloads 根目录，不能精准放子目录。
  * 2. **路径安全**：渲染进程不能写任意路径——本 handler 在主进程做
  *    `path.resolve` + 前缀校验，把所有写入约束在 `app.getPath('downloads')
- *    /TabTin/exports/` 下，绝不外溢。
+ *    /SnSworker/exports/` 下，绝不外溢。
  * 3. **审计能容**：写盘前 log 一下 bucketId / size，方便用户事后排查。
  *
  * ## 文件名约束
@@ -17,7 +17,7 @@
  * 入参 `filename` 必须是**纯文件名**（无路径分隔符）。任何包含
  * `..` / `/` / `\` 的入参一律拒绝。最终落地路径由本 handler 拼接：
  *
- *   `app.getPath('downloads') + '/TabTin/exports/' + sanitize(filename)`
+ *   `app.getPath('downloads') + '/SnSworker/exports/' + sanitize(filename)`
  *
  * ## 同名文件
  *
@@ -36,7 +36,7 @@ const log = createLogger('StorageExportFileWriter')
 
 const CHANNEL_SAVE_EXPORT = 'storage-manager:save-export'
 const CHANNEL_RESOLVE_EXPORT_DIR = 'storage-manager:resolve-export-dir'
-const SUBDIR = path.join('TabTin', 'exports')
+const SUBDIR = path.join('SnSworker', 'exports')
 
 /** 渲染进程传入的 export 落地 payload。 */
 export interface SaveExportPayload {
@@ -74,7 +74,7 @@ function _sanitizeFilename(raw: unknown): string | null {
   return trimmed.length > 240 ? trimmed.slice(0, 240) : trimmed
 }
 
-/** 解析最终落盘根目录：`{downloads}/TabTin/exports/`。 */
+/** 解析最终落盘根目录：`{downloads}/SnSworker/exports/`。 */
 function resolveExportDir(): string {
   const downloads = app.getPath('downloads')
   return path.join(downloads, SUBDIR)
@@ -82,7 +82,7 @@ function resolveExportDir(): string {
 
 /**
  * 主进程注册 IPC：
- *   - `storage-manager:save-export(payload)` → 写文件到 `~/Downloads/TabTin/exports/`
+ *   - `storage-manager:save-export(payload)` → 写文件到 `~/Downloads/SnSworker/exports/`
  *   - `storage-manager:resolve-export-dir()` → 返回上述目录的绝对路径（UI 展示）
  *
  * 幂等：重复调用会 removeHandler 再注册（HMR 友好）。

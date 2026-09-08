@@ -218,7 +218,7 @@ export function useSessionSwitcherActions(input: UseSessionSwitcherActionsInput)
   const handleArchiveRequest = useCallback((sessionId: string) => {
     // 已归档会话可查看/继续聊，不应再出现「归档」入口
     if (isSessionArchived(sessionId)) return
-    // 仅打开、尚未在 TabTin 续聊：归档入口仍是删除本机档案
+    // 仅打开、尚未在 SnSworker 续聊：归档入口仍是删除本机档案
     if (shouldDeleteOpenedExternalArchive(sessionId)) {
       const target = resolveOpenedArchiveTarget(sessionId)
       if (target && onDeleteExternalArchive) {

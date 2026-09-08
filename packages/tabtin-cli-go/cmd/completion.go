@@ -10,7 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 func newCmdCompletionInstall(_ *cmdutil.Factory) *cobra.Command {
@@ -85,7 +85,7 @@ func installZsh(rootCmd *cobra.Command) error {
 	rcContent, _ := os.ReadFile(rcFile)
 	fpathLine := fmt.Sprintf("fpath=(%s $fpath)", dir)
 	if !strings.Contains(string(rcContent), fpathLine) {
-		appendToFile(rcFile, fmt.Sprintf("\n# TabTin CLI completion\n%s\nautoload -Uz compinit && compinit\n", fpathLine))
+		appendToFile(rcFile, fmt.Sprintf("\n# SnSworker CLI completion\n%s\nautoload -Uz compinit && compinit\n", fpathLine))
 	}
 
 	fmt.Fprintf(os.Stderr, "✓ Zsh 补全已安装到 %s\n", path)

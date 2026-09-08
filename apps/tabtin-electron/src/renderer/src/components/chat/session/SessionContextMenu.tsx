@@ -15,7 +15,7 @@ export interface SessionContextMenuProps {
   pinnedSessionIds?: Set<string>
   /** 外部档案展开会话：隐藏分叉 */
   isExternalOpened?: boolean
-  /** 已展开但尚未在 TabTin 续聊：归档改为删除本机档案 */
+  /** 已展开但尚未在 SnSworker 续聊：归档改为删除本机档案 */
   deleteOpenedExternalArchive?: boolean
   onClose: () => void
   onForkSession?: (sessionId: string) => void | Promise<void>

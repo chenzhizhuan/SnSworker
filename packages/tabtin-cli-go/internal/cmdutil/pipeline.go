@@ -14,10 +14,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 type registeredCommand struct {
@@ -797,7 +797,7 @@ func executeTransportCommand(ctx *RunContext, f *Factory, def CommandDef) error 
 	if tr.Type() == "django" && !def.AllowsDjango() {
 		return output.PrintErrorAndExit(output.ErrorEnvelope(
 			string(errcode.Unavailable),
-			fmt.Sprintf("'%s' 需要 TabTin 桌面端或 Daemon 运行（local-only）。当前为 API 直连模式。", def.Use),
+			fmt.Sprintf("'%s' 需要 SnSworker 桌面端或 Daemon 运行（local-only）。当前为 API 直连模式。", def.Use),
 			"tabtin daemon start",
 			output.ExitServiceUnavail,
 		))
@@ -841,7 +841,7 @@ func executeTransportCommand(ctx *RunContext, f *Factory, def CommandDef) error 
 			return output.PrintErrorAndExit(output.ErrorEnvelope(
 				string(errcode.ValidationError),
 				"当前无 Agent 上下文",
-				"请先在 TabTin 中选择 Agent，或设置 TABTIN_AGENT_ID / --agent-id",
+				"请先在 SnSworker 中选择 Agent，或设置 TABTIN_AGENT_ID / --agent-id",
 				output.ExitValidation,
 			))
 		}

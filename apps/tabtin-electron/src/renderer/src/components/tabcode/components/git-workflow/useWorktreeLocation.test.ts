@@ -7,15 +7,15 @@ describe('useWorktreeLocation', () => {
     const { result, rerender } = renderHook(
       ({ branch }) =>
         useWorktreeLocation({
-          repoRoot: '/Users/me/project/TabTin',
+          repoRoot: '/Users/me/project/SnSworker',
           branch,
           existingPaths: [],
         }),
       { initialProps: { branch: 'feat/a' } },
     )
 
-    expect(result.current.folderName).toBe('TabTin-feat-a')
-    expect(result.current.fullPath).toBe('/Users/me/project/TabTin-feat-a')
+    expect(result.current.folderName).toBe('SnSworker-feat-a')
+    expect(result.current.fullPath).toBe('/Users/me/project/SnSworker-feat-a')
     expect(result.current.followsSuggestion).toBe(true)
 
     act(() => {
@@ -31,7 +31,7 @@ describe('useWorktreeLocation', () => {
   it('改父目录不影响已定的目录名', () => {
     const { result } = renderHook(() =>
       useWorktreeLocation({
-        repoRoot: '/Users/me/project/TabTin',
+        repoRoot: '/Users/me/project/SnSworker',
         branch: 'feat/login',
         existingPaths: [],
       }),
@@ -41,15 +41,15 @@ describe('useWorktreeLocation', () => {
       result.current.setParent('/tmp/worktrees')
     })
 
-    expect(result.current.folderName).toBe('TabTin-feat-login')
-    expect(result.current.fullPath).toBe('/tmp/worktrees/TabTin-feat-login')
+    expect(result.current.folderName).toBe('SnSworker-feat-login')
+    expect(result.current.fullPath).toBe('/tmp/worktrees/SnSworker-feat-login')
   })
 
   it('resetKey 变化后恢复跟随建议', () => {
     const { result, rerender } = renderHook(
       ({ resetKey, branch }) =>
         useWorktreeLocation({
-          repoRoot: '/Users/me/project/TabTin',
+          repoRoot: '/Users/me/project/SnSworker',
           branch,
           existingPaths: [],
           resetKey,
@@ -62,7 +62,7 @@ describe('useWorktreeLocation', () => {
     })
     rerender({ resetKey: 2, branch: 'feat/b' })
 
-    expect(result.current.folderName).toBe('TabTin-feat-b')
+    expect(result.current.folderName).toBe('SnSworker-feat-b')
     expect(result.current.followsSuggestion).toBe(true)
     expect(result.current.locationOpen).toBe(false)
   })

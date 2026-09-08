@@ -23,10 +23,10 @@ const SAMPLE = `<conversation_reference>
 组织：       "user_7151的工作团队"   (id: 5f4bef15-846e-49f6-bc1b-a364698ee43b)
 空间：       "默认 Space"   (id: 21695280-b00b-484f-ab3c-f340749e747c)
 会话：       28dc366e-d9ed-4a49-b1ea-63bf3d0d6c65
-工作目录：   /Users/developer/Library/Application Support/TabTin/organizations/5f4bef15-846e-49f6-bc1b-a364698ee43b/spaces/21695280-b00b-484f-ab3c-f340749e747c
+工作目录：   /Users/developer/Library/Application Support/SnSworker/organizations/5f4bef15-846e-49f6-bc1b-a364698ee43b/spaces/21695280-b00b-484f-ab3c-f340749e747c
 
 ## Archive（源对话隐式记忆）
-    /Users/developer/Library/Application Support/TabTin/platform-data/organizations/.../sessions/28dc366e-d9ed-4a49-b1ea-63bf3d0d6c65/
+    /Users/developer/Library/Application Support/SnSworker/platform-data/organizations/.../sessions/28dc366e-d9ed-4a49-b1ea-63bf3d0d6c65/
       ├── messages.jsonl   完整对话记录
       ├── events.jsonl     工具调用和流事件
       └── snapshots.jsonl  每次 LLM 调用的输入快照

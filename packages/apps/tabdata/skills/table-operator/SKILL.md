@@ -56,7 +56,7 @@ GUI bridge 类 FC 不在该边界内，按需正常使用）。
 | 记录评论 | `tabtin table record comment list\|create\|reply\|rm`；回复必须用 `reply <record-id> <comment-id>` |
 | 字段影响预检 | `tabtin table field explain\|delete-references\|conversion-references` |
 | 列表记录 | `tabtin table record list --table-id <id>` |
-| 按复制链接读取记录 | `tabtin table record detail "<TabTin 记录链接>" --format json` |
+| 按复制链接读取记录 | `tabtin table record detail "<SnSworker 记录链接>" --format json` |
 | 按关键词搜记录 | `tabtin table search --table-id <id> --search "<关键词>"`（有搜索词时必须用它，别用 `record list` 冒充 search；支持 `--field-id` 限定字段、`--view-id` 限定视图、`--take` 控制返回数） |
 | SQL 查询 | `tabtin table query "SELECT ..."` |
 | SQL 写入 | `tabtin table execute "UPDATE ..."` |
@@ -152,7 +152,7 @@ tabtin table field bulk-add --table-id <id> --fields '[
 
 TabData 右键「复制记录链接」会生成不携带 Space / Workspace 上下文的稳定
 `tabtin://` 资源链接；读取时把链接作为位置参数，更新时用 `--url`。旧版本复制的
-本地页面 URL 也继续兼容，两种链接都会复用当前 TabTin Profile 的授权
+本地页面 URL 也继续兼容，两种链接都会复用当前 SnSworker Profile 的授权
 （Electron 已登录时走 managed profile，**不必**先 `tabtin agent use`）：
 
 ```bash

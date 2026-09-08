@@ -496,7 +496,7 @@ export interface UpdateAgentRequest {
    */
   avatar_url?: string
   /**
-   * TabTin 品牌头像标识；当前 AI 分身编辑只允许从七张内置头像中选择。
+   * SnSworker 品牌头像标识；当前 AI 分身编辑只允许从七张内置头像中选择。
    * 服务端写入 settings.avatar_key，并清除旧 avatar_url。
    */
   avatar_key?: string

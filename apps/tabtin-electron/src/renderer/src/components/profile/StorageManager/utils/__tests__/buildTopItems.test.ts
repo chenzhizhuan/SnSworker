@@ -153,7 +153,7 @@ describe('checkpoint file-history workspace grouping', () => {
           metadata: {
             organizationId: 'org-1',
             cwdHash: 'hash-1',
-            projectPath: 'C:\\TabTin\\默认工作空间-3',
+            projectPath: 'C:\\SnSworker\\默认工作空间-3',
           },
         }],
         'checkpoint:file-history': [
@@ -164,7 +164,7 @@ describe('checkpoint file-history workspace grouping', () => {
             metadata: {
               organizationId: 'org-1',
               workspaceId: 'workspace-1',
-              workspaceRoot: 'C:\\TabTin\\默认工作空间-3',
+              workspaceRoot: 'C:\\SnSworker\\默认工作空间-3',
             },
           },
           {
@@ -174,7 +174,7 @@ describe('checkpoint file-history workspace grouping', () => {
             metadata: {
               organizationId: 'org-1',
               workspaceId: 'workspace-1',
-              workspaceRoot: 'C:\\TabTin\\默认工作空间-3',
+              workspaceRoot: 'C:\\SnSworker\\默认工作空间-3',
             },
           },
         ],

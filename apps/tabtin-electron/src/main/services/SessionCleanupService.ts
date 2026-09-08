@@ -18,7 +18,7 @@
  * });
  * ```
  *
- * @author TabTin Team
+ * @author SnSworker Team
  * @date 2025-11-21
  */
 

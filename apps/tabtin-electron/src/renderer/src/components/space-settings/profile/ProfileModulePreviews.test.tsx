@@ -146,13 +146,13 @@ describe('WorkingDirPreview', () => {
         agent={null}
         space={{
           id: 'space-remote',
-          working_dir: '/Users/seda/TabTin/demo',
+          working_dir: '/Users/seda/SnSworker/demo',
           working_dir_type: 'mixed',
         }}
       />,
     )
 
-    expect(screen.getByText('/Users/seda/TabTin/demo')).toBeTruthy()
+    expect(screen.getByText('/Users/seda/SnSworker/demo')).toBeTruthy()
     expect(screen.getByText('混合 · 在「sedas-MacBook-Air.local (darwin)」上运行')).toBeTruthy()
     expect(screen.queryByText('目录无法访问')).toBeNull()
   })

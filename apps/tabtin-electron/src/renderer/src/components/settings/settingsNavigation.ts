@@ -113,7 +113,7 @@ export const SETTINGS_SIDEBAR_GROUPS: ReadonlyArray<{
     subgroups: [
       {
         // 设备状态：只承载本机能力，不混入个人账号或团队配置。
-        // 顺序：登录信息 / 存储状态 / 性能监控 / TabTin 版本（MCP 侧栏入口已隐藏）。
+        // 顺序：登录信息 / 存储状态 / 性能监控 / SnSworker 版本（MCP 侧栏入口已隐藏）。
         labelKey: null,
         items: ([
           { category: 'device', section: 'browserSession', icon: Link2, labelKey: 'sections.loginInfo' },

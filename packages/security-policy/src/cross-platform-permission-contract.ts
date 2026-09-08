@@ -113,7 +113,7 @@ export const AUTHORITATIVE_DJANGO_PRESET_VALUES: Readonly<
  */
 export const ENFORCEMENT_SITES = {
   django: 'apps/tabtin_django/apps/services/common/sandbox_policy.py',
-  ios: 'apps/tabtin-ios/tabtin-ios-odd/TabTin/Sources/Services/WebSocket/WebSocketService.swift',
+  ios: 'apps/tabtin-ios/tabtin-ios-odd/SnSworker/Sources/Services/WebSocket/WebSocketService.swift',
   android:
     'apps/tabtin-android/app/src/main/java/com/tabtin/mobile/data/automation/SecurityPolicyChecker.kt',
 } as const;

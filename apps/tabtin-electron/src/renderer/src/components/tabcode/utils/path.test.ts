@@ -5,15 +5,15 @@ import { relativePath } from './path'
 describe('tabcode path utils', () => {
   it('resolves Windows file paths relative to a slash-normalized root', () => {
     expect(relativePath(
-      'C:/workspace/TabTin-feature/TabTin',
-      'C:\\workspace\\TabTin-feature\\TabTin\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
+      'C:/workspace/SnSworker-feature/SnSworker',
+      'C:\\workspace\\SnSworker-feature\\SnSworker\\.cursor\\skills\\linux-commit-discipline\\SKILL.md',
     )).toBe('.cursor/skills/linux-commit-discipline/SKILL.md')
   })
 
   it('matches Windows drive paths case-insensitively', () => {
     expect(relativePath(
-      'c:/workspace/TabTin-feature/TabTin',
-      'C:\\workspace\\TabTin-feature\\TabTin\\apps\\tabtin-electron\\package.json',
+      'c:/workspace/SnSworker-feature/SnSworker',
+      'C:\\workspace\\SnSworker-feature\\SnSworker\\apps\\tabtin-electron\\package.json',
     )).toBe('apps/tabtin-electron/package.json')
   })
 

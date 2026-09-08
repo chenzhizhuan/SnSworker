@@ -152,7 +152,7 @@ export class ServiceInstaller {
 
   private getSystemdTemplate(): string {
     return `[Unit]
-Description=TabTin Agent Daemon
+Description=SnSworker Agent Daemon
 After=network-online.target
 Wants=network-online.target
 StartLimitBurst=3

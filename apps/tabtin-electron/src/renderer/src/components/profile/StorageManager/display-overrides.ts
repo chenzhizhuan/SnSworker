@@ -95,7 +95,7 @@ const BUCKET_OVERRIDES: Record<string, BucketDisplayOverride> = {
   // ── business-app 组：用户能感知的"已安装应用"子集
   'tin:sandboxes': { userGroup: 'apps', userVisible: true },
   'marketplace:apps': { userGroup: 'apps', userVisible: true },
-  // skills:preinstalled 是 TabTin 自动注入到每个工作区的工具脚本，用户既不能管
+  // skills:preinstalled 是 SnSworker 自动注入到每个工作区的工具脚本，用户既不能管
   // 也不应该管 → 全程隐藏
   'skills:preinstalled': { userVisible: false },
   'mcp:local-connections': { userGroup: 'apps', userVisible: true },

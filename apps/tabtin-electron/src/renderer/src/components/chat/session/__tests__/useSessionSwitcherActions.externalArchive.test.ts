@@ -336,7 +336,7 @@ describe('useSessionSwitcherActions external archive', () => {
     vi.useRealTimers()
   })
 
-  it('archives an opened external session after a live TabTin turn', async () => {
+  it('archives an opened external session after a live SnSworker turn', async () => {
     vi.useFakeTimers()
     mocks.messagesBySessionId = {
       'chat-ext-1': [

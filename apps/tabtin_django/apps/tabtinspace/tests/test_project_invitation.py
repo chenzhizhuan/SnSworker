@@ -102,7 +102,7 @@ class ProjectInvitationTests(TestCase):
         result = ProjectInvitationService(user=self.member).accept(
             project_id=self.project.id,
             device_id=self.member_device.id,
-            working_dir="/Users/member/TabTin/team/launch-project",
+            working_dir="/Users/member/SnSworker/team/launch-project",
         )
 
         membership = ProjectMembership.objects.get(

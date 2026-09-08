@@ -20,7 +20,7 @@ describe('WebSearchCard', () => {
         query="tabtin docs"
         results={[
           {
-            title: 'TabTin manual',
+            title: 'SnSworker manual',
             url: 'https://example.com/manual',
             snippet: 'A short result snippet',
           },
@@ -31,13 +31,13 @@ describe('WebSearchCard', () => {
     const header = screen.getByRole('button', { expanded: false })
     expect(screen.getByText('tabtin docs')).toBeTruthy()
     expect(screen.getByText('1 results')).toBeTruthy()
-    expect(container.textContent).not.toContain('TabTin manual')
+    expect(container.textContent).not.toContain('SnSworker manual')
     expect(screen.queryByText('A short result snippet')).toBeNull()
 
     fireEvent.click(header)
 
     expect(screen.getByRole('button', { expanded: true })).toBeTruthy()
-    expect(container.textContent).toContain('TabTin manual')
+    expect(container.textContent).toContain('SnSworker manual')
     expect(screen.getByText('A short result snippet')).toBeTruthy()
   })
 })

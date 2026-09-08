@@ -14,7 +14,7 @@
  *
  * **路径选择**：与 `desktop-audit-logger.ts` 字面对齐——都放 `~/.tabtin/`。
  * 原 prompt 提议 `app.getPath('userData')`，但 Electron 会把 userData 放到
- * `~/Library/Application Support/TabTin/logs/`，开发者 `tail` 时不容易找；统一
+ * `~/Library/Application Support/SnSworker/logs/`，开发者 `tail` 时不容易找；统一
  * 放 `~/.tabtin/` 让两类 audit 在同一目录下，`ls ~/.tabtin/*.log*` 一眼看到。
  *
  * **rotate 策略**：文件 > 10MB 时把当前文件 mv 到 `widget-audit.log.old`（覆盖旧备份），

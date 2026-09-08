@@ -13,7 +13,7 @@ import { buildSystemPrompt } from '@tabtin/agent-prompt';
 describe('Daemon SSoT buildSystemPrompt – custom_rules (W3 / W7a)', () => {
   it('always renders the built-in default identity', () => {
     const out = buildSystemPrompt({ tools: [] });
-    expect(out).not.toContain('你是 TabTin AI Agent');
+    expect(out).not.toContain('你是 SnSworker AI Agent');
     expect(out).toContain('## 运行环境');
     expect(out).toMatch(/<identity>/);
   });

@@ -31,7 +31,7 @@ const conversations: Conversation[] = [
     id: 'dm-1',
     organization_id: 'org-1',
     type: CONVERSATION_TYPE_DM,
-    name: 'TabTin private conversation',
+    name: 'SnSworker private conversation',
     avatar_url: '',
     member_count: 2,
     last_message_at: null,
@@ -153,7 +153,7 @@ describe.each(dialogs)('$name', ({ renderDialog }) => {
     const { container } = renderDialog()
 
     expect(screen.getByText('沈庾涛')).toBeTruthy()
-    expect(screen.queryByText('TabTin private conversation')).toBeNull()
+    expect(screen.queryByText('SnSworker private conversation')).toBeNull()
     expect(screen.getByText('产品群')).toBeTruthy()
     expect(container.querySelector('img')?.getAttribute('src')).toBe('https://example.com/peer.png')
 

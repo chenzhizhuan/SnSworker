@@ -268,7 +268,7 @@ class ProxyContext:
     stream: bool = True
 
     # 用户主动选择的上下文档位 id（如 'long_1m'）。
-    # 来自请求头 X-TabTin-Context-Tier；为空时走默认档（is_default 或第一档）。
+    # 来自请求头 X-SnSworker-Context-Tier；为空时走默认档（is_default 或第一档）。
     # 影响两件事：
     #   1) stream_upstream 透传该档 extra_headers（如 anthropic-beta）
     #   2) settle_and_charge 锁定该档单价计费
@@ -780,7 +780,7 @@ def settle_and_charge(
             # 子 Agent 计费收尾：把「这笔属于哪类活」的 scene_key 一并落进
             # BillingUsageEvent，与下方 LLMUsageFact 同源同值（主管/小工/压缩/摘要）。
             scene_key=ctx.scene_key or map_source_to_scene_key(ctx.source),
-            #  用量流水任务归属：session_id 即客户端 X-TabTin-Session-Id
+            #  用量流水任务归属：session_id 即客户端 X-SnSworker-Session-Id
             # （= ChatSession.thread_id），落进 BillingUsageEvent.metadata，
             # 供用量明细/CSV 导出反查会话标题（任务名）。无会话的调用留空。
             billing_metadata={
@@ -1954,7 +1954,7 @@ def stream_upstream(
                         yield f"data: {payload}\n\n"
 
                     elif line.startswith(":"):
-                        # 上游 comment 可透传 keepalive，但不能伪造 TabTin 内部 timing comment。
+                        # 上游 comment 可透传 keepalive，但不能伪造 SnSworker 内部 timing comment。
                         if line.strip().startswith(": tabtin_timing "):
                             continue
                         yield f"{line}\n\n"

@@ -105,28 +105,28 @@ class WorkspaceConstraintTests(TestCase):
     def test_device_home_unique_per_organization_and_user(self):
         from apps.tabtinspace.models import Workspace
 
-        self._create("/Users/me/TabTin/Home", kind=Workspace.Kind.HOME)
+        self._create("/Users/me/SnSworker/Home", kind=Workspace.Kind.HOME)
         with self.assertRaises(IntegrityError), transaction.atomic(
             using=postgres_app_db_alias()
         ):
-            self._create("/Users/me/TabTin/Home-дifferent", kind=Workspace.Kind.HOME)
+            self._create("/Users/me/SnSworker/Home-дifferent", kind=Workspace.Kind.HOME)
 
         # 同一 Organization、同一设备切换用户后，新用户可拥有独立主场。
         other_user = create_test_user(prefix="ws-con-other-user")
         self._create(
-            "/Users/me/TabTin/Home-2",
+            "/Users/me/SnSworker/Home-2",
             kind=Workspace.Kind.HOME,
             created_by=other_user,
         )
 
         # 无创建者的极旧数据不参与用户级主场约束，留给异常数据巡检。
         self._create(
-            "/Users/me/TabTin/Legacy-Home",
+            "/Users/me/SnSworker/Legacy-Home",
             kind=Workspace.Kind.HOME,
             created_by=None,
         )
         self._create(
-            "/Users/me/TabTin/Legacy-Home-2",
+            "/Users/me/SnSworker/Legacy-Home-2",
             kind=Workspace.Kind.HOME,
             created_by=None,
         )
@@ -138,8 +138,8 @@ class WorkspaceConstraintTests(TestCase):
         Workspace.objects.create(
             organization=other_organization,
             device=self.device,
-            working_dir="/Users/me/TabTin/Other/Home",
-            normalized_working_dir="/Users/me/TabTin/Other/Home",
+            working_dir="/Users/me/SnSworker/Other/Home",
+            normalized_working_dir="/Users/me/SnSworker/Other/Home",
             kind=Workspace.Kind.HOME,
             created_by=self.owner,
         )
@@ -147,7 +147,7 @@ class WorkspaceConstraintTests(TestCase):
         # 同一 Organization 的另一台设备也可有自己的主场。
         other_device = _make_device(self.organization, self.owner, prefix="ws-con2")
         self._create(
-            "/Users/me/TabTin/Home", kind=Workspace.Kind.HOME, device=other_device,
+            "/Users/me/SnSworker/Home", kind=Workspace.Kind.HOME, device=other_device,
         )
 
 
@@ -378,7 +378,7 @@ class WorkspaceServiceTests(TestCase):
         ws, created = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/HomeHeal",
+            working_dir="/Users/me/SnSworker/HomeHeal",
         )
         self.assertTrue(created)
         self.assertTrue(
@@ -397,7 +397,7 @@ class WorkspaceServiceTests(TestCase):
         healed, created_again = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/HomeHeal",
+            working_dir="/Users/me/SnSworker/HomeHeal",
         )
         self.assertFalse(created_again)
         self.assertEqual(healed.id, ws.id)
@@ -590,12 +590,12 @@ class WorkspaceServiceTests(TestCase):
         ws1, created1 = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home",
+            working_dir="/Users/me/SnSworker/Home",
         )
         ws2, created2 = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home",
+            working_dir="/Users/me/SnSworker/Home",
         )
         self.assertTrue(created1)
         self.assertFalse(created2)
@@ -619,7 +619,7 @@ class WorkspaceServiceTests(TestCase):
         owner_home, owner_created = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home",
+            working_dir="/Users/me/SnSworker/Home",
         )
         self.assertTrue(owner_created)
 
@@ -636,7 +636,7 @@ class WorkspaceServiceTests(TestCase):
         next_home, next_created = next_service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home-2",
+            working_dir="/Users/me/SnSworker/Home-2",
         )
 
         self.assertTrue(next_created)
@@ -665,7 +665,7 @@ class WorkspaceServiceTests(TestCase):
         repeated_home, repeated_created = next_service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home-2",
+            working_dir="/Users/me/SnSworker/Home-2",
         )
         self.assertFalse(repeated_created)
         self.assertEqual(repeated_home.id, next_home.id)
@@ -674,7 +674,7 @@ class WorkspaceServiceTests(TestCase):
         """#9839：无归属旧主场不占用账号目录，也不能被当前用户静默认领。"""
         from apps.tabtinspace.models import Workspace
 
-        working_dir = "/Users/me/TabTin/Legacy-Home"
+        working_dir = "/Users/me/SnSworker/Legacy-Home"
         legacy_home = Workspace.objects.create(
             organization=self.organization,
             device=self.device,
@@ -704,7 +704,7 @@ class WorkspaceServiceTests(TestCase):
         owner_home, _ = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home",
+            working_dir="/Users/me/SnSworker/Home",
         )
         next_user = create_test_user(prefix="ws-svc-dir-conflict")
         OrganizationMember.objects.create(
@@ -741,7 +741,7 @@ class WorkspaceServiceTests(TestCase):
         other_organization = create_test_organization(
             owner=self.owner, prefix="ws-svc-other",
         )
-        shared_working_dir = "/Users/me/TabTin/Shared/Home"
+        shared_working_dir = "/Users/me/SnSworker/Shared/Home"
         home, created = self.service.ensure_home_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
@@ -782,7 +782,7 @@ class WorkspaceServiceTests(TestCase):
                 {
                     "organization_id": str(self.organization.id),
                     "device_id": str(self.device.id),
-                    "working_dir": "/Users/me/TabTin/Home",
+                    "working_dir": "/Users/me/SnSworker/Home",
                     "working_dir_type": "mixed",
                     "name": "默认 Workspace",
                 }
@@ -800,13 +800,13 @@ class WorkspaceServiceTests(TestCase):
         self.service.create_workspace(
             organization_id=self.organization.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Home",
+            working_dir="/Users/me/SnSworker/Home",
         )
         with self.assertRaises(ServiceError) as ctx:
             self.service.ensure_home_workspace(
                 organization_id=self.organization.id,
                 device_id=self.device.id,
-                working_dir="/Users/me/TabTin/Home",
+                working_dir="/Users/me/SnSworker/Home",
             )
         # 不自动改判 kind（不静默篡改用户已有现场）
         self.assertEqual(ctx.exception.code, "WORKING_DIR_CONFLICT")
@@ -838,7 +838,7 @@ class WorkspaceServiceTests(TestCase):
         workspace, created = self.service.ensure_home_workspace(
             organization_id=team.id,
             device_id=self.device.id,
-            working_dir="/Users/me/TabTin/Team/Home",
+            working_dir="/Users/me/SnSworker/Team/Home",
         )
 
         self.assertTrue(created)
@@ -888,7 +888,7 @@ class WorkspaceServiceTests(TestCase):
             self.service.ensure_home_workspace(
                 organization_id=self.organization.id,
                 device_id=self.device.id,
-                working_dir="/Users/me/TabTin/Home",
+                working_dir="/Users/me/SnSworker/Home",
             )
 
         self.assertEqual(ctx.exception.code, "PERMISSION_DENIED")

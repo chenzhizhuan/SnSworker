@@ -13,7 +13,7 @@ from django.core.management.base import BaseCommand
 
 
 REPORT_PATH = Path(
-    "/Users/developer/dev/TabTin/TabTinAgent"
+    "/Users/developer/dev/SnSworker/TabTinAgent"
     "/packages/agent-runtime/docs/prd/06-subagent-coordination"
     "/spike-cache-hitrate-report.md"
 )

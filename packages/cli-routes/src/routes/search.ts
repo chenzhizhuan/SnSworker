@@ -1,5 +1,5 @@
 /**
- * Unified Search route — TabTin 统一搜索。
+ * Unified Search route — SnSworker 统一搜索。
  *
  * 路由：GET /search?q=xxx&organization_id=yyy&types=...
  * 行为：直接转发到 Django GET /api/search，1:1 透传 query 参数。

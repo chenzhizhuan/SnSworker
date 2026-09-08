@@ -1,5 +1,5 @@
 /**
- * TabTin CLI Server
+ * SnSworker CLI Server
  *
  * HTTP server over Unix Socket (macOS/Linux) or Named Pipe (Windows).
  * Receives requests from the `tabtin` CLI and routes them to
@@ -394,7 +394,7 @@ async function handleRequest(
   }
 
   if (validateTokenAuth(req, res, serverInfo?.token ?? null, [
-    '确保在 TabTin 内置终端中运行命令',
+    '确保在 SnSworker 内置终端中运行命令',
     '运行 tabtin doctor 进行环境诊断',
   ])) return
 

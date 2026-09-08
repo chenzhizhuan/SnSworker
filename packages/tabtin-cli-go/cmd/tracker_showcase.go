@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // Tracker / 自动化 能力总览分组 id 闭集——前端 / CI / 生成脚本共用同一份顺序与中文 label。

@@ -1,4 +1,4 @@
-"""HTTP client for the TabTin API."""
+"""HTTP client for the SnSworker API."""
 
 from __future__ import annotations
 
@@ -75,7 +75,7 @@ class HttpClient:
 
     @staticmethod
     def _unwrap(json: Any) -> Any:
-        """Unwrap TabTin {success, data, ...} envelope."""
+        """Unwrap SnSworker {success, data, ...} envelope."""
         if isinstance(json, dict) and "success" in json:
             if not json["success"]:
                 raise TabTinError(

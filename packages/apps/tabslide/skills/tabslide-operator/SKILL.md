@@ -41,11 +41,11 @@ metadata:
 
 ## 运行时要求（必读）
 
-**所有 `tabtin slide *` 命令都需要 TabTin 桌面端 _或_ tabtin-daemon 正在运行**（命令走本地 cli-server 路由）。直连 API 模式下会得到 `UNAVAILABLE: '<cmd>' 需要 TabTin 桌面端或 Daemon 运行`。
+**所有 `tabtin slide *` 命令都需要 SnSworker 桌面端 _或_ tabtin-daemon 正在运行**（命令走本地 cli-server 路由）。直连 API 模式下会得到 `UNAVAILABLE: '<cmd>' 需要 SnSworker 桌面端或 Daemon 运行`。
 
 | 场景 | 怎么启动 |
 |------|---------|
-| 桌面用户 | 打开 TabTin Electron App（最常见，无需额外操作） |
+| 桌面用户 | 打开 SnSworker Electron App（最常见，无需额外操作） |
 | 无头服务器 | `npm i -g @tabtin/daemon && tabtin-daemon init --token <t> && tabtin-daemon start` |
 | 本地开发 | `tabtin daemon start`（已桥接到 monorepo `apps/tabtin-daemon/dist/index.js`） |
 

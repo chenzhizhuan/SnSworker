@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Clean up stale TabTin Electron dev processes.
+ * Clean up stale SnSworker Electron dev processes.
  *
- * This is intentionally dev-only. Packaged TabTin uses a different app path and
+ * This is intentionally dev-only. Packaged SnSworker uses a different app path and
  * should never be touched by this helper.
  */
 import { execFileSync } from 'node:child_process';
@@ -177,7 +177,7 @@ export function runCli(argv = process.argv.slice(2)) {
 
   if (targets.length === 0) {
     if (!quiet) {
-      console.log('[electron-cleanup] no stale TabTin Electron dev processes found');
+      console.log('[electron-cleanup] no stale SnSworker Electron dev processes found');
     }
     return 0;
   }
@@ -185,7 +185,7 @@ export function runCli(argv = process.argv.slice(2)) {
   if (!quiet) {
     const mode = killAll ? 'all' : 'stale';
     const scope = currentOnly ? 'current repo ' : '';
-    console.log(`[electron-cleanup] cleaning ${targets.length} ${scope}${mode} TabTin Electron dev process(es)`);
+    console.log(`[electron-cleanup] cleaning ${targets.length} ${scope}${mode} SnSworker Electron dev process(es)`);
     for (const proc of targets) {
       console.log(`  pid=${proc.pid} ppid=${proc.ppid} stat=${proc.stat} ${proc.command}`);
     }

@@ -79,7 +79,7 @@ func (t *HTTPTransport) doStream(ctx context.Context, method, path string, body 
 	setCommonHeaders(req)
 	setLocalHeaders(req)
 	t.tokenMu.RLock()
-	req.Header.Set("X-TabTin-Token", t.token)
+	req.Header.Set("X-SnSworker-Token", t.token)
 	t.tokenMu.RUnlock()
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
@@ -94,7 +94,7 @@ func (t *HTTPTransport) doStream(ctx context.Context, method, path string, body 
 	if err != nil {
 		msg := err.Error()
 		if strings.Contains(msg, "connection refused") || strings.Contains(msg, "ECONNREFUSED") {
-			return nil, fmt.Errorf("无法连接到 TabTin CLI Server: %w", err)
+			return nil, fmt.Errorf("无法连接到 SnSworker CLI Server: %w", err)
 		}
 		if strings.Contains(msg, "timeout") || strings.Contains(msg, "deadline exceeded") {
 			return nil, fmt.Errorf("SSE 连接超时: %w", err)
@@ -141,13 +141,13 @@ func (t *HTTPTransport) doRequest(ctx context.Context, method, path string, body
 	t.tokenMu.RLock()
 	currentToken := t.token
 	t.tokenMu.RUnlock()
-	req.Header.Set("X-TabTin-Token", currentToken)
+	req.Header.Set("X-SnSworker-Token", currentToken)
 
 	resp, err := t.client.Do(req)
 	if err != nil {
 		msg := err.Error()
 		if strings.Contains(msg, "connection refused") || strings.Contains(msg, "ECONNREFUSED") {
-			return &Response{Status: 502, Data: BuildErrorResponse(errCodeConnRefused, "无法连接到 TabTin CLI Server，请确保 TabTin 应用正在运行", map[string]any{"base_url": t.baseURL})}, nil
+			return &Response{Status: 502, Data: BuildErrorResponse(errCodeConnRefused, "无法连接到 SnSworker CLI Server，请确保 SnSworker 应用正在运行", map[string]any{"base_url": t.baseURL})}, nil
 		}
 		if strings.Contains(msg, "timeout") || strings.Contains(msg, "deadline exceeded") {
 			return &Response{Status: 504, Data: BuildErrorResponse(errCodeConnTimeout, fmt.Sprintf("请求超时 (%v): %s %s", timeout, method, path), nil)}, nil

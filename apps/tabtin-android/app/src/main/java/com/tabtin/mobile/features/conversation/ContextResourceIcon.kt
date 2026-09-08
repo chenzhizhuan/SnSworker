@@ -10,7 +10,7 @@ import com.tabtin.mobile.features.clouddocs.TabTinAppIconVariant
 import com.tabtin.mobile.features.files.CloudDriveFilePresentation
 import com.tabtin.mobile.features.files.CloudDriveResourceIcon
 
-/** Composer 上下文资源图标，双端统一走 TabTin glyph 与云盘文件分类。 */
+/** Composer 上下文资源图标，双端统一走 SnSworker glyph 与云盘文件分类。 */
 @Composable
 internal fun ContextResourceIcon(
     itemType: String,

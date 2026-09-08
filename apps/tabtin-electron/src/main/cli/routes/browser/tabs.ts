@@ -629,7 +629,7 @@ export async function handleTabsRoute(
           sendJSON(res, 409, errorResponse('QUOTA_EXCEEDED', message, quotaOpts))
         } else {
           sendJSON(res, 500, errorResponse('INTERNAL_ERROR', message, {
-            suggestions: ['检查 TabTin 是否正常运行', '尝试重启应用后重试'],
+            suggestions: ['检查 SnSworker 是否正常运行', '尝试重启应用后重试'],
           }))
         }
       }

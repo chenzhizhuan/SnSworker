@@ -41,7 +41,7 @@ export interface ArchiveMeta {
   /** 特化展示标记——渲染层据此走外来气泡，不进普通会话列表。 */
   kind: 'external_archive'
   /**
-   * 首次「展开为特殊新对话」后绑定的 TabTin ChatSession id。
+   * 首次「展开为特殊新对话」后绑定的 SnSworker ChatSession id。
    * 再次点击同一档案应回到该会话，禁止每次新建。
    */
   openedSessionId?: string | null

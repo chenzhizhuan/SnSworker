@@ -1416,7 +1416,7 @@ def admin_add_organization_member(
         if target is None:
             return error_response(
                 "USER_NOT_FOUND_BY_PHONE",
-                "该手机号未注册 TabTin，无法直接添加",
+                "该手机号未注册 SnSworker，无法直接添加",
                 status_code=404,
             )
         user_id = str(target.id)

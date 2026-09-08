@@ -574,7 +574,7 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
     const hasMixedBilling = anyByokSeen && anyNonByokWithCredits
 
     // B4：后端实际扣费优先于前端估算
-    // 任务 5：BYOK 当前会话不展示"预估费用"——BYOK 不扣 TabTin 点券
+    // 任务 5：BYOK 当前会话不展示"预估费用"——BYOK 不扣 SnSworker 点券
     let estimatedCost: number | undefined
     if (!isByok && creditsConsumed <= 0) {
       const inputPrice = currentModel?.input_price_per_1k

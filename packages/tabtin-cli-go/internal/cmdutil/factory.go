@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 type Factory struct {
@@ -68,7 +68,7 @@ func (f *Factory) Transport() (transport.Transport, error) {
 		f.tr = tr
 	})
 	if f.tr == nil {
-		return nil, fmt.Errorf("无法连接到 TabTin。请确保 Electron 或 Daemon 正在运行，或配置 API 直连")
+		return nil, fmt.Errorf("无法连接到 SnSworker。请确保 Electron 或 Daemon 正在运行，或配置 API 直连")
 	}
 	return f.tr, nil
 }

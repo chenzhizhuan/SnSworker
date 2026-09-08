@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { resolveSessionLinkedWorktreeIndicator } from '../resolveSessionLinkedWorktreeIndicator'
 
-const main = { path: '/repo/TabTin', branch: 'main' }
-const linked = { path: '/worktrees/TabTin/feat-x', branch: 'feat/x' }
+const main = { path: '/repo/SnSworker', branch: 'main' }
+const linked = { path: '/worktrees/SnSworker/feat-x', branch: 'feat/x' }
 
 describe('resolveSessionLinkedWorktreeIndicator', () => {
   it('无 binding 时不显示', () => {

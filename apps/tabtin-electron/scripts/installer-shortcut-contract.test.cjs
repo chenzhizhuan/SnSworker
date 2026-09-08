@@ -32,7 +32,7 @@ assert.match(
 )
 assert.doesNotMatch(
   source,
-  /Delete "\$DESKTOP\\TabTin(?: Preprod| Local)?\.lnk"/,
+  /Delete "\$DESKTOP\\SnSworker(?: Preprod| Local)?\.lnk"/,
   'cleanup must use the profile-specific shortcut name instead of deleting another brand',
 )
 assert.match(

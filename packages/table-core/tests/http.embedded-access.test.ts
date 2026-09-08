@@ -28,7 +28,7 @@ describe('withTableRequestHeaders', () => {
     setAppHostClient({ request } as never)
 
     await withTableRequestHeaders(
-      { 'X-TabTin-Parent-Document-Id': 'doc-parent' },
+      { 'X-SnSworker-Parent-Document-Id': 'doc-parent' },
       () => requestJsonApi({
         method: 'GET',
         endpoint: '/tabdata/tables/table-child',
@@ -42,18 +42,18 @@ describe('withTableRequestHeaders', () => {
     })
 
     assert.equal(
-      requests[0]?.headers?.['X-TabTin-Parent-Document-Id'],
+      requests[0]?.headers?.['X-SnSworker-Parent-Document-Id'],
       'doc-parent',
     )
     assert.equal(
-      requests[1]?.headers?.['X-TabTin-Parent-Document-Id'],
+      requests[1]?.headers?.['X-SnSworker-Parent-Document-Id'],
       undefined,
     )
   })
 
   it('can carry a request header snapshot across an async token lookup', async () => {
     const pending = withTableRequestHeaders(
-      { 'X-TabTin-Parent-Document-Id': 'parent-doc' },
+      { 'X-SnSworker-Parent-Document-Id': 'parent-doc' },
       async () => {
         const headers = snapshotTableRequestHeaders()
         await Promise.resolve()
@@ -62,7 +62,7 @@ describe('withTableRequestHeaders', () => {
     )
 
     assert.deepEqual(await pending, {
-      'X-TabTin-Parent-Document-Id': 'parent-doc',
+      'X-SnSworker-Parent-Document-Id': 'parent-doc',
     })
     assert.deepEqual(snapshotTableRequestHeaders(), {})
   })
@@ -84,12 +84,12 @@ describe('withTableRequestHeaders', () => {
     })
 
     await withTableRequestHeaders(
-      { 'X-TabTin-Parent-Document-Id': 'parent-doc' },
+      { 'X-SnSworker-Parent-Document-Id': 'parent-doc' },
       () => RecordApiService.getRecordsByTable('child-table'),
     )
 
     assert.equal(
-      requests[0]?.headers?.['X-TabTin-Parent-Document-Id'],
+      requests[0]?.headers?.['X-SnSworker-Parent-Document-Id'],
       'parent-doc',
     )
   })
@@ -99,7 +99,7 @@ describe('withTableRequestHeaders', () => {
       getAccessToken: async () => 'token',
       request: async <T>(): Promise<TableHttpResponse<T>> => ({
         status: 403,
-        headers: { 'X-TabTin-Embedded-Access-Unavailable': '1' },
+        headers: { 'X-SnSworker-Embedded-Access-Unavailable': '1' },
         data: {
           success: false,
           code: 'PERMISSION_DENIED',

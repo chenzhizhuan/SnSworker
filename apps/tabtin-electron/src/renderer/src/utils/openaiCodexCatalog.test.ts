@@ -7,7 +7,7 @@ const platformModel: Model = {
   name: 'platform-model',
   display_name: 'Platform Model',
   provider: 'tabtin',
-  provider_display_name: 'TabTin',
+  provider_display_name: 'SnSworker',
   description: '',
   max_tokens: 8192,
   supports_streaming: true,

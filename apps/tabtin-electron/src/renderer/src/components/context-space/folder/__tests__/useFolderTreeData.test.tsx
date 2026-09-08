@@ -67,7 +67,7 @@ describe('useFolderTreeData', () => {
   it('把 legacy readDir success:false 转成可见错误状态', async () => {
     const readDir = vi.fn().mockResolvedValue({
       success: false,
-      error: "Path 'C:\\Program Files\\TabTin Preprod\\tabtin-desktop' is outside your workspace. Open this folder in TabFolder/TabCode to authorize, or toggle Super Permissions in Agent Security settings.",
+      error: "Path 'C:\\Program Files\\SnSworker Preprod\\tabtin-desktop' is outside your workspace. Open this folder in TabFolder/TabCode to authorize, or toggle Super Permissions in Agent Security settings.",
     })
     setupFs({ readDir })
 
@@ -120,7 +120,7 @@ describe('useFolderTreeData', () => {
       .fn()
       .mockResolvedValueOnce({
         success: false,
-        error: "Path 'C:\\Program Files\\TabTin Preprod\\tabtin-desktop' is outside your workspace.",
+        error: "Path 'C:\\Program Files\\SnSworker Preprod\\tabtin-desktop' is outside your workspace.",
       })
       .mockResolvedValueOnce({
         success: true,

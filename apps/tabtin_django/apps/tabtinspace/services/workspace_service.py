@@ -5,7 +5,7 @@ Workspace = (设备, 规范化目录) 的本地执行现场（终态两概念之
 「谁干」与「在哪干」是两个自由度，分别供给、会话时自由组合。
 
 主场（kind='home'）供给走 ``ensure_home_workspace`` 幂等原语
-（home-workspace-p1 §3.4）：客户端首跑解析 ``~/TabTin/Home`` 后调用，
+（home-workspace-p1 §3.4）：客户端首跑解析 ``~/SnSworker/Home`` 后调用，
 幂等键 (organization, device, user, kind='home')，DB partial unique 兜底并发。
 """
 
@@ -874,7 +874,7 @@ class WorkspaceService(BaseService):
                     self._heal_creator_owner_membership(existing)
                     return existing, False
             if 'ctx_ws_device_dir_unique' in exc_str:
-                # 当前 Organization + 用户 + 设备下，~/TabTin/Home 被 standard
+                # 当前 Organization + 用户 + 设备下，~/SnSworker/Home 被 standard
                 # 现场占用：正常流程不该发生。记日志返回冲突，不自动改判 kind
                 #（不静默篡改用户已有现场，home-workspace-p1 §3.4 错误分支）。
                 logger.warning(

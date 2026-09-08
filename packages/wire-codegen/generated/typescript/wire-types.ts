@@ -8,7 +8,7 @@
 // ════════════════════════════════════════════════════════════════════
 
 /**
- * TabTin wire-protocol generated types (Anthropic Messages API alignment).
+ * SnSworker wire-protocol generated types (Anthropic Messages API alignment).
  *
  * 在 monorepo 内（推荐路径）：
  *   import type { ContentBlock, MessageStart } from '@tabtin/agent-wire';

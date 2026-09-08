@@ -293,7 +293,7 @@ actor DiagnosticRecorder {
     }
 
     private static let readme = """
-    TabTin iOS diagnostic bundle
+    SnSworker iOS diagnostic bundle
 
     This bundle contains bounded, structured application, HTTP and WebSocket metadata.
     It intentionally excludes request/response bodies, header values, URL queries, tokens,

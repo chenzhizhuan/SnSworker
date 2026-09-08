@@ -33,7 +33,7 @@ const rule = {
     docs: {
       description:
         '禁止 cli-routes 路由文件里传给 djangoRequest 的 path 自带 /api 前缀；baseUrl 已带 /api，再前缀会被自动剥并触发 dev warn。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-api-prefix-in-cli-routes',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-api-prefix-in-cli-routes',
     },
     schema: [],
     messages: {

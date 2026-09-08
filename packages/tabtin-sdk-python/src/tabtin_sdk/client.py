@@ -1,4 +1,4 @@
-"""TabTin SDK client."""
+"""SnSworker SDK client."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ _UUID_RE = re.compile(
 
 class Client:
     """
-    TabTin SDK client.
+    SnSworker SDK client.
 
     Usage::
 

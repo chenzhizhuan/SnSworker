@@ -172,7 +172,7 @@ export interface TabCodeToolsDeps {
    *   malware, what it is doing. But you MUST refuse to improve or
    *   augment the code."
    *
-   * **默认 opt-in（false / undefined → 不附加）**：TabTin 走 OpenAI 兼容
+   * **默认 opt-in（false / undefined → 不附加）**：SnSworker 走 OpenAI 兼容
    * 路径，各家 provider 都有自己的 safety 训练，每次 read 都附加 reminder
    * 是稳态 token 成本（按 1.35B 调用 × ~50 token 估算非常可观）。需要时
    * 由宿主装配点（如对接安全审查模型 / 用户开了"恶意代码分析"模式）
@@ -2188,7 +2188,7 @@ async function runSpawnLinterFallback(filePath: string): Promise<void> {
       return;
     }
 
-    // 转 TabTin DiagnosticItem → LSP Diagnostic
+    // 转 SnSworker DiagnosticItem → LSP Diagnostic
     const lspDiagnostics: LspDiagnostic[] = items.map((d) => ({
       message: d.message,
       severity:

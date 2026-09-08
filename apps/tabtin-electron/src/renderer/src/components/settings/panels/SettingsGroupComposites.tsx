@@ -212,7 +212,7 @@ export const MyAIComposite: React.FC<ProfileCompositeProps> = () => {
 /**
  * 系统权限页（个人设置 `notifications` 入口）：单页纵向堆叠两块——
  * 「通知偏好」（要不要按分类提醒，客户端唯一能真实控制的通知维度）在上，
- * 「其他权限」（macOS / Windows 给 TabTin 的 OS 系统权限，含桌面通知授权）在下。
+ * 「其他权限」（macOS / Windows 给 SnSworker 的 OS 系统权限，含桌面通知授权）在下。
  *
  * 文案刻意区分：上半用「通知偏好」，OS 权限行用「桌面通知」，避免同页出现两个「系统通知」
  * 。
@@ -238,7 +238,7 @@ interface DeviceCompositeProps {
   activeSubsection?: DeviceSettingsSection | null
 }
 
-// 「关于 TabTin」页（设备侧 `permissionUpdate` 入口）：授权已迁到个人设置「系统权限」，
+// 「关于 SnSworker」页（设备侧 `permissionUpdate` 入口）：授权已迁到个人设置「系统权限」，
 // 这里只剩版本信息与软件更新，单面板无 tab。
 export const PermissionUpdateComposite: React.FC<DeviceCompositeProps> = () => {
   return <UpdatePanel />

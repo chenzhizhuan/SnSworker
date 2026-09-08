@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/smartsheet",
   "version": "0.1.0",
-  "description": "TabTin SmartSheet Core Library",
+  "description": "SnSworker SmartSheet Core Library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,7 +16,7 @@
     "data-table",
     "spreadsheet"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "dependencies": {
     "uuid": "^9.0.0",

@@ -27,7 +27,7 @@ class WebhookDeliveryService:
     """Webhook 投递服务"""
 
     TIMEOUT = 10  # 秒
-    USER_AGENT = 'TabTin-Webhook/1.0'
+    USER_AGENT = 'SnSworker-Webhook/1.0'
 
     @staticmethod
     def _resolve_scope(
@@ -145,7 +145,7 @@ class WebhookDeliveryService:
         headers = {
             'Content-Type': 'application/json; charset=utf-8',
             'User-Agent': cls.USER_AGENT,
-            'X-TabTin-Event': payload.get('event', ''),
+            'X-SnSworker-Event': payload.get('event', ''),
         }
 
         # HMAC 签名
@@ -155,7 +155,7 @@ class WebhookDeliveryService:
                 body,
                 hashlib.sha256,
             ).hexdigest()
-            headers['X-TabTin-Signature'] = f'sha256={signature}'
+            headers['X-SnSworker-Signature'] = f'sha256={signature}'
 
         from apps.services.common.url_security import ssrf_safe_request
 

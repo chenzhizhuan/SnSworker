@@ -1,11 +1,11 @@
 /**
- * TabTin MCP Server — 暴露 tabdata/tabdoc + action-tools 能力给外部 Agent。
+ * SnSworker MCP Server — 暴露 tabdata/tabdoc + action-tools 能力给外部 Agent。
  *
  * 工具来源两路合并：
  *   1. ActionExecutorAdapter（文件/代码/Git 等 headless 工具，动态获取）
  *      — 按 manifest `llm_facing: false` 字段过滤：4 件套（execute_in_terminal /
  *      read_terminal_output / list_terminal_sessions / write_to_terminal）**不**通过
- *      MCP 对外暴露（D8 决策：TabTin 不做 MCP 输出；4 件套保留作
+ *      MCP 对外暴露（D8 决策：SnSworker 不做 MCP 输出；4 件套保留作
  *      TerminalRuntimeBridge 适配层供 daemon executor/action-bridge.ts +
  *      Electron FrontendActionBridge.ts + 枚举 API `get_all_action_tools()` 等
  *      人控路径消费）。
@@ -59,7 +59,7 @@ const VIEW_TYPE_ENUM: ViewType[] = ['grid', 'kanban', 'calendar', 'gallery', 'li
 const READ_TOOLS: McpToolDefinition[] = [
   {
     name: 'tabtin_table_list',
-    description: 'List all tables in the current TabTin workspace. Returns table IDs, names, and field schemas.',
+    description: 'List all tables in the current SnSworker workspace. Returns table IDs, names, and field schemas.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -70,7 +70,7 @@ const READ_TOOLS: McpToolDefinition[] = [
   },
   {
     name: 'tabtin_table_query',
-    description: 'Query records from a TabTin table. Supports filtering, sorting, and pagination.',
+    description: 'Query records from a SnSworker table. Supports filtering, sorting, and pagination.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -93,7 +93,7 @@ const READ_TOOLS: McpToolDefinition[] = [
   },
   {
     name: 'tabtin_doc_list',
-    description: 'List all documents in the current TabTin workspace.',
+    description: 'List all documents in the current SnSworker workspace.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -108,7 +108,7 @@ const READ_TOOLS: McpToolDefinition[] = [
   },
   {
     name: 'tabtin_doc_read',
-    description: 'Read the content of a TabTin document. Returns content and version info.',
+    description: 'Read the content of a SnSworker document. Returns content and version info.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -648,7 +648,7 @@ const LOCAL_TOOL_NAMES = new Set([
 // list_terminal_sessions / write_to_terminal）。本地 LLM 主路径走 ShellCap 单
 // 工具 `run_terminal_command`（D2 决策），4 件套保留作 PtyManagerBridge 适配层
 // 给远端 frontend_action / IPC 路径 / 枚举 API 用，但**不**对外通过 MCP 暴露
-// （D8 决策：TabTin 不做 MCP 输出）。
+// （D8 决策：SnSworker 不做 MCP 输出）。
 //
 // 用 manifest SSoT 而非硬编码 4 个工具名：未来若有新 `llm_facing: false` 工具
 // 自动会被过滤，无需修改本文件。
@@ -773,11 +773,11 @@ export class McpToolApplication {
           content: [{
             type: 'text',
             text:
-              `Tool '${name}' was removed from TabTin's MCP surface as of 2026-05. ` +
-              `TabTin's terminal control is exclusive to its in-app local LLM and is not ` +
-              `available to external MCP clients (TabTin does not provide MCP terminal output). ` +
+              `Tool '${name}' was removed from SnSworker's MCP surface as of 2026-05. ` +
+              `SnSworker's terminal control is exclusive to its in-app local LLM and is not ` +
+              `available to external MCP clients (SnSworker does not provide MCP terminal output). ` +
               `If your workflow depends on this, run commands directly via your environment ` +
-              `or open the issue at the TabTin repository to discuss alternatives.`,
+              `or open the issue at the SnSworker repository to discuss alternatives.`,
           }],
           isError: true,
         }

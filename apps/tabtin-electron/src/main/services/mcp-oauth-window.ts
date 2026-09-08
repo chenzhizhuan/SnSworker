@@ -18,14 +18,14 @@ let platformOAuthWaiter: PlatformOAuthWaiter | null = null
 /**
  * mcp-remote 会调用系统 `open` 跳出默认浏览器。
  * 探测用 stdio 子进程把本 shim 插到 PATH 最前，吞掉 http(s) URL；
- * TabTin 解析 stderr 中的授权 URL 后统一交给系统默认浏览器打开，避免重复唤起。
+ * SnSworker 解析 stderr 中的授权 URL 后统一交给系统默认浏览器打开，避免重复唤起。
  */
 export function ensureMcpOpenShimDir(): string {
   const dir = join(app.getPath('userData'), 'mcp-open-shim')
   mkdirSync(dir, { recursive: true })
   const shimPath = join(dir, 'open')
   const script = `#!/bin/sh
-# TabTin: intercept mcp-remote URL opens; defer to real open otherwise.
+# SnSworker: intercept mcp-remote URL opens; defer to real open otherwise.
 for arg in "$@"; do
   case "$arg" in
     http://*|https://*)
@@ -93,10 +93,10 @@ export function openConnectorOAuthWindow(url: string): void {
 }
 
 export function closeConnectorOAuthWindow(): void {
-  // 系统浏览器窗口不归 TabTin 管理；授权任务的生命周期由调用方关闭。
+  // 系统浏览器窗口不归 SnSworker 管理；授权任务的生命周期由调用方关闭。
 }
 
-/** 主动连接器 OAuth 成功后，把已运行的 TabTin 主窗口带回前台。 */
+/** 主动连接器 OAuth 成功后，把已运行的 SnSworker 主窗口带回前台。 */
 export function restoreConnectorOAuthClient(): void {
   const mainWindow = getMainWindow()
   if (!mainWindow || mainWindow.isDestroyed()) return

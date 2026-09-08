@@ -1,7 +1,7 @@
 /**
  * OS 系统权限统一类型定义
  *
- * 这里只描述「操作系统给 TabTin 这个 App 的能力」，
+ * 这里只描述「操作系统给 SnSworker 这个 App 的能力」，
  * 与业务层的 HITL 审批（ApprovalManager / approval_memo / yolo）正交，
  * 不要把任何业务概念混进来。
  */
@@ -45,7 +45,7 @@ export interface PermissionDescriptor {
   /** 省略时视为 supported */
   detection?: PermissionDetection
   /**
-   * macOS 辅助功能未信任时：当前进程展示名（Electron / TabTin Dev / TabTin），
+   * macOS 辅助功能未信任时：当前进程展示名（Electron / SnSworker Dev / SnSworker），
    * 供设置页提示用户去系统列表勾选正确条目。
    */
   processLabel?: string

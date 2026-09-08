@@ -290,8 +290,8 @@ def oauth_done(
 <body>
   <div class="card" data-oauth-done="github" data-ticket="{safe_ticket}">
     <h1>GitHub 授权已完成</h1>
-    <p>正在返回 TabTin。若未自动打开，请点击下方按钮。{"（@" + safe_login + "）" if safe_login else ""}</p>
-    <a class="btn" id="open-app" href="{safe_link}">打开 TabTin</a>
+    <p>正在返回 SnSworker。若未自动打开，请点击下方按钮。{"（@" + safe_login + "）" if safe_login else ""}</p>
+    <a class="btn" id="open-app" href="{safe_link}">打开 SnSworker</a>
   </div>
   <script>
     (function () {{

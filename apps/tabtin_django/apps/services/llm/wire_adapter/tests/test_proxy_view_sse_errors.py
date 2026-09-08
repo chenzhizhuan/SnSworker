@@ -73,7 +73,7 @@ class TestStreamErrorResponse(SimpleTestCase):
             user_message="x",
             request_id="req-abc123",
         )
-        self.assertEqual(resp["X-TabTin-Request-Id"], "req-abc123")
+        self.assertEqual(resp["X-SnSworker-Request-Id"], "req-abc123")
 
     def test_database_unavailable_response_has_structured_category(self):
         exc = OperationalError("connection to server at host port 5432 failed: timeout expired")
@@ -85,7 +85,7 @@ class TestStreamErrorResponse(SimpleTestCase):
             )
 
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp["X-TabTin-Request-Id"], "req-db-timeout")
+        self.assertEqual(resp["X-SnSworker-Request-Id"], "req-db-timeout")
         body = b"".join(c.encode() if isinstance(c, str) else c for c in resp.streaming_content)
         first_data = body.decode("utf-8").split("\n\n", 1)[0]
         payload = json.loads(first_data[6:].strip())
@@ -120,7 +120,7 @@ class TestStreamErrorForProxyError(SimpleTestCase):
         text = body.decode("utf-8")
         self.assertIn("预算", text)
         self.assertIn("budget_exceeded", text)
-        self.assertEqual(resp["X-TabTin-Request-Id"], "r1")
+        self.assertEqual(resp["X-SnSworker-Request-Id"], "r1")
 
     def test_freeze_failed_renders_chinese(self):
         exc = ProxyError(402, "freeze_failed", "冻结失败")

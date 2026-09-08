@@ -46,7 +46,7 @@ interface TokenUsageRingProps {
   reasoningTokens?: number
   /** 会话中任意一条消息存在扣费失败 */
   chargeFailed?: boolean
-  /** 会话当前为 BYOK（最近一条 assistant 消息使用自带 API Key），不扣 TabTin 点券 */
+  /** 会话当前为 BYOK（最近一条 assistant 消息使用自带 API Key），不扣 SnSworker 点券 */
   isByok?: boolean
   /** 会话中同时出现过 BYOK 与非 BYOK 扣费（切换模型等场景） */
   hasMixedBilling?: boolean

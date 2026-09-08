@@ -658,7 +658,7 @@ describe('ProjectMainContent team conversations', () => {
       my_workspace: {
         id: 'space-1',
         name: '默认 Space',
-        working_dir: 'C:\\Users\\me\\TabTin\\测试团队\\发布准备',
+        working_dir: 'C:\\Users\\me\\SnSworker\\测试团队\\发布准备',
         control_device_id: 'device-1',
         control_device_status: 'online',
         is_companion: true,
@@ -693,7 +693,7 @@ describe('ProjectMainContent team conversations', () => {
       workspace: {
         id: 'space-1',
         name: '默认 Space',
-        working_dir: 'C:\\Users\\me\\TabTin\\测试团队\\发布准备',
+        working_dir: 'C:\\Users\\me\\SnSworker\\测试团队\\发布准备',
       },
     })
     mocks.createProjectWithCompanionWorkspace.mockResolvedValue({
@@ -713,7 +713,7 @@ describe('ProjectMainContent team conversations', () => {
         organization_id: 'organization-1',
         project_id: 'team-space-new',
         type: 'workspace',
-        working_dir: 'C:\\Users\\me\\TabTin\\测试团队\\新 Project',
+        working_dir: 'C:\\Users\\me\\SnSworker\\测试团队\\新 Project',
         execution_agent_id: null,
         control_device_id: 'device-1',
         control_device_status: 'online',
@@ -813,7 +813,7 @@ describe('ProjectMainContent team conversations', () => {
     expect(screen.getByText('我的工作空间')).not.toBeNull()
     expect(screen.getByText('只读')).not.toBeNull()
     expect(await screen.findByText('默认 Space')).not.toBeNull()
-    expect(screen.getByText('C:\\Users\\me\\TabTin\\测试团队\\发布准备')).not.toBeNull()
+    expect(screen.getByText('C:\\Users\\me\\SnSworker\\测试团队\\发布准备')).not.toBeNull()
     expect(mocks.closeIM).not.toHaveBeenCalled()
     expect(mocks.setCurrentConversation).not.toHaveBeenCalled()
     expect(mocks.setCurrentTab).not.toHaveBeenCalled()

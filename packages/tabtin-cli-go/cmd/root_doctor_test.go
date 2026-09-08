@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/TabTin/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/output"
 )
 
 // TestDoctorReport_WorstExit 锁定 doctor 退出码契约：worstExit 取所有 ❌ 中

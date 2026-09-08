@@ -44,7 +44,7 @@ describe('preflightTableCollabAccess embedded access', () => {
       expect.objectContaining({
         headers: expect.objectContaining({
           Authorization: 'Bearer jwt-token',
-          'X-TabTin-Parent-Document-Id': 'doc-parent',
+          'X-SnSworker-Parent-Document-Id': 'doc-parent',
         }),
       }),
     )
@@ -75,7 +75,7 @@ describe('preflightTableCollabAccess embedded access', () => {
     mocks.electronFetch.mockResolvedValue({
       ok: false,
       status: 403,
-      headers: new Headers({ 'X-TabTin-Embedded-Access-Unavailable': '1' }),
+      headers: new Headers({ 'X-SnSworker-Embedded-Access-Unavailable': '1' }),
     })
 
     await expect(preflightTableCollabAccess('table-1', 'doc-parent')).resolves.toEqual({

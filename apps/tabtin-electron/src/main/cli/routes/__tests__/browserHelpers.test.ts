@@ -382,10 +382,10 @@ describe('BT-002/BT-004: sanitizeSavePath', () => {
 
   it('白名单目录由 runtime resolver 提供，而不是直接拼 home/.tabtin', () => {
     mockGetHomeTabtinPath.mockImplementationOnce((...segments: string[]) =>
-      ['/Users/testuser/Library/Application Support/TabTin Preprod/runtime', ...segments].join('/'),
+      ['/Users/testuser/Library/Application Support/SnSworker Preprod/runtime', ...segments].join('/'),
     )
     expect(
-      sanitizeSavePath('/Users/testuser/Library/Application Support/TabTin Preprod/runtime/screenshots/test.png'),
+      sanitizeSavePath('/Users/testuser/Library/Application Support/SnSworker Preprod/runtime/screenshots/test.png'),
     ).toBeTruthy()
   })
 

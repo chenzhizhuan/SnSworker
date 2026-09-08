@@ -35,7 +35,7 @@ metadata:
 1. **锁定当前 Tab**：先用 `browser context` / `tab list` 确认用户所指页面，把返回的 ID 记为 `<locked-tab-id>`，后续采集与资源下载始终显式复用它。登录页、SPA、展开后的内容必须在当前 Tab 上执行；不要换成 `print --url` 丢失登录态、Cookie 和交互后的页面状态。
 2. **保真采集**：叙事型页面先执行 `tabtin browser print --include all --tab-id <locked-tab-id> --save <path.md>`，保留图片、链接、表格及媒体引用；同时执行 `tabtin browser resource list --tab-id <locked-tab-id>` 建资源清单。`blob:`、登录态资源、短期签名 URL 等不能长期访问的资源，用 `tabtin browser resource download --tab-id <locked-tab-id> --url <url>` 下载后再交给目标 App 转存。
 3. **按目标建数据**：
-   - 文章、说明、章节、纪要等叙事内容 → 读取 `skills_read("app:tabdoc/tabdoc-operator")`，用 TabDoc 创建 / Markdown 导入能力建文档，并把临时图片资源替换为 TabTin 的稳定引用。
+   - 文章、说明、章节、纪要等叙事内容 → 读取 `skills_read("app:tabdoc/tabdoc-operator")`，用 TabDoc 创建 / Markdown 导入能力建文档，并把临时图片资源替换为 SnSworker 的稳定引用。
    - 列表、明细、实体与关系等结构化内容 → 用当前 Tab 的 `print --as json --tab-id <locked-tab-id> --schema ... --save <path.json>` 或 `browser-collect` 得到结构化数据，再读取 `skills_read("app:tabdata/collect-to-table")` 建模、确认方案并写入多维表。
 4. **完成前验收**：核对源页面与采集结果、目标资源的标题 / 正文，以及图片、链接、表格的数量和关键内容。资源下载、转存或写入失败时必须列出缺失项，不能把“命令成功”当作“完整导入”。
 
@@ -195,7 +195,7 @@ tabtin browser capabilities --format json
 
 1. 打开目标页（或复用已有同域 Tab），**保留 `tabId`**
 2. **停下来**，用 `ask_user` 卡片把选择权交给用户——说明此页需要登录，让用户**二选一**：
-   - **① 登录本站继续**：请在 TabTin 浏览器这个标签页里手动完成登录（含 OAuth / 扫码 / 短信验证码 / 2FA），之后复用同一 `--tab-id` 在本站取数；
+   - **① 登录本站继续**：请在 SnSworker 浏览器这个标签页里手动完成登录（含 OAuth / 扫码 / 短信验证码 / 2FA），之后复用同一 `--tab-id` 在本站取数；
    - **② 改用其他来源**：用户明确同意后才从别处公开来源获取，且**诚实标注真实来源、不得标为本站结果**。
 3. 等用户确认「已登录 / 继续」或做出选择；不确定时 `glance` 看是否还在登录页，或 `cookies get` 查目标域 session cookie
 4. **复用同一个 `--tab-id`** 继续后续操作——别新开 Tab，别用 `print --url`（会丢登录态）

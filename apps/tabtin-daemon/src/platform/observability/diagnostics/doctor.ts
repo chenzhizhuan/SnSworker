@@ -21,7 +21,7 @@ interface CheckResult {
 const REQUIRED_NODE_MAJOR = 18;
 
 export async function runDoctor(configManager: DoctorConfigPort): Promise<void> {
-  console.log('\nTabTin Daemon Doctor\n');
+  console.log('\nSnSworker Daemon Doctor\n');
   const results: CheckResult[] = [];
 
   results.push(checkConfig(configManager));

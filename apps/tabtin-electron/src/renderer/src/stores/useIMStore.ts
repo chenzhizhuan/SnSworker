@@ -721,7 +721,7 @@ function updateReactionSnapshot(
   const currentCount = Math.max(0, counts[emoji] ?? 0)
   const isNativeExactCount = hasNativeCount && currentCount !== previousUserCount
   if (isNativeExactCount && source === 'remote') {
-    // Provider 快照的 userIds 是 provider id，控制消息是 TabTin user id。
+    // Provider 快照的 userIds 是 provider id，控制消息是 SnSworker user id。
     // 远端控制消息只补身份，不改已经权威的精确计数。
     counts[emoji] = currentCount
   } else if (hasNativeCount && source === 'local') {

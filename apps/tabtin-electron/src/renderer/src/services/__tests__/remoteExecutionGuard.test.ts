@@ -241,7 +241,7 @@ describe('remoteExecutionGuard', () => {
           status: 'online',
         },
       ],
-      workingDir: 'C:\\Users\\me\\TabTin\\win',
+      workingDir: 'C:\\Users\\me\\SnSworker\\win',
     })
 
     const access = getRemoteExecutionAccess('space-1')

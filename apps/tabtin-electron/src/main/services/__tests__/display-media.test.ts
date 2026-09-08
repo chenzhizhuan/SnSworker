@@ -63,7 +63,7 @@ describe('display-media service', () => {
   })
 
   it('识别受信任来源', () => {
-    expect(normalizeOrigin('file:///Applications/TabTin/index.html')).toBe('file://')
+    expect(normalizeOrigin('file:///Applications/SnSworker/index.html')).toBe('file://')
     expect(normalizeOrigin('tabtin-file:///tmp/demo.pdf')).toBe('tabtin-file://')
     expect(
       isTrustedDisplayMediaOrigin('http://localhost:5173', {

@@ -92,7 +92,7 @@ export const ForwardDialog: React.FC<ForwardDialogProps> = ({ isOpen, onClose, m
       }
 
       // 转发是当前用户创建的内容快照。只继承渲染正文所需 metadata；消息身份、
-      // Agent 运行态、TabTin 引用和 mention 都属于源消息，不能进入目标会话。
+      // Agent 运行态、SnSworker 引用和 mention 都属于源消息，不能进入目标会话。
       const contentMetadata = forwardableContentMetadata(message.metadata || {})
 
       const sent = await useIMStore.getState().sendMessage({

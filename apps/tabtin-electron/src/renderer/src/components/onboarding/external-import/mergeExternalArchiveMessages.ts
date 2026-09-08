@@ -44,7 +44,7 @@ export function isExternalArchiveDecorationMessage(
   return id.startsWith('ext-')
 }
 
-/** TabTin 续聊：非外来装饰的 user/assistant（导入正文不算） */
+/** SnSworker 续聊：非外来装饰的 user/assistant（导入正文不算） */
 export function isTabtinContinuationMessage(
   message: ExternalArchiveMessageLike,
 ): boolean {

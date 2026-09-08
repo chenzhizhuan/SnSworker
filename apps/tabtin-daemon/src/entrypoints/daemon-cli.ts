@@ -38,13 +38,13 @@ const program = new Command();
 
 program
   .name('tabtin-daemon')
-  .description('TabTin Agent Daemon — headless execution runtime for remote servers')
+  .description('SnSworker Agent Daemon — headless execution runtime for remote servers')
   .version('0.1.0');
 
 program
   .command('init')
   .description('Initialize daemon with an install token')
-  .option('--token <token>', 'Install token from TabTin')
+  .option('--token <token>', 'Install token from SnSworker')
   .option('--token-stdin', 'Read token from stdin (avoids exposing token in ps)')
   .option('--server <url>', 'Override server URL')
   .option('--config-dir <path>', 'Custom config directory')

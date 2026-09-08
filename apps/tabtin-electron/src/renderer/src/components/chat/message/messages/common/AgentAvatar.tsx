@@ -1,7 +1,7 @@
 /**
  * AgentAvatar — 多 Agent 会话「行内身份牌」头像。
  *
- * ：优先展示 settings.avatar_url；无自定义时回退 TabTin logo。
+ * ：优先展示 settings.avatar_url；无自定义时回退 SnSworker logo。
  * 历史色块首字逻辑保留在 getAgentIdentityAvatar，供测试与兼容引用。
  */
 
@@ -56,7 +56,7 @@ interface AgentAvatarProps {
   agentId?: string | null
   /** 展示名；同时作为 a11y 名字 */
   name?: string | null
-  /** 自定义头像 URL；空则显示 TabTin logo */
+  /** 自定义头像 URL；空则显示 SnSworker logo */
   avatarUrl?: string | null
   className?: string
 }

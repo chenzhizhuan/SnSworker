@@ -1,7 +1,7 @@
 {
   "name": "tabtin-workspace",
   "version": "1.0.0",
-  "description": "TabTin - AI-powered creative workbench with Table, Docs, Design, Browser and more",
+  "description": "SnSworker - AI-powered creative workbench with Table, Docs, Design, Browser and more",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -104,11 +104,11 @@
     "typescript",
     "react"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tabtin-ai/TabTin.git"
+    "url": "https://github.com/tabtin-ai/SnSworker.git"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "1.4.0",

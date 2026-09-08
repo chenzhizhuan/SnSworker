@@ -3,7 +3,7 @@ package cmd
 // tabtin reach —— 平台化内容获取命令域（Platform Reach，P0.5 接线）。
 //
 // 平台适配 + 运行时路由 + 优雅降级，底层复用
-// TabTin 自有浏览器栈（Electron WebContentsView + CDP），经 CLI-server `/reach/*`
+// SnSworker 自有浏览器栈（Electron WebContentsView + CDP），经 CLI-server `/reach/*`
 // 路由桥接；能力本体在 packages/platform-reach 纯包 + Electron reach route。
 // 需 Electron 桌面客户端运行；Daemon/headless 登录态桥是 P2，暂不可用。
 //
@@ -15,7 +15,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 func newCmdReach(f *cmdutil.Factory) *cobra.Command {

@@ -302,10 +302,10 @@
   "insertEmoji": "이모티콘",
   "emojiMostUsed": "최근에 사용됨",
   "emojiDefault": "기본 이모티콘",
-  "emojiTabtin": "TabTin",
+  "emojiTabtin": "SnSworker",
   "openStickerPreview": "스티커 미리보기 열기",
   "stickers": {
-    "neutral": "TabTin 봇",
+    "neutral": "SnSworker 봇",
     "happy": "행복하다",
     "sad": "슬픈",
     "surprise": "놀라움",

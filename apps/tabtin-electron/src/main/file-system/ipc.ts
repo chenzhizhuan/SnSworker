@@ -1086,7 +1086,7 @@ function normalizeDefaultAgentDirInput(input: EnsureDefaultAgentDirInput): {
 
 /**
  * fs:ensureDefaultAgentDir — 解析并创建默认 Space 的工作目录
- * `~/TabTin/<团队名>/<Space名>`。
+ * `~/SnSworker/<团队名>/<Space名>`。
  *
  * 产品语义：新建 / 进入未设目录的 Space 时，不再立「前往设置」
  * 墙，而是在 home 下创建一个用户可见的默认文件夹。collision-safe：
@@ -1096,7 +1096,7 @@ export const ensureDefaultAgentDirImpl = async (input: EnsureDefaultAgentDirInpu
   try {
     const { spaceName, organizationName } = normalizeDefaultAgentDirInput(input)
     const home = app.getPath('home')
-    // production 保持历史 `~/TabTin`；Preprod / Dev / Local 各自用产品名
+    // production 保持历史 `~/SnSworker`；Preprod / Dev / Local 各自用产品名
     // 分根，避免两套安装包把不同 Device 的 Workspace 指到同一目录树。
     const root = path.join(home, resolveDefaultWorkspaceDirectoryName())
     const parent = organizationName
@@ -1676,7 +1676,7 @@ export const fileSystemHandlers = {
    * 用户一键导入旧路径作为 working_dir。
    *
    * 关键差异 vs `fs:ensureSpaceSandbox`：**不 mkdir**，符合 PRD §2.4
-   * "TabTin 挂载物理实在，但不创造物理实在"。
+   * "SnSworker 挂载物理实在，但不创造物理实在"。
    *
    * 返回 hasContent=true 表示目录存在且非空（有用户数据值得迁移）；
    * exists=true / hasContent=false 是空目录历史残留，迁移意义不大。

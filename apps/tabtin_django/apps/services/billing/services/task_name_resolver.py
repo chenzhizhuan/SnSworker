@@ -1,7 +1,7 @@
 """
 用量事件 → 任务名（会话标题）反查。
 
-#4572：BillingUsageEvent.metadata.session_id（= 客户端 X-TabTin-Session-Id）
+#4572：BillingUsageEvent.metadata.session_id（= 客户端 X-SnSworker-Session-Id）
 由 LLM proxy 结算时写入。本模块把一批事件里的 session_id 批量反查成
 用户可读的会话标题（产品语言里的「任务名」），供用量明细 API 与 CSV 导出展示。
 

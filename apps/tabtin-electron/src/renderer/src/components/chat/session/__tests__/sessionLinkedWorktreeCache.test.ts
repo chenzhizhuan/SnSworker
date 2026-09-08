@@ -19,17 +19,17 @@ describe('sessionLinkedWorktreeCache', () => {
     const listWorktrees = vi.fn(async () => ({
       success: true,
       worktrees: [
-        { path: '/repo/TabTin', branch: 'main' },
+        { path: '/repo/SnSworker', branch: 'main' },
         { path: '/worktrees/feat-a', branch: 'feat/a' },
       ],
     }))
     vi.stubGlobal('window', { tabtin: { git: { listWorktrees } } })
 
     const first = await loadWorktreesForSessionRoot('/worktrees/feat-a')
-    const second = await loadWorktreesForSessionRoot('/repo/TabTin')
+    const second = await loadWorktreesForSessionRoot('/repo/SnSworker')
 
     expect(listWorktrees).toHaveBeenCalledTimes(1)
-    expect(first?.[0]?.path).toBe('/repo/TabTin')
+    expect(first?.[0]?.path).toBe('/repo/SnSworker')
     expect(second).toBe(first)
     expect(peekCachedWorktreesForSessionRoot('/worktrees/feat-a')?.length).toBe(2)
   })
@@ -44,11 +44,11 @@ describe('sessionLinkedWorktreeCache', () => {
     )
     vi.stubGlobal('window', { tabtin: { git: { listWorktrees } } })
 
-    const p1 = loadWorktreesForSessionRoot('/repo/TabTin')
-    const p2 = loadWorktreesForSessionRoot('/repo/TabTin')
+    const p1 = loadWorktreesForSessionRoot('/repo/SnSworker')
+    const p2 = loadWorktreesForSessionRoot('/repo/SnSworker')
     resolveList({
       success: true,
-      worktrees: [{ path: '/repo/TabTin', branch: 'main' }],
+      worktrees: [{ path: '/repo/SnSworker', branch: 'main' }],
     })
     const [a, b] = await Promise.all([p1, p2])
     expect(listWorktrees).toHaveBeenCalledTimes(1)

@@ -13,10 +13,10 @@ const installer = fs.readFileSync(installerPath, 'utf8')
 
 // 开源版发行身份：Local（本地自测）+ Community（社区发行）。
 // 内部版 Preprod profile 已在开源化时移除（installer.nsh 仍保留 Preprod 残留清理）。
-assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="TabTin Local"'))
+assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker Local"'))
 assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.app.local"'))
 assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-local"'))
-assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="TabTin Local"'))
+assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker Local"'))
 assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker"'))
 assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.community"'))
 assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-community"'))
@@ -24,7 +24,7 @@ assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker"'))
 // executableName 的目标平台已参数化（win/dmg 共用同一段）。
 assert.ok(buildScript.includes('"--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"'))
 assert.ok(buildScript.includes('"--config.nsis.shortcutName=$PROFILE_SHORTCUT_NAME"'))
-assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="TabTin Local"'))
+assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="SnSworker Local"'))
 assert.ok(quickMacBuildScript.includes('PROFILE_APP_ID="com.tabtin.app.local"'))
 
 const appIdentity = fs.readFileSync(
@@ -46,13 +46,13 @@ assert.ok(notifyLaunch.includes('resolveTabTinProtocolScheme'))
 assert.ok(notifyLaunch.includes('${scheme}://${TOAST_NOTIFY_HOST}'))
 // Keep the newer release cleanup contract: uninstall removes credentials and
 // optional config/cache for every known profile, while preserving workspaces.
-for (const profile of ['TabTin', 'TabTin Dev', 'TabTin Local', 'TabTin Preprod', 'tabtin-electron']) {
+for (const profile of ['SnSworker', 'SnSworker Dev', 'SnSworker Local', 'SnSworker Preprod', 'tabtin-electron']) {
   assert.ok(installer.includes(`Delete "$APPDATA\\${profile}\\credentials.json"`))
   assert.ok(installer.includes(`!insertmacro wipeTabTinProfileConfig "$APPDATA\\${profile}"`))
 }
 assert.ok(installer.includes('$PROFILE\\.tabtin\\server.json'))
 assert.ok(installer.includes('$PROFILE\\.tabtin-daemon'))
 assert.ok(installer.includes('$LOCALAPPDATA\\com.tabtin.app.preprod-updater'))
-assert.ok(!installer.includes('RMDir /r "$APPDATA\\TabTin"'))
+assert.ok(!installer.includes('RMDir /r "$APPDATA\\SnSworker"'))
 
 console.log('install identity contract: ok')

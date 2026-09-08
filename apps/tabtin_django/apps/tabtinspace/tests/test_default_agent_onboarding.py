@@ -196,7 +196,7 @@ class DefaultSpaceOnboardingTests(TestCase):
         organization = OrganizationService(user=owner).create_organization(
             name="Fresh Team",
             default_agent_device_fingerprint=device.fingerprint,
-            default_agent_working_dir="/Users/me/TabTin/Fresh Team/默认 Space",
+            default_agent_working_dir="/Users/me/SnSworker/Fresh Team/默认 Space",
             default_agent_working_dir_type="mixed",
             enforce_owner_limit=False,
         )
@@ -212,13 +212,13 @@ class DefaultSpaceOnboardingTests(TestCase):
 
         self.assertEqual(workspace.device_id, device.id)
         self.assertEqual(workspace.kind, Workspace.Kind.HOME)
-        self.assertEqual(workspace.working_dir, "/Users/me/TabTin/Fresh Team/默认 Space")
+        self.assertEqual(workspace.working_dir, "/Users/me/SnSworker/Fresh Team/默认 Space")
         self.assertEqual(workspace.working_dir_type, "mixed")
         self.assertEqual(bot_space.control_device_id, device.id)
         self.assertEqual(bot_space.bound_device_id, device.id)
         self.assertEqual(bot_space.name, DEFAULT_ONBOARDING_SPACE_NAME)
-        self.assertEqual(bot_space.working_dir, "/Users/me/TabTin/Fresh Team/默认 Space")
-        self.assertEqual(bot_space.normalized_working_dir, "/Users/me/TabTin/Fresh Team/默认 Space")
+        self.assertEqual(bot_space.working_dir, "/Users/me/SnSworker/Fresh Team/默认 Space")
+        self.assertEqual(bot_space.normalized_working_dir, "/Users/me/SnSworker/Fresh Team/默认 Space")
         self.assertEqual(bot_space.working_dir_type, "mixed")
 
     @patch(
@@ -257,8 +257,8 @@ class DefaultSpaceOnboardingTests(TestCase):
             organization=personal,
             device=device,
             name="Home",
-            working_dir="/Users/me/TabTin/Home",
-            normalized_working_dir="/Users/me/TabTin/Home",
+            working_dir="/Users/me/SnSworker/Home",
+            normalized_working_dir="/Users/me/SnSworker/Home",
             working_dir_type="mixed",
             created_by=owner,
             kind=Workspace.Kind.HOME,
@@ -269,7 +269,7 @@ class DefaultSpaceOnboardingTests(TestCase):
         organization = OrganizationService(user=owner).create_organization(
             name="Second Team",
             default_agent_device_fingerprint=device.fingerprint,
-            default_agent_working_dir="/Users/me/TabTin/Second Team/默认 Space",
+            default_agent_working_dir="/Users/me/SnSworker/Second Team/默认 Space",
             default_agent_working_dir_type="mixed",
             enforce_owner_limit=False,
         )
@@ -319,14 +319,14 @@ class DefaultSpaceOnboardingTests(TestCase):
         first = service.create_organization(
             name="First Team",
             default_agent_device_fingerprint=device.fingerprint,
-            default_agent_working_dir="/Users/me/TabTin/First Team/默认 Workspace",
+            default_agent_working_dir="/Users/me/SnSworker/First Team/默认 Workspace",
             default_agent_working_dir_type="mixed",
             enforce_owner_limit=False,
         )
         second = service.create_organization(
             name="Second Team",
             default_agent_device_fingerprint=device.fingerprint,
-            default_agent_working_dir="/Users/me/TabTin/Second Team/默认 Workspace",
+            default_agent_working_dir="/Users/me/SnSworker/Second Team/默认 Workspace",
             default_agent_working_dir_type="mixed",
             enforce_owner_limit=False,
         )

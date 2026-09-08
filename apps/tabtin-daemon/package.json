@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/daemon",
   "version": "0.1.0",
-  "description": "TabTin Agent Daemon \u2014 headless execution runtime for remote servers",
+  "description": "SnSworker Agent Daemon \u2014 headless execution runtime for remote servers",
   "type": "module",
   "bin": {
     "tabtin-daemon": "./dist/index.js"
@@ -107,6 +107,6 @@
     "remote-execution",
     "headless"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT"
 }

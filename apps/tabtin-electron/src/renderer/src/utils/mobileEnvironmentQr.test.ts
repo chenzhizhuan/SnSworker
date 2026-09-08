@@ -9,7 +9,7 @@ import {
 } from './mobileEnvironmentQr'
 
 describe('mobile environment QR contract', () => {
-  it('encodes every mobile endpoint in a versioned TabTin URL', () => {
+  it('encodes every mobile endpoint in a versioned SnSworker URL', () => {
     const value = buildMobileEnvironmentQrValue({
       apiUrl: 'https://api-test.example.com/api/',
       websocketUrl: 'wss://api-test.example.com/ws/v1/gateway',

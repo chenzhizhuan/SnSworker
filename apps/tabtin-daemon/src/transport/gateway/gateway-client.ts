@@ -120,7 +120,7 @@ export class DaemonGatewayClient {
       organizationId: this.config.organization_id,
     });
     if (!ok) {
-      throw new Error('Failed to connect to TabTin backend');
+      throw new Error('Failed to connect to SnSworker backend');
     }
     this.logger.info('WS authenticated successfully');
     await this.subscribeDeviceTopic();

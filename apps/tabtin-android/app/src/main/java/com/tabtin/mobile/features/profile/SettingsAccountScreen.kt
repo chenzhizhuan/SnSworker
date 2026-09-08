@@ -135,7 +135,7 @@ public fun SettingsAccountScreen(
                             userId = userId,
                             copied = copiedUserId,
                             onClick = {
-                                copySettingsText(context, "TabTin User ID", userId)
+                                copySettingsText(context, "SnSworker User ID", userId)
                                 copiedUserId = true
                             },
                         )

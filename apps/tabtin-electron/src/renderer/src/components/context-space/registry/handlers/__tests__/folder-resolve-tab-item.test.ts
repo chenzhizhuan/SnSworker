@@ -75,9 +75,9 @@ describe('folderHandler local directory activation', () => {
       type: 'tabfolder',
       id: 'user-folder',
       tabKey: 'tabfolder:user-folder',
-      title: 'TabTin',
+      title: 'SnSworker',
       meta: {
-        path: 'C:\\workspace\\TabTin-feature\\TabTin',
+        path: 'C:\\workspace\\SnSworker-feature\\SnSworker',
         kind: 'user',
       },
     }, {
@@ -89,9 +89,9 @@ describe('folderHandler local directory activation', () => {
     expect(mocks.openResourceTab).toHaveBeenCalledWith('desktop:user-1', {
       type: 'tabfolder',
       id: 'user-folder',
-      title: 'TabTin',
+      title: 'SnSworker',
       meta: {
-        path: 'C:\\workspace\\TabTin-feature\\TabTin',
+        path: 'C:\\workspace\\SnSworker-feature\\SnSworker',
         kind: 'user',
       },
     })
@@ -102,9 +102,9 @@ describe('folderHandler local directory activation', () => {
       type: 'tabfolder',
       id: 'user-folder',
       tabKey: 'tabfolder:user-folder',
-      title: 'TabTin',
+      title: 'SnSworker',
       meta: {
-        path: 'C:\\workspace\\TabTin-feature\\TabTin',
+        path: 'C:\\workspace\\SnSworker-feature\\SnSworker',
         kind: 'user',
       },
     }, {

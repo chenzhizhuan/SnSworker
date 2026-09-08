@@ -161,7 +161,7 @@ const rule = {
     docs: {
       description:
         '工具 description 按 ToolRiskTier 上限（high-risk ≤1500 / medium ≤1200 / low-risk ≤500）拦截。超 budget 即报错——详细教学搬到 skill，description 只留硬契约。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/packages/prompt-contract/eslint-rules/README.md#tool-description-length',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/packages/prompt-contract/eslint-rules/README.md#tool-description-length',
     },
     schema: [],
     messages: {

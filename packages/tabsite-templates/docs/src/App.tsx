@@ -77,7 +77,7 @@ pnpm build
 
 ## 发布
 
-使用 TabTin CLI 一键发布：
+使用 SnSworker CLI 一键发布：
 
 \`\`\`bash
 tabtin site build <site-id>

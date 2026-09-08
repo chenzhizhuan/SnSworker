@@ -145,7 +145,7 @@ describe('IMMessageBubble rich text (功能2)', () => {
     'tabtin-preprod://resource/table/46ff7041-cfdd-41f4-9f7e-2f9c93236e3d?hint=tabdata&recordIds=f7372b28-0636-432c-82d2-477d6af58af5',
     'tabtin-dev://resource/table/46ff7041-cfdd-41f4-9f7e-2f9c93236e3d?hint=tabdata&recordIds=f7372b28-0636-432c-82d2-477d6af58af5',
     'tabtin://resource/table/table1',
-  ])('把裸 TabTin 资源深链渲染为可点击链接并交给 ResourceRouter：%s', async (uri) => {
+  ])('把裸 SnSworker 资源深链渲染为可点击链接并交给 ResourceRouter：%s', async (uri) => {
     render(<IMMessageBubble message={buildMessage({ content: uri })} prevMessage={null} />)
 
     const link = screen.getByText(uri) as HTMLAnchorElement

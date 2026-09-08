@@ -140,18 +140,18 @@ describe('parseCodexSessionShareHeader', () => {
   })
 
   it('resolves a Codex project display name to its local directory', () => {
-    expect(resolveCodexProjectSelection('TabTin', [
-      { id: 'tabtin', name: 'TabTin', path: '/Users/example/Documents/GitHub/TabTin' },
+    expect(resolveCodexProjectSelection('SnSworker', [
+      { id: 'tabtin', name: 'SnSworker', path: '/Users/example/Documents/GitHub/SnSworker' },
       { id: 'pi', name: 'pi', path: '/Users/example/Documents/GitHub/pi' },
-    ])).toBe('/Users/example/Documents/GitHub/TabTin')
+    ])).toBe('/Users/example/Documents/GitHub/SnSworker')
   })
 
   it('reads Codex sidebar projects instead of historical thread directories', () => {
     expect(parseCodexGlobalProjects({
       'local-projects': {
         tabtin: {
-          name: 'TabTin',
-          rootPaths: ['/Users/example/TabTin', '/Users/example/tabtin-im'],
+          name: 'SnSworker',
+          rootPaths: ['/Users/example/SnSworker', '/Users/example/tabtin-im'],
           createdAt: 2,
         },
         pi: {
@@ -164,8 +164,8 @@ describe('parseCodexSessionShareHeader', () => {
       { id: 'pi', name: 'pi', rootPaths: ['/Users/example/pi'], createdAt: 3 },
       {
         id: 'tabtin',
-        name: 'TabTin',
-        rootPaths: ['/Users/example/TabTin', '/Users/example/tabtin-im'],
+        name: 'SnSworker',
+        rootPaths: ['/Users/example/SnSworker', '/Users/example/tabtin-im'],
         createdAt: 2,
       },
     ])
@@ -173,16 +173,16 @@ describe('parseCodexSessionShareHeader', () => {
 
   it('assigns an imported thread to the selected Codex sidebar project', () => {
     expect(assignCodexThreadToProject({
-      'local-projects': { tabtin: { name: 'TabTin', rootPaths: ['/tmp/TabTin'] } },
+      'local-projects': { tabtin: { name: 'SnSworker', rootPaths: ['/tmp/SnSworker'] } },
       'thread-project-assignments': { existing: { projectId: 'tabtin' } },
-    }, '019ff0ea-5e5d-7ff2-aa63-1454f0ca3efc', 'tabtin', '/tmp/TabTin'))
+    }, '019ff0ea-5e5d-7ff2-aa63-1454f0ca3efc', 'tabtin', '/tmp/SnSworker'))
       .toMatchObject({
         'thread-project-assignments': {
           existing: { projectId: 'tabtin' },
           '019ff0ea-5e5d-7ff2-aa63-1454f0ca3efc': {
             projectKind: 'local',
             projectId: 'tabtin',
-            cwd: '/tmp/TabTin',
+            cwd: '/tmp/SnSworker',
             pendingCoreUpdate: false,
           },
         },

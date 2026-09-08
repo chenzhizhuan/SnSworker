@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/platform-adapter",
   "version": "0.1.0",
-  "description": "Platform adapter interfaces for TabTin apps",
+  "description": "Platform adapter interfaces for SnSworker apps",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -26,7 +26,7 @@
     "platform",
     "adapter"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "devDependencies": {
     "typescript": "5.7.2"

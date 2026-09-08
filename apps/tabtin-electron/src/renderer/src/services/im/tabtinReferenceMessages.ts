@@ -84,7 +84,7 @@ export function encodeTabTinMessageReference(
     || (reference.businessProjectionRevision !== undefined
       && !UUID_PATTERN.test(reference.businessProjectionRevision))
   ) {
-    throw new Error('TabTin message reference is invalid')
+    throw new Error('SnSworker message reference is invalid')
   }
   return JSON.stringify({
     schema: TABTIN_REFERENCE_SCHEMA,

@@ -196,12 +196,12 @@ describe('MediaStorageBucketRegistration', () => {
     expect(Object.keys(remaining).sort()).toEqual(['b'])
   })
 
-  it('classifyDownloadSource 能把 TabTin 子目录 / 系统下载 / 未知路径区分开', async () => {
+  it('classifyDownloadSource 能把 SnSworker 子目录 / 系统下载 / 未知路径区分开', async () => {
     const { __internals } = await import('../MediaStorageBucketRegistration')
     const downloads = path.join(os.homedir(), 'Downloads')
 
     expect(
-      __internals.classifyDownloadSource(path.join(downloads, 'TabTin', 'a.mp4')),
+      __internals.classifyDownloadSource(path.join(downloads, 'SnSworker', 'a.mp4')),
     ).toBe('tabtin-sub')
     expect(__internals.classifyDownloadSource(path.join(downloads, 'a.pdf'))).toBe(
       'system',

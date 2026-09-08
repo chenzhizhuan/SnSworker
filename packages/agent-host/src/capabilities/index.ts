@@ -42,7 +42,7 @@ export { resolveCliToolPresentation } from './cli-presentation.js';
 // 从 agent-runtime 迁到此处，经 PresentationToolsDeps.bakeAndUpload 注入（core 去业务化）。
 export { bakeAndUploadWidget } from './widget-bake.js';
 
-// ：受限 shell / 不可信输出的 TabTin 业务判定（只读动词表 / Plan 浏览器
+// ：受限 shell / 不可信输出的 SnSworker 业务判定（只读动词表 / Plan 浏览器
 // 导航豁免 / tabtin fetch|browser untrusted 判定），从 agent-runtime 迁出，两宿主注入。
 export {
   RESTRICTED_READONLY_VERBS,
@@ -50,11 +50,11 @@ export {
   isUntrustedShellCommand,
 } from './shell-restriction.js';
 
-// ：TabTin 临时隐藏 skill 名单（tabvideo）——产品运营决策，从 agent-runtime
+// ：SnSworker 临时隐藏 skill 名单（tabvideo）——产品运营决策，从 agent-runtime
 // 迁出，经 initSkillsModule({ hiddenSkills }) 注入。
 export { TEMPORARILY_HIDDEN_SKILLS } from './hidden-skills.js';
 
-// ：present_to_user 的 TabTin 资源类型与 slide 禁自动打开策略，从
+// ：present_to_user 的 SnSworker 资源类型与 slide 禁自动打开策略，从
 // agent-runtime 迁出，经 PresentationToolsDeps 注入。
 export {
   PRESENT_SUPPORTED_RESOURCE_TYPES,

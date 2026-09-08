@@ -14,19 +14,19 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/cmd/agent"
-	"github.com/TabTin/tabtin-cli/cmd/auth"
-	"github.com/TabTin/tabtin-cli/cmd/browser"
-	configcmd "github.com/TabTin/tabtin-cli/cmd/configcmd"
-	"github.com/TabTin/tabtin-cli/cmd/profile"
-	"github.com/TabTin/tabtin-cli/cmd/table"
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/extension"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
-	"github.com/TabTin/tabtin-cli/internal/version"
+	"github.com/SnSworker/tabtin-cli/cmd/agent"
+	"github.com/SnSworker/tabtin-cli/cmd/auth"
+	"github.com/SnSworker/tabtin-cli/cmd/browser"
+	configcmd "github.com/SnSworker/tabtin-cli/cmd/configcmd"
+	"github.com/SnSworker/tabtin-cli/cmd/profile"
+	"github.com/SnSworker/tabtin-cli/cmd/table"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/extension"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/version"
 )
 
 var timeNow = time.Now
@@ -63,8 +63,8 @@ func Execute() int {
 
 	rootCmd := &cobra.Command{
 		Use:   "tabtin [message]",
-		Short: "TabTin — Agent-Native CLI",
-		Long: `TabTin CLI — 人与 AI Agent 团队协作的统一平台。
+		Short: "SnSworker — Agent-Native CLI",
+		Long: `SnSworker CLI — 人与 AI Agent 团队协作的统一平台。
 
 直接输入消息即可与当前 Agent 对话：
   tabtin "帮我分析这个数据"

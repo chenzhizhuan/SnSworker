@@ -6,7 +6,7 @@
     "toolInputsSchemaValid": true
   },
   "normalizedSnapshot": {
-    "finalAssistantText": "你好！我是 TabTin AI Agent，有什么我可以帮你的吗？",
+    "finalAssistantText": "你好！我是 SnSworker AI Agent，有什么我可以帮你的吗？",
     "messagesShape": [
       "user:user_input",
       "user:user_input",

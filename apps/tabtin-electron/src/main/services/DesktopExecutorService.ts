@@ -163,7 +163,7 @@ function linuxNotSupported(actionLabel: string): DesktopError {
     DesktopErrorCode.UNSUPPORTED_PLATFORM,
     `不支持此操作：桌面操控仅在 macOS 和 Windows 可用。` +
     `当前系统识别为 ${process.platform}，本次${actionLabel}未执行，操作已被阻止。` +
-    `如需桌面操控，请在 macOS 或 Windows 上运行 TabTin 客户端。`,
+    `如需桌面操控，请在 macOS 或 Windows 上运行 SnSworker 客户端。`,
   )
 }
 
@@ -315,7 +315,7 @@ export class DesktopExecutorService {
     log.info(`Session ended: ${id}`)
     this.scheduleScreenshotCleanup()
 
-    // Restore TabTin main window (hidden during session for clean screenshots).
+    // Restore SnSworker main window (hidden during session for clean screenshots).
     // Use timeout fallback: if restore fails or hangs, retry after 5s.
     if (wasHidden) {
       this.restoreMainWindow()
@@ -674,7 +674,7 @@ export class DesktopExecutorService {
     }
     const frozenConfig = this.freezeDisplayConfig(display)
 
-    // Hide TabTin during the entire session to avoid capturing our own UI.
+    // Hide SnSworker during the entire session to avoid capturing our own UI.
     // Only minimize once per session; stays hidden until endSession() restores.
     if (!session.mainWindowHidden) {
       const mainWindow = this.mainWindowGetter()
@@ -715,9 +715,9 @@ export class DesktopExecutorService {
             DesktopErrorCode.TCC_DENIED,
             `桌面操控无法继续：macOS 屏幕录制权限未授予（当前状态：${this.screenRecordingStatusLabel(status)}）。` +
             `本次截屏未执行，当前会话也未建立；后续桌面操控在未授权前都将失败。` +
-            `请前往「系统设置 → 隐私与安全性 → 屏幕录制」允许 TabTin，` +
+            `请前往「系统设置 → 隐私与安全性 → 屏幕录制」允许 SnSworker，` +
             `或运行 tabtin desktop accessibility --prompt 打开系统引导对话框，` +
-            `授权后重启 TabTin 或重新运行 tabtin desktop screenshot。`,
+            `授权后重启 SnSworker 或重新运行 tabtin desktop screenshot。`,
           )
         }
       }
@@ -728,7 +728,7 @@ export class DesktopExecutorService {
           ? `显示器可能不可用，或 macOS 屏幕录制权限尚未授予。`
           : `目标显示器可能不可用或已断开。`) +
         `本次截屏未执行。` +
-        `请确认显示器在线；macOS 上还需在「系统设置 → 隐私与安全性 → 屏幕录制」中允许 TabTin。`,
+        `请确认显示器在线；macOS 上还需在「系统设置 → 隐私与安全性 → 屏幕录制」中允许 SnSworker。`,
       )
     }
 
@@ -743,9 +743,9 @@ export class DesktopExecutorService {
           DesktopErrorCode.TCC_DENIED,
           `桌面操控无法继续：macOS 屏幕录制权限未授予（当前状态：${this.screenRecordingStatusLabel(status)}），截屏图像可能为全黑。` +
           `本次截屏未执行，当前会话也未建立；后续桌面操控在未授权前都将失败。` +
-          `请前往「系统设置 → 隐私与安全性 → 屏幕录制」允许 TabTin，` +
+          `请前往「系统设置 → 隐私与安全性 → 屏幕录制」允许 SnSworker，` +
           `或运行 tabtin desktop accessibility --prompt 打开系统引导对话框，` +
-          `授权后重启 TabTin 或重新运行 tabtin desktop screenshot。`,
+          `授权后重启 SnSworker 或重新运行 tabtin desktop screenshot。`,
         )
       }
     }
@@ -1530,7 +1530,7 @@ export class DesktopExecutorService {
         `操作被阻止：无法检测坐标 (${screenX}, ${screenY}) 指向的应用窗口。` +
         `本次操作未执行，当前会话其他操作不受影响。` +
         (process.platform === 'darwin'
-          ? `请在「系统设置 → 隐私与安全性 → 辅助功能」中允许 TabTin；如系统未安装 python3 也会触发此错误，可通过 brew install python 或系统包管理器补装；`
+          ? `请在「系统设置 → 隐私与安全性 → 辅助功能」中允许 SnSworker；如系统未安装 python3 也会触发此错误，可通过 brew install python 或系统包管理器补装；`
           : `请确认 Windows 辅助功能权限已授予；`) +
         `或在桌面操控设置中关闭应用范围限制。`,
       )
@@ -1570,7 +1570,7 @@ export class DesktopExecutorService {
         DesktopErrorCode.TCC_DENIED,
         `桌面操控无法继续：macOS 辅助功能权限未授予。` +
         `本次操作未执行，当前会话保留；后续鼠标 / 键盘操作都将失败。` +
-        `请前往「系统设置 → 隐私与安全性 → 辅助功能」允许 TabTin，` +
+        `请前往「系统设置 → 隐私与安全性 → 辅助功能」允许 SnSworker，` +
         `或运行 tabtin desktop accessibility --prompt 打开系统引导对话框，授权后重新尝试本次动作。`,
       )
     }

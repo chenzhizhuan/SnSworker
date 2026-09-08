@@ -1,5 +1,5 @@
 /**
- * storage-paths — TabTin 本地存储路径决议的唯一 SSoT。
+ * storage-paths — SnSworker 本地存储路径决议的唯一 SSoT。
  *
  * 所有客户端 / packages 需要决议本地存储路径时必须通过本模块导出的
  * 函数，禁止在业务代码里直接拼 `os.homedir() + '.tabtin'` 等路径。
@@ -49,7 +49,7 @@ import fs from 'node:fs/promises'
 // ── ~/.tabtin/（跨 app 共享根）──────────────────────────────────
 
 /**
- * 用户主目录下的 TabTin 共享根。三平台一致 `~/.tabtin/...`。
+ * 用户主目录下的 SnSworker 共享根。三平台一致 `~/.tabtin/...`。
  * 用于 Electron / Daemon / CLI 都要写的全局物件（screenshots / checkpoints / mcp 等）。
  *
  * **不要**在此存放 per-Workspace 数据——走 `getDataRoot()` +
@@ -120,9 +120,9 @@ export function getUserDataPath(...subSegments: string[]): string {
 // ── Platform base（OS-appropriate app data 根）───────────────────
 
 /**
- * TabTin 的平台存储前缀。平台分支：
- *   - macOS:   `~/Library/Application Support/TabTin/`
- *   - Windows: `%APPDATA%/TabTin/`
+ * SnSworker 的平台存储前缀。平台分支：
+ *   - macOS:   `~/Library/Application Support/SnSworker/`
+ *   - Windows: `%APPDATA%/SnSworker/`
  *   - Linux:   `~/.tabtin/`
  *
  * env 覆盖：`TABTIN_PLATFORM_BASE_ROOT`（主要测试用）。
@@ -133,11 +133,11 @@ export function getPlatformBaseRoot(): string {
     return path.resolve(envRoot)
   }
   if (process.platform === 'darwin') {
-    return path.join(os.homedir(), 'Library', 'Application Support', 'TabTin')
+    return path.join(os.homedir(), 'Library', 'Application Support', 'SnSworker')
   }
   if (process.platform === 'win32') {
     const appData = process.env.APPDATA || path.join(os.homedir(), 'AppData', 'Roaming')
-    return path.join(appData, 'TabTin')
+    return path.join(appData, 'SnSworker')
   }
   return path.join(os.homedir(), '.tabtin')
 }
@@ -145,7 +145,7 @@ export function getPlatformBaseRoot(): string {
 // ── Data Root（ 单根 SSoT）─────────────────────────
 
 /**
- * TabTin 本地数据根（ 引入）。**新代码只经此函数取根**。
+ * SnSworker 本地数据根（ 引入）。**新代码只经此函数取根**。
  *
  * 决议顺序：
  *   1. env `TABTIN_DATA_ROOT`（主要测试 / 多环境隔离用）
@@ -483,13 +483,13 @@ export function getKnownStorageRoots(): StorageRootDescriptor[] {
     },
     {
       id: 'platform-base',
-      label: 'TabTin platform base (workspaces + platform-data)',
+      label: 'SnSworker platform base (workspaces + platform-data)',
       pathFn: getPlatformBaseRoot,
       scope: 'platform-dependent',
     },
     {
       id: 'data-root',
-      label: 'TabTin data root (users/…/organizations/…/workspaces/…)',
+      label: 'SnSworker data root (users/…/organizations/…/workspaces/…)',
       pathFn: getDataRoot,
       scope: 'platform-dependent',
     },

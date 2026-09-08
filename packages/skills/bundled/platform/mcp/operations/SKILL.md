@@ -27,7 +27,7 @@ metadata:
 
 先理解边界：
 
-- 这里只处理“本机已挂载的 MCP 连接”，不是 Daemon 暴露给外部 Agent 的 TabTin MCP Server endpoint
+- 这里只处理“本机已挂载的 MCP 连接”，不是 Daemon 暴露给外部 Agent 的 SnSworker MCP Server endpoint
 - 只有当前 Space 已挂载并启用的连接，工具才可见
 - 如果当前 Space 同时挂载了多个 MCP server，先用 `tabtin mcp list-servers --format json` 列出 server，再显式指定 `server_name` 或 `connection_id`
 - 在调用任何 MCP tool 之前，先用 `tabtin mcp list-tools --server-name <name> --format json` 查看 schema，不要猜参数

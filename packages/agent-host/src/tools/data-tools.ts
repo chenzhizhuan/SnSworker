@@ -128,7 +128,7 @@ type HttpCallResult<T> = HttpCallSuccess<T> | HttpCallFailure
 
 /**
  * 公共 fetch helper：
- *   - 统一注入 Authorization / X-TabTin-Organization-Id / Content-Type
+ *   - 统一注入 Authorization / X-SnSworker-Organization-Id / Content-Type
  *   - HTTP 4xx/5xx / 网络异常 / 超时归一化为 ``HttpCallFailure``，业务侧不必每次重写
  *   - 解 JSON 失败时仍能给出可读错误，避免抛出未捕获异常打断 ReAct loop
  */
@@ -158,7 +158,7 @@ async function callApi<T = unknown>(
     headers['Authorization'] = `Bearer ${deps.apiAuthToken}`
   }
   if (deps.organizationId) {
-    headers['X-TabTin-Organization-Id'] = deps.organizationId
+    headers['X-SnSworker-Organization-Id'] = deps.organizationId
   }
 
   const init: RequestInit = {
@@ -769,7 +769,7 @@ function createMemorySearchTool(deps: DataToolsDeps): Tool {
       // 修法：query 缺失或空字符串 → fail with MISSING_REQUIRED_PARAM。
       // hint 引导 LLM 用 `query='*'` 强制 wildcard 浏览（后端支持的话）
       // 或 deliberate query。任务范围："如 list_recent_memories 不存在则
-      // 只 fail" —— TabTin 当前没有 list_recent_memories 工具，所以这里
+      // 只 fail" —— SnSworker 当前没有 list_recent_memories 工具，所以这里
       // 只 fail，不暗示其它工具。
       if (typeof params.query !== 'string' || params.query.trim() === '') {
         return jsonError('query is required for memory_search.', {

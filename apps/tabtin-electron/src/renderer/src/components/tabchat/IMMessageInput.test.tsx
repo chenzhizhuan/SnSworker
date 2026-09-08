@@ -364,7 +364,7 @@ describe('IMMessageInput', () => {
     expect(document.querySelector('[data-im-pending-resource]')).toBeNull()
   })
 
-  it('passes the active TabTin conversation to the session-share picker', async () => {
+  it('passes the active SnSworker conversation to the session-share picker', async () => {
     const { IMMessageInput } = await import('./IMMessageInput')
     render(<IMMessageInput conversationId="conv-1" onSend={vi.fn()} isSending={false} />)
 
@@ -1095,7 +1095,7 @@ describe('IMMessageInput', () => {
     expect(onSend).toHaveBeenCalledWith('@所有人 测试', undefined, undefined, undefined)
   })
 
-  it('sends a TabTin sticker as IMAGE with metadata.sticker', async () => {
+  it('sends a SnSworker sticker as IMAGE with metadata.sticker', async () => {
     const onSend = vi.fn()
     mockUploadIMAttachment.mockResolvedValueOnce({
       file_id: 'sticker-file-1',

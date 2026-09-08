@@ -1,7 +1,7 @@
 """proxy_service._resolve_upstream_tier_headers 的透传语义测试。
 
 这是 long_context_tier 链路的「Django 代理→上游」关键节点：
-客户端透来 `X-TabTin-Context-Tier: long_1m` 时，proxy 必须把档位
+客户端透来 `X-SnSworker-Context-Tier: long_1m` 时，proxy 必须把档位
 配置里的 `extra_headers`（如 `anthropic-beta: context-1m-2025-08-07`）
 合并到 upstream headers，否则 ZenMux / Anthropic 按默认 200K 走。
 

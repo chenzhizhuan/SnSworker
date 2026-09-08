@@ -74,7 +74,7 @@ const rule = {
     docs: {
       description:
         '禁止 renderer 端直接 fetch(joinApiPath(...)) 或 fetch(`${API_CONFIG.baseURL}/...`)；改走 apiService.request / apiRequest / electronFetch。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-direct-fetch-in-renderer',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/eslint-rules/README.md#tabtinno-direct-fetch-in-renderer',
     },
     schema: [],
     messages: {

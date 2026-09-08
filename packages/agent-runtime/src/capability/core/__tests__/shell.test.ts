@@ -1545,7 +1545,7 @@ describe.skip('ShellCap 大输出落盘 (deprecated by 2026-05-18 重构，待 P
         scriptExecute: () => ({
           status: 'ok',
           exitCode: 0,
-          stdout: 'HEADHEAD\n...[output truncated by TabTin process runner]',
+          stdout: 'HEADHEAD\n...[output truncated by SnSworker process runner]',
           stderr: '',
           durationMs: 1,
           truncated: true,

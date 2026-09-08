@@ -182,7 +182,7 @@ import {
 } from '@tabtin/agent-runtime/capability'
 // ：平台目录类 Cap（SkillsCap / McpCap / CliCap）已迁至共享宿主包。
 // ：受限 shell 动词表 / Plan 浏览器导航豁免 / untrusted 判定 / 本地产物
-// URI / 隐藏 skill 名单——TabTin 业务知识由宿主注入。
+// URI / 隐藏 skill 名单——SnSworker 业务知识由宿主注入。
 import {
   SkillsCap,
   McpCap,
@@ -3647,7 +3647,7 @@ export class ElectronRuntimeAssembly {
         return null
       },
       allowedCwdRoot: workspaceRoot,
-      // ：TabTin CLI 只读兜底动词表由宿主注入，core 默认空集。
+      // ：SnSworker CLI 只读兜底动词表由宿主注入，core 默认空集。
       readonlyVerbs: RESTRICTED_READONLY_VERBS,
       // ：所有受限模式（ask / plan / study）都可浏览导航；页面交互仍按写风险拒绝。
       ...(shouldInjectBrowserNavigationAllowlist(mode)

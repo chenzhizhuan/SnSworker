@@ -1,5 +1,5 @@
 /**
- * TabTinRichContentBlockView — TabTin 扩展 + 富内容家族 dispatcher。
+ * TabTinRichContentBlockView — SnSworker 扩展 + 富内容家族 dispatcher。
  *
  * 承载多种 block.type：
  *   - tabtin_rich_content（kind: image / table_preview / resource_ref / file /

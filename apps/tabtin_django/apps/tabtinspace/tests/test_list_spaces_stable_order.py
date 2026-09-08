@@ -35,14 +35,14 @@ class ListSpacesStableOrderTests(TestCase):
             organization_id=self.organization.id,
             name="Older Space",
             device_id=self.device.id,
-            working_dir="/Users/owner/TabTin/older",
+            working_dir="/Users/owner/SnSworker/older",
             working_dir_type="mixed",
         )
         newer = self.service.create_space(
             organization_id=self.organization.id,
             name="Newer Space",
             device_id=self.device.id,
-            working_dir="/Users/owner/TabTin/newer",
+            working_dir="/Users/owner/SnSworker/newer",
             working_dir_type="mixed",
         )
         self.assertIsNotNone(older)

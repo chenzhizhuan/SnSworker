@@ -205,7 +205,7 @@ const rule = {
     docs: {
       description:
         '禁止 apps/ 下出现长中文字面量直接送 LLM。所有 prompt 必须出自 @tabtin/agent-prompt 或 @tabtin/agent-runtime/prompts 并在 SECTION_REGISTRY 登记。',
-      url: 'https://github.com/TabTin/TabTinAgent/blob/main/packages/prompt-contract/eslint-rules/README.md#no-inline-llm-prompt',
+      url: 'https://github.com/SnSworker/TabTinAgent/blob/main/packages/prompt-contract/eslint-rules/README.md#no-inline-llm-prompt',
     },
     schema: [],
     messages: {

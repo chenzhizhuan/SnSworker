@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /**
- * TabTin 排版系统 —— **视觉语义对齐 Electron** `design-system.md` §2。
+ * SnSworker 排版系统 —— **视觉语义对齐 Electron** `design-system.md` §2。
  *
  * 正典文档：`apps/tabtin-android/docs/design-system.md`
  * 对话阅读层（15sp / 1.7）见 [ConversationTypography]。

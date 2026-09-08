@@ -1,6 +1,6 @@
 # @tabtin/doc-renderer
 
-Host-agnostic markdown rendering utilities for TabTin Tabdoc.
+Host-agnostic markdown rendering utilities for SnSworker Tabdoc.
 
 ## Scope
 - configurable markdown renderer runtime adapter

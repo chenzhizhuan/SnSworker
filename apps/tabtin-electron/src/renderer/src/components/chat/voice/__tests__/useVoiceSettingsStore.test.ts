@@ -24,8 +24,8 @@ describe('useVoiceSettingsStore', () => {
 
   describe('hotwords', () => {
     it('should add a hotword', () => {
-      expect(useVoiceSettingsStore.getState().addHotword('TabTin')).toBe('added')
-      expect(useVoiceSettingsStore.getState().customHotwords).toEqual(['TabTin'])
+      expect(useVoiceSettingsStore.getState().addHotword('SnSworker')).toBe('added')
+      expect(useVoiceSettingsStore.getState().customHotwords).toEqual(['SnSworker'])
     })
 
     it('should trim whitespace', () => {
@@ -135,7 +135,7 @@ describe('useVoiceSettingsStore', () => {
   describe('mergedHotwords', () => {
     it('should include platform hotwords', () => {
       const merged = useVoiceSettingsStore.getState().mergedHotwords()
-      expect(merged).toContain('TabTin')
+      expect(merged).toContain('SnSworker')
       expect(merged).toContain('TabData')
     })
 
@@ -158,9 +158,9 @@ describe('useVoiceSettingsStore', () => {
     })
 
     it('should deduplicate', () => {
-      useVoiceSettingsStore.getState().addHotword('TabTin')
+      useVoiceSettingsStore.getState().addHotword('SnSworker')
       const merged = useVoiceSettingsStore.getState().mergedHotwords()
-      const count = merged.filter(w => w === 'TabTin').length
+      const count = merged.filter(w => w === 'SnSworker').length
       expect(count).toBe(1)
     })
   })

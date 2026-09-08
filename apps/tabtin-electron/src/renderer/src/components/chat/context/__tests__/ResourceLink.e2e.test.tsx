@@ -104,7 +104,7 @@ const URL_CASES: Array<{ name: string; markdown: string; expectedHrefStartsWith:
   },
   {
     name: 'https',
-    markdown: '参考 [TabTin 官网](https://www.example.com/docs)',
+    markdown: '参考 [SnSworker 官网](https://www.example.com/docs)',
     expectedHrefStartsWith: 'https://www.example.com/',
   },
   {

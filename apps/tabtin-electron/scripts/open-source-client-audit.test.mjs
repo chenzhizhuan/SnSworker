@@ -7,7 +7,7 @@ test('detects credential-like values and personal project paths', () => {
   const credential = `ghp_${'xY7kP2mN9qR4tV6wZ8cB1dF3hJ5sL0a'}`
   const content = [
     `const token = "${credential}"`, // open-source-audit: allow credential
-    'const repo = "/Users/alice/Projects/TabTin/apps/tabtin-electron"' // open-source-audit: allow personal-path
+    'const repo = "/Users/alice/Projects/SnSworker/apps/tabtin-electron"' // open-source-audit: allow personal-path
   ].join('\n')
 
   const findings = scanClientText('scripts/local-helper.mjs', content)
@@ -54,7 +54,7 @@ test('detects private keys and credentials embedded in URLs', () => {
 
 test('supports a narrow, line-local allow annotation for synthetic fixtures', () => {
   const content =
-    'const fixture = "/Users/alice/Projects/TabTin" // open-source-audit: allow personal-path'
+    'const fixture = "/Users/alice/Projects/SnSworker" // open-source-audit: allow personal-path'
 
   assert.deepEqual(scanClientText('scripts/example.test.mjs', content), [])
 })

@@ -47,15 +47,15 @@ function requireBridge(res: http.ServerResponse, sendJSON: SendJSON) {
   const spaceId = getCLISpaceId()
 
   if (!bridge) {
-    sendJSON(res, 503, errorResponse('INTERNAL_ERROR', 'TabTin 界面尚未就绪', {
+    sendJSON(res, 503, errorResponse('INTERNAL_ERROR', 'SnSworker 界面尚未就绪', {
       retryable: true,
-      suggestions: ['确保 TabTin 主窗口已显示', '等待几秒后重试'],
+      suggestions: ['确保 SnSworker 主窗口已显示', '等待几秒后重试'],
     }))
     return null
   }
   if (!spaceId) {
-    sendJSON(res, 400, errorResponse('VALIDATION_ERROR', '未选择组织，请先在 TabTin 中打开一个 Space', {
-      suggestions: ['在 TabTin 中创建或选择一个 Space'],
+    sendJSON(res, 400, errorResponse('VALIDATION_ERROR', '未选择组织，请先在 SnSworker 中打开一个 Space', {
+      suggestions: ['在 SnSworker 中创建或选择一个 Space'],
     }))
     return null
   }

@@ -10,7 +10,7 @@
  *     - VideoRecorder / ScreenshotService / cdp-actions.setupPdfAPI:
  *       userData/recordings / ~/.tabtin/screenshots / ~/.tabtin/exports（永久增长）
  *     - DownloadManager + ResourceDownloadService + StreamDownloadService:
- *       ~/Downloads / ~/Downloads/TabTin（聚合显示）
+ *       ~/Downloads / ~/Downloads/SnSworker（聚合显示）
  *     - Agent 沙箱下载：sandbox/agent-spaces/<spaceId>/downloads/
  *
  * ## 设计约束
@@ -24,7 +24,7 @@
  *      中转）—— Electron 内置路径，由 OS / Chromium 决定，目前无对应 SSoT helper
  *
  * 2. **download:user-downloads 只清历史，不碰磁盘文件**：
- *    `~/Downloads` 是系统目录，里面有非 TabTin 下载的文件，**严禁直接 rm**。
+ *    `~/Downloads` 是系统目录，里面有非 SnSworker 下载的文件，**严禁直接 rm**。
  *    clearFn 只清 ConfigService 下的 `download.history` 记录；warnings 明确
  *    告诉用户"下载目录里的文件不会被删"。
  *
@@ -471,9 +471,9 @@ function buildUserDownloadsBucket(): StorageBucket {
     group: 'media',
     displayName: '下载列表（仅记录）',
     description:
-      'TabTin 触发下载的历史记录（系统下载 + 流媒体下载聚合）。清理只删这份记录，磁盘上的下载文件不会被删。',
+      'SnSworker 触发下载的历史记录（系统下载 + 流媒体下载聚合）。清理只删这份记录，磁盘上的下载文件不会被删。',
     warnings: [
-      '清理后下载列表清空；~/Downloads 与 ~/Downloads/TabTin/ 里的文件**不会被删**，需要时请在系统文件管理器里手动删除',
+      '清理后下载列表清空；~/Downloads 与 ~/Downloads/SnSworker/ 里的文件**不会被删**，需要时请在系统文件管理器里手动删除',
       '清理不会停止正在进行的下载',
     ],
     requiresConfirmation: 'soft',
@@ -567,7 +567,7 @@ function classifyDownloadSource(savePath?: string): 'system' | 'tabtin-sub' | 'u
   if (!savePath) return 'unknown'
   const downloads = safeAppPath('downloads')
   if (downloads) {
-    const tabtinSub = join(downloads, 'TabTin')
+    const tabtinSub = join(downloads, 'SnSworker')
     if (savePath.startsWith(tabtinSub)) return 'tabtin-sub'
     if (savePath.startsWith(downloads)) return 'system'
   }

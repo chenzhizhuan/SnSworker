@@ -3,7 +3,7 @@ name: feishu-import-to-org
 description: >
   飞书资产迁入组织——把用户选定的飞书多维表 / 云文档（Docx）/ 知识库节点链接
   一次性导入当前 Organization 云盘（表→TabData，文档→TabDoc）。用户说导入飞书、
-  迁入多维表、同步飞书文档进 TabTin、贴了 feishu.cn/base、/docx 或 /wiki 链接
+  迁入多维表、同步飞书文档进 SnSworker、贴了 feishu.cn/base、/docx 或 /wiki 链接
   要进组织时使用。不是出站同步稿（那是 lark-sync-brief），也不是外部 lark-cli。
 metadata:
   version: "0.3.0"
@@ -54,7 +54,7 @@ metadata:
 需要：
 
 - `organization_id`（全局 `--organization-id` 或 config `defaultOrganization`）
-- `space_id`（`--space-id` / config `defaultSpace` / 当前会话 Space）——这是 **TabTin Space**，不是飞书 wiki `space_id`
+- `space_id`（`--space-id` / config `defaultSpace` / 当前会话 Space）——这是 **SnSworker Space**，不是飞书 wiki `space_id`
 - 可选 `collection_id`（当前云盘文件夹；没有则落到 Space 根）
 
 缺了就问用户或用 `tabtin organization list` / 当前上下文补齐。**不要猜错组织。**

@@ -1,4 +1,4 @@
-# TabTin Support
+# SnSworker Support
 
 [中文](SUPPORT.md)
 

@@ -113,7 +113,7 @@ function shouldReduceMotion(runtime: OrbRuntime): boolean {
   return prefersReducedMotion()
 }
 
-/** TabTin token 是裸 HSL 分量；转成绘制层要的 8bit rgb。失败一律当作不染色。 */
+/** SnSworker token 是裸 HSL 分量；转成绘制层要的 8bit rgb。失败一律当作不染色。 */
 function hslComponentsToRgb(h: number, s: number, l: number): OrbRgb {
   const sat = s / 100
   const light = l / 100

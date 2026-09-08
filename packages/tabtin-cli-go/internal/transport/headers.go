@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/TabTin/tabtin-cli/internal/version"
+	"github.com/SnSworker/tabtin-cli/internal/version"
 )
 
 // setCommonHeaders sets headers shared across all transport implementations.
@@ -42,5 +42,5 @@ func setAgentContextHeaders(req *http.Request) {
 
 // setLocalHeaders sets headers only meaningful for local CLI Server transports.
 func setLocalHeaders(req *http.Request) {
-	req.Header.Set("X-TabTin-Caller-Pid", fmt.Sprintf("%d", os.Getpid()))
+	req.Header.Set("X-SnSworker-Caller-Pid", fmt.Sprintf("%d", os.Getpid()))
 }

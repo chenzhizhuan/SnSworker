@@ -53,7 +53,7 @@ function makeTool(
  * 引导）；不再出现在工具集 fixture / 期望中。
  *
  * **W4 R3 (2026-05-11)**: `ask_user`（AskUserQuestion 协议，
- * 替代 W4 之前的 `ask_choice`）+ `ask_form`（多字段填表，TabTin HITL 扩展）。
+ * 替代 W4 之前的 `ask_choice`）+ `ask_form`（多字段填表，SnSworker HITL 扩展）。
  * 旧名 `ask_choice` 由 `ask_user` 兼容，不应再出现。
  * **#3709 (2026-07-08)**: `request_approval` 下架，不再出现在工具集 fixture / 期望中。
  */
@@ -62,7 +62,7 @@ function buildRepresentativeToolSet(): Tool[] {
     // Core (W2 改名后 canonical 名是 run_terminal_command；L16 W5.5 受限模式
     // 通过 input 级 restrictedShellAllowlist 过滤而非整体 deny)
     // Wave 4.5 (2026-05-10): `think` 工具已下线，依赖 LLM 原生 thinking block。
-    // W4 R3 (2026-05-11): ask_user+ ask_form（TabTin HITL 扩展）。
+    // W4 R3 (2026-05-11): ask_user+ ask_form（SnSworker HITL 扩展）。
     //  (2026-07-08): request_approval 已下架。
     makeTool('run_terminal_command', false),
     makeTool('ask_user', true),
@@ -518,7 +518,7 @@ describe('JSON contract round-trip (cross-runtime sync)', () => {
       'document_read',
       'skills.search',
       'plan_exit',
-      // W4 R3 (2026-05-11): `ask_choice` 由 `ask_user` 兼容；`ask_form` 是 TabTin HITL 扩展，依然在用。
+      // W4 R3 (2026-05-11): `ask_choice` 由 `ask_user` 兼容；`ask_form` 是 SnSworker HITL 扩展，依然在用。
       // `ask_question` 是 W4 之前已退役的更早旧名。
       'ask_choice',
       'ask_question',
@@ -627,7 +627,7 @@ describe('L29 full scan — TS 端工具全量来源对照 contract', () => {
     // W6 退役的 Python BaseTool 域内工具（不应再有 TS 同名 FC）
     'list_conversations', 'read_conversation',
     'plan_exit',
-    // W4 R3 (2026-05-11): `ask_choice` 由 `ask_user` 兼容；`ask_form` 是 TabTin HITL 扩展，依然在用。
+    // W4 R3 (2026-05-11): `ask_choice` 由 `ask_user` 兼容；`ask_form` 是 SnSworker HITL 扩展，依然在用。
     // `ask_question` 是 W4 之前已退役的更早旧名。
     //  (2026-07-08): `request_approval` 下架。
     'ask_choice', 'ask_question', 'request_approval',

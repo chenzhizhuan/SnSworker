@@ -1,6 +1,6 @@
 # Open-source Electron development
 
-This guide covers the TabTin desktop client only. It keeps the default path suitable for developers worldwide and offers an explicit China download profile without changing a developer's global npm configuration.
+This guide covers the SnSworker desktop client only. It keeps the default path suitable for developers worldwide and offers an explicit China download profile without changing a developer's global npm configuration.
 
 ## Community quick start
 
@@ -127,7 +127,7 @@ The `community` profile is the open-source distribution profile:
 - Four public endpoints are required: API, Collab WebSocket, Centrifugo WebSocket, and the public Web application. Self-hosted TabChat uses Django `/api/im` on the same API origin; the Tencent control plane is disabled. These endpoints form the complete community trust boundary and are written into the package at build time.
 - The updater is disabled when `TABTIN_COMMUNITY_UPDATE_FEED_URL` is absent.
 - When present, the update feed must be HTTPS and is recorded in packaged metadata; a runtime environment variable cannot replace or widen it.
-- Community builds skip TabTin's official sourcemap upload and notarization services.
+- Community builds skip SnSworker's official sourcemap upload and notarization services.
 
 Linux/macOS shell example without automatic updates:
 
@@ -179,4 +179,4 @@ pnpm --dir apps/tabtin-electron audit:opensource
 
 ## What This Does Not Start
 
-The one-command path may call the project's existing backend startup script, but it does not implement or redesign backend startup. It does not start the TabTin Daemon, AdminDash, iOS, or Android. It also does not create a public repository, rewrite Git history, choose a project-wide license, or govern the root `.env`; those are project-level open-source responsibilities owned outside the Electron workstream.
+The one-command path may call the project's existing backend startup script, but it does not implement or redesign backend startup. It does not start the SnSworker Daemon, AdminDash, iOS, or Android. It also does not create a public repository, rewrite Git history, choose a project-wide license, or govern the root `.env`; those are project-level open-source responsibilities owned outside the Electron workstream.

@@ -361,7 +361,7 @@ export async function wipeAllLocalData(options?: {
       credentialFilePaths.add(filePath.toLowerCase())
     }
   }
-  // 当前实例目录（含 TabTin Local-feature-*）走「缓存先清、凭证最后」契约
+  // 当前实例目录（含 SnSworker Local-feature-*）走「缓存先清、凭证最后」契约
   if (options?.currentUserDataDir) {
     credentialFilePaths.add(
       join(options.currentUserDataDir, 'credentials.json').toLowerCase(),
@@ -637,7 +637,7 @@ export async function consumePendingLocalDataWipe(): Promise<WipeResult | null> 
 
   clearPendingLocalDataWipeMarker(userDataDir)
 
-  // 设置页预约的清理只动当前实例，避免其它 profile（正式版 TabTin 等）被锁导致整单失败
+  // 设置页预约的清理只动当前实例，避免其它 profile（正式版 SnSworker 等）被锁导致整单失败
   const result = await wipeAllLocalData({
     currentUserDataDir: userDataDir,
     scope: 'current',

@@ -5,7 +5,7 @@ public extension Font {
     static let tt = TTFonts()
 }
 
-/// TabTin 排版系统 —— **视觉语义对齐 Electron** `design-system.md` §2。
+/// SnSworker 排版系统 —— **视觉语义对齐 Electron** `design-system.md` §2。
 ///
 /// 正典文档：`apps/tabtin-ios/docs/design-system.md`
 /// 对话阅读层（15pt / 1.7）见 `ConversationTypography`。

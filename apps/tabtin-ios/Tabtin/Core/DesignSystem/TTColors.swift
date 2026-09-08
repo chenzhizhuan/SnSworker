@@ -10,7 +10,7 @@ public extension ShapeStyle where Self == Color {
     static var tt: TTColors { Self.tt }
 }
 
-/// TabTin 语义化颜色令牌。
+/// SnSworker 语义化颜色令牌。
 /// 强调色 / 画布中性色随账号 `colorScheme` 走（见 `ColorSchemePalette`）；
 /// 状态色保持跨 scheme 稳定。
 ///

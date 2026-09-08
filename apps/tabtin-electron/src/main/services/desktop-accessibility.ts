@@ -258,7 +258,7 @@ end tell`
           DesktopErrorCode.AX_UNAVAILABLE,
           `Accessibility Tree 不可用：macOS 辅助功能权限未授予。` +
           `本次 AX 查询未执行。` +
-          `请在「系统设置 → 隐私与安全性 → 辅助功能」中启用 TabTin，然后重试；` +
+          `请在「系统设置 → 隐私与安全性 → 辅助功能」中启用 SnSworker，然后重试；` +
           `或使用 tabtin desktop screenshot + 坐标点击作为替代。`,
         )
       }
@@ -289,7 +289,7 @@ end tell`
         DesktopErrorCode.AX_UNAVAILABLE,
         `Accessibility Tree 不可用：macOS 辅助功能权限未授予或 AX 查询被系统拒绝。` +
         `本次 AX 查询未执行。` +
-        `请在「系统设置 → 隐私与安全性 → 辅助功能」中启用 TabTin，` +
+        `请在「系统设置 → 隐私与安全性 → 辅助功能」中启用 SnSworker，` +
         `或使用 tabtin desktop screenshot + 坐标点击作为替代。`,
       )
     }

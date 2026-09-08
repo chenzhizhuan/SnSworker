@@ -25,12 +25,12 @@ describe('工作空间下挂外部历史', () => {
         older: '更早',
       },
       collapsedGroups: new Set(),
-      spaceNameById: { 'ws-1': 'TabTin-deploy' },
+      spaceNameById: { 'ws-1': 'SnSworker-deploy' },
       spaceSectionKeyById: { 'ws-1': 'workspace' },
       spaceSectionOrder: ['workspace'],
       workspaceListSortMode: 'name',
       getSessionSpaceId: (s) => s.space_id ?? '__unknown__',
-      getSessionSpaceLabel: (id) => (id === 'ws-1' ? 'TabTin-deploy' : id),
+      getSessionSpaceLabel: (id) => (id === 'ws-1' ? 'SnSworker-deploy' : id),
       listContent: 'sessions',
       externalArchivesBySpaceId: {
         'ws-1': [{

@@ -3,7 +3,7 @@
  *
  * 统一 Puppeteer 和 Electron 的 Cookie 类型
  *
- * @author TabTin Team
+ * @author SnSworker Team
  * @date 2025-11-21
  */
 

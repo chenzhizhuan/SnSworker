@@ -40,7 +40,7 @@ struct TabularPreviewContent: Equatable, Sendable {
     }
 }
 
-/// 云盘文件的展示分类。资源类型只决定 TabTin 原生资源，普通文件由 MIME 优先、扩展名兜底。
+/// 云盘文件的展示分类。资源类型只决定 SnSworker 原生资源，普通文件由 MIME 优先、扩展名兜底。
 enum CloudDriveFileKind: String, Equatable, Sendable {
     case folder
     case tabdoc

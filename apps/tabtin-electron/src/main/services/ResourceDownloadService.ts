@@ -81,7 +81,7 @@ export interface FetchBufferResult {
 
 export class ResourceDownloadService {
   private getDownloadsDir(outputDir?: string): string {
-    const dir = outputDir || path.join(app.getPath('downloads'), 'TabTin')
+    const dir = outputDir || path.join(app.getPath('downloads'), 'SnSworker')
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true })
     }

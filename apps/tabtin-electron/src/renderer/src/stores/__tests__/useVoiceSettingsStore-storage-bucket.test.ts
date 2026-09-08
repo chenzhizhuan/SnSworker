@@ -43,7 +43,7 @@ describe('useVoiceSettingsStore · storage-manager 接入', () => {
     const { useVoiceSettingsStore } = await import('../useVoiceSettingsStore')
     const sm = await import('@tabtin/storage-manager')
 
-    useVoiceSettingsStore.getState().addHotword('TabTin')
+    useVoiceSettingsStore.getState().addHotword('SnSworker')
     useVoiceSettingsStore.getState().addHotword('Codex')
     useVoiceSettingsStore.getState().addReplacementRule('orig', 'replaced')
     useVoiceSettingsStore.getState().setVoiceShortcut('mod+shift+v')
@@ -67,7 +67,7 @@ describe('useVoiceSettingsStore · storage-manager 接入', () => {
       enableAppContext: false,
       enableDialogContext: true,
     })
-    expect(parsed.customHotwords).toEqual(['TabTin', 'Codex'])
+    expect(parsed.customHotwords).toEqual(['SnSworker', 'Codex'])
     expect(parsed.replacementRules).toHaveLength(1)
     expect(parsed.replacementRules[0]).toMatchObject({ from: 'orig', to: 'replaced', isEnabled: true })
 

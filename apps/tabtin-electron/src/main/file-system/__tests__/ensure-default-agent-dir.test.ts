@@ -2,7 +2,7 @@
  * ensureDefaultAgentDir 单测
  *
  * 覆盖「开箱即用」默认目录的核心契约：
- *   - 在 home 下的 TabTin/Team 父目录里按 Space 名建目录并真实 mkdir
+ *   - 在 home 下的 SnSworker/Team 父目录里按 Space 名建目录并真实 mkdir
  *   - 显示名归一（剔除文件系统非法字符 / 首尾点空白 / 空名回退）
  *   - collision-safe：同名目录已存在时追加 -2/-3…，不复用别的 Space 的根
  *
@@ -60,13 +60,13 @@ describe('ensureDefaultAgentDirImpl', () => {
     else process.env.TABTIN_RUNTIME_PROFILE = originalRuntimeProfile
   })
 
-  it('在 ~/TabTin/<团队>/<名字> 下真实创建目录', async () => {
+  it('在 ~/SnSworker/<团队>/<名字> 下真实创建目录', async () => {
     const res = await ensureDefaultAgentDirImpl({
       organizationName: 'Team A',
       spaceName: 'Demo',
     })
     expect(res.success).toBe(true)
-    expect(res.path).toBe(path.join(homeRoot, 'TabTin', 'Team A', 'Demo'))
+    expect(res.path).toBe(path.join(homeRoot, 'SnSworker', 'Team A', 'Demo'))
     expect(fs.existsSync(res.path!)).toBe(true)
     expect(fs.statSync(res.path!).isDirectory()).toBe(true)
   })
@@ -75,8 +75,8 @@ describe('ensureDefaultAgentDirImpl', () => {
     const input = { organizationName: 'Team A', spaceName: 'Demo' }
     const first = await ensureDefaultAgentDirImpl(input)
     const second = await ensureDefaultAgentDirImpl(input)
-    expect(first.path).toBe(path.join(homeRoot, 'TabTin', 'Team A', 'Demo'))
-    expect(second.path).toBe(path.join(homeRoot, 'TabTin', 'Team A', 'Demo-2'))
+    expect(first.path).toBe(path.join(homeRoot, 'SnSworker', 'Team A', 'Demo'))
+    expect(second.path).toBe(path.join(homeRoot, 'SnSworker', 'Team A', 'Demo-2'))
     expect(fs.existsSync(second.path!)).toBe(true)
   })
 
@@ -86,14 +86,14 @@ describe('ensureDefaultAgentDirImpl', () => {
       spaceName: 'a/b:c',
     })
     expect(res.success).toBe(true)
-    expect(res.path).toBe(path.join(homeRoot, 'TabTin', 'Team A', 'a b c'))
+    expect(res.path).toBe(path.join(homeRoot, 'SnSworker', 'Team A', 'a b c'))
     expect(fs.existsSync(res.path!)).toBe(true)
   })
 
-  it('兼容旧字符串调用，仍落在 ~/TabTin/<名字>', async () => {
+  it('兼容旧字符串调用，仍落在 ~/SnSworker/<名字>', async () => {
     const res = await ensureDefaultAgentDirImpl('Legacy')
     expect(res.success).toBe(true)
-    expect(res.path).toBe(path.join(homeRoot, 'TabTin', 'Legacy'))
+    expect(res.path).toBe(path.join(homeRoot, 'SnSworker', 'Legacy'))
     expect(fs.existsSync(res.path!)).toBe(true)
   })
 
@@ -105,7 +105,7 @@ describe('ensureDefaultAgentDirImpl', () => {
     })
     expect(res).toMatchObject({
       success: true,
-      path: path.join(homeRoot, 'TabTin Preprod', 'Team A', 'Demo'),
+      path: path.join(homeRoot, 'SnSworker Preprod', 'Team A', 'Demo'),
     })
   })
 
@@ -115,7 +115,7 @@ describe('ensureDefaultAgentDirImpl', () => {
     const paths = results.map((result) => result.path)
     expect(results.every((result) => result.success)).toBe(true)
     expect(new Set(paths).size).toBe(8)
-    expect(paths).toContain(path.join(homeRoot, 'TabTin', 'Team A', 'Demo'))
-    expect(paths).toContain(path.join(homeRoot, 'TabTin', 'Team A', 'Demo-8'))
+    expect(paths).toContain(path.join(homeRoot, 'SnSworker', 'Team A', 'Demo'))
+    expect(paths).toContain(path.join(homeRoot, 'SnSworker', 'Team A', 'Demo-8'))
   })
 })

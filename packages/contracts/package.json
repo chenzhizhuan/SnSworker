@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/contracts",
   "version": "0.1.0",
-  "description": "TabTin SDK 统一类型契约 — 跨 SDK 边界共享的类型和 Schema",
+  "description": "SnSworker SDK 统一类型契约 — 跨 SDK 边界共享的类型和 Schema",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -82,6 +82,6 @@
     "sdk",
     "types"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT"
 }

@@ -11,10 +11,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 // ─── Slide ───────────────────────────────────────────────────────
@@ -298,7 +298,7 @@ func runSlideRender(ctx *cmdutil.RunContext, f *cmdutil.Factory) error {
 	if tr.Type() == transport.TypeDjango {
 		return output.PrintErrorAndExit(output.ErrorEnvelope(
 			string(errcode.Unavailable),
-			"'render' 需要 TabTin 桌面端或 Daemon 运行。当前为 API 直连模式。",
+			"'render' 需要 SnSworker 桌面端或 Daemon 运行。当前为 API 直连模式。",
 			"tabtin daemon start", output.ExitServiceUnavail))
 	}
 
@@ -489,7 +489,7 @@ func runSlideExport(ctx *cmdutil.RunContext, f *cmdutil.Factory) error {
 	if tr.Type() == transport.TypeDjango {
 		return output.PrintErrorAndExit(output.ErrorEnvelope(
 			string(errcode.Unavailable),
-			"'export' 需要 TabTin 桌面端或 Daemon 运行。当前为 API 直连模式。",
+			"'export' 需要 SnSworker 桌面端或 Daemon 运行。当前为 API 直连模式。",
 			"tabtin daemon start", output.ExitServiceUnavail))
 	}
 

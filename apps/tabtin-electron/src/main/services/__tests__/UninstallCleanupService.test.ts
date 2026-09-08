@@ -64,17 +64,17 @@ vi.mock('node:fs/promises', () => ({
 vi.mock('@tabtin/shared', () => ({
   isProtectedWorkspacePath: vi.fn(() => false),
   resolveConfigAndCacheWipePaths: vi.fn(() => [
-    'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\credentials.json',
-    'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\app-config.json',
-    'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\Local Storage\\leveldb',
+    'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\credentials.json',
+    'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\app-config.json',
+    'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\Local Storage\\leveldb',
   ]),
   resolveCredentialFilePaths: vi.fn(() => [
-    'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\credentials.json',
+    'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\credentials.json',
   ]),
   TABTIN_CONFIG_FILE_RELATIVE_PATHS: ['credentials.json', 'app-config.json'],
   TABTIN_CONFIG_DIR_RELATIVE_PATHS: ['Cache', 'Local Storage'],
   TABTIN_HOME_CONFIG_FILE_RELATIVE_PATHS: ['desktop-approval.json'],
-  resolveUpdaterCachePaths: vi.fn(() => ['C:\\Users\\tester\\AppData\\Local\\TabTin-updater']),
+  resolveUpdaterCachePaths: vi.fn(() => ['C:\\Users\\tester\\AppData\\Local\\SnSworker-updater']),
 }))
 
 vi.mock('../../auth', () => ({
@@ -101,7 +101,7 @@ vi.mock('electron', () => ({
     defaultSession: null,
   },
   app: {
-    getPath: () => 'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod',
+    getPath: () => 'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod',
     isPackaged: false,
   },
 }))
@@ -131,7 +131,7 @@ describe('UninstallCleanupService', () => {
   })
 
   it('pending wipe 标记可写可读可清', () => {
-    const dir = 'C:\\Users\\tester\\AppData\\Roaming\\TabTin Local-feature-test'
+    const dir = 'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Local-feature-test'
     const flag = join(dir, PENDING_LOCAL_DATA_WIPE_FILE)
     expect(hasPendingLocalDataWipe(dir)).toBe(false)
     writePendingLocalDataWipeMarker(dir)
@@ -144,11 +144,11 @@ describe('UninstallCleanupService', () => {
   })
 
   it('resolveLocalDataWipePaths(current) 只含当前实例，不含其它 profile', () => {
-    const current = 'C:\\Users\\tester\\AppData\\Roaming\\TabTin Local-feature-7395'
+    const current = 'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Local-feature-7395'
     const paths = resolveLocalDataWipePaths(current, 'current')
     expect(paths).toContain(join(current, 'Cache'))
     expect(paths).toContain(join(current, 'credentials.json'))
-    expect(paths.some((p) => p.includes('TabTin Preprod'))).toBe(false)
+    expect(paths.some((p) => p.includes('SnSworker Preprod'))).toBe(false)
     expect(paths.some((p) => p.toLowerCase().endsWith(PENDING_LOCAL_DATA_WIPE_FILE))).toBe(false)
   })
 
@@ -176,7 +176,7 @@ describe('UninstallCleanupService', () => {
     expect(JSON.stringify(result.failed)).not.toMatch(/EBUSY/)
     expect(clearAuthDataMock).not.toHaveBeenCalled()
     expect(rmMock).not.toHaveBeenCalledWith(
-      'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\credentials.json',
+      'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\credentials.json',
       expect.anything(),
     )
   })
@@ -225,7 +225,7 @@ describe('UninstallCleanupService', () => {
     expect(result.credentialsCleared).toBe(true)
     expect(clearAuthDataMock).toHaveBeenCalledWith({ rethrow: true })
     expect(rmMock).toHaveBeenCalledWith(
-      'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\credentials.json',
+      'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\credentials.json',
       expect.objectContaining({ recursive: false, force: true }),
     )
   })
@@ -257,7 +257,7 @@ describe('UninstallCleanupService', () => {
       errorCode: 'unknown',
     })
     expect(rmMock).toHaveBeenCalledWith(
-      'C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\credentials.json',
+      'C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\credentials.json',
       expect.objectContaining({ recursive: false, force: true }),
     )
   })
@@ -287,7 +287,7 @@ describe('UninstallCleanupService', () => {
     const result = await wipeAllLocalData()
 
     expect(result.ok).toBe(false)
-    expect(result.removed).toContain('C:\\Users\\tester\\AppData\\Roaming\\TabTin Preprod\\app-config.json')
+    expect(result.removed).toContain('C:\\Users\\tester\\AppData\\Roaming\\SnSworker Preprod\\app-config.json')
     expect(result.failed.some((item) => item.errorCode === 'busy')).toBe(true)
     expect(result.credentialsCleared).toBe(false)
     expect(clearAuthDataMock).not.toHaveBeenCalled()

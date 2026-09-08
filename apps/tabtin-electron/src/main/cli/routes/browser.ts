@@ -43,9 +43,9 @@ export async function handleBrowserRoute(
 
   const executor = getCLIActionExecutor()
   if (!executor) {
-    sendJSON(res, 503, errorResponse('INTERNAL_ERROR', 'TabTin 正在启动中，请稍后重试（通常需要 5-10 秒）', {
+    sendJSON(res, 503, errorResponse('INTERNAL_ERROR', 'SnSworker 正在启动中，请稍后重试（通常需要 5-10 秒）', {
       retryable: true,
-      suggestions: ['确保 TabTin 应用已完全启动', '等待几秒后重试', '运行 tabtin doctor 进行环境诊断'],
+      suggestions: ['确保 SnSworker 应用已完全启动', '等待几秒后重试', '运行 tabtin doctor 进行环境诊断'],
     }))
     return
   }

@@ -131,7 +131,7 @@ compose ps
 cat <<EOF
 
 ========================================
-TabTin Web stack is READY
+SnSworker Web stack is READY
 ========================================
 
   Web workspace   http://${SERVER_IP}:13490

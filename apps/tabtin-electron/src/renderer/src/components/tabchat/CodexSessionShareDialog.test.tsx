@@ -92,14 +92,14 @@ describe('CodexSessionShareDialog', () => {
       target: { value: '019ff047-d01a-73e3-bea6-26d65f98d7a8' },
     })
     fireEvent.change(screen.getByLabelText('建议工作目录（可选）'), {
-      target: { value: '  /workspace/TabTin  ' },
+      target: { value: '  /workspace/SnSworker  ' },
     })
     fireEvent.click(screen.getByRole('button', { name: '发送会话文件' }))
 
     await waitFor(() => expect(onSend).toHaveBeenCalledOnce())
     expect(onSend.mock.calls[0]?.[3]).toEqual(expect.objectContaining({
       card: expect.objectContaining({
-        suggested_working_directory: '/workspace/TabTin',
+        suggested_working_directory: '/workspace/SnSworker',
       }),
     }))
   })

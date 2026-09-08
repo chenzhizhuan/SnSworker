@@ -1,5 +1,5 @@
 /**
- * TabTin 水墨小机器人表情包 registry。
+ * SnSworker 水墨小机器人表情包 registry。
  * 面板预览与发送共用同一套资产；发送时再栅格化为 PNG。
  */
 

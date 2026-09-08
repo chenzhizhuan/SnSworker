@@ -9003,7 +9003,7 @@ def write(
         _embed_fonts_into_pptx(output_path, embedded_fonts)
 
     # 导出后处理（一次读写完成 AIGC 溯源注入 + autofit fontScale 预算 + Keynote 兼容清洗）：
-    # - AIGC：把 TabTin / projectId / organizationId / spaceId 写入 docProps/custom.xml。
+    # - AIGC：把 SnSworker / projectId / organizationId / spaceId 写入 docProps/custom.xml。
     # - fontScale：不内嵌字体后缺字回退更宽字体会换行，WPS/PPT 打开不重算 autofit，
     #   故用字体度量把缩放比算好写死。
     # - Keynote 清洗：python-pptx 三处 OOXML 结构令 Keynote 拒绝导入，统一修正。
@@ -9411,7 +9411,7 @@ def _build_aigc_payload(metadata: Dict[str, Any]) -> str:
     from datetime import datetime, timezone
 
     payload: Dict[str, Any] = {
-        "app": "TabTin",
+        "app": "SnSworker",
         "version": str(metadata.get("version") or _AIGC_DEFAULT_VERSION),
         "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
@@ -9434,7 +9434,7 @@ def _inject_aigc_metadata(pptx_path: str, metadata: Dict[str, Any]) -> None:
     在已生成的 PPTX 文件里注入 AIGC 溯源信息（docProps/custom.xml）。
 
     必要时会同步更新 [Content_Types].xml 与 _rels/.rels，使 PowerPoint 能正常识别。
-    幂等：重复调用会更新（而非重复添加）名为 "TabTin" 的 property。
+    幂等：重复调用会更新（而非重复添加）名为 "SnSworker" 的 property。
 
     任何异常都会向上抛，由调用方决定是否吞掉（write() 会包 try/except）。
     """
@@ -9468,7 +9468,7 @@ def _inject_aigc_entries(entries: Dict[str, bytes], metadata: Dict[str, Any]) ->
 
 
 def _build_or_update_custom_xml(existing_xml: Optional[bytes], payload_json: str) -> bytes:
-    """生成或更新 docProps/custom.xml；幂等地写 name='TabTin' 的 property。"""
+    """生成或更新 docProps/custom.xml；幂等地写 name='SnSworker' 的 property。"""
     from lxml import etree as _etree
 
     nsmap = {None: _AIGC_CUSTOM_XML_NS, "vt": _AIGC_CUSTOM_XML_NS_VT}
@@ -9481,10 +9481,10 @@ def _build_or_update_custom_xml(existing_xml: Optional[bytes], payload_json: str
     else:
         root = _etree.Element(f"{{{_AIGC_CUSTOM_XML_NS}}}Properties", nsmap=nsmap)
 
-    # 移除已有的 name="TabTin"
+    # 移除已有的 name="SnSworker"
     target = None
     for prop in list(root):
-        if prop.tag.endswith("}property") and prop.get("name") == "TabTin":
+        if prop.tag.endswith("}property") and prop.get("name") == "SnSworker":
             target = prop
             break
     if target is not None:
@@ -9505,7 +9505,7 @@ def _build_or_update_custom_xml(existing_xml: Optional[bytes], payload_json: str
     prop_el = _etree.SubElement(root, f"{{{_AIGC_CUSTOM_XML_NS}}}property")
     prop_el.set("fmtid", _AIGC_CUSTOM_PROP_FMTID)
     prop_el.set("pid", str(next_pid))
-    prop_el.set("name", "TabTin")
+    prop_el.set("name", "SnSworker")
     lpwstr = _etree.SubElement(prop_el, f"{{{_AIGC_CUSTOM_XML_NS_VT}}}lpwstr")
     lpwstr.text = payload_json
 

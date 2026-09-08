@@ -21,5 +21,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TabTin"
+rootProject.name = "SnSworker"
 include(":app")

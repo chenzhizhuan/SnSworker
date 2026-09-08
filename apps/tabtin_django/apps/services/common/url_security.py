@@ -541,7 +541,7 @@ def ssrf_safe_urlopen(
 
     req_headers = dict(headers or {})
     req_headers["Host"] = resolved.original_host
-    req_headers.setdefault("User-Agent", "TabTin/1.0")
+    req_headers.setdefault("User-Agent", "SnSworker/1.0")
 
     req = urllib.request.Request(
         resolved.pinned_url,

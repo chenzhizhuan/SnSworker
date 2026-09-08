@@ -432,7 +432,7 @@ describe('ToolUseBlockView', () => {
   })
 
   it('compact: show_widget 走 compact 单行（产物画布走独立 mini-message）', () => {
-    render(<ToolUseBlockView entry={makeTool('show_widget', { summary: 'TabTin 架构图', format: 'svg', code: '<svg></svg>' })} sessionId="s1" messageId="m1" />)
+    render(<ToolUseBlockView entry={makeTool('show_widget', { summary: 'SnSworker 架构图', format: 'svg', code: '<svg></svg>' })} sessionId="s1" messageId="m1" />)
     expect(screen.getByTestId('block-tool-use-compact')).toBeTruthy()
     expect(screen.queryByTestId('mock-tool-step-card')).toBeNull()
   })

@@ -27,7 +27,7 @@ function hasDiscoveredScope(provider: OAuthProviderLike): boolean {
  * `openid email profile`。MCP OAuth 允许省略 scope，Cloudflare 等服务端会在
  * 授权页内选择权限，并会拒绝这三个未知值。
  *
- * 该兼容层只运行在 TabTin 内置 mcp-remote utility process 中；有任一显式或
+ * 该兼容层只运行在 SnSworker 内置 mcp-remote utility process 中；有任一显式或
  * 发现到的 scope 时完全沿用上游行为。
  */
 export function installMcpRemoteOptionalScopeCompat(

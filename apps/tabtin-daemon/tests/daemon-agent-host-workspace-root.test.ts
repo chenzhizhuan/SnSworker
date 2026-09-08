@@ -139,9 +139,9 @@ describe('Daemon SSoT buildSystemPrompt – workspaceRoot injection (runtime_ide
       customRules: '只输出结构化 JSON',
       runtimeIdentity: identityWith('/srv/data'),
     });
-    // ：identity 不再硬编码 TabTin AI Agent 人设句。
+    // ：identity 不再硬编码 SnSworker AI Agent 人设句。
     expect(out).toContain('<identity>');
-    expect(out).not.toContain('你是 TabTin AI Agent');
+    expect(out).not.toContain('你是 SnSworker AI Agent');
     expect(out).toContain('<custom_rules>');
     expect(out).toContain('只输出结构化 JSON');
     expect(out).not.toContain('/srv/data');

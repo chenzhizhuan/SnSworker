@@ -343,7 +343,7 @@
       "feishuReviewConfirm": "가져오기 확인",
       "feishuReviewEmpty": "테이블이나 문서를 하나 이상 유지하세요.",
       "feishuIncludeAttachments": "첨부 파일 동기화(느림)",
-      "feishuIncludeAttachmentsHint": "기본적으로 꺼져 있습니다. 켜져 있으면 파일이 TabTin 첨부 파일로 다운로드됩니다.",
+      "feishuIncludeAttachmentsHint": "기본적으로 꺼져 있습니다. 켜져 있으면 파일이 SnSworker 첨부 파일로 다운로드됩니다.",
       "feishuImporting": "가져오는 중…",
       "feishuImportProgressRunning": "{{done}}/{{total}} 가져오기",
       "feishuImportProgressQueued": "{{done}}/{{total}} 가져오기({{queued}} 대기 중)",

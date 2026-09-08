@@ -1,5 +1,5 @@
 /**
- * i18next type augmentation for TabTin Electron.
+ * i18next type augmentation for SnSworker Electron.
  *
  * - returnNull: false → t() return type is string, never null
  * - defaultNS: 'common' → matches the runtime i18n configuration

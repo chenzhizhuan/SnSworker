@@ -12,7 +12,7 @@
  * 设计要点：把完成哨兵放在与业务帧同一条保序队列/流的末尾（而不是靠另一条
  * RPC reply 或传输层 close），避免双通道乱序漏收终态。
  *
- * TabTin 实现：业务事件 + sentinel 帧走同一 channel，envelope 保序，Renderer 用
+ * SnSworker 实现：业务事件 + sentinel 帧走同一 channel，envelope 保序，Renderer 用
  * AsyncIterator 消费——业务终态、sentinel、心跳 watchdog 三层退出条件，杜绝任何
  * "流式完成"歧义。
  */

@@ -24,7 +24,7 @@ v3.1 方向锚（2026-04-19）以来支持两种 install 类型，由 manifest `
 **registry 路径差异**：
 
 - Electron 端：``app.getPath('userData')/marketplace-apps/registry.json``
-  （macOS 实际为 ``~/Library/Application Support/TabTin/marketplace-apps/registry.json``）
+  （macOS 实际为 ``~/Library/Application Support/SnSworker/marketplace-apps/registry.json``）
 - Python 端默认：``~/.tabtin-marketplace-apps/registry.json``
   （Daemon 模式 + dev 期使用；测试可通过 ``--registry-dir`` 覆盖）
 - 二者**不互相同步**——marketplace App 在 Electron 端装的不会自动出现在 daemon 的 registry。
@@ -504,7 +504,7 @@ def _install_via_npm(
 ) -> Dict[str, Any]:
     """安装"npm-global"类型 App。
 
-    业务：TabTin 不持密 / 不代管版本 / 不强制。只给一个便利入口：
+    业务：SnSworker 不持密 / 不代管版本 / 不强制。只给一个便利入口：
     - binary 在 PATH → 记录已装，走 registry 登记
     - 不在 PATH + 用户未授权 auto → 抛 ``NpmInstallGuidanceError``，run_install
       翻译为 exit 78（与 TABTIN_ALLOW_UNCHECKED_INSTALL 同语义 —— "需要用户额外

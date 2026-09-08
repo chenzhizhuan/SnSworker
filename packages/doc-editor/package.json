@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/doc-editor",
   "version": "0.1.0",
-  "description": "Host-agnostic document editor core for TabTin",
+  "description": "Host-agnostic document editor core for SnSworker",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -72,7 +72,7 @@
     "tabdoc",
     "editor"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "devDependencies": {
     "typescript": "5.7.2",

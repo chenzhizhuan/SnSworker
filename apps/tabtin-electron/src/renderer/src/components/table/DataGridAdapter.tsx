@@ -413,7 +413,7 @@ export const DataGridAdapter: React.FC<DataGridAdapterProps> = ({
 
   const embeddedRequestHeaders = React.useMemo(
     () => parentDocumentId
-      ? { 'X-TabTin-Parent-Document-Id': parentDocumentId }
+      ? { 'X-SnSworker-Parent-Document-Id': parentDocumentId }
       : undefined,
     [parentDocumentId],
   );

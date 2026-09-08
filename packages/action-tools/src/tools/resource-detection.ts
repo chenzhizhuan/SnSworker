@@ -4,7 +4,7 @@
  * 获取当前页面检测到的媒体/静态资源列表（视频、M3U8、音频、图片、字体、文档等）。
  * 这是 Browser Runtime 的 Level 0 标准 API —— 任何 App 声明 browser 依赖即可消费。
  *
- * @author TabTin Team
+ * @author SnSworker Team
  */
 
 import type { AgentTool } from '../types'

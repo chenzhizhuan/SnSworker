@@ -76,7 +76,7 @@ export {
   type RelevantRecallHookOptions,
 } from './relevant-recall-hook.js'
 
-// ─── TabTin 对话 worktree CLI 路由（code/mixed 静态 system policy）────
+// ─── SnSworker 对话 worktree CLI 路由（code/mixed 静态 system policy）────
 export {
   buildWorktreeRoutingHook,
   type WorktreeRoutingHookOptions,

@@ -730,7 +730,7 @@ def _ensure_electron_device_registered(
         from apps.tabtinspace.services.device_service import DeviceService
 
         info = device_info if isinstance(device_info, dict) else {}
-        name = str(info.get("name") or "TabTin Desktop").strip()[:255]
+        name = str(info.get("name") or "SnSworker Desktop").strip()[:255]
         os_name = str(info.get("os") or info.get("platform") or "").strip()
         os_info = {
             key: value
@@ -747,7 +747,7 @@ def _ensure_electron_device_registered(
                 organization_id=organization_id,
                 fingerprint=fingerprint,
                 device_type="electron",
-                name=name or "TabTin Desktop",
+                name=name or "SnSworker Desktop",
                 os_info=os_info,
                 capabilities=sorted(capabilities),
                 identity_verified=True,

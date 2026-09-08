@@ -5,7 +5,7 @@
 // Fixture: packages/agent-wire/src/cross-lang-fixtures/wave45-isStreamEventId.json
 //
 // W5 iOS 实施 Agent 启动时：
-//   import @ TabTin.Wire / 或直接 vendor in 本文件到 apps/tabtin-ios/。
+//   import @ SnSworker.Wire / 或直接 vendor in 本文件到 apps/tabtin-ios/。
 //
 //   **两个使用点都必须经过本 validator**（缺一不可，缺一会产生不同形态的
 //   续传沉默失效）：

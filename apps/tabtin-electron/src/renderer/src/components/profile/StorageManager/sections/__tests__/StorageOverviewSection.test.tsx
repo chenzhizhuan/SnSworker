@@ -33,7 +33,7 @@ describe('StorageOverviewSection', () => {
       />,
     )
 
-    expect(screen.queryByText('正在统计 TabTin 占用的空间…')).toBeNull()
+    expect(screen.queryByText('正在统计 SnSworker 占用的空间…')).toBeNull()
 
     const refreshButton = screen.getByTestId('storage-refresh')
     expect((refreshButton as HTMLButtonElement).disabled).toBe(false)

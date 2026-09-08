@@ -27,7 +27,7 @@ interface OrganizationLocalConfig {
   theme?: 'auto' | 'light' | 'dark'
   lastAccessed?: string
   modelPreferences?: OrganizationDeviceModelPreferences
-  /** 当前设备上的用户级模型偏好；BYOK/ChatGPT 额度不能跨 TabTin 账号共享。 */
+  /** 当前设备上的用户级模型偏好；BYOK/ChatGPT 额度不能跨 SnSworker 账号共享。 */
   modelPreferencesByUser?: Record<string, OrganizationDeviceModelPreferences>
   [key: string]: unknown
 }

@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/smartsheet-ui",
   "version": "0.1.0",
-  "description": "Shared UI components for TabTin applications",
+  "description": "Shared UI components for SnSworker applications",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -51,7 +51,7 @@
     "components",
     "react"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "peerDependencies": {
     "@dnd-kit/sortable": ">=7.0.0",

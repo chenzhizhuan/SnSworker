@@ -1,7 +1,7 @@
 {
   "name": "@tabtin/table-engine",
   "version": "0.1.0",
-  "description": "Engine contracts and resolver for TabTin table grid renderers",
+  "description": "Engine contracts and resolver for SnSworker table grid renderers",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -55,7 +55,7 @@
     "engine",
     "contracts"
   ],
-  "author": "TabTin Team",
+  "author": "SnSworker Team",
   "license": "MIT",
   "peerDependencies": {
     "@tabtin/table-core": "workspace:*",

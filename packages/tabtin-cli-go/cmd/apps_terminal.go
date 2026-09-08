@@ -3,18 +3,18 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // ─── Terminal ────────────────────────────────────────────────────
-// 打开 / 列出 TabTin 应用内可交互终端（xterm + node-pty）。
+// 打开 / 列出 SnSworker 应用内可交互终端（xterm + node-pty）。
 // 用户说「打开终端」应走这里，而不是 tabtin desktop open PowerShell。
 
 func newCmdTerminal(f *cmdutil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "terminal",
-		Short: "打开 / 管理 TabTin 应用内终端",
-		Long: `打开 TabTin 应用内的可交互终端 Tab（用户可手动打字输入）。
+		Short: "打开 / 管理 SnSworker 应用内终端",
+		Long: `打开 SnSworker 应用内的可交互终端 Tab（用户可手动打字输入）。
 
 与 run_terminal_command 的区别：
   - tabtin terminal open     → 打开应用内可交互终端（给用户用）

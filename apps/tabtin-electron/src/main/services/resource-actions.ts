@@ -246,7 +246,7 @@ export async function handleDownloadResource(input: {
         contentRef: resource.contentRef
       })
     } else if (targetUrl.startsWith('data:')) {
-      // renderer blob/data 预览下载：静默落到 ~/Downloads/TabTin，与 https 主进程路径一致，
+      // renderer blob/data 预览下载：静默落到 ~/Downloads/SnSworker，与 https 主进程路径一致，
       // 避免 saveExportBlob 弹「存储为」造成 Agent / IM 手感不一致。
       result = await downloadService.saveCapturedContent({
         url: targetUrl,

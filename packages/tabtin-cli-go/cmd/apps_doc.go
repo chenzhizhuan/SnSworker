@@ -11,11 +11,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/knowledgetree"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/knowledgetree"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 // docMarkdownDirectiveAllowlist 是 tabdoc 后端 markdown→pm_json 转换器认识的
@@ -2868,7 +2868,7 @@ func requireTransport(f *cmdutil.Factory, cmdName string, allowDjango bool) (tra
 	if tr.Type() == transport.TypeDjango && !allowDjango {
 		return nil, output.PrintErrorAndExit(output.ErrorEnvelope(
 			string(errcode.Unavailable),
-			fmt.Sprintf("'%s' 需要 TabTin 桌面端或 Daemon 运行（local-only）。当前为 API 直连模式。", cmdName),
+			fmt.Sprintf("'%s' 需要 SnSworker 桌面端或 Daemon 运行（local-only）。当前为 API 直连模式。", cmdName),
 			"tabtin daemon start",
 			output.ExitServiceUnavail,
 		))

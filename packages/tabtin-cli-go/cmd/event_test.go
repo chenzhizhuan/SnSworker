@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 func TestEventCommand_HasListAndShowSubcommands(t *testing.T) {

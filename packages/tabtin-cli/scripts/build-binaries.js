@@ -71,9 +71,9 @@ function buildOne({ goos, goarch, out }) {
   const ldflags = [
     '-s',
     '-w',
-    `-X github.com/TabTin/tabtin-cli/internal/version.Version=${version}`,
-    `-X github.com/TabTin/tabtin-cli/internal/version.GitCommit=${commit}`,
-    `-X github.com/TabTin/tabtin-cli/internal/version.BuildDate=${buildDate}`,
+    `-X github.com/SnSworker/tabtin-cli/internal/version.Version=${version}`,
+    `-X github.com/SnSworker/tabtin-cli/internal/version.GitCommit=${commit}`,
+    `-X github.com/SnSworker/tabtin-cli/internal/version.BuildDate=${buildDate}`,
   ].join(' ');
 
   process.stdout.write(`[build-binaries] GOOS=${goos} GOARCH=${goarch} → ${out}\n`);

@@ -28,17 +28,17 @@ function codexSessionMessage(): IMMessage {
     conversation_id: 'conversation-1',
     sender_id: 'user-1',
     sender_name: '童俊芳',
-    content: '[Codex 会话] TabTin IM synthetic Codex session',
+    content: '[Codex 会话] SnSworker IM synthetic Codex session',
     message_type: 3,
     reply_to_id: null,
     has_attachment: true,
     metadata: {
-      file_name: 'TabTin IM synthetic Codex session.codex-session.zip',
+      file_name: 'SnSworker IM synthetic Codex session.codex-session.zip',
       card: {
         type: 'codex_session',
         schema_version: 1,
         codex_session_id: 'session-1',
-        codex_session_name: 'TabTin IM synthetic Codex session',
+        codex_session_name: 'SnSworker IM synthetic Codex session',
       },
     },
     created_at: '2026-08-21T19:55:09Z',
@@ -60,7 +60,7 @@ describe('buildPreview', () => {
 
   it('Codex 会话文件卡用会话名称生成摘要', () => {
     expect(buildPreview(codexSessionMessage(), false)).toBe(
-      '[Codex 会话] TabTin IM synthetic Codex session',
+      '[Codex 会话] SnSworker IM synthetic Codex session',
     )
   })
 })

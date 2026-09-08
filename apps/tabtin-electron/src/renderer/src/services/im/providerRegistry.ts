@@ -23,7 +23,7 @@ import { IMProviderUnavailableError } from './errors'
 /**
  * Thin business-facing boundary around the Django IM data plane.
  *
- * Organization state remains here only to isolate events and map TabTin
+ * Organization state remains here only to isolate events and map SnSworker
  * conversations. It does not select a provider.
  */
 export class IMProviderRegistry {

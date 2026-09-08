@@ -76,7 +76,7 @@ describe('SystemNoticeBanner', () => {
       { noticeType: 'tool_failure_notice', title: '「parse_document」已连续失败 3 次。再失败 2 次系统会提醒 Agent 换种方式尝试。' },
       { noticeType: 'tool_failure_nudge', title: '「parse_document」已连续失败 5 次。系统已提醒 Agent 换种方式尝试。' },
       { noticeType: 'tool_repetition_notice', title: '工具「web_search」最近 30 秒内被相同输入调用了 3 次' },
-      { noticeType: 'tool_repetition_nudge', title: '工具「web_search」TabTin 已介入提示 Agent' },
+      { noticeType: 'tool_repetition_nudge', title: '工具「web_search」SnSworker 已介入提示 Agent' },
       { noticeType: 'subagent_spawn_blocked', title: 'AI 助手暂时无法启动更多并行子任务' },
       { noticeType: 'model_override', title: 'Skill 已将模型切换为 Claude Sonnet 4' },
       { noticeType: 'model_fallback', title: '已切换到备用模型 GPT-4o' },

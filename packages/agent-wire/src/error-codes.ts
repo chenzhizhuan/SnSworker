@@ -1,6 +1,6 @@
 /**
  * Unified ErrorCode taxonomy — Single Source of Truth for IPC / CLI / HTTP
- * failure responses across the entire TabTin platform.
+ * failure responses across the entire SnSworker platform.
  *
  * This file is the **TypeScript canonical source**. The Python and Go mirrors
  * (kept byte-equivalent in their respective code list) live at:
@@ -237,7 +237,7 @@ export const ERROR_CODES = [
 ] as const;
 
 /**
- * The complete set of generic ErrorCode values used by TabTin's
+ * The complete set of generic ErrorCode values used by SnSworker's
  * request-response envelope. See file header for tier rules.
  */
 export type ErrorCode = (typeof ERROR_CODES)[number];

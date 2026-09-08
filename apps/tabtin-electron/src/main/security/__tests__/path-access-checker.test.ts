@@ -154,7 +154,7 @@ describe('path-access-checker · workspace boundary', () => {
 
   it('Windows 反斜杠 platform-data skill 路径归一化后放行', () => {
     withProcessPlatform('win32', () => {
-      const platform = 'C:\\Users\\alice\\AppData\\Roaming\\TabTin\\platform-data\\organizations'
+      const platform = 'C:\\Users\\alice\\AppData\\Roaming\\SnSworker\\platform-data\\organizations'
       const skillDir = `${platform}\\wt-1\\spaces\\sp-1\\skills\\demo-skill`
       const checker = makeChecker({
         allowedPaths: [],
@@ -168,7 +168,7 @@ describe('path-access-checker · workspace boundary', () => {
 
   it('Windows platform-data sibling 前缀不被误放行', () => {
     withProcessPlatform('win32', () => {
-      const platform = 'C:\\Users\\alice\\AppData\\Roaming\\TabTin\\platform-data\\organizations'
+      const platform = 'C:\\Users\\alice\\AppData\\Roaming\\SnSworker\\platform-data\\organizations'
       const checker = makeChecker({
         allowedPaths: [],
         platformDirs: [platform],

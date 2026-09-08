@@ -7,7 +7,7 @@ PBS_ASSET="${2:?python-build-standalone asset name is required}"
 
 default_cache_dir() {
   if [ "$(uname -s)" = "Darwin" ]; then
-    printf '%s\n' "${HOME}/Library/Caches/TabTin/python-build-standalone"
+    printf '%s\n' "${HOME}/Library/Caches/SnSworker/python-build-standalone"
     return
   fi
   printf '%s\n' "${XDG_CACHE_HOME:-${HOME}/.cache}/tabtin/python-build-standalone"

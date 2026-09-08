@@ -163,10 +163,10 @@ describe('redirect-write P0 修复：1>file 被正确拦截（stdout 显式 fd=1
 describe('buildTabtinVarPreamble（POSIX shell，W1 #4）', () => {
   it('值含空格的 TABTIN_* 变量生成 export 语句', () => {
     const preamble = buildTabtinVarPreamble({
-      TABTIN_WORKSPACE: '/Users/foo/Application Support/TabTin/spaces',
+      TABTIN_WORKSPACE: '/Users/foo/Application Support/SnSworker/spaces',
       PATH: '/usr/bin:/bin',
     });
-    expect(preamble).toBe("export TABTIN_WORKSPACE='/Users/foo/Application Support/TabTin/spaces'");
+    expect(preamble).toBe("export TABTIN_WORKSPACE='/Users/foo/Application Support/SnSworker/spaces'");
   });
 
   it('值不含空格的变量不出现在 preamble 中', () => {
@@ -206,10 +206,10 @@ describe('buildTabtinVarPreamble（POSIX shell，W1 #4）', () => {
 describe('buildPSTabtinVarPreamble（PowerShell Win32，W1 #4）', () => {
   it('值含空格的 TABTIN_* 变量生成 $env: 赋值语句', () => {
     const preamble = buildPSTabtinVarPreamble({
-      TABTIN_WORKSPACE: 'C:\\Users\\foo\\Application Support\\TabTin',
+      TABTIN_WORKSPACE: 'C:\\Users\\foo\\Application Support\\SnSworker',
       PATH: 'C:\\Windows\\System32',
     });
-    expect(preamble).toBe("$env:TABTIN_WORKSPACE = 'C:\\Users\\foo\\Application Support\\TabTin'");
+    expect(preamble).toBe("$env:TABTIN_WORKSPACE = 'C:\\Users\\foo\\Application Support\\SnSworker'");
   });
 
   it('值含单引号时用 PowerShell 双单引号转义', () => {

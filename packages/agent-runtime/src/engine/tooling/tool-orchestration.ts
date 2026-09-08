@@ -2257,7 +2257,7 @@ function appendSchemaWarningToContent(
  * tools that succeeded validation pass through untouched.
  *
  * The warning is appended **inside** the JSON content when the result is
- * already a JSON object (most TabTin tools), or wrapped as a sibling
+ * already a JSON object (most SnSworker tools), or wrapped as a sibling
  * envelope when the content is plain text. ContentBlock[] gets an extra text
  * block because `llmContextContent` can now replace `content` in the next
  * model call; the retry instruction must travel with whichever copy the model

@@ -270,7 +270,7 @@ actor ConversationDraftStore {
                 throw ConversationDraftStoreError.applicationSupportUnavailable
             }
             self.baseDirectory = applicationSupport
-                .appendingPathComponent("TabTin", isDirectory: true)
+                .appendingPathComponent("SnSworker", isDirectory: true)
                 .appendingPathComponent("ConversationDrafts", isDirectory: true)
         }
     }

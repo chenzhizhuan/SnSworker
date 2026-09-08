@@ -16,14 +16,14 @@ const PROFILE_IDENTITIES: Record<TabTinRuntimeProfile, TabTinAppIdentity> = {
   development: {
     profile: 'development',
     appId: 'com.tabtin.app.dev',
-    productName: 'TabTin Dev',
-    userDataDirName: 'TabTin Dev',
+    productName: 'SnSworker Dev',
+    userDataDirName: 'SnSworker Dev',
   },
   local: {
     profile: 'local',
     appId: 'com.tabtin.app.local',
-    productName: 'TabTin Local',
-    userDataDirName: 'TabTin Local',
+    productName: 'SnSworker Local',
+    userDataDirName: 'SnSworker Local',
   },
   community: {
     profile: 'community',
@@ -36,14 +36,14 @@ const PROFILE_IDENTITIES: Record<TabTinRuntimeProfile, TabTinAppIdentity> = {
     appId: 'com.tabtin.app.preprod',
     // Electron safeStorage derives its macOS Keychain service from app.getName().
     // Keep this distinct from production and aligned with the packaged app name.
-    productName: 'TabTin Preprod',
-    userDataDirName: 'TabTin Preprod',
+    productName: 'SnSworker Preprod',
+    userDataDirName: 'SnSworker Preprod',
   },
   production: {
     profile: 'production',
     appId: 'com.tabtin.app',
-    productName: 'TabTin',
-    userDataDirName: 'TabTin',
+    productName: 'SnSworker',
+    userDataDirName: 'SnSworker',
   },
 }
 
@@ -158,7 +158,7 @@ export function resolveRuntimeAppIdentity(): TabTinAppIdentity {
  * 用户可见的默认 Workspace 顶层目录名。
  *
  * Workspace 的 working_dir 是用户本机的外部执行现场，不能跟着 userData
- * 藏进 Application Support；但不同安装档也不能再共用同一个 `~/TabTin`。
+ * 藏进 Application Support；但不同安装档也不能再共用同一个 `~/SnSworker`。
  * 正式版保持历史目录不动，其它档位按产品名分根，方便发现也避免互写。
  */
 export function resolveDefaultWorkspaceDirectoryName(

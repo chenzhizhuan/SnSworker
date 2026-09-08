@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
 )
 
 // recordDataFormatLong 给 `record insert / update / bulk-insert / upsert` 的 --data
@@ -70,7 +70,7 @@ func registerRecordCommands(parent *cobra.Command, f *cmdutil.Factory) {
 			Use: "detail [record-url]", Short: "记录详情",
 			Long: `取单条记录的完整字段值（含 link 关联字段的当前值）。
 设计理由：record list 为分页浏览做了瘦身，link 等重字段不一定
-全带；需要完整值时用 detail 按 record-id 精确取一条。TabTin 稳定资源链接或复制自
+全带；需要完整值时用 detail 按 record-id 精确取一条。SnSworker 稳定资源链接或复制自
 页面的记录链接可直接作为位置参数，CLI 会复用当前 Profile 授权并解析 record-id。
 常见陷阱：--field-key-type 决定返回 JSON 的 key 是字段名还是字段 UUID，与
 record update 的 --data key 约定要保持一致，否则回写会对不上字段。`,

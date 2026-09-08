@@ -86,7 +86,7 @@ describe('storage-paths (2026-05-04 platform-data layout)', () => {
       const result = getPlatformBaseRoot()
       if (process.platform === 'darwin') {
         expect(result).toBe(
-          path.join(home, 'Library', 'Application Support', 'TabTin'),
+          path.join(home, 'Library', 'Application Support', 'SnSworker'),
         )
       } else if (process.platform === 'linux') {
         expect(result).toBe(path.join(home, '.tabtin'))

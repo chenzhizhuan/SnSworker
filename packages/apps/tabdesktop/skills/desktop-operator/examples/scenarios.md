@@ -143,9 +143,9 @@ run_terminal_command(command="tabtin desktop screenshot")
 run_terminal_command(command="tabtin desktop screenshot")
 
 # 2. 启动目标 Electron 应用（已运行则激活）
-run_terminal_command(command="tabtin desktop open 'TabTin'")
+run_terminal_command(command="tabtin desktop open 'SnSworker'")
 run_terminal_command(command="tabtin desktop screenshot")
-# → 验证 TabTin 窗口已出现
+# → 验证 SnSworker 窗口已出现
 
 # 3. 点击登录按钮（坐标来自上一步截图分析）
 run_terminal_command(command="tabtin desktop click 640 400")

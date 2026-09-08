@@ -342,7 +342,7 @@ describe('IMMessageBubble edit (功能4)', () => {
     expect(trigger.querySelector('[style*="conic-gradient"]')).toBeNull()
   })
 
-  it('shows the TabTin nickname instead of the Tencent account in receipt details', async () => {
+  it('shows the SnSworker nickname instead of the Tencent account in receipt details', async () => {
     mockGetMessageReadReceipts.mockResolvedValueOnce({
       message_id: 10,
       readers: [],

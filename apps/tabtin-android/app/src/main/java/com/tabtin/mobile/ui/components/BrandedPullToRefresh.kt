@@ -44,7 +44,7 @@ internal fun brandedRefreshIndicatorOffsetDp(
 }
 
 /**
- * TabTin 品牌下拉刷新容器。
+ * SnSworker 品牌下拉刷新容器。
  *
  * 手势、阈值和刷新请求仍由 Material3 管理；这里只替换视觉反馈，避免页面各自实现
  * nested scroll。刷新完成后让内容自然回弹。

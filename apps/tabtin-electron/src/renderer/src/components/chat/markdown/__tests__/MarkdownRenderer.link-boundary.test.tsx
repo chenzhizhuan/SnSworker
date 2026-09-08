@@ -17,12 +17,12 @@ function renderMarkdown(content: string) {
 
 describe('MarkdownRenderer bare URL boundaries', () => {
   it('keeps a worktree switch status label non-interactive', () => {
-    const content = '已切换代码根到 ` TabTin `，Agent 正在同一对话中继续任务。'
+    const content = '已切换代码根到 ` SnSworker `，Agent 正在同一对话中继续任务。'
     const { container } = renderMarkdown(content)
 
     expect(container.querySelector('a')).toBeNull()
-    expect(container.querySelector('code')?.textContent).toBe('TabTin')
-    expect(container.textContent).toBe('已切换代码根到 TabTin，Agent 正在同一对话中继续任务。')
+    expect(container.querySelector('code')?.textContent).toBe('SnSworker')
+    expect(container.textContent).toBe('已切换代码根到 SnSworker，Agent 正在同一对话中继续任务。')
   })
 
   it('splits adjacent Chinese source notes into two independent links', () => {

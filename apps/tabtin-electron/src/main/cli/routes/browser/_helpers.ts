@@ -616,10 +616,10 @@ export function requireBridgeAndSpace(
       503,
       errorResponse(
         'INTERNAL_ERROR',
-        'TabTin 界面尚未就绪，请确保应用窗口已打开',
+        'SnSworker 界面尚未就绪，请确保应用窗口已打开',
         {
           retryable: true,
-          suggestions: ['确保 TabTin 主窗口已显示', '等待几秒后重试'],
+          suggestions: ['确保 SnSworker 主窗口已显示', '等待几秒后重试'],
         },
       ),
     )
@@ -631,9 +631,9 @@ export function requireBridgeAndSpace(
       400,
       errorResponse(
         'VALIDATION_ERROR',
-        '未选择组织，请先在 TabTin 中打开一个 Space',
+        '未选择组织，请先在 SnSworker 中打开一个 Space',
         {
-          suggestions: ['在 TabTin 中创建或选择一个 Space'],
+          suggestions: ['在 SnSworker 中创建或选择一个 Space'],
         },
       ),
     )
@@ -658,10 +658,10 @@ export function enhanceErrorResponse(
       400,
       errorResponse(
         'VALIDATION_ERROR',
-        '该功能当前不可用，请确保 TabTin 已更新到最新版本',
+        '该功能当前不可用，请确保 SnSworker 已更新到最新版本',
         {
           suggestions: [
-            '请更新 TabTin 到最新版本',
+            '请更新 SnSworker 到最新版本',
             '运行 tabtin doctor 检查环境',
           ],
           detail: { original: msg },
@@ -740,10 +740,10 @@ export function enhanceErrorResponse(
       503,
       errorResponse(
         'INTERNAL_ERROR',
-        'TabTin 正在启动中，请稍后重试（通常需要 5-10 秒）',
+        'SnSworker 正在启动中，请稍后重试（通常需要 5-10 秒）',
         {
           retryable: true,
-          suggestions: ['等待几秒后重试', '确保 TabTin 应用已完全启动'],
+          suggestions: ['等待几秒后重试', '确保 SnSworker 应用已完全启动'],
           detail: { original: msg },
         },
       ),
@@ -763,7 +763,7 @@ export function enhanceErrorResponse(
         suggestions: [
           '检查网络连接',
           '增加 --timeout 参数',
-          '确保 TabTin 前端窗口未被冻结',
+          '确保 SnSworker 前端窗口未被冻结',
         ],
         detail: { original: msg },
       }),

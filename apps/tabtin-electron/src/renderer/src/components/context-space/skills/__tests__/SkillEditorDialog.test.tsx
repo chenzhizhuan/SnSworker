@@ -280,7 +280,7 @@ describe('SkillEditorDialog (multi-file editor)', () => {
   })
 
   it('normalizes Windows backslash skillDir before passing rootPath to FileTree', async () => {
-    const winDir = 'C:\\Users\\demo\\TabTin\\skills\\brainstorming-3'
+    const winDir = 'C:\\Users\\demo\\SnSworker\\skills\\brainstorming-3'
     ;(window as any).tabtin.skill.resolvePath.mockResolvedValue({
       skillDir: winDir,
       mdPath: `${winDir}\\SKILL.md`,
@@ -298,7 +298,7 @@ describe('SkillEditorDialog (multi-file editor)', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('file-tree-root').textContent).toBe(
-        'C:/Users/demo/TabTin/skills/brainstorming-3',
+        'C:/Users/demo/SnSworker/skills/brainstorming-3',
       )
     })
   })

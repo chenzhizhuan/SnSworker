@@ -314,7 +314,7 @@ describe('ChatSessionHistoryMenu', () => {
     vi.useRealTimers()
   })
 
-  it('archives an opened external session after a live TabTin turn', () => {
+  it('archives an opened external session after a live SnSworker turn', () => {
     mocks.externalTargets.set('session-1', {
       source: 'cursor',
       sourceSessionId: 'source-1',

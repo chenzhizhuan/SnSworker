@@ -13,11 +13,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/TabTin/tabtin-cli/internal/cmdutil"
-	"github.com/TabTin/tabtin-cli/internal/config"
-	"github.com/TabTin/tabtin-cli/internal/errcode"
-	"github.com/TabTin/tabtin-cli/internal/output"
-	"github.com/TabTin/tabtin-cli/internal/transport"
+	"github.com/SnSworker/tabtin-cli/internal/cmdutil"
+	"github.com/SnSworker/tabtin-cli/internal/config"
+	"github.com/SnSworker/tabtin-cli/internal/errcode"
+	"github.com/SnSworker/tabtin-cli/internal/output"
+	"github.com/SnSworker/tabtin-cli/internal/transport"
 )
 
 var schedulePresets = map[string]string{
@@ -506,7 +506,7 @@ func dryRunSourceBanner(body []byte, format output.Format) string {
 }
 
 // unwrapDryRunPayload 从 transport 原始 JSON 解出 dry-run data 层。
-// 兼容 TabTin API 信封 {"ok":true,"data":{...}}、Django legacy {"success":true,"data":{...}}
+// 兼容 SnSworker API 信封 {"ok":true,"data":{...}}、Django legacy {"success":true,"data":{...}}
 // 以及裸 dict（单测 / 直连）。
 func unwrapDryRunPayload(raw any) map[string]any {
 	inner := output.UnwrapDjangoEnvelope(raw)
