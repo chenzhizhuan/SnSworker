@@ -811,7 +811,7 @@ case "$PROFILE" in
   local)
     PROFILE_PRODUCT_NAME="SnSworker Local"
     PROFILE_APP_ID="com.tabtin.app.local"
-    PROFILE_EXECUTABLE_NAME="tabtin-local"
+    PROFILE_EXECUTABLE_NAME="snsworker-local"
     PROFILE_SHORTCUT_NAME="SnSworker Local"
     ;;
   community)

@@ -36,7 +36,7 @@ class LocalFileOssServiceTestCase(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -184,7 +184,7 @@ class LocalFileOssServiceTestCase(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -216,7 +216,7 @@ class LocalFileOssServiceTestCase(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local",
+                "bucket_name": "snsworker-local",
                 "root_path": temp_dir,
                 "public_base_url": "http://192.168.8.10:8080/api/services/oss/local-object",
                 "upload_base_url": "http://192.168.8.10:8080/api/services/oss/local-upload",
@@ -237,7 +237,7 @@ class LocalFileOssServiceTestCase(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             config = {
-                "bucket_name": "tabtin-local",
+                "bucket_name": "snsworker-local",
                 "root_path": temp_dir,
                 "public_base_url": "https://tabtin.example.com/api/services/oss/local-object",
                 "upload_base_url": "https://tabtin.example.com/api/services/oss/local-upload",
@@ -266,7 +266,7 @@ class LocalFileOssServiceTestCase(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local",
+                "bucket_name": "snsworker-local",
                 "root_path": temp_dir,
                 "public_base_url": "https://tabtin.example.com/api/services/oss/local-object",
                 "upload_base_url": "https://tabtin.example.com/api/services/oss/local-upload",
@@ -301,7 +301,7 @@ class LocalFileOssServiceTestCase(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local",
+                "bucket_name": "snsworker-local",
                 "root_path": temp_dir,
                 "public_base_url": "https://tabtin.example.com/api/services/oss/local-object",
                 "upload_base_url": "https://tabtin.example.com/api/services/oss/local-upload",
@@ -373,7 +373,7 @@ class LocalOssLifecycleTestCase(TestCase):
     @override_settings(
         DEBUG=True,
         SERVICES_OSS_PROVIDER="local",
-        LOCAL_OSS_BUCKET_NAME="tabtin-local-test",
+        LOCAL_OSS_BUCKET_NAME="snsworker-local-test",
         LOCAL_OSS_PUBLIC_BASE_URL="http://192.168.8.10:8080/api/services/oss/local-object",
         LOCAL_OSS_UPLOAD_BASE_URL="http://192.168.8.10:8080/api/services/oss/local-upload",
     )
@@ -386,7 +386,7 @@ class LocalOssLifecycleTestCase(TestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-test",
+                "bucket_name": "snsworker-local-test",
                 "root_path": temp_dir,
                 "public_base_url": "http://192.168.8.10:8080/api/services/oss/local-object",
                 "upload_base_url": "http://192.168.8.10:8080/api/services/oss/local-upload",
@@ -566,7 +566,7 @@ class FileRecordUrlFieldTestCase(TestCase):
             mime_type='image/jpeg',
             file_extension='jpeg',
             file_hash=uuid.uuid4().hex,
-            bucket_name='tabtin-local-dev',
+            bucket_name='snsworker-local-dev',
             access_url=long_access_url,
             status='completed',
         )

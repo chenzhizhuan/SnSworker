@@ -660,7 +660,7 @@
       ]
     },
     "win": {
-      "executableName": "tabtin-local",
+      "executableName": "snsworker-local",
       "target": [
         {
           "target": "nsis",

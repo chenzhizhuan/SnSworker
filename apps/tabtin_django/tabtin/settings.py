@@ -1487,7 +1487,7 @@ MEDIA_GENERATION_PRIVATE_OSS_ENABLED = (
     os.getenv('MEDIA_GENERATION_PRIVATE_OSS_ENABLED', 'False').lower() == 'true'
 )
 
-LOCAL_OSS_BUCKET_NAME = os.getenv('LOCAL_OSS_BUCKET_NAME', 'tabtin-local-dev')
+LOCAL_OSS_BUCKET_NAME = os.getenv('LOCAL_OSS_BUCKET_NAME', 'snsworker-local-dev')
 _LOCAL_OSS_ROOT_RAW = os.getenv('LOCAL_OSS_ROOT', 'apps/tabtin_django/local-oss')
 LOCAL_OSS_ROOT = str(
     Path(_LOCAL_OSS_ROOT_RAW).expanduser()

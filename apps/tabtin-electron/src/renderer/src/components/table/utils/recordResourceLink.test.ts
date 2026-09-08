@@ -33,7 +33,7 @@ describe('buildRecordResourceLink', () => {
       });
 
       expect(link.startsWith(expectedPrefix)).toBe(true);
-      expect(link.startsWith('tabtin-local://')).toBe(false);
+      expect(link.startsWith('snsworker-local://')).toBe(false);
     },
   );
 });

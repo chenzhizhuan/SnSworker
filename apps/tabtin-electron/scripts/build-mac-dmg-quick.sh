@@ -430,7 +430,7 @@ node -e '
   }
   pkg.build.mac = {
     ...(pkg.build.mac || {}),
-    executableName: "tabtin-local",
+    executableName: "snsworker-local",
     target: [{ target: "dmg", arch: [arch] }],
     gatekeeperAssess: false,
   }

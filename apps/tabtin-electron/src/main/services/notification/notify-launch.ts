@@ -16,7 +16,7 @@ export function resolveTabTinProtocolScheme(): string {
     case 'preprod':
       return 'tabtin-preprod'
     case 'local':
-      return 'tabtin-local'
+      return 'snsworker-local'
     case 'development':
       return 'tabtin-dev'
     default:

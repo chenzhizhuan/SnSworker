@@ -15,7 +15,7 @@ const installer = fs.readFileSync(installerPath, 'utf8')
 // 内部版 Preprod profile 已在开源化时移除（installer.nsh 仍保留 Preprod 残留清理）。
 assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker Local"'))
 assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.app.local"'))
-assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="tabtin-local"'))
+assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="snsworker-local"'))
 assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker Local"'))
 assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker"'))
 assert.ok(buildScript.includes('PROFILE_APP_ID="com.tabtin.community"'))

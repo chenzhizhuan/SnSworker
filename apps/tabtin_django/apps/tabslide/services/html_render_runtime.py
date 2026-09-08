@@ -210,7 +210,7 @@ def build_local_font_face_css() -> str:
     rules.append(
         ".ppt-slide{font-family:'Inter','Noto Sans SC','Microsoft YaHei',sans-serif;}"
     )
-    return '<style id="tabtin-local-fonts">\n' + "\n".join(rules) + "\n</style>\n"
+    return '<style id="snsworker-local-fonts">\n' + "\n".join(rules) + "\n</style>\n"
 
 
 def _allowed_https_host(host: str) -> bool:

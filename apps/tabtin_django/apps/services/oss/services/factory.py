@@ -103,7 +103,7 @@ def _create_oss_service(*, config_kind: str = "default") -> OSSServiceBase:
 def _get_local_config() -> Dict[str, Any]:
     """获取本地文件系统 OSS 配置。"""
     config = {
-        'bucket_name': getattr(settings, 'LOCAL_OSS_BUCKET_NAME', 'tabtin-local-dev'),
+        'bucket_name': getattr(settings, 'LOCAL_OSS_BUCKET_NAME', 'snsworker-local-dev'),
         'root_path': getattr(settings, 'LOCAL_OSS_ROOT', None),
         'public_base_url': getattr(settings, 'LOCAL_OSS_PUBLIC_BASE_URL', ''),
         'upload_base_url': getattr(settings, 'LOCAL_OSS_UPLOAD_BASE_URL', ''),

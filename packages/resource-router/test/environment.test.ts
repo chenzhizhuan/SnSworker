@@ -28,6 +28,6 @@ describe('resolveTabTinResourceScheme', () => {
         apiBaseUrl: 'http://127.0.0.1:6060/api',
         buildProfile: 'local',
       }),
-    ).not.toBe('tabtin-local')
+    ).not.toBe('snsworker-local')
   })
 })

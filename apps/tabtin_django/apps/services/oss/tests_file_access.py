@@ -186,7 +186,7 @@ class LocalPrivateFileAccessTests(SimpleTestCase):
     def test_local_accessible_url_is_signed(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -203,7 +203,7 @@ class LocalPrivateFileAccessTests(SimpleTestCase):
     def test_local_presign_rejects_unsupported_write_methods(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -219,7 +219,7 @@ class LocalPrivateFileAccessTests(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -255,7 +255,7 @@ class LocalPrivateFileAccessTests(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -279,7 +279,7 @@ class LocalPrivateFileAccessTests(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",
@@ -310,7 +310,7 @@ class LocalPrivateFileAccessTests(SimpleTestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             service = LocalFileOSSService({
-                "bucket_name": "tabtin-local-dev",
+                "bucket_name": "snsworker-local-dev",
                 "root_path": temp_dir,
                 "public_base_url": "http://127.0.0.1:6060/api/services/oss/local-object",
                 "upload_base_url": "http://127.0.0.1:6060/api/services/oss/local-upload",

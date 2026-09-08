@@ -44,7 +44,7 @@ class HtmlRenderRuntimeTests(IsolatedAsyncioTestCase):
 
         html = build_slide_html([])
 
-        self.assertIn('id="tabtin-local-fonts"', html)
+        self.assertIn('id="snsworker-local-fonts"', html)
         self.assertNotIn("fonts.googleapis.com", html)
 
     async def test_platform_libraries_are_available_offline_before_inline_scripts(self):
