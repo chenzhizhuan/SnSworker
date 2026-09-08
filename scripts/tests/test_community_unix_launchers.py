@@ -19,7 +19,7 @@ def _write_executable(path: Path, source: str) -> None:
 
 def _launcher_fixture() -> tuple[tempfile.TemporaryDirectory[str], Path, Path, Path]:
     temporary = tempfile.TemporaryDirectory(prefix="tabtin unix launcher ")
-    root = Path(temporary.name) / "TabTin Community Source"
+    root = Path(temporary.name) / "SnSworker Source"
     root.mkdir()
     for name in LAUNCHERS:
         shutil.copy2(ROOT / f"{name}.sh", root / f"{name}.sh")
@@ -141,7 +141,7 @@ def test_start_works_from_non_repo_cwd_when_source_path_contains_spaces() -> Non
             },
         )
         assert result.returncode == 0, result.stdout + result.stderr
-        assert "TabTin Community is READY" in result.stdout
+        assert "SnSworker is READY" in result.stdout
         calls = trace.read_text(encoding="utf-8")
         physical_root = root.resolve()
         assert (root / ".env").read_text(encoding="utf-8") == (

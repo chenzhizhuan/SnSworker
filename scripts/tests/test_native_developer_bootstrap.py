@@ -19,7 +19,7 @@ def _write_executable(path: Path, source: str) -> None:
 
 
 def _native_fixture(tmp_path: Path) -> Path:
-    root = tmp_path / "TabTin Community Source"
+    root = tmp_path / "SnSworker Source"
     scripts = root / "scripts" / "backend"
     django = root / "apps" / "tabtin_django"
     scripts.mkdir(parents=True)

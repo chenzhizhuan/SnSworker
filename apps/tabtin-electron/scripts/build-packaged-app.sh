@@ -422,7 +422,7 @@ fi
 export TABTIN_BUILD_TARGET="$TARGET_RUNTIME"
 export TABTIN_BUILD_ARCH="$ARCH"
 export NODE_ENV="production"
-PROFILE_VERSION="${VITE_APP_VERSION:-$(node -p "require('$(node_path "$APP_DIR/package.json")').version")}" 
+PROFILE_VERSION="${VITE_APP_VERSION:-$(node -p "require('$(node_path "$APP_DIR/package.json")').version")}"
 export VITE_APP_VERSION="$PROFILE_VERSION"
 echo "  · app 版本号: $PROFILE_VERSION"
 
@@ -815,10 +815,10 @@ case "$PROFILE" in
     PROFILE_SHORTCUT_NAME="TabTin Local"
     ;;
   community)
-    PROFILE_PRODUCT_NAME="TabTin Community"
+    PROFILE_PRODUCT_NAME="SnSworker"
     PROFILE_APP_ID="com.tabtin.community"
     PROFILE_EXECUTABLE_NAME="tabtin-community"
-    PROFILE_SHORTCUT_NAME="TabTin Community"
+    PROFILE_SHORTCUT_NAME="SnSworker"
     ;;
 esac
 

@@ -163,7 +163,7 @@ describe('app-identity', () => {
 
   it('packaged community runtime keeps an isolated identity and userData path', () => {
     mocks.app.isPackaged = true
-    mocks.app.getName.mockReturnValue('TabTin Community')
+    mocks.app.getName.mockReturnValue('SnSworker')
     mocks.readFileSync.mockReturnValue(JSON.stringify({
       build: {
         extraMetadata: {
@@ -177,11 +177,11 @@ describe('app-identity', () => {
     expect(applyRuntimeAppIdentity()).toMatchObject({
       profile: 'community',
       appId: 'com.tabtin.community',
-      productName: 'TabTin Community',
+      productName: 'SnSworker',
     })
     expect(mocks.app.setPath).toHaveBeenCalledWith(
       'userData',
-      join('/Users/test/Library/Application Support', 'TabTin Community'),
+      join('/Users/test/Library/Application Support', 'SnSworker'),
     )
   })
 
@@ -264,7 +264,7 @@ describe('app-identity', () => {
 
   it('keeps production default Workspace root compatible while isolating other profiles', () => {
     expect(resolveDefaultWorkspaceDirectoryName('production')).toBe('TabTin')
-    expect(resolveDefaultWorkspaceDirectoryName('community')).toBe('TabTin Community')
+    expect(resolveDefaultWorkspaceDirectoryName('community')).toBe('SnSworker')
     expect(resolveDefaultWorkspaceDirectoryName('preprod')).toBe('TabTin Preprod')
     expect(resolveDefaultWorkspaceDirectoryName('development')).toBe('TabTin Dev')
     expect(resolveDefaultWorkspaceDirectoryName('local')).toBe('TabTin Local')

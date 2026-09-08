@@ -23,7 +23,7 @@ docker info >/dev/null 2>&1 || fail \
 command -v curl >/dev/null 2>&1 || fail \
   "curl is required to check TabTin Server readiness."
 
-printf 'Starting TabTin Community...\n'
+printf 'Starting SnSworker...\n'
 bash "${repo_root}/scripts/community/ensure-env-file.sh" "${repo_root}"
 bash "${repo_root}/scripts/community/ensure-runtime-image.sh" "${repo_root}"
 docker compose \
@@ -63,7 +63,7 @@ bash "${repo_root}/scripts/electron/runtime/_ensure-desktop-runtimes.sh" || true
 
 cat <<'EOF'
 ========================================
-TabTin Community is READY
+SnSworker is READY
 ========================================
 
 1. Start TabTin Desktop Client

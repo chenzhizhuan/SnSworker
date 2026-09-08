@@ -14,7 +14,7 @@ if errorlevel 1 goto compose_missing
 docker info >nul 2>&1
 if errorlevel 1 goto engine_stopped
 
-echo Starting TabTin Community...
+echo Starting SnSworker...
 call "%~dp0scripts\community\ensure-env-file.bat" "%~dp0"
 if errorlevel 1 goto startup_failed
 docker compose --env-file "%~dp0.env" up -d --build
@@ -33,7 +33,7 @@ goto wait_ready
 call "%~dp0scripts\electron\runtime\_ensure-desktop-runtimes.bat"
 echo.
 echo ========================================
-echo TabTin Community is READY
+echo SnSworker is READY
 echo ========================================
 echo.
 echo 1. Start TabTin Desktop Client
@@ -67,7 +67,7 @@ echo ERROR: Docker Engine is not running. Start Docker Desktop and try again.
 exit /b 1
 
 :startup_failed
-echo ERROR: TabTin Community could not start.
+echo ERROR: SnSworker could not start.
 echo Run status.bat to check the current status, then review Docker Desktop logs.
 exit /b 1
 

@@ -28,8 +28,8 @@ const PROFILE_IDENTITIES: Record<TabTinRuntimeProfile, TabTinAppIdentity> = {
   community: {
     profile: 'community',
     appId: 'com.tabtin.community',
-    productName: 'TabTin Community',
-    userDataDirName: 'TabTin Community',
+    productName: 'SnSworker',
+    userDataDirName: 'SnSworker',
   },
   preprod: {
     profile: 'preprod',

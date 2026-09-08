@@ -1,6 +1,6 @@
-# TabTin Community Open Source Guide
+# SnSworker Open Source Guide
 
-TabTin Community 面向希望在自己电脑上运行 TabTin Server、连接桌面客户端并使用自有模型服务的用户。默认安装只监听本机地址，模型费用由你配置的 BYOK Provider 直接结算。
+SnSworker 面向希望在自己电脑上运行 TabTin Server、连接桌面客户端并使用自有模型服务的用户。默认安装只监听本机地址，模型费用由你配置的 BYOK Provider 直接结算。
 
 ## Quick Start (Windows)
 
@@ -8,7 +8,7 @@ TabTin Community 面向希望在自己电脑上运行 TabTin Server、连接桌�
    从 [Docker Desktop 官方网站](https://www.docker.com/products/docker-desktop/) 下载并启动 Docker Desktop。
 2. **Download TabTin source**
    使用 Git clone，或在 GitHub 选择 Download ZIP 并解压到本机目录。
-3. 双击源码根目录中的 **`start.bat`**。首次启动需要构建镜像，请等待窗口显示 `TabTin Community is READY`。
+3. 双击源码根目录中的 **`start.bat`**。首次启动需要构建镜像，请等待窗口显示 `SnSworker is READY`。
 4. 启动 **TabTin Desktop Client**。
 5. 完成 **Register / Login**。
 6. 打开 **Settings → Model Configuration → BYOK**，添加 OpenAI-compatible Provider 与模型。
@@ -18,7 +18,7 @@ TabTin Community 面向希望在自己电脑上运行 TabTin Server、连接桌�
 
 ## 日常使用
 
-- `start.bat`：启动或恢复 TabTin Community，并等待服务就绪。
+- `start.bat`：启动或恢复 SnSworker，并等待服务就绪。
 - `status.bat`：查看 Docker、TabTin Server 与 Centrifugo 状态。
 - `stop.bat`：停止本项目服务，默认保留账号、Workspace、BYOK 配置、聊天历史和本地文件。
 
