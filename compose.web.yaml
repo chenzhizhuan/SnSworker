@@ -95,8 +95,8 @@ x-web-public-env: &web-public-env
   # 客户端实际可达地址。TABTIN_PUBLIC_BASE_URL 的 hostname 必须非环回，
   # 否则 apps/services/oss/services/factory.py:144 的 local OSS 守卫会拒绝。
   ALLOWED_HOSTS: localhost,127.0.0.1,django,${SERVER_IP}
-  CSRF_TRUSTED_ORIGINS: http://${SERVER_IP}:13492,http://${SERVER_IP}:13490,http://${SERVER_IP}:13491
-  CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490,http://${SERVER_IP}:13491
+  CSRF_TRUSTED_ORIGINS: http://${SERVER_IP}:13492,http://${SERVER_IP}:13490,http://${SERVER_IP}:13491,tabtin-file://app
+  CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490,http://${SERVER_IP}:13491,tabtin-file://app
   TABTIN_PUBLIC_BASE_URL: http://${SERVER_IP}:13492
   TABTIN_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
   ALLOW_LAN_HOSTS_IN_DEBUG: 'True'
@@ -234,7 +234,7 @@ services:
       COLLAB_LIVE_REQUIRE_SECRET: 'true'
       # Redis DB 14：避开 Django 的 0/1/2 与 Centrifugo 的 13
       REDIS_URL: redis://redis:6379/14
-      CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490
+      CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490,tabtin-file://app
       MAX_CONNECTIONS_PER_DOCUMENT: '50'
     depends_on:
       django: { condition: service_healthy }

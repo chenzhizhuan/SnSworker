@@ -3,7 +3,7 @@
     "token": {
       "hmac_secret_key": "__CENTRIFUGO_TOKEN_SECRET__"
     },
-    "allowed_origins": [__SERVER_ORIGINS__],
+    "allowed_origins": [__SERVER_ORIGINS__, "tabtin-file://app"],
     "proxy": {
       "connect": {
         "enabled": true,
