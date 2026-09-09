@@ -800,7 +800,7 @@ final class NotificationStore {
     private var isRealtimeStarted = false
     private var requestSequence = 0
     private var localMutationRevision = 0
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "NotificationStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "NotificationStore")
 
     private init() {
         AuthService.shared.registerLogoutHook { [weak self] in self?.clear() }

@@ -208,7 +208,7 @@ enum AgentPushNavigationPlanner {
 final class PushService {
     static let shared = PushService()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "Push")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "Push")
     private(set) var deviceToken: String?
     private var started = false
     private var navigationTask: Task<Void, Never>?

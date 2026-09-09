@@ -59,7 +59,7 @@ HTTP/2 API 直接投递，不依赖 TIMPush。
 
 Apple Developer 配置要求：
 
-1. App ID `com.example.tabtin` 开启 Push Notifications capability。
+1. App ID `com.snsworker.mobile` 开启 Push Notifications capability。
 2. Development provisioning profile 的 `aps-environment` 为 `development`。
 3. App Store、TestFlight 或 Ad Hoc profile 的 `aps-environment` 为 `production`。
 4. 在 Apple Developer 后台创建 APNs Authentication Key，安全保存下载的
@@ -70,7 +70,7 @@ Django / Celery 运行环境需要注入：
 ```env
 APNS_TEAM_ID=
 APNS_KEY_ID=
-APNS_BUNDLE_ID=com.example.tabtin
+APNS_BUNDLE_ID=com.snsworker.mobile
 APNS_PRIVATE_KEY_PATH=/path/to/AuthKey_xxx.p8
 ```
 

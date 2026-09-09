@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-private let logger = Logger(subsystem: "com.tabtin.mobile", category: "VoiceSettings")
+private let logger = Logger(subsystem: "com.snsworker.mobile", category: "VoiceSettings")
 
 /// 语音模块用户设置，持久化到 UserDefaults。
 ///

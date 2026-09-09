@@ -78,7 +78,7 @@ enum OSSBusinessError: String {
 actor OSSUploadService {
     static let shared = OSSUploadService()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "OSSUpload")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "OSSUpload")
     // 旧队列未持久化完整 scope，升级后不迁移，避免对同一 object key 无限失败重试。
     private static let legacyPendingConfirmsKey = "com.tabtin.oss.pendingConfirms"
     private static let pendingConfirmsKey = "com.tabtin.oss.pendingConfirms.v2"

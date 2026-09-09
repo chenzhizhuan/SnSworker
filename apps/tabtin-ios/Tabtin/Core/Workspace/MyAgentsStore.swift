@@ -22,7 +22,7 @@ final class MyAgentsStore {
     private var loadSeq = 0
     private var loadTask: Task<Void, Never>?
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "MyAgentsStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "MyAgentsStore")
 
     private init() {}
 

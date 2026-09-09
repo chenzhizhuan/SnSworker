@@ -14,7 +14,7 @@ final class KeychainEntitlementSmokeTests: XCTestCase {
     func testBuildCarriesKeychainEntitlements() {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: "com.tabtin.mobile.entitlement-probe",
+            kSecAttrService as String: "com.snsworker.mobile.entitlement-probe",
             kSecAttrAccount as String: "probe",
             kSecMatchLimit as String: kSecMatchLimitOne,
         ]
@@ -29,7 +29,7 @@ final class KeychainEntitlementSmokeTests: XCTestCase {
 
     /// 用独立 service 名，不碰真实 token。
     func testKeychainRoundTripSucceeds() throws {
-        let keychain = Keychain(service: "com.tabtin.mobile.entitlement-smoke")
+        let keychain = Keychain(service: "com.snsworker.mobile.entitlement-smoke")
         let key = "smoke_probe"
 
         try keychain.set("v1", key: key)

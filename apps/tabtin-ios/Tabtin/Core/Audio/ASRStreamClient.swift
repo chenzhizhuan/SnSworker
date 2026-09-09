@@ -9,7 +9,7 @@ import os
 ///   3. 发送 `asr.stream.stop` → 收到 `asr.stream.done`（最终文本）
 @MainActor
 final class ASRStreamClient {
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ASRStream")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ASRStream")
     private let ws = RealtimeGateway.shared
 
     private var streamId: String?

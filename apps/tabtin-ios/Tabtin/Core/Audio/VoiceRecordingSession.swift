@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-private let logger = Logger(subsystem: "com.tabtin.mobile", category: "VoiceRecordingSession")
+private let logger = Logger(subsystem: "com.snsworker.mobile", category: "VoiceRecordingSession")
 
 @MainActor @Observable
 final class VoiceRecordingSession {

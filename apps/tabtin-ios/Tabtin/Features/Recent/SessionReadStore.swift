@@ -41,7 +41,7 @@ final class SessionReadStore {
     private var flushing = false
     private let sendReadAck: ReadAckSender
     private let isAuthenticated: () -> Bool
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "SessionReadStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "SessionReadStore")
 
     init(
         sendReadAck: ReadAckSender? = nil,

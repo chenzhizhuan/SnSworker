@@ -72,7 +72,7 @@ final class NativeTabDataSession {
     private let identitySnapshotsRequest: IdentitySnapshotsRequest
     private let batchProfilesRequest: BatchProfilesRequest
     private let memberSearchRequest: MemberSearchRequest
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "NativeTabData")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "NativeTabData")
     private var drafts: [String: NativeTabDataRecordDraft] = [:]
     private var operationGate = NativeTabDataOperationGate()
     private let realtimeListenerKey: String

@@ -110,7 +110,7 @@ struct IMAttachmentView: View {
 
     private let imageThumbnailMaxSize = CGSize(width: 220, height: 220)
     private let attachmentLoadTimeoutNanos: UInt64 = 12_000_000_000
-    private static let logger = Logger(subsystem: "com.tabtin.mobile", category: "IMAttachment")
+    private static let logger = Logger(subsystem: "com.snsworker.mobile", category: "IMAttachment")
 
     var body: some View {
         Group {

@@ -371,7 +371,7 @@ private final class DiagnosticNetworkMonitor: @unchecked Sendable {
             }
             self?.lock.withLock { self?.value = next }
         }
-        monitor.start(queue: DispatchQueue(label: "com.tabtin.mobile.diagnostics.network"))
+        monitor.start(queue: DispatchQueue(label: "com.snsworker.mobile.diagnostics.network"))
     }
 }
 

@@ -8,7 +8,7 @@ import OSLog
 actor CloudDocsShareService {
     static let shared = CloudDocsShareService()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "CloudDocsShare")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "CloudDocsShare")
 
     /// 当前生效的分享。没开过时后端返回 `{ share: null, enabled: false }` → `nil`。
     ///

@@ -85,7 +85,7 @@ final class VersionGateService {
     private var dismissedSoftBuild: Int
 
     private var hasCheckedOnColdLaunch = false
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "VersionGate")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "VersionGate")
     private let cacheKey = "version_gate_last_decision"
     private let dismissedSoftBuildKey = "version_gate_dismissed_soft_build"
     private let defaults: UserDefaults

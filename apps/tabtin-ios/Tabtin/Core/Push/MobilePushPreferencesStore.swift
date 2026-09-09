@@ -48,7 +48,7 @@ final class MobilePushPreferencesStore {
 
     private var saveTask: Task<Void, Never>?
     private var didRegisterHooks = false
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "MobilePushPreferences")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "MobilePushPreferences")
 
     private init() {
         if let data = UserDefaults.standard.data(forKey: Self.valueStorageKey),

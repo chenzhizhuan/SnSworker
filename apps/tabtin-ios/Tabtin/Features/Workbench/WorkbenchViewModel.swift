@@ -1124,7 +1124,7 @@ final class WorkbenchViewModel {
     var appCatalogErrorMessage: String?
     private(set) var appAvailabilityErrorMessage: String?
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "Workbench")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "Workbench")
     private var loadGeneration = 0
     private var taskResourceLoadGeneration = 0
     /// 空白资源创建独立于资源拉取；scope 变化时只让旧创建结果失效，不误伤正常刷新。

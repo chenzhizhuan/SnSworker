@@ -120,7 +120,7 @@ enum PendingInteractionRefreshResult: Equatable, Sendable {
 final class PendingInteractionStore {
     static let shared = PendingInteractionStore()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "PendingInteraction")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "PendingInteraction")
     private let gateway = RealtimeGateway.shared
     private(set) var interactions: [String: PendingInteraction] = [:]
     private var started = false

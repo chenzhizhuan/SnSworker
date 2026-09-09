@@ -7,7 +7,7 @@ import os
 final class TabTrackerStore {
     let organizationId: String
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "TabTrackerStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "TabTrackerStore")
 
     private(set) var trackers: [Tracker] = []
     private(set) var trackerDetailsById: [String: Tracker] = [:]

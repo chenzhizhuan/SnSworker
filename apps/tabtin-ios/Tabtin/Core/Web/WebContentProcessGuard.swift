@@ -50,7 +50,7 @@ enum WebContentProcessGuard {
     /// Sentry 分组根：同一根 + 宿主名，保证不同宿主分开聚合、同一宿主不炸开。
     private static let fingerprintRoot = "ios-web-content-process-terminated"
 
-    private static let logger = Logger(subsystem: "com.tabtin.mobile", category: "WebContentProcess")
+    private static let logger = Logger(subsystem: "com.snsworker.mobile", category: "WebContentProcess")
 
     /// 同宿主上报最小间隔：内存紧张时多个 WebView 会被连着回收，不限频会把 Sentry 刷满。
     private static let reportInterval: TimeInterval = 60

@@ -100,7 +100,7 @@ final class RealtimeGateway {
         for handler in reconnectListeners.values { handler() }
     }
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "Realtime")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "Realtime")
     private var task: URLSessionWebSocketTask?
     private var session: URLSession?
     private var receiveLoop: Task<Void, Never>?

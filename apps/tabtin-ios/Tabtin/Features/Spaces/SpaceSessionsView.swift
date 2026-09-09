@@ -16,7 +16,7 @@ final class SpaceSessionsStore {
     private(set) var actionError: String?
 
     private var requestSeq = 0
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "SpaceSessionsStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "SpaceSessionsStore")
 
     init(spaceId: String) {
         self.spaceId = spaceId

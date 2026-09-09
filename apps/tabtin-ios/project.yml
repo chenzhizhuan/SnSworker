@@ -1,6 +1,6 @@
 name: Tabtin
 options:
-  bundleIdPrefix: com.example.tabtin
+  bundleIdPrefix: com.snsworker.mobile
   deploymentTarget:
     iOS: "18.0"
   xcodeVersion: "16.0"
@@ -45,7 +45,7 @@ targets:
         SWIFT_STRICT_CONCURRENCY: complete
         INFOPLIST_FILE: Tabtin/Resources/Info.plist
         DEVELOPMENT_TEAM: ""
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.tabtin
+        PRODUCT_BUNDLE_IDENTIFIER: com.snsworker.mobile
         MARKETING_VERSION: "1.0.1"
         CURRENT_PROJECT_VERSION: "1"
         TABTIN_GIT_SHA: ""
@@ -98,7 +98,7 @@ targets:
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Tabtin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tabtin"
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
         GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.tabtin.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.snsworker.mobile.tests
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
     dependencies:

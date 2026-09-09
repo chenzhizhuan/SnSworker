@@ -27,7 +27,7 @@ final class InvitationService {
     private(set) var errorMessage: String?
     private(set) var pendingInvitationsErrorMessage: String?
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "InvitationService")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "InvitationService")
     /// “我的待处理邀请”是账号级数据：任务由 Store 持有，避免个人页 `.task` / 下拉刷新
     /// 的任一等待者消失时把共享请求一起取消。
     private var pendingInvitationsLoadTask: Task<Void, Never>?

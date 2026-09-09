@@ -23,7 +23,7 @@ final class ProjectStore {
     private(set) var invitationLoadError: String?
 
     private var requestSeq = 0
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ProjectStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ProjectStore")
 
     private init() {
         AuthService.shared.registerLogoutHook { [weak self] in self?.clearAll() }
@@ -132,7 +132,7 @@ final class ProjectDetailStore {
     private(set) var detailFailed = false
 
     private var requestSeq = 0
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ProjectDetailStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ProjectDetailStore")
 
     init(project: Project, snapshot: ProjectDetailSnapshot? = nil) {
         self.project = project

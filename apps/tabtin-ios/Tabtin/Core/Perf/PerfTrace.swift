@@ -20,8 +20,8 @@ import QuartzCore
 ///
 /// 所有可变状态受 `lock` 保护，跨「主线程打点」与「后台看门狗」两侧访问安全，故 `nonisolated(unsafe)`。
 enum PerfTrace {
-    private static let logger = Logger(subsystem: "com.tabtin.mobile", category: "perf")
-    private static let signposter = OSSignposter(subsystem: "com.tabtin.mobile", category: "perf")
+    private static let logger = Logger(subsystem: "com.snsworker.mobile", category: "perf")
+    private static let signposter = OSSignposter(subsystem: "com.snsworker.mobile", category: "perf")
     private static let lock = NSLock()
 
     // MARK: - 打点

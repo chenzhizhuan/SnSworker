@@ -25,7 +25,7 @@ enum KeychainError: LocalizedError {
 /// 真机 / 上架构建编译期就不包含这段代码（`targetEnvironment(simulator)` 是编译条件），
 /// 所以真实用户的凭证只会落在 Keychain，不存在降级路径。
 private enum SimulatorKeychainFallback {
-    private static let logger = Logger(subsystem: "com.tabtin.mobile", category: "Keychain")
+    private static let logger = Logger(subsystem: "com.snsworker.mobile", category: "Keychain")
     private static let namespace = "sim-keychain-fallback"
     private static let warnOnce: Void = {
         logger.warning("""

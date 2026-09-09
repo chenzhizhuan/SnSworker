@@ -68,7 +68,7 @@ final class WorkspaceStore {
     /// 必须是服务端 ROLE_CAPABILITY_WHITELIST['mobile'] 子集。
     private let realtimeCapabilities = ["agent.stream", "billing.events", "tracker.events", "table.events"]
     private static let selectedKey = "tabtin_selected_organization_id"
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "WorkspaceStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "WorkspaceStore")
 
     var selectedOrganizationId: String? { selectedOrganization?.id }
     var hasLoadedSpacesForSelectedOrganization: Bool {

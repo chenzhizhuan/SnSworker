@@ -31,7 +31,7 @@ final class ColorSchemeStore {
 
     private var saveTask: Task<Void, Never>?
     private var didRegisterHooks = false
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ColorScheme")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ColorScheme")
 
     private init() {
         if let raw = UserDefaults.standard.string(forKey: Self.schemeStorageKey) {

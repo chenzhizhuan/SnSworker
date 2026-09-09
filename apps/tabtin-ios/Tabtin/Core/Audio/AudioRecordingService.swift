@@ -82,7 +82,7 @@ private final class ConsumeFlag: @unchecked Sendable {
 actor AudioRecordingService {
     static let shared = AudioRecordingService()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "AudioRecording")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "AudioRecording")
     private let engine = AVAudioEngine()
     private let sampleRate: Double = 16000
     /// 目标 chunk 时长（秒），字节 ASR 推荐双向流式 200ms。

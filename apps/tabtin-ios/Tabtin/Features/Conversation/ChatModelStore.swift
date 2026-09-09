@@ -20,7 +20,7 @@ final class ChatModelStore {
 
     private var loadTask: Task<Void, Never>?
     private var catalogRequestGeneration = 0
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ChatModelStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ChatModelStore")
 
     private init() {
         AuthService.shared.registerLogoutHook { [weak self] in self?.clearAll() }

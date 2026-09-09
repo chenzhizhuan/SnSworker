@@ -254,7 +254,7 @@ struct ConversationArchiveContext: Equatable, Sendable {
 
 extension Notification.Name {
     static let conversationSessionArchived = Notification.Name(
-        "com.tabtin.mobile.conversation.sessionArchived"
+        "com.snsworker.mobile.conversation.sessionArchived"
     )
 }
 

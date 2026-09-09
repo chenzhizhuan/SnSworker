@@ -41,7 +41,7 @@ final class HITLCoordinator {
     let sessionId: String
     private let requestSender: HITLRequestSender
     private let currentUserIdProvider: @MainActor () -> String?
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "HITL")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "HITL")
 
     private var threadId: String { "chat-session-\(sessionId)" }
 

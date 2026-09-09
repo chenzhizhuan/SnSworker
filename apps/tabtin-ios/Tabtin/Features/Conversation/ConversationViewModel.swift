@@ -260,7 +260,7 @@ final class OutgoingMessageQueueStore: @unchecked Sendable {
     static let shared = OutgoingMessageQueueStore()
 
     private var container: ModelContainer?
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "OutgoingQueue")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "OutgoingQueue")
 
     private init() {
         do {
@@ -602,7 +602,7 @@ final class ConversationViewModel {
 
     private let gateway: RealtimeGateway
     private let outgoingQueue = OutgoingMessageQueueStore.shared
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "Conversation")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "Conversation")
     private let inactiveStreamTopicRetainDuration: Duration = .seconds(90)
 
     // MARK: - 单通道 ingest 状态

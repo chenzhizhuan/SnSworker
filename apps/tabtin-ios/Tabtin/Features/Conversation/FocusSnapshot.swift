@@ -319,7 +319,7 @@ struct FocusTab: Codable, Equatable, Sendable {
 
 ///  发送瞬间 Focus 取证：写入 App Documents，可用 devicectl 拉回。
 enum FocusProbe {
-    private static let logger = Logger(subsystem: "com.tabtin.mobile", category: "FocusProbe")
+    private static let logger = Logger(subsystem: "com.snsworker.mobile", category: "FocusProbe")
     private static let fileName = "focus-probe-latest.json"
 
     @MainActor

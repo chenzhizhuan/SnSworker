@@ -88,7 +88,7 @@ final class IMConversationStore {
 
     private let dataPlane: IMConversationDataPlane
     private let personalRealtimeSource: IMPersonalRealtimeSource
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "IMConversationStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "IMConversationStore")
     private var loadTask: Task<Void, Never>?
     /// 置顶写为显式 bool；同一会话在请求未完成时必须串行，避免响应乱序把状态翻错。
     private var pinMutationInFlight: Set<String> = []

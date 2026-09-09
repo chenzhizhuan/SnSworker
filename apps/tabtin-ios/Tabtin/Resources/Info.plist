@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh-Hans</string>
 	<key>CFBundleDisplayName</key>
-	<string>Tabtin</string>
+	<string>SnSworker</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,7 +22,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.tabtin.mobile</string>
+			<string>com.snsworker.mobile</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>tabtin</string>

@@ -3,7 +3,7 @@ import os
 import SwiftUI
 import UIKit
 
-private let logger = Logger(subsystem: "com.tabtin.mobile", category: "VoiceRecordingController")
+private let logger = Logger(subsystem: "com.snsworker.mobile", category: "VoiceRecordingController")
 
 /// preparing 中断门禁：松手 / stop 抬 generation 后，旧 start 不得进入 recording。
 enum VoiceRecordingPreparingCancelPolicy {

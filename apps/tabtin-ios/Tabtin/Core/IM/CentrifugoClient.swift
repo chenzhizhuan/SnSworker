@@ -81,7 +81,7 @@ final class CentrifugoClient {
     /// 后端 connect proxy 对 token/session 失效返回的 disconnect code（重连需强制刷新 token）。
     private static let tokenFailureCodes: Set<UInt32> = [4001, 4002, 4003, 4004, 4005, 4007, 4008, 4009]
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "CentrifugoClient")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "CentrifugoClient")
 
     init(
         tokenProvider: @escaping @Sendable (_ forceRefresh: Bool) async -> String? = { forceRefresh in
@@ -236,7 +236,7 @@ final class CentrifugoClient {
 
     /// 非 MainActor、不捕获 `self`——供 Centrifugo SDK 后台 queue 回调安全打日志。
     private nonisolated static func logChatPublishFailure(conversationId: String, error: Error) {
-        Logger(subsystem: "com.tabtin.mobile", category: "CentrifugoClient")
+        Logger(subsystem: "com.snsworker.mobile", category: "CentrifugoClient")
             .debug("chat publish failed conv=\(conversationId, privacy: .public): \(String(describing: error), privacy: .public)")
     }
 

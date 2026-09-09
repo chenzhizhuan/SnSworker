@@ -44,7 +44,7 @@ actor CloudDrivePendingMountStore {
     static let shared = CloudDrivePendingMountStore()
 
     private static let defaultsKey = "com.tabtin.clouddrive.pendingMount.v1"
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "CloudDrivePendingMount")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "CloudDrivePendingMount")
 
     private init() {}
 

@@ -172,7 +172,7 @@ final class IMMessageMemoryCache: IMMessageSnapshotCache {
 fileprivate final class IMMessageFileSnapshotIO: @unchecked Sendable {
     static let shared = IMMessageFileSnapshotIO()
 
-    private let queue = DispatchQueue(label: "com.tabtin.mobile.im-message-snapshot-cache")
+    private let queue = DispatchQueue(label: "com.snsworker.mobile.im-message-snapshot-cache")
 
     func write(messages: [CachedIMMessage], to url: URL) {
         queue.async {
@@ -841,7 +841,7 @@ final class IMMessageStore {
     /// 由会话屏在构造时注入；实际 deactivate 侧写在屏上，store 只负责枚举待释放附件（便于单测）。
     private let onReleaseAbandonedAttachment: ((IMOutgoingAttachment) -> Void)?
     private let now: () -> Date
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "IMMessageStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "IMMessageStore")
     /// 详情与列表到达顺序不固定；保留详情的成员快照，与全局目录共同参与发送门禁。
     private var conversationDetailSnapshot: IMConversationDetail?
 

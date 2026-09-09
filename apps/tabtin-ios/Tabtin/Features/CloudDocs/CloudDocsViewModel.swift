@@ -55,7 +55,7 @@ final class CloudDocsViewModel {
 
     private var organizationId: String?
     private var loadGeneration = 0
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "CloudDocs")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "CloudDocs")
 
     /// 与云盘写入门槛一致：editor 及以上可新建。
     var canCreate: Bool {

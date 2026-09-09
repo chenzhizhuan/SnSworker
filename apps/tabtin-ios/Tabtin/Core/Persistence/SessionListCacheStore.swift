@@ -33,7 +33,7 @@ final class SessionListCacheStore: @unchecked Sendable {
     static let shared = SessionListCacheStore()
 
     private var container: ModelContainer?
-    private let queue = DispatchQueue(label: "com.tabtin.mobile.sessionlistcache", qos: .utility)
+    private let queue = DispatchQueue(label: "com.snsworker.mobile.sessionlistcache", qos: .utility)
     private let maxScopes = 40
 
     private init() {

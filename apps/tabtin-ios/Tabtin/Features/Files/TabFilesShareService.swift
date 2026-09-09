@@ -10,7 +10,7 @@ import OSLog
 actor TabFilesShareService {
     static let shared = TabFilesShareService()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "TabFilesShare")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "TabFilesShare")
 
     /// Owner brief 无 permission 字段；协作者带 permission。
     struct OwnerBrief: Decodable, Sendable, Hashable {

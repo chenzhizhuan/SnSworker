@@ -344,7 +344,7 @@ final class MessageCacheStore: @unchecked Sendable {
     static let shared = MessageCacheStore()
 
     private var container: ModelContainer?
-    private let queue = DispatchQueue(label: "com.tabtin.mobile.messagecache", qos: .utility)
+    private let queue = DispatchQueue(label: "com.snsworker.mobile.messagecache", qos: .utility)
     private let maxCachedSessions = 20
 
     private init() {

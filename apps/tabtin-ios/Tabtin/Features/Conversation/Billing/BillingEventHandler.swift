@@ -158,7 +158,7 @@ final class BillingEventHandler {
     private(set) var memberLimitReached = false
     private(set) var memberLimitReason: String?
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "BillingEventHandler")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "BillingEventHandler")
     private let listenerKey = "billing-events-global"
     private var isStarted = false
     private var lastRechargedAt: Date = .distantPast

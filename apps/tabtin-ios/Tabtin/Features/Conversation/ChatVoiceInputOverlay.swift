@@ -2,7 +2,7 @@ import AVFoundation
 import os
 import SwiftUI
 
-private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ChatVoiceInput")
+private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ChatVoiceInput")
 
 func shouldInterruptVoiceOverlayAfterPermissionRequest(
     permissionWasUndetermined: Bool,

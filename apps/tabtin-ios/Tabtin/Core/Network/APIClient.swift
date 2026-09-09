@@ -49,7 +49,7 @@ actor APIClient {
     private let decoder = JSONDecoder()
     private var baseURL: String
     private let sessionDelegate: RedirectPreservingDelegate
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "APIClient")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "APIClient")
 
     private let keychain = KeychainService.shared
     /// Token 刷新属于登录会话级基础能力，由 APIClient 持有 single-flight Task。

@@ -93,7 +93,7 @@ final class NativeTabDocSession {
     private let restoreRequest: RestoreRequest
     private let commentThreadsListRequest: CommentThreadsListRequest
     private let commentThreadCreateRequest: CommentThreadCreateRequest
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "NativeTabDoc")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "NativeTabDoc")
     private var baseTitle: String
     private var baseBody = NativeTabDocBody(rootAttributes: ["type": AnyCodable("doc")], blocks: [])
     private var autosaveTask: Task<Void, Never>?

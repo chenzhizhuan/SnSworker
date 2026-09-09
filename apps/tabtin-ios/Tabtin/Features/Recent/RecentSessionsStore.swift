@@ -22,7 +22,7 @@ final class RecentSessionsStore {
     private var requestGeneration = 0
     /// 切换执行 Agent 后的本机粘性脸：挡住「退出会话立刻 reload」把尚未追上的旧列表盖回来。
     private var executionAgentOverrides: [String: RecentSessionExecutionAgentOverride] = [:]
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "RecentSessionsStore")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "RecentSessionsStore")
     private let realtimeListenerKey = "recent-session-run-projection"
 
     private init() {

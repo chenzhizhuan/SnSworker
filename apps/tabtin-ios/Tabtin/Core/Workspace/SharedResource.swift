@@ -178,7 +178,7 @@ struct SharedTablesResponse: Decodable, Sendable {
 /// 云文档域不收文件，所以不调 `/context/files/shared-with-me`。
 /// 单个来源失败降级为空列表，两个都失败才向上抛——一类资源挂了不该让整页空白。
 enum SharedResourcesService {
-    private static let logger = Logger(subsystem: "com.tabtin.mobile", category: "SharedResources")
+    private static let logger = Logger(subsystem: "com.snsworker.mobile", category: "SharedResources")
 
     static func listSharedWithMe(organizationId: String) async throws -> [SharedResourceItem] {
         // 两个端点的过滤条件都是 `if organization_id`：传空串等于不过滤，

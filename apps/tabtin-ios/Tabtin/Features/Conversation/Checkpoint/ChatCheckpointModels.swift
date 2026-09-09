@@ -615,7 +615,7 @@ private func withCheckpointTimeout<T: Sendable>(
 final class ChatCheckpointService {
     static let shared = ChatCheckpointService()
 
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "ChatCheckpoint")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "ChatCheckpoint")
 
     private(set) var rollbackPreview: ChatCheckpointRollbackPreview?
     private(set) var isLoadingPreview = false

@@ -26,10 +26,10 @@ enum KeychainSaveError: LocalizedError {
 final class KeychainService: @unchecked Sendable {
     static let shared = KeychainService()
 
-    private let keychain = Keychain(service: "com.tabtin.mobile")
+    private let keychain = Keychain(service: "com.snsworker.mobile")
         .accessibility(.afterFirstUnlockThisDeviceOnly)
     private let lock = NSLock()
-    private let logger = Logger(subsystem: "com.tabtin.mobile", category: "Keychain")
+    private let logger = Logger(subsystem: "com.snsworker.mobile", category: "Keychain")
 
     private let accessTokenKey = "access_token"
     private let refreshTokenKey = "refresh_token"
