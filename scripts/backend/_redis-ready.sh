@@ -3,7 +3,7 @@
 #
 # 检测顺序：
 #   1. 本机 redis-cli ping
-#   2. Docker 容器 tabtin-redis-dev 内 redis-cli ping（无本机 CLI 时的常见 dev 场景）
+#   2. Docker 容器 snsworker-redis-dev 内 redis-cli ping（无本机 CLI 时的常见 dev 场景）
 #   3. TCP 端口探测（nc / bash /dev/tcp）
 #
 # 开发基础设施统一由 docker-compose.dev.yml 管理。
@@ -59,7 +59,7 @@ _dev_compose_available() {
 }
 
 _redis_compose_container_id() {
-  docker ps -a --filter name=^tabtin-redis-dev$ --format '{{.ID}}' 2>/dev/null | head -1
+  docker ps -a --filter name=^snsworker-redis-dev$ --format '{{.ID}}' 2>/dev/null | head -1
 }
 
 _redis_managed_by_compose() {
@@ -305,16 +305,16 @@ _infra_container_running() {
   docker ps --filter "name=^${name}$" --filter status=running -q 2>/dev/null | grep -q .
 }
 
-# 部署栈（旧 tabtin-full-* / 新 tabtin-deploy-*）与原生 dev 争用 8080/8100/4100。
+# 部署栈（旧 snsworker-full-* / 新 snsworker-deploy-*）与原生 dev 争用 8080/8100/4100。
 _warn_deploy_stack_conflicts() {
   local root_dir="${1:-.}"
   local full_names deploy_names
   _docker_daemon_ready 2>/dev/null || return 1
-  full_names="$(docker ps --filter name=tabtin-full --format '{{.Names}}' 2>/dev/null || true)"
-  deploy_names="$(docker ps --filter name=tabtin-deploy --format '{{.Names}}' 2>/dev/null || true)"
+  full_names="$(docker ps --filter name=snsworker-full --format '{{.Names}}' 2>/dev/null || true)"
+  deploy_names="$(docker ps --filter name=snsworker-deploy --format '{{.Names}}' 2>/dev/null || true)"
   if [[ -n "${full_names}${deploy_names}" ]]; then
-    echo "  ⚠️  检测到部署栈 tabtin-full-* / tabtin-deploy-* 仍在运行，会占用 8080/8100/4100。"
-    echo "      日常 dev 建议先停掉：docker rm -f \$(docker ps -aq --filter name=tabtin-full) \$(docker ps -aq --filter name=tabtin-deploy)"
+    echo "  ⚠️  检测到部署栈 snsworker-full-* / snsworker-deploy-* 仍在运行，会占用 8080/8100/4100。"
+    echo "      日常 dev 建议先停掉：docker rm -f \$(docker ps -aq --filter name=snsworker-full) \$(docker ps -aq --filter name=snsworker-deploy)"
     return 0
   fi
   return 1

@@ -4,8 +4,8 @@ set -euo pipefail
 repo_root="${1:?repository root is required}"
 compose_file="${repo_root}/compose.yaml"
 env_file="${repo_root}/.env"
-image="tabtin/community-django:local"
-label="com.tabtin.community.dev-dependency-fingerprint"
+image="snsworker/community-django:local"
+label="com.snsworker.community.dev-dependency-fingerprint"
 
 hash_file_list() {
   if command -v shasum >/dev/null 2>&1; then

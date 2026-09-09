@@ -169,7 +169,7 @@ else
   else
     echo "  ❌ Centrifugo 启动失败，详见: ${CENTRIFUGO_LOG_FILE}"
     if grep -q 'address already in use' "${CENTRIFUGO_LOG_FILE}" 2>/dev/null; then
-      echo "      常见原因：8100 被部署栈占用 → docker rm -f \$(docker ps -aq --filter name=tabtin-full) \$(docker ps -aq --filter name=tabtin-deploy)"
+      echo "      常见原因：8100 被部署栈占用 → docker rm -f \$(docker ps -aq --filter name=snsworker-full) \$(docker ps -aq --filter name=snsworker-deploy)"
     elif grep -q 'connection refused' "${CENTRIFUGO_LOG_FILE}" 2>/dev/null; then
       echo "      常见原因：宿主机 Redis 未起 → docker compose -f docker-compose.dev.yml up -d redis"
     fi

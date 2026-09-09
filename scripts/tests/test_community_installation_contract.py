@@ -28,7 +28,7 @@ def test_five_service_installation_is_serial_and_runtime_only() -> None:
     assert services["centrifugo"]["user"] == "10001:10001"
 
     runtime_environment = celery["environment"]
-    assert runtime_environment["PG_DB_USER"] == "tabtin_runtime"
+    assert runtime_environment["PG_DB_USER"] == "snsworker_runtime"
     assert runtime_environment["PG_DB_PASSWORD_FILE"].endswith("PG_RUNTIME_PASSWORD")
     assert "PG_INIT_PASSWORD_FILE" not in runtime_environment
     assert "PG_MIGRATOR_PASSWORD_FILE" not in runtime_environment
@@ -144,7 +144,7 @@ def test_windows_dev_prepare_repairs_and_verifies_before_seeding() -> None:
 
     assert positions == sorted(positions)
     assert "set \"TABTIN_COMMUNITY_DEV_MODE=1\"" in script
-    assert "set \"PG_DB_USER=tabtin_migrator\"" in script
+    assert "set \"PG_DB_USER=snsworker_migrator\"" in script
 
 
 def test_loopback_installation_keeps_local_storage_client_reachable() -> None:

@@ -8,7 +8,7 @@ set "DJANGO_BIND_PORT=6060"
 set "COLLAB_LIVE_PORT=4100"
 set "CENTRIFUGO_PORT=8100"
 set "VITE_DEV_SERVER_PORT=5175"
-set "PG_DB_NAME=tabtin_single"
+set "PG_DB_NAME=snsworker_single"
 if exist "%ROOT_DIR%\.env" for /f "usebackq eol=# tokens=1,* delims==" %%A in ("%ROOT_DIR%\.env") do (
   if not "%%A"=="" set "%%A=%%B"
 )

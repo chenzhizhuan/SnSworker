@@ -9,8 +9,8 @@ import { classifyPortOwner } from './backend.mjs';
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const ROOT_DIR = path.resolve(path.dirname(SCRIPT_PATH), '../../..');
-const DEV_IMAGE = 'tabtin/community-django:dev';
-const FINGERPRINT_LABEL = 'com.tabtin.community.dev-dependency-fingerprint';
+const DEV_IMAGE = 'snsworker/community-django:dev';
+const FINGERPRINT_LABEL = 'com.snsworker.community.dev-dependency-fingerprint';
 const FINGERPRINT_INPUTS = [
   'apps/tabtin_django/Dockerfile',
   'apps/tabtin_django/requirements.txt',

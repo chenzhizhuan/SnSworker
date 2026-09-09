@@ -12,7 +12,7 @@ docker compose -f "%ROOT_DIR%\docker-compose.dev.yml" up -d postgres redis
 if errorlevel 1 exit /b 1
 echo [INFRA] Waiting for PostgreSQL readiness, timeout 60 seconds...
 for /l %%I in (1,1,60) do (
-  docker exec tabtin-postgres-dev pg_isready -U tabtin -d tabtin_single >nul 2>&1 && goto ready
+  docker exec snsworker-postgres-dev pg_isready -U snsworker -d snsworker_single >nul 2>&1 && goto ready
   ping 127.0.0.1 -n 2 >nul
 )
 echo [ERROR] PostgreSQL did not become ready within 60 seconds.
@@ -23,8 +23,8 @@ set "TABTIN_COMMUNITY_DEV_MODE=1"
 set "TABTIN_COMMUNITY_DATABASE_SQL_ROOT=%ROOT_DIR%\community-assets\postgres"
 set "PG_DB_HOST=127.0.0.1"
 set "PG_DB_PORT=5432"
-set "PG_DB_USER=tabtin"
-if not defined PG_DB_PASSWORD set "PG_DB_PASSWORD=tabtin_dev_pass"
+set "PG_DB_USER=snsworker"
+if not defined PG_DB_PASSWORD set "PG_DB_PASSWORD=snsworker_dev_pass"
 pushd "%DJANGO_DIR%"
 echo [DATABASE] Repairing Community database roles...
 "%PYTHON_BIN%" -m tabtin.community_database sync
@@ -34,7 +34,7 @@ if errorlevel 1 (
   exit /b 1
 )
 echo [DATABASE] Applying managed migrations with safe_migrate...
-set "PG_DB_USER=tabtin_migrator"
+set "PG_DB_USER=snsworker_migrator"
 "%PYTHON_BIN%" manage.py safe_migrate --noinput
 set "RESULT=%ERRORLEVEL%"
 if not "%RESULT%"=="0" (
@@ -43,7 +43,7 @@ if not "%RESULT%"=="0" (
   exit /b %RESULT%
 )
 echo [DATABASE] Finalizing Community database capabilities...
-set "PG_DB_USER=tabtin"
+set "PG_DB_USER=snsworker"
 "%PYTHON_BIN%" -m tabtin.community_database finalize
 if errorlevel 1 (
   echo [ERROR] Community database finalization failed.

@@ -11,7 +11,7 @@
 #    调试用的直连命令见 docs/development/web-docker-deploy.md。
 #
 # 端口映射（宿主机 → 容器）：
-#   13490 → tabtin-web:80      13491 → admindash:80     13492 → django:6060
+#   13490 → web:80            13491 → admindash:80    13492 → django:6060
 #   13493 → collab-live:4100   13494 → centrifugo:8100
 #   postgres / redis 刻意不映射宿主机端口：仅容器网络内按服务名访问。
 #
@@ -32,7 +32,7 @@
 # 若 compose.yaml 的 django-environment 将来有改动，这里必须同步更新。
 
 x-worker-common: &worker-common
-  image: tabtin/community-django:local
+  image: snsworker/community-django:local
   command: ['worker']
   env_file:
     - ./.env.community-runtime
@@ -40,7 +40,7 @@ x-worker-common: &worker-common
   restart: unless-stopped
   volumes:
     - installation-secrets:/run/sns-worker-secrets:ro
-    - local-objects:/var/lib/tabtin/objects
+    - local-objects:/var/lib/snsworker/objects
   networks: [community]
   depends_on:
     django: { condition: service_healthy }
@@ -58,8 +58,8 @@ x-web-public-env: &web-public-env
   CENTRIFUGO_API_KEY_FILE: /run/sns-worker-secrets/CENTRIFUGO_API_KEY
   CENTRIFUGO_PROXY_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_PROXY_SECRET
   CENTRIFUGO_TOKEN_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_TOKEN_SECRET
-  PG_DB_NAME: tabtin
-  PG_DB_USER: tabtin_runtime
+  PG_DB_NAME: snsworker
+  PG_DB_USER: snsworker_runtime
   PG_DB_PASSWORD_FILE: /run/sns-worker-secrets/PG_RUNTIME_PASSWORD
   PG_DB_HOST: postgres
   PG_DB_PORT: '5432'
@@ -84,7 +84,7 @@ x-web-public-env: &web-public-env
   DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL}
   SERVICES_OSS_PROVIDER: local
   LOCAL_OSS_BUCKET_NAME: sns-worker-local
-  LOCAL_OSS_ROOT: /var/lib/tabtin/objects
+  LOCAL_OSS_ROOT: /var/lib/snsworker/objects
   ENABLE_JINBAO_BOT: 'false'
   SEARCH_ENGINE_ENABLED: 'false'
   RAG_ENABLED: 'false'
@@ -220,7 +220,7 @@ services:
 
   # ── collab-live（Hocuspocus Y.js 实时协作）─────────────────────────────
   collab-live:
-    image: tabtin/collab-live:local
+    image: snsworker/collab-live:local
     build:
       context: .
       dockerfile: apps/collab-live/Dockerfile
@@ -246,8 +246,8 @@ services:
   # ── 前端静态站点 ───────────────────────────────────────────────────────
   # ⚠️ VITE_* 是构建期内联：换 IP / 换域名必须重新 build 这两个镜像，
   #    重启容器无效。见 apps/tabtin-web/Dockerfile 顶部说明。
-  tabtin-web:
-    image: tabtin/tabtin-web:local
+  web:
+    image: snsworker/web:local
     build:
       context: .
       dockerfile: apps/tabtin-web/Dockerfile
@@ -266,7 +266,7 @@ services:
     networks: [community]
 
   admindash:
-    image: tabtin/admindash:local
+    image: snsworker/admindash:local
     build:
       context: .
       dockerfile: apps/admindash/Dockerfile

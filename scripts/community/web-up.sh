@@ -122,7 +122,7 @@ wait_for() {
 wait_for 'Django API'   "http://127.0.0.1:13492/health/ready"
 wait_for 'collab-live'  "http://127.0.0.1:13493/health"
 wait_for 'Centrifugo'   "http://127.0.0.1:13494/health"
-wait_for 'tabtin-web'   "http://127.0.0.1:13490/"
+wait_for 'web'          "http://127.0.0.1:13490/"
 wait_for 'admindash'    "http://127.0.0.1:13491/"
 
 printf '\n'
@@ -151,7 +151,7 @@ Known limitations of the public-IP + HTTP profile:
   2. DEBUG=True — error pages expose stack traces. This is a dogfood
      profile, not a hardened public production posture.
   3. Frontend addresses are baked into the images at build time. Changing
-     SERVER_IP requires rebuilding tabtin-web and admindash.
+     SERVER_IP requires rebuilding web and admindash.
 
 Verify queue coverage (expect all 14 registered queues):
   docker compose -f compose.yaml -f compose.web.yaml exec worker-default \\

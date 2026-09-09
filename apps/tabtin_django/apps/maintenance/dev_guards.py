@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.core.management.base import CommandError
 
-DEV_DB_NAME_WHITELIST = frozenset({'tabtin_single', 'test_tabtin_single'})
+DEV_DB_NAME_WHITELIST = frozenset({'snsworker_single', 'test_snsworker_single', 'tabtin_single', 'test_tabtin_single'})
 DEV_DB_HOST_WHITELIST = frozenset({'localhost', '127.0.0.1', '::1'})
 PROD_ENV_MARKERS = frozenset({'production', 'prod'})
 

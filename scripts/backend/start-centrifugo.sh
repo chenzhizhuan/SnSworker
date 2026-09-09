@@ -304,9 +304,9 @@ if ! _host_redis_pong "${REDIS_HOST:-127.0.0.1}" "${REDIS_PORT:-6379}"; then
 fi
 
 if [[ -n "$(_centrifugo_port_pids "${PORT}")" ]]; then
-    echo "❌ 端口 ${PORT} 已被占用（常部署栈 tabtin-full/tabtin-deploy，或上次重启遗留的 centrifugo）"
+    echo "❌ 端口 ${PORT} 已被占用（常部署栈 snsworker-full/snsworker-deploy，或上次重启遗留的 centrifugo）"
     echo "   释放：停止占用该端口的本地进程后重试"
-    echo "   或：  docker rm -f \$(docker ps -aq --filter name=tabtin-full) \$(docker ps -aq --filter name=tabtin-deploy)"
+    echo "   或：  docker rm -f \$(docker ps -aq --filter name=snsworker-full) \$(docker ps -aq --filter name=snsworker-deploy)"
     exit 1
 fi
 

@@ -256,8 +256,8 @@ def test_community_dev_uses_one_five_service_backend_with_source_mounts() -> Non
     services = compose["services"]
 
     assert set(services) == {"postgres", "redis", "django", "celery", "centrifugo"}
-    assert services["django"]["image"] == "tabtin/community-django:dev"
-    assert services["celery"]["image"] == "tabtin/community-django:dev"
+    assert services["django"]["image"] == "snsworker/community-django:dev"
+    assert services["celery"]["image"] == "snsworker/community-django:dev"
     assert services["django"]["command"] == ["community-dev-web"]
     assert services["celery"]["user"] == "10001:10001"
 

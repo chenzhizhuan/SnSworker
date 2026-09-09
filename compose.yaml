@@ -1,7 +1,7 @@
 name: sns-worker
 
 x-django-image: &django-image
-  image: tabtin/community-django:local
+  image: snsworker/community-django:local
   build:
     context: .
     dockerfile: apps/tabtin_django/Dockerfile
@@ -28,8 +28,8 @@ x-django-environment: &django-environment
   CENTRIFUGO_API_KEY_FILE: /run/sns-worker-secrets/CENTRIFUGO_API_KEY
   CENTRIFUGO_PROXY_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_PROXY_SECRET
   CENTRIFUGO_TOKEN_SECRET_FILE: /run/sns-worker-secrets/CENTRIFUGO_TOKEN_SECRET
-  PG_DB_NAME: tabtin
-  PG_DB_USER: tabtin_runtime
+  PG_DB_NAME: snsworker
+  PG_DB_USER: snsworker_runtime
   PG_DB_PASSWORD_FILE: /run/sns-worker-secrets/PG_RUNTIME_PASSWORD
   PG_DB_HOST: postgres
   PG_DB_PORT: '5432'
@@ -43,7 +43,7 @@ x-django-environment: &django-environment
   EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
   SERVICES_OSS_PROVIDER: local
   LOCAL_OSS_BUCKET_NAME: sns-worker-local
-  LOCAL_OSS_ROOT: /var/lib/tabtin/objects
+  LOCAL_OSS_ROOT: /var/lib/snsworker/objects
   TABTIN_PUBLIC_BASE_URL: http://127.0.0.1:6060
   ENABLE_JINBAO_BOT: 'false'
   SEARCH_ENGINE_ENABLED: 'false'
@@ -59,15 +59,15 @@ services:
     entrypoint: ['/usr/local/bin/community-postgres-entrypoint.sh']
     command: ['postgres']
     environment:
-      POSTGRES_DB: tabtin
-      POSTGRES_USER: tabtin_init
+      POSTGRES_DB: snsworker
+      POSTGRES_USER: snsworker_init
       POSTGRES_PASSWORD_FILE: /run/sns-worker-secrets/PG_INIT_PASSWORD
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - installation-secrets:/run/sns-worker-secrets
       - ./community-assets/postgres-entrypoint.sh:/usr/local/bin/community-postgres-entrypoint.sh:ro
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U tabtin_init -d tabtin']
+      test: ['CMD-SHELL', 'pg_isready -U snsworker_init -d snsworker']
       interval: 5s
       timeout: 5s
       retries: 20
@@ -108,7 +108,7 @@ services:
       TABTIN_COMMUNITY_CENTRIFUGO_TEMPLATE: /app/community-assets/centrifugo.template.json
     volumes:
       - installation-secrets:/run/sns-worker-secrets
-      - local-objects:/var/lib/tabtin/objects
+      - local-objects:/var/lib/snsworker/objects
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -141,7 +141,7 @@ services:
       CELERY_MAX_MEMORY: '700000'
     volumes:
       - installation-secrets:/run/sns-worker-secrets:ro
-      - local-objects:/var/lib/tabtin/objects
+      - local-objects:/var/lib/snsworker/objects
     depends_on:
       django: { condition: service_healthy }
       redis: { condition: service_healthy }

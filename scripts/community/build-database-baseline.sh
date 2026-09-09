@@ -6,9 +6,9 @@ artifact_root="${repo_root}/community-assets/postgres/baseline"
 probe_suffix="$$"
 network_name="sns-worker-baseline-${probe_suffix}"
 postgres_name="sns-worker-baseline-postgres-${probe_suffix}"
-source_database="tabtin_baseline_source_${probe_suffix}"
-restore_database="tabtin_baseline_restore_${probe_suffix}"
-django_image="tabtin/community-django:dev"
+source_database="snsworker_baseline_source_${probe_suffix}"
+restore_database="snsworker_baseline_restore_${probe_suffix}"
+django_image="snsworker/community-django:dev"
 temporary_root=""
 
 cleanup() {
@@ -134,14 +134,14 @@ if grep -Eq ' EXTENSION |COMMENT - EXTENSION' "${toc_path}"; then
 fi
 
 docker exec "${postgres_name}" psql -U postgres -d "${source_database}" -v ON_ERROR_STOP=1 -c \
-  "CREATE ROLE tabtin_migrator LOGIN;" >/dev/null
+  "CREATE ROLE snsworker_migrator LOGIN;" >/dev/null
 docker exec "${postgres_name}" createdb -U postgres -O postgres "${restore_database}"
 docker exec "${postgres_name}" psql -U postgres -d "${restore_database}" -v ON_ERROR_STOP=1 -c \
-  "CREATE EXTENSION vector; CREATE EXTENSION pg_trgm; GRANT CONNECT, CREATE, TEMPORARY ON DATABASE ${restore_database} TO tabtin_migrator; GRANT USAGE, CREATE ON SCHEMA public TO tabtin_migrator;" >/dev/null
+  "CREATE EXTENSION vector; CREATE EXTENSION pg_trgm; GRANT CONNECT, CREATE, TEMPORARY ON DATABASE ${restore_database} TO snsworker_migrator; GRANT USAGE, CREATE ON SCHEMA public TO snsworker_migrator;" >/dev/null
 docker cp "${dump_path}" "${postgres_name}:/tmp/community-baseline.dump" >/dev/null
 docker cp "${toc_path}" "${postgres_name}:/tmp/community-baseline.list" >/dev/null
 docker exec "${postgres_name}" pg_restore \
-  -U tabtin_migrator \
+  -U snsworker_migrator \
   -d "${restore_database}" \
   --single-transaction \
   --exit-on-error \
@@ -151,7 +151,7 @@ docker exec "${postgres_name}" pg_restore \
   /tmp/community-baseline.dump
 
 echo "[baseline] verifying restore plus post-baseline migrations"
-run_django "${restore_database}" tabtin_migrator safe_migrate --noinput
+run_django "${restore_database}" snsworker_migrator safe_migrate --noinput
 restored_migrations="$(docker exec "${postgres_name}" psql -U postgres -d "${restore_database}" -Atc 'SELECT COUNT(*) FROM django_migrations')"
 restored_tables="$(docker exec "${postgres_name}" psql -U postgres -d "${restore_database}" -Atc "SELECT COUNT(*) FROM pg_tables WHERE schemaname='public'")"
 if [ "${restored_migrations}" != "${migration_count}" ] || [ "${restored_tables}" != "${table_count}" ]; then
