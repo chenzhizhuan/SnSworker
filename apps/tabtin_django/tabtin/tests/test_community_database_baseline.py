@@ -190,7 +190,7 @@ def test_restore_baseline_uses_transactional_filtered_restore(
     calls: list[tuple[list[str], dict]] = []
 
     monkeypatch.setenv("TABTIN_COMMUNITY_DATABASE_BASELINE_ROOT", str(tmp_path))
-    monkeypatch.setenv("PG_DB_NAME", "tabtin")
+    monkeypatch.setenv("PG_DB_NAME", "snsworker")
     monkeypatch.setenv("PG_DB_HOST", "postgres")
     monkeypatch.setenv("PG_DB_PORT", "5432")
     monkeypatch.setattr(
@@ -208,9 +208,9 @@ def test_restore_baseline_uses_transactional_filtered_restore(
     monkeypatch.setattr(
         "tabtin.community_database._passwords_from_files",
         lambda: {
-            "tabtin_init": "init-secret",
-            "tabtin_migrator": "migrator-secret",
-            "tabtin_runtime": "runtime-secret",
+            "snsworker_init": "init-secret",
+            "snsworker_migrator": "migrator-secret",
+            "snsworker_runtime": "runtime-secret",
         },
     )
     monkeypatch.setattr(
@@ -246,9 +246,9 @@ def test_restore_baseline_uses_transactional_filtered_restore(
         "--port",
         "5432",
         "--username",
-        "tabtin_migrator",
+        "snsworker_migrator",
         "--dbname",
-        "tabtin",
+        "snsworker",
         "--single-transaction",
         "--exit-on-error",
         "--no-owner",
@@ -284,9 +284,9 @@ def test_restore_baseline_rejects_restored_table_count_mismatch(
     monkeypatch.setattr(
         "tabtin.community_database._passwords_from_files",
         lambda: {
-            "tabtin_init": "init-secret",
-            "tabtin_migrator": "migrator-secret",
-            "tabtin_runtime": "runtime-secret",
+            "snsworker_init": "init-secret",
+            "snsworker_migrator": "migrator-secret",
+            "snsworker_runtime": "runtime-secret",
         },
     )
     monkeypatch.setattr(
@@ -336,9 +336,9 @@ def test_restore_baseline_failure_is_not_retried_or_fallbacked(
     monkeypatch.setattr(
         "tabtin.community_database._passwords_from_files",
         lambda: {
-            "tabtin_init": "init-secret",
-            "tabtin_migrator": "migrator-secret",
-            "tabtin_runtime": "runtime-secret",
+            "snsworker_init": "init-secret",
+            "snsworker_migrator": "migrator-secret",
+            "snsworker_runtime": "runtime-secret",
         },
     )
     monkeypatch.setattr(

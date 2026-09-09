@@ -2,23 +2,23 @@
 -- Every public callable accepts domain identifiers, never raw SQL or raw names.
 
 GRANT USAGE ON SCHEMA tabtin_capability
-  TO tabtin_native_ddl_owner, tabtin_record_index_owner,
-     tabtin_readonly_role_admin, tabtin_runtime;
+  TO snsworker_native_ddl_owner, snsworker_record_index_owner,
+     snsworker_readonly_role_admin, snsworker_runtime;
 GRANT USAGE ON SCHEMA public
-  TO tabtin_native_ddl_owner, tabtin_record_index_owner,
-     tabtin_readonly_role_admin;
-GRANT CREATE ON SCHEMA public TO tabtin_record_index_owner;
+  TO snsworker_native_ddl_owner, snsworker_record_index_owner,
+     snsworker_readonly_role_admin;
+GRANT CREATE ON SCHEMA public TO snsworker_record_index_owner;
 
 GRANT SELECT (id, organization_id, space_id)
   ON public.tabdata_table
-  TO tabtin_native_ddl_owner, tabtin_record_index_owner,
-     tabtin_readonly_role_admin;
+  TO snsworker_native_ddl_owner, snsworker_record_index_owner,
+     snsworker_readonly_role_admin;
 GRANT SELECT (id, table_id, is_deleted)
   ON public.tabdata_field
-  TO tabtin_native_ddl_owner, tabtin_record_index_owner;
+  TO snsworker_native_ddl_owner, snsworker_record_index_owner;
 GRANT SELECT (space_id, pg_role, pg_schema)
   ON public.tabdata_db_readonly_connection
-  TO tabtin_readonly_role_admin;
+  TO snsworker_readonly_role_admin;
 
 CREATE OR REPLACE FUNCTION tabtin_capability._assert_native_target(
   p_partition_id UUID,
@@ -45,7 +45,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability._assert_native_target(UUID, UUID)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability._assert_native_field_target(
   p_table_id UUID,
@@ -71,7 +71,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability._assert_native_field_target(UUID, UUID, BOOLEAN)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.native_ensure_schema(
   p_partition_id UUID
@@ -93,20 +93,20 @@ BEGIN
       MESSAGE = 'TABTIN_COMMUNITY_NATIVE_PARTITION_DENIED';
   END IF;
   EXECUTE pg_catalog.format(
-    'CREATE SCHEMA IF NOT EXISTS %I AUTHORIZATION tabtin_native_ddl_owner',
+    'CREATE SCHEMA IF NOT EXISTS %I AUTHORIZATION snsworker_native_ddl_owner',
     schema_name
   );
   EXECUTE pg_catalog.format('REVOKE ALL ON SCHEMA %I FROM PUBLIC', schema_name);
-  EXECUTE pg_catalog.format('GRANT USAGE ON SCHEMA %I TO tabtin_runtime', schema_name);
+  EXECUTE pg_catalog.format('GRANT USAGE ON SCHEMA %I TO snsworker_runtime', schema_name);
   EXECUTE pg_catalog.format(
-    'GRANT USAGE ON SCHEMA %I TO tabtin_readonly_role_admin WITH GRANT OPTION',
+    'GRANT USAGE ON SCHEMA %I TO snsworker_readonly_role_admin WITH GRANT OPTION',
     schema_name
   );
   RETURN TRUE;
 END
 $function$;
 ALTER FUNCTION tabtin_capability.native_ensure_schema(UUID)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability._native_column_definition(
   p_pg_type TEXT,
@@ -146,7 +146,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability._native_column_definition(TEXT, TEXT)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 DROP FUNCTION IF EXISTS tabtin_capability.native_create_table(UUID, UUID);
 
@@ -195,22 +195,22 @@ BEGIN
     table_name
   );
   EXECUTE pg_catalog.format(
-    'ALTER TABLE %I.%I OWNER TO tabtin_native_ddl_owner',
+    'ALTER TABLE %I.%I OWNER TO snsworker_native_ddl_owner',
     schema_name,
     table_name
   );
   EXECUTE pg_catalog.format(
-    'GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE %I.%I TO tabtin_runtime',
+    'GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE %I.%I TO snsworker_runtime',
     schema_name,
     table_name
   );
   EXECUTE pg_catalog.format(
-    'GRANT SELECT ON TABLE %I.%I TO tabtin_readonly_role_admin WITH GRANT OPTION',
+    'GRANT SELECT ON TABLE %I.%I TO snsworker_readonly_role_admin WITH GRANT OPTION',
     schema_name,
     table_name
   );
   EXECUTE pg_catalog.format(
-    'GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA %I TO tabtin_runtime',
+    'GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA %I TO snsworker_runtime',
     schema_name
   );
   IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = readonly_role) THEN
@@ -266,7 +266,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.native_create_table(UUID, UUID, JSONB)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.native_drop_table(
   p_partition_id UUID,
@@ -300,7 +300,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.native_drop_table(UUID, UUID)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.native_add_column(
   p_partition_id UUID,
@@ -340,7 +340,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.native_add_column(UUID, UUID, UUID, TEXT, TEXT)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.native_drop_column(
   p_partition_id UUID,
@@ -373,7 +373,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.native_drop_column(UUID, UUID, UUID)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.native_alter_column_type(
   p_partition_id UUID,
@@ -471,7 +471,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.native_alter_column_type(UUID, UUID, UUID, TEXT, TEXT)
-  OWNER TO tabtin_native_ddl_owner;
+  OWNER TO snsworker_native_ddl_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability._assert_record_index_target(
   p_table_id UUID,
@@ -493,7 +493,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability._assert_record_index_target(UUID, UUID)
-  OWNER TO tabtin_record_index_owner;
+  OWNER TO snsworker_record_index_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.record_create_search_index(
   p_table_id UUID,
@@ -527,7 +527,7 @@ EXCEPTION
 END
 $function$;
 ALTER FUNCTION tabtin_capability.record_create_search_index(UUID, UUID)
-  OWNER TO tabtin_record_index_owner;
+  OWNER TO snsworker_record_index_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.record_drop_search_index(
   p_table_id UUID,
@@ -554,7 +554,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.record_drop_search_index(UUID, UUID)
-  OWNER TO tabtin_record_index_owner;
+  OWNER TO snsworker_record_index_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.record_drop_search_indexes(
   p_table_id UUID
@@ -597,7 +597,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.record_drop_search_indexes(UUID)
-  OWNER TO tabtin_record_index_owner;
+  OWNER TO snsworker_record_index_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.record_create_sort_index(
   p_table_id UUID,
@@ -629,7 +629,7 @@ EXCEPTION
 END
 $function$;
 ALTER FUNCTION tabtin_capability.record_create_sort_index(UUID, UUID)
-  OWNER TO tabtin_record_index_owner;
+  OWNER TO snsworker_record_index_owner;
 
 CREATE OR REPLACE FUNCTION tabtin_capability._assert_readonly_scope(
   p_space_id UUID,
@@ -658,7 +658,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability._assert_readonly_scope(UUID, UUID)
-  OWNER TO tabtin_readonly_role_admin;
+  OWNER TO snsworker_readonly_role_admin;
 
 CREATE OR REPLACE FUNCTION tabtin_capability._assert_readonly_connection(
   p_space_id UUID,
@@ -700,7 +700,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability._assert_readonly_connection(UUID, UUID)
-  OWNER TO tabtin_readonly_role_admin;
+  OWNER TO snsworker_readonly_role_admin;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.readonly_role_create(
   p_space_id UUID,
@@ -753,7 +753,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.readonly_role_create(UUID, UUID, TEXT)
-  OWNER TO tabtin_readonly_role_admin;
+  OWNER TO snsworker_readonly_role_admin;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.readonly_role_rotate(
   p_space_id UUID,
@@ -780,7 +780,7 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.readonly_role_rotate(UUID, UUID, TEXT)
-  OWNER TO tabtin_readonly_role_admin;
+  OWNER TO snsworker_readonly_role_admin;
 
 CREATE OR REPLACE FUNCTION tabtin_capability.readonly_role_drop(
   p_space_id UUID,
@@ -813,19 +813,19 @@ BEGIN
 END
 $function$;
 ALTER FUNCTION tabtin_capability.readonly_role_drop(UUID, UUID)
-  OWNER TO tabtin_readonly_role_admin;
+  OWNER TO snsworker_readonly_role_admin;
 
 REVOKE EXECUTE ON ALL FUNCTIONS IN SCHEMA tabtin_capability FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION tabtin_capability.native_ensure_schema(UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.native_create_table(UUID, UUID, JSONB) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.native_drop_table(UUID, UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.native_add_column(UUID, UUID, UUID, TEXT, TEXT) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.native_drop_column(UUID, UUID, UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.native_alter_column_type(UUID, UUID, UUID, TEXT, TEXT) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.record_create_search_index(UUID, UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.record_drop_search_index(UUID, UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.record_drop_search_indexes(UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.record_create_sort_index(UUID, UUID) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.readonly_role_create(UUID, UUID, TEXT) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.readonly_role_rotate(UUID, UUID, TEXT) TO tabtin_runtime;
-GRANT EXECUTE ON FUNCTION tabtin_capability.readonly_role_drop(UUID, UUID) TO tabtin_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.native_ensure_schema(UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.native_create_table(UUID, UUID, JSONB) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.native_drop_table(UUID, UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.native_add_column(UUID, UUID, UUID, TEXT, TEXT) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.native_drop_column(UUID, UUID, UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.native_alter_column_type(UUID, UUID, UUID, TEXT, TEXT) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.record_create_search_index(UUID, UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.record_drop_search_index(UUID, UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.record_drop_search_indexes(UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.record_create_sort_index(UUID, UUID) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.readonly_role_create(UUID, UUID, TEXT) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.readonly_role_rotate(UUID, UUID, TEXT) TO snsworker_runtime;
+GRANT EXECUTE ON FUNCTION tabtin_capability.readonly_role_drop(UUID, UUID) TO snsworker_runtime;

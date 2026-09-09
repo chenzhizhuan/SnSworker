@@ -28,7 +28,7 @@ def _build_pg_config(name: str) -> dict:
     }
 
 
-_pg_db_name = os.getenv("PG_DB_NAME", "tabtin_single")
+_pg_db_name = os.getenv("PG_DB_NAME", "snsworker_single")
 _pg_test_db_name = os.getenv("PG_TEST_DB_NAME", "test_tabtin_e2e")
 
 DATABASES["default"] = _build_pg_config(_pg_db_name)

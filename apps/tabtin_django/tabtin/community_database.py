@@ -1,7 +1,7 @@
 """Community PostgreSQL role and capability installation boundary.
 
 Only one-shot installation commands should import the environment entrypoints
-in this module.  Web and Celery use ``tabtin_runtime`` and never receive init
+in this module.  Web and Celery use ``snsworker_runtime`` and never receive init
 or migrator credentials.
 """
 
@@ -49,24 +49,24 @@ class BaselineManifest:
 
 
 ROLE_SPECS = {
-    "tabtin_init": RoleSpec(login=True, superuser=True, connection_limit=2),
-    "tabtin_migrator": RoleSpec(login=True, connection_limit=4),
-    "tabtin_runtime": RoleSpec(login=True, connection_limit=100),
-    "tabtin_native_ddl_owner": RoleSpec(login=False),
-    "tabtin_record_index_owner": RoleSpec(login=False),
-    "tabtin_readonly_role_admin": RoleSpec(login=False, create_role=True),
+    "snsworker_init": RoleSpec(login=True, superuser=True, connection_limit=2),
+    "snsworker_migrator": RoleSpec(login=True, connection_limit=4),
+    "snsworker_runtime": RoleSpec(login=True, connection_limit=100),
+    "snsworker_native_ddl_owner": RoleSpec(login=False),
+    "snsworker_record_index_owner": RoleSpec(login=False),
+    "snsworker_readonly_role_admin": RoleSpec(login=False, create_role=True),
 }
 
 LOGIN_ROLE_NAMES = {
-    "tabtin_init",
-    "tabtin_migrator",
-    "tabtin_runtime",
+    "snsworker_init",
+    "snsworker_migrator",
+    "snsworker_runtime",
 }
 
 CAPABILITY_ROLE_NAMES = {
-    "tabtin_native_ddl_owner",
-    "tabtin_record_index_owner",
-    "tabtin_readonly_role_admin",
+    "snsworker_native_ddl_owner",
+    "snsworker_record_index_owner",
+    "snsworker_readonly_role_admin",
 }
 
 COMMUNITY_DEV_MODE = "TABTIN_COMMUNITY_DEV_MODE"
@@ -280,53 +280,53 @@ def synchronize_roles(connection, *, database_name: str, passwords: dict[str, st
                 if granted_role != member_role:
                     cursor.execute(f'REVOKE "{granted_role}" FROM "{member_role}"')
 
-        cursor.execute(f'ALTER DATABASE {database} OWNER TO "tabtin_init"')
+        cursor.execute(f'ALTER DATABASE {database} OWNER TO "snsworker_init"')
         cursor.execute(f"REVOKE ALL ON DATABASE {database} FROM PUBLIC")
         cursor.execute(
-            f'GRANT CONNECT, CREATE, TEMPORARY ON DATABASE {database} TO "tabtin_migrator"'
+            f'GRANT CONNECT, CREATE, TEMPORARY ON DATABASE {database} TO "snsworker_migrator"'
         )
-        cursor.execute(f'GRANT CONNECT ON DATABASE {database} TO "tabtin_runtime"')
-        cursor.execute(f'REVOKE TEMPORARY ON DATABASE {database} FROM "tabtin_runtime"')
+        cursor.execute(f'GRANT CONNECT ON DATABASE {database} TO "snsworker_runtime"')
+        cursor.execute(f'REVOKE TEMPORARY ON DATABASE {database} FROM "snsworker_runtime"')
         cursor.execute(
-            f'GRANT CREATE ON DATABASE {database} TO "tabtin_native_ddl_owner"'
-        )
-        cursor.execute(
-            f'GRANT CONNECT ON DATABASE {database} TO "tabtin_readonly_role_admin" WITH GRANT OPTION'
+            f'GRANT CREATE ON DATABASE {database} TO "snsworker_native_ddl_owner"'
         )
         cursor.execute(
-            f'REVOKE TEMPORARY ON DATABASE {database} FROM "tabtin_readonly_role_admin"'
+            f'GRANT CONNECT ON DATABASE {database} TO "snsworker_readonly_role_admin" WITH GRANT OPTION'
+        )
+        cursor.execute(
+            f'REVOKE TEMPORARY ON DATABASE {database} FROM "snsworker_readonly_role_admin"'
         )
 
         cursor.execute("CREATE EXTENSION IF NOT EXISTS vector")
         cursor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
         cursor.execute("REVOKE ALL ON SCHEMA public FROM PUBLIC")
-        cursor.execute('GRANT USAGE, CREATE ON SCHEMA public TO "tabtin_migrator"')
+        cursor.execute('GRANT USAGE, CREATE ON SCHEMA public TO "snsworker_migrator"')
         # ``safe_migrate`` performs a read-only schema integrity check after
         # applying migrations.  Finalization hands selected objects to narrow
         # capability owners, so an idempotent restart must restore this
         # explicit inspection grant before running that check again.
         cursor.execute(
-            'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "tabtin_migrator"'
+            'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "snsworker_migrator"'
         )
-        cursor.execute('GRANT USAGE ON SCHEMA public TO "tabtin_runtime"')
+        cursor.execute('GRANT USAGE ON SCHEMA public TO "snsworker_runtime"')
         cursor.execute(
-            "CREATE SCHEMA IF NOT EXISTS tabtin_capability AUTHORIZATION tabtin_init"
+            "CREATE SCHEMA IF NOT EXISTS tabtin_capability AUTHORIZATION snsworker_init"
         )
         cursor.execute("REVOKE ALL ON SCHEMA tabtin_capability FROM PUBLIC")
-        for role_name in (*sorted(CAPABILITY_ROLE_NAMES), "tabtin_runtime"):
+        for role_name in (*sorted(CAPABILITY_ROLE_NAMES), "snsworker_runtime"):
             cursor.execute(f'GRANT USAGE ON SCHEMA tabtin_capability TO "{role_name}"')
 
         cursor.execute(
-            'ALTER DEFAULT PRIVILEGES FOR ROLE "tabtin_migrator" IN SCHEMA public '
+            'ALTER DEFAULT PRIVILEGES FOR ROLE "snsworker_migrator" IN SCHEMA public '
             "REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC"
         )
         cursor.execute(
-            'ALTER DEFAULT PRIVILEGES FOR ROLE "tabtin_migrator" IN SCHEMA public '
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "tabtin_runtime"'
+            'ALTER DEFAULT PRIVILEGES FOR ROLE "snsworker_migrator" IN SCHEMA public '
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "snsworker_runtime"'
         )
         cursor.execute(
-            'ALTER DEFAULT PRIVILEGES FOR ROLE "tabtin_migrator" IN SCHEMA public '
-            'GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO "tabtin_runtime"'
+            'ALTER DEFAULT PRIVILEGES FOR ROLE "snsworker_migrator" IN SCHEMA public '
+            'GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO "snsworker_runtime"'
         )
 
 
@@ -349,11 +349,11 @@ def _required_path(name: str) -> Path:
 
 def _passwords_from_files() -> dict[str, str]:
     return {
-        "tabtin_init": read_secret_file(_required_path("PG_INIT_PASSWORD_FILE"), label="init"),
-        "tabtin_migrator": read_secret_file(
+        "snsworker_init": read_secret_file(_required_path("PG_INIT_PASSWORD_FILE"), label="init"),
+        "snsworker_migrator": read_secret_file(
             _required_path("PG_MIGRATOR_PASSWORD_FILE"), label="migrator"
         ),
-        "tabtin_runtime": read_secret_file(
+        "snsworker_runtime": read_secret_file(
             _required_path("PG_RUNTIME_PASSWORD_FILE"), label="runtime"
         ),
     }
@@ -373,12 +373,12 @@ def _connect_as_init():
     import psycopg2
 
     if _development_mode_enabled():
-        user = os.environ.get("PG_DB_USER", "tabtin")
+        user = os.environ.get("PG_DB_USER", "snsworker_runtime")
         password = os.environ.get("PG_DB_PASSWORD", "")
         if not password:
             raise ValueError("missing required development setting: PG_DB_PASSWORD")
         return psycopg2.connect(
-            dbname=os.environ.get("PG_DB_NAME", "tabtin"),
+            dbname=os.environ.get("PG_DB_NAME", "snsworker"),
             user=user,
             password=password,
             host=os.environ.get("PG_DB_HOST", "127.0.0.1"),
@@ -387,9 +387,9 @@ def _connect_as_init():
         )
 
     return psycopg2.connect(
-        dbname=os.environ.get("PG_DB_NAME", "tabtin"),
-        user="tabtin_init",
-        password=_passwords_from_files()["tabtin_init"],
+        dbname=os.environ.get("PG_DB_NAME", "snsworker"),
+        user="snsworker_init",
+        password=_passwords_from_files()["snsworker_init"],
         host=os.environ.get("PG_DB_HOST", "/var/run/postgresql"),
         port=int(os.environ.get("PG_DB_PORT", "5432")),
         connect_timeout=10,
@@ -401,7 +401,7 @@ def synchronize_from_environment() -> None:
     with _connect_as_init() as connection:
         synchronize_roles(
             connection,
-            database_name=os.environ.get("PG_DB_NAME", "tabtin"),
+            database_name=os.environ.get("PG_DB_NAME", "snsworker"),
             passwords=passwords,
         )
     print("[community-database] roles synchronized")
@@ -450,9 +450,9 @@ def restore_baseline_from_environment() -> str:
         "--port",
         os.environ.get("PG_DB_PORT", "5432"),
         "--username",
-        "tabtin_migrator",
+        "snsworker_migrator",
         "--dbname",
-        os.environ.get("PG_DB_NAME", "tabtin"),
+        os.environ.get("PG_DB_NAME", "snsworker"),
         "--single-transaction",
         "--exit-on-error",
         "--no-owner",
@@ -462,7 +462,7 @@ def restore_baseline_from_environment() -> str:
         str(manifest.dump_path),
     ]
     child_environment = os.environ.copy()
-    child_environment["PGPASSWORD"] = passwords["tabtin_migrator"]
+    child_environment["PGPASSWORD"] = passwords["snsworker_migrator"]
     subprocess.run(command, check=True, env=child_environment)
 
     with _connect_as_init() as connection:
@@ -491,7 +491,7 @@ def finalize_from_environment() -> None:
     sql_root = Path(
         os.environ.get(
             "TABTIN_COMMUNITY_DATABASE_SQL_ROOT",
-            "/opt/tabtin/postgres-community",
+            "/opt/snsworker/postgres-community",
         )
     )
     with _connect_as_init() as connection:

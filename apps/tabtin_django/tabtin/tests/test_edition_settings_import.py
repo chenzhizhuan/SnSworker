@@ -139,8 +139,8 @@ def test_community_settings_start_without_ai_or_email_provider() -> None:
         "ark_base_url": "",
         "daemon_server_url": "",
         "daemon_ws_url": "",
-        "database_name": "tabtin",
-        "database_user": "tabtin_runtime",
+        "database_name": "snsworker",
+        "database_user": "snsworker_runtime",
         "edition": "community",
         "email_backend": "django.core.mail.backends.console.EmailBackend",
         "email_host": "",
@@ -234,8 +234,8 @@ print("SECRET_FILE_RESULT=" + json.dumps({
     assert all(value not in result.stdout + result.stderr for value in values.values())
     line = next(line for line in result.stdout.splitlines() if line.startswith("SECRET_FILE_RESULT="))
     assert json.loads(line.removeprefix("SECRET_FILE_RESULT=")) == {
-        "database_name": "tabtin",
-        "database_user": "tabtin_runtime",
+        "database_name": "snsworker",
+        "database_user": "snsworker_runtime",
         "secret_key_loaded": True,
         "jwt_distinct": True,
         "credential_loaded": True,
@@ -290,8 +290,8 @@ def test_missing_edition_preserves_saas_settings_defaults() -> None:
     assert payload["email_backend"] == "django.core.mail.backends.smtp.EmailBackend"
     assert payload["email_host"] == "smtp.exmail.qq.com"
     assert payload["email_provider_configured"] is True
-    assert payload["database_name"] == "tabtin_single"
-    assert payload["database_user"] == "tabtin_single"
+    assert payload["database_name"] == "snsworker_single"
+    assert payload["database_user"] == "snsworker_single"
 
 
 def test_unknown_edition_makes_settings_import_fail_clearly() -> None:

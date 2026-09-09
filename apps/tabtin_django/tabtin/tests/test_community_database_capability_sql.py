@@ -42,7 +42,7 @@ def test_capability_sql_is_closed_and_owned_by_non_login_roles() -> None:
     assert "jsonb_array_length(p_field_specs) > 500" in sql
     assert "_assert_native_field_target(UUID, UUID, BOOLEAN)" in sql
     assert "TABTIN_COMMUNITY_NATIVE_FIELD_DENIED" in sql
-    assert "GRANT CREATE ON SCHEMA public TO tabtin_runtime" not in sql
+    assert "GRANT CREATE ON SCHEMA public TO snsworker_runtime" not in sql
 
 
 def test_sql_classifies_current_upstream_tabdata_tables() -> None:

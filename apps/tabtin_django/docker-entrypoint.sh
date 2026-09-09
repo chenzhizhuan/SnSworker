@@ -16,7 +16,7 @@ initialize_community_database() {
   python -m tabtin.community_database restore-baseline
 
   echo "[entrypoint] applying PostgreSQL migrations after the committed baseline"
-  PG_DB_USER=tabtin_migrator \
+  PG_DB_USER=snsworker_migrator \
     PG_DB_PASSWORD_FILE="${PG_MIGRATOR_PASSWORD_FILE:?PG_MIGRATOR_PASSWORD_FILE is required}" \
     python manage.py safe_migrate --noinput
 
@@ -34,8 +34,8 @@ case "${role}" in
       exit 1
     fi
     initialize_community_database
-    mkdir -p /var/lib/tabtin/objects /ms-playwright
-    chown -R 10001:10001 /var/lib/tabtin/objects /ms-playwright
+    mkdir -p /var/lib/snsworker/objects /ms-playwright
+    chown -R 10001:10001 /var/lib/snsworker/objects /ms-playwright
     unset PG_INIT_PASSWORD_FILE PG_MIGRATOR_PASSWORD_FILE TABTIN_COMMUNITY_DATABASE_SQL_ROOT
     echo "[entrypoint] starting Community Daphne from bind-mounted source"
     exec gosu sns-worker python -m daphne \
@@ -53,8 +53,8 @@ case "${role}" in
     fi
     initialize_community_database
 
-    mkdir -p /var/lib/tabtin/objects
-    chown -R 10001:10001 /var/lib/tabtin/objects
+    mkdir -p /var/lib/snsworker/objects
+    chown -R 10001:10001 /var/lib/snsworker/objects
 
     # The long-running web process receives only the runtime role and cannot
     # read the root/postgres-owned one-shot password files.

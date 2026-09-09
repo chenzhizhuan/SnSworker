@@ -6,7 +6,7 @@
 #373 单库主线一直缺「能不能真干活」的 live 证据：migrate 全过、起得来服务
 只证明了 schema/运行时，但**核心能力在单库 + 恢复的物理 FK 下能否正确往返**
 （建表写记录、建文档、存对话、跨 app FK 链解析）一直没系统验过。这个脚本补这个洞：
-在**默认单库**（本分支 `.env` 即 `single_pg` + `tabtin_single`）上，走**真实 service 层**
+在**默认单库**（本分支 `.env` 即 `single_pg` + `snsworker_single`）上，走**真实 service 层**
 把核心数据面跑一遍 CRUD，并断言 M3a/M3b 恢复的物理 FK 能链式解析。
 
 验什么
@@ -21,7 +21,7 @@
 
 前置
 ----
-- 本分支默认即单库（``.env`` = ``TABTIN_DATABASE_MODE=single_pg`` + ``PG_DB_NAME=tabtin_single``），
+- 本分支默认即单库（``.env`` = ``TABTIN_DATABASE_MODE=single_pg`` + ``PG_DB_NAME=snsworker_single``），
   无需任何 flag；fresh 库需先 ``safe_migrate``（见 harness 文档）。
 - 脚本会在缺会员等级时自动 ``seed_membership_tiers``（TabData 配额校验需要）。
 
@@ -92,7 +92,7 @@ def main() -> int:
         f"single_mode={is_single_database_mode()} alias={postgres_app_db_alias()}"
     )
     if connection.vendor != "postgresql":
-        print("ABORT: 期望在 PostgreSQL 上跑（本分支默认单库 tabtin_single）")
+        print("ABORT: 期望在 PostgreSQL 上跑（本分支默认单库 snsworker_single）")
         return 1
 
     User = get_user_model()

@@ -16,23 +16,23 @@ from tabtin.community_database import (
 
 def test_role_policy_separates_login_and_capability_owners() -> None:
     assert LOGIN_ROLE_NAMES == {
-        "tabtin_init",
-        "tabtin_migrator",
-        "tabtin_runtime",
+        "snsworker_init",
+        "snsworker_migrator",
+        "snsworker_runtime",
     }
     assert CAPABILITY_ROLE_NAMES == {
-        "tabtin_native_ddl_owner",
-        "tabtin_record_index_owner",
-        "tabtin_readonly_role_admin",
+        "snsworker_native_ddl_owner",
+        "snsworker_record_index_owner",
+        "snsworker_readonly_role_admin",
     }
     assert set(ROLE_SPECS) == LOGIN_ROLE_NAMES | CAPABILITY_ROLE_NAMES
 
-    init = ROLE_SPECS["tabtin_init"]
+    init = ROLE_SPECS["snsworker_init"]
     assert init.login is True
     assert init.superuser is True
     assert init.inherit is False
 
-    for name in ("tabtin_migrator", "tabtin_runtime"):
+    for name in ("snsworker_migrator", "snsworker_runtime"):
         role = ROLE_SPECS[name]
         assert role.login is True
         assert role.superuser is False
@@ -49,9 +49,9 @@ def test_role_policy_separates_login_and_capability_owners() -> None:
         assert role.bypass_rls is False
         assert role.inherit is False
 
-    assert ROLE_SPECS["tabtin_native_ddl_owner"].create_role is False
-    assert ROLE_SPECS["tabtin_record_index_owner"].create_role is False
-    assert ROLE_SPECS["tabtin_readonly_role_admin"].create_role is True
+    assert ROLE_SPECS["snsworker_native_ddl_owner"].create_role is False
+    assert ROLE_SPECS["snsworker_record_index_owner"].create_role is False
+    assert ROLE_SPECS["snsworker_readonly_role_admin"].create_role is True
 
 
 class _RecordingCursor:
@@ -82,22 +82,22 @@ class _RecordingConnection:
 def test_role_sync_binds_passwords_and_revokes_runtime_ddl() -> None:
     connection = _RecordingConnection()
     passwords = {
-        "tabtin_init": "init-secret-sentinel",
-        "tabtin_migrator": "migrator-secret-sentinel",
-        "tabtin_runtime": "runtime-secret-sentinel",
+        "snsworker_init": "init-secret-sentinel",
+        "snsworker_migrator": "migrator-secret-sentinel",
+        "snsworker_runtime": "runtime-secret-sentinel",
     }
 
-    synchronize_roles(connection, database_name="tabtin", passwords=passwords)
+    synchronize_roles(connection, database_name="snsworker", passwords=passwords)
 
     statements = "\n".join(statement for statement, _ in connection.recorder.calls)
     for password in passwords.values():
         assert password not in statements
         assert any(parameters and password in parameters for _, parameters in connection.recorder.calls)
-    assert 'REVOKE TEMPORARY ON DATABASE "tabtin" FROM "tabtin_runtime"' in statements
-    assert 'GRANT CONNECT ON DATABASE "tabtin" TO "tabtin_runtime"' in statements
-    assert 'GRANT CREATE ON DATABASE "tabtin" TO "tabtin_native_ddl_owner"' in statements
-    assert 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "tabtin_migrator"' in statements
-    assert 'GRANT CREATE ON SCHEMA public TO "tabtin_runtime"' not in statements
+    assert 'REVOKE TEMPORARY ON DATABASE "snsworker" FROM "snsworker_runtime"' in statements
+    assert 'GRANT CONNECT ON DATABASE "snsworker" TO "snsworker_runtime"' in statements
+    assert 'GRANT CREATE ON DATABASE "snsworker" TO "snsworker_native_ddl_owner"' in statements
+    assert 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "snsworker_migrator"' in statements
+    assert 'GRANT CREATE ON SCHEMA public TO "snsworker_runtime"' not in statements
     assert "NOINHERIT" in statements
 
 

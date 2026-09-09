@@ -29,8 +29,8 @@ def _build_pg_config(name: str) -> dict:
     return {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": name,
-        "USER": os.getenv("PG_DB_USER", "tabtin"),
-        "PASSWORD": os.getenv("PG_DB_PASSWORD", "tabtin_dev_pass"),
+        "USER": os.getenv("PG_DB_USER", "snsworker"),
+        "PASSWORD": os.getenv("PG_DB_PASSWORD", "snsworker_dev_pass"),
         "HOST": os.getenv("PG_DB_HOST", "127.0.0.1"),
         "PORT": os.getenv("PG_DB_PORT", "5432"),
         "OPTIONS": {
@@ -39,7 +39,7 @@ def _build_pg_config(name: str) -> dict:
     }
 
 
-_pg_db_name = os.getenv("PG_DB_NAME", "tabtin_single")
+_pg_db_name = os.getenv("PG_DB_NAME", "snsworker_single")
 _pg_test_db_name = os.getenv("PG_TEST_DB_NAME", "test_tabtin_cascade")
 
 DATABASES["default"] = _build_pg_config(_pg_db_name)  # type: ignore[name-defined]

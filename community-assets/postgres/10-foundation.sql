@@ -3,23 +3,23 @@
 -- Web and Celery never execute this file.
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-GRANT USAGE ON SCHEMA public TO tabtin_migrator, tabtin_runtime;
+GRANT USAGE ON SCHEMA public TO snsworker_migrator, snsworker_runtime;
 
-CREATE SCHEMA IF NOT EXISTS tabtin_capability AUTHORIZATION tabtin_init;
+CREATE SCHEMA IF NOT EXISTS tabtin_capability AUTHORIZATION snsworker_init;
 REVOKE ALL ON SCHEMA tabtin_capability FROM PUBLIC;
 
 DO $record_owner$
 BEGIN
   IF pg_catalog.to_regclass('public.tabdata_record') IS NOT NULL THEN
-    ALTER TABLE public.tabdata_record OWNER TO tabtin_record_index_owner;
+    ALTER TABLE public.tabdata_record OWNER TO snsworker_record_index_owner;
   END IF;
 END
 $record_owner$;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO tabtin_runtime;
-GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO tabtin_runtime;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO tabtin_migrator;
-REVOKE CREATE ON SCHEMA public FROM tabtin_runtime;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO snsworker_runtime;
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO snsworker_runtime;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO snsworker_migrator;
+REVOKE CREATE ON SCHEMA public FROM snsworker_runtime;
 
 -- PostgreSQL grants EXECUTE to PUBLIC for new functions.  Community revokes
 -- that implicit surface, then restores only extension and application
@@ -45,7 +45,7 @@ BEGIN
       AND extension.extname IN ('vector', 'pg_trgm')
   LOOP
     EXECUTE pg_catalog.format(
-      'GRANT EXECUTE ON FUNCTION %s TO tabtin_runtime',
+      'GRANT EXECUTE ON FUNCTION %s TO snsworker_runtime',
       function_identity
     );
   END LOOP;
@@ -64,7 +64,7 @@ BEGIN
   LOOP
     IF pg_catalog.to_regprocedure(function_identity) IS NOT NULL THEN
       EXECUTE pg_catalog.format(
-        'GRANT EXECUTE ON FUNCTION %s TO tabtin_runtime',
+        'GRANT EXECUTE ON FUNCTION %s TO snsworker_runtime',
         function_identity
       );
     END IF;
@@ -72,9 +72,9 @@ BEGIN
 END
 $application_functions$;
 
-ALTER DEFAULT PRIVILEGES FOR ROLE tabtin_migrator IN SCHEMA public
+ALTER DEFAULT PRIVILEGES FOR ROLE snsworker_migrator IN SCHEMA public
   REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
-ALTER DEFAULT PRIVILEGES FOR ROLE tabtin_migrator IN SCHEMA public
-  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO tabtin_runtime;
-ALTER DEFAULT PRIVILEGES FOR ROLE tabtin_migrator IN SCHEMA public
-  GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO tabtin_runtime;
+ALTER DEFAULT PRIVILEGES FOR ROLE snsworker_migrator IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO snsworker_runtime;
+ALTER DEFAULT PRIVILEGES FOR ROLE snsworker_migrator IN SCHEMA public
+  GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO snsworker_runtime;

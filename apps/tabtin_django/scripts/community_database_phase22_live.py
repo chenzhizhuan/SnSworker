@@ -1,7 +1,7 @@
 """Disposable PostgreSQL probe for Community database isolation.
 
 The probe is intentionally unavailable unless explicitly enabled and must run
-against a disposable local database as ``tabtin_runtime``.
+against a disposable local database as ``snsworker_runtime``.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ def expect_denied(label: str, statement: str) -> str:
 
 def main() -> None:
     identity = fetchone("SELECT current_user, session_user")
-    assert identity == ("tabtin_runtime", "tabtin_runtime")
+    assert identity == ("snsworker_runtime", "snsworker_runtime")
     role_flags = fetchone(
         "SELECT rolsuper, rolcreatedb, rolcreaterole, rolinherit, rolbypassrls "
         "FROM pg_catalog.pg_roles WHERE rolname = current_user"
@@ -64,7 +64,7 @@ def main() -> None:
         expect_denied("create_database", "CREATE DATABASE phase22_denied"),
         expect_denied("create_public_table", "CREATE TABLE public.phase22_denied(id integer)"),
         expect_denied("create_schema", "CREATE SCHEMA phase22_denied"),
-        expect_denied("set_role", "SET ROLE tabtin_migrator"),
+        expect_denied("set_role", "SET ROLE snsworker_migrator"),
     ]
 
     User = get_user_model()

@@ -231,7 +231,7 @@ APNS_TEAM_ID = os.getenv('APNS_TEAM_ID', '')
 APNS_KEY_ID = os.getenv('APNS_KEY_ID', '')
 APNS_PRIVATE_KEY = os.getenv('APNS_PRIVATE_KEY', '')
 APNS_PRIVATE_KEY_PATH = os.getenv('APNS_PRIVATE_KEY_PATH', '')
-APNS_BUNDLE_ID = os.getenv('APNS_BUNDLE_ID', 'com.example.tabtin')
+APNS_BUNDLE_ID = os.getenv('APNS_BUNDLE_ID', 'com.snsworker.mobile')
 
 # ── GitHub OAuth（integrations_github；MCP 连接器平台代理，保管 client_secret）──
 GITHUB_OAUTH_CLIENT_ID = os.getenv('GITHUB_OAUTH_CLIENT_ID', '')
@@ -430,11 +430,11 @@ def _postgres_database_config() -> dict:
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv(
             'PG_DB_NAME',
-            'tabtin' if IS_COMMUNITY_EDITION else 'tabtin_single',
+            'snsworker' if IS_COMMUNITY_EDITION else 'snsworker_single',
         ),
         'USER': os.getenv(
             'PG_DB_USER',
-            'tabtin_runtime' if IS_COMMUNITY_EDITION else 'tabtin_single',
+            'snsworker_runtime' if IS_COMMUNITY_EDITION else 'snsworker_single',
         ),
         'PASSWORD': _secret_env_or_file('PG_DB_PASSWORD'),
         'HOST': os.getenv('PG_DB_HOST', '127.0.0.1'),
