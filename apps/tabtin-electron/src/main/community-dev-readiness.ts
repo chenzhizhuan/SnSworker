@@ -1,4 +1,4 @@
-export const COMMUNITY_DEV_READY_MARKER = '[sns-worker] electron-ready'
+export const COMMUNITY_DEV_READY_MARKER = '[snsworker] electron-ready'
 
 interface CommunityDevReadinessOptions {
   env?: Record<string, string | undefined>

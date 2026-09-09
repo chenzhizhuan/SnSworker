@@ -19,8 +19,8 @@ export function waitForElectronReady({
     };
 
     const onMessage = (message) => {
-      if (message?.type === 'sns-worker-ready') finish();
-      if (message?.type === 'sns-worker-fatal') {
+      if (message?.type === 'snsworker-ready') finish();
+      if (message?.type === 'snsworker-fatal') {
         finish(
           new Error(message.summary || 'Electron 启动失败，请查看上方日志。'),
         );

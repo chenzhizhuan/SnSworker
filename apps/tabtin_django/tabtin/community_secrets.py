@@ -268,7 +268,7 @@ def main() -> None:
     root = Path(
         os.environ.get(
             "TABTIN_COMMUNITY_SECRET_ROOT",
-            "/run/sns-worker-secrets",
+            "/run/snsworker-secrets",
         )
     )
     initialize_community_installation(root)

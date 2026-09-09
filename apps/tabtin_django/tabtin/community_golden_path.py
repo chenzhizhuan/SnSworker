@@ -334,7 +334,7 @@ def _prepare_runtime(
             json={
                 "fingerprint": fingerprint,
                 "capabilities": register_payload["capabilities"],
-                "system_info": {"home_dir": "/tmp/sns-worker"},
+                "system_info": {"home_dir": "/tmp/snsworker"},
             },
         )
     )
@@ -343,7 +343,7 @@ def _prepare_runtime(
     workspace_payload = {
         "organization_id": str(organization.id),
         "device_id": first["id"],
-        "working_dir": "/tmp/sns-worker/workspace",
+        "working_dir": "/tmp/snsworker/workspace",
         "working_dir_type": "mixed",
         "name": "Community Home",
     }

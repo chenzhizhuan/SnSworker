@@ -121,7 +121,7 @@ describe('update-feed-config', () => {
   })
 
   it('community 缺少 packaged feed 元数据时关闭 updater，且忽略运行时 feed env', () => {
-    const tempDir = mkdtempSync(join(tmpdir(), 'sns-worker-feed-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'snsworker-feed-'))
 
     try {
       const packageJsonPath = join(tempDir, 'package.json')
@@ -144,7 +144,7 @@ describe('update-feed-config', () => {
   })
 
   it('community 只启用 packaged metadata 声明的 feed', () => {
-    const tempDir = mkdtempSync(join(tmpdir(), 'sns-worker-feed-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'snsworker-feed-'))
 
     try {
       const packageJsonPath = join(tempDir, 'package.json')

@@ -1,4 +1,4 @@
-export const ELECTRON_READY_MARKER = '[sns-worker] electron-ready';
+export const ELECTRON_READY_MARKER = '[snsworker] electron-ready';
 
 const FATAL_OUTPUT_PATTERN =
   /(?:Build failed|ERR_MODULE_NOT_FOUND|Cannot find (?:package|module)|Could not resolve|failed to resolve import)/i;
@@ -15,14 +15,14 @@ export function createElectronDevOutputMonitor(emit) {
 
       if (buffer.includes(ELECTRON_READY_MARKER)) {
         settled = true;
-        emit({ type: 'sns-worker-ready' });
+        emit({ type: 'snsworker-ready' });
         return;
       }
 
       if (FATAL_OUTPUT_PATTERN.test(buffer)) {
         settled = true;
         emit({
-          type: 'sns-worker-fatal',
+          type: 'snsworker-fatal',
           summary: 'Electron 构建或模块解析失败，请查看上方日志。',
         });
       }

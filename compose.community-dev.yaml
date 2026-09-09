@@ -16,7 +16,7 @@ services:
       - ./apps/tabtin_django:/app/apps/tabtin_django
       - ./packages:/app/packages:ro
       - ./community-assets:/app/community-assets:ro
-      - installation-secrets:/run/sns-worker-secrets
+      - installation-secrets:/run/snsworker-secrets
       - local-objects:/var/lib/snsworker/objects
       - playwright-data:/ms-playwright
 
@@ -25,10 +25,10 @@ services:
     volumes:
       - ./apps/tabtin_django:/app/apps/tabtin_django
       - ./packages:/app/packages:ro
-      - installation-secrets:/run/sns-worker-secrets:ro
+      - installation-secrets:/run/snsworker-secrets:ro
       - local-objects:/var/lib/snsworker/objects
       - playwright-data:/ms-playwright
 
 volumes:
   playwright-data:
-    name: sns-worker-playwright-data
+    name: snsworker-playwright-data

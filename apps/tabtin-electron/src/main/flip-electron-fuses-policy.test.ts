@@ -42,7 +42,7 @@ describe('flip-electron-fuses profile policy', () => {
       'resources/app.asar': { algorithm: 'SHA256', hash: 'header-hash' },
     }
 
-    await restoreWindowsAsarIntegrity('/pack/sns-worker.exe', {
+    await restoreWindowsAsarIntegrity('/pack/snsworker.exe', {
       computeData: async (options: unknown) => {
         calls.push({ kind: 'compute', value: options })
         return asarIntegrity
@@ -63,7 +63,7 @@ describe('flip-electron-fuses profile policy', () => {
       {
         kind: 'write',
         value: {
-          exePath: '/pack/sns-worker.exe',
+          exePath: '/pack/snsworker.exe',
           integrity: asarIntegrity,
         },
       },

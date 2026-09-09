@@ -57,9 +57,9 @@ test('8100 owned by the current Community project is reused', () => {
       rootDir: '/repo',
       dockerOwners: [
         {
-          name: 'sns-worker-centrifugo-1',
+          name: 'snsworker-centrifugo-1',
           labels: {
-            'com.docker.compose.project': 'sns-worker',
+            'com.docker.compose.project': 'snsworker',
             'com.docker.compose.project.working_dir': '/old/linked-worktree',
             'com.docker.compose.service': 'centrifugo',
           },
@@ -70,7 +70,7 @@ test('8100 owned by the current Community project is reused', () => {
     {
       kind: 'current-community',
       reusable: true,
-      owners: ['sns-worker-centrifugo-1'],
+      owners: ['snsworker-centrifugo-1'],
     },
   );
 });

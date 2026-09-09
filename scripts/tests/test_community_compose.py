@@ -115,7 +115,7 @@ def test_official_community_installation_has_one_five_service_interface() -> Non
 
     compose = _resolved_compose()
     services = compose["services"]
-    assert compose["name"] == "sns-worker"
+    assert compose["name"] == "snsworker"
     assert set(services) == {
         "postgres",
         "redis",
@@ -178,7 +178,7 @@ def test_compose_reads_the_edition_from_the_explicit_env_file() -> None:
         assert django["environment"]["TABTIN_EDITION"] == expected_edition
         assert celery["environment"]["TABTIN_EDITION"] == expected_edition
         assert not any(
-            mount["target"] == "/run/sns-worker-config/root.env"
+            mount["target"] == "/run/snsworker-config/root.env"
             for mount in django["volumes"] + celery["volumes"]
         )
 

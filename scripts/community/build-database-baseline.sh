@@ -4,8 +4,8 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 artifact_root="${repo_root}/community-assets/postgres/baseline"
 probe_suffix="$$"
-network_name="sns-worker-baseline-${probe_suffix}"
-postgres_name="sns-worker-baseline-postgres-${probe_suffix}"
+network_name="snsworker-baseline-${probe_suffix}"
+postgres_name="snsworker-baseline-postgres-${probe_suffix}"
 source_database="snsworker_baseline_source_${probe_suffix}"
 restore_database="snsworker_baseline_restore_${probe_suffix}"
 django_image="snsworker/community-django:dev"
@@ -105,7 +105,7 @@ run_django() {
     -e PG_DB_NAME="${database_name}" \
     -e PG_DB_USER="${database_user}" \
     -e SERVICES_OSS_PROVIDER=local \
-    -e LOCAL_OSS_ROOT=/tmp/sns-worker-baseline-objects \
+    -e LOCAL_OSS_ROOT=/tmp/snsworker-baseline-objects \
     -e REDIS_URL=redis://127.0.0.1:6379/0 \
     "${django_image}" manage.py "$@"
 }

@@ -74,7 +74,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install ${PIP_INDEX_URL:+-i "$PIP_INDEX_URL"} ${PIP_TRUSTED_HOST:+--trusted-host "$PIP_TRUSTED_HOST"} -r requirements.txt
 
 # PDF 导出复用 Playwright 渲染 HTML，部署镜像必须内置浏览器本体。
-# 固定 PLAYWRIGHT_BROWSERS_PATH，避免安装到 root home 后运行态 sns-worker 用户不可读。
+# 固定 PLAYWRIGHT_BROWSERS_PATH，避免安装到 root home 后运行态 snsworker 用户不可读。
 #
 # PLAYWRIGHT_DOWNLOAD_HOST：Chromium 本体默认从 cdn.playwright.dev 下（国内/云效公网极慢，
 #   实测 177MB 可拖 20+ 分钟）。默认走 npmmirror；海外/官方源可覆盖为空或官方 host。
@@ -108,12 +108,12 @@ RUN set -euo pipefail \
     && echo "[django-image] agent templates=${agent_manifest_count} packages/skills/bundled=ok"
 
 RUN chmod +x /app/apps/tabtin_django/docker-entrypoint.sh \
-    && groupadd --gid 10001 sns-worker \
-    && useradd --uid 10001 --gid 10001 --home-dir /app --shell /usr/sbin/nologin sns-worker \
+    && groupadd --gid 10001 snsworker \
+    && useradd --uid 10001 --gid 10001 --home-dir /app --shell /usr/sbin/nologin snsworker \
     && mkdir -p /app/apps/tabtin_django/logs /app/apps/tabtin_django/media /app/apps/tabtin_django/staticfiles \
         /var/lib/snsworker/objects \
     && mkdir -p /ms-playwright \
-    && chown -R sns-worker:sns-worker /app /var/lib/snsworker/objects /ms-playwright
+    && chown -R snsworker:snsworker /app /var/lib/snsworker/objects /ms-playwright
 
 LABEL com.snsworker.community.dev-dependency-fingerprint=${TABTIN_DEV_DEPENDENCY_FINGERPRINT}
 
@@ -123,7 +123,7 @@ ARG TABTIN_SOURCE_SHA=""
 ENV TABTIN_SERVER_VERSION=${TABTIN_SERVER_VERSION} \
     TABTIN_SOURCE_SHA=${TABTIN_SOURCE_SHA}
 
-USER sns-worker
+USER snsworker
 
 EXPOSE 6060
 

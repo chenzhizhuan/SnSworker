@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-secret_root=/run/sns-worker-secrets
+secret_root=/run/snsworker-secrets
 secret_file="${secret_root}/PG_INIT_PASSWORD"
 mkdir -p "${secret_root}"
 chmod 0755 "${secret_root}"
