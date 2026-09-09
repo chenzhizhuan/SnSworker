@@ -70,7 +70,7 @@ android {
     val releaseImApiBaseUrl = releaseApiBaseUrl
 
     defaultConfig {
-        applicationId = "com.example.tabtin"
+        applicationId = "com.snsworker.mobile"
         minSdk = 26
         targetSdk = 36
         versionCode = overrideVersionCode ?: 1
