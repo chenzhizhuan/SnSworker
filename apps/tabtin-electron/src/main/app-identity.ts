@@ -15,25 +15,25 @@ export interface TabTinAppIdentity {
 const PROFILE_IDENTITIES: Record<TabTinRuntimeProfile, TabTinAppIdentity> = {
   development: {
     profile: 'development',
-    appId: 'com.tabtin.app.dev',
+    appId: 'com.snsworker.app.dev',
     productName: 'SnSworker Dev',
     userDataDirName: 'SnSworker Dev',
   },
   local: {
     profile: 'local',
-    appId: 'com.tabtin.app.local',
+    appId: 'com.snsworker.app.local',
     productName: 'SnSworker Local',
     userDataDirName: 'SnSworker Local',
   },
   community: {
     profile: 'community',
-    appId: 'com.tabtin.community',
+    appId: 'com.snsworker.community',
     productName: 'SnSworker',
     userDataDirName: 'SnSworker',
   },
   preprod: {
     profile: 'preprod',
-    appId: 'com.tabtin.app.preprod',
+    appId: 'com.snsworker.app.preprod',
     // Electron safeStorage derives its macOS Keychain service from app.getName().
     // Keep this distinct from production and aligned with the packaged app name.
     productName: 'SnSworker Preprod',
@@ -41,7 +41,7 @@ const PROFILE_IDENTITIES: Record<TabTinRuntimeProfile, TabTinAppIdentity> = {
   },
   production: {
     profile: 'production',
-    appId: 'com.tabtin.app',
+    appId: 'com.snsworker.app',
     productName: 'SnSworker',
     userDataDirName: 'SnSworker',
   },
@@ -63,7 +63,7 @@ function inferProfileFromText(value: string | undefined): TabTinRuntimeProfile |
   if (!normalized) return undefined
   if (normalized.includes('preprod')) return 'preprod'
   if (normalized.includes('community')) return 'community'
-  if (normalized.includes('com.tabtin.app.local')) return 'local'
+  if (normalized.includes('com.snsworker.app.local')) return 'local'
   if (/(^|[^a-z0-9])tabtin[^a-z0-9]+local([^a-z0-9]|$)/.test(normalized)) return 'local'
   return undefined
 }

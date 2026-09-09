@@ -99,7 +99,7 @@ describe('app-identity', () => {
 
     expect(identity).toMatchObject({
       profile: 'development',
-      appId: 'com.tabtin.app.dev',
+      appId: 'com.snsworker.app.dev',
       productName: 'SnSworker Dev',
     })
     expect(mocks.app.setName).toHaveBeenCalledWith('SnSworker Dev')
@@ -107,7 +107,7 @@ describe('app-identity', () => {
       'userData',
       join('/Users/test/Library/Application Support', 'SnSworker Dev'),
     )
-    expect(process.env.TABTIN_APP_ID).toBe('com.tabtin.app.dev')
+    expect(process.env.TABTIN_APP_ID).toBe('com.snsworker.app.dev')
     expect(process.env.TABTIN_DATA_ROOT).toBe(
       join('/Users/test/Library/Application Support', 'SnSworker Dev'),
     )
@@ -135,7 +135,7 @@ describe('app-identity', () => {
 
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'preprod',
-      appId: 'com.tabtin.app.preprod',
+      appId: 'com.snsworker.app.preprod',
       productName: 'SnSworker Preprod',
     })
   })
@@ -156,7 +156,7 @@ describe('app-identity', () => {
 
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'preprod',
-      appId: 'com.tabtin.app.preprod',
+      appId: 'com.snsworker.app.preprod',
       productName: 'SnSworker Preprod',
     })
   })
@@ -176,7 +176,7 @@ describe('app-identity', () => {
 
     expect(applyRuntimeAppIdentity()).toMatchObject({
       profile: 'community',
-      appId: 'com.tabtin.community',
+      appId: 'com.snsworker.community',
       productName: 'SnSworker',
     })
     expect(mocks.app.setPath).toHaveBeenCalledWith(
@@ -196,7 +196,7 @@ describe('app-identity', () => {
     expect(resolvePackagedRuntimeProfileFromHost()).toBe('preprod')
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'preprod',
-      appId: 'com.tabtin.app.preprod',
+      appId: 'com.snsworker.app.preprod',
       productName: 'SnSworker Preprod',
     })
   })
@@ -208,7 +208,7 @@ describe('app-identity', () => {
 
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'local',
-      appId: 'com.tabtin.app.local',
+      appId: 'com.snsworker.app.local',
       productName: 'SnSworker Local',
     })
   })
@@ -222,7 +222,7 @@ describe('app-identity', () => {
 
     expect(resolveRuntimeAppIdentity()).toMatchObject({
       profile: 'production',
-      appId: 'com.tabtin.app',
+      appId: 'com.snsworker.app',
       productName: 'SnSworker',
     })
   })

@@ -122,7 +122,7 @@ describe('main-app-handlers', () => {
     expect(mocks.initializeStartupServices).toHaveBeenCalledWith(
       expect.objectContaining({
         isDev: true,
-        appUserModelId: 'com.tabtin.app',
+        appUserModelId: 'com.snsworker.app',
         rendererUrl: 'http://localhost:5173',
         displayMediaTrustedOrigins: ['http://localhost:5173'],
         log: mocks.log,

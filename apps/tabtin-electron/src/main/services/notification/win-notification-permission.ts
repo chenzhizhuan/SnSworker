@@ -38,10 +38,10 @@ export type WindowsNotificationPermissionDeps = {
 }
 
 const DEFAULT_AUMIDS = [
-  'com.tabtin.app.dev',
-  'com.tabtin.app.local',
-  'com.tabtin.app.preprod',
-  'com.tabtin.app',
+  'com.snsworker.app.dev',
+  'com.snsworker.app.local',
+  'com.snsworker.app.preprod',
+  'com.snsworker.app',
 ]
 
 function buildStatus(

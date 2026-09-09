@@ -108,7 +108,7 @@
     "availableTitle": "AI 실행은 \"{{device}}\"을 통해 라우팅됩니다.",
     "availableDesc": "팀 협업은 이 팀 작업 공간에 유지됩니다. AI는 {{space}}에서 실행됩니다.",
     "unavailableTitle": "소유자 실행 장치 \"{{device}}\"을 사용할 수 없습니다({{status}})",
-    "unavailableDesc": "채팅과 자산은 계속 사용할 수 있지만 지금은 AI 작업을 시작할 수 없습니다. 소유자가 해당 장치에서 TabTin을 다시 열고 {{space}}가 다시 온라인 상태가 되면 실행이 재개됩니다."
+    "unavailableDesc": "채팅과 자산은 계속 사용할 수 있지만 지금은 AI 작업을 시작할 수 없습니다. 소유자가 해당 장치에서 SnSworker을 다시 열고 {{space}}가 다시 온라인 상태가 되면 실행이 재개됩니다."
   },
   "validation": {
     "nameRequired": "작업공간 이름은 필수 항목입니다.",
@@ -742,7 +742,7 @@
     "workspaceHint": "TabCode/디렉토리에서 열린 콘텐츠에서 자동으로 감지됩니다. 수동 구성이 필요하지 않습니다.",
     "workspaceEmpty": "승인된 경로가 없습니다. 에이전트 액세스 권한을 부여하려면 TabCode에서 프로젝트를 열거나 디렉터리에서 로컬 디렉터리를 엽니다.",
     "workspaceSourceSandbox": "에이전트 샌드박스",
-    "workspaceSandboxHint": "각 작업 공간에 대해 TabTin이 자동 생성한 기본 작업 공간. 여기서는 취소할 수 없습니다.",
+    "workspaceSandboxHint": "각 작업 공간에 대해 SnSworker이 자동 생성한 기본 작업 공간. 여기서는 취소할 수 없습니다.",
     "workspaceSourceTabcode": "TabCode 프로젝트",
     "workspaceTabcodeHint": "여기에 드롭한 폴더는 .env, SSH 키 및 내부의 기타 중요한 파일을 포함하여 에이전트가 완전히 액세스할 수 있습니다. 에이전트 보기 범위를 좁히려면 홈 디렉터리가 아닌 특정 하위 폴더를 선택하세요.",
     "workspaceSourceTabfolder": "디렉토리 검색 기록",
@@ -1470,7 +1470,7 @@
   },
   "mcpConnections": {
     "title": "외부 도구 및 통합(MCP)",
-    "subtitle": "MCP(Model Context Protocol)는 표준화된 프로토콜입니다. 현재 에이전트에 대한 외부 데이터 소스(예: 로컬 데이터베이스 또는 GitHub)를 연결하거나 TabTin의 기능을 다른 AI 보조자에게 노출할 수 있습니다.",
+    "subtitle": "MCP(Model Context Protocol)는 표준화된 프로토콜입니다. 현재 에이전트에 대한 외부 데이터 소스(예: 로컬 데이터베이스 또는 GitHub)를 연결하거나 SnSworker의 기능을 다른 AI 보조자에게 노출할 수 있습니다.",
     "subtitleDevice": "이 장치의 로컬 MCP 연결을 관리하고 각 연결을 활성화할 에이전트를 선택하세요.",
     "readOnlyNoticeDevice": "읽기 전용 모드. 로컬 MCP 연결은 장치 관리자가 관리합니다.",
     "agentScopeMigrationNotice": "레거시 활성화는 에이전트에 안전하게 매핑될 수 없습니다. 이 연결을 다시 사용할 수 있는 에이전트를 선택하세요.",
@@ -1523,7 +1523,7 @@
     "marketplace": {
       "searchLabel": "커넥터 검색",
       "searchPlaceholder": "이름, 소스 또는 구성으로 검색",
-      "intro": "TabTin에서 외부 앱과 서비스를 사용해보세요.",
+      "intro": "SnSworker에서 외부 앱과 서비스를 사용해보세요.",
       "actionsLabel": "추가 작업",
       "connectedTitle": "연결된 커넥터",
       "discoveredTitle": "이 기기에서 발견됨",
@@ -1562,8 +1562,8 @@
         "reuseHint": "승인되면 Stripe / Notion과 동일한 \"웹 승인 → 프로브 도구\" 흐름을 재사용합니다.",
         "gotIt": "알았어요",
         "generic": "이 커넥터는 승인 전에 공급업체 온보딩이 필요합니다. 나중에 다시 시도해 주세요.",
-        "github": "GitHub 원격 MCP는 동적 클라이언트 등록을 지원하지 않습니다. TabTin이 GitHub 앱 및 콜백을 등록한 후 승인이 열립니다.",
-        "vercel": "Vercel MCP는 승인된 AI 클라이언트로 제한됩니다. TabTin이 승인된 후 승인이 열립니다.",
+        "github": "GitHub 원격 MCP는 동적 클라이언트 등록을 지원하지 않습니다. SnSworker이 GitHub 앱 및 콜백을 등록한 후 승인이 열립니다.",
+        "vercel": "Vercel MCP는 승인된 AI 클라이언트로 제한됩니다. SnSworker이 승인된 후 승인이 열립니다.",
         "canva": "Canva에서는 MCP 허용 목록에 콜백 URI가 필요합니다. 검토 후 승인이 열립니다."
       },
       "credentialDialog": {
@@ -1597,7 +1597,7 @@
       "oauthDialog": {
         "promptTitle": "{{name}} 웹 승인 완료",
         "promptDescription": "인증 창에서 {{name}} 로그인을 완료한 후 여기로 돌아오세요.",
-        "browserHint": "TabTin은 기본 브라우저에서 인증 페이지를 엽니다. {{name}}에 로그인하지 않은 경우 해당 로그인이 먼저 표시됩니다. 그런 다음 \"SnSworker 액세스 허용\"을 확인하십시오.",
+        "browserHint": "SnSworker은 기본 브라우저에서 인증 페이지를 엽니다. {{name}}에 로그인하지 않은 경우 해당 로그인이 먼저 표시됩니다. 그런 다음 \"SnSworker 액세스 허용\"을 확인하십시오.",
         "scopeConnectTitle": "계정 연결",
         "scopeConnectBody": "프로젝트, 배포 상태, 기본 팀 정보를 읽는 데 사용됩니다.",
         "scopeControlTitle": "당신은 통제력을 유지합니다",
@@ -1609,7 +1609,7 @@
         "failedTitle": "승인이 완료되지 않았습니다.",
         "failedBody": "{{name}} 승인이 완료되지 않았습니다. 이전 구성은 변경되지 않습니다. 다시 시도하거나 돌아가세요.",
         "timeoutTitle": "연결 확인 시간이 초과되었습니다.",
-        "timeoutBody": "TabTin은 {{name}} 승인을 위해 {{seconds}}초 이상 기다렸으며 완료되었는지 확인할 수 없었습니다. 이전 구성은 변경되지 않습니다. 다시 시도하거나 돌아가세요.",
+        "timeoutBody": "SnSworker은 {{name}} 승인을 위해 {{seconds}}초 이상 기다렸으며 완료되었는지 확인할 수 없었습니다. 이전 구성은 변경되지 않습니다. 다시 시도하거나 돌아가세요.",
         "successTitle": "{{name}} 연결됨",
         "successBody": "승인 및 연결 프로브가 모두 완료되었습니다.",
         "successAssigned": "{{name}}은 {{count}} 에이전트에 대해 구성됩니다.",
@@ -1621,7 +1621,7 @@
         "backToConfig": "구성으로 돌아가기"
       },
       "recommendedCatalog": {
-        "vercel": "mcp-remote(stdio)를 통한 공식 원격 MCP. TabTin이 승인된 Vercel MCP 클라이언트 이후에 지원되는 OAuth입니다.",
+        "vercel": "mcp-remote(stdio)를 통한 공식 원격 MCP. SnSworker이 승인된 Vercel MCP 클라이언트 이후에 지원되는 OAuth입니다.",
         "github": "공식 GitHub 원격 MCP. 프로덕션 중인 플랫폼 OAuth OAuth 앱이 로컬로 구성되지 않은 경우 개인 액세스 토큰을 붙여넣습니다.",
         "stripe": "mcp-remote(stdio)를 통한 공식 스트라이프 원격 MCP. 연결 후 브라우저에서 표준 MCP OAuth를 완료합니다.",
         "notion": "mcp-remote(stdio)를 통한 공식 Notion 원격 MCP. 대화형 클라이언트는 OAuth(PAT도 사용 가능)를 선호합니다.",

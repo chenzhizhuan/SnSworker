@@ -37,7 +37,7 @@ describe('uninstall-cleanup-paths', () => {
     expect(paths).toContain(path.join(appData, 'SnSworker', 'Partitions'))
     expect(paths).toContain(path.join(home, '.tabtin', 'desktop-approval.json'))
     expect(paths).toContain(path.join(home, '.tabtin-daemon'))
-    expect(paths).toContain(path.join(localCache, 'com.tabtin.app-updater'))
+    expect(paths).toContain(path.join(localCache, 'com.snsworker.app-updater'))
 
     for (const p of paths) {
       expect(p.includes(`${path.sep}organizations`)).toBe(false)
@@ -61,7 +61,7 @@ describe('uninstall-cleanup-paths', () => {
 
   it('updater cache paths sit under local cache root', () => {
     const caches = resolveUpdaterCachePaths({ localCacheRoot: localCache })
-    expect(caches[0]).toBe(path.join(localCache, 'com.tabtin.app-updater'))
+    expect(caches[0]).toBe(path.join(localCache, 'com.snsworker.app-updater'))
   })
 
   it('mac app bundles are under /Applications', () => {

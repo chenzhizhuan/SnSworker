@@ -60,7 +60,7 @@ class ProviderTests(SimpleTestCase):
             team_id="TEAM123456",
             key_id="KEY1234567",
             private_key="private-key",
-            bundle_id="com.tabtin.mobile",
+            bundle_id="com.snsworker.mobile",
             environment="sandbox",
             client=client,
         )
@@ -79,7 +79,7 @@ class ProviderTests(SimpleTestCase):
         kwargs = client.post.call_args.kwargs
         self.assertEqual(url, "https://api.sandbox.push.apple.com/3/device/device-token")
         self.assertEqual(kwargs["headers"]["authorization"], "bearer signed-jwt")
-        self.assertEqual(kwargs["headers"]["apns-topic"], "com.tabtin.mobile")
+        self.assertEqual(kwargs["headers"]["apns-topic"], "com.snsworker.mobile")
         self.assertEqual(kwargs["headers"]["apns-push-type"], "alert")
         self.assertEqual(kwargs["json"]["aps"]["alert"]["title"], "Agent 在等你")
         self.assertEqual(
@@ -96,7 +96,7 @@ class ProviderTests(SimpleTestCase):
             team_id="TEAM123456",
             key_id="KEY1234567",
             private_key="private-key",
-            bundle_id="com.tabtin.mobile",
+            bundle_id="com.snsworker.mobile",
             environment="production",
             client=client,
         )
@@ -114,7 +114,7 @@ class ProviderTests(SimpleTestCase):
             team_id="TEAM123456",
             key_id="KEY1234567",
             private_key="private-key",
-            bundle_id="com.tabtin.mobile",
+            bundle_id="com.snsworker.mobile",
             client=client,
         )
 
@@ -131,7 +131,7 @@ class ProviderTests(SimpleTestCase):
             team_id="TEAM123456",
             key_id="KEY1234567",
             private_key="private-key",
-            bundle_id="com.tabtin.mobile",
+            bundle_id="com.snsworker.mobile",
             client=client,
         )
 

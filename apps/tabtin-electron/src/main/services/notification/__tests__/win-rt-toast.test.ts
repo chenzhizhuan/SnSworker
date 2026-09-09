@@ -10,7 +10,7 @@ describe('win-rt-toast helpers', () => {
     const xml = __testing.buildToastXml({
       title: '张三',
       body: 'hello <world>',
-      aumid: 'com.tabtin.app.preprod',
+      aumid: 'com.snsworker.app.preprod',
       silent: true,
       iconFileUrl: 'file:///C:/app/static/icon.png',
       launchUrl: 'tabtin://notify?d=abc&x=1',
@@ -30,7 +30,7 @@ describe('win-rt-toast helpers', () => {
 
   it('buildPowerShellScript 写入 ExpirationTime', () => {
     const script = __testing.buildPowerShellScript(
-      'com.tabtin.app.preprod',
+      'com.snsworker.app.preprod',
       '<toast/>',
       5,
     )

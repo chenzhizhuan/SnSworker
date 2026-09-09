@@ -64,7 +64,7 @@ const TRAY_LABELS: Record<StartupUiLocale, TrayLabels> = {
     hiddenHintBody: 'ウィンドウは非表示になりました。トレイ / メニューバー、タスクバー / Dock のアイコンをクリックすると再度開けます。この動作は設定で変更できます。',
   },
   'ko-KR': {
-    tooltip: 'SnSworker', open: 'SnSworker 열기', quit: '종료', hiddenHintTitle: 'TabTin이 백그라운드에서 실행 중입니다',
+    tooltip: 'SnSworker', open: 'SnSworker 열기', quit: '종료', hiddenHintTitle: 'SnSworker이 백그라운드에서 실행 중입니다',
     hiddenHintBody: '창이 숨겨졌습니다. 트레이 / 메뉴 막대 또는 작업 표시줄 / Dock 아이콘을 클릭하여 다시 열 수 있습니다. 설정에서 이 동작을 변경할 수 있습니다.',
   },
   'de-DE': {

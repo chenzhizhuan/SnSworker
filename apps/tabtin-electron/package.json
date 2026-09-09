@@ -321,7 +321,7 @@
     "xlsx": "0.18.5"
   },
   "build": {
-    "appId": "com.tabtin.app.local",
+    "appId": "com.snsworker.app.local",
     "productName": "SnSworker Local",
     "publish": {
       "provider": "generic",

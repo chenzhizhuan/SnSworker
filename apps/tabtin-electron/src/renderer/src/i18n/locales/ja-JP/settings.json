@@ -1,6 +1,6 @@
 {
   "title": "設定",
-  "subtitle": "TabTinの設定を管理します",
+  "subtitle": "SnSworkerの設定を管理します",
   "close": "閉じる",
   "navigation": {
     "back": "組織に戻る",
@@ -42,7 +42,7 @@
     "accountDevices": "私のデバイス",
     "systemNotifications": "通知",
     "systemPermissions": "システム権限",
-    "aboutTabtin": "TabTinについて",
+    "aboutTabtin": "SnSworkerについて",
     "appearanceDisplay": "外観",
     "voiceHabits": "声",
     "aiSettings": "AI設定",

@@ -91,10 +91,10 @@ export const TABTIN_HOME_CONFIG_FILE_RELATIVE_PATHS = [
 
 /** electron-updater / electron-builder 可能留下的 updater 缓存目录名 */
 export const TABTIN_UPDATER_CACHE_DIR_NAMES = [
-  'com.tabtin.app-updater',
-  'com.tabtin.app.dev-updater',
-  'com.tabtin.app.local-updater',
-  'com.tabtin.app.preprod-updater',
+  'com.snsworker.app-updater',
+  'com.snsworker.app.dev-updater',
+  'com.snsworker.app.local-updater',
+  'com.snsworker.app.preprod-updater',
   'SnSworker-updater',
   'SnSworker Dev-updater',
   'SnSworker Local-updater',

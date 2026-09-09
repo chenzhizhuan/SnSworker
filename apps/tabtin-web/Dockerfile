@@ -1,6 +1,6 @@
-# tabtin-web 静态托管镜像（Vite SPA → nginx）
+# web 静态托管镜像（Vite SPA → nginx，源目录 apps/tabtin-web/）
 #
-# ⚠️ 根上下文构建（context: .）：tabtin-web 依赖 27 个 workspace 包，pnpm 过滤
+# ⚠️ 根上下文构建（context: .）：本应用（apps/tabtin-web/）依赖 27 个 workspace 包，pnpm 过滤
 #    安装要对齐 lockfile 必须读到完整 workspace manifest，故只能从仓库根构建。
 #
 # ⚠️ VITE_* 是**构建期**内联：Vite 把 import.meta.env.VITE_* 直接写死进 bundle，

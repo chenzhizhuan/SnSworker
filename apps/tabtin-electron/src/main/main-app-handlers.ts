@@ -69,7 +69,7 @@ export function createMainAppLifecycleHandlers(
 
       initializeStartupServices({
         isDev: options.isDev,
-        appUserModelId: process.env.TABTIN_APP_ID || 'com.tabtin.app',
+        appUserModelId: process.env.TABTIN_APP_ID || 'com.snsworker.app',
         rendererUrl: options.rendererUrl,
         displayMediaTrustedOrigins: options.displayMediaTrustedOrigins,
         log: options.log,

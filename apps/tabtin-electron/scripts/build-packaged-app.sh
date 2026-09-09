@@ -810,13 +810,13 @@ PROFILE_SHORTCUT_NAME=""
 case "$PROFILE" in
   local)
     PROFILE_PRODUCT_NAME="SnSworker Local"
-    PROFILE_APP_ID="com.tabtin.app.local"
+    PROFILE_APP_ID="com.snsworker.app.local"
     PROFILE_EXECUTABLE_NAME="snsworker-local"
     PROFILE_SHORTCUT_NAME="SnSworker Local"
     ;;
   community)
     PROFILE_PRODUCT_NAME="SnSworker"
-    PROFILE_APP_ID="com.tabtin.community"
+    PROFILE_APP_ID="com.snsworker.community"
     PROFILE_EXECUTABLE_NAME="sns-worker"
     PROFILE_SHORTCUT_NAME="SnSworker"
     ;;

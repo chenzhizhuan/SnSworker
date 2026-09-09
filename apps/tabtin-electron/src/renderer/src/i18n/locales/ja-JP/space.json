@@ -1597,7 +1597,7 @@
       "oauthDialog": {
         "promptTitle": "{{name}} Web 認証を完了する",
         "promptDescription": "認証ウィンドウで {{name}} のサインインを完了し、ここに戻ります。",
-        "browserHint": "SnSworker はデフォルトのブラウザで認証ページを開きます。 {{name}} にサインインしていない場合は、最初にログインが表示されます。その後、「TabTinのアクセスを許可する」にチェックを入れます。",
+        "browserHint": "SnSworker はデフォルトのブラウザで認証ページを開きます。 {{name}} にサインインしていない場合は、最初にログインが表示されます。その後、「SnSworkerのアクセスを許可する」にチェックを入れます。",
         "scopeConnectTitle": "アカウントを接続する",
         "scopeConnectBody": "プロジェクト、展開ステータス、および基本的なチーム情報を読み取るために使用されます。",
         "scopeControlTitle": "あなたはコントロールを維持します",

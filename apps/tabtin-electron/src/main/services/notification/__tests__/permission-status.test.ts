@@ -80,7 +80,7 @@ describe('notification permission status', () => {
       platform: 'win32',
       supported: true,
       windows: {
-        aumids: ['com.tabtin.app'],
+        aumids: ['com.snsworker.app'],
         readGlobalToastEnabled: () => null,
         readAppEnabled: () => 1,
       },
@@ -98,7 +98,7 @@ describe('notification permission status', () => {
       platform: 'win32',
       supported: true,
       windows: {
-        aumids: ['com.tabtin.app'],
+        aumids: ['com.snsworker.app'],
         readGlobalToastEnabled: () => null,
         readAppEnabled: () => undefined,
       },

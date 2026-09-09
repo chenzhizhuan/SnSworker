@@ -12,7 +12,7 @@
     "accessDeniedTitle": "「{{name}}」にアクセスできません",
     "accessDeniedAutoSwitch": "「{{name}}」に切り替える"
   },
-  "welcomeTitle": "TabTinへようこそ",
+  "welcomeTitle": "SnSworkerへようこそ",
   "welcomeSubtitle": "AIワークプラットフォーム。新しいワークスペースを作成するか、左側から選択してください。",
   "welcomeSubtitleGuest": "サインインしてワークスペースを作成し、共同作業を開始します。",
   "welcome": {
@@ -63,7 +63,7 @@
       "footnote": "主要な LLM への統合アクセス · 38 以上の AI 作業シナリオ",
       "demo": {
         "tabs": {
-          "browser": "TabTinブラウザ",
+          "browser": "SnSworkerブラウザ",
           "data": "資金調達データ.tabdata",
           "report": "投資概要.tabdoc",
           "slides": "毎週の資金調達デッキ.tabslide"

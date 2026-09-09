@@ -46,7 +46,7 @@
   },
   "topItems": {
     "loading": "ワークスペースのデータを測定しています…",
-    "empty": "まだデータがありません。しばらくTabTinを使ってから戻ってきてください。",
+    "empty": "まだデータがありません。しばらくSnSworkerを使ってから戻ってきてください。",
     "itemCount": "{{count}} アイテム",
     "showAll": "他の {{count}} アイテムを表示",
     "collapseAll": "崩壊する",
