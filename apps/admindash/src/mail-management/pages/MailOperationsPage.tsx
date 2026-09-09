@@ -253,7 +253,7 @@ export function MailOperationsPage() {
           <Mail className="mx-auto h-8 w-8 text-muted-foreground" />
           <h3 className="mt-4 text-title font-semibold">邮箱治理日志未启用</h3>
           <p className="mx-auto mt-2 max-w-md text-body text-muted-foreground">
-            当前部署（社区版）尚未包含邮箱账户（IMAP）管理后端，治理日志不可用。
+            当前部署（待开发）尚未包含邮箱账户（IMAP）管理后端，治理日志不可用。
           </p>
         </div>
       </AdminPage>

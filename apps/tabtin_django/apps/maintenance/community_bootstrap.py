@@ -38,8 +38,8 @@ COMMUNITY_INSTALLATION_MARKER_KEY = "community.installation.complete"
 COMMUNITY_MEMBERSHIP_TIER_TYPE = "community"
 _COMMUNITY_MEMBERSHIP_END_DATE = datetime.max.replace(tzinfo=UTC)
 _COMMUNITY_MEMBERSHIP_TIER_DEFAULTS = {
-    "name": "Community",
-    "description": "Community 自托管版的完整本地产品权益",
+    "name": "企业版",
+    "description": "企业版自托管版的完整本地产品权益",
     "price": Decimal("0.00"),
     "duration_months": 1,
     "max_tables": -1,

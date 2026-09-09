@@ -272,7 +272,7 @@ export function MailManagementPage() {
       })
       setListData(response)
     } catch (loadError: unknown) {
-      // 社区版未部署邮箱账号管理后端：/auth/admin/mail/accounts 返回 404。
+      // 未部署邮箱账号管理后端：/auth/admin/mail/accounts 返回 404。
       // 识别为「功能未启用」而非普通错误，给出明确说明而非白屏/误导。
       const msg = loadError instanceof Error ? loadError.message : ''
       if (/HTTP 404/.test(msg)) {
@@ -638,7 +638,7 @@ export function MailManagementPage() {
           <Mail className="mx-auto h-8 w-8 text-muted-foreground" />
           <h3 className="mt-4 text-title font-semibold">邮箱账户管理未启用</h3>
           <p className="mx-auto mt-2 max-w-md text-body text-muted-foreground">
-            当前部署（社区版）尚未包含邮箱账户（IMAP）管理后端，因此无法查看或同步邮箱账户。
+            当前部署（待开发）尚未包含邮箱账户（IMAP）管理后端，因此无法查看或同步邮箱账户。
             该页面功能需要部署对应的后端模块后才会生效。系统发信记录可在「资源管理 › 内容总览」中查看。
           </p>
         </div>
