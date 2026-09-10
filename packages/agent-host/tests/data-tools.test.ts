@@ -893,11 +893,11 @@ describe('headers injection', () => {
     expect(mock.calls[0].headers['Authorization']).toBeUndefined();
   });
 
-  it('injects X-SnSworker-Organization-Id when organizationId provided', async () => {
+  it('injects X-TabTin-Organization-Id when organizationId provided', async () => {
     mock.setResponder(() => buildJsonResponse({ success: true, query: 'q', total: 0, hits: [], type_counts: {} }));
     const tool = findTool(createDataTools(buildDeps()), 'memory_search');
     await tool.execute({ query: 'q' }, noopContext);
-    expect(mock.calls[0].headers['X-SnSworker-Organization-Id']).toBe('wt-001');
+    expect(mock.calls[0].headers['X-TabTin-Organization-Id']).toBe('wt-001');
   });
 });
 

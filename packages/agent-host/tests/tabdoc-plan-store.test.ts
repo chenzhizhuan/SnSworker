@@ -114,7 +114,7 @@ describe('TabDocPlanStore.create — HTTP path & field mapping', () => {
     expect(calls[0].url).toBe('https://api.test.example.com/api/plan/create');
     expect(calls[0].method).toBe('POST');
     expect(calls[0].headers['Authorization']).toBe('Bearer token-xyz');
-    expect(calls[0].headers['X-SnSworker-Organization-Id']).toBe('wt-001');
+    expect(calls[0].headers['X-TabTin-Organization-Id']).toBe('wt-001');
     expect(calls[0].body).toEqual({
       organization_id: 'wt-001',
       name: 'My Plan',

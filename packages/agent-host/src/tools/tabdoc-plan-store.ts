@@ -217,7 +217,7 @@ export class TabDocPlanStore implements PlanStore {
     const url = joinApiPath(this.deps.apiBaseUrl, `/plan/${endpoint}`);
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (this.deps.apiAuthToken) headers['Authorization'] = `Bearer ${this.deps.apiAuthToken}`;
-    if (this.deps.organizationId) headers['X-SnSworker-Organization-Id'] = this.deps.organizationId;
+    if (this.deps.organizationId) headers['X-TabTin-Organization-Id'] = this.deps.organizationId;
 
     const internalTimeoutSignal = AbortSignal.timeout(30_000);
     const signal = context.abortSignal

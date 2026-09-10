@@ -159,7 +159,7 @@ async function verifySkillCredentialStillActive(
     Accept: 'application/json',
     Authorization: `Bearer ${token}`,
   }
-  if (deps.organizationId) headers['X-SnSworker-Organization-Id'] = deps.organizationId
+  if (deps.organizationId) headers['X-TabTin-Organization-Id'] = deps.organizationId
 
   let response: Response
   try {
@@ -285,7 +285,7 @@ async function fetchCredentialReveal(args: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   }
-  if (deps.organizationId) headers['X-SnSworker-Organization-Id'] = deps.organizationId
+  if (deps.organizationId) headers['X-TabTin-Organization-Id'] = deps.organizationId
 
   const body = JSON.stringify({
     space_id: request.spaceId,

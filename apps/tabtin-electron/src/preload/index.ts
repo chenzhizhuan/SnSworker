@@ -4548,7 +4548,7 @@ const api = {
      * 设置 / 重置某个 session 的长上下文档位（Context Tier）。
      *
      * 调用时机：用户在 ChatInput 切档后立即调用，main 进程更新 sessionContextTiers
-     * Map，下一次 LLM 请求时 buildHeaders 会自动透传 X-SnSworker-Context-Tier，
+     * Map，下一次 LLM 请求时 buildHeaders 会自动透传 X-TabTin-Context-Tier，
      * Django proxy 据此往上游注入 anthropic-beta 等档位 header（如 ZenMux 1M）。
      *
      * @param sessionId 目标会话 UUID

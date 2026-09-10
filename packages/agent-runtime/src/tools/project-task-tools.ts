@@ -22,7 +22,7 @@ interface ProjectTaskCreateInput {
 function headers(deps: ProjectTaskToolsDeps): Record<string, string> {
   const result: Record<string, string> = { 'Content-Type': 'application/json' }
   if (deps.apiAuthToken) result.Authorization = `Bearer ${deps.apiAuthToken}`
-  if (deps.organizationId) result['X-SnSworker-Organization-Id'] = deps.organizationId
+  if (deps.organizationId) result['X-TabTin-Organization-Id'] = deps.organizationId
   return result
 }
 

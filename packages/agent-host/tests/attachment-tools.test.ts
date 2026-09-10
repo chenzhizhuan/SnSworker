@@ -57,7 +57,7 @@ describe('save_attachment', () => {
       expect.objectContaining({
         headers: expect.objectContaining({
           Authorization: 'Bearer token',
-          'X-SnSworker-Organization-Id': 'org-1',
+          'X-TabTin-Organization-Id': 'org-1',
         }),
       }),
     )

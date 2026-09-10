@@ -316,7 +316,7 @@ describe('Wave 1.5 PROD-3 · shared SkillCredentialResolver', () => {
     const headers = init?.headers as Record<string, string>;
     expect(headers.Authorization).toBe('Bearer jwt-token');
     expect(headers['Content-Type']).toBe('application/json');
-    expect(headers['X-SnSworker-Organization-Id']).toBe('wt-1');
+    expect(headers['X-TabTin-Organization-Id']).toBe('wt-1');
 
     const body = JSON.parse(init?.body as string) as Record<string, unknown>;
     expect(body).toEqual({

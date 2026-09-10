@@ -2876,7 +2876,7 @@ export class ElectronAgentHost {
 
     // 长上下文档位（Context Tier）同步：renderer 切档后调用此 IPC，
     // main 立即更新 sessionContextTiers Map，下次 LLM 请求 buildHeaders
-    // 时透传 X-SnSworker-Context-Tier 给 Django proxy。
+    // 时透传 X-TabTin-Context-Tier 给 Django proxy。
     guardedHandle(
       'agent-engine:set-session-context-tier',
       (

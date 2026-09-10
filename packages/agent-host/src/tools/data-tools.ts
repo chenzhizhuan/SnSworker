@@ -128,7 +128,7 @@ type HttpCallResult<T> = HttpCallSuccess<T> | HttpCallFailure
 
 /**
  * 公共 fetch helper：
- *   - 统一注入 Authorization / X-SnSworker-Organization-Id / Content-Type
+ *   - 统一注入 Authorization / X-TabTin-Organization-Id / Content-Type
  *   - HTTP 4xx/5xx / 网络异常 / 超时归一化为 ``HttpCallFailure``，业务侧不必每次重写
  *   - 解 JSON 失败时仍能给出可读错误，避免抛出未捕获异常打断 ReAct loop
  */
@@ -158,7 +158,7 @@ async function callApi<T = unknown>(
     headers['Authorization'] = `Bearer ${deps.apiAuthToken}`
   }
   if (deps.organizationId) {
-    headers['X-SnSworker-Organization-Id'] = deps.organizationId
+    headers['X-TabTin-Organization-Id'] = deps.organizationId
   }
 
   const init: RequestInit = {
