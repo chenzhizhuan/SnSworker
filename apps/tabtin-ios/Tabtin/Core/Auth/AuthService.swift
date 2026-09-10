@@ -245,7 +245,7 @@ final class AuthService {
         let response: RedeemInviteCodeResponse = try await APIClient.shared.post(
             path: Endpoints.Auth.redeemInviteCode,
             body: ["invite_code": normalizedCode],
-            headers: ["X-SnSworker-Error-Status": "standard"]
+            headers: ["X-TabTin-Error-Status": "standard"]
         )
         updateCurrentUser(response.user)
         guard !needsInviteCode else { throw APIError.apiError("邀请码验证未完成") }

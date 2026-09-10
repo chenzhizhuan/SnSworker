@@ -58,6 +58,17 @@ function isDocumentRestoredCode(code: number): boolean {
  */
 const HOCUSPOCUS_UNAUTHORIZED_CODE = 4401;
 
+/**
+ * CLB-002: 服务端 per-document 连接数保护（collab-live connection-limiter，
+ * close code 4429 "connection-limit-exceeded"）。客户端若立即重连（Hocuspocus
+ * 内建重连 / auth recovery 即时重建 / watchdog），会持续占用服务端连接计数，
+ * 与容量保护互相锁死形成重连风暴（实测 3 分钟 20+ 次重建、TCP 连接 31→98）。
+ * 必须销毁 Hocuspocus 并改为客户端指数退避。
+ */
+const CONNECTION_LIMIT_EXCEEDED_CODE = 4429;
+const CONNECTION_LIMIT_BACKOFF_BASE_MS = 30_000;
+const CONNECTION_LIMIT_BACKOFF_MAX_MS = 5 * 60_000;
+
 /** 协议级认证失败后自动重建 Provider 的次数上限（同 token 也算一次） */
 const MAX_AUTH_RECOVERY_ATTEMPTS = 1;
 
@@ -157,6 +168,12 @@ export class CollabProvider {
 
   /** 当前底层 Provider 世代内的 WebSocket 连接尝试次数 */
   private _connectionAttemptCount = 0;
+
+  /** CLB-002: 4429 容量退避计时器；非 null 表示处于退避窗口，自动恢复让路 */
+  private _capacityBackoffTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /** CLB-002: 连续 4429 次数（成功建连后清零），驱动指数退避 */
+  private _capacityBackoffCount = 0;
 
   /** 当前状态 */
   private _state: CollabState = { ...INITIAL_COLLAB_STATE };
@@ -261,6 +278,7 @@ export class CollabProvider {
           this._authRecoveryPending = false;
           this._authRecoveryAttempts = 0;
           this._retryCount = 0;
+          this._capacityBackoffCount = 0;
           this._connectionAttemptCount = 0;
           this.logConnectionEvent("connect_success", {
             generation: this._providerGeneration,
@@ -304,6 +322,13 @@ export class CollabProvider {
           // 上游 Unauthorized：依赖内建重连已停，走可恢复认证路径（勿与 4001 业务强关混淆）
           if (code === HOCUSPOCUS_UNAUTHORIZED_CODE) {
             this.beginAuthRecovery("hocuspocus_unauthorized");
+            return;
+          }
+
+          // CLB-002: 服务端连接数保护（4429）。销毁 Hocuspocus（内建重连无退避，
+          // 会立即再连继续吃 4429），转由客户端指数退避重连。
+          if (code === CONNECTION_LIMIT_EXCEEDED_CODE) {
+            this.handleCapacityClose();
             return;
           }
 
@@ -484,6 +509,60 @@ export class CollabProvider {
   }
 
   /**
+   * CLB-002: 收到 4429 connection-limit-exceeded 后的容量退避。
+   *
+   * 立即销毁 Hocuspocus（其内建重连无退避，会立即重连继续占用服务端连接计数，
+   * 把容量保护恶化成重连风暴），改为客户端指数退避重建；退避窗口内
+   * watchdog / online / visibility / focus 等自动恢复一律让路（manual 除外）。
+   */
+  private handleCapacityClose(): void {
+    this.stopHeartbeat();
+    this.destroyHocuspocusOnly();
+
+    // 若 4429 紧跟认证失败（beginAuthRecovery 已排队即时重建），交由退避接管：
+    // 清 pending 标记后，已排队的 microtask 会在守卫处早退，不绕过退避窗口。
+    this._authRecoveryPending = false;
+    this._authRebuildScheduled = false;
+
+    if (this._capacityBackoffTimer) clearTimeout(this._capacityBackoffTimer);
+    const attempt = Math.min(this._capacityBackoffCount, 4);
+    this._capacityBackoffCount += 1;
+    // 抖动避免多文档同一时刻集体重连再次撞限
+    const jitter = Math.random() * 3_000;
+    const delayMs = Math.min(
+      CONNECTION_LIMIT_BACKOFF_BASE_MS * 2 ** attempt + jitter,
+      CONNECTION_LIMIT_BACKOFF_MAX_MS,
+    );
+
+    this.logConnectionEvent("capacity_backoff", {
+      code: CONNECTION_LIMIT_EXCEEDED_CODE,
+      attempt: this._capacityBackoffCount,
+      delayMs: Math.round(delayMs),
+    }, "warn");
+    this.updateState({
+      status: CollabStatus.DISCONNECTED,
+      connectionStatus: CollabConnectionStatus.RECONNECTING,
+      lastError: "connection_limit_exceeded",
+    });
+
+    this._capacityBackoffTimer = setTimeout(() => {
+      this._capacityBackoffTimer = null;
+      if (this._disconnecting) return;
+      if (this._state.status === CollabStatus.FORCE_CLOSED) return;
+      // 已有健康连接（如用户手动重连成功）则放弃本次退避重建
+      if (
+        this.provider
+        && (
+          this._state.status === CollabStatus.CONNECTING
+          || this._state.status === CollabStatus.SYNCING
+          || this._state.status === CollabStatus.SYNCED
+        )
+      ) return;
+      this.forceRebuildProvider("capacity_backoff");
+    }, delayMs);
+  }
+
+  /**
    * : 上游认证坏状态恢复。
    * 保留 Y.Doc，销毁坏掉的 HocuspocusProvider，请求刷新 token，并在有 token 时立即重建一次。
    */
@@ -612,6 +691,12 @@ export class CollabProvider {
     ) {
       return false;
     }
+    // CLB-002: 容量退避窗口内，非 manual 的自动恢复（watchdog/online/visibility/focus）
+    // 一律让路给退避计时器，避免提前重建再次撞 4429。
+    if (reason !== "manual" && this._capacityBackoffTimer) {
+      this.logConnectionEvent("capacity_backoff_skip", { reason });
+      return false;
+    }
     // 配置/认证类错误挡自动恢复（空转无意义）；manual 是用户显式意图放行——
     // 重建经 token getter 取最新 JWT，auth_failed 后手动重试是合理路径
     // （缺 serverUrl/token 时 forceRebuildProvider 会早退置 FAILED，无害）。
@@ -655,6 +740,11 @@ export class CollabProvider {
   disconnect(): void {
     this._disconnecting = true;
     this.stopHeartbeat();
+
+    if (this._capacityBackoffTimer) {
+      clearTimeout(this._capacityBackoffTimer);
+      this._capacityBackoffTimer = null;
+    }
 
     // 0. best-effort 刷新 IndexedDB 未落盘数据（CC-009）
     this.flushToIndexedDB().catch(() => {});
@@ -796,6 +886,12 @@ export class CollabProvider {
   async forceReconnect(): Promise<void> {
     this._disconnecting = true;
     this.stopHeartbeat();
+
+    // CLB-002: 全量重连开启新周期，取消容量退避
+    if (this._capacityBackoffTimer) {
+      clearTimeout(this._capacityBackoffTimer);
+      this._capacityBackoffTimer = null;
+    }
 
     // 1. 销毁 IndexedDB persistence 实例（关闭连接）
     const idbName = `collab:${this.options.documentName}`;
@@ -1296,7 +1392,7 @@ export class CollabProvider {
   }
 
   private logConnectionEvent(
-    event: "provider_create" | "connect_start" | "connect_success" | "connect_error" | "retry" | "watchdog_trigger",
+    event: "provider_create" | "connect_start" | "connect_success" | "connect_error" | "retry" | "watchdog_trigger" | "capacity_backoff" | "capacity_backoff_skip",
     details: Record<string, unknown> = {},
     level: "info" | "warn" | "error" = "info",
   ): void {

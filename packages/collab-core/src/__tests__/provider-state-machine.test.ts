@@ -153,7 +153,7 @@ describe("TC-A: 基本连接生命周期", () => {
     expect(cp.getState().status).toBe(CollabStatus.SYNCED);
   });
 
-  it("treats capacity close code 4429 as retryable instead of permission denied", () => {
+  it("treats capacity close code 4429 as retryable with backoff instead of permission denied", () => {
     const cp = makeProvider();
     connectToSynced(cp);
 
@@ -161,9 +161,55 @@ describe("TC-A: 基本连接生命周期", () => {
       event: { code: 4429, reason: "connection-limit-exceeded" },
     });
 
+    // CLB-002: 4429 后不进 FORCE_CLOSED，进入退避窗口（RECONNECTING）
     expect(cp.getState().status).toBe(CollabStatus.DISCONNECTED);
-    expect(cp.getState().connectionStatus).toBe(CollabConnectionStatus.FAILED);
+    expect(cp.getState().connectionStatus).toBe(CollabConnectionStatus.RECONNECTING);
+    expect(cp.getState().lastError).toBe("connection_limit_exceeded");
     expect(cp.getState().forceCloseMessage).toBeNull();
+    // Hocuspocus 立即销毁，防止内建重连无退避再撞 4429
+    expect(cp.getProvider()).toBeNull();
+
+    // 退避窗口内：watchdog/online 等自动恢复让路；manual 放行
+    expect(cp.recoverConnection("watchdog")).toBe(false);
+    expect(cp.recoverConnection("online")).toBe(false);
+
+    cp.disconnect();
+  });
+
+  it("CLB-002: capacity backoff timer expires → rebuild; manual recovery bypasses backoff", async () => {
+    vi.useFakeTimers();
+    try {
+      const cp = makeProvider();
+      connectToSynced(cp);
+
+      capturedHPOpts.onDisconnect({
+        event: { code: 4429, reason: "connection-limit-exceeded" },
+      });
+      const generationAfter4429 = cp.getState().providerGeneration;
+
+      // 未到退避时间：不重建
+      vi.advanceTimersByTime(10_000);
+      expect(cp.getState().providerGeneration).toBe(generationAfter4429);
+      expect(cp.getProvider()).toBeNull();
+
+      // 退避到点（30s 基数 + 抖动 ≤3s）：重建 provider
+      vi.advanceTimersByTime(25_000);
+      expect(cp.getState().providerGeneration).toBe(generationAfter4429 + 1);
+      expect(cp.getProvider()).not.toBeNull();
+      expect(cp.getState().connectionStatus).toBe(CollabConnectionStatus.RECONNECTING);
+
+      // 重建后再撞 4429 → 第二轮退避（指数增长）
+      capturedHPOpts.onDisconnect({
+        event: { code: 4429, reason: "connection-limit-exceeded" },
+      });
+      // 手动恢复不受退避限制（manual 放行 → 立即重建）
+      expect(cp.recoverConnection("manual")).toBe(true);
+      expect(cp.getState().providerGeneration).toBe(generationAfter4429 + 2);
+
+      cp.disconnect();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("disconnect() 后状态回归 INITIAL 并清理 provider", () => {
