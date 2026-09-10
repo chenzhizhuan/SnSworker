@@ -1,3 +1,14 @@
+---
+AIGC:
+  ContentProducer: '001191110102MAD55U9H0F10002'
+  ContentPropagator: '001191110102MAD55U9H0F10002'
+  Label: '1'
+  ProduceID: '2a3b9adc-bc10-437f-8074-ab4ce0fb5039'
+  PropagateID: '2a3b9adc-bc10-437f-8074-ab4ce0fb5039'
+  ReservedCode1: '5c4503ef-b6fc-4a3c-9554-7393fcdd55a4'
+  ReservedCode2: '5c4503ef-b6fc-4a3c-9554-7393fcdd55a4'
+---
+
 # Web 侧 Docker 部署（Ubuntu 单机 / 公网 IP + HTTP / 13490~13494）
 
 面向自建服务器的 web 部署形态：`compose.yaml` 之上叠加 `compose.web.yaml`，
@@ -125,6 +136,28 @@ tabtin-web 另有运行时兜底（`public/runtime-env.js` →
 `X-Live-Secret` 双向鉴权凭据，两侧必须同值。删掉该文件会重新生成新值，此时必须
 整栈重启，不能只重启单侧。
 
+### secret 注入机制（secret-by-env-file）
+
+`compose.web.yaml` 通过各服务的 `env_file: ./.env.web-runtime` 直接从文件读取
+`COLLAB_LIVE_SECRET`（django / celery / x-worker-common 派生的 8 类 worker +
+beat / collab-live）。**不依赖 compose 命令调用方先 `export`**。
+
+历史教训：旧实现用 `${COLLAB_LIVE_SECRET}` 环境变量插值，重建容器时忘了先
+`source .env.web-runtime` 就会静默把空字符串传进 django —— django 照常启动，
+但拒绝所有内部服务请求（collab-live 拉文档快照 403），客户端表现为
+"协作同步·连接中"永远转圈。该事故 2026-09-10 一天内发生两次（13:21 与 21:40
+两轮重建均中招），故改为 env_file 显式声明。
+
+当前行为：
+
+- 裸 `docker compose -f compose.yaml -f compose.web.yaml up -d` 也能拿到正确
+  secret（`env_file` 优先级低于 `environment`，不影响 `web-up.sh` 的 export 路径）
+- `.env.web-runtime` 文件不存在时，compose 直接报错 fail-fast，不会带空 secret
+  静默运行
+- `SERVER_IP` 的 `${...}` 插值仍来自环境变量或根 `.env`；服务器根 `.env` 已加
+  `SERVER_IP=` 兜底行，裸命令下 `ALLOWED_HOSTS` / `CORS_ALLOWED_ORIGINS` 等
+  不会渲染成空值（换服务器 IP 时记得同步改该行）
+
 ## 部署后验证
 
 `web-up.sh` 已自动做完第 1~2 步。其余需要手工执行。
@@ -204,6 +237,18 @@ ss -tlnp | grep -E '5432|6379'
 dc down && SERVER_IP=$SERVER_IP bash scripts/community/web-up.sh
 ```
 
+**10. 裸命令重建不丢 secret**（secret-by-env-file 回归测试）—— 不 source
+任何文件、不 export 任何变量，直接重建 django 侧服务后，secret 必须仍在：
+
+```bash
+docker compose -f compose.yaml -f compose.web.yaml up -d --force-recreate django
+docker compose -f compose.yaml -f compose.web.yaml exec django \
+  sh -c 'test -n "$COLLAB_LIVE_SECRET" && echo secret-ok || echo SECRET-LOST'
+```
+
+期望输出 `secret-ok`。若输出 `SECRET-LOST`，检查 `.env.web-runtime` 是否存在
+且非空、是否被 compose 的 `env_file` 声明引用。
+
 ## 已知限制
 
 1. **邀请链接不可用** —— 见上「关键约束」。切 HTTPS 域名可解。
@@ -228,3 +273,5 @@ dc down && SERVER_IP=$SERVER_IP bash scripts/community/web-up.sh
 `ENABLE_HTTPS_SECURITY=true`（`SECURE_PROXY_SSL_HEADER` 已在
 `settings.py:2281` 就绪）、重新 build 两个前端镜像。届时邀请链接与
 `DEBUG=True` 两个限制同时解除。
+
+> AI生成
