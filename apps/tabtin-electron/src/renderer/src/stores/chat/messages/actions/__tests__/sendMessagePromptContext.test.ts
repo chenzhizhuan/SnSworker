@@ -150,7 +150,7 @@ describe('buildCrossTurnHistory', () => {
     openedSessionMock.isExternalOpenedSession.mockReturnValue(true)
     historyMock.selectRecentHistoryForRuntime.mockReturnValue([
       { role: 'user', content: '验收探针', sourceMessageId: 'live-u1' },
-      { role: 'assistant', content: '我是小Tin', sourceMessageId: 'live-a1' },
+      { role: 'assistant', content: '我是小智', sourceMessageId: 'live-a1' },
     ])
     const result = buildCrossTurnHistory({
       agentConfig: { conversation: { cross_turn_memory: true } } as never,

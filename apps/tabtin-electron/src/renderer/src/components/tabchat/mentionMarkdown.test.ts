@@ -47,9 +47,9 @@ describe('mentionMarkdown', () => {
 
   it('formats mention markdown as display names for sidebar previews', () => {
     expect(formatMentionDisplayText(
-      'user_0941: [@小Tin](mention:agent/d16b77ff-aaaa-bbbb-cccc-ddddeeeeffff) 看下',
-    )).toBe('user_0941: @小Tin 看下')
-    expect(formatMentionDisplayText('[@小Tin](mention:agent/d16b77ff-aaaa)')).not.toContain('mention:')
+      'user_0941: [@小智](mention:agent/d16b77ff-aaaa-bbbb-cccc-ddddeeeeffff) 看下',
+    )).toBe('user_0941: @小智 看下')
+    expect(formatMentionDisplayText('[@小智](mention:agent/d16b77ff-aaaa)')).not.toContain('mention:')
   })
 
   it('detects a specific mention target by href id', () => {

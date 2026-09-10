@@ -104,7 +104,7 @@ final class AgentAwaitingThoughtPhaseTests: XCTestCase {
 
     /// 模型回吐的 turn_identity 展示为空，不能当成「可见正文」打断执行组。
     func testTurnIdentityOnlyTextDoesNotBreakTimelineGroup() {
-        let identity = #"<turn_identity agent_id="agent-1">小Tin</turn_identity>"#
+        let identity = #"<turn_identity agent_id="agent-1">小智</turn_identity>"#
         XCTAssertTrue(
             AgentAwaitingThoughtPresentation.isInertWhitespaceText(
                 .text(TextBlock(index: 1, text: identity))

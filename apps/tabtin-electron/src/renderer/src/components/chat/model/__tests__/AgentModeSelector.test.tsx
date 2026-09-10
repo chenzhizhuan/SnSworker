@@ -448,7 +448,7 @@ describe('AgentModeSelector', () => {
       identityState.agents = [
         {
           id: 'default-space',
-          name: '小Tin',
+          name: '小智',
           preferred_model_id: 'model-k2',
         },
         {
@@ -474,7 +474,7 @@ describe('AgentModeSelector', () => {
       ]
       identityState.currentAgentId = 'default-space'
       openAgentPicker()
-      const personalDefault = within(screen.getByRole('radio', { name: '小Tin' }))
+      const personalDefault = within(screen.getByRole('radio', { name: '小智' }))
       expect(personalDefault.getByText('个人 Space')).toBeTruthy()
       expect(personalDefault.getByTestId('agent-picker-model-badge').textContent).toBe('k2')
       expect(

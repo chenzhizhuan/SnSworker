@@ -110,7 +110,7 @@ export interface ImportRunInput {
     redact?: boolean
     /** 目标组织（默认个人组织，确认页可切换）。 */
     targetOrganizationId: string
-    /** 组织默认 Agent（小Tin）。 */
+    /** 组织默认 Agent（小智）。 */
     agentId: string
     /** 当前 Electron 设备。 */
     deviceId: string

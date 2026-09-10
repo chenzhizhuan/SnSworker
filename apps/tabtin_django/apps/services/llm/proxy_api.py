@@ -239,7 +239,7 @@ def _stream_error_response(
     response["Cache-Control"] = "no-cache"
     response["X-Accel-Buffering"] = "no"
     if request_id:
-        response["X-SnSworker-Request-Id"] = request_id
+        response["X-TabTin-Request-Id"] = request_id
     return response
 
 
@@ -366,7 +366,7 @@ def llm_proxy(request: HttpRequest):
     if logical_billing_key and not _billing_key_is_valid(logical_billing_key):
         return _stream_error_response(
             user_message="计费逻辑标识格式无效，请更新客户端后重试。",
-            technical_detail="invalid X-SnSworker-Billing-Logical-Key",
+            technical_detail="invalid X-TabTin-Billing-Logical-Key",
             error_code="invalid_billing_logical_key",
             status=400,
         )
@@ -377,21 +377,21 @@ def llm_proxy(request: HttpRequest):
     if attempt_header_present and not logical_billing_key:
         return _stream_error_response(
             user_message="计费重试标识缺少逻辑标识，请更新客户端后重试。",
-            technical_detail="missing X-SnSworker-Billing-Logical-Key",
+            technical_detail="missing X-TabTin-Billing-Logical-Key",
             error_code="missing_billing_logical_key",
             status=400,
         )
     if attempt_header_present and attempt_index is None:
         return _stream_error_response(
             user_message="计费重试序号缺失，请更新客户端后重试。",
-            technical_detail="missing X-SnSworker-Billing-Attempt-Index",
+            technical_detail="missing X-TabTin-Billing-Attempt-Index",
             error_code="missing_billing_attempt_index",
             status=400,
         )
     if attempt_index is not None and attempt_index < 0:
         return _stream_error_response(
             user_message="计费重试序号格式无效，请更新客户端后重试。",
-            technical_detail="invalid X-SnSworker-Billing-Attempt-Index",
+            technical_detail="invalid X-TabTin-Billing-Attempt-Index",
             error_code="invalid_billing_attempt_index",
             status=400,
         )
@@ -673,7 +673,7 @@ def llm_proxy(request: HttpRequest):
         )
         response["Cache-Control"] = "no-cache"
         response["X-Accel-Buffering"] = "no"
-        response["X-SnSworker-Request-Id"] = ctx.request_id
+        response["X-TabTin-Request-Id"] = ctx.request_id
         return response
     except ProxyError as e:
         release_freeze(ctx)

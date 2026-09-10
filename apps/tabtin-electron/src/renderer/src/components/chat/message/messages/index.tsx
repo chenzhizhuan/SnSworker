@@ -60,7 +60,7 @@ export interface MessageBubbleProps {
   userAlign?: 'left' | 'right'
   previewMode?: boolean
   contentBlocksOverride?: ContentBlockEntry[]
-  /** ：同用户轮内 run 续块，隐藏重复小Tin 头。 */
+  /** ：同用户轮内 run 续块，隐藏重复小智 头。 */
   hideAgentBadge?: boolean
   highlightedMessageId?: string | null
   highlightKey?: string

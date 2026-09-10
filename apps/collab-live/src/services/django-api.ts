@@ -135,7 +135,7 @@ export async function persistCollabChanges(
     {
       method: "POST",
       headers: parentDocumentId
-        ? { "X-SnSworker-Parent-Document-Id": parentDocumentId }
+        ? { "X-TabTin-Parent-Document-Id": parentDocumentId }
         : undefined,
       body: JSON.stringify(body),
     }
@@ -190,7 +190,7 @@ export async function verifyCollabAccess(
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwtToken}`,
         ...(parentDocumentId
-          ? { "X-SnSworker-Parent-Document-Id": parentDocumentId }
+          ? { "X-TabTin-Parent-Document-Id": parentDocumentId }
           : {}),
       },
       signal: controller.signal,

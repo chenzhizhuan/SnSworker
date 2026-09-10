@@ -29,7 +29,7 @@ class TabDataRequestContextMiddleware(MiddlewareMixin):
         )
         set_current_window_id(window_id)
         parent_document_id = (
-            request.headers.get("X-SnSworker-Parent-Document-Id")
+            request.headers.get("X-TabTin-Parent-Document-Id")
             or request.headers.get("x-tabtin-parent-document-id")
             or request.META.get("HTTP_X_TABTIN_PARENT_DOCUMENT_ID")
         )
@@ -63,7 +63,7 @@ class TabDataRequestContextMiddleware(MiddlewareMixin):
 
     def process_response(self, request: HttpRequest, response: HttpResponse) -> HttpResponse:
         if response.status_code == 403 and is_embedded_access_verification_unavailable():
-            response["X-SnSworker-Embedded-Access-Unavailable"] = "1"
+            response["X-TabTin-Embedded-Access-Unavailable"] = "1"
         clear_request_context()
         return response
 

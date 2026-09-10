@@ -104,8 +104,8 @@ describe('resolveAgentLabel', () => {
       id: 'effcba33-3c3b-4b1e-b644-fdd9a1d5fa11',
       organization_id: 'org-a',
       name: 'general-assistant',
-      display_name: '小Tin',
-    }, 'effcba33-3c3b-4b1e-b644-fdd9a1d5fa11')).toBe('小Tin')
+      display_name: '小智',
+    }, 'effcba33-3c3b-4b1e-b644-fdd9a1d5fa11')).toBe('小智')
   })
 })
 
@@ -205,7 +205,7 @@ describe('withImplicitDefaultAgentDeviceAssignments', () => {
     { id: 'custom-agent', is_default: false },
   ]
 
-  it('把未携带的本机 Skill 算到小Tin 身上', () => {
+  it('把未携带的本机 Skill 算到小智 身上', () => {
     const map = withImplicitDefaultAgentDeviceAssignments(
       new Map(),
       agents,

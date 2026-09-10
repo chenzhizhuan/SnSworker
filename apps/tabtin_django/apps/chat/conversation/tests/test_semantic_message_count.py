@@ -47,7 +47,7 @@ class SemanticMessageCountTests(SimpleTestCase):
             _Msg(
                 role='user',
                 message_kind='agent_profile_context',
-                text_summary='<context type="agent-profile">\n你是小 Tin。\n</context>',
+                text_summary='<context type="agent-profile">\n你是小智。\n</context>',
             ),
             _Msg(role='assistant', agent_run_id='run-1', text_summary='reply'),
         ]
@@ -139,7 +139,7 @@ class SemanticMessageCountTests(SimpleTestCase):
         msg = _Msg(
             role='user',
             message_kind='llm',
-            text_summary='<context type="agent-profile">\n你是小 Tin。\n</context>',
+            text_summary='<context type="agent-profile">\n你是小智。\n</context>',
         )
         self.assertTrue(is_context_injection_message(msg))
         self.assertEqual(count_semantic_messages([msg, _Msg(role='user', text_summary='real')]), 1)

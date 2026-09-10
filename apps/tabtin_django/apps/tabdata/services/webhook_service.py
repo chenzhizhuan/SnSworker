@@ -145,7 +145,7 @@ class WebhookDeliveryService:
         headers = {
             'Content-Type': 'application/json; charset=utf-8',
             'User-Agent': cls.USER_AGENT,
-            'X-SnSworker-Event': payload.get('event', ''),
+            'X-TabTin-Event': payload.get('event', ''),
         }
 
         # HMAC 签名
@@ -155,7 +155,7 @@ class WebhookDeliveryService:
                 body,
                 hashlib.sha256,
             ).hexdigest()
-            headers['X-SnSworker-Signature'] = f'sha256={signature}'
+            headers['X-TabTin-Signature'] = f'sha256={signature}'
 
         from apps.services.common.url_security import ssrf_safe_request
 

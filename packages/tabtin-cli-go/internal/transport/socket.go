@@ -92,7 +92,7 @@ func (t *SocketTransport) doStream(ctx context.Context, method, path string, bod
 	req.Header.Set("Cache-Control", "no-cache")
 	setCommonHeaders(req)
 	setLocalHeaders(req)
-	req.Header.Set("X-SnSworker-Token", token)
+	req.Header.Set("X-TabTin-Token", token)
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
@@ -175,7 +175,7 @@ func (t *SocketTransport) doRequest(ctx context.Context, method, path string, bo
 	req.Header.Set("Content-Type", "application/json")
 	setCommonHeaders(req)
 	setLocalHeaders(req)
-	req.Header.Set("X-SnSworker-Token", token)
+	req.Header.Set("X-TabTin-Token", token)
 	if contentLength > 0 {
 		req.ContentLength = int64(contentLength)
 	}

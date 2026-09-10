@@ -567,7 +567,7 @@ describe('MyAgentsPanel', () => {
   it('默认 AI 分身隐藏停用入口并提示不可停用', async () => {
     const systemDefault = {
       id: 'agent-default',
-      name: '小Tin',
+      name: '小智',
       template_id: '',
       is_default: true,
       settings: { provision_source: 'system_default' },
@@ -582,7 +582,7 @@ describe('MyAgentsPanel', () => {
 
     render(<MyAgentsPanel />)
 
-    expect((await screen.findAllByText('小Tin')).length).toBeGreaterThan(0)
+    expect((await screen.findAllByText('小智')).length).toBeGreaterThan(0)
     // 列表 / 详情均不得标「自建」；应出现「默认」角标
     expect(screen.queryByText('自建')).toBeNull()
     expect(screen.getAllByText('默认').length).toBeGreaterThan(0)

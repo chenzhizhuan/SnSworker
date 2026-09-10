@@ -186,8 +186,8 @@ class AgentApiRouteCompatibilityTests(TestCase):
             created_data["settings"]["avatar_key"],
             "general-assistant",
         )
-        self.assertEqual(created_data["name"], "小Tin 日常版")
-        self.assertEqual(created_data["display_name"], "小Tin 日常版")
+        self.assertEqual(created_data["name"], "小智 日常版")
+        self.assertEqual(created_data["display_name"], "小智 日常版")
         self.assertEqual(
             created_data["custom_rules"],
             "处理通用任务时先理解目标，再直接推进；遇到明显的专项任务，可以建议交给对应分身。",
@@ -303,7 +303,7 @@ class AgentApiRouteCompatibilityTests(TestCase):
 
     def test_list_organization_agents_query_count_is_constant(self):
         """#6337: 列表不应逐行调 resolve_personal_rules_by_owner_id 形成 N+1。"""
-        # 预置系统默认，让列表走纯读快路径；否则首次 GET 会补建小Tin，total 变成 2。
+        # 预置系统默认，让列表走纯读快路径；否则首次 GET 会补建小智，total 变成 2。
         Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,

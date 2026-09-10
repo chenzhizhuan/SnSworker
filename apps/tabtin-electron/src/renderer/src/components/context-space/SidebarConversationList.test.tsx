@@ -673,7 +673,7 @@ describe('SidebarConversationList', () => {
         { id: 'session-normal', title: '写周报', space_id: 'space-1', message_count: 1 },
         {
           id: 'session-mention',
-          title: '[私信@小Tin]',
+          title: '[私信@小智]',
           space_id: 'space-1',
           message_count: 1,
           is_agent_mention_session: true,
@@ -691,7 +691,7 @@ describe('SidebarConversationList', () => {
 
     expect(screen.getByText('写周报')).toBeTruthy()
     expect(screen.getByText('[私信@看起来像]')).toBeTruthy()
-    expect(screen.queryByText('[私信@小Tin]')).toBeNull()
+    expect(screen.queryByText('[私信@小智]')).toBeNull()
   })
 
   it('普通 Workspace 导航不展示 Project 伴生 Workspace', () => {
@@ -976,7 +976,7 @@ describe('SidebarConversationList', () => {
         responsible_user: { id: 'user-2', name: '师傅2' },
         assignment_status: 'accepted',
         work_status: 'blocked',
-        selected_agent: { id: 'agent-1', name: '小Tin' },
+        selected_agent: { id: 'agent-1', name: '小智' },
         project_workspace: null,
         workspace_confirmed: true,
         execution_ready: true,
@@ -1157,7 +1157,7 @@ describe('SidebarConversationList', () => {
         responsible_user: { id: 'user-2', name: '师傅2' },
         assignment_status: 'accepted',
         work_status: 'in_review',
-        selected_agent: { id: 'agent-1', name: '小Tin' },
+        selected_agent: { id: 'agent-1', name: '小智' },
         project_workspace: null,
         workspace_confirmed: true,
         execution_ready: true,

@@ -549,7 +549,7 @@ describe('useSkillsListQuery local runtime catalog merge', () => {
     })
   })
 
-  it('defaults a locally discovered device skill on when 小Tin has no carry link', async () => {
+  it('defaults a locally discovered device skill on when 小智 has no carry link', async () => {
     mockSkillsListHttp({
       visible: { skills: [], user_gates: {} },
       agentSkills: [],

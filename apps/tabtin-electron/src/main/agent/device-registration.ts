@@ -85,7 +85,7 @@ export async function registerCurrentElectronDevice(
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
           ...(deviceCredential
-            ? { 'X-SnSworker-Device-Credential': deviceCredential }
+            ? { 'X-TabTin-Device-Credential': deviceCredential }
             : {}),
         },
         body: JSON.stringify({

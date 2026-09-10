@@ -41,7 +41,7 @@ describe('mergeTranscriptPreservingExternalArchive', () => {
     ]
     const local = [
       msg({ id: 'live-1', role: 'user', content: '验收探针' }),
-      msg({ id: 'live-2', role: 'assistant', content: '我是小Tin' }),
+      msg({ id: 'live-2', role: 'assistant', content: '我是小智' }),
     ]
     const merged = mergeTranscriptPreservingExternalArchive(local, cached)
     expect(merged.map((m) => m.id)).toEqual([

@@ -53,7 +53,7 @@ public interface AuthApi {
     public suspend fun verifyPhone(@Body body: Map<String, String>): ApiEnvelope<SendCodeResponse>
 
     @POST("auth/invite-code/redeem")
-    @Headers("X-SnSworker-Error-Status: standard")
+    @Headers("X-TabTin-Error-Status: standard")
     public suspend fun redeemInviteCode(
         @Body body: RedeemInviteCodeRequest,
     ): ApiEnvelope<RedeemInviteCodeResponse>

@@ -213,7 +213,7 @@ async function requestIM<T>(
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
-          'X-SnSworker-IM-Protocol': '2',
+          'X-TabTin-IM-Protocol': '2',
         },
         ...(serializedBody !== undefined ? { body: serializedBody } : {}),
       })

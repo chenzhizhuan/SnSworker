@@ -583,7 +583,7 @@ final class SessionRunProjectionTests: XCTestCase {
     // MARK: - TaskRowContentPolicy
 
     private func contentSession(
-        agentName: String? = "小 Tin",
+        agentName: String? = "小智",
         spaceName: String? = "默认 Space",
         projectId: String? = nil,
         projectName: String? = nil,

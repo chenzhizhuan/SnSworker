@@ -10,14 +10,14 @@ describe('runIncrementalRequest', () => {
     let capturedHeaders: Record<string, string> = {}
 
     await runIncrementalRequest(
-      { 'X-SnSworker-Parent-Document-Id': 'doc-parent' },
+      { 'X-TabTin-Parent-Document-Id': 'doc-parent' },
       async () => {
         capturedHeaders = snapshotTableRequestHeaders()
       },
     )
 
     expect(capturedHeaders).toEqual({
-      'X-SnSworker-Parent-Document-Id': 'doc-parent',
+      'X-TabTin-Parent-Document-Id': 'doc-parent',
     })
     expect(snapshotTableRequestHeaders()).toEqual({})
   })

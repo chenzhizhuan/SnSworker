@@ -9,9 +9,9 @@ class MentionMarkdownPreviewTests(SimpleTestCase):
     def test_format_mention_display_text_hides_href(self):
         self.assertEqual(
             format_mention_display_text(
-                "user_0941: [@小Tin](mention:agent/d16b77ff-aaaa) 看下",
+                "user_0941: [@小智](mention:agent/d16b77ff-aaaa) 看下",
             ),
-            "user_0941: @小Tin 看下",
+            "user_0941: @小智 看下",
         )
         self.assertNotIn(
             "mention:",
@@ -21,10 +21,10 @@ class MentionMarkdownPreviewTests(SimpleTestCase):
     def test_build_preview_strips_mention_markdown(self):
         preview = _build_preview(
             MessageType.TEXT,
-            "[@小Tin](mention:agent/d16b77ff-aaaa-bbbb-cccc-ddddeeeeffff) 看下",
+            "[@小智](mention:agent/d16b77ff-aaaa-bbbb-cccc-ddddeeeeffff) 看下",
             None,
         )
-        self.assertEqual(preview, "@小Tin 看下")
+        self.assertEqual(preview, "@小智 看下")
         self.assertNotIn("mention:", preview)
 
     def test_group_preview_strips_mention_markdown_after_sender_prefix(self):

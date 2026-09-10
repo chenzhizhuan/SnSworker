@@ -79,7 +79,7 @@ const hasDeprecatedTraditionalChineseSearchTerm = value => (
 )
 
 const protectedBrandTokens = [
-  'SnSworker', '小Tin', 'TabDoc', 'TabData', 'TabChat', 'TabCode', 'TabWeb',
+  'SnSworker', '小智', 'TabDoc', 'TabData', 'TabChat', 'TabCode', 'TabWeb',
   'TabSlide', 'TabVideo', 'TabFiles', 'TabTracker', 'TabInbox',
 ]
 
@@ -95,7 +95,7 @@ const hasSimplifiedChineseResidue = value => (
 
 const hasUnexpectedEnglishChineseText = value => (
   typeof value === 'string'
-  && /[\u3400-\u9fff]/.test(value.replaceAll('小Tin', ''))
+  && /[\u3400-\u9fff]/.test(value.replaceAll('小智', ''))
 )
 
 const failures = []

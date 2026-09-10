@@ -45,7 +45,7 @@ const space = {
 const agent = {
   id: 'agent-1',
   organization_id: 'org-1',
-  name: '小Tin',
+  name: '小智',
   type: 'bot' as const,
   is_active: true,
   created_at: '',

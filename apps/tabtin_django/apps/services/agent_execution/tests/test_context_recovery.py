@@ -102,7 +102,7 @@ class ContextAssemblerRecoveryTests(unittest.TestCase):
             },
             {
                 "role": "user",
-                "content_blocks_json": [{"type": "text", "text": '<context type="agent-profile">\n你是小 Tin。\n</context>'}],
+                "content_blocks_json": [{"type": "text", "text": '<context type="agent-profile">\n你是小智。\n</context>'}],
                 "text_summary": "",
                 "message_kind": "agent_profile_context",
             },

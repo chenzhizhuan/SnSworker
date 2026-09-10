@@ -42,7 +42,7 @@ public class DiagnosticHttpInterceptor(
     }
 
     private companion object {
-        private const val RETRY_HEADER = "X-SnSworker-Diagnostic-Retry"
+        private const val RETRY_HEADER = "X-TabTin-Diagnostic-Retry"
 
         private fun elapsedMilliseconds(started: Long): Long =
             (System.nanoTime() - started).coerceAtLeast(0) / 1_000_000

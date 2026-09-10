@@ -79,7 +79,7 @@ func (t *HTTPTransport) doStream(ctx context.Context, method, path string, body 
 	setCommonHeaders(req)
 	setLocalHeaders(req)
 	t.tokenMu.RLock()
-	req.Header.Set("X-SnSworker-Token", t.token)
+	req.Header.Set("X-TabTin-Token", t.token)
 	t.tokenMu.RUnlock()
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
@@ -141,7 +141,7 @@ func (t *HTTPTransport) doRequest(ctx context.Context, method, path string, body
 	t.tokenMu.RLock()
 	currentToken := t.token
 	t.tokenMu.RUnlock()
-	req.Header.Set("X-SnSworker-Token", currentToken)
+	req.Header.Set("X-TabTin-Token", currentToken)
 
 	resp, err := t.client.Do(req)
 	if err != nil {

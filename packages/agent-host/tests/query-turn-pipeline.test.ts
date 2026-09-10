@@ -975,7 +975,7 @@ describe('DefaultQueryTurnPipeline · PD-13 authoritative mutate', () => {
       policy: { agentMode: 'agent', appContext: { source: 'wire' } },
     })
     const preparedProfile = {
-      agentName: '小Tin',
+      agentName: '小智',
       customRules: '先理解目标，再直接推进。',
       workspaceRules: '修改后必须验证。',
     }
@@ -1021,7 +1021,7 @@ describe('DefaultQueryTurnPipeline · PD-13 authoritative mutate', () => {
       profileTextOf(message.content).includes('<context type="agent-profile"'),
     )
     expect(profileMessages).toHaveLength(1)
-    expect(profileTextOf(profileMessages[0]?.content)).toContain('小Tin')
+    expect(profileTextOf(profileMessages[0]?.content)).toContain('小智')
     expect(profileTextOf(profileMessages[0]?.content)).toContain('先理解目标，再直接推进。')
   })
 

@@ -429,7 +429,7 @@ class ListSessionsTrackerBucketingTest(TransactionTestCase):
         )
 
     def test_list_sessions_keeps_agent_mentions_without_explicit_filter(self):
-        mention_session = self._create_chat_session(title="[私信@小Tin]")
+        mention_session = self._create_chat_session(title="[私信@小智]")
         self._create_agent_mention_job(mention_session)
 
         response = self._get(f"/api/chat/sessions?workspace_id={self.space.id}")

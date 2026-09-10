@@ -32,7 +32,7 @@ import { useAgentsWorkbenchStore } from '../useAgentsWorkbenchStore'
 
 const defaultAgent = {
   id: 'agent-default',
-  name: '小Tin',
+  name: '小智',
   is_default: true,
   is_active: true,
 }

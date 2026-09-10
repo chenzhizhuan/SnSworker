@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 _CONTRACT_PATH = Path(__file__).with_name("timeout-contract.json")
-LOGIN_RELAY_PROTOCOL_VERSION_HEADER = "X-SnSworker-Login-Relay-Protocol-Version"
+LOGIN_RELAY_PROTOCOL_VERSION_HEADER = "X-TabTin-Login-Relay-Protocol-Version"
 _V1_PROTOCOL_VERSION = "v1"
 _V1_IMPORT_WAIT_TIMEOUT_SECONDS = 15
 

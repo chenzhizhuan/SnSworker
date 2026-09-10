@@ -42,5 +42,5 @@ func setAgentContextHeaders(req *http.Request) {
 
 // setLocalHeaders sets headers only meaningful for local CLI Server transports.
 func setLocalHeaders(req *http.Request) {
-	req.Header.Set("X-SnSworker-Caller-Pid", fmt.Sprintf("%d", os.Getpid()))
+	req.Header.Set("X-TabTin-Caller-Pid", fmt.Sprintf("%d", os.Getpid()))
 }

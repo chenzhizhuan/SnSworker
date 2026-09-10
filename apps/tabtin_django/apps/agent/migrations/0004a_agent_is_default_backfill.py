@@ -1,4 +1,4 @@
-"""#6184/#6353：默认 Agent 回填 + 历史名「小Tin」。
+"""#6184/#6353：默认 Agent 回填 + 历史名「小智」。
 
 与 0004 AddField / 0004b AddConstraint 拆事务，避  pending trigger。
 """
@@ -10,9 +10,9 @@ from django.db import migrations
 
 LEGACY_ONBOARDING_AGENT_NAMES = (
     "默认 Workspace 执行身份",
-    "万能Tin",
+    "多能工",
 )
-DEFAULT_ONBOARDING_AGENT_NAME = "小Tin"
+DEFAULT_ONBOARDING_AGENT_NAME = "小智"
 
 
 def backfill_default_agents(apps, schema_editor):

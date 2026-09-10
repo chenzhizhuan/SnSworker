@@ -21,9 +21,9 @@ func TestSocketTransportRequestOverWindowsNamedPipe(t *testing.T) {
 
 	server := &http.Server{
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if got := r.Header.Get("X-SnSworker-Token"); got != "test-token" {
+			if got := r.Header.Get("X-TabTin-Token"); got != "test-token" {
 				http.Error(w, "bad token", http.StatusUnauthorized)
-				t.Errorf("X-SnSworker-Token = %q, want test-token", got)
+				t.Errorf("X-TabTin-Token = %q, want test-token", got)
 				return
 			}
 			if r.URL.Path != "/health" {

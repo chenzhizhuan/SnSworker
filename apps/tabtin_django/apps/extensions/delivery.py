@@ -50,11 +50,11 @@ def build_headers(
     headers = {
         "Content-Type": "application/json; charset=utf-8",
         "User-Agent": USER_AGENT,
-        "X-SnSworker-Event": event_type,
-        "X-SnSworker-Delivery": delivery_id or str(uuid.uuid4()),
+        "X-TabTin-Event": event_type,
+        "X-TabTin-Delivery": delivery_id or str(uuid.uuid4()),
     }
     if signature:
-        headers["X-SnSworker-Signature"] = f"sha256={signature}"
+        headers["X-TabTin-Signature"] = f"sha256={signature}"
     return headers
 
 

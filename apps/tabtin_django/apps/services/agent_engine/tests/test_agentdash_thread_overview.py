@@ -484,7 +484,7 @@ def test_thread_chat_messages_export_includes_content_blocks_and_hides_context()
                 "name": "identity",
                 "source": "base-prompt",
                 "charCount": 12,
-                "contentPreview": "你是小Tin。",
+                "contentPreview": "你是小智。",
             }
         ],
         "charCount": 12,
@@ -571,8 +571,8 @@ def test_thread_chat_messages_export_falls_back_to_system_prompt_context():
         id=uuid.uuid4(),
         role="user",
         message_kind="system_prompt_context",
-        text_summary="<identity>你是小Tin</identity>",
-        content_blocks_json=[{"type": "text", "text": "<identity>你是小Tin</identity>"}],
+        text_summary="<identity>你是小智</identity>",
+        content_blocks_json=[{"type": "text", "text": "<identity>你是小智</identity>"}],
         created_at=SimpleNamespace(isoformat=lambda: "2026-07-29T09:59:00+08:00"),
     )
     message_qs = MagicMock()
@@ -605,5 +605,5 @@ def test_thread_chat_messages_export_falls_back_to_system_prompt_context():
     assert result["llm_snapshots_truncated"] is False
     assert result["llm_snapshots"] == []
     assert result["system"]["sections"][0]["name"] == "system_prompt_context"
-    assert "你是小Tin" in result["system"]["sections"][0]["contentPreview"]
+    assert "你是小智" in result["system"]["sections"][0]["contentPreview"]
     assert result["messages"][0]["content"] == "你好"

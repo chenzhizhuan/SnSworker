@@ -18,10 +18,10 @@ class OnboardingDefaults(NamedTuple):
 
 # 产品语言：个人执行现场统一叫 Workspace（见 principle/workspace-project.md）。
 # 默认 Agent 身份名：与 Workspace 名刻意区分，避免「执行者 / 执行现场」混淆。
-DEFAULT_ONBOARDING_AGENT_NAME = "小Tin"
+DEFAULT_ONBOARDING_AGENT_NAME = "小智"
 # 历史 onboarding 名，迁移与展示本地化仍识别。
 LEGACY_ONBOARDING_AGENT_NAME = "默认 Workspace 执行身份"
-LEGACY_ONBOARDING_AGENT_NAME_WANNENG = "万能Tin"
+LEGACY_ONBOARDING_AGENT_NAME_WANNENG = "多能工"
 LEGACY_SPACE_EXECUTION_AGENT_NAME = "默认 Space 执行身份"
 LEGACY_DEFAULT_EXECUTION_AGENT_NAMES = frozenset({
     LEGACY_ONBOARDING_AGENT_NAME,
@@ -30,15 +30,15 @@ LEGACY_DEFAULT_EXECUTION_AGENT_NAMES = frozenset({
 DEFAULT_ONBOARDING_SPACE_NAME = "默认 Workspace"
 DEFAULT_ONBOARDING_SPACE_DESCRIPTION = "自动创建的默认 Workspace"
 
-# ：系统补建默认小Tin 的 provenance。Space 迁移 / 用户自建不得带此标记。
+# ：系统补建默认小智 的 provenance。Space 迁移 / 用户自建不得带此标记。
 SYSTEM_DEFAULT_PROVISION_SOURCE = "system_default"
 AGENT_SETTINGS_PROVISION_SOURCE_KEY = "provision_source"
 
-# ：默认小Tin承担首发阵容中的「日常」角色，另外四个角色从模板补建。
+# ：默认小智承担首发阵容中的「日常」角色，另外四个角色从模板补建。
 # 版本标记落在默认 Agent.settings，既能让存量用户在首次进入时收到阵容，
 # 又能尊重用户之后对任一首发分身的停用决定（不自动补回来）。
 # v2：为五个首发角色补齐简短 initial_rules；仅填空值，不覆盖用户编辑。
-# v3：为存量「小Tin 代码版」补齐经审计的通用工程 Skill 基线；只补缺失行，
+# v3：为存量「小智 代码版」补齐经审计的通用工程 Skill 基线；只补缺失行，
 # 不重新打开用户已经关闭的 Skill，也不把工程 Skill 扩散给其他角色。
 # v4：增加通用问题跟踪工作流；表 ID 与仓库交付规则保持运行时解析。
 # v5：从代码版默认集移除四个偏评审/门禁类 Skill；市场内容仍可主动安装。
@@ -120,7 +120,7 @@ def build_system_default_agent_settings(
 
 
 def is_system_default_agent(agent) -> bool:
-    """是否为系统补建的默认小Tin（非 Space 迁移 / 非用户自建）。"""
+    """是否为系统补建的默认小智（非 Space 迁移 / 非用户自建）。"""
     if agent is None:
         return False
     settings = getattr(agent, "settings", None) or {}

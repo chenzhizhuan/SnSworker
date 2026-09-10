@@ -11,7 +11,7 @@ export function resolveChatInputPlaceholder(input: {
   pendingApproval: boolean
   pendingAskUser: boolean
   agentMode: AgentModeName
-  /** 当前 Agent 展示名；缺省回落 input.defaultAgentName（小Tin / Tin） */
+  /** 当前 Agent 展示名；缺省回落 input.defaultAgentName（小智 / Tin） */
   agentDisplayName?: string | null
 }): string {
   if (input.isVoiceActive) return input.t('voice.listening')

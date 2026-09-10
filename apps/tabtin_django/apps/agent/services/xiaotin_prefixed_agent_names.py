@@ -1,7 +1,7 @@
-"""将未改名的模板分身统一为「小Tin xxx版」命名。
+"""将未改名的模板分身统一为「小智 xxx版」命名。
 
 只匹配「template_id + 旧出厂名」精确相等的行；用户已改名、历史
-``{owner}代码版`` 展开名、系统默认「小Tin」一律不动。
+``{owner}代码版`` 展开名、系统默认「小智」一律不动。
 
 供手动管理命令复跑；不挂自动 migration，避免发布时静默改展示名。
 """
@@ -28,13 +28,13 @@ LEGACY_TEMPLATE_AGENT_NAMES: dict[str, str] = {
 }
 
 XIAOTIN_PREFIXED_TEMPLATE_AGENT_NAMES: dict[str, str] = {
-    "general-assistant": "小Tin 日常版",
-    "code-engineer": "小Tin 代码版",
-    "doc-writer": "小Tin 文书版",
-    "data-analyst": "小Tin 数据版",
-    "web-researcher": "小Tin 冲浪版",
-    "slide-designer": "小Tin PPT 版",
-    "office-secretary": "小Tin 跑腿版",
+    "general-assistant": "小智 日常版",
+    "code-engineer": "小智 代码版",
+    "doc-writer": "小智 文书版",
+    "data-analyst": "小智 数据版",
+    "web-researcher": "小智 冲浪版",
+    "slide-designer": "小智 PPT 版",
+    "office-secretary": "小智 跑腿版",
 }
 
 
@@ -86,7 +86,7 @@ def rename_unchanged_legacy_template_agents(
     dry_run: bool = True,
     organization_id: Optional[UUID] = None,
 ) -> RenameStats:
-    """把仍停在旧出厂名的模板分身改成「小Tin xxx版」。"""
+    """把仍停在旧出厂名的模板分身改成「小智 xxx版」。"""
     stats = RenameStats()
     now = timezone.now()
     to_update: list[Agent] = []

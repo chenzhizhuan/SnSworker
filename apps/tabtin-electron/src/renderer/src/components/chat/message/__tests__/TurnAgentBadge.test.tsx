@@ -40,7 +40,7 @@ describe('TurnAgentBadge · ', () => {
   })
 
   it('外部历史可用来源名覆盖展示名', () => {
-    spaceState.selectedAgent = { id: 'agent-test', name: '小Tin' }
+    spaceState.selectedAgent = { id: 'agent-test', name: '小智' }
     render(
       <TurnAgentBadge
         agentId="agent-test"
@@ -49,7 +49,7 @@ describe('TurnAgentBadge · ', () => {
       />,
     )
     expect(screen.getByTestId('turn-agent-badge').textContent).toContain('Codex')
-    expect(screen.getByTestId('turn-agent-badge').textContent).not.toContain('小Tin')
+    expect(screen.getByTestId('turn-agent-badge').textContent).not.toContain('小智')
   })
 
   it('共享消息可用安全身份快照渲染 owner Agent', () => {
@@ -66,7 +66,7 @@ describe('TurnAgentBadge · ', () => {
   })
 
   it('消息流身份牌用 32px 头像 + 对话正文字号 15px', () => {
-    spaceState.selectedAgent = { id: 'agent-test', name: '小Tin' }
+    spaceState.selectedAgent = { id: 'agent-test', name: '小智' }
     render(<TurnAgentBadge agentId="agent-test" />)
     const badge = screen.getByTestId('turn-agent-badge')
     const avatar = screen.getByTestId('agent-avatar')

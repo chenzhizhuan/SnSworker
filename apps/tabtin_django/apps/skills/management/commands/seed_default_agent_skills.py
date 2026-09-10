@@ -1,6 +1,6 @@
 """#8726: 为全部（或指定）默认 Agent 幂等回填 platform + 已装 App skill。
 
-容器部署曾因仓库根双 SSoT 导致 ``list_app_skills()=0``，默认小Tin 只挂 platform。
+容器部署曾因仓库根双 SSoT 导致 ``list_app_skills()=0``，默认小智 只挂 platform。
 修好路径解析后，对存量默认 Agent 跑一次本命令补齐携带集。
 """
 

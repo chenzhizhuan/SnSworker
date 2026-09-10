@@ -155,7 +155,7 @@ describe('AgentSkillsPanel', () => {
     expect(screen.queryByText('技能库里的技能都已经教给它了。')).toBeNull()
   })
 
-  it('小Tin：本机发现的 Skill 无需携带关系也默认出现在技能携带集', () => {
+  it('小智：本机发现的 Skill 无需携带关系也默认出现在技能携带集', () => {
     mocks.poolQuery.data = [{
       skill_key: 'device:local-helper',
       skill_id: 'local-helper',

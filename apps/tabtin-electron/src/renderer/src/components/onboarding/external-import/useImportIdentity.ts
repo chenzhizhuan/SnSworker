@@ -6,7 +6,7 @@
  *
  * 取值口径：
  *   - **targetOrganizationId**：当前选中组织，回退个人组织 / 列表首个。
- *   - **agentId**：组织默认 Agent（小Tin）。沿用会话/现场既有口径
+ *   - **agentId**：组织默认 Agent（小智）。沿用会话/现场既有口径
  *     `space.execution_agent_id ?? space.agent_id`（services/localArtifactActions.ts
  *     同款），从目标组织下任一工作空间取；再回退当前选中身份 selectedAgent。
  *   - **deviceId**：当前 Electron 设备 `currentDevice.id`（与 CreateSpace 创建
@@ -44,7 +44,7 @@ export interface ImportIdentity {
   defaultOrganizationId: string | null
   organizationName: (orgId: string | null) => string
   isTeamOrganization: (orgId: string | null) => boolean
-  /** 解析某组织的默认执行 Agent（小Tin）。 */
+  /** 解析某组织的默认执行 Agent（小智）。 */
   resolveAgentId: (orgId: string | null) => string | null
   /** 确保目标组织的工作空间列表已加载（供 Agent 解析 + 已有工作空间比对）。 */
   ensureSpacesLoaded: (orgId: string | null) => Promise<void>
@@ -86,7 +86,7 @@ export function useImportIdentity(): ImportIdentity {
 
   const resolveAgentId = useCallback(
     (orgId: string | null) => {
-      // 组织默认 Agent（小Tin）优先——不依赖工作空间，兜住「刚注册、零工作空间」
+      // 组织默认 Agent（小智）优先——不依赖工作空间，兜住「刚注册、零工作空间」
       // 的 onboarding 目标用户（此前从工作空间反推 agent 会把入口交给 onboarding
       // 尚未产生的产物）。缓存由 ensureSpacesLoaded 预热。
       if (orgId) {

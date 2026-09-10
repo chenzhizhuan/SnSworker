@@ -114,7 +114,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 const spaceStoreState = vi.hoisted(() => ({
-  selectedAgent: { id: 'agent-1', name: '小Tin' } as { id: string; name: string } | null,
+  selectedAgent: { id: 'agent-1', name: '小智' } as { id: string; name: string } | null,
   setPreferredModel: mocks.setPreferredModel,
 }))
 

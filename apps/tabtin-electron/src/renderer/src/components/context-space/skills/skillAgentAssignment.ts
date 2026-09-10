@@ -103,7 +103,7 @@ export function buildAgentIdsBySkillKey(
 }
 
 /**
- * 本机 Skill 默认挂在小Tin 上，即使还没有携带行。
+ * 本机 Skill 默认挂在小智 上，即使还没有携带行。
  * 「技能-我的」管理弹层与卡片数量要把这份隐式挂载算进去。
  * 默认 Agent 已有携带行（含显式关闭）时不再回填，避免盖过用户选择。
  */

@@ -128,7 +128,7 @@ export const ExternalArchivePrefixBubble: React.FC<{
           ) : null}
         </div>
         <p className={cn(TEXT.meta, 'mt-1 text-muted-foreground/60')}>
-          上面是外来历史，当作上下文即可——从这里开始，都可以交给小 Tin 继续做
+          上面是外来历史，当作上下文即可——从这里开始，都可以交给小智 继续做
         </p>
       </div>
     </div>

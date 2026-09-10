@@ -1,12 +1,12 @@
-"""#6353：默认 Agent 名「万能Tin」→「小Tin」（已 apply 0004 的环境补迁）。"""
+"""#6353：默认 Agent 名「多能工」→「小智」（已 apply 0004 的环境补迁）。"""
 
 from __future__ import annotations
 
 from django.db import migrations
 
 
-LEGACY_DEFAULT_AGENT_NAME = "万能Tin"
-DEFAULT_ONBOARDING_AGENT_NAME = "小Tin"
+LEGACY_DEFAULT_AGENT_NAME = "多能工"
+DEFAULT_ONBOARDING_AGENT_NAME = "小智"
 
 
 def rename_wanneng_to_xiaotin(apps, schema_editor):

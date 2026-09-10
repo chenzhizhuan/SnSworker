@@ -248,7 +248,7 @@ function applyUserAcquisitionToBackendSkills(
  *
  * 优先级：
  * 1. `GET /agents/{id}/skills` 携带集（真源；覆盖 device 等 visible 无行的本地技能）
- * 2. 有效携带快照缺 device 行：仅小Tin 默认可用；其他分身须从「技能-我的」显式分配
+ * 2. 有效携带快照缺 device 行：仅小智 默认可用；其他分身须从「技能-我的」显式分配
  * 3. `/skills/visible.skills[]` 瘦条目（请求失败或 platform/app 等来源的兜底）
  *
  * 只回填斜杠/启用判定所需的 `installed` + `agent_enabled`。

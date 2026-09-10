@@ -127,7 +127,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
     def test_ensure_creates_xiaotin_without_promoting_migrated_bots(self):
-        """#7523：有 Space 迁移分身时新建系统小Tin，不提升最早 bot。"""
+        """#7523：有 Space 迁移分身时新建系统小智，不提升最早 bot。"""
         older = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -152,7 +152,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         self.assertFalse(older.is_default)
 
     def test_ensure_demotes_legacy_default_and_creates_system_xiaotin(self):
-        """#7523：历史误标默认（无 system provenance）被 demote，并补建小Tin。"""
+        """#7523：历史误标默认（无 system provenance）被 demote，并补建小智。"""
         legacy = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -378,10 +378,10 @@ class DefaultAgentGuaranteeTests(TestCase):
             ),
             {
                 DEFAULT_ONBOARDING_AGENT_NAME,
-                "小Tin 代码版",
-                "小Tin 文书版",
-                "小Tin 数据版",
-                "小Tin 冲浪版",
+                "小智 代码版",
+                "小智 文书版",
+                "小智 数据版",
+                "小智 冲浪版",
             },
         )
         starter_agents = Agent.objects.filter(
@@ -469,7 +469,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         code_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 代码版",
+            name="小智 代码版",
             type="bot",
             template_id="code-engineer",
         )
@@ -514,7 +514,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         code_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 代码版",
+            name="小智 代码版",
             type="bot",
             template_id="code-engineer",
         )
@@ -552,7 +552,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         code_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 代码版",
+            name="小智 代码版",
             type="bot",
             template_id="code-engineer",
         )
@@ -600,7 +600,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         code_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 代码版",
+            name="小智 代码版",
             type="bot",
             template_id="code-engineer",
         )
@@ -639,7 +639,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         doc_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 文档版",
+            name="小智 文档版",
             type="bot",
             template_id="doc-writer",
         )
@@ -697,14 +697,14 @@ class DefaultAgentGuaranteeTests(TestCase):
         doc_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 文书版",
+            name="小智 文书版",
             type="bot",
             template_id="doc-writer",
         )
         data_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="小Tin 数据版",
+            name="小智 数据版",
             type="bot",
             template_id="data-analyst",
         )

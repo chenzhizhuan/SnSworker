@@ -104,7 +104,7 @@ describe('OnlinePresencePopover', () => {
     render(
       <OnlinePresencePopover
         isOnline
-        peers={[{ id: 'agent-1', name: '小Tin', type: 'agent' }]}
+        peers={[{ id: 'agent-1', name: '小智', type: 'agent' }]}
         self={{ id: 'me', name: 'Me' }}
       />,
     )

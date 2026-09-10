@@ -19,7 +19,7 @@ const t = (_key: string, opts?: Record<string, unknown>) => {
 
 const baseContext = {
   agentCache: {
-    'agent-1': { display_name: '小 Tin', name: 'tin' },
+    'agent-1': { display_name: '小智', name: 'tin' },
   },
   selectedAgent: null,
   spaceNameById: {
@@ -76,7 +76,7 @@ describe('sessionSharePickerPresentation', () => {
   it('buildSharePickerSessionPresentation 聚合 Agent / 现场 / 摘要', () => {
     const view = buildSharePickerSessionPresentation(makeSession(), baseContext, t)
     expect(view.title).toBe('修共享卡样式')
-    expect(view.meta).toBe('小 Tin · 产品探索')
+    expect(view.meta).toBe('小智 · 产品探索')
     expect(view.preview).toBe('把三档权限文案对齐一下')
     expect(view.activityTs).toBeGreaterThan(0)
   })
@@ -88,7 +88,7 @@ describe('sessionSharePickerPresentation', () => {
       t,
       'space-a',
     )
-    expect(view.meta).toBe('小 Tin · 产品探索')
+    expect(view.meta).toBe('小智 · 产品探索')
   })
 
   it('matchesSharePickerSearch 支持标题与摘要', () => {

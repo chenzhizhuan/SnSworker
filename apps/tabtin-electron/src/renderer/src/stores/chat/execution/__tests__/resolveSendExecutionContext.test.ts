@@ -50,7 +50,7 @@ describe('resolveSendExecutionContext', () => {
   it('发送前为缺少 agent_config 的列表摘要补拉 Agent 详情', async () => {
     spaceState.selectedAgent = {
       id: 'agent-1',
-      name: '小Tin',
+      name: '小智',
       custom_rules: '直接推进任务。',
     }
     const detailedAgent = {

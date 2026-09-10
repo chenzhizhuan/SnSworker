@@ -346,7 +346,7 @@ class ParentDocumentRequestContextTests(SimpleTestCase):
         response = MagicMock(status_code=403)
         self.assertIs(middleware.process_response(request, response), response)
         response.__setitem__.assert_called_once_with(
-            "X-SnSworker-Embedded-Access-Unavailable",
+            "X-TabTin-Embedded-Access-Unavailable",
             "1",
         )
         self.assertFalse(is_embedded_access_verification_unavailable())
@@ -354,7 +354,7 @@ class ParentDocumentRequestContextTests(SimpleTestCase):
     def test_cors_exposes_temporary_embed_verification_header(self):
         middleware = CORSMiddleware(lambda request: None)
         self.assertIn(
-            "X-SnSworker-Embedded-Access-Unavailable",
+            "X-TabTin-Embedded-Access-Unavailable",
             middleware.expose_headers,
         )
 

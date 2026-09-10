@@ -398,7 +398,7 @@ class OrganizationService(BaseService):
             type='bot',
             is_default=True,
             agent_config=AgentService.DEFAULT_AGENT_CONFIG,
-            # ：系统供给默认小Tin，与 Space 迁移分身区分
+            # ：系统供给默认小智，与 Space 迁移分身区分
             settings=build_system_default_agent_settings(),
         )
         space = None

@@ -188,7 +188,7 @@ class AgentService(BaseService):
             return None
 
         if template is None and self.user:
-            # ：系统默认小Tin 不计自建配额
+            # ：系统默认小智 不计自建配额
             custom_agent_count = Agent.objects.filter(
                 organization_id=organization_id,
                 owner_user_id=self.user.id,
@@ -1010,13 +1010,13 @@ class AgentService(BaseService):
         return collection
 
     def ensure_default_agent(self, organization_id: UUID) -> Optional[Agent]:
-        """保证当前用户在组织内有一只系统默认「小Tin」。
+        """保证当前用户在组织内有一只系统默认「小智」。
 
         优先级：
         1. 活跃系统默认（``settings.provision_source=system_default``）→ skill repair
         2. 误标默认的迁移 / 自建分身 → demote（不提升为默认）
         3. 停用的系统默认 → 复活 + seed
-        4. 新建系统默认小Tin + seed
+        4. 新建系统默认小智 + seed
 
         不再「提升最早活跃 bot」——Space 迁移分身不得标默认。
         调用方需已具备组织 viewer 及以上权限；无用户时返回 None。
@@ -1049,7 +1049,7 @@ class AgentService(BaseService):
             if active_system:
                 agent_to_repair = active_system
             else:
-                # ：Space 迁移 / 历史回填误标的默认 → 降级，留给下方新建系统小Tin
+                # ：Space 迁移 / 历史回填误标的默认 → 降级，留给下方新建系统小智
                 self._demote_non_system_default_agents(organization_id, owner_id)
 
                 inactive_system = self._find_system_default_agent(
@@ -1157,7 +1157,7 @@ class AgentService(BaseService):
     ) -> Optional[Agent]:
         """首次列出分身时，幂等提供五个首发角色。
 
-        默认小Tin承担「日常」角色，避免系统默认身份之外再多出第六个 Agent；
+        默认小智承担「日常」角色，避免系统默认身份之外再多出第六个 Agent；
         其余四个角色从代码、文书、数据、冲浪模板实例化。
 
         稳定态只读取默认 Agent 的 ``starter_roster_version``；首次补建时锁住
@@ -1345,7 +1345,7 @@ class AgentService(BaseService):
                         ),
                     ).delete()
 
-        # 系统默认小Tin继续保留原名称与「全能力默认 Agent」语义，只补模板出厂
+        # 系统默认小智继续保留原名称与「全能力默认 Agent」语义，只补模板出厂
         # 展示信息；已有自定义值一律优先，避免覆盖用户调整。
         daily_template = templates["general-assistant"]
         if daily_template.avatar_key:
@@ -1609,7 +1609,7 @@ class AgentService(BaseService):
 
         if not agent.template_id and not agent.is_default:
             Organization.objects.select_for_update().get(id=agent.organization_id)
-            # ：系统默认小Tin 不计自建配额
+            # ：系统默认小智 不计自建配额
             active_custom_count = Agent.objects.filter(
                 organization_id=agent.organization_id,
                 owner_user_id=agent.owner_user_id,

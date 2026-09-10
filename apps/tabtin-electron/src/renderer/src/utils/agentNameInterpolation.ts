@@ -18,10 +18,10 @@ export const AGENT_NAME_OWNER_TOKEN = '{owner}'
  * 后端 onboarding 固定中文名（见 `onboarding_defaults.py` / ）。
  * 落库仍用中文品牌名；UI 展示时按界面语言本地化。
  */
-export const DEFAULT_ONBOARDING_AGENT_NAME_ZH = '小Tin'
+export const DEFAULT_ONBOARDING_AGENT_NAME_ZH = '小智'
 /** 历史 onboarding 名，未迁完的存量展示仍识别。 */
 export const LEGACY_ONBOARDING_AGENT_NAME_ZH = '默认 Workspace 执行身份'
-export const LEGACY_ONBOARDING_AGENT_NAME_WANNENG_ZH = '万能Tin'
+export const LEGACY_ONBOARDING_AGENT_NAME_WANNENG_ZH = '多能工'
 
 const KNOWN_DEFAULT_AGENT_NAMES_ZH = new Set([
   DEFAULT_ONBOARDING_AGENT_NAME_ZH,
@@ -40,7 +40,7 @@ export function localizeKnownAgentDisplayName(
   if (!name) return ''
   if (KNOWN_DEFAULT_AGENT_NAMES_ZH.has(name)) {
     return t('myAgents.defaultExecutionIdentityName', {
-      defaultValue: '小Tin',
+      defaultValue: '小智',
     })
   }
   return name

@@ -85,7 +85,7 @@ describe('updateSessionInCaches（upsert）', () => {
   it('#11321 activity upsert 保留 is_agent_mention_session', () => {
     makeActions().updateSessionInCaches('s-mention', {
       space_id: SPACE,
-      title: '[私信@小Tin]',
+      title: '[私信@小智]',
       message_count: 1,
       is_agent_mention_session: true,
     })

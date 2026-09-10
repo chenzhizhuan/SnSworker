@@ -86,13 +86,13 @@ describe('ConversationItem 时间展示', () => {
     render(
       <ConversationItem
         conversation={groupConversation({
-          last_message_preview: 'user_0941: [@小Tin](mention:agent/d16b77ff-aaaa) 看下',
+          last_message_preview: 'user_0941: [@小智](mention:agent/d16b77ff-aaaa) 看下',
         })}
         isActive={false}
       />,
     )
 
-    expect(screen.getByText('user_0941: @小Tin 看下')).toBeTruthy()
+    expect(screen.getByText('user_0941: @小智 看下')).toBeTruthy()
     expect(screen.queryByText(/mention:agent/)).toBeNull()
   })
 

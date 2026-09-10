@@ -417,7 +417,7 @@ final class MessageHistoryTests: XCTestCase {
           {"id":"env","role":"system","message_kind":"environment_context",
            "content":"<context type=\"environment\">\ncurrent_datetime: 2026\n</context>"},
           {"id":"profile","role":"system","message_kind":"agent_profile_context",
-           "content":"<context type=\"agent-profile\">\n你是小 Tin。\n</context>"},
+           "content":"<context type=\"agent-profile\">\n你是小智。\n</context>"},
           {"id":"system-prompt","role":"system","message_kind":"system_prompt_context",
            "content":"<system-prompt>internal</system-prompt>"},
           {"id":"external-archive","role":"assistant","message_kind":"external_archive_context",
@@ -470,7 +470,7 @@ final class MessageHistoryTests: XCTestCase {
         let resp = try decode(#"""
         {"messages":[
           {"id":"profile","role":"user","message_kind":"llm",
-           "content":"<context type=\"agent-profile\">\n你是小 Tin。\n</context>"},
+           "content":"<context type=\"agent-profile\">\n你是小智。\n</context>"},
           {"id":"assistant","role":"assistant","content":"你好"}
         ]}
         """#)

@@ -230,14 +230,14 @@ describe('useSpaceStore.selectSpace — Space 级 working_dir hydrate', () => {
     useSpaceStore.setState({
       selectedAgent: {
         id: 'agent-org-a',
-        name: '小Tin',
+        name: '小智',
         organization_id: 'org-a',
       } as never,
     })
     useAgentStore.setState({
       selectedAgent: {
         id: 'agent-org-a',
-        name: '小Tin',
+        name: '小智',
         organization_id: 'org-a',
       } as never,
     })

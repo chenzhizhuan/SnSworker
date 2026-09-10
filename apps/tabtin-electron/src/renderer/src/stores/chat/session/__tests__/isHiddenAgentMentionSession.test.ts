@@ -19,7 +19,7 @@ describe('isHiddenAgentMentionSession', () => {
   it('不用标题判断', () => {
     expect(isHiddenAgentMentionSession({
       id: 's-title',
-      title: '[私信@小Tin]',
+      title: '[私信@小智]',
     } as { id: string; is_agent_mention_session?: boolean; title: string })).toBe(false)
   })
 })

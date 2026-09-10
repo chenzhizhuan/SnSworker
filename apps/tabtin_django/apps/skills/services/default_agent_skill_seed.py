@@ -145,7 +145,7 @@ def _attach_keys(
 def is_default_skill_baseline_agent(agent) -> bool:
     """是否应拥有默认 platform + 内置 App skill 基线。
 
-    新默认小Tin用 ``is_default`` 标识；#10928 兼容 0075 迁移遗留的
+    新默认小智用 ``is_default`` 标识；#10928 兼容 0075 迁移遗留的
     「默认 Space 执行身份」，否则历史用户选中该身份时 prompt skill 段会只剩空壳。
     """
     if agent is None:

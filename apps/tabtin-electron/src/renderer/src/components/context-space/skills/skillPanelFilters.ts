@@ -24,7 +24,7 @@ export function isDeviceSkill(skill: {
 }
 
 /**
- * 小Tin 的系统套件：平台 / 内置 App / 本机。
+ * 小智 的系统套件：平台 / 内置 App / 本机。
  * 其他分身添加池不收录这些项；携带集以真实携带行为准，不按来源再藏。
  * 货架压缩包（distribution=marketplace）不算套件，仍可教给任意分身。
  */

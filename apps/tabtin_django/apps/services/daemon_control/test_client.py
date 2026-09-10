@@ -160,7 +160,7 @@ class ResolveDeviceClientTests(SimpleTestCase):
             post.call_args.kwargs["headers"],
             {
                 "Authorization": f"Bearer {TOKEN}",
-                "X-SnSworker-Device-Credential-SHA256": VALID_CREDENTIAL_SHA256,
+                "X-TabTin-Device-Credential-SHA256": VALID_CREDENTIAL_SHA256,
             },
         )
         self.assertFalse(post.call_args.kwargs["allow_redirects"])

@@ -57,7 +57,7 @@ RESP_CREATE_WITH_CONFLICT = {
 def list_organization_agents(request: HttpRequest, organization_id: UUID):
     """列出组织下的 Agent（身份）；首次进入幂等补建五个首发角色。
 
-    默认小Tin承担日常角色，另外补齐代码、文书、数据、冲浪四个模板 Agent。
+    默认小智承担日常角色，另外补齐代码、文书、数据、冲浪四个模板 Agent。
     完成后走纯读快路径；补建若遇锁超时等数据库错误，降级返回已有列表，
     避免读接口整体 500。
     """

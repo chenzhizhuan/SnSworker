@@ -225,7 +225,7 @@ describe('Centrifugo non-IM channels', () => {
     sub._emit('publication', {
       data: {
         type: 'im.ai.error',
-        data: { agent_name: '小Tin', reason: '请重新指定执行现场' },
+        data: { agent_name: '小智', reason: '请重新指定执行现场' },
       },
     })
     expect(toast).toHaveBeenCalledWith({

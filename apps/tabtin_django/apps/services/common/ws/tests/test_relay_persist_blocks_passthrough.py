@@ -98,12 +98,12 @@ def test_upsert_user_passthrough_compaction_summary_kind():
 
 def test_upsert_user_preserves_agent_profile_context_kind():
     kwargs = _run_upsert(
-        content='<context type="agent-profile">\n你是小 Tin。\n</context>',
+        content='<context type="agent-profile">\n你是小智。\n</context>',
         payload={
             "message_kind": "agent_profile_context",
             "blocks_json": [{
                 "type": "text",
-                "text": '<context type="agent-profile">\n你是小 Tin。\n</context>',
+                "text": '<context type="agent-profile">\n你是小智。\n</context>',
             }],
             "arrival_seq": 100,
         },

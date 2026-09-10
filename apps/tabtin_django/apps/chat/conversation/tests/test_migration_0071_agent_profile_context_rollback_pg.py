@@ -46,7 +46,7 @@ class AgentProfileContextRollbackMigrationScenario(
         self.content_blocks = [
             {
                 "type": "text",
-                "text": '<context type="agent-profile">你是小 Tin。</context>',
+                "text": '<context type="agent-profile">你是小智。</context>',
             }
         ]
 
@@ -69,7 +69,7 @@ class AgentProfileContextRollbackMigrationScenario(
             role="user",
             message_kind="agent_profile_context",
             content_blocks_json=self.content_blocks,
-            text_summary="你是小 Tin。",
+            text_summary="你是小智。",
         )
 
     def assert_after_migration(self, connection) -> None:
@@ -80,4 +80,4 @@ class AgentProfileContextRollbackMigrationScenario(
         message = ChatMessage.objects.get(id=self.message_id)
         self.assertEqual(message.message_kind, "environment_context")
         self.assertEqual(message.content_blocks_json, self.content_blocks)
-        self.assertEqual(message.text_summary, "你是小 Tin。")
+        self.assertEqual(message.text_summary, "你是小智。")

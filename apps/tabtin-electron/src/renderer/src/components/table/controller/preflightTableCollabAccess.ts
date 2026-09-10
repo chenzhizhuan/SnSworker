@@ -31,7 +31,7 @@ export async function preflightTableCollabAccess(
       Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       ...(normalizedParentDocumentId
-        ? { 'X-SnSworker-Parent-Document-Id': normalizedParentDocumentId }
+        ? { 'X-TabTin-Parent-Document-Id': normalizedParentDocumentId }
         : {}),
     },
   })

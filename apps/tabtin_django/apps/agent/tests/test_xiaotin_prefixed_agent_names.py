@@ -1,4 +1,4 @@
-"""未改名模板分身 →「小Tin xxx版」重命名。"""
+"""未改名模板分身 →「小智 xxx版」重命名。"""
 from __future__ import annotations
 
 from uuid import uuid4
@@ -69,12 +69,12 @@ class XiaotinPrefixedAgentNamesTests(TestCase):
             template_id="code-engineer",
         )
         default_xiaotin = self._create_agent(
-            name="小Tin",
+            name="小智",
             template_id="general-assistant",
             is_default=True,
         )
         already_new = self._create_agent(
-            name="小Tin 文书版",
+            name="小智 文书版",
             template_id="doc-writer",
         )
         daily_legacy = self._create_agent(
@@ -103,7 +103,7 @@ class XiaotinPrefixedAgentNamesTests(TestCase):
         agent.refresh_from_db()
         custom.refresh_from_db()
 
-        self.assertEqual(agent.name, "小Tin 冲浪版")
+        self.assertEqual(agent.name, "小智 冲浪版")
         self.assertEqual(custom.name, "我的冲浪号")
         self.assertEqual(stats.updated, 1)
 

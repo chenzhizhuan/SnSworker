@@ -102,7 +102,7 @@ describe('login relay IPC', () => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer access-token',
-          'X-SnSworker-Login-Relay-Protocol-Version': 'v1',
+          'X-TabTin-Login-Relay-Protocol-Version': 'v1',
         },
         body: JSON.stringify(body),
         signal: expect.any(AbortSignal),

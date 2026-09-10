@@ -761,8 +761,8 @@ func probeBrowserDoctorHealth(ctx context.Context, d browserDoctorDiscovery, env
 	if err != nil {
 		return 0, nil, err
 	}
-	req.Header.Set("X-SnSworker-Token", d.Token)
-	req.Header.Set("X-SnSworker-Caller-Pid", fmt.Sprintf("%d", os.Getpid()))
+	req.Header.Set("X-TabTin-Token", d.Token)
+	req.Header.Set("X-TabTin-Caller-Pid", fmt.Sprintf("%d", os.Getpid()))
 	req.Host = "localhost"
 	_ = conn.SetDeadline(env.now().Add(browserDoctorHTTPTimeout))
 	if err := req.Write(conn); err != nil {

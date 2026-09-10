@@ -31,7 +31,7 @@ class CapsuleInteractionBubblePolicyTest {
                 "team_space_execution" to JsonObject(
                     mapOf(
                         "execution_owner_user_id" to JsonPrimitive("owner-1"),
-                        "execution_owner_display_name" to JsonPrimitive("小 Tin"),
+                        "execution_owner_display_name" to JsonPrimitive("小智"),
                     ),
                 ),
             ),
@@ -40,7 +40,7 @@ class CapsuleInteractionBubblePolicyTest {
         val member = HitlResolutionAccess.resolve(teamPayload, currentUserId = "member-1")
         val signedOut = HitlResolutionAccess.resolve(teamPayload, currentUserId = null)
         assertTrue(owner.canResolve)
-        assertEquals("小 Tin", owner.executionOwnerDisplayName)
+        assertEquals("小智", owner.executionOwnerDisplayName)
         assertFalse(member.canResolve)
         assertFalse(signedOut.canResolve)
 

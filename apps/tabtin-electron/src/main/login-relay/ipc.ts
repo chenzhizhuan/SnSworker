@@ -112,7 +112,7 @@ export function createLoginRelayPackageUploader(
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
-            'X-SnSworker-Login-Relay-Protocol-Version': LOGIN_RELAY_PROTOCOL_VERSION,
+            'X-TabTin-Login-Relay-Protocol-Version': LOGIN_RELAY_PROTOCOL_VERSION,
           },
           body: JSON.stringify(body),
           signal: controller.signal,

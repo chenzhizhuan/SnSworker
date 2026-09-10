@@ -736,13 +736,13 @@ class CORSMiddleware(MiddlewareMixin):
                                 # 表格公开分享密码头：正典 X-Table-Share-Password；
                                 # X-Share-Password 为历史兼容。
                                 'X-Table-Share-Id', 'X-Table-Share-Password', 'X-Share-Password',
-                                'X-SnSworker-Parent-Document-Id']
+                                'X-TabTin-Parent-Document-Id']
         # 跨域 fetch 默认只暴露简单响应头；下载类接口（如文档导出 DOCX）从
         # Content-Disposition 解析文件名，必须显式暴露，否则前端读不到、文件名
         # 退化成默认值（：导出 DOCX 命名为 document.docx）。
         self.expose_headers = [
             'Content-Disposition',
-            'X-SnSworker-Embedded-Access-Unavailable',
+            'X-TabTin-Embedded-Access-Unavailable',
         ]
         self.max_age = 86400
 

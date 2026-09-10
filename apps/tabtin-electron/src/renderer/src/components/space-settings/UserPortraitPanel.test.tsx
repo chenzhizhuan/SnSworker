@@ -116,7 +116,7 @@ describe('UserPortraitPanel ', () => {
         canManage
         organizationId="org-1"
         agentId="agent-1"
-        agentName="小Tin"
+        agentName="小智"
       />,
     )
 
@@ -139,7 +139,7 @@ describe('UserPortraitPanel ', () => {
         canManage
         organizationId="org-1"
         agentId="agent-1"
-        agentName="小Tin"
+        agentName="小智"
       />,
     )
 
@@ -156,7 +156,7 @@ describe('UserPortraitPanel ', () => {
         canManage
         organizationId="org-1"
         agentId="agent-1"
-        agentName="小Tin"
+        agentName="小智"
       />,
     )
 

@@ -10,13 +10,13 @@ class AgentListSearchTest {
     @Test
     fun `search only matches the name visible in the list`() {
         val agents = listOf(
-            SearchItem(visibleName = "小Tin", hiddenName = "assistant"),
-            SearchItem(visibleName = "代码版", hiddenName = "小Tin内部名"),
+            SearchItem(visibleName = "小智", hiddenName = "assistant"),
+            SearchItem(visibleName = "代码版", hiddenName = "小智内部名"),
         )
 
         val result = filterByVisibleAgentName(agents, "小") { it.visibleName }
 
-        assertEquals(listOf("小Tin"), result.map { it.visibleName })
+        assertEquals(listOf("小智"), result.map { it.visibleName })
     }
 
     @Test
@@ -30,12 +30,12 @@ class AgentListSearchTest {
 
     @Test
     fun `visible name prefers display name and only falls back when it is blank`() {
-        val displayed = agent(name = "小Tin内部名", displayName = "代码版")
-        val fallback = agent(name = "小Tin", displayName = "  ")
+        val displayed = agent(name = "小智内部名", displayName = "代码版")
+        val fallback = agent(name = "小智", displayName = "  ")
 
         assertEquals("代码版", displayed.visibleName())
         assertFalse(displayed.visibleName().contains("小"))
-        assertEquals("小Tin", fallback.visibleName())
+        assertEquals("小智", fallback.visibleName())
         assertTrue(fallback.visibleName().contains("小"))
     }
 

@@ -984,7 +984,7 @@ class BillingExportApiTests(TestCase):
         """造一条会话 + 一条挂在本组织的 llm_call 事件。
 
         真实数据形态：ChatSession.save() 自动把 thread_id 补成 ``chat-session-<id>``；
-        客户端 X-SnSworker-Session-Id 主路径传的是**主键 UUID**（session_id_kind="pk"），
+        客户端 X-TabTin-Session-Id 主路径传的是**主键 UUID**（session_id_kind="pk"），
         少数路径可能传带前缀的 thread_id（session_id_kind="thread_id"）。两者都要能反查到。
         """
         from apps.chat.conversation.models import ChatSession
