@@ -537,7 +537,8 @@ const GeneralSection: React.FC<{
             {t('danger.title')}
           </h4>
 
-          {SPACE_TRASH_UI_ENABLED && (
+          {/* ：仅团队 Project 有回收站语义；Workspace 走物理删除，不提供回收站入口 */}
+          {SPACE_TRASH_UI_ENABLED && space.type === 'team_space' && (
             <div className="flex items-center justify-between gap-4 py-1.5">
               <div className="min-w-0">
                 <div className="text-body font-medium text-foreground">{t('danger.trashTitle', { defaultValue: '移入回收站' })}</div>

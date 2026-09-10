@@ -118,7 +118,8 @@
   "errors": {
     "updateFailed": "La actualización falló",
     "deleteFailed": "Error al eliminar",
-    "archiveFailed": "Error de archivado"
+    "archiveFailed": "Error de archivado",
+    "trashUnsupported": "Los espacios de trabajo personales no admiten la papelera. Use Eliminar."
   },
   "apiErrors": {
     "fetchListFailed": "No se pudieron recuperar los agentes",

@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next'
 import { useSpaceStore } from '@stores/useSpaceStore'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { useAuthStore } from '@stores/useAuthStore'
+import { ProjectApiService } from '@tabtin/app-shell'
 import { canManageSpaceLifecycle } from '@/hooks/useCanManageSpaceLifecycle'
 import { SettingsNameConfirmDialog } from '@components/settings/SettingsNameConfirmDialog'
 import { confirmDirtyBeforeSpaceDelete } from '@components/context-space/dirtyExitConfirm/spaceDeleteGuard'
@@ -84,19 +85,33 @@ export const WorkspaceLifecycleMenu: React.FC<WorkspaceLifecycleMenuProps> = ({
 
   const handleTrash = async () => {
     setDangerError('')
-    const deleted = await deleteSpace(space.id)
-    if (!deleted) {
+    try {
+      // ：团队 Project → 回收站；个人 Workspace → 直接删除（后端无 trash 语义）。
+      // 删除按钮已有独立入口与名称确认弹窗，这里的回收站入口只对 team_space 暴露。
+      if (space.type !== 'team_space') {
+        throw new Error(t('errors.trashUnsupported', {
+          defaultValue: '个人工作空间不支持移入回收站，请使用「删除」操作',
+        }))
+      }
+      await ProjectApiService.trash(space.id)
+      if (space.organization_id) {
+        void loadSpaces(space.organization_id).catch(() => {})
+      }
+      toast({
+        title: t('trash.trashSuccess', {
+          defaultValue: `已移入回收站：${space.name}`,
+        }),
+        description: t('trash.trashShareWarning', {
+          defaultValue: '已移入回收站，可在保留期内恢复',
+        }),
+      })
+    } catch (err) {
       setDangerError(
-        useSpaceStore.getState().error ??
-          t('errors.trashFailed', { defaultValue: '移入回收站失败' }),
+        err instanceof Error
+          ? err.message
+          : t('errors.trashFailed', { defaultValue: '移入回收站失败' }),
       )
-      return
     }
-    toast({
-      title: t('trash.trashSuccess', {
-        defaultValue: `已删除：${space.name}`,
-      }),
-    })
   }
 
   const handleArchive = async () => {
@@ -151,7 +166,8 @@ export const WorkspaceLifecycleMenu: React.FC<WorkspaceLifecycleMenuProps> = ({
           {t('danger.title', { defaultValue: '危险操作' })}
         </h4>
 
-        {SPACE_TRASH_UI_ENABLED && (
+        {/* ：仅团队 Project 有回收站语义；Workspace 走物理删除，不提供回收站入口 */}
+        {SPACE_TRASH_UI_ENABLED && space.type === 'team_space' && (
           <div className="flex items-center justify-between gap-4 py-2">
             <div className="min-w-0">
               <div className="text-body font-medium text-foreground">
@@ -300,7 +316,7 @@ export const WorkspaceLifecycleMenu: React.FC<WorkspaceLifecycleMenuProps> = ({
         onConfirm={handleDelete}
       />
 
-      {SPACE_TRASH_UI_ENABLED && (
+      {SPACE_TRASH_UI_ENABLED && space.type === 'team_space' && (
         <ConfirmDialog
           open={trashConfirmOpen}
           onOpenChange={setTrashConfirmOpen}

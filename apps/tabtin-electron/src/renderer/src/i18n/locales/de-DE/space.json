@@ -118,7 +118,8 @@
   "errors": {
     "updateFailed": "Update fehlgeschlagen",
     "deleteFailed": "Das Löschen ist fehlgeschlagen",
-    "archiveFailed": "Archivierung fehlgeschlagen"
+    "archiveFailed": "Archivierung fehlgeschlagen",
+    "trashUnsupported": "Persönliche Arbeitsbereiche unterstützen den Papierkorb nicht. Bitte verwenden Sie Löschen."
   },
   "apiErrors": {
     "fetchListFailed": "Agenten konnten nicht abgerufen werden",

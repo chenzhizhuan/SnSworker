@@ -23,14 +23,15 @@ interface OrganizationTrashedSpacesPanelProps {
   embedded?: boolean
 }
 
+/** ：免费版安全默认值；后端 trashed-projects 已随列表返回按会员等级计算的实际保留期，加载后覆盖。 */
 const TRASH_RETENTION_DAYS = 30
 
-const getDaysLeft = (trashedAt: string | null): number => {
-  if (!trashedAt) return TRASH_RETENTION_DAYS
+const getDaysLeft = (trashedAt: string | null, retentionDays: number = TRASH_RETENTION_DAYS): number => {
+  if (!trashedAt) return retentionDays
   const trashed = new Date(trashedAt)
-  if (Number.isNaN(trashed.getTime())) return TRASH_RETENTION_DAYS
+  if (Number.isNaN(trashed.getTime())) return retentionDays
   const daysPassed = Math.floor((Date.now() - trashed.getTime()) / (1000 * 60 * 60 * 24))
-  return Math.max(0, TRASH_RETENTION_DAYS - daysPassed)
+  return Math.max(0, retentionDays - daysPassed)
 }
 
 export const OrganizationTrashedSpacesPanel: React.FC<OrganizationTrashedSpacesPanelProps> = ({
@@ -40,6 +41,7 @@ export const OrganizationTrashedSpacesPanel: React.FC<OrganizationTrashedSpacesP
 }) => {
   const { t } = useTranslation('organization')
   const [items, setItems] = useState<TrashedSpace[]>([])
+  const [retentionDays, setRetentionDays] = useState(TRASH_RETENTION_DAYS)
   const [deactivatedAgents, setDeactivatedAgents] = useState<DeactivatedAgent[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -59,6 +61,10 @@ export const OrganizationTrashedSpacesPanel: React.FC<OrganizationTrashedSpacesP
         SpaceApiService.listDeactivatedAgents(organization.id).catch(() => ({ items: [], total: 0 })),
       ])
       setItems(trashedData.items ?? [])
+      // ：优先用后端按会员等级计算的实际保留期；旧后端未返回时保持 30 天默认。
+      if (typeof trashedData.retention_days === 'number' && trashedData.retention_days > 0) {
+        setRetentionDays(trashedData.retention_days)
+      }
       setDeactivatedAgents(deactivatedData.items ?? [])
     } catch (err) {
       setError(err instanceof Error ? err.message : t('trashedSpaces.loadFailed'))
@@ -190,7 +196,7 @@ export const OrganizationTrashedSpacesPanel: React.FC<OrganizationTrashedSpacesP
                 const isRestoring = restoringIds.has(space.id)
                 const isDeleting = deletingIds.has(space.id)
                 const isActing = isRestoring || isDeleting
-                const daysLeft = getDaysLeft(space.trashed_at)
+                const daysLeft = getDaysLeft(space.trashed_at, retentionDays)
                 return (
                   <div
                     key={space.id}

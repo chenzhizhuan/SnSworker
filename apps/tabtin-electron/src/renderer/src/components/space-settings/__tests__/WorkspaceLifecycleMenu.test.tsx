@@ -1,6 +1,7 @@
 import React from 'react'
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const canManageSpaceLifecycleMock = vi.hoisted(() => vi.fn(() => true))
 const useSpaceDeleteGuardMock = vi.hoisted(() =>
@@ -12,6 +13,8 @@ const useSpaceDeleteGuardMock = vi.hoisted(() =>
     controlDeviceName: null,
   })),
 )
+const projectApiTrashMock = vi.hoisted(() => vi.fn(async () => undefined))
+const toastMock = vi.hoisted(() => vi.fn())
 
 vi.mock('@/hooks/useCanManageSpaceLifecycle', () => ({
   canManageSpaceLifecycle: canManageSpaceLifecycleMock,
@@ -60,8 +63,42 @@ vi.mock('@components/context-space/dirtyExitConfirm/spaceDeleteGuard', () => ({
 }))
 
 vi.mock('@/utils/featureFlags', () => ({
-  SPACE_TRASH_UI_ENABLED: false,
+  SPACE_TRASH_UI_ENABLED: true,
   SPACE_ARCHIVE_UI_ENABLED: false,
+}))
+
+vi.mock('@tabtin/app-shell', () => ({
+  ProjectApiService: { trash: projectApiTrashMock },
+  // 组件同时从 @tabtin/app-shell 导入 cn（SpaceSettingsPane 同款工具）
+  cn: (...classes: Array<string | false | null | undefined>) =>
+    classes.filter(Boolean).join(' '),
+}))
+
+vi.mock('@tabtin/smartsheet-ui', () => ({
+  Button: ({ children, ...props }: Record<string, unknown>) => {
+    const React = require('react') as typeof import('react')
+    return React.createElement(
+      'button',
+      { ...props, type: 'button' },
+      children as never,
+    )
+  },
+  ConfirmDialog: ({
+    open,
+    onConfirm,
+  }: {
+    open: boolean
+    onConfirm?: () => void
+  }) => {
+    const React = require('react') as typeof import('react')
+    if (!open) return null
+    return React.createElement(
+      'button',
+      { type: 'button', 'data-testid': 'confirm-dialog-confirm', onClick: onConfirm },
+      'confirm',
+    )
+  },
+  toast: toastMock,
 }))
 
 import { WorkspaceLifecycleMenu } from '../WorkspaceLifecycleMenu'
@@ -84,6 +121,8 @@ const space = {
 
 describe('WorkspaceLifecycleMenu', () => {
   beforeEach(() => {
+    projectApiTrashMock.mockClear()
+    toastMock.mockClear()
     canManageSpaceLifecycleMock.mockReturnValue(true)
     useSpaceDeleteGuardMock.mockReturnValue({
       canDelete: true,
@@ -105,5 +144,29 @@ describe('WorkspaceLifecycleMenu', () => {
     canManageSpaceLifecycleMock.mockReturnValue(false)
     const { container } = render(<WorkspaceLifecycleMenu space={space} />)
     expect(container.childElementCount).toBe(0)
+  })
+
+  it('workspace 类型不显示回收站入口（物理删除语义，避免 30 天可恢复误导）', () => {
+    render(<WorkspaceLifecycleMenu space={space} />)
+    expect(screen.queryByRole('button', { name: 'actions.trash' })).toBeNull()
+  })
+
+  it('team_space 类型显示回收站入口且走 ProjectApiService.trash', async () => {
+    const teamSpace = {
+      ...space,
+      type: 'team_space',
+      workspace_record: false,
+    } as typeof space
+    const user = userEvent.setup()
+    render(<WorkspaceLifecycleMenu space={teamSpace} />)
+    const trashButton = screen.getByRole('button', { name: 'actions.trash' })
+    expect(trashButton).toBeTruthy()
+    await user.click(trashButton)
+    const confirmButton = await screen.findByRole('button', { name: 'confirm' })
+    await user.click(confirmButton)
+    await vi.waitFor(() => {
+      expect(projectApiTrashMock).toHaveBeenCalledWith(teamSpace.id)
+      expect(projectApiTrashMock).toHaveBeenCalledTimes(1)
+    })
   })
 })

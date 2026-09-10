@@ -82,6 +82,8 @@ export interface TrashedSpace {
 export interface TrashedSpacesResponse {
   items: TrashedSpace[]
   total: number
+  /** ：后端按会员等级 trash_retention_days 计算的实际保留期；旧后端未返回时前端回落 30 天。 */
+  retention_days?: number
 }
 
 export interface DeactivatedAgent {

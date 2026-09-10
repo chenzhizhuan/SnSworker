@@ -104,6 +104,17 @@ class SpaceTrashPermanentDeleteTests(TestCase):
         ids = {item["id"] for item in data["items"]}
         self.assertNotIn(str(self.trashed_project.id), ids)
 
+    def test_trashed_list_returns_retention_days(self) -> None:
+        """trashed-projects 随列表返回按会员等级计算的实际保留期（前端倒计时口径）。"""
+        request = self.rf.get(
+            f"/api/context/organizations/{self.organization.id}/trashed-projects"
+        )
+        request.auth = self.owner
+        data = list_trashed_projects(request, self.organization.id)["data"]
+        self.assertIn("retention_days", data)
+        # 免费版默认 30 天；套餐数据缺失时回落 30，不应抛错
+        self.assertGreaterEqual(data["retention_days"], 1)
+
     def test_purge_skips_non_trashed_ids(self) -> None:
         active = Project.objects.create(
             organization=self.organization,

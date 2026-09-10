@@ -118,7 +118,8 @@
   "errors": {
     "updateFailed": "La mise à jour a échoué",
     "deleteFailed": "Échec de la suppression",
-    "archiveFailed": "L'archivage a échoué"
+    "archiveFailed": "L'archivage a échoué",
+    "trashUnsupported": "Les espaces de travail personnels ne prennent pas en charge la corbeille. Utilisez Supprimer."
   },
   "apiErrors": {
     "fetchListFailed": "Échec de la récupération des agents",

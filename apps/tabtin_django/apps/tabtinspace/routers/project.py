@@ -829,4 +829,16 @@ def list_trashed_projects(request: HttpRequest, organization_id: UUID):
         }
         for row in projects
     ]
-    return success_response({"items": items, "total": len(items)})
+    # 与资源回收站（context_item.py list_organization_trash）口径一致：随列表返回
+    # 按会员等级 trash_retention_days 计算的实际保留期，供前端倒计时展示；
+    # 套餐数据暂时不可用时沿用免费版安全默认值，不让列表整体失败。
+    from apps.services.billing.services.entitlement_limits_service import EntitlementLimitsService
+    try:
+        retention_days = EntitlementLimitsService.get_recycle_retention_days(str(organization_id)) or 30
+    except Exception:
+        retention_days = 30
+    return success_response({
+        "items": items,
+        "total": len(items),
+        "retention_days": retention_days,
+    })

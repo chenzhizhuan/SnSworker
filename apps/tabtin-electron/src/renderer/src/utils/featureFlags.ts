@@ -109,19 +109,22 @@ export const OPENAI_CODEX_BYOK_UI_ENABLED: boolean = IS_DEV_LIKE_BUILD
 /**
  * Space 生命周期「归档」入口是否对用户可见。
  *
- * Electron 客户端尚无「已归档 Space 列表 / 恢复」对等 UI，临时隐藏归档入口，
- * 避免用户归档后无法自行恢复。后端 API 与 AdminDash 能力保留。
+ * Electron 客户端尚无「已归档 Space 列表 / 恢复」对等 UI（后端亦无普通用户的
+ * 归档列表端点），临时隐藏归档入口，避免用户归档后无法自行恢复。
+ * 后端 API 与 AdminDash 能力保留；补齐归档面板前保持关闭。
  */
 export const SPACE_ARCHIVE_UI_ENABLED = false
 
 /**
  * Workspace 回收站入口是否对用户可见。
  *
- * 2026-07-15：暂不对客暴露「移入回收站」与「回收站 → Workspace 回收站」
- * Tab；「删除 Workspace」仍保留。后端 soft-delete / restore API 与面板实现
- * 保留；恢复时改为 `true`。跟踪：。
+ * 2026-09-10：回收站 UI（组织级 trashedSpaces 面板 + team_space 回收入口）已
+ * 补齐并修复 workspace 类型误走物理删除的问题；仅 team_space（Project）具备
+ * 回收站语义，个人 Workspace 入口继续隐藏。由
+ * `VITE_ENABLE_TRASH_UI` 控制，未注入时默认关闭。
  */
-export const SPACE_TRASH_UI_ENABLED = false
+export const SPACE_TRASH_UI_ENABLED: boolean =
+  import.meta.env.VITE_ENABLE_TRASH_UI === 'true'
 
 /**
  * 全局搜索（Cmd+K / 侧栏放大镜）入口是否对用户可见。

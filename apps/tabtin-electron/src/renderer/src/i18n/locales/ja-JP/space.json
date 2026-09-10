@@ -118,7 +118,8 @@
   "errors": {
     "updateFailed": "アップデートに失敗しました",
     "deleteFailed": "削除に失敗しました",
-    "archiveFailed": "アーカイブに失敗しました"
+    "archiveFailed": "アーカイブに失敗しました",
+    "trashUnsupported": "個人ワークスペースはゴミ箱に対応していません。「削除」をご利用ください。"
   },
   "apiErrors": {
     "fetchListFailed": "エージェントの取得に失敗しました",

@@ -124,7 +124,8 @@
   "errors": {
     "updateFailed": "更新失敗",
     "deleteFailed": "刪除失敗",
-    "archiveFailed": "歸檔失敗"
+    "archiveFailed": "歸檔失敗",
+    "trashUnsupported": "個人工作空間不支持移入回收站，請使用「刪除」操作"
   },
   "apiErrors": {
     "fetchListFailed": "取得 Agent 清單失敗",

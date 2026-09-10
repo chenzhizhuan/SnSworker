@@ -118,7 +118,8 @@
   "errors": {
     "updateFailed": "Update failed",
     "deleteFailed": "Delete failed",
-    "archiveFailed": "Archive failed"
+    "archiveFailed": "Archive failed",
+    "trashUnsupported": "Personal workspaces do not support trash. Use Delete instead."
   },
   "apiErrors": {
     "fetchListFailed": "Failed to fetch Agents",

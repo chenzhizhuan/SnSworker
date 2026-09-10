@@ -6,8 +6,9 @@
 # ⚠️ 不要直接 docker compose up。本文件依赖 web-up.sh 先做两件事：
 #    1) 渲染 community-assets/centrifugo.web.template.json（否则 Centrifugo
 #       配置生成阶段报 missing Community Centrifugo template）；
-#    2) 导出 SERVER_IP 与 COLLAB_LIVE_SECRET（否则下面的 ${...} 插值为空，
-#       Django 的 ALLOWED_HOSTS/CORS 与 collab-live 的鉴权全部失效）。
+#    2) 生成 COLLAB_LIVE_SECRET 到 .env.web-runtime（下面 secret-by-env-file
+#       会从该文件读取，direct up 也能拿到正确的 secret；SERVER_IP 仍需环境
+#       变量提供，或写入根 .env 作为兑底）。
 #    调试用的直连命令见 docs/development/web-docker-deploy.md。
 #
 # 端口映射（宿主机 → 容器）：
@@ -36,6 +37,9 @@ x-worker-common: &worker-common
   command: ['worker']
   env_file:
     - ./.env.community-runtime
+    # 🏷️ secret-by-env-file：django 侧服务的 secret 也从文件读，不再依赖
+    # compose up 调用方先 export COLLAB_LIVE_SECRET（见文末 secret-by-env-file 段）。
+    - ./.env.web-runtime
   user: '10001:10001'
   restart: unless-stopped
   volumes:
@@ -100,16 +104,27 @@ x-web-public-env: &web-public-env
   TABTIN_PUBLIC_BASE_URL: http://${SERVER_IP}:13492
   TABTIN_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
   ALLOW_LAN_HOSTS_IN_DEBUG: 'True'
-  # collab-live 双向鉴权（X-Live-Secret），三方必须同值
+  # collab-live 双向鉴权（X-Live-Secret），三方必须同值。
+  # 🏷️ secret-by-env-file：不再用 ${COLLAB_LIVE_SECRET} 插值（忘了 export 会得到
+  # 空字符串→django 拒绝所有内部请求→客户端永远"协作同步连接中"，此事故已在
+  # 2026-09-10 发生两次）；改为在 service 的 env_file 里显式声明
+  # .env.web-runtime，compose 直接从文件读，与调用方 shell 环境无关。
   COLLAB_LIVE_URL: http://collab-live:4100
-  COLLAB_LIVE_SECRET: ${COLLAB_LIVE_SECRET}
   # 显式钉死 tracker 队列名。settings.py:_default_tracker_agent_queue() 会在
   # TABTIN_INFRA_MODE=remote 且非 K8s 时派生成 tracker_agent_<主机名>；本形态
   # 不设该变量本就走 canonical 名，但钉死可保证 producer 与 consumer 永不分叉。
   TRACKER_AGENT_QUEUE: tracker_agent
 
 services:
+  # 🏷️ secret-by-env-file（根因修复）：django/celery/beat/worker-* 共用
+  # x-worker-common 或独立定义，这里统一为 django 侧服务追加
+  # ./.env.web-runtime 到 env_file。compose 的 env_file 优先级低于
+  # environment（同名变量被 environment 覆盖），因此不影响 web-up.sh
+  # export 路径，但彻底消除了"裸 compose up 时 secret 丢失"的事故面。
   django:
+    env_file:
+      - ./.env.community-runtime
+      - ./.env.web-runtime
     environment:
       <<: *web-public-env
       # 指向 web 形态的 Centrifugo 模板（allowed_origins 换成 13490/13491）。
@@ -139,6 +154,9 @@ services:
   # WORKER_REGISTRY 的 worker-critical：只吃 critical，不再吃 default，
   # 否则会与下面的 worker-default 重复消费同一队列。
   celery:
+    env_file:
+      - ./.env.community-runtime
+      - ./.env.web-runtime
     environment:
       <<: *web-public-env
       CELERY_QUEUES: critical
@@ -207,6 +225,8 @@ services:
   beat:
     <<: *worker-common
     command: ['beat']
+    # beat 也需要 secret：django 调 collab-live 的定时任务（快照清理等）用
+    # X-Live-Secret；worker-common 已含 .env.web-runtime，无需重复声明。
     environment:
       <<: *web-public-env
       # 说明：extends 会带进 celery 的 CELERY_QUEUES，但 docker-entrypoint.sh 的
@@ -225,12 +245,16 @@ services:
       context: .
       dockerfile: apps/collab-live/Dockerfile
     restart: unless-stopped
+    # 🏷️ secret-by-env-file：与 django 侧对齐，从文件读 secret。
+    env_file:
+      - ./.env.web-runtime
     environment:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: '4100'
       DJANGO_API_URL: http://django:6060
-      COLLAB_LIVE_SECRET: ${COLLAB_LIVE_SECRET}
+      # secret 由上方 env_file 提供；若缺失（文件不存在），compose 会报错
+      # 而非静默传空字符串——这是刻意的：缺 secret 就应该 fail fast。
       COLLAB_LIVE_REQUIRE_SECRET: 'true'
       # Redis DB 14：避开 Django 的 0/1/2 与 Centrifugo 的 13
       REDIS_URL: redis://redis:6379/14
