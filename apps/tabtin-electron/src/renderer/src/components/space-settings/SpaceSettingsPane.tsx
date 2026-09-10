@@ -16,13 +16,12 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react'
 import {
   Settings, Sparkles,
-  Trash2, Archive, AlertTriangle, Wrench,
-  Server, Shield, Cpu, Smartphone, Bot,
-  LayoutGrid, Gauge, ArrowRightLeft, Users,
+  Trash2, Archive, AlertTriangle,
+  Shield, Smartphone, Bot,
+  Gauge, Users,
 } from 'lucide-react'
 import {
-  Button, ConfirmDialog, Input, ScrollArea, toast, Dialog, DialogContent,
-  DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+  Button, ConfirmDialog, Input, ScrollArea, toast,
   OverlayContainerProvider,
   Textarea,
 } from '@components/ui'
@@ -65,7 +64,6 @@ import { SpaceLoginEnvironmentSection } from './SpaceLoginEnvironmentSection'
 import { AgentProfilePane } from './AgentProfilePane'
 import { AgentSettingsSheet } from './AgentSettingsSheet'
 import { useSpaceDeleteGuard } from './hooks/useSpaceDeleteGuard'
-import { RemoteSettingsReadonlyNotice } from './RemoteSettingsReadonlyNotice'
 import { SPACE_ARCHIVE_UI_ENABLED, SPACE_TRASH_UI_ENABLED } from '@/utils/featureFlags'
 import { SettingsSectionContext, useSettingsSection as useSettingsSectionImpl, type SettingsSection } from './SettingsSectionContext'
 import {

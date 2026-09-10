@@ -15,7 +15,7 @@ import {
   Button,
   ConfirmDialog,
   toast,
-} from '@tabtin/smartsheet-ui'
+} from '@components/ui'
 import { useShallow } from 'zustand/react/shallow'
 import { useTranslation } from 'react-i18next'
 import { useSpaceStore } from '@stores/useSpaceStore'
@@ -230,7 +230,7 @@ export const WorkspaceLifecycleMenu: React.FC<WorkspaceLifecycleMenuProps> = ({
             }}
             disabled={isLoading || !deleteGuard.canDelete}
             className={cn(
-              'shrink-0 gap-1 text-destructive/70 hover:text-destructive hover:bg-destructive/5',
+              'shrink-0 gap-1 text-destructive/80 hover:text-destructive hover:bg-destructive/5',
               SETTINGS_CONTROL_SM,
             )}
           >

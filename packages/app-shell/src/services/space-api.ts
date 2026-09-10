@@ -56,7 +56,7 @@ export interface TrashedItem {
   trashed_at: string | null
   trashed_by: string | null
   previous_status: string | null
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 }
 
 export interface TrashedItemsResponse {
