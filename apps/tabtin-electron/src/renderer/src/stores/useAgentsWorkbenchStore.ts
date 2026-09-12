@@ -197,7 +197,7 @@ export const useAgentsWorkbenchStore = create<AgentsWorkbenchState>((set, get) =
       get().applyMemoryFocus()
     } catch (error) {
       if (requestId !== loadRequestId) return
-      log.warn('AI分身列表加载失败', { organizationId }, error)
+      log.warn('数字助手列表加载失败', { organizationId }, error)
       if (!staleAgents) {
         set({ loadError: true, loading: false })
       } else {

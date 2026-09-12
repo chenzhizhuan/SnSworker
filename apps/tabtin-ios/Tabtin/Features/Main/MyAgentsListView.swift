@@ -101,7 +101,7 @@ struct AgentAvatarPresetPicker: View {
     }
 }
 
-/// 工作 Tab「AI分身」：手机端可完成云端身份配置；本地执行现场仍留在 Workspace。
+/// 工作 Tab「数字助手」：手机端可完成云端身份配置；本地执行现场仍留在 Workspace。
 struct MyAgentsListView: View {
     let searchQuery: String
     let listHeader: AnyView?

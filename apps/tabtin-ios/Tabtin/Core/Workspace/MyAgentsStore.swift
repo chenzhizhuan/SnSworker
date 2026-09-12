@@ -1,7 +1,7 @@
 import Foundation
 import OSLog
 
-/// 工作 Tab「AI分身」数据：`GET /agents?organization_id=`，对齐 Electron MyAgentsPanel。
+/// 工作 Tab「数字助手」数据：`GET /agents?organization_id=`，对齐 Electron MyAgentsPanel。
 @MainActor @Observable
 final class MyAgentsStore {
     static let shared = MyAgentsStore()
@@ -202,7 +202,7 @@ final class MyAgentsStore {
                     ($0.deactivatedAt ?? $0.createdAt ?? "") > ($1.deactivatedAt ?? $1.createdAt ?? "")
                 }
             } catch {
-                // 辅助列表不应因为老服务端不支持接口而阻断活跃 AI分身主列表。
+                // 辅助列表不应因为老服务端不支持接口而阻断活跃 数字助手主列表。
                 logger.warning("load deactivated AI avatars failed: \(error.localizedDescription)")
                 loadedDeactivated = nil
             }

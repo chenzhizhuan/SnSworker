@@ -796,7 +796,7 @@ struct OrganizationAgentSettings: Codable, Hashable, Sendable {
     }
 }
 
-/// 组织下 AI分身列表项，对齐 Electron `OrganizationAgentSummary` / `GET /agents`。
+/// 组织下 数字助手列表项，对齐 Electron `OrganizationAgentSummary` / `GET /agents`。
 struct OrganizationAgent: Codable, Identifiable, Hashable, Sendable {
     let id: String
     let organizationId: String?
@@ -853,7 +853,7 @@ struct OrganizationAgent: Codable, Identifiable, Hashable, Sendable {
     }
 }
 
-/// AI分身携带的一个技能。服务端会合并携带开关与用户总开关，`locked` 的技能不可在手机端关闭或移除。
+/// 数字助手携带的一个技能。服务端会合并携带开关与用户总开关，`locked` 的技能不可在手机端关闭或移除。
 struct AgentSkillLink: Codable, Identifiable, Hashable, Sendable {
     let skillCanonicalKey: String
     let source: String?
@@ -928,7 +928,7 @@ struct DeviceMcpConnectionListResponse: Decodable, Sendable {
     let total: Int?
 }
 
-/// AI分身作用域下的一条长期记忆。
+/// 数字助手作用域下的一条长期记忆。
 struct AgentMemoryRecord: Codable, Identifiable, Hashable, Sendable {
     let id: String
     let memoryType: String
@@ -1116,7 +1116,7 @@ struct OrganizationAgentListResponse: Decodable, Sendable {
     let total: Int?
 }
 
-/// 已停用 AI分身列表项，对齐 `GET /agents/deactivated` 的轻量响应。
+/// 已停用 数字助手列表项，对齐 `GET /agents/deactivated` 的轻量响应。
 struct DeactivatedOrganizationAgent: Codable, Identifiable, Hashable, Sendable {
     let id: String
     let name: String

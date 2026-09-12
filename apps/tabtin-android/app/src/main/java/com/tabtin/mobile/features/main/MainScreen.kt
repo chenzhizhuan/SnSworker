@@ -96,7 +96,7 @@ private const val TAB_PROJECTS = 4
 public enum class MainTabDestination { TASK, MESSAGES, AGENTS, CLOUD, PROJECTS, SETTINGS, RECENT, AGENT }
 
 /**
- * 与 iOS 一致的四个一级工作域：任务 / 云文档 / AI分身 / 消息。
+ * 与 iOS 一致的四个一级工作域：任务 / 云文档 / 数字助手 / 消息。
  *
  * 项目功能暂时保留实现但不进入底部主导航；旧入口或程序化请求 projects 时降级到消息，
  * 避免用户冷启或通知跳转落到一个已下线的一级 Tab。

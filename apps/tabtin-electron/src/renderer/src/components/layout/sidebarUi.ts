@@ -403,11 +403,10 @@ export const SIDEBAR_TREE_INDENT_STEP = 12
 
 /**
  * ActivityRail（常驻窄栏）token。
- * 40px 命中面 + 22px 图标（总宽 56px）；默认无底，hover 用 foreground 叠加
- * （design-system §10.5）；选中/未选中靠图标色区分（§6.8）。
+ * 纵向布局：图标在上 + 文字标签在下，宽度自适应窄栏（80px）；选中/未选中靠图标色区分（§6.8）。
  */
 export const ACTIVITY_RAIL_ITEM =
-  'no-drag relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] transition-colors hover:bg-foreground/[0.03] dark:hover:bg-foreground/[0.05]'
+  'no-drag relative inline-flex w-full shrink-0 flex-col items-center justify-center gap-0.5 rounded-[12px] py-1.5 transition-colors hover:bg-foreground/[0.03] dark:hover:bg-foreground/[0.05]'
 
 export const ACTIVITY_RAIL_ITEM_ACTIVE = 'text-accent-text'
 
@@ -415,6 +414,10 @@ export const ACTIVITY_RAIL_ITEM_INACTIVE =
   'text-foreground/72 hover:text-foreground cursor-pointer'
 
 export const ACTIVITY_RAIL_ICON_SIZE = 22
+
+/** 窄栏图标下方文字标签样式 */
+export const ACTIVITY_RAIL_LABEL =
+  'text-[10px] leading-tight font-medium truncate max-w-full text-center'
 
 /** 主域导航专用描边，比侧栏菜单行（1.5）略粗以提升 rail 视觉重量。 */
 export const ACTIVITY_RAIL_ICON_STROKE = 2

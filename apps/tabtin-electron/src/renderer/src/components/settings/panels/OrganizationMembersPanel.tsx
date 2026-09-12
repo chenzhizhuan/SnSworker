@@ -418,7 +418,13 @@ export const OrganizationMembersPanel: React.FC<OrganizationMembersPanelProps> =
     }
   }
 
-  const getInvitationLink = (invitation: InvitationInfo) => buildPublicInviteUrl(invitation.token)
+  const getInvitationLink = (invitation: InvitationInfo) => {
+    try {
+      return buildPublicInviteUrl(invitation.token)
+    } catch {
+      return invitation.token
+    }
+  }
 
   const handleCopyInvitationLink = async (invitation: InvitationInfo) => {
     try {

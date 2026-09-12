@@ -656,7 +656,6 @@ export const useUIStore = create<UIState>()(
         colorScheme: state.colorScheme,
         uiFontSize: state.uiFontSize,
         sidebarWidth: state.sidebarWidth,
-        sidebarCollapsed: state.sidebarCollapsed,
         contextCollapsed: state.contextCollapsed,
         mainContentCollapsed: state.mainContentCollapsed,
         listWidth: state.listWidth,
@@ -723,6 +722,9 @@ export const useUIStore = create<UIState>()(
             typedPersisted.agentChatCapsulePlacement
               ?? currentState.agentChatCapsulePlacement,
           ),
+          // 侧边栏「默认展开 + 可临时折叠」：折叠只作为当次会话的临时操作，
+          // 每次启动一律回到展开态，避免历史持久化的折叠偏好让宽栏一直收成窄图标栏。
+          sidebarCollapsed: false,
         }
       },
     })

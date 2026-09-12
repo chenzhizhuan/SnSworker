@@ -2070,7 +2070,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "AI分身"
+            "value": "数字助手"
           }
         }
       }
@@ -3175,7 +3175,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "AI分身"
+            "value": "数字助手"
           }
         }
       }
@@ -3209,7 +3209,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "切换 AI分身"
+            "value": "切换 数字助手"
           }
         }
       }
@@ -3226,7 +3226,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择 AI分身"
+            "value": "选择 数字助手"
           }
         }
       }
@@ -3311,7 +3311,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请先创建一个 AI分身"
+            "value": "请先创建一个 数字助手"
           }
         }
       }

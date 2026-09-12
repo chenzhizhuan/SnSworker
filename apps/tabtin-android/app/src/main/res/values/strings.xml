@@ -41,7 +41,7 @@
     <string name="common_tab_apps">应用</string>
     <string name="common_tab_automation">自动化</string>
     <string name="common_tab_messages">消息</string>
-    <string name="common_tab_agents">AI分身</string>
+    <string name="common_tab_agents">数字助手</string>
     <string name="common_tab_cloud_docs">云文档</string>
     <string name="common_tab_projects">项目</string>
     <string name="common_tab_recent">最近</string>
@@ -559,15 +559,15 @@
     <string name="compose_send_as_chat">发送对话</string>
     <string name="compose_save_as_memo">保存为笔记</string>
     <string name="compose_task_setup">任务设置</string>
-    <string name="compose_pick_agent_label">AI分身</string>
+    <string name="compose_pick_agent_label">数字助手</string>
     <string name="compose_pick_workspace_label">Workspace</string>
-    <string name="compose_change_agent">切换 AI分身</string>
+    <string name="compose_change_agent">切换 数字助手</string>
     <string name="compose_change_workspace">切换 Workspace</string>
-    <string name="compose_pick_agent_title">选择 AI分身</string>
+    <string name="compose_pick_agent_title">选择 数字助手</string>
     <string name="compose_pick_workspace_title">选择 Workspace</string>
     <string name="compose_voice_coming_soon">语音稍后支持</string>
     <string name="compose_empty_content">请先输入内容</string>
-    <string name="compose_no_agent">请先创建一个 AI分身</string>
+    <string name="compose_no_agent">请先创建一个 数字助手</string>
     <string name="compose_no_workspace">请先创建一个 Workspace</string>
     <string name="compose_send_failed">发送失败</string>
     <string name="compose_save_failed">保存失败</string>
@@ -713,7 +713,7 @@
 
     <!-- Execution Limits -->
     <string name="execution_limits_title">执行限制</string>
-    <string name="execution_limits_desc">控制当前 Workspace 单次运行的资源消耗上限，不改变 AI分身在其他 Workspace 的配置</string>
+    <string name="execution_limits_desc">控制当前 Workspace 单次运行的资源消耗上限，不改变 数字助手在其他 Workspace 的配置</string>
     <string name="execution_limits_max_iterations">最大迭代次数</string>
     <string name="execution_limits_max_iterations_desc">单次运行中 Space 的最大思考-行动循环次数</string>
     <string name="execution_limits_max_iterations_placeholder">默认: 200</string>
@@ -755,7 +755,7 @@
     <string name="org_settings_spaces">Workspace 与 Project</string>
 
     <string name="space_settings_name_label">名称</string>
-    <string name="space_settings_rules_hint">仅在当前 Workspace 生效，适合放仓库规范、交付标准和现场边界；AI分身的人设请到「AI分身」中编辑</string>
+    <string name="space_settings_rules_hint">仅在当前 Workspace 生效，适合放仓库规范、交付标准和现场边界；数字助手的人设请到「数字助手」中编辑</string>
     <string name="space_settings_save_success">已保存</string>
     <string name="space_settings_save_failed">保存失败</string>
 

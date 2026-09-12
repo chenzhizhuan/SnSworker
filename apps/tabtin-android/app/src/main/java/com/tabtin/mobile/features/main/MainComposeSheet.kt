@@ -221,7 +221,7 @@ internal class MainComposeViewModel @Inject constructor(
     }
 }
 
-/** 新建对话 Compose：对齐 Electron 任务设置条——可选 AI分身 + Workspace。 */
+/** 新建对话 Compose：对齐 Electron 任务设置条——可选 数字助手 + Workspace。 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MainComposeSheet(

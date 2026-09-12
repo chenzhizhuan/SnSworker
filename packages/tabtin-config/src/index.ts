@@ -85,10 +85,12 @@ function normalizePublicInviteWebBaseUrl(value: string): string {
   if (parsed.protocol === 'https:') {
     return normalized;
   }
-  if (parsed.protocol === 'http:' && isPrivateLanHttpHost(parsed.hostname)) {
+  // Community 自部署场景：允许公网 HTTP（用户自行控制服务器安全，
+  // 生产环境建议配置 HTTPS 反向代理）。
+  if (parsed.protocol === 'http:') {
     return normalized;
   }
-  throw new Error('Public invite links must use HTTPS web URLs outside localhost or a private LAN');
+  throw new Error('Public invite links must use HTTP(S) web URLs');
 }
 
 export function isSupportedInviteToken(token: string | null | undefined): token is string {

@@ -42,7 +42,7 @@ public data class AgentDetailUiState(
     @StringRes val actionErrorRes: Int? = null,
 )
 
-/** AI分身移动工作台的详情状态；身份编辑仍经 MyAgentsViewModel，保证列表和详情同步。 */
+/** 数字助手移动工作台的详情状态；身份编辑仍经 MyAgentsViewModel，保证列表和详情同步。 */
 @HiltViewModel
 public class AgentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,

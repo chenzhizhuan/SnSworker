@@ -5,7 +5,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "AI Avatars" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "AI分身" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "数字助手" } }
       }
     },
     "project.segment.space" : {
@@ -26,28 +26,28 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Search AI Avatars" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "搜索 AI分身" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "搜索 数字助手" } }
       }
     },
     "project.myAgents.emptyTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No AI avatars yet" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "还没有 AI分身" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "还没有 数字助手" } }
       }
     },
     "project.myAgents.emptyDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Create an AI avatar from a template or start from scratch." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "从模板创建一个 AI分身，也可以从空白开始。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "从模板创建一个 数字助手，也可以从空白开始。" } }
       }
     },
     "project.myAgents.loadFailed" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't load AI avatars" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "AI分身列表加载失败" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "数字助手列表加载失败" } }
       }
     },
     "project.myAgents.sourceCustom" : {
@@ -96,7 +96,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "New AI Avatar" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新建 AI分身" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新建 数字助手" } }
       }
     },
     "project.myAgents.createAction" : {
@@ -173,14 +173,14 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Deactivate this AI avatar?" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "停用这个 AI分身？" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "停用这个 数字助手？" } }
       }
     },
     "project.myAgents.deactivateBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "%@ will no longer appear in your active AI avatars." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "停用后，“%@”将不再出现在可用 AI分身列表中。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "停用后，“%@”将不再出现在可用 数字助手列表中。" } }
       }
     },
     "project.myAgents.actionFailed" : {
@@ -229,7 +229,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete this AI avatar permanently?" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "彻底删除这个 AI分身？" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "彻底删除这个 数字助手？" } }
       }
     },
     "project.myAgents.permanentDeleteBody" : {
@@ -243,7 +243,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "This AI avatar is already being reactivated." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 AI分身正在恢复中。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 数字助手正在恢复中。" } }
       }
     },
     "project.myAgents.chat" : {
@@ -292,7 +292,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "This memory will no longer be used by this AI avatar." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "忘记后，这条记忆将不再被这个 AI分身使用。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "忘记后，这条记忆将不再被这个 数字助手使用。" } }
       }
     },
     "project.myAgents.forgetMemoryTitle" : {
@@ -320,7 +320,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "What this avatar has retained from your collaboration." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 AI分身在协作中沉淀下来的理解。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 数字助手在协作中沉淀下来的理解。" } }
       }
     },
     "project.myAgents.memoryOverview" : {
@@ -348,7 +348,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Review, correct, or forget the specific memories retained by this AI avatar." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "查看、纠正或忘记这个 AI分身沉淀的具体记忆。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "查看、纠正或忘记这个 数字助手沉淀的具体记忆。" } }
       }
     },
     "project.myAgents.memoryHintLabel" : {
@@ -418,7 +418,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Chat conversations and Project tasks this avatar participates in." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 AI分身参与过的 Chat 对话和 Project 任务。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 数字助手参与过的 Chat 对话和 Project 任务。" } }
       }
     },
     "project.myAgents.removeSkill" : {
@@ -432,7 +432,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove “%@” from this AI avatar? Its private configuration will be cleared, but the skill stays in your library." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "要从这个 AI分身的携带集中移除“%@”吗？它的私有配置会一并清除，但技能本身仍留在技能库。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "要从这个 数字助手的携带集中移除“%@”吗？它的私有配置会一并清除，但技能本身仍留在技能库。" } }
       }
     },
     "project.myAgents.removeSkillTitle" : {
@@ -516,14 +516,14 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No skills in this avatar’s pack" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 AI分身还没有携带技能" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 数字助手还没有携带技能" } }
       }
     },
     "project.myAgents.skillsHint" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Skills travel with this AI avatar across its work." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "技能会跟着这个 AI分身，在不同的工作现场生效。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "技能会跟着这个 数字助手，在不同的工作现场生效。" } }
       }
     },
     "project.myAgents.tools" : {

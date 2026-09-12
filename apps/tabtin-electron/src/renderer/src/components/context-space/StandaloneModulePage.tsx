@@ -1,5 +1,5 @@
 /**
- * 一级模块页（自动化 / AI分身 / 技能库等）统一页面壳：
+ * 一级模块页（自动化 / 数字助手 / 技能库等）统一页面壳：
  * CONTEXT_PAGE_SHELL_FILL 边距 + ContextPageHeader + 内容区间距。
  * 白底圆角画布由 Shell（SHELL_CANVAS_CARD_CLASS）承接，本组件只管页内边距。
  */

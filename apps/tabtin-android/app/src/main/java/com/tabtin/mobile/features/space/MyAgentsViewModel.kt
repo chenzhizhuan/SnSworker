@@ -38,7 +38,7 @@ public data class MyAgentsUiState(
     @StringRes val actionErrorRes: Int? = null,
 )
 
-/** 工作 Tab「AI分身」：对齐 Electron MyAgentsPanel 的组织 Agent 列表。 */
+/** 工作 Tab「数字助手」：对齐 Electron MyAgentsPanel 的组织 Agent 列表。 */
 @HiltViewModel
 public class MyAgentsViewModel @Inject constructor(
     private val tokenManager: TokenManager,

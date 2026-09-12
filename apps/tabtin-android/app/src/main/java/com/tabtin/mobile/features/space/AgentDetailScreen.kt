@@ -109,7 +109,7 @@ internal fun shouldUseAgentMemoryTypeLabel(memoryType: String, title: String): B
     return normalizedTitle.isEmpty() || normalizedTitle.equals(normalizedType, ignoreCase = true)
 }
 
-/** AI分身的移动工作台详情。进入时请求 /agents/{id}，不以列表摘要代替详情真源。 */
+/** 数字助手的移动工作台详情。进入时请求 /agents/{id}，不以列表摘要代替详情真源。 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 public fun AgentDetailScreen(

@@ -150,7 +150,7 @@ export function navigateToNewTask(
   options?: NavigateToNewTaskOptions,
 ): void {
   useSettingsSpaceStore.getState().closeSettings()
-  // 从全屏 App 页（AI分身/技能库/自动化等）触发时必须关页，否则 workbenchMode
+  // 从全屏 App 页（数字助手/技能库/自动化等）触发时必须关页，否则 workbenchMode
   // 停在 'app-page'，草稿开了主区却没切过去；Project 沉浸调用方显式要求保持
   // project 上下文时除外。
   // 同步作废尚未完成的 openAppPageNavigation，避免晚到 then() 盖回全屏页。

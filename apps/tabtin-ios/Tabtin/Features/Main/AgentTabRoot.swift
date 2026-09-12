@@ -326,7 +326,7 @@ private enum AgentRoute: Hashable {
     case sessions(spaceId: String)
 }
 
-/// 工作 Tab 分段顺序对齐 Electron：AI分身 → Workspace → Project。
+/// 工作 Tab 分段顺序对齐 Electron：数字助手 → Workspace → Project。
 private enum WorkSection: String, CaseIterable, Identifiable {
     case aiAvatar
     case workspace

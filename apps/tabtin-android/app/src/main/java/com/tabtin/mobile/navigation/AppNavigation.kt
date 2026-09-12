@@ -941,7 +941,7 @@ public fun AppNavigation(deepLinkHandler: DeepLinkHandler) {
 
         composable<AgentDetailRoute> { backStackEntry ->
             val detailVm: AgentDetailViewModel = hiltViewModel()
-            // AI分身列表与详情要共享同一个状态所有者：详情保存/停用后，返回列表无需再请求一次。
+            // 数字助手列表与详情要共享同一个状态所有者：详情保存/停用后，返回列表无需再请求一次。
             val mainEntry = remember(backStackEntry) { navController.getBackStackEntry<MainRoute>() }
             val agentsVm: MyAgentsViewModel = hiltViewModel(mainEntry)
             AgentDetailScreen(

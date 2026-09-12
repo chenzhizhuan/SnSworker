@@ -26,7 +26,7 @@ export function RailIconTooltip({
   sideOffset?: number
 }) {
   return (
-    <TooltipProvider delayDuration={1000}>
+    <TooltipProvider delayDuration={300}>
       <Tooltip {...(disabled ? { open: false } : {})}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side} sideOffset={sideOffset} className="text-caption">

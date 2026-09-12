@@ -50,7 +50,7 @@ func agentMemoryDisplayTitle(memoryType: String, title: String) -> String {
     return normalizedTitle
 }
 
-/// AI分身的移动工作台：保留桌面端的身份、人设、携带技能、记忆与近期任务语义，
+/// 数字助手的移动工作台：保留桌面端的身份、人设、携带技能、记忆与近期任务语义，
 /// 以手机上更自然的纵向详情页承载，而不是把信息塞回列表弹层。
 struct AgentDetailScreen: View {
     @State private var detailStore: AgentDetailStore

@@ -18,7 +18,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * AI分身详情的按需数据源。
+ * 数字助手详情的按需数据源。
  *
  * 与列表用的 SpaceRepository 分开，避免列表摘要在进入详情后被高体积的记忆/任务数据污染。
  */

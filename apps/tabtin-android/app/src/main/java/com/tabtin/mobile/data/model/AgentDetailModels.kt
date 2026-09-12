@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 import kotlinx.serialization.json.JsonObject
 
-/** AI分身携带的一个技能；enabled 为用户总闸与该分身开关的合并结果。 */
+/** 数字助手携带的一个技能；enabled 为用户总闸与该分身开关的合并结果。 */
 @Serializable
 public data class AgentSkillLink(
     @SerialName("skill_canonical_key") val skillCanonicalKey: String,
@@ -85,7 +85,7 @@ public data class OrgMcpConnectionListResponse(
     val total: Int? = null,
 )
 
-/** AI分身作用域下的一条长期记忆。 */
+/** 数字助手作用域下的一条长期记忆。 */
 @Serializable
 public data class AgentMemoryRecord(
     val id: String,

@@ -48,10 +48,11 @@ export const SHELL_COLLAPSED_CANVAS_RAIL_WIDTH = 248
 export const SHELL_COLLAPSED_CANVAS_RAIL_ICON_WIDTH = 40
 
 /**
- * ActivityRail 常驻窄栏固定宽度：56px（40px 命中面 + 两侧各 8px）。
+ * ActivityRail 常驻窄栏固定宽度：80px（图标 22px + 下方文字标签 + 两侧 padding）。
+ * 图标+文字标签垂直排列，一眼可辨菜单项，无需鼠标悬停。
  * 红绿灯避让由 ShellTopBar 横轴承担，窄栏不必拉到 traffic-light 右缘对齐。
  */
-export const SHELL_ACTIVITY_RAIL_WIDTH = 56
+export const SHELL_ACTIVITY_RAIL_WIDTH = 80
 
 export {
   SHELL_TOP_BAR_HEIGHT,
