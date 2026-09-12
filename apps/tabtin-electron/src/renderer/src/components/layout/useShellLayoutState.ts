@@ -24,6 +24,10 @@ interface ResolveShellLayoutStateInput {
   isIMTab: boolean;
   isAgentsTab?: boolean;
   isCloudDocsTab: boolean;
+  isAskTab?: boolean;
+  isCapabilityTab?: boolean;
+  isScenariosTab?: boolean;
+  isCockpitTab?: boolean;
   activeAppPage?: AppPageId | null;
   activeProjectId?: string | null;
   selectedSpaceKind: SpaceNavigationKind | null;
@@ -136,6 +140,10 @@ export function resolveShellLayoutState(
     isIMTab,
     isAgentsTab = false,
     isCloudDocsTab = false,
+    isAskTab = false,
+    isCapabilityTab = false,
+    isScenariosTab = false,
+    isCockpitTab = false,
     activeAppPage = null,
     activeProjectId = null,
     selectedSpaceKind,
@@ -183,7 +191,7 @@ export function resolveShellLayoutState(
   // IM 会话则在下方使用 `imExecutionSpace` 建立独立的会话工作台，不能复用
   // 会话自身的 Space 上下文，否则会渲染成空白的 Space 工作台。
   const baseWorkbenchSpaceContext =
-    isMeTab || isIMTab || isAgentsTab || isConversationPrimary || activeAppPage
+    isMeTab || isIMTab || isAgentsTab || isAskTab || isCapabilityTab || isScenariosTab || isCockpitTab || isConversationPrimary || activeAppPage
       ? null
       : sidebarSpaceContext;
 
@@ -200,6 +208,14 @@ export function resolveShellLayoutState(
       ? 'agents'
     : isCloudDocsTab
       ? 'cloud-docs'
+    : isAskTab
+      ? 'ask'
+    : isCapabilityTab
+      ? 'capability'
+    : isScenariosTab
+      ? 'scenarios'
+    : isCockpitTab
+      ? 'cockpit'
     : isIMTab
       ? (isConversationSelection ? 'im-chat' : 'im')
       : activeAppPage
@@ -236,6 +252,14 @@ export function resolveShellLayoutState(
       ? 'me'
       : workbenchMode === 'agents'
         ? 'agents'
+      : workbenchMode === 'ask'
+        ? 'ask'
+      : workbenchMode === 'capability'
+        ? 'capability'
+      : workbenchMode === 'scenarios'
+        ? 'scenarios'
+      : workbenchMode === 'cockpit'
+        ? 'cockpit'
       : workbenchMode === 'app-page'
         ? activeAppPage === 'project'
           ? `app-page:project:${activeProjectId ?? 'none'}`
@@ -294,6 +318,10 @@ export function useShellLayoutState(): ShellLayoutState {
   const isIMTab = useMainNavStore((state) => state.currentTab === 'im');
   const isCloudDocsTab = useMainNavStore((state) => state.currentTab === 'cloud-docs');
   const isAgentsTab = useMainNavStore((state) => state.currentTab === 'agents');
+  const isAskTab = useMainNavStore((state) => state.currentTab === 'ask');
+  const isCapabilityTab = useMainNavStore((state) => state.currentTab === 'capability');
+  const isScenariosTab = useMainNavStore((state) => state.currentTab === 'scenarios');
+  const isCockpitTab = useMainNavStore((state) => state.currentTab === 'cockpit');
   const isIMActive = useIMStore((state) => state.isIMActive);
   const projectTaskSessionOpen = useProjectWorkspaceSelectionStore(
     (state) => Boolean(state.activeTaskSessionId),
@@ -323,7 +351,7 @@ export function useShellLayoutState(): ShellLayoutState {
   const activeShellContext = useMemo(() => resolveActiveShellContext({
     // resolveActiveShellContext 仍叫 isSettingsOpen——但语义已经是
     // "主画布是否被非 Space 一级入口占用"。复用现有签名避免连带改一堆。
-    isSettingsOpen: isMeTab || isAgentsTab || Boolean(activeAppPage),
+    isSettingsOpen: isMeTab || isAgentsTab || isAskTab || isCapabilityTab || isScenariosTab || isCockpitTab || Boolean(activeAppPage),
     selectedSpaceKind,
     selectedSpace: effectiveSelectedSpace,
     conversations,
@@ -335,6 +363,11 @@ export function useShellLayoutState(): ShellLayoutState {
     currentConversationId,
     isIMActive,
     isMeTab,
+    isAgentsTab,
+    isAskTab,
+    isCapabilityTab,
+    isScenariosTab,
+    isCockpitTab,
     activeAppPage,
     effectiveSelectedSpace,
     selectedSpaceKind,
@@ -367,6 +400,10 @@ export function useShellLayoutState(): ShellLayoutState {
       isIMTab,
       isAgentsTab,
       isCloudDocsTab,
+      isAskTab,
+      isCapabilityTab,
+      isScenariosTab,
+      isCockpitTab,
       activeAppPage,
       activeProjectId,
       selectedSpaceKind: activeShellContext.selectedSpaceKind,
@@ -394,6 +431,10 @@ export function useShellLayoutState(): ShellLayoutState {
     isIMTab,
     isAgentsTab,
     isCloudDocsTab,
+    isAskTab,
+    isCapabilityTab,
+    isScenariosTab,
+    isCockpitTab,
     isMeTab,
     effectiveSelectedSpace,
     imExecutionSpace,

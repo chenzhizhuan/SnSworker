@@ -99,7 +99,7 @@ describe('shouldShowPersonalTaskSidebar', () => {
       isProjectNavActive: false,
     })).toBe(true)
 
-    for (const effectiveMainNavTab of ['me', 'cloud-docs', 'im', 'agents'] as const) {
+    for (const effectiveMainNavTab of ['me', 'cloud-docs', 'im', 'agents', 'ask', 'capability', 'scenarios', 'cockpit'] as const) {
       expect(shouldShowPersonalTaskSidebar({
         effectiveMainNavTab,
         activeAppPage: null,
@@ -289,15 +289,21 @@ describe('resolveEffectiveMainNavTab', () => {
 })
 
 describe('resolveVisibleRailDomainIds', () => {
-  it('Projects 关闭时只隐藏项目域，任务 / 消息 / AI 分身仍在', () => {
-    const ids = resolveVisibleRailDomainIds({ projectsEnabled: false })
+  it('Projects 关闭时只隐藏项目域，其余域仍在', () => {
+    const ids = resolveVisibleRailDomainIds({ projectsEnabled: false, isCockpitVisible: false })
     expect(ids).not.toContain('projects')
-    expect(ids).toEqual(['tasks', 'messages', 'agents', 'cloud-docs'])
+    expect(ids).not.toContain('cockpit')
+    expect(ids).toEqual(['ask', 'tasks', 'agents', 'messages', 'cloud-docs', 'capability', 'scenarios'])
   })
 
-  it('Projects 打开时五大域齐全', () => {
-    expect(resolveVisibleRailDomainIds({ projectsEnabled: true }))
-      .toEqual(['tasks', 'messages', 'agents', 'cloud-docs', 'projects'])
+  it('Projects 打开且超管可见时全部域齐全', () => {
+    expect(resolveVisibleRailDomainIds({ projectsEnabled: true, isCockpitVisible: true }))
+      .toEqual(['ask', 'tasks', 'projects', 'agents', 'messages', 'cloud-docs', 'capability', 'scenarios', 'cockpit'])
+  })
+
+  it('非超管时隐藏 cockpit 域', () => {
+    const ids = resolveVisibleRailDomainIds({ projectsEnabled: true, isCockpitVisible: false })
+    expect(ids).not.toContain('cockpit')
   })
 })
 
@@ -319,7 +325,7 @@ describe('resolveActivityRailActive', () => {
       expect(resolveActivityRailActive({
         effectiveMainNavTab: 'agent',
         activeAppPage: page,
-      })).toBe('tasks')
+      })).toBe('capability')
     }
   })
 

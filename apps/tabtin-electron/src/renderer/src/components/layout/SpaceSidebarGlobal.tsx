@@ -133,6 +133,10 @@ export function shouldShowPersonalTaskSidebar(input: {
   if (effectiveMainNavTab === 'cloud-docs') return false
   if (effectiveMainNavTab === 'im') return false
   if (effectiveMainNavTab === 'agents') return false
+  if (effectiveMainNavTab === 'ask') return false
+  if (effectiveMainNavTab === 'capability') return false
+  if (effectiveMainNavTab === 'scenarios') return false
+  if (effectiveMainNavTab === 'cockpit') return false
   if (activeAppPage === 'collaboration') return false
   return !isProjectNavActive
 }

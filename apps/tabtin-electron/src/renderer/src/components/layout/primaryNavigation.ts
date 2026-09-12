@@ -62,6 +62,14 @@ export type PrimaryNavId =
   | 'collaboration'
   | 'messages'
   | 'cloud-docs'
+  /** 问一句 — 轻量即时问答入口 */
+  | 'ask'
+  /** 能力中心 — 技能和连接器升格为一级菜单 */
+  | 'capability'
+  /** 场景市场 — 内置浏览器打开 Web 工作台 */
+  | 'scenarios'
+  /** 经营看板 — 仅超管可见，内置浏览器打开 AdminDash */
+  | 'cockpit'
 
 export function showAppsHome(scopeKey: string): void {
   useSpaceContextTabsStore.getState().setActiveKey(scopeKey, null)
@@ -313,7 +321,7 @@ export function usePrimaryNavigation(input: {
       exitTeamSpaceProjectView(projectDesktopExecutionSpaceId)
     }
 
-    // 应用门与 AI分身工作台互斥：切到应用时收起分身配置主画布。
+    // 应用门与 数字助手工作台互斥：切到应用时收起分身配置主画布。
     if (mode === 'desktop') {
       useAppPageStore.getState().closeAppPage()
     }
@@ -427,12 +435,12 @@ export function usePrimaryNavigation(input: {
 
     // 三大域是「面板即内容」：点域图标时若第二列折叠则自动展开（例如点消息
     // 应弹出会话列表），否则消息域会停在指向空侧栏的「从左侧选择会话」死态。
-    if (target === 'tasks' || target === 'messages' || target === 'agents' || target === 'collaboration' || target === 'cloud-docs') {
+    if (target === 'tasks' || target === 'messages' || target === 'agents' || target === 'collaboration' || target === 'cloud-docs' || target === 'capability') {
       const uiStore = useUIStore.getState()
       if (uiStore.sidebarCollapsed) uiStore.toggleSidebar()
     }
 
-    if (target !== 'messages') {
+    if (target !== 'messages' && target !== 'ask' && target !== 'scenarios' && target !== 'cockpit') {
       const spaceListStore = useSpaceListStore.getState()
       const isLeavingConversation =
         spaceListStore.selectedSpaceKind === 'dm' ||
@@ -553,6 +561,30 @@ export function usePrimaryNavigation(input: {
         }
       }
       setCurrentTab('cloud-docs')
+      return
+    }
+    if (target === 'ask') {
+      invalidatePendingHubNavigation()
+      useAppPageStore.getState().closeAppPage()
+      setCurrentTab('ask')
+      return
+    }
+    if (target === 'capability') {
+      invalidatePendingHubNavigation()
+      useAppPageStore.getState().closeAppPage()
+      setCurrentTab('capability')
+      return
+    }
+    if (target === 'scenarios') {
+      invalidatePendingHubNavigation()
+      useAppPageStore.getState().closeAppPage()
+      setCurrentTab('scenarios')
+      return
+    }
+    if (target === 'cockpit') {
+      invalidatePendingHubNavigation()
+      useAppPageStore.getState().closeAppPage()
+      setCurrentTab('cockpit')
       return
     }
     setCurrentTab(target)

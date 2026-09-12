@@ -53,6 +53,9 @@ import {
 } from '@/stores/useWsConnectionStore'
 
 import { WelcomePage } from './WelcomePage'
+import { AskPage } from './AskPage'
+import { CapabilityPage } from './CapabilityPage'
+import { EmbeddedWebView } from './EmbeddedWebView'
 import { WorkspaceRootBanner } from '@components/context-space/WorkspaceRootBanner'
 import { SHELL_CANVAS_CARD_CLASS } from './shellUi'
 import type { SpaceContext } from '@components/context-space/SpaceContextContainer'
@@ -186,8 +189,26 @@ export const ContentArea: React.FC<ContentAreaProps> = ({
     )
   } else if (workbenchMode === 'cloud-docs') {
     mainContent = (
-      <StandaloneModuleEmpty title={t('sidebar:rail.cloudDocs', { defaultValue: '云文档' })} />
-    )
+      <StandaloneModuleEmpty title={t('sidebar:rail.cloudDocs', { defaultValue: '资料空间' })} />
+    );
+  } else if (workbenchMode === 'ask') {
+    mainContent = (
+      <AskPage />
+    );
+  } else if (workbenchMode === 'capability') {
+    mainContent = (
+      <CapabilityPage />
+    );
+  } else if (workbenchMode === 'scenarios') {
+    const scenariosUrl = import.meta.env.VITE_SCENARIOS_URL || 'http://221.237.179.2:13490';
+    mainContent = (
+      <EmbeddedWebView url={scenariosUrl} />
+    );
+  } else if (workbenchMode === 'cockpit') {
+    const cockpitUrl = import.meta.env.VITE_ADMIN_DASH_URL || 'http://221.237.179.2:13491';
+    mainContent = (
+      <EmbeddedWebView url={cockpitUrl} />
+    );
   } else if (workbenchMode === 'im') {
     // 列表+聊天固定在 shell IM rail；主画布只放欢迎引导（默认可折叠）。
     // 切勿再挂 TabChatPanel，否则与 rail 双开、选会话时整页换壳闪烁。

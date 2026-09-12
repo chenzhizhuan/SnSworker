@@ -9,4 +9,8 @@ export type WorkbenchMode =
   | 'im'
   | 'im-chat'
   | 'placeholder'
-  | 'welcome';
+  | 'welcome'
+  | 'ask'
+  | 'capability'
+  | 'scenarios'
+  | 'cockpit';

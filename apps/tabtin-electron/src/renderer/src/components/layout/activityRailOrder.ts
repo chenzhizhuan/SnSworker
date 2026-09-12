@@ -12,24 +12,41 @@
  * 不可见域的相对槽位原样保留，开关再次打开后位置不漂移。
  */
 
-export type ActivityRailDomainId = 'tasks' | 'messages' | 'agents' | 'cloud-docs' | 'projects'
+export type ActivityRailDomainId =
+  | 'ask'
+  | 'tasks'
+  | 'projects'
+  | 'agents'
+  | 'messages'
+  | 'cloud-docs'
+  | 'capability'
+  | 'scenarios'
+  | 'cockpit'
 
 /** 默认域顺序，与 ActivityRail 的 DOMAIN_NAV_ITEMS 声明顺序保持一致（测试钉住）。 */
 export const DEFAULT_ACTIVITY_RAIL_DOMAIN_ORDER: readonly ActivityRailDomainId[] = [
+  'ask',
   'tasks',
-  'messages',
-  'agents',
-  'cloud-docs',
   'projects',
+  'agents',
+  'messages',
+  'cloud-docs',
+  'capability',
+  'scenarios',
+  'cockpit',
 ]
 
 export function isActivityRailDomainId(value: unknown): value is ActivityRailDomainId {
   return (
-    value === 'tasks'
-    || value === 'messages'
-    || value === 'agents'
-    || value === 'cloud-docs'
+    value === 'ask'
+    || value === 'tasks'
     || value === 'projects'
+    || value === 'agents'
+    || value === 'messages'
+    || value === 'cloud-docs'
+    || value === 'capability'
+    || value === 'scenarios'
+    || value === 'cockpit'
   )
 }
 

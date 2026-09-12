@@ -47,6 +47,10 @@ export type MainNavTab =
   | 'collaboration'
   | 'project'
   | 'me'
+  | 'ask'
+  | 'capability'
+  | 'scenarios'
+  | 'cockpit'
 
 const LEGACY_HUB_MAIN_NAV_TABS = new Set<MainNavTab>([
   'automation',
@@ -64,6 +68,10 @@ const MAIN_NAV_TABS: readonly MainNavTab[] = [
   'collaboration',
   'project',
   'me',
+  'ask',
+  'capability',
+  'scenarios',
+  'cockpit',
 ]
 // 仅用于本地 IM 联调：每次 Electron 重启后回到「消息」，免去重复点击侧栏。
 // 必须同时是 Vite dev，避免任何打包环境误设 VITE_* 时改变真实用户的现场。
@@ -97,13 +105,14 @@ export const useMainNavStore = create<MainNavState>()(
     }),
     withPersistSafety<MainNavState, MainNavPersistedState>({
       name: PERSIST_KEYS.mainNav,
-      version: 8,
+      version: 9,
       // 无 legacy 旧 key——空数组让 createMigratingStorage 直接 fall through 到 localStorage
       storage: createJSONStorage(() => createMigratingStorage(localStorage, [])),
       // v1 → v2：'recent' tab 退役；v3：memo 入口从底部导航迁到顶部模块标签；
       // v4：memo 顶部入口退役；v5：hub 一级模块改走 app-page；
       // v6：'project' mainNavTab 退役，Project 详情统一走 app-page store；
       // v8：'agents' 恢复为独立一级域（AI 分身提级到窄栏 + 侧栏列表）。
+      // v9：新增 ask/capability/scenarios/cockpit 一级域。
       migrate: (persisted) => {
         const state = (persisted ?? {}) as MainNavPersistedState
         const tab = normalizeMainNavTab(state.currentTab)

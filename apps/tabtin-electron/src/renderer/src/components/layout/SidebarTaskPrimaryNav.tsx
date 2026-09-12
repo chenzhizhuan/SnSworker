@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import { Activity, BookText, DownloadCloud, SquarePen, type LucideIcon } from 'lucide-react'
+import { Activity, DownloadCloud, SquarePen, type LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@utils/cn'
 import { selectIsAuthenticated, useAuthStore } from '@stores/useAuthStore'
@@ -27,13 +27,12 @@ import {
 
 type TaskPrimaryNavTarget = Extract<
   PrimaryNavId,
-  'new-task' | 'automation' | 'skills' | 'import-data'
+  'new-task' | 'automation' | 'import-data'
 >
 
 /** 与全屏页 StandaloneModulePage 页眉同源（SkillPanel → BookText；TrackerPanel → Activity） */
 const TASK_PRIMARY_NAV_ICONS: Record<TaskPrimaryNavTarget, LucideIcon> = {
   'new-task': SquarePen,
-  skills: BookText,
   automation: Activity,
   'import-data': DownloadCloud,
 }
@@ -49,12 +48,6 @@ const TASK_PRIMARY_NAV_ITEMS: Array<{
     labelKey: 'sidebar:primaryNav.newTask',
     defaultLabel: '新任务',
     testId: 'sidebar-new-task-button',
-  },
-  {
-    id: 'skills',
-    labelKey: 'sidebar:primaryNav.skills',
-    defaultLabel: '技能和连接器',
-    testId: 'sidebar-task-module-link-skills',
   },
   {
     id: 'automation',
