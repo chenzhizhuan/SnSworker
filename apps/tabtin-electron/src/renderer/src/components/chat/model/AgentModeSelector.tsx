@@ -291,7 +291,7 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
 
   const closeMenus = useCallback(() => {
     setOpenMenu(null)
-    // 「开新分身」挂在本组件树外的 Dialog；只关菜单不够，否则会在 B 组织里创建 Agent。
+    // 「开新助手」挂在本组件树外的 Dialog；只关菜单不够，否则会在 B 组织里创建 Agent。
     setNewAgentOpen(false)
   }, [])
   useCloseOnOrganizationContextReset(closeMenus)
@@ -566,7 +566,7 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
                     >
                       <Plus className="h-4 w-4 shrink-0" />
                       <span className="text-body">
-                        {t('newTask.newAgentChip', { defaultValue: '开新分身' })}
+                        {t('newTask.newAgentChip', { defaultValue: '开新助手' })}
                       </span>
                     </button>
                   </div>

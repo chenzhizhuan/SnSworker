@@ -133,7 +133,7 @@ struct MobileAutomationScreen: View {
             ContentUnavailableView(
                 "还没有自动化任务",
                 systemImage: "clock.badge.plus",
-                description: Text("点击右上角 +，选择任务、执行 AI 分身、工作区与频率。")
+                description: Text("点击右上角 +，选择任务、执行 数字助手、工作区与频率。")
             )
             .frame(maxWidth: .infinity)
             .padding(.vertical, TTSpacing.xxl)
@@ -181,7 +181,7 @@ struct MobileAutomationScreen: View {
             } header: {
                 Text("模板")
             } footer: {
-                Text("模板只会预填任务和频率；创建前仍由你确认执行 AI 分身和工作区。")
+                Text("模板只会预填任务和频率；创建前仍由你确认执行 数字助手和工作区。")
             }
         }
     }
@@ -395,9 +395,9 @@ struct MobileAutomationEditorSheet: View {
                 }
 
                 Section("谁来执行") {
-                    Picker("AI 分身", selection: $selectedAgentId) {
+                    Picker("数字助手", selection: $selectedAgentId) {
                         if agents.isEmpty {
-                            Text("暂无可用 AI 分身").tag("")
+                            Text("暂无可用 数字助手").tag("")
                         } else {
                             ForEach(agents) { agent in
                                 Text(agent.displayName).tag(agent.id)

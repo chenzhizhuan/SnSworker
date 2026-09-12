@@ -212,7 +212,7 @@ public fun UserPortraitPanel(
         // ── 4. Hint 输入 ────────────────────────────────
         if (!memoryDisabled) {
             HintInput(
-                // (organizationId, agentId) 共同作 key，切换分身时清空草稿，避免提交到错误画像。
+                // (organizationId, agentId) 共同作 key，切换助手时清空草稿，避免提交到错误画像。
                 key = "$organizationId:$agentId",
                 disabled = disabled || state.isDistilling || blockedByLoadError,
                 onSubmit = { text ->

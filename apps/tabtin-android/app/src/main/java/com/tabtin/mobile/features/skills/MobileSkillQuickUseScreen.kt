@@ -79,7 +79,7 @@ public fun MobileSkillQuickUseScreen(
                     enabled = preset.promptTemplate.isNotBlank(),
                     modifier = Modifier.fillMaxWidth(),
                 ) { Text("用它开始任务") }
-                Text("将带着这个技能模板和已选 AI 分身进入新任务。", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("将带着这个技能模板和已选 数字助手进入新任务。", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

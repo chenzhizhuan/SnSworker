@@ -100,7 +100,7 @@ class SeedDefaultAgentSkillsTests(SimpleTestCase):
 
     def test_custom_bot_is_not_default_skill_baseline(self):
         agent = SimpleNamespace(
-            name="自建分身",
+            name="自建助手",
             type="bot",
             template_id="",
             is_default=False,
@@ -196,7 +196,7 @@ class SeedDefaultAgentSkillsTests(SimpleTestCase):
         agent = SimpleNamespace(
             id=uuid.uuid4(),
             is_default=False,
-            name="自建分身",
+            name="自建助手",
             type="bot",
             template_id="",
         )
@@ -418,7 +418,7 @@ class WiringGuardTests(SimpleTestCase):
         self.assertIn("repair_default_agent_skills_if_needed", src)
         self.assertIn("seed_default_agent_skills", src)
         self.assertIn("run_default_agent_skill_seed_safe", src)
-        # ：禁止再把 Space 迁移分身提升为默认
+        # ：禁止再把 Space 迁移助手提升为默认
         self.assertNotIn("default_agent_skill_seed.ensure_promote", src)
         self.assertNotIn("oldest_active.is_default = True", src)
         self.assertIn("_demote_non_system_default_agents", src)

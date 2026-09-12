@@ -54,7 +54,7 @@ internal data class MobileConnectorShelfState(
     val totalDeviceCount: Int = 0,
 )
 
-/** 目录项和所有 AI 分身的携带态的聚合展示模型。 */
+/** 目录项和所有 数字助手的携带态的聚合展示模型。 */
 internal data class MobileSkillItem(
     val canonicalKey: String,
     val name: String,
@@ -334,7 +334,7 @@ public class MobileSkillLibraryViewModel @Inject constructor(
             val updated = operation()
             val agent = _uiState.value.agents.firstOrNull { it.id == agentId }
             if (agent == null) {
-                finishMutation("AI 分身已不可用，请刷新后重试")
+                finishMutation("数字助手已不可用，请刷新后重试")
                 return@safeLaunch
             }
             val binding = updated.toBinding(agent)

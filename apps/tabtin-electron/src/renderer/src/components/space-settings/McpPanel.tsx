@@ -184,7 +184,7 @@ interface Props {
   /** 外层「连接器」页签当前可见；隐藏时停止轮询。 */
   catalogActive?: boolean
   /**
-   * 非 embedded 时覆盖页眉标题（如 AI 分身「工具携带集」）。
+   * 非 embedded 时覆盖页眉标题（如 数字助手「工具携带集」）。
    * 不传则沿用「MCP 连接」。
    */
   title?: string
@@ -370,7 +370,7 @@ function buildManualConnectionInput(
   }
 
   // 设备域创建：不隐式启用给任何 Agent。创建后由用户在连接项里显式选择。
-  // 分身携带集创建：由调用方写入 attachToAgentId。
+  // 助手携带集创建：由调用方写入 attachToAgentId。
   return {
     connectionId: form.connectionId ?? undefined,
     name,
@@ -425,7 +425,7 @@ export const McpPanel: React.FC<Props> = ({
     }
   }, [organizationId, isAgentScoped])
 
-  // 携带集模式不拉全量 Agent，但仍须把当前分身算进可管理集合，
+  // 携带集模式不拉全量 Agent，但仍须把当前助手算进可管理集合，
   // 否则 getConnectorMarketState 会把已挂载连接误判为「待选择 Agent」。
   const manageableAgentIdSet = useMemo(() => {
     if (scopeAgentId) return new Set([scopeAgentId])
@@ -481,7 +481,7 @@ export const McpPanel: React.FC<Props> = ({
     assignedAgentCount: number
     /** 探测失败时主进程返回的可读错误（展示在失败态） */
     errorDetail?: string
-    /** 探测成功后再挂到该 Agent（分身携带集） */
+    /** 探测成功后再挂到该 Agent（助手携带集） */
     pendingAttachAgentId?: string
     /** 探测成功后再提交的「配置给 Agent」增删；失败则不改动 */
     pendingAgentAssignments?: PendingAgentAssignments
@@ -639,8 +639,8 @@ export const McpPanel: React.FC<Props> = ({
 
   /**
    * 添加工具池：对齐技能携带集挑选器。
-   * 技能 = 组织技能库 − 已挂当前分身；
-   * 工具 = 「技能和连接器 → 连接器」三货架（推荐 + 组织精选 + 我的）− 已挂当前分身。
+   * 技能 = 组织技能库 − 已挂当前助手；
+   * 工具 = 「技能和连接器 → 连接器」三货架（推荐 + 组织精选 + 我的）− 已挂当前助手。
    */
   const toolPickerItems = useMemo((): AgentToolPickerItem[] => {
     if (!scopeAgentId) return []
@@ -903,7 +903,7 @@ export const McpPanel: React.FC<Props> = ({
   const handleImportCandidate = async (candidate: LocalMcpCandidateSummary) => {
     await runManagedAction(`import:${candidate.id}`, async () => {
       // 设备域：仅接入，不隐式启用给任何 Agent。
-      // 分身携带集：接入后直接挂到当前 Agent。
+      // 助手携带集：接入后直接挂到当前 Agent。
       await window.tabtin.localMcp.importCandidate(candidate.id, {
         ...(scopeAgentId ? { attachToAgentId: scopeAgentId } : {}),
       })
@@ -1319,7 +1319,7 @@ export const McpPanel: React.FC<Props> = ({
     }
   }
 
-  /** 分身携带集：开关 = 当前 Agent 是否挂载该连接（必要时顺带启用连接）。 */
+  /** 助手携带集：开关 = 当前 Agent 是否挂载该连接（必要时顺带启用连接）。 */
   const handleScopeAgentMount = async (connectionId: string, mounted: boolean) => {
     if (!scopeAgentId) return
     setBusyKey(`scope-mount:${connectionId}`)
@@ -1361,7 +1361,7 @@ export const McpPanel: React.FC<Props> = ({
     }
   }
 
-  /** 分身挑选器：组织精选 → 确保本机可挂载连接后，挂到当前 Agent。 */
+  /** 助手挑选器：组织精选 → 确保本机可挂载连接后，挂到当前 Agent。 */
   const ensureOrgMirrorAndAttach = async (orgConnection: OrgMcpConnection) => {
     if (!scopeAgentId) return
 
@@ -2377,7 +2377,7 @@ export const McpPanel: React.FC<Props> = ({
             subtitle={
               isAgentScoped
                 ? t('mcpConnections.connections.subtitleAgentScope', {
-                    defaultValue: '这个 AI 分身会携带的本机 MCP；关掉即卸下，工具本身仍留在本机。',
+                    defaultValue: '这个 数字助手会携带的本机 MCP；关掉即卸下，工具本身仍留在本机。',
                   })
                 : t('mcpConnections.connections.subtitle', {
                     defaultValue: '开启并挂载后，当前 Agent 就可以在对话中调用它们。',
@@ -4129,7 +4129,7 @@ const AgentToolPickerDialog: React.FC<{
           icon={<Plug className="h-7 w-7" />}
           title={t('mcpConnections.agentScope.pickerTitle', { defaultValue: '添加工具' })}
           description={t('mcpConnections.agentScope.pickerDescription', {
-            defaultValue: '从连接器库里挑一个挂到当前 AI 分身（推荐、组织精选、我的里还未挂上的）。',
+            defaultValue: '从连接器库里挑一个挂到当前 数字助手（推荐、组织精选、我的里还未挂上的）。',
           })}
         />
 

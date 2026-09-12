@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// 组织级「技能和连接器」市场：浏览可见目录并进入只读详情。
-/// 携带启停 / 添加 / 移除收敛到 AI 分身详情页的技能携带集。
+/// 携带启停 / 添加 / 移除收敛到 数字助手详情页的技能携带集。
 struct MobileSkillLibraryScreen: View {
     let organizationId: String
     let onStartTask: (String, String?) -> Void
@@ -514,7 +514,7 @@ private struct MobileSkillRow: View {
     }
 }
 
-/// 技能详情只读：展示元数据与携带概况；添加/启停/移除在 AI 分身携带集完成。
+/// 技能详情只读：展示元数据与携带概况；添加/启停/移除在 数字助手携带集完成。
 private struct MobileSkillDetailScreen: View {
     let skill: MobileSkillListItem
     let agents: [OrganizationAgent]
@@ -539,7 +539,7 @@ private struct MobileSkillDetailScreen: View {
     }
 
     private var readinessText: String {
-        if skill.bindings.isEmpty { return "尚未添加到 AI 分身" }
+        if skill.bindings.isEmpty { return "尚未添加到 数字助手" }
         return skill.bindings.contains(where: { $0.enabled }) ? "已就绪" : "已添加，尚未启用"
     }
 
@@ -578,7 +578,7 @@ private struct MobileSkillDetailScreen: View {
 
             Section {
                 if skill.bindings.isEmpty {
-                    Text("尚未添加给任何 AI 分身")
+                    Text("尚未添加给任何 数字助手")
                         .foregroundStyle(.tt.textSecondary)
                 } else {
                     ForEach(skill.bindings) { binding in
@@ -592,9 +592,9 @@ private struct MobileSkillDetailScreen: View {
                     }
                 }
             } header: {
-                Text("已绑定 AI 分身")
+                Text("已绑定 数字助手")
             } footer: {
-                Text("添加、启用或移除请到对应 AI 分身详情的技能携带集。")
+                Text("添加、启用或移除请到对应 数字助手详情的技能携带集。")
             }
 
             Section {
@@ -606,7 +606,7 @@ private struct MobileSkillDetailScreen: View {
 
             if !skill.quickUse.isEmpty, !agents.isEmpty {
                 Section {
-                    Picker("用哪个 AI 分身发起", selection: $quickUseAgentId) {
+                    Picker("用哪个 数字助手发起", selection: $quickUseAgentId) {
                         ForEach(agents) { agent in
                             Text(agent.displayName).tag(agent.id)
                         }
@@ -626,7 +626,7 @@ private struct MobileSkillDetailScreen: View {
                 } header: {
                     Text("快速使用")
                 } footer: {
-                    Text("填写所需信息后，会用所选 AI 分身发起一个新任务。")
+                    Text("填写所需信息后，会用所选 数字助手发起一个新任务。")
                 }
             }
         }

@@ -292,7 +292,7 @@ def _write_to_memo(
 
     # ：task_summary 是记忆行，归属执行 agent——调用方显式传入
     # （idle_settlement 派发时带 space.agent_id）优先；否则会话直挂的执行
-    # 分身（thread_id 反查）、space 1:1 回退；解析失败 = 无归属，跳过。
+    # 助手（thread_id 反查）、space 1:1 回退；解析失败 = 无归属，跳过。
     from apps.services.agent_engine.utils.memory_constants import (
         resolve_space_execution_agent_id,
     )

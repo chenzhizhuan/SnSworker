@@ -127,18 +127,18 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
     def test_ensure_creates_xiaotin_without_promoting_migrated_bots(self):
-        """#7523：有 Space 迁移分身时新建系统小智，不提升最早 bot。"""
+        """#7523：有 Space 迁移助手时新建系统小智，不提升最早 bot。"""
         older = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="旧分身",
+            name="旧助手",
             type="bot",
             is_default=False,
         )
         Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="新分身",
+            name="新助手",
             type="bot",
             is_default=False,
         )
@@ -199,7 +199,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="可删分身",
+            name="可删助手",
             type="bot",
             is_default=False,
         )
@@ -214,7 +214,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="可删分身",
+            name="可删助手",
             type="bot",
             is_default=False,
         )
@@ -229,7 +229,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="待彻底删除分身",
+            name="待彻底删除助手",
             type="bot",
             is_default=False,
             is_active=False,
@@ -243,7 +243,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="活跃分身",
+            name="活跃助手",
             type="bot",
             is_default=False,
             is_active=True,
@@ -270,7 +270,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="他人不可删除的分身",
+            name="他人不可删除的助手",
             type="bot",
             is_default=False,
             is_active=False,
@@ -291,7 +291,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="存在受保护历史的分身",
+            name="存在受保护历史的助手",
             type="bot",
             is_default=False,
             is_active=False,
@@ -780,7 +780,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         existing = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="我已有的代码分身",
+            name="我已有的代码助手",
             type="bot",
             template_id="code-engineer",
             template_version="0.2.0",
@@ -788,7 +788,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         existing_office_agent = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="我已有的跑腿分身",
+            name="我已有的跑腿助手",
             type="bot",
             template_id="office-secretary",
             template_version="0.2.0",
@@ -862,7 +862,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         existing = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="已有分身",
+            name="已有助手",
             type="bot",
             is_default=False,
             is_active=True,
@@ -890,7 +890,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="可删分身",
+            name="可删助手",
             type="bot",
             is_default=False,
         )
@@ -906,7 +906,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="可恢复分身",
+            name="可恢复助手",
             type="bot",
             is_default=False,
         )
@@ -933,7 +933,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         persona = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="接口待彻底删除分身",
+            name="接口待彻底删除助手",
             type="bot",
             is_default=False,
             is_active=False,
@@ -998,7 +998,7 @@ class DefaultAgentGuaranteeTests(TestCase):
 
         created = self.service.create_agent(
             organization_id=self.organization.id,
-            name="自建分身",
+            name="自建助手",
         )
         self.assertIsNotNone(created)
         self.assertNotEqual(

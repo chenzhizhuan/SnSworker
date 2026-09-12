@@ -1,4 +1,4 @@
-"""将未改名的模板分身统一为「小智 xxx版」命名。
+"""将未改名的模板助手统一为「小智 xxx版」命名。
 
 只匹配「template_id + 旧出厂名」精确相等的行；用户已改名、历史
 ``{owner}代码版`` 展开名、系统默认「小智」一律不动。
@@ -86,7 +86,7 @@ def rename_unchanged_legacy_template_agents(
     dry_run: bool = True,
     organization_id: Optional[UUID] = None,
 ) -> RenameStats:
-    """把仍停在旧出厂名的模板分身改成「小智 xxx版」。"""
+    """把仍停在旧出厂名的模板助手改成「小智 xxx版」。"""
     stats = RenameStats()
     now = timezone.now()
     to_update: list[Agent] = []

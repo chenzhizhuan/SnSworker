@@ -255,10 +255,10 @@ class KeywordSearchRecallTest(TransactionTestCase):
 
     def test_long_pptx_style_search_does_not_recursion_error(self):
         """Sentry  形态：整段任务原文当 search，合法长度内不得 500。"""
-        self._memory(content="公司 AI 分身试点需要管理层汇报材料")
+        self._memory(content="公司 数字助手试点需要管理层汇报材料")
         search = (
-            "请制作一份面向公司管理层的《公司 AI 分身试点》PPTX。"
-            "必须严格为 6 页：封面、背景、试点目标、三个默认分身、"
+            "请制作一份面向公司管理层的《公司 数字助手试点》PPTX。"
+            "必须严格为 6 页：封面、背景、试点目标、三个默认助手、"
             "试点计划、风险与待决策事项。" * 4
         )
         self.assertLessEqual(len(search), 500)

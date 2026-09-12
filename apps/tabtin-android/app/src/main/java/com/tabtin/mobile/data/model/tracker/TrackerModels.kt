@@ -227,7 +227,7 @@ public data class TrackerRunListResponse(
     val runs: List<TrackerRun> = emptyList(),
 )
 
-/** `/tracker/templates` 的只读任务蓝图，创建时仍由用户确认 AI 分身与 Workspace。 */
+/** `/tracker/templates` 的只读任务蓝图，创建时仍由用户确认 数字助手与 Workspace。 */
 @Serializable
 public data class TrackerTemplate(
     val id: String,

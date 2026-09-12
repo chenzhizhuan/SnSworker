@@ -131,7 +131,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Blank avatar" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "空白分身" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "空白助手" } }
       }
     },
     "project.myAgents.blankHint" : {
@@ -159,14 +159,14 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "This applies to the avatar across Workspaces. Workspace-specific rules are configured in Workspace settings." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这里影响该分身在所有工作空间中的表现；仅当前工作空间生效的规则请到工作空间设置中配置。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这里影响该助手在所有工作空间中的表现；仅当前工作空间生效的规则请到工作空间设置中配置。" } }
       }
     },
     "project.myAgents.deactivate" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Deactivate avatar" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "停用分身" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "停用助手" } }
       }
     },
     "project.myAgents.deactivateTitle" : {
@@ -362,7 +362,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Tell this avatar something that helps them understand you better..." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "告诉这个 AI 分身一些能让 TA 更懂你的事…" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "告诉这个 数字助手一些能让 TA 更懂你的事…" } }
       }
     },
     "project.myAgents.memoryType.aboutYou" : {
@@ -446,7 +446,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Required by the default avatar" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "默认分身必备技能" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "默认助手必备技能" } }
       }
     },
     "project.myAgents.addSkill" : {
@@ -544,14 +544,14 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No connectors mounted for this avatar yet. Manage them on desktop." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未为该分身挂载连接器，请在电脑端管理" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未为该助手挂载连接器，请在电脑端管理" } }
       }
     },
     "project.myAgents.toolsHint" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Connectors this AI avatar can carry. Mounting is managed on desktop — mobile cannot change attach state yet." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 AI 分身可携带的连接器。挂载状态在电脑端管理，手机暂不能开关。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这个 数字助手可携带的连接器。挂载状态在电脑端管理，手机暂不能开关。" } }
       }
     },
     "project.myAgents.toolsManageOnDesktop" : {

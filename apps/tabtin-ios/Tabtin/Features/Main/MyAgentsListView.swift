@@ -35,8 +35,8 @@ private struct DeactivatedAgentAvatarView: View {
     }
 }
 
-/// AI 分身头像：预设头像优先；没有预设时尝试自定义 URL，加载失败或缺失则统一回退 SnSworker 品牌图标。
-/// 不复用 SpaceAvatar，避免 AI 分身在历史数据缺少头像字段时退回名称首字母。
+/// 数字助手头像：预设头像优先；没有预设时尝试自定义 URL，加载失败或缺失则统一回退 SnSworker 品牌图标。
+/// 不复用 SpaceAvatar，避免 数字助手在历史数据缺少头像字段时退回名称首字母。
 private struct AgentIdentityFallbackAvatar: View {
     let imageURL: URL?
     let size: CGFloat

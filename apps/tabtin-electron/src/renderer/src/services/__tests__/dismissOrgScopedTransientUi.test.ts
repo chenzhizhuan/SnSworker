@@ -143,7 +143,7 @@ describe('dismissOrgScopedTransientUi', () => {
     expect(mockSetGlobalSearchOpen).toHaveBeenCalledWith(false)
     expect(mockUiSetState).toHaveBeenCalledWith({ appFocusChatOverlayOpenByScopeKey: {} })
     expect(mockCreateSiteClose).not.toHaveBeenCalled()
-    // ：AI 分身列表的组织同步由 SidebarAgentsPanel 单独负责。
+    // ：数字助手列表的组织同步由 SidebarAgentsPanel 单独负责。
     // 全局 teardown 再次重置同一 Store 会作废刚发出的新组织请求，使列表永久 loading。
     expect(mockResetForOrganization).not.toHaveBeenCalled()
     expect(mockClearAllScenes).toHaveBeenCalledTimes(1)

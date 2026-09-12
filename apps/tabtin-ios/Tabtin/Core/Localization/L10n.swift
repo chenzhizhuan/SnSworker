@@ -517,7 +517,7 @@ enum L10n {
         static var myAgentsTools: String { l("project.myAgents.tools", table: "Project") }
         static var myAgentsToolsHint: String { l("project.myAgents.toolsHint", table: "Project") }
         static var myAgentsToolsEmpty: String { l("project.myAgents.toolsEmpty", table: "Project") }
-        /// Agent 详情：该分身尚未挂载任何本机 MCP。
+        /// Agent 详情：该助手尚未挂载任何本机 MCP。
         static var myAgentsToolsNotMounted: String { l("project.myAgents.toolsNotMounted", table: "Project") }
         static var myAgentsToolsManageOnDesktop: String { l("project.myAgents.toolsManageOnDesktop", table: "Project") }
         /// 电脑 Electron 离线 / 不可用时，工具携带集顶部提示。

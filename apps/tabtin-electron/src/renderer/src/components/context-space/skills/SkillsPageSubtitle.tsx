@@ -3,7 +3,7 @@ import { Trans } from 'react-i18next'
 import { openAgentHub } from '@/services/agentMemoryNavigation'
 
 /**
- * 技能库页头副标题：说明 Agent 可用 Skill，并链到 AI 分身去添加。
+ * 技能库页头副标题：说明 Agent 可用 Skill，并链到 数字助手去添加。
  */
 export function SkillsPageSubtitle(): React.ReactElement {
   return (

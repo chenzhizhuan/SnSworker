@@ -136,7 +136,7 @@ final class MainRouter {
     var pendingConversation: ConversationTarget?
     /// 待消息页消费的 IM 会话目标；通知等跨 tab 入口使用，消费后置空。
     var pendingIMConversation: IMConversationTarget?
-    /// Workspace 卡的 `space_id` 待 AI 分身根消费；它不是 Agent ID。
+    /// Workspace 卡的 `space_id` 待 数字助手根消费；它不是 Agent ID。
     var pendingWorkspaceId: String?
     /// 外部链接目标必须跨登录、Organization 初始化保留，直到云端页成功消费。
     var pendingResource: ResourceDeepLinkTarget?

@@ -83,7 +83,7 @@ class AgentMemoryRecall:
 
         ``agent_ids``：单个 id（str/UUID）或 id 集合。召回场景应传
         ``resolve_recall_agent_ids(space_id)`` 的结果——保证与分家前
-        space 维度召回等价覆盖（含会话直挂分身的记忆）。
+        space 维度召回等价覆盖（含会话直挂助手的记忆）。
 
         ``organization_id`` 与 ``owner_id`` 都必须显式提供；无法确认
         subject 时返回空集，避免跨用户读取。

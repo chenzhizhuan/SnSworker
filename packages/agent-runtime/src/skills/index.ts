@@ -41,7 +41,7 @@ export {
 } from './skill-enablement.js';
 
 /**
- * 首发分身预装的官方 Pack。货架上仍可按 marketplace 安装，
+ * 首发助手预装的官方 Pack。货架上仍可按 marketplace 安装，
  * 菜单标「内置起步包」；本机预装必须收录，不能等用户点安装。
  *
  * 改名单时同步 renderer `skillProductState.FIRST_PARTY_STARTER_PACK_IDS`

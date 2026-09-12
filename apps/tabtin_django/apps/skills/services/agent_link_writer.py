@@ -31,7 +31,7 @@ from apps.skills.services.registry_service import (
 logger = logging.getLogger("skills.agent_link_writer")
 
 UNPUBLISHED_SKILL_MESSAGE = "该 Skill 尚未发布版本，请让作者先发布后再启用"
-DEFAULT_AGENT_SKILL_LOCKED_MESSAGE = "系统预置分身的默认 Skill 不可关闭或收回"
+DEFAULT_AGENT_SKILL_LOCKED_MESSAGE = "系统预置助手的默认 Skill 不可关闭或收回"
 DEFAULT_AGENT_SKILL_LOCKED_CODE = "DEFAULT_AGENT_SKILL_LOCKED"
 # 默认 Agent 上强制全开且不可关的 source。
 # marketplace 推荐 pack 虽走 app: 前缀，但是用户从货架自选，不在锁定范围。
@@ -253,7 +253,7 @@ class AgentSkillLinkWriter:
 
     @staticmethod
     def is_locked_template_skill(agent, skill_canonical_key: str) -> bool:
-        """四个核心分身的模板 Skill 是不可摘除的角色能力基线。"""
+        """四个核心助手的模板 Skill 是不可摘除的角色能力基线。"""
         template_id = (getattr(agent, "template_id", "") or "").strip()
         if not template_id:
             return False
@@ -281,7 +281,7 @@ class AgentSkillLinkWriter:
         source: Optional[str] = None,
         distribution: Optional[str] = None,
     ) -> bool:
-        """统一锁定判定：核心分身模板基线，或默认 Agent 的系统能力。"""
+        """统一锁定判定：核心助手模板基线，或默认 Agent 的系统能力。"""
         if cls.is_locked_template_skill(agent, skill_canonical_key):
             return True
         from apps.skills.services.default_agent_skill_seed import (
@@ -329,7 +329,7 @@ class AgentSkillLinkWriter:
         source: Optional[str] = None,
         distribution: Optional[str] = None,
     ) -> None:
-        """系统预置分身禁止关闭或收回其锁定 Skill。"""
+        """系统预置助手禁止关闭或收回其锁定 Skill。"""
         from apps.agent.models import Agent
 
         agent = (

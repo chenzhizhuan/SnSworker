@@ -46,7 +46,7 @@ class AgentMemory(TimeStampedModel):
         db_column="agent_id",
         related_name="memories",
         verbose_name="所属 Agent",
-        help_text="记忆归属的 Agent（会话直挂执行分身优先，workspace 1:1 回退）。",
+        help_text="记忆归属的 Agent（会话直挂执行助手优先，workspace 1:1 回退）。",
     )
     organization_id = models.UUIDField(db_index=True, verbose_name="所属组织")
     owner_id = models.UUIDField(

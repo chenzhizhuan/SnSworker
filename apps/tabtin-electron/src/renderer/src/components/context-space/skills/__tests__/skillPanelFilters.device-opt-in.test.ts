@@ -79,7 +79,7 @@ describe('skillPanelFilters user-gate opt-out', () => {
     }))).toBe(false)
   })
 
-  it('其他分身添加池排除系统套件', () => {
+  it('其他助手添加池排除系统套件', () => {
     const device = skill({ source: 'device', skill_key: 'device:local-helper' })
     const user = skill({ source: 'user', skill_key: 'user:my-skill' })
     expect(canAssignSkillToAgent(device, { isDefaultAgent: true })).toBe(true)

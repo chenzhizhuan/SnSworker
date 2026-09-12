@@ -258,7 +258,7 @@ describe('useAgentIdentitySelection', () => {
 
     mocks.listAgents.mockResolvedValueOnce([
       ...AGENTS,
-      { id: 'agent-3', name: '新分身' },
+      { id: 'agent-3', name: '新助手' },
     ])
 
     await act(async () => {
@@ -266,7 +266,7 @@ describe('useAgentIdentitySelection', () => {
     })
 
     expect(result.current.agents).toHaveLength(3)
-    expect(result.current.agents[2]?.name).toBe('新分身')
+    expect(result.current.agents[2]?.name).toBe('新助手')
   })
 
   it('组织切换时清空旧列表并进入 loading', async () => {
@@ -325,7 +325,7 @@ describe('useAgentIdentitySelection', () => {
     await act(async () => {
       resolveReload?.([
         ...AGENTS,
-        { id: 'agent-3', name: '新分身' },
+        { id: 'agent-3', name: '新助手' },
       ])
       await reloadPromise
     })

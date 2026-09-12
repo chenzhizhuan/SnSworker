@@ -128,7 +128,7 @@ export const useSettingsSpaceStore = create<SettingsSpaceState>()(
       // isOpen 字段保留向后兼容（仍被 SettingsSpace 内部某些逻辑读到），
       // 但不再由 AppLayout 用来切布局——layout 改用 mainNavTab='me' 判定。
       openSettings: (route) => {
-        // 分身 / 技能库已迁到任务侧栏；旧设置深链改开对应工作台。
+        // 助手 / 技能库已迁到任务侧栏；旧设置深链改开对应工作台。
         if (
           route === 'agents'
           || (typeof route === 'object'

@@ -32,7 +32,7 @@ export interface OrganizationAgentSummary {
   } | null
 }
 
-/** 开号成功后乐观写入列表：避免选中新 id 时列表还没有它而被回落到默认分身。 */
+/** 开号成功后乐观写入列表：避免选中新 id 时列表还没有它而被回落到默认助手。 */
 export function organizationAgentSummaryFromAgent(agent: {
   id: string
   name: string

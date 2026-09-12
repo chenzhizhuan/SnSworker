@@ -1,5 +1,5 @@
 /**
- * SidebarAgentsPanel — AI 分身域侧栏：顶栏动作 + 分身列表。
+ * SidebarAgentsPanel — 数字助手域侧栏：顶栏动作 + 助手列表。
  *
  * 列表行复用 SIDEBAR_ROW / ConversationItem 同款 token，不走设置页 MyAgentsPanel 样式。
  */
@@ -88,7 +88,7 @@ export const SidebarAgentsPanel: React.FC = React.memo(() => {
     return () => { cancelled = true }
   }, [ownerName, selectedOrganizationId])
 
-  const listTitle = t('myAgents.listTitle', { defaultValue: '我的 AI 分身' })
+  const listTitle = t('myAgents.listTitle', { defaultValue: '我的 数字助手' })
 
   const handleAgentListKeyDown = useCallback((
     event: React.KeyboardEvent<HTMLButtonElement>,
@@ -141,7 +141,7 @@ export const SidebarAgentsPanel: React.FC = React.memo(() => {
           ) : loadError ? (
             <div className="flex flex-col items-start gap-3 px-3 py-6">
               <span className={cn(SIDEBAR_EMPTY_TEXT, 'text-muted-foreground/80')}>
-                {t('myAgents.loadFailed', { defaultValue: 'AI 分身列表加载失败' })}
+                {t('myAgents.loadFailed', { defaultValue: '数字助手列表加载失败' })}
               </span>
               <Button type="button" variant="outline" size="sm" onClick={() => { void loadAgents() }}>
                 <RotateCcw className="h-[1em] w-[1em]" />
@@ -151,7 +151,7 @@ export const SidebarAgentsPanel: React.FC = React.memo(() => {
           ) : agents.length === 0 ? (
             <div className="flex items-center justify-center py-8">
               <p className={cn('text-center leading-5', SIDEBAR_EMPTY_TEXT, 'text-muted-foreground/80')}>
-                {t('myAgents.empty', { defaultValue: '还没有 AI 分身，先开一个新分身。' })}
+                {t('myAgents.empty', { defaultValue: '还没有 数字助手，先开一个新助手。' })}
               </p>
             </div>
           ) : (

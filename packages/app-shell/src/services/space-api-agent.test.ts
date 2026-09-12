@@ -20,7 +20,7 @@ describe('AgentApiService.reactivateAgent', () => {
       status: 200,
       data: {
         success: true,
-        data: { id: 'agent-1', name: '恢复后的分身', is_active: true },
+        data: { id: 'agent-1', name: '恢复后的助手', is_active: true },
       },
     })
 

@@ -1,5 +1,5 @@
 /**
- * AgentWorkbenchExpandCard — AI 分身工作台横排入口卡：摘要 + 点击进入画布内整页。
+ * AgentWorkbenchExpandCard — 数字助手工作台横排入口卡：摘要 + 点击进入画布内整页。
  */
 
 import React from 'react'

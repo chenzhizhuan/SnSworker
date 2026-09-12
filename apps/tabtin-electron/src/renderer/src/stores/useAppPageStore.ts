@@ -8,7 +8,7 @@ import { useProjectWorkspaceSelectionStore } from '@components/layout/projectWor
 /**
  * 全屏 App 页（技能库 / 自动化 / 协作列表等）。
  *
- * AI 分身已提级为 mainNavTab=agents 独立域，不再走 app-page。
+ * 数字助手已提级为 mainNavTab=agents 独立域，不再走 app-page。
  * 临时 UI 态（不持久化）。打开时先切回 agent tab，再由 useShellLayoutState 解析为 app-page。
  */
 export type AppPageId =

@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
                     "agent",
                     models.ForeignKey(
                         db_column="agent_id",
-                        help_text="记忆归属的 Agent（会话直挂执行分身优先，workspace 1:1 回退）。",
+                        help_text="记忆归属的 Agent（会话直挂执行助手优先，workspace 1:1 回退）。",
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="memories",
                         to="agent.agent",

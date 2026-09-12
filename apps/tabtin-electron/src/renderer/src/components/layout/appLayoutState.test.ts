@@ -113,7 +113,7 @@ describe('resolveUnifiedAppPageModuleFlags', () => {
     }
   })
 
-  it('AI 分身域始终 canvas-only，不挂 unified secondary', () => {
+  it('数字助手域始终 canvas-only，不挂 unified secondary', () => {
     const flags = resolveUnifiedAppPageModuleFlags({
       workbenchMode: 'agents',
       chatPanelEnabled: true,

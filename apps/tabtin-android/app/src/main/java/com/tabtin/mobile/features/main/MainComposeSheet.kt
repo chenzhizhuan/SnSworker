@@ -231,7 +231,7 @@ internal fun MainComposeSheet(
     defaultAgentId: String? = null,
     isLoadingAgents: Boolean = false,
     initialResourceReferences: List<ResourceReference> = emptyList(),
-    /** 从 IM 指令卡进入时只预填正文，仍由用户选择 AI 分身与 Workspace。 */
+    /** 从 IM 指令卡进入时只预填正文，仍由用户选择 数字助手与 Workspace。 */
     initialDraft: String = "",
     onDismiss: () -> Unit,
     onChatPrepared: (ChatSession, Space) -> Unit,

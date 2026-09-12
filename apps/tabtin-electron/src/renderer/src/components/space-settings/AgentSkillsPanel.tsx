@@ -185,7 +185,7 @@ export const AgentSkillsPanel: React.FC<AgentSkillsPanelProps> = ({
     () => links.filter(l => !l.skill_canonical_key.startsWith('workspace:')),
     [links],
   )
-  // 其他分身只展示真实携带行：模板导入 / 用户分配的都要留下，
+  // 其他助手只展示真实携带行：模板导入 / 用户分配的都要留下，
   // 不注入未分配的本机发现项。平台与内置 App 只要在携带集里就不能藏。
   const visibleLinks = useMemo(
     () => [
@@ -284,7 +284,7 @@ export const AgentSkillsPanel: React.FC<AgentSkillsPanelProps> = ({
       <div className="flex shrink-0 items-start justify-between gap-3 pb-3">
         <p className="text-body text-foreground-secondary">
           {t('skills.agentSkills.subtitle', {
-            defaultValue: '这个 AI 分身会的本事。技能跟着 AI 分身走，在哪儿干活都带着。',
+            defaultValue: '这个 数字助手会的本事。技能跟着 数字助手走，在哪儿干活都带着。',
           })}
         </p>
         <div className="flex shrink-0 items-center gap-1.5">
@@ -318,7 +318,7 @@ export const AgentSkillsPanel: React.FC<AgentSkillsPanelProps> = ({
           <AlertCircle className="h-5 w-5 text-muted-foreground/40" />
           <p className="text-body text-foreground-secondary">
             {t('skills.agentSkills.noAgent', {
-              defaultValue: '还没有可用的执行 AI 分身，先完成 AI 分身初始化。',
+              defaultValue: '还没有可用的执行 数字助手，先完成 数字助手初始化。',
             })}
           </p>
         </div>
@@ -327,7 +327,7 @@ export const AgentSkillsPanel: React.FC<AgentSkillsPanelProps> = ({
           <AlertCircle className="h-5 w-5 text-muted-foreground/40" />
           <p className="text-body text-foreground-secondary">
             {t('skills.agentSkills.forbidden', {
-              defaultValue: '只有这个 AI 分身的拥有者能查看和管理它的技能。',
+              defaultValue: '只有这个 数字助手的拥有者能查看和管理它的技能。',
             })}
           </p>
         </div>
@@ -436,7 +436,7 @@ export const AgentSkillsPanel: React.FC<AgentSkillsPanelProps> = ({
         onOpenChange={(open) => { if (!open) setDetachTarget(null) }}
         title={t('skills.agentSkills.detachConfirmTitle', { defaultValue: '收回这个技能？' })}
         description={t('skills.agentSkills.detachConfirmBody', {
-          defaultValue: '「{{skillName}}」将从这个 AI 分身的携带集移除，它的私有配置一并清除。技能本身仍留在技能库里。',
+          defaultValue: '「{{skillName}}」将从这个 数字助手的携带集移除，它的私有配置一并清除。技能本身仍留在技能库里。',
           skillName: detachTarget?.name ?? '',
         })}
         confirmText={t('skills.agentSkills.detachAction', { defaultValue: '收回' })}
@@ -494,7 +494,7 @@ const AgentSkillRow: React.FC<{
     || Object.keys(link.config_json || {}).length > 0
 
   const lockedTooltip = t('skills.agentSkills.lockedTooltip', {
-    defaultValue: '系统预置分身的默认技能不可关闭或收回',
+    defaultValue: '系统预置助手的默认技能不可关闭或收回',
   })
 
   return (
@@ -690,7 +690,7 @@ const AgentSkillPickerDialog: React.FC<{
           icon={<Sparkles className="h-7 w-7" />}
           title={t('skills.agentSkills.pickerTitle', { defaultValue: '添加技能' })}
           description={t('skills.agentSkills.pickerDescription', {
-            defaultValue: '先看说明，再教给这个 AI 分身。',
+            defaultValue: '先看说明，再教给这个 数字助手。',
           })}
         />
 

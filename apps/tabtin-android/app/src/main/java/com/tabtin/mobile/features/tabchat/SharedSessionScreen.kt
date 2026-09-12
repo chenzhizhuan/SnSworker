@@ -214,7 +214,7 @@ public class SharedSessionViewModel @Inject constructor(
                     organizationId = organizationId,
                 )
                 val executionTargetError = when {
-                    agentsResult.isFailure -> "AI 分身加载失败"
+                    agentsResult.isFailure -> "数字助手加载失败"
                     workspacesResult.isFailure -> "Workspace 加载失败"
                     else -> null
                 }
@@ -434,13 +434,13 @@ public fun SharedSessionScreen(
             ) {
                 if (executionTargetStep == SharedSessionExecutionTargetStep.WORKSPACE) {
                     IconButton(onClick = { executionTargetStep = SharedSessionExecutionTargetStep.AGENT }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回选择 AI 分身")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回选择 数字助手")
                     }
                 } else {
                     Spacer(Modifier.size(48.dp))
                 }
                 Text(
-                    if (executionTargetStep == SharedSessionExecutionTargetStep.AGENT) "选择 AI 分身" else "选择 Workspace",
+                    if (executionTargetStep == SharedSessionExecutionTargetStep.AGENT) "选择 数字助手" else "选择 Workspace",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f),
                 )
@@ -603,7 +603,7 @@ public fun SharedSessionScreen(
                         }
                         when {
                             state.executionTargetError != null -> Text(state.executionTargetError.orEmpty())
-                            state.agents.isEmpty() -> Text("当前组织没有可用的 AI 分身")
+                            state.agents.isEmpty() -> Text("当前组织没有可用的 数字助手")
                             state.workspaces.isEmpty() -> Text("当前组织没有可用的执行 Workspace")
                         }
                         state.actionError?.let {

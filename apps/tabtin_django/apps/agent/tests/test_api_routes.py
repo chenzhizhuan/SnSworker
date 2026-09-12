@@ -190,7 +190,7 @@ class AgentApiRouteCompatibilityTests(TestCase):
         self.assertEqual(created_data["display_name"], "小智 日常版")
         self.assertEqual(
             created_data["custom_rules"],
-            "处理通用任务时先理解目标，再直接推进；遇到明显的专项任务，可以建议交给对应分身。",
+            "处理通用任务时先理解目标，再直接推进；遇到明显的专项任务，可以建议交给对应助手。",
         )
         self.assertNotIn("{owner}", created_data["display_name"])
 

@@ -33,7 +33,7 @@ User = get_user_model()
 class Organization(models.Model):
     """组织模型
 
-    type 字段区分身份上下文：
+    type 字段区助手份上下文：
     - personal: 个人身份，注册自动创建，不可删除/邀请成员，每用户唯一
     - team: 团队，用户主动创建或被邀请加入，支持成员协作
     """

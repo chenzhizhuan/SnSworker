@@ -10,7 +10,7 @@ const workbenchState = {
   organizationId: 'org-a' as string | null,
   agents: [{
     id: 'agent-a',
-    name: '组织 A 分身',
+    name: '组织 A 助手',
     is_default: false,
   }],
   loading: false,
@@ -70,7 +70,7 @@ describe('AgentsDetailCanvas', () => {
       organizationId: 'org-a',
       agents: [{
         id: 'agent-a',
-        name: '组织 A 分身',
+        name: '组织 A 助手',
         is_default: false,
       }],
       loading: false,
@@ -80,7 +80,7 @@ describe('AgentsDetailCanvas', () => {
     vi.clearAllMocks()
   })
 
-  it('workbench 尚未同步当前组织时不渲染旧分身详情', () => {
+  it('workbench 尚未同步当前组织时不渲染旧助手详情', () => {
     const view = render(<AgentsDetailCanvas />)
 
     expect(screen.getByTestId('agents-detail-loading')).toBeTruthy()
@@ -90,7 +90,7 @@ describe('AgentsDetailCanvas', () => {
       organizationId: 'org-b',
       agents: [{
         id: 'agent-b',
-        name: '组织 B 分身',
+        name: '组织 B 助手',
         is_default: false,
       }],
       selectedAgentId: 'agent-b',

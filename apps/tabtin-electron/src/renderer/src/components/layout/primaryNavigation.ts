@@ -321,7 +321,7 @@ export function usePrimaryNavigation(input: {
       exitTeamSpaceProjectView(projectDesktopExecutionSpaceId)
     }
 
-    // 应用门与 数字助手工作台互斥：切到应用时收起分身配置主画布。
+    // 应用门与 数字助手工作台互斥：切到应用时收起助手配置主画布。
     if (mode === 'desktop') {
       useAppPageStore.getState().closeAppPage()
     }

@@ -165,7 +165,7 @@ export const AssignSkillToAgentDialog: React.FC<AssignSkillToAgentDialogProps> =
   const allMutableSelected = mutableAgents.length > 0
     && mutableAgents.every(agent => selectedAgentIds.has(agent.id))
   const lockedTooltip = t('skills.agentSkills.lockedTooltip', {
-    defaultValue: '系统预置分身的默认技能不可关闭或收回',
+    defaultValue: '系统预置助手的默认技能不可关闭或收回',
   })
 
   const toggleAgent = (agentId: string, checked: boolean) => {

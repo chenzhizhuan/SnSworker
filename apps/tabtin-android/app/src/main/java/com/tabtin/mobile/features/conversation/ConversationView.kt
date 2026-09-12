@@ -182,7 +182,7 @@ public fun ConversationView(
     draftProjectId: String? = null,
     /** 首发 prepareSession 所需的执行 Space（通常来自 ChatSessionViewModel.newTaskSpace）。 */
     draftExecutionSpace: Space? = null,
-    /** 草稿预选 / 当前 AI 分身；enableDraftMode 写入 ViewModel。 */
+    /** 草稿预选 / 当前 数字助手；enableDraftMode 写入 ViewModel。 */
     draftAgentId: String? = null,
     viewModel: ConversationViewModel = hiltViewModel(),
     checkpointViewModel: ChatCheckpointViewModel = hiltViewModel(),

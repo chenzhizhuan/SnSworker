@@ -240,7 +240,7 @@ public class MyAgentsViewModel @Inject constructor(
             val agents = spaceRepository.getAgents()
                 .filter { it.isActive }
                 .sortedByDescending { it.updatedAt.ifBlank { it.createdAt } }
-            // 已停用列表属于辅助信息：老服务端不支持时不能阻断活跃分身的主列表。
+            // 已停用列表属于辅助信息：老服务端不支持时不能阻断活跃助手的主列表。
             val deactivatedAgents = runCatching { spaceRepository.getDeactivatedAgents() }
                 .getOrDefault(emptyList())
                 .sortedByDescending { it.deactivatedAt ?: it.createdAt.orEmpty() }

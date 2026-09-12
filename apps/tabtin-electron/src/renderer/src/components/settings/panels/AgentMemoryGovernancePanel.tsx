@@ -1,5 +1,5 @@
 /**
- * AgentMemoryGovernancePanel — AI 分身记忆治理面（；方案 A 两 Tab IA）
+ * AgentMemoryGovernancePanel — 数字助手记忆治理面（；方案 A 两 Tab IA）
  *
  * 让用户管理**某个 Agent** 在自己名下记住的东西（严格 per-Agent）：
  *   - 概览：综合理解（UserPortrait 5 段小传 + hint / 整理）
@@ -209,7 +209,7 @@ const MemoryRecordsList: React.FC<{
         <div className="flex flex-col items-center justify-center py-10 text-center">
           <Brain className="mb-2 h-8 w-8 text-muted-foreground/20" />
           <p className="text-body text-muted-foreground/60">
-            {t('governance.records.emptyTitle', { defaultValue: '这个 AI 分身还没有记忆记录' })}
+            {t('governance.records.emptyTitle', { defaultValue: '这个 数字助手还没有记忆记录' })}
           </p>
           <p className={cn(SETTINGS_TEXT_META, 'mt-1 text-muted-foreground/60')}>
             {t('governance.records.emptyHint', { defaultValue: '和 TA 协作后，记录会自动出现在这里' })}
@@ -247,7 +247,7 @@ const MemoryRecordsList: React.FC<{
       <ConfirmDialog
         open={!!forgetTarget}
         onOpenChange={open => { if (!open) setForgetTarget(null) }}
-        title={t('governance.forgetTitle', { defaultValue: '让这个 AI 分身忘记这条记忆？' })}
+        title={t('governance.forgetTitle', { defaultValue: '让这个 数字助手忘记这条记忆？' })}
         description={t('diary.forgetDesc', { defaultValue: '忘记后，TA 之后不会再用到这条记忆，也不会在这里显示。此操作不可撤销。' })}
         confirmText={t('actions.forget', { defaultValue: '忘记' })}
         cancelText={t('actions.cancel', { defaultValue: '取消' })}
@@ -307,7 +307,7 @@ export const AgentMemoryGovernancePanel: React.FC<AgentMemoryGovernancePanelProp
         // （与 CLI export 同口径）。
         toast({
           description: memoryEnabled
-            ? t('governance.export.nothing', { defaultValue: '这个 AI 分身还没有可导出的记忆' })
+            ? t('governance.export.nothing', { defaultValue: '这个 数字助手还没有可导出的记忆' })
             : t('governance.export.disabledEmpty', {
                 defaultValue: '记忆记录已关闭，暂无可导出内容。可在「记忆」App →「记忆偏好」→「让 Agent 记笔记」重新打开。',
               }),
@@ -377,7 +377,7 @@ export const AgentMemoryGovernancePanel: React.FC<AgentMemoryGovernancePanelProp
           <ShieldOff className="h-4 w-4 shrink-0 mt-0.5 text-muted-foreground/60" />
           <p className={cn(SETTINGS_TEXT_META, 'leading-relaxed')}>
             {t('governance.disabledNotice', {
-              defaultValue: '记忆记录当前已关闭，AI 分身不再记录、召回或展示记忆。可在「记忆」App →「记忆偏好」→「让 Agent 记笔记」重新打开。',
+              defaultValue: '记忆记录当前已关闭，数字助手不再记录、召回或展示记忆。可在「记忆」App →「记忆偏好」→「让 Agent 记笔记」重新打开。',
             })}
           </p>
         </div>

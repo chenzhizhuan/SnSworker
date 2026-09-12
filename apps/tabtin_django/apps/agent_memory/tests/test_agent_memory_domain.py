@@ -80,7 +80,7 @@ class AgentMemoryDomainTest(TransactionTestCase):
     def test_same_agent_two_subjects_are_isolated(self):
         """同一 Agent 下不同 subject（owner）互不可见——归属键含 owner_id。
 
-        团队 Space 里多个用户与同一执行分身交互会在同一 agent 下产生不同
+        团队 Space 里多个用户与同一执行助手交互会在同一 agent 下产生不同
         owner 的行；隔离由仓储层 ``(org, agent, subject_user)`` 强制过滤兜底，
         而 ``resolve_scope`` 永远把 subject 钉成当前登录用户。
         """

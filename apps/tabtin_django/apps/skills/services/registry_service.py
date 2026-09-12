@@ -572,7 +572,7 @@ class SkillsRegistryService:
                     distribution=config.get("distribution"),
                 )
             )
-            # 系统预置分身的锁定 Skill 强制注入（忽略总闸与脏 agent.enabled）。
+            # 系统预置助手的锁定 Skill 强制注入（忽略总闸与脏 agent.enabled）。
             if locked:
                 config.update(
                     UserSkillPreferenceService.compose_enablement(

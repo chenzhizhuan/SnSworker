@@ -47,7 +47,7 @@ describe('organizationAgentsApi', () => {
     ])
   })
 
-  it('旧响应缺少 display_name 时保留原名，并过滤已停用分身', async () => {
+  it('旧响应缺少 display_name 时保留原名，并过滤已停用助手', async () => {
     get.mockResolvedValue({
       data: {
         agents: [

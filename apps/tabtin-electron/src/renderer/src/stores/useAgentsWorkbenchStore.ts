@@ -24,7 +24,7 @@ interface AgentsWorkbenchState {
   focusMemoryId: string | null
   setOrganizationId: (organizationId: string | null) => void
   setSelectedAgentId: (agentId: string | null) => void
-  /** 开号成功：乐观入列表并选中，避免 loadAgents 完成前被回落到默认分身 */
+  /** 开号成功：乐观入列表并选中，避免 loadAgents 完成前被回落到默认助手 */
   selectCreatedAgent: (agent: OrganizationAgentSummary) => void
   setShowDeactivated: (show: boolean) => void
   setNewAgentOpen: (open: boolean) => void
@@ -169,7 +169,7 @@ export const useAgentsWorkbenchStore = create<AgentsWorkbenchState>((set, get) =
       const nextAgents = await listOrganizationAgents(organizationId)
       if (requestId !== loadRequestId) return
       set(state => {
-        // 开号后可能先乐观选中，再关窗触发刷新；若列表瞬时未含新 id，保留乐观项，避免回落到默认分身。
+        // 开号后可能先乐观选中，再关窗触发刷新；若列表瞬时未含新 id，保留乐观项，避免回落到默认助手。
         let agents = nextAgents
         const selectedId = state.selectedAgentId
         if (

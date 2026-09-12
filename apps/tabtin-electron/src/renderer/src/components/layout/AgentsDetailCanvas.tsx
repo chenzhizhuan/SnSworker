@@ -1,5 +1,5 @@
 /**
- * AgentsDetailCanvas — AI 分身域主画布：选中分身的详情 / 已停用列表 / 空态。
+ * AgentsDetailCanvas — 数字助手域主画布：选中助手的详情 / 已停用列表 / 空态。
  */
 
 import React, { useEffect, useMemo } from 'react'
@@ -63,7 +63,7 @@ export const AgentsDetailCanvas: React.FC = () => {
             className="flex h-full items-center justify-center text-body text-muted-foreground"
             data-testid="agents-detail-loading"
           >
-            {t('myAgents.loading', { defaultValue: '正在加载 AI 分身…' })}
+            {t('myAgents.loading', { defaultValue: '正在加载 数字助手…' })}
           </div>
         ) : showDeactivated && organizationId ? (
           <div className="min-h-0 flex-1 overflow-y-auto scrollbar-hover">
@@ -91,8 +91,8 @@ export const AgentsDetailCanvas: React.FC = () => {
             <Bot className="h-7 w-7 text-muted-foreground/60" />
             <p className="text-body text-foreground-secondary">
               {agents.length === 0
-                ? t('myAgents.emptyDetail', { defaultValue: '开一个新分身后，在这里配置它。' })
-                : t('myAgents.detailEmpty', { defaultValue: '选择左侧的 AI 分身查看档案' })}
+                ? t('myAgents.emptyDetail', { defaultValue: '开一个新助手后，在这里配置它。' })
+                : t('myAgents.detailEmpty', { defaultValue: '选择左侧的 数字助手查看档案' })}
             </p>
           </div>
         ) : null}

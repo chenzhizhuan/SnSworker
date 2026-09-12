@@ -310,7 +310,7 @@ describe('#4897 selectSession/loadSessionMessages 本机 transcript 权威', () 
         {
           id: 'snap-1',
           role: 'user',
-          content: '帮我做公司 AI 分身试点方案',
+          content: '帮我做公司 数字助手试点方案',
           created_at: '2026-08-17T12:00:01.000Z',
           metadata: { share_snapshot: true },
         },

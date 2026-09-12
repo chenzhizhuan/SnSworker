@@ -119,7 +119,7 @@ describe('getConnectorMarketState', () => {
     })
   })
 
-  it('携带集模式：空 manageable 集会误判，传入当前分身后应为可用', () => {
+  it('携带集模式：空 manageable 集会误判，传入当前助手后应为可用', () => {
     const carried = connection({
       attachedAgentIds: ['agent-scope'],
       lastProbe: {

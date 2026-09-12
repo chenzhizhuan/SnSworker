@@ -17,7 +17,7 @@ vi.mock('react-i18next', () => ({
     <span>
       prefix{' '}
       {components?.agentHub
-        ? React.cloneElement(components.agentHub, undefined, 'AI 分身')
+        ? React.cloneElement(components.agentHub, undefined, '数字助手')
         : null}{' '}
       suffix
     </span>
@@ -33,7 +33,7 @@ describe('SkillsPageSubtitle', () => {
 
   it('opens AI avatar hub when the agentHub link is clicked', () => {
     render(<SkillsPageSubtitle />)
-    fireEvent.click(screen.getByRole('button', { name: 'AI 分身' }))
+    fireEvent.click(screen.getByRole('button', { name: '数字助手' }))
     expect(openAgentHub).toHaveBeenCalledTimes(1)
   })
 })

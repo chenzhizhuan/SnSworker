@@ -89,7 +89,7 @@ public enum class MobileSkillMarketTab {
     }
 }
 
-/** 组织级「技能和连接器」市场：浏览 + 只读详情；携带管理在 AI 分身详情完成。 */
+/** 组织级「技能和连接器」市场：浏览 + 只读详情；携带管理在 数字助手详情完成。 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 public fun MobileSkillLibraryScreen(
@@ -725,7 +725,7 @@ private fun SkillLibraryEmpty() {
         Text(stringResource(R.string.mobile_skill_library_empty), style = MaterialTheme.typography.bodyLarge)
         Spacer(Modifier.height(TTSpacing.xs))
         Text(
-            "换个来源/分类或关键词，或稍后下拉刷新。添加与启停请到 AI 分身详情的技能携带集。",
+            "换个来源/分类或关键词，或稍后下拉刷新。添加与启停请到 数字助手详情的技能携带集。",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -780,7 +780,7 @@ private fun SkillIcon(size: androidx.compose.ui.unit.Dp) {
     }
 }
 
-/** 技能详情只读：元数据 + 携带概况；添加/启停/移除在 AI 分身携带集完成。 */
+/** 技能详情只读：元数据 + 携带概况；添加/启停/移除在 数字助手携带集完成。 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 public fun MobileSkillDetailScreen(
@@ -840,7 +840,7 @@ public fun MobileSkillDetailScreen(
                                         Text(
                                             selectedAgent?.displayName?.takeIf { it.isNotBlank() }
                                                 ?: selectedAgent?.name
-                                                ?: "选择 AI 分身",
+                                                ?: "选择 数字助手",
                                             modifier = Modifier.weight(1f),
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis,
@@ -861,7 +861,7 @@ public fun MobileSkillDetailScreen(
                                 }
                                 QuickUseSection(skill.quickUse, quickUseAgentId, onQuickUse)
                                 Text(
-                                    "填写所需信息后，会用所选 AI 分身发起一个新任务。添加或启停请到 AI 分身详情的技能携带集。",
+                                    "填写所需信息后，会用所选 数字助手发起一个新任务。添加或启停请到 数字助手详情的技能携带集。",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -894,16 +894,16 @@ public fun MobileSkillDetailScreen(
 }
 
 @Composable private fun BoundAgentsSection(bindings: List<MobileSkillAgentBinding>) = Column(verticalArrangement = Arrangement.spacedBy(TTSpacing.xs)) {
-    Text("已绑定 AI 分身", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-    if (bindings.isEmpty()) Text("尚未添加给任何 AI 分身", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Text("已绑定 数字助手", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+    if (bindings.isEmpty()) Text("尚未添加给任何 数字助手", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     else bindings.forEach { binding -> Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) { Text(binding.agentName, modifier = Modifier.weight(1f)); Text(if (binding.enabled) "已启用" else "已停用", style = MaterialTheme.typography.labelSmall, color = if (binding.enabled) ttColor(TTColors.TextSuccess, TTColors.Dark.TextSuccess) else MaterialTheme.colorScheme.onSurfaceVariant) } }
-    Text("添加、启用或移除请到对应 AI 分身详情的技能携带集。", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Text("添加、启用或移除请到对应 数字助手详情的技能携带集。", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
 
 @Composable private fun ReadinessSection(skill: MobileSkillItem) = Column(verticalArrangement = Arrangement.spacedBy(TTSpacing.xs)) {
     Text("就绪状态", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
     val ready = skill.isEnabled
-    Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.CheckCircle, contentDescription = null, tint = if (ready) ttColor(TTColors.TextSuccess, TTColors.Dark.TextSuccess) else MaterialTheme.colorScheme.onSurfaceVariant); Spacer(Modifier.width(TTSpacing.sm)); Text(if (skill.bindings.isEmpty()) "尚未添加到 AI 分身" else if (ready) "已就绪" else "已添加，尚未启用") }
+    Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.CheckCircle, contentDescription = null, tint = if (ready) ttColor(TTColors.TextSuccess, TTColors.Dark.TextSuccess) else MaterialTheme.colorScheme.onSurfaceVariant); Spacer(Modifier.width(TTSpacing.sm)); Text(if (skill.bindings.isEmpty()) "尚未添加到 数字助手" else if (ready) "已就绪" else "已添加，尚未启用") }
 }
 
 @Composable private fun QuickUseSection(presets: List<SkillQuickUsePreset>, agentId: String, onQuickUse: (SkillQuickUsePreset, String) -> Unit) = Column(verticalArrangement = Arrangement.spacedBy(TTSpacing.xs)) {

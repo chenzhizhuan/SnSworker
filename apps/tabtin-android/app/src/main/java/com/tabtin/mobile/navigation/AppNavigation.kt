@@ -964,7 +964,7 @@ public fun AppNavigation(deepLinkHandler: DeepLinkHandler) {
         composable<ImConversationRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<ImConversationRoute>()
             val conversationVm: ImConversationViewModel = hiltViewModel(backStackEntry)
-            // 指令卡不自行创建任务：复用首页的新任务 composer，让用户仍可确认 AI 分身和 Workspace。
+            // 指令卡不自行创建任务：复用首页的新任务 composer，让用户仍可确认 数字助手和 Workspace。
             val mainEntry = remember(backStackEntry) { navController.getBackStackEntry<MainRoute>() }
             val myAgentsVm: MyAgentsViewModel = hiltViewModel(mainEntry)
             val agentListVm: AgentListViewModel = hiltViewModel(mainEntry)

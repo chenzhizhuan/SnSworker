@@ -13,7 +13,7 @@ import slideDesignerFunctionAvatarUrl from '../../../../../../packages/agents/sl
 import webResearcherAvatarUrl from '../../../../../../packages/agents/web-researcher/avatar.png'
 import webResearcherFunctionAvatarUrl from '../../../../../../packages/agents/web-researcher/avatar-function.png'
 
-/** 新建分身沿用已发布的日常版默认值；新增预设不得改变它。 */
+/** 新建助手沿用已发布的日常版默认值；新增预设不得改变它。 */
 export const DEFAULT_AGENT_AVATAR_PRESET_KEY = 'general-assistant' as const
 
 /** 已发布的首批头像 key。顺序与资源映射保持稳定，避免改变历史用户的展示。 */

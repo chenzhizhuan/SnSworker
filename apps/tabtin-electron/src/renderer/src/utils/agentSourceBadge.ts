@@ -1,5 +1,5 @@
 /**
- * AI 分身来源角标。
+ * 数字助手来源角标。
  *
  * - 系统默认 Agent（settings.provision_source=system_default）：列表「默认」；
  *   详情不重复标「自建」（由独立 defaultBadge 承担）
@@ -45,7 +45,7 @@ export function resolveAgentSourceBadge(
     || (templateId ? labels.templateBadgeFallback : '')
   const resolvedAgentName = (agentName || '').trim()
 
-  // 只认系统 provenance，避免 ensure 前误标默认分身显示「默认」
+  // 只认系统 provenance，避免 ensure 前误标默认助手显示「默认」
   if (isSystemDefaultAgentSource(agent)) {
     if (mode === 'detail') {
       return templateId ? resolvedTemplateName : null

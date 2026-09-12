@@ -206,25 +206,25 @@ describe('MyAgentsPanel', () => {
     mocks.listAgentTemplates.mockImplementation(() => new Promise(() => {}))
 
     const { unmount } = render(<MyAgentsPanel standalone />)
-    expect(screen.getByRole('heading', { level: 1, name: 'AI 分身' })).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 1, name: '数字助手' })).toBeTruthy()
     unmount()
 
     render(<MyAgentsPanel />)
     expect(screen.getByRole('heading', { level: 2, name: 'sections.myAgents' })).toBeTruthy()
   })
 
-  it('嵌入任务侧栏工作台时隐藏面板页眉，开新分身仍可用', () => {
+  it('嵌入任务侧栏工作台时隐藏面板页眉，开新助手仍可用', () => {
     mocks.listOrganizationAgents.mockImplementation(() => new Promise(() => {}))
     mocks.listAgentTemplates.mockImplementation(() => new Promise(() => {}))
 
     render(<MyAgentsPanel hidePageHeader />)
-    expect(screen.queryByRole('heading', { level: 1, name: 'AI 分身' })).toBeNull()
+    expect(screen.queryByRole('heading', { level: 1, name: '数字助手' })).toBeNull()
     expect(screen.queryByRole('heading', { level: 2, name: 'sections.myAgents' })).toBeNull()
-    expect(screen.getByRole('button', { name: '开新分身' })).toBeTruthy()
+    expect(screen.getByRole('button', { name: '开新助手' })).toBeTruthy()
     expect(screen.getByRole('button', { name: '已停用' })).toBeTruthy()
   })
 
-  it('上交页眉动作后列表区不再重复「开新分身 / 已停用」', () => {
+  it('上交页眉动作后列表区不再重复「开新助手 / 已停用」', () => {
     mocks.listOrganizationAgents.mockImplementation(() => new Promise(() => {}))
     mocks.listAgentTemplates.mockImplementation(() => new Promise(() => {}))
     const onHeaderActions = vi.fn()
@@ -237,9 +237,9 @@ describe('MyAgentsPanel', () => {
     )?.[0] as React.ReactElement
     expect(hosted).toBeTruthy()
 
-    // 列表标题行只保留「我的 AI 分身」，动作已上交宿主页眉
-    expect(screen.getByRole('heading', { name: '我的 AI 分身' })).toBeTruthy()
-    expect(screen.queryByRole('button', { name: '开新分身' })).toBeNull()
+    // 列表标题行只保留「我的 数字助手」，动作已上交宿主页眉
+    expect(screen.getByRole('heading', { name: '我的 数字助手' })).toBeTruthy()
+    expect(screen.queryByRole('button', { name: '开新助手' })).toBeNull()
     expect(screen.queryByRole('button', { name: '已停用' })).toBeNull()
   })
 
@@ -259,8 +259,8 @@ describe('MyAgentsPanel', () => {
       expect(screen.getAllByText('代码版').length).toBeGreaterThanOrEqual(1)
     })
     expect(screen.getByText('自建')).toBeTruthy()
-    // 行尾「＋开新分身」
-    fireEvent.click(screen.getByRole('button', { name: /开新分身/ }))
+    // 行尾「＋开新助手」
+    fireEvent.click(screen.getByRole('button', { name: /开新助手/ }))
     expect(screen.getByTestId('new-agent-dialog')).toBeTruthy()
   })
 
@@ -271,7 +271,7 @@ describe('MyAgentsPanel', () => {
 
     render(<MyAgentsPanel />)
 
-    // 主从布局：首个分身自动选中，列表行与详情头各渲染一枚同源身份头像。
+    // 主从布局：首个助手自动选中，列表行与详情头各渲染一枚同源身份头像。
     await waitFor(() => {
       expect(screen.getAllByRole('img', { name: '小钛' })).toHaveLength(2)
     })
@@ -362,7 +362,7 @@ describe('MyAgentsPanel', () => {
 
     // 改名：铅笔 → 输入 → 保存
     fireEvent.click(screen.getByRole('button', { name: '改名' }))
-    const input = screen.getByLabelText('AI 分身名字') as HTMLInputElement
+    const input = screen.getByLabelText('数字助手名字') as HTMLInputElement
     fireEvent.change(input, { target: { value: '代码搭子' } })
     fireEvent.keyDown(input, { key: 'Enter' })
 
@@ -389,13 +389,13 @@ describe('MyAgentsPanel', () => {
     // 主从布局：名字在左栏卡片与右栏档案各出现一次，点左栏卡片进入选中。
     fireEvent.click((await screen.findAllByText('进宝代码版'))[0])
     fireEvent.click(screen.getByRole('button', { name: '改名' }))
-    const input = screen.getByLabelText('AI 分身名字') as HTMLInputElement
+    const input = screen.getByLabelText('数字助手名字') as HTMLInputElement
     fireEvent.change(input, { target: { value: '{owner}新名' } })
     fireEvent.keyDown(input, { key: 'Enter' })
 
     expect(await screen.findByText('名字不能包含保留占位符 {owner}')).toBeTruthy()
     // 保持编辑态让用户改正
-    expect(screen.getByLabelText('AI 分身名字')).toBeTruthy()
+    expect(screen.getByLabelText('数字助手名字')).toBeTruthy()
   })
 
   it('切换 Agent 后保留未保存的人设草稿', async () => {
@@ -524,7 +524,7 @@ describe('MyAgentsPanel', () => {
         screen.getByRole('button', { name: /跨组织 Agent/ }).getAttribute('aria-pressed'),
       ).toBe('true')
     })
-    fireEvent.click(screen.getByRole('button', { name: /开新分身/ }))
+    fireEvent.click(screen.getByRole('button', { name: /开新助手/ }))
     expect(
       screen.getByTestId('new-agent-dialog').getAttribute('data-organization-id'),
     ).toBe('org-2')
@@ -534,7 +534,7 @@ describe('MyAgentsPanel', () => {
     ).toBe('org-2')
   })
 
-  it('详情管理 tab 展示停用 AI 分身，确认后调用 deleteAgent', async () => {
+  it('详情管理 tab 展示停用 数字助手，确认后调用 deleteAgent', async () => {
     mocks.spaceState.agentCache = {
       'agent-1': {
         id: 'agent-1',
@@ -549,8 +549,8 @@ describe('MyAgentsPanel', () => {
     render(<MyAgentsPanel />)
 
     fireEvent.click(await screen.findByRole('button', { name: '管理' }))
-    expect(await screen.findByRole('button', { name: /停用 AI 分身/ })).toBeTruthy()
-    fireEvent.click(screen.getByRole('button', { name: /停用 AI 分身/ }))
+    expect(await screen.findByRole('button', { name: /停用 数字助手/ })).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: /停用 数字助手/ }))
     expect(await screen.findByTestId('confirm-dialog')).toBeTruthy()
     fireEvent.click(within(screen.getByTestId('confirm-dialog')).getByRole('button', { name: /confirm/ }))
 
@@ -564,7 +564,7 @@ describe('MyAgentsPanel', () => {
     )
   })
 
-  it('默认 AI 分身隐藏停用入口并提示不可停用', async () => {
+  it('默认 数字助手隐藏停用入口并提示不可停用', async () => {
     const systemDefault = {
       id: 'agent-default',
       name: '小智',
@@ -588,15 +588,15 @@ describe('MyAgentsPanel', () => {
     expect(screen.getAllByText('默认').length).toBeGreaterThan(0)
     fireEvent.click(screen.getByRole('button', { name: '管理' }))
     expect(screen.getByText('这是你的默认身份，无法停用。')).toBeTruthy()
-    expect(screen.queryByRole('button', { name: /停用 AI 分身/ })).toBeNull()
+    expect(screen.queryByRole('button', { name: /停用 数字助手/ })).toBeNull()
   })
 
-  it('已停用列表二次确认后彻底删除分身', async () => {
+  it('已停用列表二次确认后彻底删除助手', async () => {
     mocks.listOrganizationAgents.mockResolvedValue([])
     mocks.listDeactivatedAgents.mockResolvedValue({
       items: [{
         id: 'agent-deactivated',
-        name: '旧分身',
+        name: '旧助手',
         type: 'bot',
         is_default: false,
         created_at: '2026-07-01T00:00:00Z',
@@ -608,29 +608,29 @@ describe('MyAgentsPanel', () => {
     render(<MyAgentsPanel />)
 
     fireEvent.click(screen.getByRole('button', { name: '已停用' }))
-    expect(await screen.findByText('旧分身')).toBeTruthy()
+    expect(await screen.findByText('旧助手')).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: '彻底删除' }))
 
-    const dialog = await screen.findByRole('dialog', { name: '彻底删除 AI 分身？' })
+    const dialog = await screen.findByRole('dialog', { name: '彻底删除 数字助手？' })
     fireEvent.click(within(dialog).getByRole('button', { name: '彻底删除' }))
 
     await waitFor(() => {
       expect(mocks.permanentDeleteAgent).toHaveBeenCalledWith('agent-deactivated')
     })
     await waitFor(() => {
-      expect(screen.queryByText('旧分身')).toBeNull()
+      expect(screen.queryByText('旧助手')).toBeNull()
     })
     expect(mocks.toast).toHaveBeenCalledWith(
-      expect.objectContaining({ title: '「旧分身」已彻底删除' }),
+      expect.objectContaining({ title: '「旧助手」已彻底删除' }),
     )
   })
 
-  it('已停用默认分身不显示彻底删除入口', async () => {
+  it('已停用默认助手不显示彻底删除入口', async () => {
     mocks.listOrganizationAgents.mockResolvedValue([])
     mocks.listDeactivatedAgents.mockResolvedValue({
       items: [{
         id: 'agent-default-deactivated',
-        name: '默认分身',
+        name: '默认助手',
         type: 'bot',
         is_default: true,
         created_at: '2026-07-01T00:00:00Z',
@@ -642,16 +642,16 @@ describe('MyAgentsPanel', () => {
     render(<MyAgentsPanel />)
 
     fireEvent.click(screen.getByRole('button', { name: '已停用' }))
-    expect(await screen.findByText('默认分身')).toBeTruthy()
+    expect(await screen.findByText('默认助手')).toBeTruthy()
     expect(screen.queryByRole('button', { name: '彻底删除' })).toBeNull()
   })
 
-  it('彻底删除失败时保留分身与确认框并展示错误', async () => {
+  it('彻底删除失败时保留助手与确认框并展示错误', async () => {
     mocks.listOrganizationAgents.mockResolvedValue([])
     mocks.listDeactivatedAgents.mockResolvedValue({
       items: [{
         id: 'agent-protected',
-        name: '有历史记录的分身',
+        name: '有历史记录的助手',
         type: 'bot',
         is_default: false,
         created_at: '2026-07-01T00:00:00Z',
@@ -664,9 +664,9 @@ describe('MyAgentsPanel', () => {
     render(<MyAgentsPanel />)
 
     fireEvent.click(screen.getByRole('button', { name: '已停用' }))
-    expect(await screen.findByText('有历史记录的分身')).toBeTruthy()
+    expect(await screen.findByText('有历史记录的助手')).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: '彻底删除' }))
-    const dialog = await screen.findByRole('dialog', { name: '彻底删除 AI 分身？' })
+    const dialog = await screen.findByRole('dialog', { name: '彻底删除 数字助手？' })
     fireEvent.click(within(dialog).getByRole('button', { name: '彻底删除' }))
 
     await waitFor(() => {
@@ -675,8 +675,8 @@ describe('MyAgentsPanel', () => {
         variant: 'destructive',
       }))
     })
-    expect(screen.getByText('有历史记录的分身')).toBeTruthy()
-    expect(screen.getByRole('dialog', { name: '彻底删除 AI 分身？' })).toBeTruthy()
+    expect(screen.getByText('有历史记录的助手')).toBeTruthy()
+    expect(screen.getByRole('dialog', { name: '彻底删除 数字助手？' })).toBeTruthy()
   })
 
   it('详情四个配置区以 tab 切换，默认落在人设与规则', async () => {
@@ -692,7 +692,7 @@ describe('MyAgentsPanel', () => {
     expect(await screen.findByLabelText('人设与规则')).toBeTruthy()
     expect(screen.queryByTestId('agent-skills-panel')).toBeNull()
     expect(screen.queryByTestId('agent-memory-governance')).toBeNull()
-    expect(screen.queryByRole('button', { name: /停用 AI 分身/ })).toBeNull()
+    expect(screen.queryByRole('button', { name: /停用 数字助手/ })).toBeNull()
 
     fireEvent.click(screen.getByRole('button', { name: '技能携带集' }))
     expect(screen.getByTestId('agent-skills-panel')).toBeTruthy()
@@ -703,7 +703,7 @@ describe('MyAgentsPanel', () => {
     expect(screen.queryByTestId('agent-skills-panel')).toBeNull()
 
     fireEvent.click(screen.getByRole('button', { name: '管理' }))
-    expect(screen.getByRole('button', { name: /停用 AI 分身/ })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /停用 数字助手/ })).toBeTruthy()
     expect(screen.queryByTestId('agent-memory-governance')).toBeNull()
   })
 })

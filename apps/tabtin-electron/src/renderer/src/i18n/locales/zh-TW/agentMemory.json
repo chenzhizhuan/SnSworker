@@ -52,10 +52,10 @@
     "title": "{{name}} 的成長記錄",
     "subtitle": "TA 在和你協作裡記下的所思所想",
     "loadFailedTitle": "加載成長記錄失敗",
-    "selectAgent": "選擇一個 AI 分身看成長紀錄",
+    "selectAgent": "選擇一個 数字助手看成長紀錄",
     "emptyTitle": "還沒成長紀錄",
     "emptyHint": "和 TA 協作後，工作日記會自動出現在這裡",
-    "forgetTitle": "讓這個 AI 分身忘記這筆紀錄？",
+    "forgetTitle": "讓這個 数字助手忘記這筆紀錄？",
     "forgetDesc": "忘記後，TA 之後不會再用到這條記憶，也不會在這裡顯示。此操作不可撤銷。"
   },
   "governance": {
@@ -69,13 +69,13 @@
     "records": {
       "hint": "修正或忘記條目後，「概覽」裡的綜合理解會在下次整理時更新。",
       "loadFailedTitle": "載入記憶失敗",
-      "emptyTitle": "這個 AI 分身還沒有記憶紀錄",
+      "emptyTitle": "這個 数字助手還沒有記憶紀錄",
       "emptyHint": "和 TA 協作後，記錄會自動出現在這裡"
     },
-    "forgetTitle": "讓這個 AI 分身忘記這條記憶？",
-    "disabledNotice": "記憶記錄目前已關閉，AI 分身不再記錄、回想或展示記憶。可在「記憶」App →「記憶偏好」→「讓 Agent 記筆記」重新開啟。",
+    "forgetTitle": "讓這個 数字助手忘記這條記憶？",
+    "disabledNotice": "記憶記錄目前已關閉，数字助手不再記錄、回想或展示記憶。可在「記憶」App →「記憶偏好」→「讓 Agent 記筆記」重新開啟。",
     "export": {
-      "nothing": "這個 AI 分身還沒有可導出的記憶",
+      "nothing": "這個 数字助手還沒有可導出的記憶",
       "disabledEmpty": "記憶記錄已關閉，暫無可匯出內容。可在「記憶」App →「記憶偏好」→「讓 Agent 記筆記」重新開啟。",
       "filenameMemory": "記憶",
       "done": "已匯出 {{count}} 條記憶"

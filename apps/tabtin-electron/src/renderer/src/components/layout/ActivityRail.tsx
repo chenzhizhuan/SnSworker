@@ -90,7 +90,7 @@ type DomainRailItemId = ActivityRailDomainId
  *   （useShellLayoutState 同序），rail 若先判 app page 高亮会停在旧页。
  * - 设置内按 category 高亮组织 / 个人头像；设备段不高亮二者。
  * - 任务域覆盖「新任务欢迎页 + 会话中 + 工作台」全部子态——工作台（desktop）
- *   是任务域的一个工作面；AI 分身独立域，列表在侧栏、详情在主画布。
+ *   是任务域的一个工作面；数字助手独立域，列表在侧栏、详情在主画布。
  */
 export function resolveActivityRailActive(input: {
   effectiveMainNavTab: MainNavTab

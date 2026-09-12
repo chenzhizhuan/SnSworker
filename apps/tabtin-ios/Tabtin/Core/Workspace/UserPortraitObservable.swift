@@ -69,7 +69,7 @@ final class UserPortraitObservable {
     func submitHint(_ text: String) async throws -> UserPortrait {
         let captured = scope
         guard captured.isValid else {
-            throw APIError.apiErrorWithCode(code: "INVALID_AGENT_SCOPE", message: "AI 分身范围无效")
+            throw APIError.apiErrorWithCode(code: "INVALID_AGENT_SCOPE", message: "数字助手范围无效")
         }
 
         let value = try await UserPortraitService.submitHint(

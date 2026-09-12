@@ -255,7 +255,7 @@ private fun WorkspaceResourceCard(
     }
 }
 
-/** 指令卡正文最多展示两行；点击「使用此指令」只预填到新任务，不会绕过 AI 分身/Workspace 确认。 */
+/** 指令卡正文最多展示两行；点击「使用此指令」只预填到新任务，不会绕过 数字助手/Workspace 确认。 */
 @Composable
 private fun ImPromptCardContent(
     prompt: ImPromptCard,

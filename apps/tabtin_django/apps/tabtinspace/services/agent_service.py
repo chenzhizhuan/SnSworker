@@ -1014,11 +1014,11 @@ class AgentService(BaseService):
 
         优先级：
         1. 活跃系统默认（``settings.provision_source=system_default``）→ skill repair
-        2. 误标默认的迁移 / 自建分身 → demote（不提升为默认）
+        2. 误标默认的迁移 / 自建助手 → demote（不提升为默认）
         3. 停用的系统默认 → 复活 + seed
         4. 新建系统默认小智 + seed
 
-        不再「提升最早活跃 bot」——Space 迁移分身不得标默认。
+        不再「提升最早活跃 bot」——Space 迁移助手不得标默认。
         调用方需已具备组织 viewer 及以上权限；无用户时返回 None。
 
         已存在的活跃默认只在短事务里取行锁确认身份，Skill 修复放到事务提交后，
@@ -1155,14 +1155,14 @@ class AgentService(BaseService):
         self,
         organization_id: UUID,
     ) -> Optional[Agent]:
-        """首次列出分身时，幂等提供五个首发角色。
+        """首次列出助手时，幂等提供五个首发角色。
 
         默认小智承担「日常」角色，避免系统默认身份之外再多出第六个 Agent；
         其余四个角色从代码、文书、数据、冲浪模板实例化。
 
         稳定态只读取默认 Agent 的 ``starter_roster_version``；首次补建时锁住
-        默认 Agent 行，防止多个列表请求并发创建重复分身。完成标记一旦写入，
-        用户后续停用某个首发分身也不会被系统自动恢复。
+        默认 Agent 行，防止多个列表请求并发创建重复助手。完成标记一旦写入，
+        用户后续停用某个首发助手也不会被系统自动恢复。
         """
         from apps.tabtinspace.services.onboarding_defaults import (
             AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY,
@@ -1231,7 +1231,7 @@ class AgentService(BaseService):
         if default_agent is None:
             raise ServiceError(
                 'DEFAULT_AGENT_NOT_FOUND',
-                '默认 Agent 不存在，无法初始化首发分身',
+                '默认 Agent 不存在，无法初始化首发助手',
                 409,
             )
 
@@ -1306,7 +1306,7 @@ class AgentService(BaseService):
             )
 
         # v3/v4 compatibility exception：代码版默认携带一组小而稳的工程流程 Skill。
-        # 先按历史版本只补数据库里从未出现过的行；v8 会在下方把四个核心分身
+        # 先按历史版本只补数据库里从未出现过的行；v8 会在下方把四个核心助手
         # 的模板能力基线统一重开并锁定。升级快照来自 onboarding_defaults。
         if provisioned_version < 7:
             from apps.skills.models import AgentSkillLink

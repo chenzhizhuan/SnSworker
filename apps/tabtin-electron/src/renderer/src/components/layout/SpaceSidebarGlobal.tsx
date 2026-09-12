@@ -4,7 +4,7 @@
  * 一级导航已上移到窄栏（ActivityRail）；本组件只按当前域渲染内容：
  *   - 任务域（agent）→ 顶栏（新任务 / 技能库 / 自动化 / 导入数据）+ Workspace 会话列表
  *   - 消息域（im）→ 会话列表 + 通讯录
- *   - AI 分身域（agents）→ 分身列表 + 顶栏动作
+ *   - 数字助手域（agents）→ 助手列表 + 顶栏动作
  *   - 云文档域（cloud-docs）→ 文档/表格资源列表（SidebarCloudDocsPanel）
  *   - 项目域（project 沉浸）→ 当前 Project 头 + Project 会话列表
  *   - 我的（me）→ 设置导航（SidebarMePanel）

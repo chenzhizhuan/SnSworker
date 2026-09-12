@@ -503,7 +503,7 @@ struct IMResourceCardView: View {
     }
 }
 
-/// 指令卡：正文最多展示两行；「使用此指令」只预填到新任务，仍由用户在任务 composer 选择 AI 分身与 Workspace。
+/// 指令卡：正文最多展示两行；「使用此指令」只预填到新任务，仍由用户在任务 composer 选择 数字助手与 Workspace。
 private struct IMPromptCardView: View {
     let prompt: IMPromptCard
     let onUse: (() -> Void)?
@@ -1082,7 +1082,7 @@ private struct IMHandoffTakeOverSheet: View {
                         }
                     }
                 }
-                Section("AI 分身") {
+                Section("数字助手") {
                     ForEach(agents) { agent in
                         Button { selectedAgentId = agent.id } label: {
                             Label(agent.displayName, systemImage: selectedAgentId == agent.id ? "checkmark.circle.fill" : "circle")
@@ -1716,8 +1716,8 @@ private struct IMSessionContinuationTargetSheet: View {
                 if isLoading {
                     Section { ProgressView("正在加载可用执行目标…") }
                 } else {
-                    Section("AI 分身") {
-                        if agents.isEmpty { Text("当前组织没有可用的 AI 分身") }
+                    Section("数字助手") {
+                        if agents.isEmpty { Text("当前组织没有可用的 数字助手") }
                         ForEach(agents) { agent in
                             Button { selectedAgentId = agent.id } label: {
                                 Label(

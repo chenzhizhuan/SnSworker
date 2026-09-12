@@ -1,5 +1,5 @@
 /**
- * AgentRecentActivitiesPanel — 分身工作台右侧：Chat + Project Task 混合活动流。
+ * AgentRecentActivitiesPanel — 助手工作台右侧：Chat + Project Task 混合活动流。
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -256,7 +256,7 @@ export const AgentRecentActivitiesPanel: React.FC<AgentRecentActivitiesPanelProp
       <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
         <MessageSquare className="h-5 w-5 text-muted-foreground/50" />
         <p className={CANVAS_TEXT_SECONDARY}>
-          {t('myAgents.workbench.tasksEmpty', { defaultValue: '这个 AI 分身还没有任务记录' })}
+          {t('myAgents.workbench.tasksEmpty', { defaultValue: '这个 数字助手还没有任务记录' })}
         </p>
       </div>
     )

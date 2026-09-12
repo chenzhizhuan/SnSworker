@@ -181,7 +181,7 @@ describe('AgentSkillsPanel', () => {
     expect(enabledSwitch.disabled).toBe(true)
   })
 
-  it('其他分身携带集展示已携带的平台/内置 App/本机，未分配的本机不出现', () => {
+  it('其他助手携带集展示已携带的平台/内置 App/本机，未分配的本机不出现', () => {
     mocks.poolQuery.data = [
       {
         skill_key: 'device:local-helper',
@@ -194,7 +194,7 @@ describe('AgentSkillsPanel', () => {
         skill_key: 'device:unassigned-helper',
         skill_id: 'unassigned-helper',
         name: 'Unassigned Helper',
-        description: '还没分给这个分身',
+        description: '还没分给这个助手',
         source: 'device',
       },
     ]
@@ -245,7 +245,7 @@ describe('AgentSkillsPanel', () => {
     expect(screen.queryByText('Unassigned Helper')).toBeNull()
   })
 
-  it('定制分身模板写入的内置 App 技能不能从携带集消失', () => {
+  it('定制助手模板写入的内置 App 技能不能从携带集消失', () => {
     mocks.linksQuery.data = [
       {
         skill_canonical_key: 'app:tabcode/tabcode-operator',
@@ -425,7 +425,7 @@ describe('AgentSkillsPanel', () => {
       />,
     )
 
-    expect(screen.getByText('只有这个 AI 分身的拥有者能查看和管理它的技能。')).toBeTruthy()
+    expect(screen.getByText('只有这个 数字助手的拥有者能查看和管理它的技能。')).toBeTruthy()
     expect(
       (screen.getByRole('button', { name: '添加技能' }) as HTMLButtonElement).disabled,
     ).toBe(true)
@@ -461,7 +461,7 @@ describe('AgentSkillsPanel', () => {
     )
 
     const lockedSwitch = screen.getByRole('checkbox', {
-      name: '系统预置分身的默认技能不可关闭或收回',
+      name: '系统预置助手的默认技能不可关闭或收回',
     }) as HTMLInputElement
     expect(lockedSwitch.disabled).toBe(true)
     expect(lockedSwitch.checked).toBe(true)
@@ -521,7 +521,7 @@ describe('AgentSkillsPanel', () => {
 
     expect(
       screen.getByRole('checkbox', {
-        name: '系统预置分身的默认技能不可关闭或收回',
+        name: '系统预置助手的默认技能不可关闭或收回',
       }),
     ).toBeTruthy()
     expect(screen.queryByRole('button', { name: '收回' })).toBeNull()
@@ -549,7 +549,7 @@ describe('AgentSkillsPanel', () => {
 
     expect(
       screen.queryByRole('checkbox', {
-        name: '系统预置分身的默认技能不可关闭或收回',
+        name: '系统预置助手的默认技能不可关闭或收回',
       }),
     ).toBeNull()
     expect(
@@ -622,7 +622,7 @@ describe('AgentSkillsPanel', () => {
 
     fireEvent.click(screen.getByRole('button', { name: '添加技能' }))
 
-    expect(screen.getByText('先看说明，再教给这个 AI 分身。')).toBeTruthy()
+    expect(screen.getByText('先看说明，再教给这个 数字助手。')).toBeTruthy()
     expect(screen.getByText('周报整理——汇总进展')).toBeTruthy()
     expect(screen.getAllByRole('button', { name: '添加' })).toHaveLength(1)
 

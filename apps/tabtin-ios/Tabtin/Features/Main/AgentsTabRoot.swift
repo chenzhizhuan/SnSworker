@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// AI 分身一级域：可进入组织级技能库，也可在分身详情管理其携带的技能。
+/// 数字助手一级域：可进入组织级技能库，也可在助手详情管理其携带的技能。
 struct AgentsTabRoot: View {
     @State private var notificationStore = NotificationStore.shared
     @State private var workspace = WorkspaceStore.shared

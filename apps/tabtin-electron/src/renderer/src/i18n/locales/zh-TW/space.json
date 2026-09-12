@@ -180,9 +180,9 @@
     "deleting": "刪除中..."
   },
   "agentCreate": {
-    "entryTooltip": "新建 AI 分身",
-    "title": "新建 AI 分身",
-    "description": "挑一個模板快速開始，或從空白創建自己的 AI 分身。",
+    "entryTooltip": "新建 数字助手",
+    "title": "新建 数字助手",
+    "description": "挑一個模板快速開始，或從空白創建自己的 数字助手。",
     "templateSectionTitle": "從模板開始",
     "templatesLoading": "正在載入模板…",
     "templatesLoadFailed": "模板載入失敗",
@@ -190,7 +190,7 @@
     "blank": "從空白創建",
     "blankHint": "不用模板，一切都由你定義",
     "nameLabel": "名字",
-    "namePlaceholder": "給這位 AI 同事取個名字",
+    "namePlaceholder": "給這位 数字员工取個名字",
     "avatarLabel": "頭像",
     "create": "創建",
     "success": "Agent 已就位",
@@ -198,12 +198,12 @@
     "failed": "建立失敗，請重試"
   },
   "agentLifecycle": {
-    "deactivate": "停用 AI 分身",
-    "deactivateConfirmTitle": "確認停用 AI 分身？",
+    "deactivate": "停用 数字助手",
+    "deactivateConfirmTitle": "確認停用 数字助手？",
     "deactivateConfirmDesc": "停用「{{name}}」後，它將從活躍清單消失；可在「已停用」內恢復。",
     "confirmDeactivate": "確認停用",
-    "deactivateSuccess": "已停用 AI 分身：{{name}}",
-    "deactivateSuccessDesc": "可在「停用」內恢復該 AI 分身。",
+    "deactivateSuccess": "已停用 数字助手：{{name}}",
+    "deactivateSuccessDesc": "可在「停用」內恢復該 数字助手。",
     "deactivateFailed": "停用 AI 分離式失敗"
   },
   "loginEnv": {

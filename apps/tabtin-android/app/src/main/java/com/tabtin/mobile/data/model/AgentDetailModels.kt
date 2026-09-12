@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 import kotlinx.serialization.json.JsonObject
 
-/** 数字助手携带的一个技能；enabled 为用户总闸与该分身开关的合并结果。 */
+/** 数字助手携带的一个技能；enabled 为用户总闸与该助手开关的合并结果。 */
 @Serializable
 public data class AgentSkillLink(
     @SerialName("skill_canonical_key") val skillCanonicalKey: String,
@@ -31,7 +31,7 @@ public data class AgentSkillEnabledRequest(
     val enabled: Boolean,
 )
 
-/** 向某个 AI 分身添加现有目录 Skill。手机端不上传 SKILL.md 或写入密钥。 */
+/** 向某个 数字助手添加现有目录 Skill。手机端不上传 SKILL.md 或写入密钥。 */
 @Serializable
 public data class AgentSkillAttachRequest(
     @SerialName("skill_canonical_key") val skillCanonicalKey: String,

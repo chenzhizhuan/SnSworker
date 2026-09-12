@@ -103,7 +103,7 @@ struct AgentDetailScreen: View {
                 ContentUnavailableView {
                     Label(L10n.Project.myAgentsLoadFailed, systemImage: "person.crop.circle.badge.questionmark")
                 } description: {
-                    Text("暂时无法获取 AI 分身详情。")
+                    Text("暂时无法获取 数字助手详情。")
                 } actions: {
                     Button(L10n.Common.retry) { Task { await detailStore.load() } }
                 }
@@ -742,7 +742,7 @@ private struct AgentDetailSectionHeader: View {
     }
 }
 
-/// 从组织可见技能池挑选未携带项，挂到当前 AI 分身；支持勾选后批量添加。
+/// 从组织可见技能池挑选未携带项，挂到当前 数字助手；支持勾选后批量添加。
 private struct AgentSkillPickerSheet: View {
     let organizationId: String
     let attachedKeys: Set<String>

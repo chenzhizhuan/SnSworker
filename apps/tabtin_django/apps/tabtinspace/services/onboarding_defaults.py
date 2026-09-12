@@ -36,7 +36,7 @@ AGENT_SETTINGS_PROVISION_SOURCE_KEY = "provision_source"
 
 # ：默认小智承担首发阵容中的「日常」角色，另外四个角色从模板补建。
 # 版本标记落在默认 Agent.settings，既能让存量用户在首次进入时收到阵容，
-# 又能尊重用户之后对任一首发分身的停用决定（不自动补回来）。
+# 又能尊重用户之后对任一首发助手的停用决定（不自动补回来）。
 # v2：为五个首发角色补齐简短 initial_rules；仅填空值，不覆盖用户编辑。
 # v3：为存量「小智 代码版」补齐经审计的通用工程 Skill 基线；只补缺失行，
 # 不重新打开用户已经关闭的 Skill，也不把工程 Skill 扩散给其他角色。
@@ -44,8 +44,8 @@ AGENT_SETTINGS_PROVISION_SOURCE_KEY = "provision_source"
 # v5：从代码版默认集移除四个偏评审/门禁类 Skill；市场内容仍可主动安装。
 # v6：继续移除「完成前验收」；市场内容仍可主动安装。
 # v7：增加固定到 v4.9.0 的 Ponytail 核心编码 Skill，不引入其生命周期 Hook。
-# v8：按 AI 分身交接配置补齐四个核心分身的模板 Skill，并强制保持启用。
-# v9：开源不再提供远程文书/数据 AI pack，存量核心分身卸掉对应空引用。
+# v8：按 数字助手交接配置补齐四个核心助手的模板 Skill，并强制保持启用。
+# v9：开源不再提供远程文书/数据 AI pack，存量核心助手卸掉对应空引用。
 STARTER_AGENT_ROSTER_VERSION = 9
 AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY = "starter_roster_version"
 STARTER_AGENT_TEMPLATE_IDS = (
@@ -56,7 +56,7 @@ STARTER_AGENT_TEMPLATE_IDS = (
     "web-researcher",
 )
 
-# 交接包定义的四个核心分身。其模板 Skill 是角色能力基线：创建时默认携带，
+# 交接包定义的四个核心助手。其模板 Skill 是角色能力基线：创建时默认携带，
 # 存量升级时补齐并重开，运行期不可关闭或摘除。其它模板仍保持用户可配置。
 LOCKED_TEMPLATE_SKILL_AGENT_IDS = frozenset({
     "general-assistant",
@@ -66,7 +66,7 @@ LOCKED_TEMPLATE_SKILL_AGENT_IDS = frozenset({
 })
 
 # v3 一次性存量补齐清单。这里刻意保存升级快照，而不是运行时读取模板当前值：
-# Agent 模板仍遵循「实例化即冻结」，未来模板继续演进时不会悄悄改动存量分身。
+# Agent 模板仍遵循「实例化即冻结」，未来模板继续演进时不会悄悄改动存量助手。
 CODE_ENGINEER_STARTER_SKILL_KEYS_V3 = (
     "app:tabtin-workflow-skills-pack/grill-before-build",
     "app:tabtin-workflow-skills-pack/write-execution-plan",

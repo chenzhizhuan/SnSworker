@@ -1,7 +1,7 @@
 /**
- * Agent 记忆 / 分身配置 / 技能库 / 自动化 / 协作导航。
+ * Agent 记忆 / 助手配置 / 技能库 / 自动化 / 协作导航。
  *
- * AI 分身走独立一级域（mainNavTab=agents，侧栏列表 + 主画布详情）；
+ * 数字助手走独立一级域（mainNavTab=agents，侧栏列表 + 主画布详情）；
  * 技能库 / 自动化 / 协作仍走 app-page，由 AppFullPageHost 承载主画布。
  */
 import { create } from 'zustand'
@@ -48,7 +48,7 @@ type HubAppPageId = Exclude<AppPageId, 'project'>
  */
 let hubNavigationGeneration = 0
 
-/** 作废尚未完成的技能库 / 自动化 / 协作 / AI 分身异步打开。 */
+/** 作废尚未完成的技能库 / 自动化 / 协作 / 数字助手异步打开。 */
 export function invalidatePendingHubNavigation(): void {
   hubNavigationGeneration += 1
 }
@@ -134,7 +134,7 @@ export function openAgentHub(): void {
       mainNavState.setCurrentTab('agents')
     })
     .catch((err) => {
-      log.warn('打开 AI 分身域失败', { err })
+      log.warn('打开 数字助手域失败', { err })
     })
 }
 

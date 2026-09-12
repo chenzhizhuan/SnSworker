@@ -64,7 +64,7 @@ describe('useAgentsWorkbenchStore selectCreatedAgent', () => {
     })
   })
 
-  it('开号成功后乐观入列表并选中新建分身，而不是保留默认分身', () => {
+  it('开号成功后乐观入列表并选中新建助手，而不是保留默认助手', () => {
     useAgentsWorkbenchStore.getState().selectCreatedAgent(createdAgent)
 
     const state = useAgentsWorkbenchStore.getState()
@@ -75,7 +75,7 @@ describe('useAgentsWorkbenchStore selectCreatedAgent', () => {
     ])
   })
 
-  it('关窗刷新若瞬时缺少新分身，仍保留乐观选中与列表项', async () => {
+  it('关窗刷新若瞬时缺少新助手，仍保留乐观选中与列表项', async () => {
     useAgentsWorkbenchStore.getState().selectCreatedAgent(createdAgent)
     listOrganizationAgents.mockResolvedValue([defaultAgent])
 
@@ -89,7 +89,7 @@ describe('useAgentsWorkbenchStore selectCreatedAgent', () => {
     ])
   })
 
-  it('刷新列表已含新分身时保持选中新建项', async () => {
+  it('刷新列表已含新助手时保持选中新建项', async () => {
     useAgentsWorkbenchStore.getState().selectCreatedAgent(createdAgent)
     listOrganizationAgents.mockResolvedValue([defaultAgent, createdAgent])
 
@@ -103,7 +103,7 @@ describe('useAgentsWorkbenchStore selectCreatedAgent', () => {
     ])
   })
 
-  it('非新建的当前分身从服务端列表消失时，按原有刷新流程移除并切换选中项', async () => {
+  it('非新建的当前助手从服务端列表消失时，按原有刷新流程移除并切换选中项', async () => {
     useAgentsWorkbenchStore.setState({
       agents: [defaultAgent, createdAgent],
       selectedAgentId: createdAgent.id,

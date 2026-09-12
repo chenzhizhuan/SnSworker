@@ -3482,7 +3482,7 @@ private fun ImSessionContinuationCardContent(
         ImExecutionTargetSheet(
             organizationId = authoritative.organizationId,
             title = "创建续接任务",
-            description = "选择执行任务的 AI 分身与 Workspace。新任务会复制当前冻结上下文，之后独立推进。",
+            description = "选择执行任务的 数字助手与 Workspace。新任务会复制当前冻结上下文，之后独立推进。",
             actionLabel = "创建并打开",
             actionErrorFallback = "创建续接任务失败",
             loadExecutionTargets = loadExecutionTargets,
@@ -3580,7 +3580,7 @@ private fun <T> ImExecutionTargetSheet(
                     TextButton(onClick = { scope.launch { reload() } }) { Text("重试") }
                 }
                 else -> {
-                    Text("AI 分身", style = MaterialTheme.typography.labelLarge)
+                    Text("数字助手", style = MaterialTheme.typography.labelLarge)
                     targets?.agents.orEmpty().forEach { agent ->
                         val displayName = agent.displayName?.trim()?.takeIf { it.isNotEmpty() } ?: agent.name
                         ImContinuationTargetRow(
@@ -3590,7 +3590,7 @@ private fun <T> ImExecutionTargetSheet(
                         )
                     }
                     if (targets?.agents.isNullOrEmpty()) {
-                        Text("当前组织没有可用的 AI 分身", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("当前组织没有可用的 数字助手", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     Spacer(Modifier.size(TTSpacing.md))
                     Text("Workspace", style = MaterialTheme.typography.labelLarge)
@@ -5010,7 +5010,7 @@ private fun ImPromptComposeSheet(
                 TextButton(onClick = { onSend(trimmedText, title) }, enabled = canSend) { Text(stringResource(R.string.im_send)) }
             }
             Text(
-                text = "写下希望对方 AI 分身执行的步骤与要求。第一行会作为标题；对方使用时仍需确认 AI 分身和 Workspace。",
+                text = "写下希望对方 数字助手执行的步骤与要求。第一行会作为标题；对方使用时仍需确认 数字助手和 Workspace。",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

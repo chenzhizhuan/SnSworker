@@ -49,7 +49,7 @@ public class ConversationDraftSessionCoordinator @Inject constructor(
         input: ConversationDraftInput,
     ): PreparedConversationDraft {
         validateScopeForSpace(executionSpace, input.scope)
-        require(input.agentId.isNotBlank()) { "请先选择可用的 AI 分身" }
+        require(input.agentId.isNotBlank()) { "请先选择可用的 数字助手" }
 
         val existing = draftStore.load(input.scope)
         val frozenTier = input.contextTierId?.trim()?.takeIf { it.isNotEmpty() }

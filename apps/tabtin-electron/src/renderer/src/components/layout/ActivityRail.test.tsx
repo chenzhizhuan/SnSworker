@@ -160,7 +160,7 @@ describe('ActivityRail domain ordering', () => {
     render(<ActivityRail executionSpaceId="space-1" />)
 
     expect(screen.getAllByRole('button').map(button => button.getAttribute('aria-label')))
-      .toEqual(['云文档', '任务', '消息', 'AI 分身', '项目'])
+      .toEqual(['云文档', '任务', '消息', '数字助手', '项目'])
   })
 
   it('ignores a drag that ends outside the rail', () => {

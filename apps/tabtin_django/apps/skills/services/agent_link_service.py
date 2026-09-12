@@ -137,7 +137,7 @@ class AgentSkillLinkService:
         items = []
         for link in links:
             locked = _is_link_locked_for_agent(agent, link)
-            # 历史脏数据：系统预置分身的锁定 Skill 若曾被关掉，读路径拨回启用。
+            # 历史脏数据：系统预置助手的锁定 Skill 若曾被关掉，读路径拨回启用。
             agent_enabled = bool(link.enabled)
             if locked and not agent_enabled:
                 link.enabled = True

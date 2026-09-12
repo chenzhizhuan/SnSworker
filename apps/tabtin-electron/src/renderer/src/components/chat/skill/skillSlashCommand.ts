@@ -173,8 +173,8 @@ export function buildSlashCommandToken(skill: Pick<SkillIndexEntry, 'slug' | 'sk
 /**
  * 斜杠 /「+」菜单可用判定。
  * - 封闭携带集（user / marketplace）：用户总闸未关且 `agent_enabled === true`
- * - 平台 / 内置 App：有携带行即可点（定制分身模板技能不能丢）；无行仅小智 默认可点
- * - 本机发现：小智 缺携带行默认可调；其他分身须显式分配
+ * - 平台 / 内置 App：有携带行即可点（定制助手模板技能不能丢）；无行仅小智 默认可点
+ * - 本机发现：小智 缺携带行默认可调；其他助手须显式分配
  * - 工作区目录 Skill：只对显式携带的 Agent 可见
  */
 export function isSkillSlashAvailable(

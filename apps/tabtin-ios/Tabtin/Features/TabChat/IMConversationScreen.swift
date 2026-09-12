@@ -3857,7 +3857,7 @@ private struct IMPromptComposeSheet: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: TTSpacing.sm) {
-                Text("写下希望对方 AI 分身执行的步骤与要求。第一行会作为卡片标题；对方使用时仍需自行确认 AI 分身和 Workspace。")
+                Text("写下希望对方 数字助手执行的步骤与要求。第一行会作为卡片标题；对方使用时仍需自行确认 数字助手和 Workspace。")
                     .font(.tt.meta)
                     .foregroundStyle(.tt.textSecondary)
                 TextEditor(text: $promptText)

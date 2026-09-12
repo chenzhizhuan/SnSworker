@@ -12,7 +12,7 @@
  * 入口逻辑：
  *   - 顶部 Hero：名字 + 简介
  *   - 底部「危险操作」：删除工作空间（；回收站/归档受 flag）
- *   - Agent 停用在「AI 分身 / 我的 Agent」详情危险区，不在本页
+ *   - Agent 停用在「数字助手 / 我的 Agent」详情危险区，不在本页
  *   - 模块定义列表：按「Space 设置 / Agent 在此的工作方式」两大方向分章节
  *
  * 侧边详情面板由 `AgentSettingsSheet` + `useAgentSettingsSheetStore` 渲染。

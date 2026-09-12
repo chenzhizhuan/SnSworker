@@ -30,7 +30,7 @@ import javax.inject.Inject
  *  - 后端返回非 PENDING 时立刻停轮询
  *  - 超时进入 isStillDistilling = true 软状态（轮询已停，UI 提示用户手动刷新）
  *
- * (organizationId, agentId) 变化会重置全部状态并重拉，画像严格按 AI 分身隔离。
+ * (organizationId, agentId) 变化会重置全部状态并重拉，画像严格按 数字助手隔离。
  *
  * 错误语义两套独立：
  *  - loadError：GET 失败（网络 / 5xx），UI 用独立 banner 展示并提供"重试"按钮

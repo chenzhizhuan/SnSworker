@@ -198,7 +198,7 @@ struct IMSharedSessionViewerScreen: View {
                         }
                     }
                 }
-                .navigationTitle(executionTargetStep == .agent ? "选择 AI 分身" : "选择 Workspace")
+                .navigationTitle(executionTargetStep == .agent ? "选择 数字助手" : "选择 Workspace")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -286,11 +286,11 @@ struct IMSharedSessionViewerScreen: View {
                         .font(.tt.caption)
                         .foregroundStyle(.tt.textTertiary)
                 } else if let loadError = agentsStore.loadError, availableAgents.isEmpty {
-                    Text("AI 分身加载失败：\(loadError)")
+                    Text("数字助手加载失败：\(loadError)")
                         .font(.tt.caption)
                         .foregroundStyle(.tt.textTertiary)
                 } else if availableAgents.isEmpty {
-                    Text("当前组织没有可用的 AI 分身")
+                    Text("当前组织没有可用的 数字助手")
                         .font(.tt.caption)
                         .foregroundStyle(.tt.textTertiary)
                 } else if let loadError = workspaceStore.spacesLoadError, availableWorkspaces.isEmpty {

@@ -138,7 +138,7 @@ public data class SkillEnableRequest(
     @SerialName("is_enabled") val isEnabled: Boolean,
 )
 
-/** `/skills/visible` 的移动端目录项：服务端给出组织可见范围及当前 AI 分身携带态。 */
+/** `/skills/visible` 的移动端目录项：服务端给出组织可见范围及当前 数字助手携带态。 */
 @Serializable
 public data class VisibleSkillEntry(
     @SerialName("skill_id") val skillId: String? = null,

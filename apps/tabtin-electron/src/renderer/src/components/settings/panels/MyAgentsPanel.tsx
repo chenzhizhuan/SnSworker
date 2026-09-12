@@ -5,7 +5,7 @@
  * Agent 档案——旧动线残留）。本面板与「Skill 库」并列挂在「我的 AI」页：
  *
  * - 列表：当前 organization 的全部 Agent（头像/icon + 展开名 +
- *   来源角标（模板名 / 自建）+ 最近更新时间）；行尾「＋开新分身」复用
+ *   来源角标（模板名 / 自建）+ 最近更新时间）；行尾「＋开新助手」复用
  *   NewAgentDialog。
  * - 详情（面板内切换）：精简档案——改名（后端 {owner} 保留占位符防呆的
  *   错误透传）；人设 / 技能携带集 / 记忆 / 管理拆成四个 tab。
@@ -123,7 +123,7 @@ interface MyAgentsPanelProps {
   /**
    * app-page 嵌入：页眉由 AppFullPageHost 承接，
    * 不再渲染面板内同款标题。
-   * 若同时传入 onHeaderActions，则把「开新分身 / 已停用」上交页眉；
+   * 若同时传入 onHeaderActions，则把「开新助手 / 已停用」上交页眉；
    * 否则退回列表区双行工具条（避免窄侧栏标题折行）。
    */
   hidePageHeader?: boolean
@@ -225,7 +225,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
     try {
       const nextAgents = await listOrganizationAgents(organizationId)
       if (requestId !== loadRequestIdRef.current) return
-      // 开号后可能先乐观选中再关窗刷新；列表瞬时未含新 id 时保留乐观项，避免回落到默认分身。
+      // 开号后可能先乐观选中再关窗刷新；列表瞬时未含新 id 时保留乐观项，避免回落到默认助手。
       const selectedId = selectedAgentIdRef.current
       let mergedAgents = nextAgents
       if (selectedId && !nextAgents.some(agent => agent.id === selectedId)) {
@@ -348,7 +348,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
     agents,
   ])
 
-  // 主从布局：列表加载后自动选中首个分身，保证右侧档案不空；选中项失效时回落首个。
+  // 主从布局：列表加载后自动选中首个助手，保证右侧档案不空；选中项失效时回落首个。
   useEffect(() => {
     if (agents.length === 0) return
     setSelectedAgentId(prev => (prev && agents.some(a => a.id === prev) ? prev : agents[0].id))
@@ -382,7 +382,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
     buttons?.[nextIndex]?.focus()
   }
 
-  const newAgentLabel = t('myAgents.newAgent', { defaultValue: '开新分身' })
+  const newAgentLabel = t('myAgents.newAgent', { defaultValue: '开新助手' })
   const deactivatedEntryLabel = t('myAgents.deactivated.entry', { defaultValue: '已停用' })
   const openNewAgent = useCallback(() => setNewAgentOpen(true), [])
   const openDeactivated = useCallback(() => setShowDeactivated(true), [])
@@ -393,7 +393,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
       {newAgentLabel}
     </Button>
   )
-  // 次要入口用 ghost，避免与主 CTA「开新分身」并列为两颗实心 pill。
+  // 次要入口用 ghost，避免与主 CTA「开新助手」并列为两颗实心 pill。
   const deactivatedEntryButton = (
     <Button type="button" variant="ghost" size="sm" onClick={openDeactivated}>
       <Ban className="h-[1em] w-[1em]" />
@@ -464,15 +464,15 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
       {hidePageHeader ? null : standalone ? (
         <ContextPageHeader
           icon={<Bot className="h-6 w-6" />}
-          title={t('myAgents.pageTitle', { defaultValue: 'AI 分身' })}
+          title={t('myAgents.pageTitle', { defaultValue: '数字助手' })}
           titleAs="h1"
-          description={t('myAgents.pageSubtitle', { defaultValue: '管理每个 AI 分身的人设、技能和记忆。' })}
+          description={t('myAgents.pageSubtitle', { defaultValue: '管理每个 数字助手的人设、技能和记忆。' })}
           actions={headerActions}
         />
       ) : (
         <SettingsSectionHeader
           section="myAgents"
-          subtitle={t('myAgents.pageSubtitle', { defaultValue: '管理每个 AI 分身的人设、技能和记忆。' })}
+          subtitle={t('myAgents.pageSubtitle', { defaultValue: '管理每个 数字助手的人设、技能和记忆。' })}
           meta={headerActions}
         />
       )}
@@ -502,7 +502,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
           )}>
             <div className="flex min-w-0 items-center justify-between gap-2">
               <h2 className="min-w-0 truncate text-body font-medium text-foreground">
-                {t('myAgents.listTitle', { defaultValue: '我的 AI 分身' })}
+                {t('myAgents.listTitle', { defaultValue: '我的 数字助手' })}
               </h2>
               {!loading && !loadError ? (
                 <span className={cn(SETTINGS_HINT, 'shrink-0 tabular-nums')}>
@@ -515,17 +515,17 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
           <div
             ref={agentListRef}
             className="min-h-0 flex-1 space-y-0.5 overflow-y-auto p-1.5 scrollbar-hover"
-            aria-label={t('myAgents.listTitle', { defaultValue: '我的 AI 分身' })}
+            aria-label={t('myAgents.listTitle', { defaultValue: '我的 数字助手' })}
           >
             {loading ? (
               <div className="flex items-center gap-2 px-2 py-6 text-body text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                {t('myAgents.loading', { defaultValue: '正在加载 AI 分身…' })}
+                {t('myAgents.loading', { defaultValue: '正在加载 数字助手…' })}
               </div>
             ) : loadError ? (
               <div className="flex flex-col items-start gap-3 px-2 py-6">
                 <span className="text-body text-foreground-secondary">
-                  {t('myAgents.loadFailed', { defaultValue: 'AI 分身列表加载失败' })}
+                  {t('myAgents.loadFailed', { defaultValue: '数字助手列表加载失败' })}
                 </span>
                 <Button type="button" variant="outline" size="sm" onClick={() => { void loadAgents() }}>
                   <RotateCcw className="h-[1em] w-[1em]" />
@@ -536,7 +536,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
               <div className="flex flex-col items-center gap-2 px-3 py-6 text-center">
                 <Bot className="h-5 w-5 text-muted-foreground/60" />
                 <p className="text-body text-foreground-secondary">
-                  {t('myAgents.empty', { defaultValue: '还没有 AI 分身，先开一个新分身。' })}
+                  {t('myAgents.empty', { defaultValue: '还没有 数字助手，先开一个新助手。' })}
                 </p>
               </div>
             ) : agents.map((agent, index) => {
@@ -628,8 +628,8 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
               <Bot className="h-7 w-7 text-muted-foreground/60" />
               <p className="text-body text-foreground-secondary">
                 {agents.length === 0
-                  ? t('myAgents.emptyDetail', { defaultValue: '开一个新分身后，在这里配置它。' })
-                  : t('myAgents.detailEmpty', { defaultValue: '选择左侧的 AI 分身查看档案' })}
+                  ? t('myAgents.emptyDetail', { defaultValue: '开一个新助手后，在这里配置它。' })
+                  : t('myAgents.detailEmpty', { defaultValue: '选择左侧的 数字助手查看档案' })}
               </p>
             </div>
           ) : null}
@@ -646,7 +646,7 @@ export const MyAgentsPanel: React.FC<MyAgentsPanelProps> = ({
         }}
         onAgentCreated={(agent) => {
           const summary = organizationAgentSummaryFromAgent(agent)
-          // 先入列表再选中：否则 agents effect 会把未知 id 回落到默认/首个分身
+          // 先入列表再选中：否则 agents effect 会把未知 id 回落到默认/首个助手
           setAgents(prev => (
             prev.some(item => item.id === summary.id)
               ? prev.map(item => (item.id === summary.id ? { ...item, ...summary } : item))
@@ -853,7 +853,7 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
             className="px-0 text-foreground-secondary"
           >
             <ArrowLeft className="h-[1em] w-[1em]" />
-            {t('myAgents.backToList', { defaultValue: '返回 AI 分身列表' })}
+            {t('myAgents.backToList', { defaultValue: '返回 数字助手列表' })}
           </Button>
         ) : null}
         <div className="flex items-center gap-3">
@@ -871,7 +871,7 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
                     maxLength={100}
                     disabled={savingName}
                     autoFocus
-                    aria-label={t('myAgents.nameInputLabel', { defaultValue: 'AI 分身名字' })}
+                    aria-label={t('myAgents.nameInputLabel', { defaultValue: '数字助手名字' })}
                     className="border-transparent bg-muted/30 text-body focus:ring-1 focus:ring-inset focus:ring-ring"
                     onKeyDown={(event: React.KeyboardEvent) => {
                       if (event.key === 'Enter') { event.preventDefault(); void handleSaveName() }
@@ -1017,7 +1017,7 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
               disabled={savingRules}
               aria-label={t('myAgents.rulesTitle', { defaultValue: '人设与规则' })}
               placeholder={t('myAgents.rulesPlaceholder', {
-                defaultValue: '这个 AI 分身是干什么的、怎么干活、有什么边界……',
+                defaultValue: '这个 数字助手是干什么的、怎么干活、有什么边界……',
               })}
               className={cn(SETTINGS_TEXTAREA, 'resize-none border-transparent bg-muted/30 focus:ring-1 focus:ring-inset focus:ring-ring')}
             />
@@ -1044,7 +1044,7 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
           >
             <p className={SETTINGS_HINT}>
               {t('myAgents.skillsUnavailableHint', {
-                defaultValue: '创建或进入一个工作空间后，即可为这个 AI 分身添加技能。',
+                defaultValue: '创建或进入一个工作空间后，即可为这个 数字助手添加技能。',
               })}
             </p>
           </SettingsSectionCard>
@@ -1092,7 +1092,7 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
             <div className="flex items-center justify-between gap-3">
               <p className={SETTINGS_HINT}>
                 {t('myAgents.deactivateHint', {
-                  defaultValue: '停用后该 AI 分身从活跃列表消失；工作空间与对话历史保留，可在「已停用」里恢复。',
+                  defaultValue: '停用后该 数字助手从活跃列表消失；工作空间与对话历史保留，可在「已停用」里恢复。',
                 })}
               </p>
               <Button
@@ -1103,7 +1103,7 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
                 onClick={() => setDeactivateConfirmOpen(true)}
               >
                 <Ban className="h-[1em] w-[1em]" />
-                {t('myAgents.deactivateAction', { defaultValue: '停用 AI 分身' })}
+                {t('myAgents.deactivateAction', { defaultValue: '停用 数字助手' })}
               </Button>
             </div>
           )}
@@ -1114,10 +1114,10 @@ export const AgentDetailPanel: React.FC<AgentDetailProps> = ({
         <ConfirmDialog
           open={deactivateConfirmOpen}
           onOpenChange={setDeactivateConfirmOpen}
-          title={t('myAgents.deactivateConfirmTitle', { defaultValue: '确认停用这个 AI 分身？' })}
+          title={t('myAgents.deactivateConfirmTitle', { defaultValue: '确认停用这个 数字助手？' })}
           description={t('myAgents.deactivateConfirmDesc', {
             name: agent.name,
-            defaultValue: `停用「${agent.name}」后不会出现在 AI 分身列表和会话切换里，可以随时在「已停用」里恢复。`,
+            defaultValue: `停用「${agent.name}」后不会出现在 数字助手列表和会话切换里，可以随时在「已停用」里恢复。`,
           })}
           variant="destructive"
           isLoading={deactivating}
@@ -1239,14 +1239,14 @@ export const DeactivatedAgentsPanel: React.FC<DeactivatedAgentsViewProps> = ({
           className="w-fit px-0 text-foreground-secondary"
         >
           <ArrowLeft className="h-[1em] w-[1em]" />
-          {t('myAgents.backToList', { defaultValue: '返回 AI 分身列表' })}
+          {t('myAgents.backToList', { defaultValue: '返回 数字助手列表' })}
         </Button>
 
         <div className="min-h-0 flex-1 overflow-y-auto rounded-[12px] bg-muted/10 p-2">
         {loading ? (
           <div className="flex items-center gap-2 px-2 py-6 text-body text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            {t('myAgents.deactivated.loading', { defaultValue: '正在加载已停用的 AI 分身…' })}
+            {t('myAgents.deactivated.loading', { defaultValue: '正在加载已停用的 数字助手…' })}
           </div>
         ) : loadError ? (
           <div className="flex flex-col items-start gap-3 px-2 py-6">
@@ -1262,7 +1262,7 @@ export const DeactivatedAgentsPanel: React.FC<DeactivatedAgentsViewProps> = ({
           <div className="flex flex-col items-center gap-2 px-3 py-10 text-center">
             <Ban className="h-5 w-5 text-muted-foreground/60" />
             <p className="text-body text-foreground-secondary">
-              {t('myAgents.deactivated.empty', { defaultValue: '还没有已停用的 AI 分身。' })}
+              {t('myAgents.deactivated.empty', { defaultValue: '还没有已停用的 数字助手。' })}
             </p>
           </div>
         ) : (
@@ -1330,7 +1330,7 @@ export const DeactivatedAgentsPanel: React.FC<DeactivatedAgentsViewProps> = ({
         onOpenChange={(open) => {
           if (!open && deleteConfirmItem) setDeleteConfirmItem(null)
         }}
-        title={t('myAgents.deactivated.deleteConfirmTitle', { defaultValue: '彻底删除 AI 分身？' })}
+        title={t('myAgents.deactivated.deleteConfirmTitle', { defaultValue: '彻底删除 数字助手？' })}
         description={t('myAgents.deactivated.deleteConfirmDescription', {
           name: deleteConfirmItem?.name ?? '',
           defaultValue: '「{{name}}」的身份配置、技能携带集和记忆将被删除，且无法恢复。历史对话仍会保留。',

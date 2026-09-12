@@ -71,7 +71,7 @@ describe('resolveShellLayoutState', () => {
     expect(state.layoutScopeKey).toBe('placeholder:dm');
   });
 
-  it('AI 分身域打开时，应关闭聊天 rail 并渲染 agents 工作台', () => {
+  it('数字助手域打开时，应关闭聊天 rail 并渲染 agents 工作台', () => {
     const state = resolveShellLayoutState({
       isMeTab: false,
       isIMTab: false,

@@ -55,8 +55,8 @@
     }
   },
   "appHome": {
-    "aiAgents": "AI 分身",
-    "aiAgentsSubtitle": "管理组织内的 AI 分身：新建、改名、设定人设与技能携带集。",
+    "aiAgents": "数字助手",
+    "aiAgentsSubtitle": "管理组织内的 数字助手：新建、改名、设定人设与技能携带集。",
     "skillLibrary": "技能和连接器",
     "collaborationSubtitle": "选择一个 Project 进入团队协作；任务、资产和讨论都按 Project 分开。"
   },
@@ -122,7 +122,7 @@
   "tabConversations": "任务",
   "tabDesktop": "应用",
   "tabMessages": "消息",
-  "aiAvatars": "AI 分身",
+  "aiAvatars": "数字助手",
   "skillLibrary": "技能和连接器",
   "mainNav": {
     "im": "私信",

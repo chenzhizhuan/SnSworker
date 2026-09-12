@@ -6,7 +6,7 @@
     "importData": "導入數據",
     "importDataDetected": "導入資料（偵測到可導入的歷史）",
     "externalHistory": "外部歷史",
-    "agents": "AI 分身",
+    "agents": "数字助手",
     "skills": "技能和連接器",
     "collaboration": "協作",
     "messages": "訊息"
@@ -51,8 +51,8 @@
     }
   },
   "appHome": {
-    "aiAgents": "AI 分身",
-    "aiAgentsSubtitle": "管理組織內的 AI 分身：新建、改名、設定人設與技能攜帶集。",
+    "aiAgents": "数字助手",
+    "aiAgentsSubtitle": "管理組織內的 数字助手：新建、改名、設定人設與技能攜帶集。",
     "skillLibrary": "技能和連接器",
     "collaborationSubtitle": "選擇一個 Project 進入團隊協作；任務、資產和討論都按 Project 分開。"
   },
@@ -118,7 +118,7 @@
   "tabConversations": "任務",
   "tabDesktop": "應用",
   "tabMessages": "訊息",
-  "aiAvatars": "AI 分身",
+  "aiAvatars": "数字助手",
   "skillLibrary": "技能和連接器",
   "mainNav": {
     "im": "私訊",

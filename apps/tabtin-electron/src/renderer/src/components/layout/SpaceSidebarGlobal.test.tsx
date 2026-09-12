@@ -308,7 +308,7 @@ describe('resolveVisibleRailDomainIds', () => {
 })
 
 describe('resolveActivityRailActive', () => {
-  it('app-page 归并到域粒度：协作/Project 沉浸 → 项目；AI 分身 → agents 域；自动化/技能 → 任务', () => {
+  it('app-page 归并到域粒度：协作/Project 沉浸 → 项目；数字助手 → agents 域；自动化/技能 → 任务', () => {
     expect(resolveActivityRailActive({
       effectiveMainNavTab: 'agent',
       activeAppPage: 'collaboration',
@@ -347,7 +347,7 @@ describe('resolveActivityRailActive', () => {
     })).toBeNull()
   })
 
-  it('无 app-page 时按一级 tab 归域：me→设置锚点、im→消息、agents→AI 分身、agent（含工作台）→任务', () => {
+  it('无 app-page 时按一级 tab 归域：me→设置锚点、im→消息、agents→数字助手、agent（含工作台）→任务', () => {
     expect(resolveActivityRailActive({
       effectiveMainNavTab: 'me',
       activeAppPage: null,

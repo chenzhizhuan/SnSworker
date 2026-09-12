@@ -1,5 +1,5 @@
 /**
- * 从 AI 分身工作台打开 Chat / Project Task 活动条目。
+ * 从 数字助手工作台打开 Chat / Project Task 活动条目。
  */
 
 import type { ChatSession, ChatSessionWithAgent } from '@tabtin/chat-client'

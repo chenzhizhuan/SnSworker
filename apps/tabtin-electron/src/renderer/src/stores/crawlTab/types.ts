@@ -36,7 +36,7 @@ export interface CrawlspaceConfig {
   runPrefix?: string
   /** 命名 session 标识。有值时表示该 Crawlspace 是 session 隔离的命名实例 */
   sessionName?: string
-  /** Session 颜色标识（Firefox 容器风格，用于标签页颜色条区分身份） */
+  /** Session 颜色标识（Firefox 容器风格，用于标签页颜色条区助手份） */
   sessionColor?: string
 }
 

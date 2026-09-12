@@ -1,5 +1,5 @@
 /**
- * AgentTemplateIcon — 模板 icon slug → 图标渲染（ 分身版）。
+ * AgentTemplateIcon — 模板 icon slug → 图标渲染（ 助手版）。
  *
  * manifest 的 `icon` 字段是标识符（"bot" / "code"，见 packages/agents/README），
  * 不是 emoji。这里维护 slug → lucide 图标映射，未知 slug 走 Bot 兜底；

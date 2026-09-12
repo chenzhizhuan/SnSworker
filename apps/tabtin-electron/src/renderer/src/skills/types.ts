@@ -217,7 +217,7 @@ export interface AgentSkillLinkItem {
   /** 用户级技能库总闸；缺省时回退 enabled */
   user_enabled?: boolean
   /**
-   * 系统预置分身的默认 Skill 锁定：不可关闭、不可收回。
+   * 系统预置助手的默认 Skill 锁定：不可关闭、不可收回。
    * 后端权威；前端据此禁用 Switch / 收回。
    */
   locked?: boolean

@@ -6,7 +6,7 @@ enum UserPortraitDistillStatus: String, Codable, Sendable {
     case failed
 }
 
-/// 某个 AI 分身对当前用户的综合理解，严格按 (organization_id, agent_id) 隔离。
+/// 某个 数字助手对当前用户的综合理解，严格按 (organization_id, agent_id) 隔离。
 struct UserPortrait: Codable, Equatable, Sendable {
     let id: String
     let userId: String
@@ -133,7 +133,7 @@ enum UserPortraitService {
         guard !agentId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw APIError.apiErrorWithCode(
                 code: "INVALID_AGENT_ID",
-                message: "AI 分身 ID 不能为空"
+                message: "数字助手 ID 不能为空"
             )
         }
     }

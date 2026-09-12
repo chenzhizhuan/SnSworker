@@ -1,7 +1,7 @@
 /**
  * NewAgentButton / NewAgentDialog — 侧边栏「新建 Agent」入口（ 第一批）。
  *
- * 产品语义：用户招一位新的 AI 同事——挑一个精品模板实例化（不占自建配额），
+ * 产品语义：用户招一位新的 数字员工——挑一个精品模板实例化（不占自建配额），
  * 或从空白自建（配额上限 5）。创建成功后只选中该 Agent；不建/切 Workspace，
  * 也不自动开草稿会话（与 principle 解耦口径一致）。
  */
@@ -40,7 +40,7 @@ export const NewAgentButton: React.FC<NewAgentButtonProps> = ({ className }) => 
   const { t } = useTranslation('space')
   const [open, setOpen] = useState(false)
 
-  const label = t('agentCreate.entryTooltip', { defaultValue: '新建 AI 分身' })
+  const label = t('agentCreate.entryTooltip', { defaultValue: '新建 数字助手' })
   return (
     <>
       <button
@@ -184,10 +184,10 @@ export const NewAgentDialog: React.FC<NewAgentDialogProps> = ({
           <ContextDialogHeader
             className="px-0 pt-0"
             icon={<UserPlus className="h-7 w-7" />}
-            title={t('agentCreate.title', { ns: 'space', defaultValue: '新建 AI 分身' })}
+            title={t('agentCreate.title', { ns: 'space', defaultValue: '新建 数字助手' })}
             description={t('agentCreate.description', {
               ns: 'space',
-              defaultValue: '挑一个模板快速开始，或从空白创建你自己的 AI 分身。',
+              defaultValue: '挑一个模板快速开始，或从空白创建你自己的 数字助手。',
             })}
           />
           <DialogScrollBody className="space-y-4 py-4">
@@ -334,7 +334,7 @@ export const NewAgentDialog: React.FC<NewAgentDialogProps> = ({
                 id="new-agent-name"
                 value={name}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
-                placeholder={t('agentCreate.namePlaceholder', { ns: 'space', defaultValue: '给这位 AI 同事起个名字' })}
+                placeholder={t('agentCreate.namePlaceholder', { ns: 'space', defaultValue: '给这位 数字员工起个名字' })}
                 maxLength={100}
                 disabled={isCreating}
                 autoFocus

@@ -111,7 +111,7 @@ export const useMainNavStore = create<MainNavState>()(
       // v1 → v2：'recent' tab 退役；v3：memo 入口从底部导航迁到顶部模块标签；
       // v4：memo 顶部入口退役；v5：hub 一级模块改走 app-page；
       // v6：'project' mainNavTab 退役，Project 详情统一走 app-page store；
-      // v8：'agents' 恢复为独立一级域（AI 分身提级到窄栏 + 侧栏列表）。
+      // v8：'agents' 恢复为独立一级域（数字助手提级到窄栏 + 侧栏列表）。
       // v9：新增 ask/capability/scenarios/cockpit 一级域。
       migrate: (persisted) => {
         const state = (persisted ?? {}) as MainNavPersistedState

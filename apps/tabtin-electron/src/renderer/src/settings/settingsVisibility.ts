@@ -10,7 +10,7 @@ const HIDDEN_SETTINGS_SECTIONS: Readonly<{
     'credentials-apps',
     // 第一期不展示个人访问令牌 / CLI 凭据入口。
     'developer',
-    // 分身 / 技能库已迁到任务侧栏，设置内不再重复入口。
+    // 助手 / 技能库已迁到任务侧栏，设置内不再重复入口。
     'myAgents',
     'skillLibrary',
   ]),

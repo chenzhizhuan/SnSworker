@@ -53,7 +53,7 @@ vi.mock('@components/context-space/SidebarConversationList', () => ({
 vi.mock('./SidebarTaskPrimaryNav', () => ({ SidebarTaskPrimaryNav: () => <div>任务导航</div> }))
 vi.mock('./SidebarIMPanel', () => ({ SidebarIMPanel: () => <div>消息列表</div> }))
 vi.mock('./SidebarMePanel', () => ({ SidebarMePanel: () => <div>我的</div> }))
-vi.mock('./SidebarAgentsPanel', () => ({ SidebarAgentsPanel: () => <div>AI 分身</div> }))
+vi.mock('./SidebarAgentsPanel', () => ({ SidebarAgentsPanel: () => <div>数字助手</div> }))
 vi.mock('./SidebarCloudDocsPanel', () => ({ SidebarCloudDocsPanel: () => <div>云文档</div> }))
 vi.mock('./CurrentProjectHeader', () => ({ CurrentProjectHeader: () => <div>项目</div> }))
 vi.mock('@components/sidebar/SpaceSwitcherPopover', () => ({

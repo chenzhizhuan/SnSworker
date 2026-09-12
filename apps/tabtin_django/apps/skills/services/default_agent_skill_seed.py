@@ -1,7 +1,7 @@
 """默认 Agent 平台 / 已装 App skill 自动携带。
 
 产品口径：
-- 仅针对必须存在的默认能力基线 Agent，不改自建分身
+- 仅针对必须存在的默认能力基线 Agent，不改自建助手
 - 创建 / 复活 / 活跃纠偏 / 提升为默认时：挂上全部 platform + 组织已装**内置** App 的 skill，并启用
 - ``distribution=marketplace`` 推荐 pack 不进 seed / repair 期望集（用户自选携带，可关可收）
 - attach 幂等：补齐缺失、重开曾关掉的锁定项；不删除用户自建携带
@@ -81,7 +81,7 @@ def iter_app_skill_keys(
     """列出 app skill keys；``app_ids`` 非空时只保留这些 App。
 
     默认排除 ``distribution=marketplace``，与  锁定集 / need_repair 同口径：
-    推荐 pack 不进默认分身 seed，避免用户关掉后被 ensure/repair 重新打开。
+    推荐 pack 不进默认助手 seed，避免用户关掉后被 ensure/repair 重新打开。
     """
     from apps.skills.services.registry_service import SkillsRegistryService
 

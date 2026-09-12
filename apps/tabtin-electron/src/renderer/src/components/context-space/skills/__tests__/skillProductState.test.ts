@@ -302,7 +302,7 @@ describe('skillProductState', () => {
     expect(devicePersonalOrg.canShowMakeTeamVisible).toBe(false)
   })
 
-  it('首发分身预装的官方 Pack 算内置起步包，普通市场 Pack 仍是市场货', () => {
+  it('首发助手预装的官方 Pack 算内置起步包，普通市场 Pack 仍是市场货', () => {
     const starter = skill({
       source: 'app',
       distribution: 'marketplace',

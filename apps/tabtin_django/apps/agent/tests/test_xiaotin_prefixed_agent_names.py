@@ -1,4 +1,4 @@
-"""未改名模板分身 →「小智 xxx版」重命名。"""
+"""未改名模板助手 →「小智 xxx版」重命名。"""
 from __future__ import annotations
 
 from uuid import uuid4

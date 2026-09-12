@@ -1,5 +1,5 @@
 /**
- * AgentSidebarListItem — AI 分身侧栏列表行，视觉与 ConversationItem（embedded）同源。
+ * AgentSidebarListItem — 数字助手侧栏列表行，视觉与 ConversationItem（embedded）同源。
  */
 
 import React from 'react'

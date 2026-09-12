@@ -77,7 +77,7 @@ public class ChatSessionViewModel @Inject constructor(
     public val startsNewSession: Boolean =
         savedStateHandle.get<Boolean>("startsNewSession") ?: false
     private val initialSpaceName: String = savedStateHandle["spaceName"] ?: ""
-    /** 路由预选分身；草稿入口用，正式会话以服务端 session.agentId 为准。 */
+    /** 路由预选助手；草稿入口用，正式会话以服务端 session.agentId 为准。 */
     private val routeAgentId: String = savedStateHandle["agentId"] ?: ""
     private var executionScope = chatSessionEntryExecutionScope(
         organizationId = organizationId,

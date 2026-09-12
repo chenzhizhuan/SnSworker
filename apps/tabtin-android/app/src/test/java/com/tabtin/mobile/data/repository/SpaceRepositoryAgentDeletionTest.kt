@@ -40,7 +40,7 @@ class SpaceRepositoryAgentDeletionTest {
         coEvery { contextApi.permanentlyDeleteAgent("agent-1") } returns ApiEnvelope(
             success = false,
             data = null,
-            message = "默认分身不可删除",
+            message = "默认助手不可删除",
             code = "DEFAULT_AGENT_PROTECTED",
         )
 
@@ -48,7 +48,7 @@ class SpaceRepositoryAgentDeletionTest {
             repository.permanentlyDeleteAgent("agent-1")
             fail("expected deletion failure")
         } catch (error: AppError.RequestFailed) {
-            assertEquals("默认分身不可删除", error.serverMessage)
+            assertEquals("默认助手不可删除", error.serverMessage)
             assertEquals("DEFAULT_AGENT_PROTECTED", error.errorCode)
         }
     }

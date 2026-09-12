@@ -120,7 +120,7 @@ vi.mock('@components/sidebar/NewAgentButton', () => ({
   }) => (
     open ? (
       <div data-testid="new-agent-dialog" data-organization-id={organizationId}>
-        <button type="button" onClick={() => onOpenChange?.(false)}>关闭新分身</button>
+        <button type="button" onClick={() => onOpenChange?.(false)}>关闭新助手</button>
       </div>
     ) : null
   ),
@@ -288,7 +288,7 @@ describe('AgentModeSelector', () => {
     expect(document.querySelector('[data-mode="plan"]')).toBeNull()
   })
 
-  it('开新分身仍在组合菜单中', () => {
+  it('开新助手仍在组合菜单中', () => {
     render(
       <AgentModeSelector
         currentMode="agent"
@@ -297,13 +297,13 @@ describe('AgentModeSelector', () => {
       />,
     )
     fireEvent.click(screen.getByText('小豆子'))
-    fireEvent.click(screen.getByRole('button', { name: '开新分身' }))
+    fireEvent.click(screen.getByRole('button', { name: '开新助手' }))
     expect(
       screen.getByTestId('new-agent-dialog').getAttribute('data-organization-id'),
     ).toBe('org-session')
   })
 
-  it('关闭开新分身弹窗后 reloadAgents', () => {
+  it('关闭开新助手弹窗后 reloadAgents', () => {
     render(
       <AgentModeSelector
         currentMode="agent"
@@ -312,9 +312,9 @@ describe('AgentModeSelector', () => {
       />,
     )
     fireEvent.click(screen.getByText('小豆子'))
-    fireEvent.click(screen.getByRole('button', { name: '开新分身' }))
+    fireEvent.click(screen.getByRole('button', { name: '开新助手' }))
     selectionMocks.reloadAgents.mockClear()
-    fireEvent.click(screen.getByRole('button', { name: '关闭新分身' }))
+    fireEvent.click(screen.getByRole('button', { name: '关闭新助手' }))
     expect(selectionMocks.reloadAgents).toHaveBeenCalledTimes(1)
   })
 
@@ -494,9 +494,9 @@ describe('AgentModeSelector', () => {
       expect(row.queryByText('团队')).toBeNull()
     })
 
-    it('动作项「开新分身」前有 hairline 分隔；模式项不在 Agent 菜单内', () => {
+    it('动作项「开新助手」前有 hairline 分隔；模式项不在 Agent 菜单内', () => {
       openAgentPicker()
-      const newAgentBtn = screen.getByRole('button', { name: '开新分身' })
+      const newAgentBtn = screen.getByRole('button', { name: '开新助手' })
       const hairline = newAgentBtn.previousElementSibling
       expect(hairline).not.toBeNull()
       expect(hairline?.getAttribute('data-testid')).toBe('agent-picker-actions-hairline')

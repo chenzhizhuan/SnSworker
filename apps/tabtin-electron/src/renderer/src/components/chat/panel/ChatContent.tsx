@@ -1018,7 +1018,7 @@ export const ChatContent: React.FC<ChatContentProps> = React.memo(({
                   agentId={currentAgentDisplay?.agentId}
                   name={welcomeAgentName}
                   avatarUrl={currentAgentDisplay?.avatarUrl}
-                  // 行内嵌入「和」与分身名之间；随 display 标题用 em 缩放
+                  // 行内嵌入「和」与助手名之间；随 display 标题用 em 缩放
                   className="mx-2 inline-block !h-[1.25em] !w-[1.25em] !rounded-full align-[-0.22em]"
                 />
                 <span className="whitespace-nowrap">{welcomeAgentName}</span>

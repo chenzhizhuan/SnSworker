@@ -1,7 +1,7 @@
 /**
- * SidebarAgentsPrimaryNav — AI 分身域侧栏顶栏（对齐 SidebarIMPrimaryNav / SidebarTaskPrimaryNav）。
+ * SidebarAgentsPrimaryNav — 数字助手域侧栏顶栏（对齐 SidebarIMPrimaryNav / SidebarTaskPrimaryNav）。
  *
- * 开新分身（整行动作）+ 已停用（toggle，主画布切到停用列表）。
+ * 开新助手（整行动作）+ 已停用（toggle，主画布切到停用列表）。
  */
 
 import React from 'react'
@@ -34,13 +34,13 @@ export const SidebarAgentsPrimaryNav: React.FC<SidebarAgentsPrimaryNavProps> = (
 }) => {
   const { t } = useTranslation(['sidebar', 'settings'])
 
-  const createLabel = t('settings:myAgents.newAgent', { defaultValue: '开新分身' })
+  const createLabel = t('settings:myAgents.newAgent', { defaultValue: '开新助手' })
   const deactivatedLabel = t('settings:myAgents.deactivated.entry', { defaultValue: '已停用' })
 
   return (
     <nav
       className={SIDEBAR_TASK_PRIMARY_NAV_SHELL}
-      aria-label={t('sidebar:agentsPrimaryNav.label', { defaultValue: 'AI 分身快捷入口' })}
+      aria-label={t('sidebar:agentsPrimaryNav.label', { defaultValue: '数字助手快捷入口' })}
       data-testid="sidebar-agents-primary-nav"
     >
       <button

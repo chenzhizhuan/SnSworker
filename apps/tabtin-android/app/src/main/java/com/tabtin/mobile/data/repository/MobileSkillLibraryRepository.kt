@@ -26,7 +26,7 @@ import javax.inject.Inject
 /**
  * 手机技能库的数据边界。
  *
- * 目录是组织范围的，不要求用户先选定一个 AI 分身；各 AI 分身的携带态在此聚合。
+ * 目录是组织范围的，不要求用户先选定一个 数字助手；各 数字助手的携带态在此聚合。
  * 刻意不复用旧 Space Skills 的本机安装与 API Key 配置链路。Credential Vault 只读取
  * 脱敏元数据，写入时只传已有 credential_id。
  */

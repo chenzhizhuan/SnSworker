@@ -13,7 +13,7 @@ import coil.compose.AsyncImage
 import com.tabtin.mobile.R
 
 /**
- * AI 分身身份头像的单一展示入口。
+ * 数字助手身份头像的单一展示入口。
  *
  * 优先序对齐 Electron `extractAgentAvatarUrl`：自定义 URL → 品牌预设 key → SnSworker 图标兜底。
  */

@@ -1,4 +1,4 @@
-"""手动把未改名的模板分身统一为「小智 xxx版」。
+"""手动把未改名的模板助手统一为「小智 xxx版」。
 
 只处理 ``template_id`` 对应且 ``name`` 仍等于旧出厂名的行；系统默认
 「小智」、用户已改名、历史 owner 前缀名一律跳过。
@@ -27,7 +27,7 @@ from apps.services.common.db_router import postgres_app_db_alias
 
 class Command(BaseCommand):
     help = (
-        "将未改名的模板分身（如「代码版」）重命名为「小智 代码版」。"
+        "将未改名的模板助手（如「代码版」）重命名为「小智 代码版」。"
         "默认 dry-run；加 --execute 才写库。"
     )
 

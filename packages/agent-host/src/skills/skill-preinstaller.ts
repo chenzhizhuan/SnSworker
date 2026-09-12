@@ -758,7 +758,7 @@ export async function collectAppSources(
         catalog?: { isDefaultEnabled?: unknown };
       };
       // 普通市场包装进货架，等用户安装再落盘。首发起步包（工作流 /
-      // 工程纪律 / Ponytail）虽标 marketplace，分身模板默认携带，必须预装进
+      // 工程纪律 / Ponytail）虽标 marketplace，助手模板默认携带，必须预装进
       // `_shared-skills`，否则斜杠能点、Agent 本机找不到（#11220）。
       if (!isFirstPartyStarterPackAppId(appId)) {
         if (manifest.distribution === 'marketplace') continue;

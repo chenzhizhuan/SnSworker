@@ -75,7 +75,7 @@ describe('resolveAgentSourceBadge ', () => {
     ).toBe('代码工程师')
   })
 
-  it('模板名已出现在分身名称中时不重复展示小灰字', () => {
+  it('模板名已出现在助手名称中时不重复展示小灰字', () => {
     expect(
       resolveAgentSourceBadge(
         { is_default: false, template_id: 'web-researcher' },

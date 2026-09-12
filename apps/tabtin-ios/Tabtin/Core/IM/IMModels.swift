@@ -1737,7 +1737,7 @@ struct IMResourceAccessRequestInfo: Decodable, Sendable, Equatable {
     }
 }
 
-/// 一张可复用的 AI 指令卡。它不绑定后端资源，用户可以将正文带入新任务后再选择 AI 分身和 Workspace。
+/// 一张可复用的 AI 指令卡。它不绑定后端资源，用户可以将正文带入新任务后再选择 数字助手和 Workspace。
 struct IMPromptCard: Sendable, Equatable {
     let title: String
     let promptText: String

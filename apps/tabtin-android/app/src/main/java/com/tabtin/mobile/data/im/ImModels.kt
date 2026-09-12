@@ -859,7 +859,7 @@ public data class ImHandoffCard(
 private fun List<String?>.firstNotBlankOrNull(): String? =
     firstNotNullOfOrNull { value -> value?.trim()?.takeIf { it.isNotEmpty() } }
 
-/** 一张可复用的 AI 指令卡；用户使用后仍需在新任务里确认 AI 分身与 Workspace。 */
+/** 一张可复用的 AI 指令卡；用户使用后仍需在新任务里确认 数字助手与 Workspace。 */
 public data class ImPromptCard(
     val title: String,
     val promptText: String,

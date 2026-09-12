@@ -601,7 +601,7 @@ def _write_to_table(
     source_url = f"thread://{thread_id}" if thread_id else ""
 
     # 记忆归属：调用方显式 agent_id（Relay/L4 按消息分组）优先；
-    # 否则会话直挂分身 / 现场回退。#3266 终态：解析失败 = 无归属 → 跳过。
+    # 否则会话直挂助手 / 现场回退。#3266 终态：解析失败 = 无归属 → 跳过。
     resolved_agent_id = _resolve_effective_agent_id(
         space_id, thread_id=thread_id, agent_id=agent_id,
     )

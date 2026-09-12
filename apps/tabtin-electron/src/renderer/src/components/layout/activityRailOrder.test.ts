@@ -11,7 +11,7 @@ const ALL_DOMAINS: ActivityRailDomainId[] = ['tasks', 'messages', 'agents', 'clo
 const PROJECTS_OFF: ActivityRailDomainId[] = ['tasks', 'messages', 'agents', 'cloud-docs']
 
 describe('DEFAULT_ACTIVITY_RAIL_DOMAIN_ORDER', () => {
-  it('钉住默认顺序：任务 / 消息 / AI 分身 / 云文档 / 项目', () => {
+  it('钉住默认顺序：任务 / 消息 / 数字助手 / 云文档 / 项目', () => {
     expect(DEFAULT_ACTIVITY_RAIL_DOMAIN_ORDER).toEqual(ALL_DOMAINS)
   })
 })

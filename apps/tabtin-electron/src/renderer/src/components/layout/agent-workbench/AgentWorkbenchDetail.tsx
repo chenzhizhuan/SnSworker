@@ -1,5 +1,5 @@
 /**
- * AgentWorkbenchDetail — AI 分身域主画布详情：
+ * AgentWorkbenchDetail — 数字助手域主画布详情：
  * 总览（12 列 grid：上下行 span 错开）或画布内整页 drill-in。
  */
 
@@ -399,7 +399,7 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
       disabled={savingRules}
       aria-label={t('myAgents.rulesTitle', { defaultValue: '人设与规则' })}
       placeholder={t('myAgents.rulesPlaceholder', {
-        defaultValue: '这个 AI 分身是干什么的、怎么干活、有什么边界……',
+        defaultValue: '这个 数字助手是干什么的、怎么干活、有什么边界……',
       })}
       className={cn(SETTINGS_TEXTAREA, 'min-h-[280px] resize-y border-transparent bg-muted/30 focus:ring-1 focus:ring-inset focus:ring-ring')}
     />
@@ -533,7 +533,7 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
                     maxLength={100}
                     disabled={savingName}
                     autoFocus
-                    aria-label={t('myAgents.nameInputLabel', { defaultValue: 'AI 分身名字' })}
+                    aria-label={t('myAgents.nameInputLabel', { defaultValue: '数字助手名字' })}
                     className="h-7 min-w-0 flex-1 border-transparent bg-muted/30 px-2 py-0 text-body focus:ring-1 focus:ring-inset focus:ring-ring"
                     onKeyDown={(event: React.KeyboardEvent) => {
                       if (event.key === 'Enter') { event.preventDefault(); void handleSaveName() }
@@ -591,7 +591,7 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
                           onSelect={() => setDeactivateConfirmOpen(true)}
                         >
                           <Ban className="h-3.5 w-3.5" />
-                          {t('myAgents.deactivateAction', { defaultValue: '停用 AI 分身' })}
+                          {t('myAgents.deactivateAction', { defaultValue: '停用 数字助手' })}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -656,9 +656,9 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
         icon={<Sparkles className={CARD_TITLE_ICON} />}
         preview={
           skillContextSpaceId
-            ? t('myAgents.workbench.skillsPreview', { defaultValue: '管理这个 AI 分身会携带的技能' })
+            ? t('myAgents.workbench.skillsPreview', { defaultValue: '管理这个 数字助手会携带的技能' })
             : t('myAgents.skillsUnavailableHint', {
-                defaultValue: '创建或进入一个工作空间后，即可为这个 AI 分身添加技能。',
+                defaultValue: '创建或进入一个工作空间后，即可为这个 数字助手添加技能。',
               })
         }
         onOpen={() => setActivePanel('skills')}
@@ -669,7 +669,7 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
         title={t('myAgents.toolsTitle', { defaultValue: '工具携带集' })}
         icon={<Plug className={CARD_TITLE_ICON} />}
         preview={t('myAgents.workbench.toolsPreview', {
-          defaultValue: '管理这个 AI 分身会用的外部连接',
+          defaultValue: '管理这个 数字助手会用的外部连接',
         })}
         onOpen={() => setActivePanel('tools')}
         className="md:col-span-3"
@@ -697,7 +697,7 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
         title={t('myAgents.workbench.recentTasksTitle', { defaultValue: '最近任务' })}
         icon={<ListTodo className={CARD_TITLE_ICON} />}
         subtitle={t('myAgents.workbench.recentTasksHint', {
-          defaultValue: '这个 AI 分身参与的 Chat 对话与 Project 任务',
+          defaultValue: '这个 数字助手参与的 Chat 对话与 Project 任务',
         })}
         className="min-h-[240px] md:col-span-5 md:min-h-0"
       >
@@ -711,10 +711,10 @@ export const AgentWorkbenchDetail: React.FC<AgentWorkbenchDetailProps> = ({
         <ConfirmDialog
           open={deactivateConfirmOpen}
           onOpenChange={setDeactivateConfirmOpen}
-          title={t('myAgents.deactivateConfirmTitle', { defaultValue: '确认停用这个 AI 分身？' })}
+          title={t('myAgents.deactivateConfirmTitle', { defaultValue: '确认停用这个 数字助手？' })}
           description={t('myAgents.deactivateConfirmDesc', {
             name: agent.name,
-            defaultValue: `停用「${agent.name}」后不会出现在 AI 分身列表和会话切换里，可以随时在「已停用」里恢复。`,
+            defaultValue: `停用「${agent.name}」后不会出现在 数字助手列表和会话切换里，可以随时在「已停用」里恢复。`,
           })}
           variant="destructive"
           isLoading={deactivating}

@@ -1,5 +1,5 @@
 /**
- * Agent 名字插值（ 分身版命名体系，阵容提案 v2 §2.7）。
+ * Agent 名字插值（ 助手版命名体系，阵容提案 v2 §2.7）。
  *
  * 契约（与后端 seed 线并行约定）：
  * - 模板 API（GET /agents/templates）返回的 name 是插值串，占位符 token
@@ -71,9 +71,9 @@ export interface AgentDisplayNameParts {
 
 /**
  * 把 Agent 名拆成「归属前缀 + 版后缀」，供身份切换器做「昵称恒定、只动
- * 后缀」的展示（分身版心智：我不变、赛道变）。
+ * 后缀」的展示（助手版心智：我不变、赛道变）。
  *
- * 兼容三类输入：插值串（先展开）、已展开的分身名（按昵称前缀拆）、
+ * 兼容三类输入：插值串（先展开）、已展开的助手名（按昵称前缀拆）、
  * 老数据 / 自定义名（整名作为 suffix，ownerPrefix=null）。
  */
 export function splitAgentDisplayName(
