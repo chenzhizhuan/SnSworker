@@ -67,13 +67,28 @@ vi.mock('@stores/useSpaceStore', () => ({
   },
 }))
 
-vi.mock('@tabtin/app-shell', () => ({
-  AgentApiService: {
-    listAgents: (...args: unknown[]) => mockListAgents(...args),
-  },
-  // workspaceContextState → cloudDocsDomain → context tabs 侧载需要
-  registerResetAction: vi.fn(),
-}))
+vi.mock('@tabtin/app-shell', () => {
+  const base = {
+    AgentApiService: {
+      listAgents: (...args: unknown[]) => mockListAgents(...args),
+    },
+    // workspaceContextState → cloudDocsDomain → context tabs 侧载需要
+    registerResetAction: vi.fn(),
+    // smartsheet-ui 依赖链需要（ZIndex 语义常量 / 导航 / 组织回调）
+    ZIndex: new Proxy({}, { get: () => 1000 }),
+    onNavigate: vi.fn(),
+    offNavigate: vi.fn(),
+    onOrganizationSelected: vi.fn(),
+    offOrganizationSelected: vi.fn(),
+  }
+  // 依赖链新增导出时自动兜底为 vi.fn()，避免逐个补 mock
+  return new Proxy(base, {
+    get: (target, prop) => {
+      if (prop in target) return target[prop as keyof typeof target]
+      return vi.fn()
+    },
+  })
+})
 
 function makeSession(id: string, spaceId: string): ChatSession {
   return { id, space_id: spaceId, title: '新对话' } as unknown as ChatSession
