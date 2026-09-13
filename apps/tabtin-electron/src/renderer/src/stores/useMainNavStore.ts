@@ -73,10 +73,9 @@ const MAIN_NAV_TABS: readonly MainNavTab[] = [
   'scenarios',
   'cockpit',
 ]
-// 仅用于本地 IM 联调：每次 Electron 重启后回到「消息」，免去重复点击侧栏。
-// 必须同时是 Vite dev，避免任何打包环境误设 VITE_* 时改变真实用户的现场。
-const DEV_INITIAL_TAB: MainNavTab =
-  import.meta.env.DEV && import.meta.env.VITE_DEV_INITIAL_MODULE === 'im' ? 'im' : 'agent'
+// 产品需求（2026-09-14 专哥确认）：每次打开应用默认落到「协作沟通」（im），
+// 不记忆用户上次停留的一级菜单。merge 中同样强制回写 im（见下方 merge 分支）。
+const DEV_INITIAL_TAB: MainNavTab = 'im'
 
 interface MainNavState {
   currentTab: MainNavTab
@@ -119,14 +118,14 @@ export const useMainNavStore = create<MainNavState>()(
         return tab ? { ...state, currentTab: tab } : state
       },
       // 保险：merge 时再校一遍——防御 version 字段缺失或外部直接改 localStorage 的情况。
+      // 2026-09-14：产品要求每次打开都默认「协作沟通」（im），因此无条件回写 im，
+      // 不再恢复用户上次停留的一级菜单。
       merge: (persisted, currentState) => {
         const state = (persisted ?? {}) as MainNavPersistedState
-        const safeTab = normalizeMainNavTab(state.currentTab) ?? currentState.currentTab
         return {
           ...currentState,
           ...state,
-          // persist hydration 会覆盖初始化值；IM 联调模式需要在这一步坚定地回到消息模块。
-          currentTab: DEV_INITIAL_TAB === 'im' ? 'im' : safeTab,
+          currentTab: 'im',
         }
       },
     }),

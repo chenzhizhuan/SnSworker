@@ -23,6 +23,7 @@ import { registerAllPlugins } from '@/plugins'
 import { fetchUploadConfig } from '@/constants/upload'
 import { retryPendingConfirms } from '@/services/oss-direct-uploader'
 import { useUIStore } from '@stores/useUIStore'
+import { useMainNavStore } from '@stores/useMainNavStore'
 import { useAuthStore, selectIsAuthenticated } from '@stores/useAuthStore'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { useMemoRecordStyleStore } from '@stores/useMemoRecordStyleStore'
@@ -411,6 +412,14 @@ export function AppGlobalEffects({ isDetachedChat, hasMainWindowHost }: AppGloba
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // --- 启动默认一级菜单「协作沟通」（2026-09-14 产品需求） ---
+  // persist merge 已把 currentTab 回写为 'im'，但 useSettingsSpaceStore 的
+  // keepSettingsVisible 在“上次退出停在设置页”时会把 tab 拉回 'me'；这里在
+  // 应用挂载后无条件回写一次，保证任何时序竞争下默认都落在「协作沟通」。
+  useEffect(() => {
+    useMainNavStore.getState().setCurrentTab('im')
   }, [])
 
   // --- 窗口焦点恢复：刷 Space + #8605 已加载会话列表 REST reconcile（30s 节流）---

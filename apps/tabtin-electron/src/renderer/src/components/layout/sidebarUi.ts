@@ -415,9 +415,11 @@ export const ACTIVITY_RAIL_ITEM_INACTIVE =
 
 export const ACTIVITY_RAIL_ICON_SIZE = 22
 
-/** 窄栏图标下方文字标签样式 */
+/** 窄栏图标下方文字标签样式
+ *  2026-09-14：10px→11px→14px（视觉约 12.6px @zoom0.9），提升一级菜单可读性；
+ *  窄栏已同步加宽到 88px（shellUi.SHELL_ACTIVITY_RAIL_WIDTH）容纳 4 字标签不截断。 */
 export const ACTIVITY_RAIL_LABEL =
-  'text-[11px] leading-tight font-medium truncate max-w-full text-center'
+  'text-[14px] leading-tight font-medium truncate max-w-full text-center'
 
 /** 主域导航专用描边，比侧栏菜单行（1.5）略粗以提升 rail 视觉重量。 */
 export const ACTIVITY_RAIL_ICON_STROKE = 2
