@@ -23,7 +23,7 @@
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Search, Send, Trash2, Plus } from 'lucide-react'
+import { MessageSquare, Search, Send, Trash2, Plus, RefreshCw } from 'lucide-react'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { useDeviceStore } from '@stores/useDeviceStore'
 import { useChatStore } from '@stores/chat/useChatStore'
@@ -54,6 +54,9 @@ interface AskHistoryEntry {
   message_count: number | null
 }
 
+/** 稳定空引用：zustand 5 selector 不可返回新数组（getSnapshot 死循环） */
+const EMPTY_ASK_SESSIONS: ChatSession[] = []
+
 /** 从 ChatSession 列表项提取精简展示数据 */
 function toHistoryEntry(session: ChatSession): AskHistoryEntry {
   return {
@@ -73,16 +76,20 @@ export const AskPage: React.FC = () => {
   const [input, setInput] = useState('')
   const [askWorkspace, setAskWorkspace] = useState<WorkspaceSummary | null>(null)
   const [workspaceLoading, setWorkspaceLoading] = useState(true)
+  const [workspaceError, setWorkspaceError] = useState<string | null>(null)
+  const [reloadKey, setReloadKey] = useState(0)
 
   const organizationId = useOrganizationStore(s => s.selectedOrganization?.id ?? null)
   const organizationName = useOrganizationStore(s => s.selectedOrganization?.name ?? '')
   const deviceId = useDeviceStore(s => s.currentDevice?.id ?? null)
 
   // ── 幂等获取/创建问一句专属工作空间 ──
+  // 失败后展示错误态并提供「重试」按钮（reloadKey 变化重新触发本 effect）
   useEffect(() => {
     if (!organizationId || !deviceId) return
     let cancelled = false
     setWorkspaceLoading(true)
+    setWorkspaceError(null)
     void (async () => {
       try {
         // 获取问一句专属目录（与 home 类似但独立命名）
@@ -92,6 +99,7 @@ export const AskPage: React.FC = () => {
         })
         if (!dirResult?.success || !dirResult.path) {
           log.warn('ensureDefaultAgentDir failed for ask workspace:', dirResult?.error ?? 'no path')
+          if (!cancelled) setWorkspaceError('ensureDefaultAgentDir failed')
           return
         }
         if (cancelled) return
@@ -106,12 +114,19 @@ export const AskPage: React.FC = () => {
         setAskWorkspace(workspace)
       } catch (err) {
         log.warn('ensureAsk failed:', err instanceof Error ? err.message : String(err))
+        if (!cancelled) {
+          setWorkspaceError(err instanceof Error ? err.message : String(err))
+        }
       } finally {
         if (!cancelled) setWorkspaceLoading(false)
       }
     })()
     return () => { cancelled = true }
-  }, [organizationId, organizationName, deviceId])
+  }, [organizationId, organizationName, deviceId, reloadKey])
+
+  const handleRetryWorkspace = useCallback(() => {
+    setReloadKey(k => k + 1)
+  }, [])
 
   const spaceId = askWorkspace?.id ?? null
 
@@ -144,9 +159,16 @@ export const AskPage: React.FC = () => {
   // ── 标题自动刷新：订阅 store 中 ask 会话的 title 变化 ──
   // WS agent.user.title_updated 只更新 store 的 sessionsBySpaceId 桶，
   // AskPage 的 history 是局部 state 收不到通知。这里通过订阅 store 变化同步标题。
-  const storeAskSessions = useChatStore(s =>
-    spaceId ? (s.sessionsBySpaceId[spaceId] ?? []).filter(sess => sess.agent_mode === 'ask') : [],
+  // 注意：zustand 5 selector 必须返回稳定引用——不得在 selector 内 filter/map
+  // 出新数组（会触发 getSnapshot 死循环，见 useWsConnectionStatus.snapshot-stability.test.tsx）。
+  // 因此先订整个桶引用，再在 useMemo 里派生 ask 会话。
+  const askSpaceBucket = useChatStore(s =>
+    spaceId ? (s.sessionsBySpaceId[spaceId] ?? null) : null,
   )
+  const storeAskSessions = useMemo(() => {
+    if (!askSpaceBucket) return EMPTY_ASK_SESSIONS
+    return askSpaceBucket.filter(sess => sess.agent_mode === 'ask')
+  }, [askSpaceBucket])
   useEffect(() => {
     if (storeAskSessions.length === 0 || history.length === 0) return
     let changed = false
@@ -304,7 +326,7 @@ export const AskPage: React.FC = () => {
     )
   }
 
-  // 工作空间获取失败：显示错误提示
+  // 工作空间获取失败：显示错误提示 + 重试按钮
   if (!askWorkspace) {
     return (
       <div className="flex h-full w-full items-center justify-center px-8">
@@ -312,6 +334,17 @@ export const AskPage: React.FC = () => {
           <p className="text-sm text-muted-foreground">
             {t('sidebar:ask.workspaceError', { defaultValue: '问一句工作空间初始化失败，请稍后重试' })}
           </p>
+          {workspaceError ? (
+            <p className="mt-1 text-xs text-muted-foreground/50">{workspaceError}</p>
+          ) : null}
+          <button
+            type="button"
+            onClick={handleRetryWorkspace}
+            className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-border/40 px-3 py-1.5 text-sm text-foreground hover:border-accent/40 hover:text-accent transition-colors"
+          >
+            <RefreshCw className="h-3.5 w-3.5" aria-hidden />
+            {t('common:retry', { defaultValue: '重试' })}
+          </button>
         </div>
       </div>
     )
