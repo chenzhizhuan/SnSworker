@@ -9,6 +9,7 @@ export function useChatInputAgentMode(
   sessionId: string | null | undefined,
   acceptGlobalInputEvents: boolean,
   draftScopeKey?: string | null,
+  askOnlyAgent = false,
 ) {
   const fallbackAgentMode = useChatStore(s => s.agentMode)
   const sessionAgentMode = useChatRuntimeStore(s => (
@@ -28,12 +29,14 @@ export function useChatInputAgentMode(
   }, [storeSetAgentMode, draftScopeKey])
 
   const cycleAgentMode = useCallback(() => {
+    // 问一句纯问答模式：模式被锁死为 ask，不参与循环切换
+    if (askOnlyAgent) return
     // 与 AgentModeSelector / switch_mode 可提议目标共用 SELECTABLE_AGENT_MODES 单源
     const idx = SELECTABLE_AGENT_MODES.indexOf(agentMode)
     const startIdx = idx >= 0 ? idx : -1
     const next = SELECTABLE_AGENT_MODES[(startIdx + 1) % SELECTABLE_AGENT_MODES.length]
     setAgentMode(next)
-  }, [agentMode, setAgentMode])
+  }, [agentMode, setAgentMode, askOnlyAgent])
 
   useHotkey(HOTKEYS.cycleAgentMode, cycleAgentMode, acceptGlobalInputEvents)
 

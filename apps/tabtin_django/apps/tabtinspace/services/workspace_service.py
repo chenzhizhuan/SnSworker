@@ -933,6 +933,11 @@ class WorkspaceService(BaseService):
             provisioning_source=Workspace.ProvisioningSource.SYSTEM_ASK,
         ).first()
         if existing is not None:
+            # 幂等命中：同步展示名（旧安装可能以「问一句」创建，统一收敛为「问一句工作空间」）
+            desired_name = (name or '问一句工作空间').strip()
+            if existing.name != desired_name:
+                existing.name = desired_name
+                existing.save(update_fields=['name', 'updated_at'])
             self._heal_creator_owner_membership(existing)
             return existing, False
 
@@ -941,7 +946,7 @@ class WorkspaceService(BaseService):
                 workspace = Workspace.objects.create(
                     organization=organization,
                     device=device,
-                    name=name or '问一句',
+                    name=name or '问一句工作空间',
                     working_dir=normalized,
                     normalized_working_dir=normalized,
                     working_dir_type=working_dir_type or 'mixed',

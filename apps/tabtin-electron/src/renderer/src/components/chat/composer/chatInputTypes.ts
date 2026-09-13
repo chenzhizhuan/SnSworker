@@ -117,6 +117,8 @@ export interface ChatInputProps {
   draftScopeKey?: string | null
   /** 是否展示 Agent 身份（与 Mode 正交，） */
   showAgentIdentity?: boolean
+  /** 问一句纯问答模式：模式选择器只显示「问答」；隐藏附件/Skill/MCP 与 Agent 身份入口。 */
+  askOnlyAgent?: boolean
   /** 新任务欢迎首屏：输入区加高（首屏比例） */
   composerWelcomeLayout?: boolean
   dropApiRef?: React.MutableRefObject<{

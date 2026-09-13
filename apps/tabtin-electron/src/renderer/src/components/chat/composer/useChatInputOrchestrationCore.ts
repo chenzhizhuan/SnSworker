@@ -73,6 +73,7 @@ export function useChatInputOrchestrationCore(props: ChatInputProps): Orchestrat
     sessionId,
     acceptGlobalInputEvents,
     draftScopeKey,
+    props.askOnlyAgent,
   )
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)

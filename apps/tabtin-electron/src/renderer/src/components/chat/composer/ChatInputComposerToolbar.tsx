@@ -32,6 +32,7 @@ type ToolbarProps = Pick<
   | 'canChangeAgent'
   | 'draftScopeKey'
   | 'showAgentIdentity'
+  | 'askOnlyAgent'
   | 'disabled'
   | 'isStreaming'
   | 'spaceId'
@@ -144,6 +145,7 @@ export function ChatInputComposerToolbar({
   canChangeAgent,
   draftScopeKey = null,
   showAgentIdentity = false,
+  askOnlyAgent = false,
   disabled,
   isStreaming,
   spaceId,
@@ -279,6 +281,7 @@ export function ChatInputComposerToolbar({
           canChangeAgent={canChangeAgent ?? enableAgentPicker}
           draftScopeKey={draftScopeKey}
           showAgentIdentity={showAgentIdentity}
+          askOnlyAgent={askOnlyAgent}
           // ：生成中仍可换 Agent / 模式；排队消息与下一轮读新 session.agent_id。
           // 不把 isStreaming 并进 disabled（与团队配置 / 转交按钮解耦）。
           disabled={disabled}

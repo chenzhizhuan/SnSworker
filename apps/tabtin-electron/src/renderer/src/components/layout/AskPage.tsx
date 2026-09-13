@@ -108,7 +108,7 @@ export const AskPage: React.FC = () => {
           device_id: deviceId,
           working_dir: dirResult.path,
           working_dir_type: 'mixed',
-          name: '问一句',
+          name: '问一句工作空间',
         })
         if (cancelled) return
         setAskWorkspace(workspace)

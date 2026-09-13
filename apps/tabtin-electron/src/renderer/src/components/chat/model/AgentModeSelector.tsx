@@ -25,6 +25,8 @@ import { useCloseOnOrganizationContextReset } from '@/hooks/useCloseOnOrganizati
 
 const MENU_MAX_WIDTH = 320
 const MENU_MIN_HEIGHT = 180
+/** 问一句纯问答模式：模式菜单只暴露「问答」——模块级常量保证引用稳定（useEffect 依赖） */
+const ASK_ONLY_MODES: readonly AgentModeName[] = ['ask']
 const EMPTY_MENU_LAYOUT: FloatingMenuLayout = {
   width: MENU_MAX_WIDTH,
   height: MENU_MIN_HEIGHT,
@@ -183,6 +185,11 @@ interface AgentModeSelectorProps {
   showModeLabel?: boolean
   triggerClassName?: string
   showModes?: boolean
+  /**
+   * 问一句（AskPage）纯问答模式：模式菜单只显示「问答」（['ask']），
+   * 不出现 agent / plan / group 等其它可执行模式。
+   */
+  askOnlyAgent?: boolean
 }
 
 /**
@@ -210,6 +217,7 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
   showModeLabel = true,
   triggerClassName,
   showModes = true,
+  askOnlyAgent = false,
 }) => {
   const { t } = useTranslation('chat')
   const canChangeAgent = canChangeAgentProp ?? enableAgentPicker
@@ -247,7 +255,10 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
 
   // study / yolo 的隐藏口径已收进 SELECTABLE_AGENT_MODES 单源（见 agent-modes types.ts）；
   // 选择器与 switch_mode 可提议目标共用它，避免两处漂移。
-  const visibleModes = SELECTABLE_AGENT_MODES
+  // 问一句纯问答模式：只暴露「问答」一个模式（agent/plan/group 全部隐藏）。
+  const visibleModes = askOnlyAgent
+    ? ASK_ONLY_MODES
+    : SELECTABLE_AGENT_MODES
   const isBusy = disabled || isLoading || isUpdating
   const activeTriggerRef = openMenu === 'agent' ? agentTriggerRef : modeTriggerRef
 

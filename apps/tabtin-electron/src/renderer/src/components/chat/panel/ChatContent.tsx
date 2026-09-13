@@ -1087,6 +1087,7 @@ export const ChatContent: React.FC<ChatContentProps> = React.memo(({
             canChangeAgent={!sharedGrantee && canChangeAgent}
             draftScopeKey={draftScopeKey}
             showAgentIdentity={!sharedGrantee}
+            askOnlyAgent={!sharedGrantee && askOnlyAgent}
             showAddMenu={!sharedGrantee && !askOnlyAgent}
             composerWelcomeLayout={Boolean(draftMessageHint && !draftWithApp)}
             chatMessages={chatMessages}
