@@ -401,12 +401,16 @@ export const ChatContent: React.FC<ChatContentProps> = React.memo(({
   const scrollTargetMessageId = useChatStore(s => s.scrollTargetMessageId)
   const scrollTargetHighlight = useChatStore(s => s.scrollTargetHighlight)
   const clearScrollTarget = useChatStore(s => s.clearScrollTarget)
-  const isDraftSession = useChatStore(
+  const storeIsDraftSession = useChatStore(
     useCallback(
       (s) => (selectedSpaceId ? s.draftSessionBySpaceId[selectedSpaceId] ?? false : false),
       [selectedSpaceId],
     ),
   )
+  // 问一句（askOnlyAgent）：lifecycle 为 ask 跳过了 draftSessionBySpaceId 旗标管理，
+  // store 永远不会将 ask 工作空间标记为 draft。这里在无 active 会话时视同草稿态，
+  // 使 resolveNewTaskWelcomeVisible 返回 true → 显示居中欢迎布局（与办件事一致）。
+  const isDraftSession = storeIsDraftSession || (askOnlyAgent && !currentSessionId)
   const currentSessionMessageCount = useChatStore(
     useCallback((s) => {
       if (!currentSessionId || !selectedSpaceId) return null
@@ -944,13 +948,15 @@ export const ChatContent: React.FC<ChatContentProps> = React.memo(({
                 onLoadMore={currentSessionId ? onLoadMore : undefined}
                 onSuggestionSelect={effectiveCanSend ? handleQuickPrompt : undefined}
                 agentSuggestions={selectedSpace?.suggested_prompts}
-                onForkFromMessage={currentSessionId && (
+                onForkFromMessage={currentSessionId && !askOnlyAgent && (
                   sharedComposer.capabilities.canMutateHistory
                   || sharedComposer.capabilities.canForkWholeSession
                 )
                   ? handleForkFromMessage
                   : undefined}
-                accessCapabilities={sharedComposer.capabilities}
+                accessCapabilities={askOnlyAgent
+                  ? { ...sharedComposer.capabilities, canMutateHistory: false, canForkWholeSession: false }
+                  : sharedComposer.capabilities}
                 onContextBlockNavigate={handleContextBlockNavigate}
                 onContextBlockContextMenu={handleContextBlockContextMenu}
                 scrollTargetMessageId={scrollTargetMessageId}

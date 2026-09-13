@@ -335,7 +335,8 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
   ])
 
   const handleToggleModeMenu = useCallback(() => {
-    if (isBusy || !showModes) return
+    // 问一句纯问答模式：模式锁定为「问答」，禁止打开模式下拉菜单
+    if (askOnlyAgent || isBusy || !showModes) return
     if (openMenu !== 'mode') {
       // Mode 菜单不拉 Agent 列表；仍握手当前身份 config（审批档等下游可读）。
       if (currentAgentId) {
@@ -345,7 +346,7 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
       return
     }
     setOpenMenu(null)
-  }, [currentAgentId, isBusy, loadAgent, openMenu, showModes])
+  }, [askOnlyAgent, currentAgentId, isBusy, loadAgent, openMenu, showModes])
 
   const handleSelectMode = (mode: AgentModeName) => {
     onModeChange(mode)
@@ -477,15 +478,17 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
             type="button"
             data-testid="agent-mode-trigger"
             onClick={handleToggleModeMenu}
-            disabled={isBusy}
+            disabled={isBusy || askOnlyAgent}
             aria-label={modeName}
-            aria-expanded={modeMenuOpen}
-            aria-haspopup="menu"
+            aria-expanded={askOnlyAgent ? undefined : modeMenuOpen}
+            aria-haspopup={askOnlyAgent ? undefined : 'menu'}
+            aria-disabled={askOnlyAgent || undefined}
             className={cn(
               TRIGGER_BASE_CLASS,
               modeCompact ? COMPOSER_COMPACT_TRIGGER_CLASS : 'h-7 gap-1 px-1.5',
               modeMenuOpen && 'bg-muted/25',
               isBusy && 'cursor-not-allowed opacity-50',
+              askOnlyAgent && 'cursor-default hover:bg-transparent hover:text-muted-foreground',
               triggerClassName,
             )}
           >
@@ -507,7 +510,7 @@ export const AgentModeSelector: React.FC<AgentModeSelectorProps> = ({
                 {modeName}
               </span>
             ) : null}
-            {!modeCompact ? (
+            {!modeCompact && !askOnlyAgent ? (
               <ChevronDown
                 strokeWidth={COMPOSER_TOOLBAR_ICON_STROKE}
                 className={cn(

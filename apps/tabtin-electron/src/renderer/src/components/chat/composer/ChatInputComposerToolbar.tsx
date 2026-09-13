@@ -290,11 +290,13 @@ export function ChatInputComposerToolbar({
           compactMode={toolbarCollapseStage >= 1}
         />
 
-        <ApprovalGrantPopover
-          spaceId={spaceId ?? null}
-          sessionId={sessionId ?? null}
-          compact={compactModelSelector || toolbarCollapseStage >= 1}
-        />
+        {askOnlyAgent ? null : (
+          <ApprovalGrantPopover
+                       spaceId={spaceId ?? null}
+                       sessionId={sessionId ?? null}
+                       compact={compactModelSelector || toolbarCollapseStage >= 1}
+          />
+        )}
 
         {agentMode === 'group' && spaceId && sessionId ? (
           <GroupTeamConfigButton
@@ -304,7 +306,7 @@ export function ChatInputComposerToolbar({
           />
         ) : null}
 
-        {showLlmSnapshotButton ? (
+        {showLlmSnapshotButton && !askOnlyAgent ? (
           <ChatIconTooltip content={t('agentSteps.viewSnapshot', { defaultValue: '查看 LLM 调用入参' })}>
             <button
               type="button"
