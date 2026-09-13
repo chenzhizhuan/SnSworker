@@ -260,7 +260,17 @@ export const AppLayout: React.FC = () => {
   const sidebarCollapsed = useUIStore(state => state.sidebarCollapsed)
   // 未登录态的核心入口就是左侧登录表单，不能继承工作台里的侧栏折叠偏好。
   // 折叠态顶部还会被窗口拖拽区覆盖，导致展开按钮在未登录页不可点。
-  const effectiveSidebarCollapsed = isAuthenticated && sidebarCollapsed
+  //
+  // 独立工具域（能力中心 / 场景市场 / 经营看板 / 问一句）是"全屏工具页"：
+  // 第二列侧栏内容为空，保留会白白挤窄主画布。这里强制折叠第二列
+  // （只留 80px 窄栏），但不写入全局偏好——离开这些域自动恢复用户的
+  // 折叠/展开设置。
+  const isStandaloneToolModule =
+    workbenchMode === 'capability' ||
+    workbenchMode === 'scenarios' ||
+    workbenchMode === 'cockpit' ||
+    workbenchMode === 'ask'
+  const effectiveSidebarCollapsed = isAuthenticated && (sidebarCollapsed || isStandaloneToolModule)
   const isProjectWorkbench =
     workbenchMode === 'app-page' && activeAppPage === 'project'
   const projectSpaceContext = useMemo(() => {
