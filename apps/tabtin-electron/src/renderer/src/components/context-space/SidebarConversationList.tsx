@@ -364,7 +364,12 @@ export const SidebarConversationList: React.FC<SidebarConversationListProps> = R
   }, [boundSessionIds, listSessionsSource])
   // 空会话（预建未发消息）不进侧栏；已下发指令但执行失败的任务仍需可追溯。
   const sessions = useMemo(
-    () => filterSidebarSessions(listSessionsSource, currentSessionId, keepAliveSessionIds),
+    () => filterSidebarSessions(
+      listSessionsSource,
+      currentSessionId,
+      keepAliveSessionIds,
+      { excludeAgentMode: 'ask' },
+    ),
     [listSessionsSource, currentSessionId, keepAliveSessionIds],
   )
   const draftExecutionSpaceId = useChatStore(

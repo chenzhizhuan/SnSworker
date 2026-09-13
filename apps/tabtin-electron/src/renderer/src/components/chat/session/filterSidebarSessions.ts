@@ -20,8 +20,11 @@ export function filterSidebarSessions(
   sessions: ChatSession[],
   currentSessionId: string | null,
   keepAliveSessionIds: ReadonlySet<string> = new Set(),
+  options?: { excludeAgentMode?: string },
 ): ChatSession[] {
+  const excludeAgentMode = options?.excludeAgentMode
   return sessions.filter((session) => {
+    if (excludeAgentMode && session.agent_mode === excludeAgentMode) return false
     if (session.status === 'archived' && session.id !== currentSessionId) return false
     if (sessionHasVisibleMessages(session)) return true
     if (keepAliveSessionIds.has(session.id)) return true

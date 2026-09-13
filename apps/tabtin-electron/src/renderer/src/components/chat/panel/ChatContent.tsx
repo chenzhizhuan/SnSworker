@@ -163,6 +163,8 @@ interface ChatContentProps {
   ) => Promise<void>
   onStop: () => void
   onModelChange: (modelId: string, tierId?: string, controlChange?: { key: string; value: import('@tabtin/chat-client').ModelParamValue }) => void
+  /** 问一句纯问答模式：隐藏附件/Agent 入口，只保留模型选择与输入框。 */
+  askOnlyAgent?: boolean
 }
 
 export const ChatContent: React.FC<ChatContentProps> = React.memo(({
@@ -191,6 +193,7 @@ export const ChatContent: React.FC<ChatContentProps> = React.memo(({
   onSendMessage,
   onStop,
   onModelChange,
+  askOnlyAgent = false,
 }) => {
   const { t } = useTranslation('chat')
   const currentAgentDisplay = useCurrentAgentDisplay(currentSessionId)
@@ -1080,11 +1083,11 @@ export const ChatContent: React.FC<ChatContentProps> = React.memo(({
             queueCount={sharedGrantee ? 0 : queueCount}
             isSendInFlight={!sharedGrantee && isSendInFlight}
             compactLeft={compactLeft || draftWithApp}
-            enableAgentPicker={!sharedGrantee && canSwitchDraftWorkspace}
-            canChangeAgent={!sharedGrantee && canChangeAgent}
+            enableAgentPicker={!sharedGrantee && !askOnlyAgent && canSwitchDraftWorkspace}
+            canChangeAgent={!sharedGrantee && !askOnlyAgent && canChangeAgent}
             draftScopeKey={draftScopeKey}
-            showAgentIdentity={!sharedGrantee}
-            showAddMenu={!sharedGrantee}
+            showAgentIdentity={!sharedGrantee && !askOnlyAgent}
+            showAddMenu={!sharedGrantee && !askOnlyAgent}
             composerWelcomeLayout={Boolean(draftMessageHint && !draftWithApp)}
             chatMessages={chatMessages}
             spaceId={sharedGrantee ? null : selectedSpaceId}

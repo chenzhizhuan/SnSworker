@@ -134,6 +134,7 @@ interface UseChatCallbacksParams {
       preferQuickStart?: boolean
       contextPayload?: Record<string, unknown>
       expectedDraftMessageId?: string
+      agentMode?: string
     },
   ) => Promise<EnsureSessionForSpaceResult>
   sendMessage: (
@@ -155,6 +156,8 @@ interface UseChatCallbacksParams {
   switchContextTier: (sessionId: string, tierId: string | null) => Promise<void>
   setModelParamOverride: (sessionId: string, key: string, value: ModelParamValue) => Promise<void>
   togglePinSession: (spaceId: string, sessionId: string) => void
+  /** 问一句纯问答：创建会话时写入 agent_mode='ask'，进入独立会话池。 */
+  askOnlyAgent?: boolean
 }
 
 export function useChatCallbacks(params: UseChatCallbacksParams) {
@@ -169,6 +172,7 @@ export function useChatCallbacks(params: UseChatCallbacksParams) {
     replacePendingModelParamOverrides,
     selectSession, startDraftSessionForSpace, deleteSession, renameSession, forkSession,
     ensureSessionForSpace, sendMessage, abortStreamFromComposer, syncContext, switchModel, switchContextTier, setModelParamOverride, togglePinSession,
+    askOnlyAgent = false,
   } = params
 
   const availableModels = useChatModelStore(s => s.availableModels)
@@ -319,7 +323,10 @@ export function useChatCallbacks(params: UseChatCallbacksParams) {
   ): Promise<string | null> => {
     // ：读 store 快照，禁止用 React 闭包里的陈旧 currentSessionId 短路到旧对话
     // ：local-pending 只是 UI 占位，不能当已建会话短路
-    const liveCurrentSessionId = controlledSessionId ?? useChatStore.getState().currentSessionId
+    // ：问一句（askOnlyAgent）不得回退全局指针，避免误发进办件事会话
+    const liveCurrentSessionId = askOnlyAgent
+      ? (controlledSessionId ?? null)
+      : (controlledSessionId ?? useChatStore.getState().currentSessionId)
     if (liveCurrentSessionId && !isLocalPendingSessionId(liveCurrentSessionId)) {
       return liveCurrentSessionId
     }
@@ -368,6 +375,7 @@ export function useChatCallbacks(params: UseChatCallbacksParams) {
         trigger: 'pre_send',
         preferQuickStart: true,
         ...(expectedDraftMessageId ? { expectedDraftMessageId } : {}),
+        ...(askOnlyAgent ? { agentMode: 'ask' } : {}),
       },
     )
     const newSessionId = provisioned.sessionId
@@ -388,7 +396,7 @@ export function useChatCallbacks(params: UseChatCallbacksParams) {
     }
     return newSessionId
   // ：不再依赖闭包 currentSessionId；保留 260805 草稿模型参数 deps
-  }, [controlledSessionId, resolvedOrganizationId, selectedSpaceId, ensureSessionForSpace, pendingModelId, sendableModelIds, switchModel, setPendingModelId, resolveSessionModelId, setModelParamOverride, stableDraftScopeKey])
+  }, [controlledSessionId, resolvedOrganizationId, selectedSpaceId, ensureSessionForSpace, pendingModelId, sendableModelIds, switchModel, setPendingModelId, resolveSessionModelId, setModelParamOverride, stableDraftScopeKey, askOnlyAgent])
 
   const markOptimisticSendFailed = useCallback((
     clientMessageId: string | undefined,
@@ -424,14 +432,21 @@ export function useChatCallbacks(params: UseChatCallbacksParams) {
     const draftUiSpaceId = conversationHostSpaceId ?? selectedSpaceId
     const chatSnap = useChatStore.getState()
     // ：发送判定一律读 store 快照，避免闭包仍持旧 currentSessionId
-    const liveCurrentSessionId = controlledSessionId ?? chatSnap.currentSessionId
-    const spaceSessionPointer = selectedSpaceId
-      ? (chatSnap.currentSessionIdBySpaceId[selectedSpaceId] ?? null)
-      : null
-    const inDraft = Boolean(
-      (draftUiSpaceId && chatSnap.draftSessionBySpaceId[draftUiSpaceId])
-      || (selectedSpaceId && chatSnap.draftSessionBySpaceId[selectedSpaceId]),
-    )
+    // ：问一句受控会话不消费全局草稿旗标，避免误走草稿首发路径
+    const liveCurrentSessionId = askOnlyAgent
+      ? (controlledSessionId ?? null)
+      : (controlledSessionId ?? chatSnap.currentSessionId)
+    const spaceSessionPointer = askOnlyAgent
+      ? null
+      : (selectedSpaceId
+        ? (chatSnap.currentSessionIdBySpaceId[selectedSpaceId] ?? null)
+        : null)
+    const inDraft = askOnlyAgent
+      ? false
+      : Boolean(
+        (draftUiSpaceId && chatSnap.draftSessionBySpaceId[draftUiSpaceId])
+        || (selectedSpaceId && chatSnap.draftSessionBySpaceId[selectedSpaceId]),
+      )
     const needsDraftFirstSend = Boolean(
       selectedSpaceId
       && (
@@ -807,6 +822,7 @@ export function useChatCallbacks(params: UseChatCallbacksParams) {
     selectedSpaceId,
     tabScopeKey,
     t,
+    askOnlyAgent,
   ])
 
   // ：local-pending 首发失败的气泡「重试」经此注册路由回完整首发编排

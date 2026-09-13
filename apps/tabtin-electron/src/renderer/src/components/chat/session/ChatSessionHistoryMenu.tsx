@@ -225,7 +225,7 @@ export const ChatSessionHistoryMenu: React.FC<ChatSessionHistoryMenuProps> = ({
   // 与侧栏一致：丢掉预建后未发消息的空「新任务」，包括当前预热会话，
   // 避免草稿提前进入最近任务并在组织级混显时占满顶栏。
   const visibleSessions = useMemo(
-    () => filterSidebarSessions(sessions, currentSessionId),
+    () => filterSidebarSessions(sessions, currentSessionId, new Set(), { excludeAgentMode: 'ask' }),
     [sessions, currentSessionId],
   )
   const sortedSessions = useSortedSessions(visibleSessions)

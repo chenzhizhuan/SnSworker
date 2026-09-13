@@ -18,7 +18,7 @@ export const ChatSessionList: React.FC<ChatSessionListProps> = ({ onSelectSessio
   const sessions = useChatStore(s => s.sessions)
   const currentSessionId = useChatStore(s => s.currentSessionId)
   const visibleSessions = useMemo(
-    () => filterSidebarSessions(sessions, currentSessionId),
+    () => filterSidebarSessions(sessions, currentSessionId, new Set(), { excludeAgentMode: 'ask' }),
     [sessions, currentSessionId],
   )
   const isLoading = useChatStore(s => s.isLoading)

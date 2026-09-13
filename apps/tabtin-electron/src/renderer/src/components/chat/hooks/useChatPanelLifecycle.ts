@@ -68,6 +68,8 @@ interface UseChatPanelLifecycleParams {
   tabScopeKey?: string | null
   draftScopeKey?: string | null
   sessions: ChatSession[]
+  /** 问一句纯问答：跳过草稿预建/列表加载副作用，会话池由 AskPage 自管。 */
+  askOnlyAgent?: boolean
 
   activeContextType: string | null
   activeAppMeta: Record<string, unknown> | null
@@ -104,6 +106,7 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
     loadModels,
     syncContext,
     switchModel,
+    askOnlyAgent = false,
   } = params
 
   // 生命周期副作用控制器（hook mount 期唯一；去重锁 / 防抖定时器归属其内部）。
@@ -239,16 +242,19 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
   // （store 里 sessionsBySpaceId[spaceId] 的原始引用），业务下沉见 reconcileSpacePointer.ts。
   useLayoutEffect(() => {
     if (!isForeground || !selectedSpaceId) return
+    if (askOnlyAgent) return // 问一句：受控会话，不碰全局规范指针
     syncSpaceCanonicalPointers(selectedSpaceId)
   }, [
     isForeground,
     selectedSpaceId,
     sessions,
+    askOnlyAgent,
   ])
 
   // ── Effect: Space 切换时先按缓存对齐全局指针，避免 loadSessions 完成前闪旧组织正文 ──
   useLayoutEffect(() => {
     if (!isForeground || !panelActive || !selectedSpaceId) return
+    if (askOnlyAgent) return // 问一句：受控会话，不碰全局指针
     const spaceSessionsLoadedNow = Object.prototype.hasOwnProperty.call(
       useChatStore.getState().sessionsBySpaceId,
       selectedSpaceId,
@@ -261,6 +267,7 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
     panelActive,
     selectedSpaceId,
     sessions,
+    askOnlyAgent,
   ])
 
   // ── Effect: restoringSessionId 超时保护 ──
@@ -294,15 +301,17 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
       return
     }
     if (!selectedSpaceId) return
+    if (askOnlyAgent) return // 问一句：列表由 AskPage 直接拉取，不走共享桶
     controllerRef.current!.ensureSpaceSessionsLoaded(selectedSpaceId, resolvedOrganizationId, loadSessions)
     return () => { controllerRef.current?.resetSessionLoadLock() }
-  }, [isForeground, panelActive, resolvedOrganizationId, effectiveGraphType, selectedSpaceId, loadSessions])
+  }, [isForeground, panelActive, resolvedOrganizationId, effectiveGraphType, selectedSpaceId, loadSessions, askOnlyAgent])
 
   // ── Effect: Space / 组织切换后对齐全局 currentSessionId（与 loadSessions 解耦）──
   // 空列表 / 已草稿 early-return 若不清全局，会出现「页签已换、正文仍是旧组织」串台。
   useEffect(() => {
     if (!isForeground || !panelActive || !resolvedOrganizationId || !effectiveGraphType) return
     if (!selectedSpaceId || !spaceSessionsLoaded) return
+    if (askOnlyAgent) return // 问一句：受控会话，不碰全局指针
     reconcileSpacePointer(selectedSpaceId, sessions)
   }, [
     isForeground,
@@ -314,6 +323,7 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
     sessions,
     spaceSessionsLoaded,
     spaceSessionCount,
+    askOnlyAgent,
   ])
 
   // ── Effect: 草稿态预热──
@@ -323,6 +333,7 @@ export function useChatPanelLifecycle(params: UseChatPanelLifecycleParams) {
   useEffect(() => {
     if (!isForeground || !panelActive || !selectedSpaceId || !resolvedOrganizationId) return
     if (!spaceSessionsLoaded) return
+    if (askOnlyAgent) return // 问一句：会话池由 AskPage 自管，不预建普通会话
     const draftUiSpaceId = conversationHostSpaceId ?? selectedSpaceId
     const inDraftUi = Boolean(
       draftSessionBySpaceId[draftUiSpaceId]

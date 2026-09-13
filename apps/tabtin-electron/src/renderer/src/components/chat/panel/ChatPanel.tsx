@@ -87,6 +87,11 @@ export interface ChatPanelProps {
   sharedSessionAccess?: SharedSessionAccessDescriptor | null
   /** 侧边受控会话主动拉取历史；owner 不携带 shareId，grantee 携带。 */
   forceControlledSessionHydration?: boolean
+  /**
+   * 问一句（AskPage）纯问答模式：隐藏附件/Skill/MCP 入口与 Agent 身份/切换，
+   * 仅保留模型选择与输入框。会话仍走 `agent_mode='ask'` 独立会话池。
+   */
+  askOnlyAgent?: boolean
 }
 
 export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
@@ -104,6 +109,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
   tabScopeKeyOverride,
   sharedSessionAccess: providedSharedSessionAccess,
   forceControlledSessionHydration = false,
+  askOnlyAgent = false,
 }) => {
   const compactLeft = variant === 'embedded'
   const panelSurfaceClass = variant === 'embedded'
@@ -130,9 +136,11 @@ export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
   const isPanelOpen = useChatStore(s => s.isPanelOpen)
   const globalCurrentSessionId = useChatStore(s => s.currentSessionId)
   const currentSessionIdBySpaceId = useChatStore(s => s.currentSessionIdBySpaceId)
-  const currentSessionId = controlledSessionId ?? (sessionListScope === 'selectedSpaceOnly' && selectedSpaceId
-    ? (currentSessionIdBySpaceId[selectedSpaceId] ?? null)
-    : globalCurrentSessionId)
+  const currentSessionId = controlledSessionId ?? (askOnlyAgent
+    ? null
+    : (sessionListScope === 'selectedSpaceOnly' && selectedSpaceId
+      ? (currentSessionIdBySpaceId[selectedSpaceId] ?? null)
+      : globalCurrentSessionId))
   const storedSharedSessionAccess = useSessionAccessStore(s => (
     currentSessionId ? s.bySessionId[currentSessionId] ?? null : null
   ))
@@ -307,6 +315,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
     loadModels,
     syncContext,
     switchModel,
+    askOnlyAgent,
   })
 
   const {
@@ -358,6 +367,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
     switchContextTier,
     setModelParamOverride,
     togglePinSession,
+    askOnlyAgent,
   })
 
   const handleDeleteExternalArchive = useCallback(async (
@@ -465,6 +475,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
     onSendMessage: callbacks.handleSendMessage,
     onStop: callbacks.handleStop,
     onModelChange: callbacks.handleModelChange,
+    askOnlyAgent,
   }
 
   return (
