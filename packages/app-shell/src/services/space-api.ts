@@ -1011,6 +1011,25 @@ export class WorkspaceApiService {
     return response.data.data as WorkspaceSummary
   }
 
+  static async ensureAsk(data: {
+    organization_id: string
+    device_id: string
+    working_dir: string
+    working_dir_type?: string
+    name?: string
+  }): Promise<WorkspaceSummary> {
+    const response = await authenticatedRequest({
+      url: joinApiPath(apiBaseUrl(), API_ENDPOINTS.WORKSPACE.ENSURE_ASK),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    if (!response || response.status !== 200 || !response.data?.success) {
+      throw new Error(response?.data?.message || 'Failed to ensure ask workspace')
+    }
+    return response.data.data as WorkspaceSummary
+  }
+
   static async update(
     workspaceId: string,
     data: Pick<

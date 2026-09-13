@@ -40,7 +40,7 @@ export type AgentModeName = (typeof AGENT_MODE_NAMES)[number];
  * （每个模式可提议切到「本集合 − 自身」，见 ）。改这里一处即同时影响两端，杜绝漂移。
  */
 export const SELECTABLE_AGENT_MODES: readonly AgentModeName[] =
-  AGENT_MODE_NAMES.filter((m) => m !== 'yolo' && m !== 'study');
+  AGENT_MODE_NAMES.filter((m) => m !== 'yolo' && m !== 'study' && m !== 'ask');
 
 const AGENT_MODE_NAME_SET = new Set<string>(AGENT_MODE_NAMES);
 

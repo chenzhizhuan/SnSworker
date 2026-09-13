@@ -220,6 +220,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = React.memo(({
     const result: ChatSession[] = []
     for (const targetSpaceId of chatSessionSpaceIds) {
       for (const session of sessionsBySpaceId[targetSpaceId] ?? EMPTY_CHAT_SESSIONS) {
+        // 问一句会话池隔离：办件事 ChatPanel 不消费 ask 会话
+        if (session.agent_mode === 'ask') continue
         if (seen.has(session.id)) continue
         seen.add(session.id)
         result.push(resolveSessionScopeId(session) ? session : { ...session, space_id: targetSpaceId })

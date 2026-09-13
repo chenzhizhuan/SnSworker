@@ -79,6 +79,8 @@ export interface SessionLifecycleStore {
   currentSessionIdBySpaceId: Record<string, string | null>
   checkpointsBySessionId: Record<string, Record<string, string>>
   lastContextSyncFingerprintBySessionId: Record<string, string>
+  /** 从 sessionPointerSlice 装配；lifecycle 需要用它检查 agent_mode 匹配 */
+  getSessionById: (sessionId: string) => ChatSession | undefined
 }
 
 type GetFn = () => SessionLifecycleStore
@@ -762,6 +764,7 @@ export function createSessionLifecycleAction(
       {
         expectedDraftMessageId: options.expectedDraftMessageId,
         retainDraftMessage: retainDraft,
+        attachOnly: options.attachOnly,
       },
     ))
     if (shouldRehomeShellAfterProvision(retainDraft)) {
@@ -791,10 +794,25 @@ export function createSessionLifecycleAction(
   ): Promise<EnsureSessionForSpaceResult> => {
     const existingId = get().currentSessionIdBySpaceId[spaceId]
     if (existingId) {
-      return {
-        sessionId: existingId,
-        mode: 'existing',
-        contextFingerprint: get().lastContextSyncFingerprintBySessionId[existingId] ?? null,
+      // 问一句会话池隔离：若调用方指定了 agentMode（如 'ask'），
+      // 不复用已有指针对应的会话（它可能是办件事工作会话，agent_mode 不匹配）。
+      if (options.agentMode) {
+        const existingSession = get().getSessionById(existingId)
+        if (existingSession && existingSession.agent_mode !== options.agentMode) {
+          // 指针指向的会话 agent_mode 不匹配，跳过复用，走 provision
+        } else {
+          return {
+            sessionId: existingId,
+            mode: 'existing',
+            contextFingerprint: get().lastContextSyncFingerprintBySessionId[existingId] ?? null,
+          }
+        }
+      } else {
+        return {
+          sessionId: existingId,
+          mode: 'existing',
+          contextFingerprint: get().lastContextSyncFingerprintBySessionId[existingId] ?? null,
+        }
       }
     }
 
@@ -815,7 +833,18 @@ export function createSessionLifecycleAction(
         excludeSessionIds,
       })
       if (reusableId) {
-        return adoptReusableEmptySession(spaceId, reusableId, options)
+        // 问一句会话池隔离：不复用 agent_mode 不匹配的空会话
+        if (options.agentMode) {
+          const reusableSession = spaceSessions.find(s => s.id === reusableId)
+          if (reusableSession && reusableSession.agent_mode
+            && reusableSession.agent_mode !== options.agentMode) {
+            // agent_mode 不匹配，跳过复用，走 provision
+          } else {
+            return adoptReusableEmptySession(spaceId, reusableId, options)
+          }
+        } else {
+          return adoptReusableEmptySession(spaceId, reusableId, options)
+        }
       }
     }
 

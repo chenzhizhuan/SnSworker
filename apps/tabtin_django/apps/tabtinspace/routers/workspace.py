@@ -65,6 +65,14 @@ class HomeWorkspaceEnsure(Schema):
     name: Optional[str] = Field(default="", description="本地化展示名（中「主场」/英「Home」）")
 
 
+class AskWorkspaceEnsure(Schema):
+    organization_id: UUID = Field(..., description="所属组织 ID")
+    device_id: UUID = Field(..., description="本机执行设备 ID")
+    working_dir: str = Field(..., description="客户端解析的问一句专属目录绝对路径")
+    working_dir_type: Optional[str] = Field(default="mixed", description="缺省 mixed")
+    name: Optional[str] = Field(default="问一句", description="展示名")
+
+
 class WorkspaceTrustUpdate(Schema):
     trust_status: str = Field(..., description="trusted / untrusted（一个总开关不分项）")
 
@@ -176,6 +184,37 @@ def ensure_home_workspace(request: HttpRequest, data: HomeWorkspaceEnsure):
             working_dir=data.working_dir,
             working_dir_type=data.working_dir_type or "mixed",
             name=data.name or "",
+        )
+    except ServiceError as e:
+        return error_response(e.code, e.message, status_code=e.status)
+    payload = serialize_workspace(workspace)
+    payload["created"] = created
+    return success_response(data=payload)
+
+
+@router.post(
+    "/workspaces/ensure-ask",
+    auth=jwt_auth,
+    response={200: dict, 400: ErrorResponse, 401: ErrorResponse,
+              403: ErrorResponse, 404: ErrorResponse, 409: ErrorResponse},
+    summary="幂等供给问一句专属空间",
+)
+def ensure_ask_workspace(request: HttpRequest, data: AskWorkspaceEnsure):
+    """幂等确保当前用户在当前设备的问一句专属工作空间。
+
+    问一句专属空间特点：
+    - provisioning_source='system_ask'，侧栏自动隐藏（is_companion=True）
+    - 办件事不可见、不可切换；问一句会话全部归属此空间
+    - 多设备各自有自己的问一句空间，会话通过服务端 agent_mode='ask' 过滤
+    """
+    service = WorkspaceService(user=request.auth)
+    try:
+        workspace, created = service.ensure_ask_workspace(
+            organization_id=data.organization_id,
+            device_id=data.device_id,
+            working_dir=data.working_dir,
+            working_dir_type=data.working_dir_type or "mixed",
+            name=data.name or "问一句",
         )
     except ServiceError as e:
         return error_response(e.code, e.message, status_code=e.status)

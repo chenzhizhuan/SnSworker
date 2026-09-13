@@ -4,10 +4,12 @@
  * 定位：办件事工作台的纯问答精简版。复用 ChatPanel 受控渲染完整工作台体验
  * （markdown / 代码高亮 / HITL 卡片 / 流式输出 / 停止 / 重试），但：
  *   - 会话池独立：agent_mode='ask'，与办件事会话天然隔离；
+ *   - 专属工作空间：provisioning_source='system_ask'，侧栏自动隐藏、办件事不可见；
  *   - 只保留问答：隐藏附件 / Skill / MCP / Agent 身份入口（askOnlyAgent）；
  *   - 模型选择保留。
  *
  * 结构（薄壳）：
+ *   - 启动：自动调 ensureAsk 获取/创建问一句专属工作空间（幂等）；
  *   - 顶部：自管 ask 会话历史列表（直接调 chat-client 拉 agent_mode='ask'，
  *     不走 store loadSessions，避免共享桶互相覆盖）；
  *   - 主区：ChatPanel controlledSessionId 受控嵌入（不碰全局指针 / 共享桶指针）。
@@ -19,11 +21,11 @@
  *   - 历史会话：点击后 loadSessionMessages hydrate → setActiveSessionId。
  */
 
-import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MessageSquare, Search, Send, Trash2, Plus } from 'lucide-react'
-import { useSpaceStore } from '@stores/useSpaceStore'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
+import { useDeviceStore } from '@stores/useDeviceStore'
 import { useChatStore } from '@stores/chat/useChatStore'
 import { isSessionBusy } from '@stores/chat/execution/sessionRunProjection'
 import { setSessionAgentMode } from '@stores/chat/session/sessionAgentMode'
@@ -31,6 +33,11 @@ import { resolveChatSessionListQuery } from '@stores/chat/session/utils/chatSess
 import { ChatPanel } from '@components/chat/panel/ChatPanel'
 import { getChatClient } from '@/services/chatApi'
 import type { ChatSession } from '@tabtin/chat-client'
+import { WorkspaceApiService } from '@tabtin/app-shell'
+import type { WorkspaceSummary } from '@tabtin/app-shell'
+import { createLogger } from '@/utils/logger'
+
+const log = createLogger('AskPage')
 
 const SUGGESTED_QUESTIONS = [
   '如何创建工作空间？',
@@ -64,11 +71,49 @@ export const AskPage: React.FC = () => {
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [sending, setSending] = useState(false)
   const [input, setInput] = useState('')
+  const [askWorkspace, setAskWorkspace] = useState<WorkspaceSummary | null>(null)
+  const [workspaceLoading, setWorkspaceLoading] = useState(true)
 
-  // 当前选中 space / 组织
-  const spaceId = useSpaceStore(s => s.selectedSpace?.id ?? null)
-  const selectedSpace = useSpaceStore(s => s.selectedSpace)
   const organizationId = useOrganizationStore(s => s.selectedOrganization?.id ?? null)
+  const organizationName = useOrganizationStore(s => s.selectedOrganization?.name ?? '')
+  const deviceId = useDeviceStore(s => s.currentDevice?.id ?? null)
+
+  // ── 幂等获取/创建问一句专属工作空间 ──
+  useEffect(() => {
+    if (!organizationId || !deviceId) return
+    let cancelled = false
+    setWorkspaceLoading(true)
+    void (async () => {
+      try {
+        // 获取问一句专属目录（与 home 类似但独立命名）
+        const dirResult = await window.tabtin?.fileSystem?.ensureDefaultAgentDir({
+          organizationName,
+          spaceName: '问一句',
+        })
+        if (!dirResult?.success || !dirResult.path) {
+          log.warn('ensureDefaultAgentDir failed for ask workspace:', dirResult?.error ?? 'no path')
+          return
+        }
+        if (cancelled) return
+        const workspace = await WorkspaceApiService.ensureAsk({
+          organization_id: organizationId,
+          device_id: deviceId,
+          working_dir: dirResult.path,
+          working_dir_type: 'mixed',
+          name: '问一句',
+        })
+        if (cancelled) return
+        setAskWorkspace(workspace)
+      } catch (err) {
+        log.warn('ensureAsk failed:', err instanceof Error ? err.message : String(err))
+      } finally {
+        if (!cancelled) setWorkspaceLoading(false)
+      }
+    })()
+    return () => { cancelled = true }
+  }, [organizationId, organizationName, deviceId])
+
+  const spaceId = askWorkspace?.id ?? null
 
   // ── 历史 ask 会话列表（自管，不走共享桶）──
   const refreshHistory = useCallback(async () => {
@@ -95,6 +140,28 @@ export const AskPage: React.FC = () => {
   useEffect(() => {
     void refreshHistory()
   }, [refreshHistory])
+
+  // ── 标题自动刷新：订阅 store 中 ask 会话的 title 变化 ──
+  // WS agent.user.title_updated 只更新 store 的 sessionsBySpaceId 桶，
+  // AskPage 的 history 是局部 state 收不到通知。这里通过订阅 store 变化同步标题。
+  const storeAskSessions = useChatStore(s =>
+    spaceId ? (s.sessionsBySpaceId[spaceId] ?? []).filter(sess => sess.agent_mode === 'ask') : [],
+  )
+  useEffect(() => {
+    if (storeAskSessions.length === 0 || history.length === 0) return
+    let changed = false
+    const updated = history.map(entry => {
+      const storeSession = storeAskSessions.find(s => s.id === entry.id)
+      if (storeSession && storeSession.title && storeSession.title !== entry.title) {
+        changed = true
+        return { ...entry, title: storeSession.title }
+      }
+      return entry
+    })
+    if (changed) {
+      setHistory(updated)
+    }
+  }, [storeAskSessions, history])
 
   // 切换 space 后：当前会话若不属于新 space 的 ask 池，清掉 active 指向
   useEffect(() => {
@@ -217,18 +284,38 @@ export const AskPage: React.FC = () => {
     }
   }, [history, activeSessionId])
 
-  // ChatPanel 所需 spaceContext：直接用 selectedSpace（满足 SpaceContext 结构）
+  // ChatPanel 所需 spaceContext：用 ask 专属工作空间构造
   const spaceContext = useMemo(() => {
-    if (!selectedSpace) return null
+    if (!askWorkspace) return null
     return {
-      id: selectedSpace.id,
-      name: selectedSpace.name,
-      organization_id: selectedSpace.organization_id,
-      ...(selectedSpace.agent_id != null ? { agent_id: selectedSpace.agent_id } : {}),
-      ...(selectedSpace.config_version != null ? { config_version: selectedSpace.config_version } : {}),
-      ...(selectedSpace.suggested_prompts ? { suggested_prompts: selectedSpace.suggested_prompts } : {}),
+      id: askWorkspace.id,
+      name: askWorkspace.name,
+      organization_id: askWorkspace.organization_id,
+      ...(askWorkspace.agent_id != null ? { agent_id: askWorkspace.agent_id } : {}),
     }
-  }, [selectedSpace])
+  }, [askWorkspace])
+
+  // 工作空间加载中：显示骨架屏
+  if (workspaceLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <span className="block h-6 w-6 rounded-full border-2 border-border border-t-accent animate-spin" />
+      </div>
+    )
+  }
+
+  // 工作空间获取失败：显示错误提示
+  if (!askWorkspace) {
+    return (
+      <div className="flex h-full w-full items-center justify-center px-8">
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">
+            {t('sidebar:ask.workspaceError', { defaultValue: '问一句工作空间初始化失败，请稍后重试' })}
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex h-full w-full overflow-hidden">

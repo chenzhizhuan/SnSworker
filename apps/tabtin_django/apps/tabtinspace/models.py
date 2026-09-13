@@ -853,10 +853,12 @@ class Workspace(models.Model):
         USER = 'user', '用户主动创建'
         SYSTEM_PROJECT = 'system_project', '系统随 Project 自动供给'
         SYSTEM_TASK = 'system_task', '系统随 Task 自动供给'
+        SYSTEM_ASK = 'system_ask', '系统问一句专属'
 
     SYSTEM_PROVISIONING_SOURCES = frozenset({
         ProvisioningSource.SYSTEM_PROJECT,
         ProvisioningSource.SYSTEM_TASK,
+        ProvisioningSource.SYSTEM_ASK,
     })
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

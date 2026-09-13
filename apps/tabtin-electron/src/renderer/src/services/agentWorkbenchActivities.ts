@@ -149,6 +149,8 @@ export async function fetchAgentChatActivities(input: {
   const filtered = filterSidebarSessions(
     (response.sessions ?? []) as ChatSession[],
     null,
+    new Set(),
+    { excludeAgentMode: 'ask' },
   )
   return filtered
     .slice(0, limit)

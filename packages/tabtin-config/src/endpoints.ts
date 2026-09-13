@@ -344,6 +344,7 @@ export const API_ENDPOINTS = {
     LIST: '/context/workspaces',
     CREATE: '/context/workspaces',
     ENSURE_HOME: '/context/workspaces/ensure-home',
+    ENSURE_ASK: '/context/workspaces/ensure-ask',
     DETAIL: (workspaceId: string) => `/context/workspaces/${workspaceId}`,
     UPDATE: (workspaceId: string) => `/context/workspaces/${workspaceId}`,
     DELETE: (workspaceId: string) => `/context/workspaces/${workspaceId}`,

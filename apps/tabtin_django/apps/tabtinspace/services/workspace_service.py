@@ -889,6 +889,82 @@ class WorkspaceService(BaseService):
             raise
 
 
+    @transaction.atomic(using=postgres_app_db_alias())
+    def ensure_ask_workspace(
+        self,
+        organization_id: UUID,
+        device_id: UUID,
+        working_dir: str,
+        working_dir_type: str = 'mixed',
+        name: str = '',
+    ) -> Tuple[Workspace, bool]:
+        """幂等确保当前用户在指定设备的问一句专属工作空间。
+
+        幂等键 (organization, device, created_by, provisioning_source='system_ask')：
+        已存在直接返回；不存在则创建，provisioning_source 标记为 system_ask，
+        自动归入 SYSTEM_PROVISIONING_SOURCES → 侧栏隐藏、办件事不可见。
+
+        问一句专属工作空间特点：
+        - 不在办件事侧栏/空间列表中展示（is_companion=True）
+        - 问一句会话全部归属此空间，与办件事会话物理隔离
+        - 多设备/多机器各自有自己的问一句专属空间，会话通过服务端 agent_mode='ask' 过滤
+
+        Returns:
+            (workspace, created)
+        """
+        if not self.user:
+            raise ServiceError('AUTH_REQUIRED', '用户未登录', 401)
+        if not self.check_organization_permission(str(organization_id), 'viewer'):
+            raise ServiceError('PERMISSION_DENIED', '无权限在此组织供给问一句空间', 403)
+        try:
+            organization = Organization.objects.get(id=organization_id)
+        except Organization.DoesNotExist:
+            raise ServiceError('ORGANIZATION_NOT_FOUND', '组织不存在', 404)
+
+        normalized = canonical_working_dir(working_dir)
+        if not normalized:
+            raise ServiceError('WORKING_DIR_REQUIRED', '问一句空间供给必须携带客户端解析的目录', 400)
+        device = self._resolve_device(device_id, organization)
+
+        existing = Workspace.objects.filter(
+            organization=organization,
+            device=device,
+            created_by=self.user,
+            provisioning_source=Workspace.ProvisioningSource.SYSTEM_ASK,
+        ).first()
+        if existing is not None:
+            self._heal_creator_owner_membership(existing)
+            return existing, False
+
+        try:
+            with transaction.atomic(using=postgres_app_db_alias()):
+                workspace = Workspace.objects.create(
+                    organization=organization,
+                    device=device,
+                    name=name or '问一句',
+                    working_dir=normalized,
+                    normalized_working_dir=normalized,
+                    working_dir_type=working_dir_type or 'mixed',
+                    kind=Workspace.Kind.STANDARD,
+                    provisioning_source=Workspace.ProvisioningSource.SYSTEM_ASK,
+                    trust_status=Workspace.TrustStatus.TRUSTED,
+                    trust_source=Workspace.TrustSource.SYSTEM_PROVISIONED,
+                    trusted_at=timezone.now(),
+                    created_by=self.user,
+                )
+            self._ensure_creator_owner_membership(workspace)
+            return workspace, True
+        except IntegrityError as exc:
+            exc_str = str(exc).lower()
+            if 'ctx_ws_device_dir_unique' in exc_str:
+                raise ServiceError(
+                    'WORKING_DIR_CONFLICT',
+                    '问一句目录已被该设备上的另一个 Workspace 占用',
+                    409,
+                )
+            raise
+
+
 __all__ = [
     "WorkspaceService",
     "serialize_workspace",
