@@ -774,18 +774,20 @@ export function createSessionCrudActions(
    * ：发起前 capture epoch；写回经 commitSpaceSessionListMerge 门控 +
    * 按 id 合并（保留从未被 list 观察过的本地 upsert），禁止陈旧整桶覆盖。
    */
-  const fetchSessionsFromServer = async (
+const fetchSessionsFromServer = async (
     spaceId: string,
     organizationId: string | undefined,
     {
       showLoading,
       excludeAgentMentionSessions,
+      agentMode,
     }: {
       showLoading: boolean
       excludeAgentMentionSessions: boolean
+      agentMode?: string
     },
   ) => {
-    const requestKey = `${spaceId}:${excludeAgentMentionSessions ? 'sidebar' : 'default'}`
+    const requestKey = `${spaceId}:${excludeAgentMentionSessions ? 'sidebar' : 'default'}:${agentMode ?? ''}`
     if (inflightSessionLoads.has(requestKey)) return
     inflightSessionLoads.add(requestKey)
     if (showLoading && resolveActiveSpaceId() === spaceId) set({ isLoading: true })
@@ -802,6 +804,9 @@ export function createSessionCrudActions(
         status: 'active',
         exclude_agent_mention_sessions: excludeAgentMentionSessions,
         include_tracker_runs: false,
+        // 问一句（AskPage）会话池隔离：可选 agent_mode 过滤。
+        // 办件事不传 = 看全部；问一句传 'ask' 只看自己。
+        ...(agentMode ? { agent_mode: agentMode } : {}),
       })
       const {
         sessions,
@@ -895,10 +900,11 @@ export function createSessionCrudActions(
     loadSessions: async (
       spaceId: string,
       organizationId?: string,
-      options?: { excludeAgentMentionSessions?: boolean },
+      options?: { excludeAgentMentionSessions?: boolean; agentMode?: string },
     ) => {
       const cached = get().sessionsBySpaceId[spaceId]
       const excludeAgentMentionSessions = options?.excludeAgentMentionSessions === true
+      const agentMode = options?.agentMode
       const shouldSyncCurrent = resolveActiveSpaceId() === spaceId
       trackChatTelemetry('session.load.start', {
         spaceId,
@@ -906,7 +912,7 @@ export function createSessionCrudActions(
         cacheHit: cached !== undefined,
       }, { counterKey: 'session.load.start' })
 
-      if (cached !== undefined) {
+if (cached !== undefined) {
         // 读写回时用 live 桶，禁止用入口捕获的 stale `cached` 覆盖期间 upsert。
         const live = get().sessionsBySpaceId[spaceId] ?? cached
         get().setSpaceSessions(
@@ -918,12 +924,14 @@ export function createSessionCrudActions(
         trackChatTelemetry('session.load.cache_hit', {
           spaceId,
           count: live.length,
+          agentMode: agentMode ?? null,
         }, { counterKey: 'session.load.cache_hit' })
         // 后台 revalidate：不阻塞 caller（导航等路径 await 的是"列表可用"），
         // 拉到新数据后经 merge/epoch 门控写回。
         void fetchSessionsFromServer(spaceId, organizationId, {
           showLoading: false,
           excludeAgentMentionSessions,
+          agentMode,
         })
         return
       }
@@ -931,6 +939,7 @@ export function createSessionCrudActions(
       await fetchSessionsFromServer(spaceId, organizationId, {
         showLoading: true,
         excludeAgentMentionSessions,
+        agentMode,
       })
     },
 

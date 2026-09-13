@@ -99,14 +99,24 @@ export interface SessionLifecycleDeps {
         spaceId: string,
         organizationId: string | undefined,
         modelId: string | undefined,
-        binding: { agentId: string; workspaceId?: string | null; projectId?: string | null },
+        binding: {
+          agentId: string
+          workspaceId?: string | null
+          projectId?: string | null
+          agentMode?: string
+        },
       ) => Promise<ChatSession>
       quickStart?: (
         spaceId: string,
         organizationId: string | undefined,
         modelId: string | undefined,
         initialContext: Record<string, unknown> | undefined,
-        binding: { agentId: string; workspaceId?: string | null; projectId?: string | null },
+        binding: {
+          agentId: string
+          workspaceId?: string | null
+          projectId?: string | null
+          agentMode?: string
+        },
       ) => Promise<QuickStartSessionResponse>
     }
   }
@@ -165,6 +175,12 @@ export interface EnsureSessionForSpaceOptions {
    * 导入展开：先注入再导航，避免空会话抢前台。
    */
   attachOnly?: boolean
+  /**
+   * 问一句（AskPage）会话池隔离：创建会话时写入 agent_mode。
+   * 传 'ask' 后该会话只出现在带 agent_mode=ask 过滤的列表里，
+   * 与办件事（默认不过滤）会话天然隔离。
+   */
+  agentMode?: string
 }
 
 export interface EnsureSessionForSpaceResult {
@@ -442,6 +458,7 @@ export function createSessionLifecycleAction(
       agentId: agent.id,
       workspaceId,
       projectId: currentProjectId ?? undefined,
+      agentMode: options.agentMode ?? undefined,
     }
 
     // 调用方未显式传 modelId 时：当前设备默认 → Agent sticky → 当前用户默认 → Agent 平台首选。

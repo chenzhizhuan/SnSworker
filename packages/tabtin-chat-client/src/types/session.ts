@@ -795,6 +795,11 @@ export interface SessionQueryParams {
    * 详见 `ChatSessionSwitcher.tsx` 的折叠分组懒加载逻辑。
    */
   include_tracker_runs?: boolean
+  /**
+   * 问一句（AskPage）会话池隔离：可选 agent_mode 过滤。
+   * 默认不传 = 不过滤（办件事等老调用方行为不变）。
+   */
+  agent_mode?: string
 }
 
 /**
@@ -860,6 +865,10 @@ export interface AllSessionQueryParams {
    * 语义同 {@link SessionQueryParams.include_tracker_runs}。
    */
   include_tracker_runs?: boolean
+  /**
+   * 问一句（AskPage）会话池隔离：可选 agent_mode 过滤（默认不过滤）。
+   */
+  agent_mode?: string
 }
 
 /**

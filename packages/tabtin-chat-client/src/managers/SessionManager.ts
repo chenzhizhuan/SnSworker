@@ -37,6 +37,7 @@ export class SessionManager {
       workspaceId?: string | null
       projectId?: string | null
       targetDeviceId?: string | null
+      agentMode?: string
     },
   ): Promise<ChatSession> {
     const request: CreateSessionRequest = {
@@ -44,6 +45,7 @@ export class SessionManager {
       workspace_id: binding.workspaceId,
       project_id: binding.projectId,
       target_device_id: binding.targetDeviceId,
+      agent_mode: binding.agentMode,
       organization_id: organizationId,
       model_id: modelId,
     }
@@ -63,6 +65,7 @@ export class SessionManager {
       workspaceId?: string | null
       projectId?: string | null
       targetDeviceId?: string | null
+      agentMode?: string
     },
   ): Promise<QuickStartSessionResponse> {
     if (!binding?.agentId) {
@@ -73,6 +76,7 @@ export class SessionManager {
       workspace_id: binding.workspaceId,
       project_id: binding.projectId,
       target_device_id: binding.targetDeviceId,
+      agent_mode: binding.agentMode,
       organization_id: organizationId,
       model_id: modelId,
       ...(initialContext ?? {}),

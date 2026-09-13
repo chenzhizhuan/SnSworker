@@ -642,6 +642,7 @@ def list_sessions(
     status: Optional[str] = None,
     exclude_agent_mention_sessions: bool = False,
     include_tracker_runs: bool = False,
+    agent_mode: Optional[str] = None,
 ):
     """
     获取会话列表
@@ -753,6 +754,11 @@ def list_sessions(
 
     if status:
         query = query.filter(status=status)
+
+    # 问一句（AskPage）会话池隔离：可选 agent_mode 过滤。
+    # 默认不传 = 不过滤（老客户端行为不变）；传 'ask' 只看问一句会话。
+    if agent_mode:
+        query = query.filter(agent_mode=agent_mode)
 
     # 隐患 5 / 方案 ①(charter v1.8 §6.7):后端 Tracker session 分桶。
     # _fetch_tracker_run_session_ids 跨库 PG 查询,失败时返 None → fallback 到
@@ -1126,6 +1132,7 @@ def list_all_sessions(
     include_tracker_runs: bool = False,
     workspace_id: Optional[str] = None,
     run_status: Optional[str] = None,
+    agent_mode: Optional[str] = None,
 ):
     """
     跨 Space 获取用户所有对话
@@ -1196,6 +1203,10 @@ def list_all_sessions(
 
     if status:
         query = query.filter(status=status)
+
+    # 问一句（AskPage）会话池隔离：可选 agent_mode 过滤（默认不过滤）。
+    if agent_mode:
+        query = query.filter(agent_mode=agent_mode)
 
     # ：workspace / 运行态筛选必须在排序与分页之前，否则客户端二次过滤
     # 会让「加载更多」跳条、段内数量不可信。

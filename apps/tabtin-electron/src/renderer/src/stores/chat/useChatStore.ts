@@ -306,7 +306,7 @@ export interface ChatState extends HostPendingSendStore, InterruptHostPendingSto
   loadSessions: (
     spaceId: string,
     organizationId?: string,
-    options?: { excludeAgentMentionSessions?: boolean },
+    options?: { excludeAgentMentionSessions?: boolean; agentMode?: string },
   ) => Promise<void>
   /**
    * 隐患 5 / 方案 ①（charter v1.8 §6.7 主侧栏分桶）：
