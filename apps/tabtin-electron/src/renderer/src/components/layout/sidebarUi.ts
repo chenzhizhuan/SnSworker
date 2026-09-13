@@ -417,7 +417,7 @@ export const ACTIVITY_RAIL_ICON_SIZE = 22
 
 /** 窄栏图标下方文字标签样式 */
 export const ACTIVITY_RAIL_LABEL =
-  'text-[10px] leading-tight font-medium truncate max-w-full text-center'
+  'text-[11px] leading-tight font-medium truncate max-w-full text-center'
 
 /** 主域导航专用描边，比侧栏菜单行（1.5）略粗以提升 rail 视觉重量。 */
 export const ACTIVITY_RAIL_ICON_STROKE = 2
