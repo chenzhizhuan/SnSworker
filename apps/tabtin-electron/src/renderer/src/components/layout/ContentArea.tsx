@@ -200,7 +200,7 @@ export const ContentArea: React.FC<ContentAreaProps> = ({
       <CapabilityPage />
     );
   } else if (workbenchMode === 'scenarios') {
-    const scenariosUrl = import.meta.env.VITE_SCENARIOS_URL || 'http://221.237.179.2:13490';
+    const scenariosUrl = import.meta.env.VITE_SCENARIOS_URL || 'http://221.237.179.2:13481/#scenarios';
     mainContent = (
       <EmbeddedWebView url={scenariosUrl} />
     );

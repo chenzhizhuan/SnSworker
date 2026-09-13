@@ -7,7 +7,7 @@
  *
  * 安全策略由主进程 will-attach-webview 白名单统一裁决（attach-policy.ts）：
  *   - browser guest，空 partition（共享默认 session）
- *   - src 仅 http(s)（13490 / 13491 均符合）
+ *   - src 仅 http(s)（13481 / 13491 均符合）
  *   - 无 preload / nodeIntegration（sandbox + contextIsolation 强制开启）
  */
 
