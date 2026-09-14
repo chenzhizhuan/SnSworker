@@ -48,22 +48,22 @@ android {
         throw GradleException("TABTIN_GIT_SHA 必须是 7～40 位小写十六进制 Git SHA")
     }
     val releaseApiBaseUrl = if (releaseUsesProduction) {
-        "https://api.example.com/api"
+        "http://221.237.179.2:13492/api"
     } else {
         "https://api-test.example.com/api"
     }
     val releaseWsBaseUrl = if (releaseUsesProduction) {
-        "wss://api.example.com/ws/v1/gateway"
+        "ws://221.237.179.2:13493"
     } else {
         "wss://api-test.example.com/ws/v1/gateway"
     }
     val releaseWebBaseUrl = if (releaseUsesProduction) {
-        "https://web.example.com"
+        "http://221.237.179.2:13490"
     } else {
         "https://web-test.example.com"
     }
     val releaseCentrifugoWsUrl = if (releaseUsesProduction) {
-        "wss://centrifugo.example.com/connection/websocket"
+        "ws://221.237.179.2:13494/connection/websocket"
     } else {
         "wss://centrifugo-test.example.com/connection/websocket"
     }
@@ -104,7 +104,7 @@ android {
         buildConfigField("String", "CENTRIFUGO_WS_URL", "\"$devCentrifugoWsUrl\"")
         buildConfigField("String", "IM_API_BASE_URL", "\"$devImApiBaseUrl\"")
         // prod 域名常量，供按 apiBaseUrl 推导 Centrifugo 环境。
-        buildConfigField("String", "CENTRIFUGO_WS_URL_PROD", "\"wss://centrifugo.example.com/connection/websocket\"")
+        buildConfigField("String", "CENTRIFUGO_WS_URL_PROD", "\"ws://221.237.179.2:13494/connection/websocket\"")
         buildConfigField("String", "OBSERVABILITY_ENVIRONMENT", "\"test\"")
         buildConfigField("String", "TABTIN_GIT_SHA", "\"$gitSha\"")
 
@@ -141,7 +141,7 @@ android {
             buildConfigField("String", "WEB_BASE_URL", "\"$releaseWebBaseUrl\"")
             buildConfigField("String", "CENTRIFUGO_WS_URL", "\"$releaseCentrifugoWsUrl\"")
             buildConfigField("String", "IM_API_BASE_URL", "\"$releaseImApiBaseUrl\"")
-            buildConfigField("String", "CENTRIFUGO_WS_URL_PROD", "\"wss://centrifugo.example.com/connection/websocket\"")
+            buildConfigField("String", "CENTRIFUGO_WS_URL_PROD", "\"ws://221.237.179.2:13494/connection/websocket\"")
             buildConfigField("String", "OBSERVABILITY_ENVIRONMENT", "\"$observabilityEnvironment\"")
         }
     }
