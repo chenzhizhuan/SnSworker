@@ -508,9 +508,13 @@ export function usePrimaryNavigation(input: {
       return
     }
     if (target === 'tasks') {
-      if (wasProjectImmersive) {
-        // 从 Project 沉浸回任务域：走正规退出编排（落回项目执行工作空间 /
-        // 默认个人工作空间，并清空 selectedProjectId），不能停在 team_space 上。
+      // 从 Project 沉浸回任务域：走正规退出编排（落回项目执行工作空间 /
+      // 默认个人工作空间，并清空 selectedProjectId），不能停在 team_space 上。
+      // 额外兜底：从「协作」列表页（activePage=collaboration）切回任务域时
+      // selectedSpaceKind 可能残留 'team'（returnToCollaborationList 不清除
+      // team 选中态），同样要走退出编排，否则任务侧栏会渲染成项目任务历史。
+      const isTeamSelectionResidual = useSpaceListStore.getState().selectedSpaceKind === 'team'
+      if (wasProjectImmersive || isTeamSelectionResidual) {
         handleExitProject()
       } else {
         setCurrentTab('agent')

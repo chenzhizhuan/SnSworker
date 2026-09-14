@@ -44,5 +44,12 @@ export function exitTeamSpaceProjectView(personalSpaceId?: string | null) {
   useMainNavStore.getState().setCurrentTab('agent')
   if (personalSpaceId) {
     useSpaceListStore.getState().selectSpaceBySpaceId(personalSpaceId)
+  } else {
+    // 兜底：无个人执行空间可用时至少清掉 team 选中态，避免任务域侧栏
+    // 残留渲染项目任务历史（selectedSpaceKind='team' 会污染 sidebarSpaceContext）。
+    const spaceListStore = useSpaceListStore.getState()
+    if (spaceListStore.selectedSpaceKind === 'team') {
+      spaceListStore.clearActiveContext({ preserveOrganizationMemory: true })
+    }
   }
 }
