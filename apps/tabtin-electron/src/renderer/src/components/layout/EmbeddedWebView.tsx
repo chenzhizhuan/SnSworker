@@ -124,13 +124,16 @@ export const EmbeddedWebView: React.FC<EmbeddedWebViewProps> = ({ url }) => {
         // 空 partition = 共享默认 session（attach-policy 允许）
         // 不设 preload / nodeintegration（will-attach 强制 sandbox + contextIsolation）
       />
+      {/* 局部加载指示：顶部细进度条 + 右上角小提示，不遮挡主界面 */}
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-3">
-            <span className="block h-8 w-8 rounded-full border-2 border-border border-t-accent animate-spin" />
-            <span className="text-sm text-muted-foreground">正在加载页面…</span>
+        <>
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-border/40">
+            <div className="h-full w-full origin-left bg-brand-500 animate-progress-indeterminate" />
           </div>
-        </div>
+          <div className="pointer-events-none absolute right-3 top-2.5 z-10 rounded-full border border-border/60 bg-background/70 px-2.5 py-0.5 text-xs text-muted-foreground backdrop-blur-sm">
+            正在加载页面…
+          </div>
+        </>
       )}
       {error && !loading && (
         <div className="absolute inset-0 flex items-center justify-center">
