@@ -15,7 +15,11 @@ export function useChatInputAgentMode(
   const sessionAgentMode = useChatRuntimeStore(s => (
     sessionId ? s.agentModeBySessionId[sessionId] : undefined
   ))
-  const agentMode = resolveAgentModeName(sessionAgentMode, fallbackAgentMode)
+  // 问一句纯问答模式：模式锁死为 ask（草稿态无会话时也固定显示「问答」，
+  // 不 fallback 到全局默认 agent，避免按钮显示「执行」与纯问答定位不符）。
+  const agentMode = askOnlyAgent
+    ? 'ask'
+    : resolveAgentModeName(sessionAgentMode, fallbackAgentMode)
   const storeSetAgentMode = useChatStore(s => s.setAgentMode)
 
   const setAgentMode = useCallback((mode: AgentModeName) => {

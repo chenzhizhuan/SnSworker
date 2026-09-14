@@ -117,6 +117,7 @@ export function ChatInputComposerSurface(props: ComposerSurfaceProps) {
         canChangeAgent={props.canChangeAgent}
         draftScopeKey={props.draftScopeKey}
         showAgentIdentity={props.showAgentIdentity}
+        askOnlyAgent={props.askOnlyAgent}
         disabled={disabled}
         isStreaming={props.isStreaming}
         spaceId={props.spaceId}
