@@ -1,0 +1,94 @@
+{
+    "video_api": {
+        "base_url": "https://ark.cn-beijing.volces.com",
+        "task_create_path": "/api/v3/contents/generations/tasks",
+        "task_query_path": "/api/v3/contents/generations/tasks",
+        "img_create_path": "/api/v3/images/generations",
+        "auth_header": "Authorization",
+        "auth_prefix": "Bearer",
+        "api_key_env": "ARK_API_KEY",
+        "api_key_doc_url": "https://console.volcengine.com/ark"
+    },
+    "models": {
+        "seedance-2.0": {
+            "model_id": "doubao-seedance-2.0",
+            "type": "video",
+            "max_duration": 15,
+            "default_duration": 5,
+            "resolution": "720p",
+            "ratios": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+            "features": ["text2video", "img2video", "firstlast2video", "multimodal_ref", "audio_gen", "video_extend", "web_search"],
+            "max_ref_images": 9,
+            "max_ref_videos": 3,
+            "max_ref_audios": 3,
+            "description": "即梦 Seedance 2.0 满血版，多模态参考+音频同步+视频续写"
+        },
+        "seedance-2.0-fast": {
+            "model_id": "doubao-seedance-2.0-fast",
+            "type": "video",
+            "max_duration": 15,
+            "default_duration": 5,
+            "resolution": "720p",
+            "ratios": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+            "features": ["text2video", "img2video", "firstlast2video", "multimodal_ref", "audio_gen", "web_search"],
+            "max_ref_images": 9,
+            "max_ref_videos": 3,
+            "max_ref_audios": 3,
+            "description": "即梦 Seedance 2.0 Fast，快速生成，成本低"
+        },
+        "seedance-2.0-mini": {
+            "model_id": "doubao-seedance-2.0-mini",
+            "type": "video",
+            "max_duration": 10,
+            "default_duration": 5,
+            "resolution": "720p",
+            "ratios": ["16:9", "4:3", "1:1", "3:4", "9:16", "adaptive"],
+            "features": ["text2video", "img2video", "firstlast2video"],
+            "description": "即梦 Seedance 2.0 Mini，高性价比，不支持多模态参考"
+        },
+        "seedance-1.5-pro": {
+            "model_id": "doubao-seedance-1.5-pro",
+            "type": "video",
+            "max_duration": 12,
+            "default_duration": 5,
+            "resolution": "1080p",
+            "ratios": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+            "features": ["text2video", "img2video", "firstlast2video", "draft_mode"],
+            "description": "即梦 Seedance 1.5 Pro，支持 Draft 样片模式，1080p"
+        },
+        "seedream-5.0-pro": {
+            "model_id": "doubao-seedream-5.0-pro",
+            "type": "image",
+            "max_resolution": "4K",
+            "features": ["text2img", "img2img", "sequential_img", "web_search", "4k"],
+            "description": "即梦 Seedream 5.0 Pro，最强图片生成(4K+联网检索)"
+        },
+        "seedream-5.0": {
+            "model_id": "doubao-seedream-5.0",
+            "type": "image",
+            "max_resolution": "4K",
+            "features": ["text2img", "img2img", "sequential_img", "web_search", "4k"],
+            "description": "即梦 Seedream 5.0，4K图片生成+联网检索"
+        },
+        "seedream-5.0-lite": {
+            "model_id": "doubao-seedream-5.0-lite",
+            "type": "image",
+            "max_resolution": "2K",
+            "features": ["text2img", "img2img", "sequential_img"],
+            "description": "即梦 Seedream 5.0 Lite，高性价比图片生成"
+        }
+    },
+    "polling": {
+        "interval_seconds": 5,
+        "timeout_seconds": 600
+    },
+    "fallback": {
+        "enabled": true,
+        "method": "ken_burns"
+    },
+    "_instructions": {
+        "setup": "API密钥通过环境变量 ARK_API_KEY 提供，不要在此文件中存储密钥。获取地址: https://console.volcengine.com/ark",
+        "supported_providers": "即梦(火山方舟) Seedream/Seedance 全系列模型",
+        "models": "视频: seedance-2.0/2.0-fast/2.0-mini/1.5-pro | 图片: seedream-5.0-pro/5.0/5.0-lite"
+    }
+}

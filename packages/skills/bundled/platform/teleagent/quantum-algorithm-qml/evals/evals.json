@@ -1,0 +1,61 @@
+{
+  "skill_name": "quantum-algorithm-qml",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement an evidence-selected Qiskit quantum-kernel classifier.",
+      "expected_output": "Uses the quantum_kernel profile and current Qiskit kernel APIs.",
+      "files": [],
+      "expectations": ["Loads profile-quantum-kernel.md", "Loads only the needed sdk-qiskit.md heading on demand", "Uses materialize_qml_adapter", "Reuses QSVC rather than hand-writing a kernel classifier", "Serializes and reloads the model in a fresh process", "Reports PSD and concentration diagnostics"]
+    },
+    {
+      "id": 2,
+      "prompt": "Build a PennyLane CNN with a trainable quantum head.",
+      "expected_output": "Routes to QML hybrid_neural instead of a separate Hybrid Skill.",
+      "files": [],
+      "expectations": ["Loads profile-hybrid-neural.md", "Uses TorchLayer when compatible instead of a custom autograd bridge", "Does not call a generic quantum head QCNN without structural evidence", "Publishes an inference bundle", "Includes classical and quantum-disabled ablations"]
+    },
+    {
+      "id": 3,
+      "prompt": "Use Cqlib for a local quantum reservoir forecasting model.",
+      "expected_output": "Uses the framework-owned Cqlib quantum_reservoir adapter.",
+      "files": [],
+      "expectations": ["Loads profile-quantum-reservoir.md", "Keeps the reservoir fixed", "Trains only the readout", "Uses chronological evaluation", "Rejects a one-qubit linear placeholder as a reservoir", "Does not submit a TianYan job"]
+    },
+    {
+      "id": 4,
+      "prompt": "Build a local qGAN-style distribution sampler.",
+      "expected_output": "Uses quantum_generative with the sample operation and distribution diagnostics.",
+      "files": [],
+      "expectations": ["Does not use classification accuracy", "Checks coverage and mode collapse", "Rejects threshold sampling as a qGAN implementation", "Persists and reloads a loadable bundle"]
+    },
+    {
+      "id": 5,
+      "prompt": "Build a quantum autoencoder for quantum-state compression.",
+      "expected_output": "Uses quantum_representation with quantum_data and transform semantics.",
+      "files": [],
+      "expectations": ["Reports fidelity and compression", "Keeps state preparation and latent/trash wires explicit", "Rejects feature centering as a quantum autoencoder", "Uses the selected SDK only"]
+    },
+    {
+      "id": 6,
+      "prompt": "Build a quantum policy-gradient agent for a tiny local environment.",
+      "expected_output": "Uses quantum_reinforcement with act semantics and separate evaluation episodes.",
+      "files": [],
+      "expectations": ["Requires the RL extra", "Implements the selected policy-gradient update semantics", "Rejects fixed action values as a trained agent", "Reports seed variance", "Compares a matched classical policy"]
+    },
+    {
+      "id": 7,
+      "prompt": "Build a VQR regression model after planner selects variational_supervised.",
+      "expected_output": "Uses the selected route without keyword-based reselection.",
+      "files": [],
+      "expectations": ["Loads profile-variational-supervised.md", "Reuses VQR rather than reselecting VQC or writing a custom QNN", "Proves gradient or update semantics", "Publishes quantum_report and inference_bundle_manifest"]
+    },
+    {
+      "id": 8,
+      "prompt": "The selected Qiskit route requests kernel_clustering, but the materialized adapter only proves QSVC and QSVR.",
+      "expected_output": "Reports the selected variant as unavailable without substitution.",
+      "files": [],
+      "expectations": ["Does not run QSVC and call it clustering", "Does not switch SDK", "Does not hand-write an unverified clustering adapter", "Returns explicit unavailable capability evidence"]
+    }
+  ]
+}

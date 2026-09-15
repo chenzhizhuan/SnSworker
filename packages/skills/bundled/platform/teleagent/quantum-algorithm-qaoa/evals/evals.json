@@ -1,0 +1,26 @@
+{
+  "skill_name": "quantum-algorithm-qaoa",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a two-node MaxCut QAOA PoC with Cqlib and produce comparable baseline and quantum reports.",
+      "expected_output": "A Cqlib-only implementation plan and artifacts with explicit QUBO, bit order, feasible decoding, and quantum_runtime.",
+      "files": [],
+      "expectations": ["Loads references/cqlib.md only", "Inventories existing Cqlib and project QAOA components before any fallback", "Does not use Qiskit or PennyLane APIs", "Records the v2 quantum_runtime contract"]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement a seeded Qiskit QAOA solution for a tiny portfolio QUBO with top-k feasible decoding.",
+      "expected_output": "A Qiskit-only QAOA workflow with a fair classical baseline and reproducible evidence.",
+      "files": [],
+      "expectations": ["Loads references/qiskit.md only", "Prefers the version-matched Qiskit QAOA and optimization components over a handwritten solver", "Declares bitstring mapping", "Separates original objective from penalty energy"]
+    },
+    {
+      "id": 3,
+      "prompt": "Use PennyLane to create a local-simulator QAOA scheduling demo; do not use cloud hardware.",
+      "expected_output": "A PennyLane-only local implementation with explicit probabilities, decoding, and limitations.",
+      "files": [],
+      "expectations": ["Loads references/pennylane.md only", "Uses qml.qaoa cost and mixer layers when compatible or records why they are unsupported", "Makes no cloud call", "Produces qaoa_model, trace, samples, and quantum report artifacts"]
+    }
+  ]
+}

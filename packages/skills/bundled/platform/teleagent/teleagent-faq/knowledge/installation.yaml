@@ -1,0 +1,214 @@
+categories:
+- name: 安装与启动
+  items:
+  - q: macOS安装后打不开或闪退
+    a: 'macOS安全策略导致的，分两种情况：
+
+      1. 提示"无法验证开发者"：系统设置 - 隐私与安全性 - 找到TeleAgent提示，点击"仍要打开"
+
+      2. 完全没提示但打不开：需清除隔离属性，步骤：卸载应用 - 终端执行 sudo xattr -cr /Applications/TeleAgent.app - 删除残留 sudo rm -rf ~/.local/share/teleai-super-agent
+      - 重新安装
+
+      注意：三步缺一不可，只做其中一两步通常不够。'
+    status: 临时方案
+  - q: 下载安装后弹出"软件运行遇到了问题"错误弹窗
+    a: '可能原因及对应解决方案：
+
+      1. 安全软件拦截：将星辰超级智能体加入企业安全软件（如云脉、防火墙）白名单后重试
+
+      2. 网络盘盘符异常：如有映射网络盘但远程未开机，删除该盘符后重试
+
+      3. 系统权限异常：应用无法创建配置目录，请联系IT检查用户目录写入权限
+
+      4. 杀毒软件误杀：加入白名单后重试'
+    status: 排查中
+  - q: 企业电脑状态显示绿灯但启动后秒退
+    a: '通常是企业安全软件冲突导致。联软UniAccess等安全管控软件会向进程注入监控DLL，与后台服务冲突引发崩溃。
+
+      解决方案：联系公司IT管理员，将TeleAgent加入UniAccess白名单。'
+    status: 临时方案
+  - q: 启动后一直处于"启动中"状态
+    a: '已知原因：Mac系统中.config目录异常（不是正常文件夹），导致程序无法初始化。
+
+      排查：终端执行 ls -ld ~/.config，确认是否为正常目录。如果显示为文件而非目录，需先删除再让程序自动重建。'
+    status: 临时方案
+  - q: 启动TeleAgent时界面出现403无法登录？
+    a: 您好！出现403无法登录是由于ip对本公司的业务系统存在攻击行为，触发公司安全防护体系，对攻击IP进行封禁，请走解封流程拟态防护封禁IP解封流程（最新版）。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 使用TeleAgent安装到D盘后双击没反应，装C盘才行
+    a: 您好！请升级最新版本，新版本可安装在任意磁盘。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 登录TeleAgent时出现白屏
+    a: '您好！登录TeleAgent时出现白屏是网络代理异常导致登录失败。请尝试：
+
+      1. 关闭VPN、代理软件（如云脉）及安全软件后重试
+
+      2. 切换网络环境后重试
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: 升级后打不开了/启动失败
+    a: '常见原因及解决方案：
+
+      1. 旧版配置冲突：删除 %APPDATA%\teleai-super-agent 下的旧配置后重启
+
+      2. 技能注册冲突：删除 %APPDATA%\teleai-super-agent\skills 下的冲突技能目录后重启
+
+      3. 配置文件编码问题：用PowerShell改过配置文件可能带入BOM头，需完全卸载重装
+
+      最稳妥方式：卸载旧版 - 删除 %APPDATA%\teleai-super-agent 文件夹 - 安装新版（注意先备份对话数据）'
+    status: 临时方案
+  - q: 下载TeleAgent安装包后提示"不是有效的Win32应用程序"
+    a: 您好！ 此提示为操作系统版本不兼容。TeleAgent要求 Windows 10 （64 位）及以上或 macOS 13 及以上，请先确认系统版本是否符合要求。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 启动TeleAgent后提示"没有可用模型"
+    a: '您好！提示"没有可用模型"是网络问题。请尝试：
+
+      1. 关闭防火墙/安全软件后重试，
+
+      2. 如为虚拟机环境，确认CPU已开启AVX指令集透传。
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: 卸载TeleAgent旧版后安装TeleAgent新版时"已有安装程序在运行"怎么处理？
+    a: 您好！只是因为点击次数过多同时启动多个安装程序，或子进程未正确关闭。可检查任务管理器关闭相关进程后重试。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: TeleAgent安装后node.exe被杀毒软件删除导致连接失败怎么处理？
+    a: 您好！退出程序执行 rmdir /s /q "%USERPROFILE%\.local\share\teleai-super-agent\runtimes" 然后重新打开，或在杀软中添加白名单。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 云电脑(windows server 2022)安装TeleAgent后发布任务报 Unable to connect 怎么办？
+    a: '您好！OpenStack云桌面虚拟机无直连公网能力，需设HTTP_PROXY/HTTPS_PROXY环境变量。Bun运行时不会自动读系统代理。步骤：
+
+      1.向IT确认代理地址；
+
+      2.设系统环境变量HTTP_PROXY和HTTPS_PROXY；
+
+      3.重启TeleAgent。
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: 官网下载TeleAgent版本是否为最新版
+    a: 您好！官网提供的安装包即为最新正式版。如果安装后出现兼容问题，可能是您的 CPU 较老旧或系统为 32 位所致，建议您检查硬件配置是否符合要求。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 使用TeleAgent，安装路径迁移到D盘后频繁闪退白屏
+    a: 您好！迁移路径后闪退通常是因为残留了旧的配置文件。建议您先卸载软件，并手动删除 D盘和C盘默认位置的遗留配置文件夹，然后再重新安装到 D盘即可。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 360安全软件拦截进程导致TeleAgent闪退
+    a: 您好！卸载360后可解决闪退问题。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 首次安装/旧版本TeleAgent残留问题？
+    a: 您好！版本为1.0.3及以下需手动卸载后再安装最新版本，否则新旧版本并存。其它版本覆盖安装即可。可用Windows卸载能力，如还有问题搜super-agent/TeleAgent残留。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: DNS解析失败导致启动TeleAgent报错？
+    a: 您好！需要退出程序后执行PowerShell删除skills-metadata缓存文件再重启：Remove-Item "$env:USERPROFILE\.config eleai-super-agent\skills-metadata*"
+      -Force。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 天融信安全软件拦截安装TeleAgent怎么办？
+    a: '您好！天融信按Claw字样做包名匹配拦截。解决：修改3处路径中出现的Claw字样：
+
+      1.桌面快捷方式名；
+
+      2.快捷方式指向的执行文件名；
+
+      3.安装路径中的Claw文件夹名。全部改掉后可正常安装运行。
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: MCP配置文件导致1.1.3启动崩溃怎么修复？
+    a: 智能体安装MCP后配置文件可能包含不被v1.1.3识别的字段（type/command/cwd），触发ConfigInvalidError。修复：用记事本编辑C:\Users\用户名\.config\teleai-super-agent\teleai-super-agent.jsonc，删除问题条目或整个mcp段，重启即可
+    status: 临时方案
+  - q: 安装TeleAgent后，SQLite数据库损坏导致无法对话怎么修复？
+    a: '您好，复制数据库至其他设备后无法对话、重装软件仍未解决，是数据库文件损坏（SQLITE_CORRUPT）引发会话与调度功能异常导致，完整修复步骤如下：
+
+      1.完全关闭 TeleAgent 程序；
+
+      2.卸载本机 TeleAgent 客户端；
+
+      3.打开系统路径 % APPDATA%/teleai-super-agent，彻底删除scheduler.db 以及配套 WAL、SHM 相关文件；
+
+      4.重新安装 TeleAgent 客户端即可恢复正常对话。
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: auth-state.json损坏导致TeleAgent技能加载不出来？
+    a: '您好，若出现添加技能持续加载、任务无法发布的问题，可按以下步骤操作修复：
+
+      1.退出超级智能体；
+
+      2.定位并删除本地 auth-state.json 文件；
+
+      3.重新打开客户端，完成账号登录；
+
+      4.待右上角指示灯变为绿色后即可。
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: ARM/鸿蒙系统能用吗？
+    a: 暂不支持ARM芯片。鸿蒙虚拟机如CPU是ARM架构也不支持。1.1.2版本可能碰巧能用，可申请单发1.1.2安装包临时使用
+    status: 暂无计划
+  - q: 企业微信无法交互（桌面端能连但智能体不回复）？
+    a: 目前策略是企微机器人发消息给桌面端再回复。如消息本身是桌面端发起的，企微没存这条消息，走不了正常任务交互流程。近期更新会做桌面端任务历史同步到企微
+    status: 修复中
+  - q: TeleAgent最低电脑配置要求是什么？
+    a: 您好！运行TeleAgent的Windows系统最低要求4G内存+x86 CPU。不支持ARM芯片、海光CPU等国产CPU、Windows LTSC版本。不支持AVX指令集的老CPU也无法运行。如有其他问题请联系在线客服！
+    status: 使用引导
+  - q: 量子密信定时任务导致TeleAgent崩溃怎么修复？
+    a: "您好！定时任务量子密信桥守护触发RenderFrame释放后无限循环拖垮程序。需要如下操作：\n1.卸载TeleAgent\n2.删除 .local\\share\\teleai-super-agent 和.local\\state\\\
+      teleai-super-agent 和 .config\\teleai-super-agent 三个文件夹 \n3.重装\n4.不要再配量子密信。\n如有其他问题请联系在线客服！"
+    status: 已解决
+  - q: DLL缺失导致TeleAgent崩溃（退出码0xC0000135）？
+    a: 您好！此问题是因为Windows系统更新或第三方软件导致VC++运行时DLL被移除/替换。老设备更容易出问题。需要安装VC++运行时修复包即可。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: CPU不支持AVX指令集无法运行
+    a: CPU需支持AVX指令集（Intel 2013年后酷睿/至强、AMD 2011年后锐龙/霄龙），不支持则只能换电脑或等后续利旧优化
+    status: 修复中
+  - q: 自动更新失败/卡住/报错？
+    a: 可能是杀毒软件拦截了杀进程行为，需关闭杀毒软件；或安装包hash问题等新包，可强制关闭重试，手动更新需先卸载旧版本
+    status: 临时方案
+  - q: TeleAgent手动升级历史数据是否会丢失
+    a: 您好！请注意工作空间不要放在安装目录里，升级前让TeleAgent备份重要文件到其他位置。如有其他问题请联系在线客服！
+    status: 使用引导
+  - q: 在哪下载TeleAgent
+    a: 您好！官网下载：https://www.teleai.com.cn/product/teleagent！如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 云电脑安装TeleAgent报错
+    a: 您好！请尝试结束残留的node进程；以管理员身份在cmd中执行del命令；或联系云电脑管理员。如有其他问题请联系在线客服！
+    status: 使用引导
+  - q: 安装TeleAgent时360提示是否信任
+    a: 您好！请点击信任即可，这是360的各种误拦截。如有其他问题请联系在线客服！
+    status: 使用引导
+  - q: TeleAgent安装注册使用指导在哪？
+    a: 您好！官网文档链接https://www.teleai.com.cn/doc/bKrLmQNepNQpUHjWEfqX/pUxSKj00HB5artzpBdgZ。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 如何迁移TeleAgent到新电脑？
+    a: 您好！暂无官方功能，但您可以在旧电脑上让TeleAgent给出完整详细的迁移方案，照着操作即可。如有其他问题请联系在线客服！
+    status: 使用引导
+  - q: IoT企业版等小众Windows系统无法运行
+    a: 32/64位架构不匹配需装Visual C++ x64；IoT企业版等小众系统暂无设备适配
+    status: 暂无计划
+  - q: TeleAgent登录报错/无法正常使用怎么办？
+    a: '您好，需要您完整重置重装，请参照如下：
+
+      1.彻底退出软件，关闭全部后台进程；
+
+      2.删除用户数据文件夹；
+
+      3.删除软件配置文件夹；
+
+      4.卸载当前客户端；
+
+      5.官方安装包重装最新版；
+
+      6.重装后重新登录账号。
+
+      如有其他问题请联系在线客服！'
+    status: 已解决
+  - q: 重新安装能否完全放在数据盘？
+    a: 目前即便装到其它盘仍会在系统盘存放记忆/任务/技能等文件
+    status: 暂无计划
+  - q: TeleAgent更新时node.exe被占用导致打不开
+    a: 打开任务管理器，结束所有node进程后重新打开TeleAgent
+    status: 临时方案
+  - q: 系统时间不同步导致登录异常
+    a: 先关闭时间同步再重新开启，退出agent重启
+    status: 已解决

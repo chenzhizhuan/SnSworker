@@ -1,0 +1,156 @@
+{
+  "template_id": "4",
+  "template_name": "复杂ICT项目自主交付模板",
+  "name_cn": "复杂ICT项目自主交付模板",
+  "page_count": 7,
+  "scene": "ICT项目自主交付、售前方案、CRM下单操作、全国派单统计、交付规划时间线",
+  "color_scheme": {
+    "id": "C5",
+    "name": "电信品牌红+红橙黄渐变+品牌蓝",
+    "primary": "C8102E",
+    "accent_dark": "A82820",
+    "accent_darkest": "8B0000",
+    "brand_blue": "005AAA",
+    "blue": "0066CC",
+    "blue_light": "DCE9F5",
+    "orange": "F29400",
+    "yellow": "FFCC00",
+    "green": "009688",
+    "green_light": "E8F5E9",
+    "teal": "008080",
+    "purple_light": "F3E8FF",
+    "pink_light": "FFF5F5",
+    "white": "FFFFFF",
+    "black": "000000",
+    "text": "333333",
+    "text_secondary": "666666",
+    "text_light": "999999",
+    "border_light": "C8C8C8",
+    "border_red": "A82800",
+    "card_bg": "F5F5F5",
+    "gray_light": "F0F0F0"
+  },
+  "fonts": {
+    "title": {
+      "name": "Microsoft YaHei",
+      "size": 22,
+      "bold": true,
+      "color": "C81000"
+    },
+    "subtitle": {
+      "name": "Microsoft YaHei",
+      "size": 10,
+      "bold": false,
+      "color": "666666"
+    },
+    "body": {
+      "name": "Microsoft YaHei",
+      "size": 9,
+      "bold": false,
+      "color": "333333"
+    },
+    "caption": {
+      "name": "Microsoft YaHei",
+      "size": 10,
+      "bold": false,
+      "color": "999999"
+    },
+    "card_title": {
+      "name": "Microsoft YaHei",
+      "size": 11,
+      "bold": true,
+      "color": "C81000"
+    },
+    "data_number": {
+      "name": "Microsoft YaHei",
+      "size": 72,
+      "bold": true,
+      "color": "C81000"
+    }
+  },
+  "layout": {
+    "slide_width": 10,
+    "slide_height": 5.625,
+    "layout_type": "LAYOUT_16x9",
+    "margin_left": 0.6,
+    "margin_right": 0.4,
+    "margin_top": 0.5,
+    "margin_bottom": 0.5,
+    "content_width": 9.0,
+    "content_height": 4.6,
+    "logo_position": { "x": 8.6, "y": 0.12, "width": 1.3, "height": 0.4, "note": "右上角中国电信+5G logo" }
+  },
+  "decorations": {
+    "title_bar": {
+      "type": "red_text_gradient_bar",
+      "description": "标题栏：红色粗体标题文字(22pt) + 标题下方红-橙-黄三段式渐变条",
+      "gradient_bar": { "y": 0.72, "height": 0.03, "segments": [ { "x": 0.6, "w": 3.06, "color": "C81000" }, { "x": 3.66, "w": 3.06, "color": "F29400" }, { "x": 6.72, "w": 3.06, "color": "FFCC00" } ] },
+      "note": "标题文字直接使用红色加粗，无需方块装饰"
+    },
+    "half_closed_border": {
+      "type": "half_closed",
+      "description": "半闭合边框：四角留缺口(gap=0.3)，线粗0.014，色#A82800，用于内容区域外框",
+      "gap": 0.3,
+      "line_width": 0.014,
+      "color": "A82800"
+    },
+    "red_dash_card": {
+      "type": "red_dashed_border",
+      "description": "红色虚线卡片：用于模拟截图/表单区域，虚线边框，色#C81000",
+      "color": "C81000",
+      "line_width": 0.02,
+      "dash_style": "dash"
+    },
+    "bottom_line": {
+      "color": "C81000",
+      "y": 5.35,
+      "width": 10,
+      "height": 0.025
+    },
+    "page_number": {
+      "color": "999999",
+      "font_size": 10,
+      "position": "bottom_right",
+      "x": 9.3,
+      "y": 5.2
+    }
+  },
+  "chart_colors": ["C81000", "F29400", "FFCC00", "005AAA", "009688", "8B0000"],
+  "helper_functions": {
+    "addBrand": "右上角添加中国电信+5G logo图片",
+    "addTitleBar": "标题栏：红色粗体标题(22pt) + 红-橙-黄三段式渐变条",
+    "addHalfBorder": "半闭合边框：四角留缺口的红色边框",
+    "addRedDashCard": "红色虚线卡片：模拟截图/表单区域",
+    "addSwimlane": "泳道图：多泳道+流程节点+菱形判断框+多色箭头",
+    "addTimeline": "时间线：横轴节点+说明文字+分叉路径",
+    "addTable": "表格：表头/总计行淡蓝#DCE9F5填充",
+    "addBottomLine": "底部红线 + 页码"
+  },
+  "page_structure": [
+    { "page": 1, "type": "cover", "title": "封面页", "description": "左上中国电信logo+右上5G标识+红色主标题+底部阶梯状红橙黄渐变装饰，无半闭合边框" },
+    { "page": 2, "type": "content", "title": "任务背景及目标", "description": "半闭合暗红边框+集团部署时间线3节点+分隔线+下方01/02/03三板块" },
+    { "page": 3, "type": "content", "title": "自主交付优势", "description": "2×2网格：提升利润/流程优势/全国覆盖/机制保障" },
+    { "page": 4, "type": "flowchart", "title": "泳道流程图", "description": "5条泳道+流程节点框+菱形判断框+红/橙/绿/蓝多色箭头" },
+    { "page": 5, "type": "content", "title": "CRM下单操作", "description": "左侧2张红虚线卡片+右侧模拟CRM表单三模块+红色高亮框" },
+    { "page": 6, "type": "chart", "title": "全国派单统计", "description": "左CRM截图模拟红虚线框+右26行省份数据表格，表头淡蓝总计行" },
+    { "page": 7, "type": "content", "title": "规划时间线", "description": "上：9节点时间轴红/灰节点+说明文字；下：橙色DICT块+分叉路径+卡片" }
+  ],
+  "image_assets": {
+    "cover_ribbon": "封面底部S形飘逸绸带：从源截图裁剪(去除会议UI+文字残留)，4-5层半透明红橙黄渐变，S形曲线扭转，覆盖左下角约48%宽/30%高，右端淡入白底。生成方式：System.Drawing从源截图裁剪底部绸带区域→缩放到2560x1440白底图→作为PPT封面最底层背景",
+    "cover_logo": "左上角中国电信logo：从源截图裁剪真实logo区域(蓝e标识+中国电信+CHINA TELECOM)，172x55px透明PNG"
+  },
+  "example_script": "references/template-4-example.js",
+  "example_pptx": "references/template-4-example.pptx",
+  "image_prompts_file": "references/asset-manifest.md",
+  "safety_note": "生图prompt中不得出现党旗、党徽、党标等政治符号词汇",
+  "design_principles": {
+    "title_decoration": "红色粗体标题(22pt) + 标题下方三段式渐变条(红-橙-黄各约3.06英寸宽)",
+    "border_style": "半闭合边框：四角留缺口(gap=0.3)，用于内容区域外框",
+    "card_style": "白底+浅灰边框，部分场景使用红色虚线边框卡片(模拟截图/表单)",
+    "flow_style": "泳道流程图：5泳道+节点框+菱形判断框+红/橙/绿/蓝多色箭头",
+    "table_style": "表头/总计行淡蓝#DCE9F5填充，数据行白底",
+    "bottom_decoration": "底部全宽红色细线 + 右下角灰色页码",
+    "timeline_style": "横轴9节点时间轴(红/灰节点)+说明文字+橙色块+分叉路径+卡片",
+    "font_rule": "标题22pt粗体红色，正文9pt深灰，卡片标题11pt红色"
+  }
+}

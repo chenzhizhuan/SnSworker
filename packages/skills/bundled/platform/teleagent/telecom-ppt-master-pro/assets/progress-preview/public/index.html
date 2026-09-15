@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPT 生成进度预览 · 电信PPT大师</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">PPT</div>
+      <div class="brand-text">
+        <div class="brand-title">生成进度预览</div>
+        <div class="brand-sub" id="deck-title">等待生成脚本接入…</div>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="meta-item">
+        <div class="meta-label">主题</div>
+        <div class="meta-value" id="deck-theme">—</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">总页数</div>
+        <div class="meta-value" id="deck-total">0</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">已用</div>
+        <div class="meta-value" id="deck-elapsed">00:00</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">状态</div>
+        <div class="meta-value" id="deck-status">待机</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="progress-section">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-text" id="progress-text">0%</div>
+    </div>
+    <div class="progress-stats">
+      <span class="stat"><span class="stat-dot dot-built"></span>已构建 <b id="stat-built">0</b>/<b id="stat-total">0</b></span>
+      <span class="stat"><span class="stat-dot dot-rendered"></span>已渲染 <b id="stat-rendered">0</b></span>
+      <span class="stat"><span class="stat-dot dot-failed"></span>失败 <b id="stat-failed">0</b></span>
+      <span class="stat stat-tail" id="current-action">等待开始…</span>
+    </div>
+  </section>
+
+  <main class="grid" id="grid">
+    <div class="placeholder" id="placeholder">尚无页面信息。启动生成脚本后这里会逐页显示进度和缩略图。</div>
+  </main>
+
+  <section class="log-panel" id="log-panel">
+    <div class="log-header" id="log-toggle">
+      <span class="log-title">事件日志</span>
+      <span class="log-count" id="log-count">0</span>
+      <span class="log-chevron" id="log-chevron">▾</span>
+    </div>
+    <div class="log-body" id="log-body"></div>
+  </section>
+
+  <script src="/app.js"></script>
+</body>
+</html>

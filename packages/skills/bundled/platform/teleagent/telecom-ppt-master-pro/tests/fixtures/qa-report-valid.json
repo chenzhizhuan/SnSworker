@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "deck": "output/result.pptx",
+  "qa_mode": "standard",
+  "slide_count": 3,
+  "checks": {
+    "file": {"status": "pass", "evidence": ["PPTX_VALID"]},
+    "content": {"status": "pass", "evidence": ["source refs checked"]},
+    "visual": {"status": "pass", "evidence": ["preview/contact-sheet.png"]},
+    "deck": {"status": "pass", "evidence": ["contact sheet reviewed"]}
+  },
+  "slides": [
+    {"slide": 1, "visual_status": "pass", "evidence": "preview/slide-01.png"},
+    {"slide": 2, "visual_status": "pass", "evidence": "preview/slide-02.png"},
+    {"slide": 3, "visual_status": "pass", "evidence": "preview/slide-03.png"}
+  ],
+  "limitations": []
+}

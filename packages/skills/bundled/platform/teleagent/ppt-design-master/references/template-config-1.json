@@ -1,0 +1,88 @@
+{
+  "template_id": "1",
+  "template_name": "党课红金风格",
+  "name_cn": "党课红金风格",
+  "page_count": 20,
+  "scene": "支部党课、党建汇报、政治学习",
+  "color_scheme": {
+    "id": "C2",
+    "name": "党政红金",
+    "primary": "#C00000",
+    "primary_dark": "#8B0000",
+    "gold": "#D4AF37",
+    "gold_light": "#F5DC8A",
+    "white": "#FFFFFF",
+    "warm_white": "#FFF8F0",
+    "light_gray": "#F5F5F5",
+    "dark_gray": "#2C2C2C",
+    "medium_gray": "#666666",
+    "border_gray": "#E0E0E0"
+  },
+  "fonts": {
+    "title": {
+      "name": "微软雅黑",
+      "size": 40,
+      "bold": true,
+      "color": "#C00000"
+    },
+    "subtitle": {
+      "name": "微软雅黑",
+      "size": 28,
+      "bold": true,
+      "color": "#D4AF37"
+    },
+    "body": {
+      "name": "微软雅黑",
+      "size": 18,
+      "bold": false,
+      "color": "#2C2C2C"
+    },
+    "caption": {
+      "name": "微软雅黑",
+      "size": 14,
+      "bold": false,
+      "color": "#666666"
+    }
+  },
+  "layout": {
+    "slide_width": 10,
+    "slide_height": 7.5,
+    "margin_left": 0.6,
+    "margin_right": 0.6,
+    "margin_top": 0.5,
+    "margin_bottom": 0.5,
+    "content_width": 8.8,
+    "content_height": 5.5
+  },
+  "page_structure": [
+    { "page": 1, "type": "cover", "title": "封面页", "description": "红金主视觉封面，标题居中，副标题在下" },
+    { "page": 2, "type": "toc", "title": "目录页", "description": "4章节目录，金色编号+红色标题" },
+    { "page": 3, "type": "section_cover", "title": "第一章节过渡", "description": "章节标题+章节配图(4:3)" },
+    { "page": 4, "type": "content", "title": "第一章节内容1", "description": "左文右图布局" },
+    { "page": 5, "type": "content", "title": "第一章节内容2", "description": "卡片式布局，3列要点" },
+    { "page": 6, "type": "section_cover", "title": "第二章节过渡", "description": "章节标题+章节配图(4:3)" },
+    { "page": 7, "type": "content", "title": "第二章节内容1", "description": "左文右图布局" },
+    { "page": 8, "type": "content", "title": "第二章节内容2", "description": "时间线/流程图布局" },
+    { "page": 9, "type": "section_cover", "title": "第三章节过渡", "description": "章节标题+章节配图(4:3)" },
+    { "page": 10, "type": "content", "title": "第三章节内容1", "description": "列表式要点，带金色图标" },
+    { "page": 11, "type": "content", "title": "第三章节内容2", "description": "对比表格布局" },
+    { "page": 12, "type": "section_cover", "title": "第四章节过渡", "description": "章节标题+章节配图(4:3)" },
+    { "page": 13, "type": "content", "title": "第四章节内容1", "description": "左文右图布局" },
+    { "page": 14, "type": "content", "title": "第四章节内容2", "description": "卡片式布局，行动项列表" },
+    { "page": 15, "type": "summary", "title": "总结页", "description": "红色背景，白色文字，核心要点总结" },
+    { "page": 16, "type": "action", "title": "行动倡议页", "description": "金色装饰边框，倡议内容居中" },
+    { "page": 17, "type": "quote", "title": "金句引用页", "description": "大字引文，红色引号装饰" },
+    { "page": 18, "type": "data", "title": "数据成果页", "description": "3列数据卡片，金色数字大字" },
+    { "page": 19, "type": "closing", "title": "结尾页", "description": "感谢聆听，红金主视觉" },
+    { "page": 20, "type": "back_cover", "title": "封底页", "description": "深红背景，单位名称+日期" }
+  ],
+  "decorations": {
+    "header_bar": { "color": "#C00000", "height": 0.08, "position": "top" },
+    "footer_bar": { "color": "#D4AF37", "height": 0.04, "position": "bottom" },
+    "page_number": { "color": "#666666", "font_size": 10, "position": "bottom_right" },
+    "corner_ornament": { "type": "red_ribbon", "position": "top_left" }
+  },
+  "chart_colors": ["#C00000", "#D4AF37", "#8B0000", "#F5DC8A", "#666666"],
+  "image_prompts_file": "references/asset-manifest.md",
+  "safety_note": "生图prompt中不得出现党旗、党徽、党标等政治符号词汇"
+}

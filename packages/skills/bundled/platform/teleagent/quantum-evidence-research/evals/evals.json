@@ -1,0 +1,40 @@
+{
+  "skill_name": "quantum-evidence-research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Find defensible classical baselines and Qiskit components for a portfolio-QAOA application.",
+      "expected_output": "Sourced, version-scoped evidence that informs but does not make the route decision.",
+      "files": [],
+      "expectations": ["States the research question", "Prefers primary documentation and maintained sources", "Extracts version and evaluation constraints", "Returns evidence to planner-agent"]
+    },
+    {
+      "id": 2,
+      "prompt": "Check whether the available TianYan device can execute the planned circuit.",
+      "expected_output": "A documentation-grounded capability assessment with unresolved platform details called out.",
+      "files": [],
+      "expectations": ["Uses authoritative TianYan or repository evidence", "Does not invent device capability or API fields", "Does not submit a job"]
+    },
+    {
+      "id": 3,
+      "prompt": "The Intake contract requires an accessible weather dataset with a known license and temporal split constraints. Resolve the research-owned dataset decision.",
+      "expected_output": "A source-linked dataset record and decision resolution, or a truthful blocked result.",
+      "files": [],
+      "expectations": ["Records license and access status", "Records schema and size", "Identifies temporal split risks", "Does not resolve the decision without accessible dataset evidence"]
+    },
+    {
+      "id": 4,
+      "prompt": "Research a QML classification route with selected_sdk=cqlib when no source discovery provider and no explicit source URL are available.",
+      "expected_output": "A non-retryable RESEARCH_SOURCE_PROVIDER_UNAVAILABLE blocked stage result without an evidence report.",
+      "files": [],
+      "expectations": ["Checks research capabilities first", "Does not use model memory as evidence", "Does not fabricate sources", "Does not advance to planning"]
+    },
+    {
+      "id": 5,
+      "prompt": "Research evidence-selected QML candidates for a small classical-data classification task.",
+      "expected_output": "At least two viable source-backed QML candidates with explicit SDK components and diagnostics, without selecting the winner.",
+      "files": [],
+      "expectations": ["Includes two QML candidates", "Records SDK and capability status", "Links claims to fetched sources", "Leaves ranking and selection to planner-agent"]
+    }
+  ]
+}

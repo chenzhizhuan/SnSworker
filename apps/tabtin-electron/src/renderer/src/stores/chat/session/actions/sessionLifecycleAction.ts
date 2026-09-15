@@ -868,13 +868,23 @@ export function createSessionLifecycleAction(
       spaceId: string,
       organizationId?: string,
       modelId?: string,
-      lifecycleOptions?: { trigger?: SessionCreateTrigger; activate?: boolean },
+      lifecycleOptions?: {
+        trigger?: SessionCreateTrigger
+        activate?: boolean
+        /**
+         * 会话池隔离：创建会话时写入 agent_mode（如 'ask'）。
+         * attachOnly / ensure / provision 三条路径统一透传，
+         * 保证 AskPage「点击即创建」走 createSession 时也能写入 agent_mode。
+         */
+        agentMode?: string
+      },
     ) => {
       if (lifecycleOptions?.activate === false) {
         const provisioned = await provisionNewSession(spaceId, organizationId, modelId, {
           trigger: lifecycleOptions.trigger ?? 'explicit',
           preferQuickStart: false,
           attachOnly: true,
+          agentMode: lifecycleOptions.agentMode,
         })
         return provisioned.sessionId
       }
@@ -890,6 +900,7 @@ export function createSessionLifecycleAction(
         const ensured = await ensureSessionForSpace(spaceId, organizationId, modelId, {
           trigger: lifecycleOptions?.trigger,
           preferQuickStart: false,
+          agentMode: lifecycleOptions?.agentMode,
         })
         return ensured.sessionId
       }
@@ -898,6 +909,7 @@ export function createSessionLifecycleAction(
         provisionNewSession(spaceId, organizationId, modelId, {
           trigger: lifecycleOptions?.trigger,
           preferQuickStart: false,
+          agentMode: lifecycleOptions?.agentMode,
         }),
       )
       return provisioned.sessionId

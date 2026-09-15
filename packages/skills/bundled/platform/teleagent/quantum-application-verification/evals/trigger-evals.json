@@ -1,0 +1,11 @@
+{
+  "skill_name": "quantum-application-verification",
+  "should_trigger": [
+    "Independently reproduce the completed quantum application before delivery.",
+    "Verify the repaired API schema and frontend behavior."
+  ],
+  "should_not_trigger": [
+    "Implement the quantum solver and approve your own work.",
+    "Draft a README from existing verified evidence."
+  ]
+}

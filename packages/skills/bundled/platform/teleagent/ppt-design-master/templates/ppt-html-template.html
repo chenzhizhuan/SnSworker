@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演示文稿</title>
+<!--
+  ============================================================
+  PPT HTML 交互版模板 · ppt-design-master
+  ============================================================
+  用法：把 <main id="deck"> 内的示例 <section class="slide"> 替换为实际内容即可。
+  交互：← → / PageUp PageDown / Home / End 翻页；F 全屏；O 缩略图；Esc 关闭浮层。
+  主题：内置 7 套配色，控制条下拉切换，全页面统一生效（C8 电信风格红金为默认）。
+  规范：所有颜色来自 CSS 变量（与 references/color-palette.md 对齐），
+        新增页面请复用 .x-* 组件类，勿自行写死颜色。
+  ============================================================
+-->
+<style>
+:root{ --stage-w:1280px; --stage-h:720px; }
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  background:#1B1F27; overflow:hidden;
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+  transition:background .3s;
+}
+body[data-theme="c8"]{ background:#3D0A0A; }
+body[data-theme="c2"]{ background:#3D0A0A; }
+body[data-theme="c3"]{ background:#0A1A2B; }
+body[data-theme="c4"]{ background:#2B0F15; }
+body[data-theme="c5"]{ background:#2B0F15; }
+body[data-theme="c6"]{ background:#1B1F27; }
+body[data-theme="c7"]{ background:#12141C; }
+
+/* ---------- 舞台与缩放 ---------- */
+#stage{ position:fixed; inset:0; }
+#deck{
+  width:1280px; height:720px; position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%) scale(var(--s,1)); transform-origin:center center;
+}
+#deck .slide{ display:none; }
+#deck .slide.active{ display:block; }
+
+/* ---------- 幻灯片画布 ---------- */
+.slide{
+  width:1280px; height:720px; position:relative; overflow:hidden;
+  background:#FFFFFF; font-size:16px; color:#333333;
+}
+
+/* ---------- 主题变量（对齐 references/color-palette.md）---------- */
+.slide[data-theme="c8"]{
+  --primary:#C00000; --accent:#D4AF37;
+  --grad-a:#C00000; --grad-b:#F29400; --grad-c:#FFCC00;
+  --body:#333333; --sec:#666666; --muted:#999999;
+  --card-bg:#FFFFFF; --card-bd:#E5E5E5;
+  --soft-bg:#FDF6EC; --soft-bd:#F3D9B0; --soft-hd:#C00000;
+  --head-bg:#C00000; --head-fg:#FFFFFF; --row-alt:#FFF5F5;
+  --chip-bg:#FDF6EC; --chip-fg:#C00000; --chip-bd:#F3D9B0;
+  --kpi-color:#C00000; --kpi-bar:#F29400;
+  --table-line:#DDDDDD;
+}
+.slide[data-theme="c2"]{
+  --primary:#C00000; --accent:#D4AF37;
+  --grad-a:#C00000; --grad-b:#D4AF37; --grad-c:#8B0000;
+  --body:#333333; --sec:#666666; --muted:#999999;
+  --card-bg:#FFFFFF; --card-bd:#E5E5E5;
+  --soft-bg:#FAF5E6; --soft-bd:#E6D9B8; --soft-hd:#8B0000;
+  --head-bg:#C00000; --head-fg:#FFFFFF; --row-alt:#FDF8EE;
+  --chip-bg:#FAF5E6; --chip-fg:#8B0000; --chip-bd:#E6D9B8;
+  --kpi-color:#C00000; --kpi-bar:#D4AF37;
+  --table-line:#DDDDDD;
+}
+.slide[data-theme="c3"]{
+  --primary:#004488; --accent:#0066CC;
+  --grad-a:#004488; --grad-b:#0066CC; --grad-c:#4CAF50;
+  --body:#333333; --sec:#666666; --muted:#999999;
+  --card-bg:#FFFFFF; --card-bd:#E5E5E5;
+  --soft-bg:#F0F6FB; --soft-bd:#BBD5EC; --soft-hd:#004488;
+  --head-bg:#004488; --head-fg:#FFFFFF; --row-alt:#F0F6FB;
+  --chip-bg:#F0F6FB; --chip-fg:#004488; --chip-bd:#BBD5EC;
+  --kpi-color:#004488; --kpi-bar:#0066CC;
+  --table-line:#DDDDDD;
+}
+.slide[data-theme="c4"]{
+  --primary:#C8102E; --accent:#F29400;
+  --grad-a:#C8102E; --grad-b:#F29400; --grad-c:#FFCC00;
+  --body:#333333; --sec:#666666; --muted:#999999;
+  --card-bg:#FFFFFF; --card-bd:#E5E5E5;
+  --soft-bg:#FFF5F5; --soft-bd:#F5C6C6; --soft-hd:#C8102E;
+  --head-bg:#C8102E; --head-fg:#FFFFFF; --row-alt:#FFF5F5;
+  --chip-bg:#FFF5F5; --chip-fg:#C8102E; --chip-bd:#F5C6C6;
+  --kpi-color:#C8102E; --kpi-bar:#F29400;
+  --table-line:#DDDDDD;
+}
+.slide[data-theme="c5"]{
+  --primary:#C8102E; --accent:#A82820;
+  --grad-a:#C8102E; --grad-b:#F29400; --grad-c:#FFCC00;
+  --body:#333333; --sec:#666666; --muted:#999999;
+  --card-bg:#FFFFFF; --card-bd:#CCCCCC;
+  --soft-bg:#FDF6F6; --soft-bd:#E8C7C7; --soft-hd:#A82820;
+  --head-bg:#C8102E; --head-fg:#FFFFFF; --row-alt:#FFF5F5;
+  --chip-bg:#FDF6F6; --chip-fg:#A82820; --chip-bd:#E8C7C7;
+  --kpi-color:#C8102E; --kpi-bar:#F29400;
+  --table-line:#DDDDDD;
+}
+.slide[data-theme="c6"]{
+  --primary:#C8102E; --accent:#2C2C2C;
+  --grad-a:#C8102E; --grad-b:#0066CC; --grad-c:#4CAF50;
+  --body:#333333; --sec:#666666; --muted:#999999;
+  --card-bg:#FFFFFF; --card-bd:#CCCCCC;
+  --soft-bg:#F5F7FA; --soft-bd:#D5DAE0; --soft-hd:#2C2C2C;
+  --head-bg:#2C2C2C; --head-fg:#FFFFFF; --row-alt:#F5F7FA;
+  --chip-bg:#F5F7FA; --chip-fg:#2C2C2C; --chip-bd:#D5DAE0;
+  --kpi-color:#C8102E; --kpi-bar:#0066CC;
+  --table-line:#DDDDDD;
+  --m1:#0066CC; --m2:#4CAF50; --m3:#9C27B0; --m4:#FFC107; --m5:#009688;
+}
+.slide[data-theme="c7"]{
+  --primary:#C00000; --accent:#1F2A44;
+  --grad-a:#C00000; --grad-b:#1F2A44; --grad-c:#F2C14E;
+  --body:#3A3A3A; --sec:#5F6673; --muted:#808080;
+  --card-bg:#F7F8FA; --card-bd:#E5E5E5;
+  --soft-bg:#FDECEC; --soft-bd:#F2C7C7; --soft-hd:#C00000;
+  --head-bg:#1F2A44; --head-fg:#FFFFFF; --row-alt:#FDECEC;
+  --chip-bg:#FDECEC; --chip-fg:#C00000; --chip-bd:#F2C7C7;
+  --kpi-color:#C00000; --kpi-bar:#F2C14E;
+  --table-line:#DDDDDD;
+}
+
+/* ---------- 页面骨架组件 ---------- */
+.x-titlebar{ position:absolute; left:40px; top:30px; right:40px; z-index:5; }
+.x-titlebar h2{ font-size:28px; font-weight:bold; color:var(--primary); line-height:1.2; }
+.x-grad{
+  position:absolute; left:40px; top:74px; width:128px; height:5px; border-radius:3px; z-index:5;
+  background:linear-gradient(90deg,var(--grad-a),var(--grad-b),var(--grad-c));
+}
+.x-body{ position:absolute; left:40px; right:40px; top:110px; bottom:56px; z-index:4; }
+.x-page-num{
+  position:absolute; right:40px; bottom:22px; z-index:6;
+  font-size:12px; color:var(--muted); letter-spacing:.5px;
+}
+.x-bottomline{
+  position:absolute; left:0; right:0; bottom:0; height:5px; z-index:6;
+  background:linear-gradient(90deg,var(--grad-a),var(--grad-b),var(--grad-c));
+}
+
+/* ---------- 卡片 ---------- */
+.x-card{
+  background:var(--card-bg); border:1px solid var(--card-bd); border-radius:12px;
+  padding:20px 22px; box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+.x-card h3{ font-size:17px; font-weight:bold; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+.x-card p{ font-size:14px; color:var(--body); line-height:1.7; }
+.x-soft{ background:var(--soft-bg); border:1px solid var(--soft-bd); border-radius:12px; padding:20px 22px; }
+.x-soft h3{ font-size:17px; font-weight:bold; color:var(--soft-hd); margin-bottom:10px; }
+.x-soft p{ font-size:14px; color:var(--body); line-height:1.7; }
+
+/* ---------- 标签胶囊 ---------- */
+.x-chip{
+  display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px;
+  background:var(--chip-bg); color:var(--chip-fg); border:1px solid var(--chip-bd);
+  font-size:13px; font-weight:bold;
+}
+
+/* ---------- KPI 大数字 ---------- */
+.x-kpi .v{
+  font-size:44px; font-weight:800; color:var(--kpi-color); line-height:1.1;
+  font-family:"Segoe UI","Microsoft YaHei",sans-serif;
+}
+.x-kpi .v small{ font-size:20px; font-weight:700; }
+.x-kpi .bar{
+  height:5px; border-radius:3px; margin:10px 0 8px; max-width:160px;
+  background:linear-gradient(90deg,var(--kpi-bar),transparent);
+}
+.x-kpi .l{ font-size:13px; color:var(--sec); }
+
+/* ---------- 流程图 ---------- */
+.x-flow{ display:flex; align-items:stretch; width:100%; }
+.x-fnode{
+  flex:1; border-radius:12px; padding:18px 16px; color:#fff; text-align:center;
+  background:linear-gradient(160deg,var(--grad-a),var(--grad-b));
+}
+.x-fnode.alt{ background:linear-gradient(160deg,var(--grad-b),var(--grad-c)); }
+.x-fnode .t{ font-size:16px; font-weight:bold; margin-bottom:6px; }
+.x-fnode .d{ font-size:12.5px; line-height:1.6; opacity:.92; }
+.x-farrow{
+  display:flex; align-items:center; padding:0 6px;
+  color:var(--muted); font-size:22px; font-weight:bold;
+}
+
+/* ---------- 表格 ---------- */
+.x-twrap{
+  background:#fff; border:1px solid var(--card-bd); border-radius:12px; overflow:hidden;
+}
+.x-table{ width:100%; border-collapse:collapse; font-size:14px; }
+.x-table th{
+  background:var(--head-bg); color:var(--head-fg); font-weight:bold;
+  padding:11px 14px; text-align:left; line-height:1.4;
+}
+.x-table td{ padding:10px 14px; border-bottom:1px solid var(--table-line); color:var(--body); line-height:1.6; }
+.x-table th.num, .x-table td.num{ text-align:right; }
+.x-table tbody tr:nth-child(even) td{ background:var(--row-alt); }
+.x-table tr:last-child td{ border-bottom:none; }
+
+/* ---------- 封面 / 章节页 / 结尾页底 ---------- */
+.x-cover{
+  position:absolute; inset:0;
+  background:linear-gradient(160deg,#FFF8F0 0%,#FFFFFF 55%,var(--soft-bg) 100%);
+}
+.x-cover::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:10px;
+  background:linear-gradient(90deg,var(--grad-a),var(--grad-b),var(--grad-c));
+}
+.x-cover::after{
+  content:""; position:absolute; left:-140px; bottom:-260px; width:640px; height:640px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--grad-b), transparent 70%); opacity:.12;
+}
+.x-cover .c1{ position:absolute; left:80px; right:80px; top:250px; z-index:3; }
+.x-cover .c1 .pre{ font-size:16px; color:var(--sec); letter-spacing:2px; margin-bottom:14px; }
+.x-cover .c1 h1{ font-size:60px; font-weight:800; color:var(--primary); line-height:1.25; }
+.x-cover .c1 .sub{ font-size:20px; color:var(--body); margin-top:18px; }
+.x-cover .c2{ position:absolute; left:80px; bottom:70px; display:flex; gap:12px; z-index:3; }
+.x-chapter{
+  position:absolute; inset:0;
+  background:linear-gradient(160deg,#FFFFFF,var(--soft-bg));
+}
+.x-chapter::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:10px;
+  background:linear-gradient(90deg,var(--grad-a),var(--grad-b),var(--grad-c));
+}
+.x-chapter::after{
+  content:""; position:absolute; right:-160px; top:-160px; width:520px; height:520px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--grad-c), transparent 70%); opacity:.10;
+}
+.x-chapter .num{
+  width:88px; height:88px; border-radius:50%; background:var(--primary); color:#fff;
+  font-size:40px; font-weight:800; display:flex; align-items:center; justify-content:center;
+  margin:0 auto 26px; box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+.x-chapter h1{ font-size:52px; font-weight:800; color:var(--primary); text-align:center; }
+.x-chapter .sub{ font-size:18px; color:var(--sec); text-align:center; margin-top:14px; }
+
+/* ---------- 入场动画 ---------- */
+.slide.active .anim{ opacity:0; transform:translateY(18px); animation:xup .5s cubic-bezier(.22,.61,.36,1) forwards; }
+.slide.active .anim.d1{ animation-delay:.08s }
+.slide.active .anim.d2{ animation-delay:.16s }
+.slide.active .anim.d3{ animation-delay:.24s }
+.slide.active .anim.d4{ animation-delay:.32s }
+.slide.active .anim.d5{ animation-delay:.40s }
+@keyframes xup{ to{ opacity:1; transform:translateY(0); } }
+
+/* ---------- 控制条 ---------- */
+#ctrl{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:50;
+  display:flex; align-items:center; gap:10px; padding:8px 14px; border-radius:999px;
+  background:rgba(20,22,30,.78); color:#DDE2EA; font-size:13px;
+  box-shadow:0 6px 24px rgba(0,0,0,.35); backdrop-filter:blur(8px);
+  transition:opacity .3s; user-select:none;
+}
+#ctrl.hidden{ opacity:0; pointer-events:none; }
+#ctrl button{
+  border:none; background:rgba(255,255,255,.08); color:#EAEFF7;
+  width:32px; height:32px; border-radius:50%; font-size:14px; cursor:pointer; transition:background .2s;
+}
+#ctrl button:hover{ background:rgba(255,255,255,.2); }
+#ctrl .pg{ min-width:64px; text-align:center; font-family:"Segoe UI",Arial,sans-serif; letter-spacing:1px; }
+#ctrl .sep{ width:1px; height:18px; background:rgba(255,255,255,.18); }
+#themeSel{
+  background:rgba(255,255,255,.08); color:#EAEFF7; border:1px solid rgba(255,255,255,.15);
+  border-radius:8px; padding:4px 6px; font-size:12px; outline:none; cursor:pointer;
+}
+#themeSel option{ color:#222; }
+
+/* ---------- 缩略图浮层 ---------- */
+#ov{
+  position:fixed; inset:0; z-index:60; background:rgba(8,10,16,.82); backdrop-filter:blur(6px);
+  display:none; overflow:auto; padding:40px 40px 60px;
+}
+#ov.open{ display:block; }
+#ov .grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:18px; max-width:1280px; margin:0 auto;
+}
+#ov .th{
+  background:#fff; border-radius:10px; overflow:hidden; cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,.4); transition:transform .15s; outline:3px solid transparent;
+}
+#ov .th:hover{ transform:translateY(-3px); }
+#ov .th.cur{ outline-color:#F29400; }
+#ov .th .ratio{ aspect-ratio:16/9; position:relative; overflow:hidden; }
+#ov .th .mini{
+  position:absolute; left:0; top:0; width:1280px; height:720px;
+  transform:scale(.1875); transform-origin:top left; pointer-events:none;
+}
+#ov .th .mini .slide{ display:block; }
+#ov .th .cap{
+  padding:8px 12px; font-size:12px; color:#555; background:#FAFAFA;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  display:flex; justify-content:space-between; gap:8px;
+}
+
+/* ---------- 打印 / 导出 PDF ---------- */
+@media print{
+  @page{ size:1280px 720px; margin:0; }
+  body{ background:#fff !important; }
+  #ctrl, #ov, .x-hint{ display:none !important; }
+  #stage{ position:static; }
+  #deck{ position:static; transform:none !important; width:1280px; height:auto; }
+  .slide{ display:block; page-break-after:always; }
+  .slide .anim{ opacity:1 !important; transform:none !important; animation:none !important; }
+}
+
+/* ---------- 窄窗口提示 ---------- */
+.x-hint{
+  position:fixed; left:50%; top:14px; transform:translateX(-50%); z-index:55;
+  background:rgba(242,148,0,.14); color:#FFC98A; border:1px solid rgba(242,148,0,.4);
+  font-size:12px; padding:6px 14px; border-radius:999px; display:none;
+}
+@media (max-width:1320px){ .x-hint{ display:block; } }
+
+/* ---------- H5 移动端适配 ---------- */
+/* 点按翻页热区：左 1/4 上一页，右 3/4 下一页（避开控制条区域）*/
+.tapzone{ position:fixed; top:0; bottom:64px; width:28%; z-index:40; display:none; }
+#tzL{ left:0; } #tzR{ left:28%; width:72%; }
+@media (hover:none) and (pointer:coarse){
+  .tapzone{ display:block; }
+  #ctrl{ bottom:12px; padding:10px 12px; gap:8px; max-width:94vw; flex-wrap:wrap; justify-content:center; }
+  #ctrl button{ width:40px; height:40px; font-size:17px; }
+  #themeSel{ padding:8px 10px; font-size:13px; }
+  #ov{ padding:20px 14px 80px; }
+  #ov .grid{ grid-template-columns:repeat(2,1fr); gap:12px; }
+}
+
+/* 横屏提示浮层：竖屏看 16:9 内容太小，引导横屏 */
+#rot{
+  position:fixed; inset:0; z-index:80; display:none;
+  background:rgba(10,12,18,.92); color:#E8ECF4;
+  flex-direction:column; align-items:center; justify-content:center; gap:14px;
+}
+#rot .ic{ font-size:44px; animation:rotSpin 2.2s ease-in-out infinite; }
+@keyframes rotSpin{ 0%,100%{ transform:rotate(0); } 50%{ transform:rotate(90deg); } }
+#rot .tx{ font-size:15px; letter-spacing:1px; }
+#rot .sk{ margin-top:6px; font-size:12px; color:#9AA3B2; text-decoration:underline; cursor:pointer; }
+body.is-portrait #rot{ display:flex; }
+@media (min-aspect-ratio:1/1){ body.is-portrait #rot{ display:none; } }
+</style>
+</head>
+<body data-theme="c8">
+
+<div class="x-hint">窗口较窄 · 建议按 F 全屏，或 Ctrl+P 导出 PDF</div>
+
+<!-- 手机点按翻页热区 -->
+<div class="tapzone" id="tzL"></div>
+<div class="tapzone" id="tzR"></div>
+
+<!-- 手机竖屏提示 -->
+<div id="rot">
+  <div class="ic">📱</div>
+  <div class="tx">建议横屏观看以获得最佳效果</div>
+  <div class="sk" id="rotSkip">仍要竖屏观看</div>
+</div>
+
+<div id="stage">
+  <main id="deck">
+
+  <!-- ============ 1 封面 ============ -->
+  <section class="slide" data-theme="c8" data-title="封面">
+    <div class="x-cover">
+      <div class="c1">
+        <div class="pre anim d1">内部汇报 · 2026</div>
+        <h1 class="anim d2">演示文稿主标题占位</h1>
+        <div class="sub anim d3">副标题：一句话概括汇报主题</div>
+      </div>
+      <div class="c2 anim d4">
+        <span class="x-chip">汇报部门</span>
+        <span class="x-chip">汇报人</span>
+        <span class="x-chip">2026年9月</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2 章节页 ============ -->
+  <section class="slide" data-theme="c8" data-title="章节页 · 01">
+    <div class="x-chapter">
+      <div style="position:absolute; left:0; right:0; top:250px; z-index:3;">
+        <div class="num anim d1">01</div>
+        <h1 class="anim d2">章节标题占位</h1>
+        <div class="sub anim d3">章节引导语 / 核心观点一句话</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 内容页 · 2×2 白卡网格 ============ -->
+  <section class="slide" data-theme="c8" data-title="内容页 · 2×2卡片">
+    <header class="x-titlebar anim d1"><h2>页面标题：四项并列</h2></header>
+    <div class="x-grad anim d1"></div>
+    <div class="x-body">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; height:100%;">
+        <div class="x-card anim d1"><h3>卡片标题一</h3><p>正文说明文字。与标题保持三级层次：标题大粗色、正文小灰体、强调主色加粗。</p></div>
+        <div class="x-card anim d2"><h3>卡片标题二</h3><p>卡片间距≥15px，圆角统一，边框浅灰一致，标题居顶内容居左。</p></div>
+        <div class="x-card anim d3"><h3>卡片标题三</h3><p>每页一个主色，辅色不超过三个，拒绝彩虹色拼盘。</p></div>
+        <div class="x-card anim d4"><h3>卡片标题四</h3><p>留白呼吸：内容区边距充足，避免信息堆叠。</p></div>
+      </div>
+    </div>
+    <div class="x-page-num">03</div>
+    <div class="x-bottomline"></div>
+  </section>
+
+  <!-- ============ 4 内容页 · 三列浅色卡 ============ -->
+  <section class="slide" data-theme="c8" data-title="内容页 · 三列卡片">
+    <header class="x-titlebar anim d1"><h2>页面标题：三段式论述</h2></header>
+    <div class="x-grad anim d1"></div>
+    <div class="x-body">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; height:100%;">
+        <div class="x-soft anim d1"><h3>背景与现状</h3><p>三列等宽卡片，适用于三段式论述、方案对比、三大举措等场景。</p></div>
+        <div class="x-soft anim d2"><h3>问题与挑战</h3><p>浅色底卡片与白底卡片交替使用，可增强页面节奏感。</p></div>
+        <div class="x-soft anim d3"><h3>对策与建议</h3><p>正文 14px，行高 1.6～1.7，保持阅读舒适。</p></div>
+      </div>
+    </div>
+    <div class="x-page-num">04</div>
+    <div class="x-bottomline"></div>
+  </section>
+
+  <!-- ============ 5 内容页 · 流程图 ============ -->
+  <section class="slide" data-theme="c8" data-title="内容页 · 流程图">
+    <header class="x-titlebar anim d1"><h2>页面标题：业务流程</h2></header>
+    <div class="x-grad anim d1"></div>
+    <div class="x-body">
+      <div class="x-flow anim d2">
+        <div class="x-fnode"><div class="t">步骤一</div><div class="d">流程节点说明</div></div>
+        <div class="x-farrow">›</div>
+        <div class="x-fnode alt"><div class="t">步骤二</div><div class="d">流程节点说明</div></div>
+        <div class="x-farrow">›</div>
+        <div class="x-fnode"><div class="t">步骤三</div><div class="d">流程节点说明</div></div>
+        <div class="x-farrow">›</div>
+        <div class="x-fnode alt"><div class="t">步骤四</div><div class="d">流程节点说明</div></div>
+      </div>
+      <div class="x-soft anim d3" style="margin-top:24px; text-align:center;">
+        <p>主色与辅色交替填充节点，箭头方向一致；下方浅色卡可放流程要点补充。</p>
+      </div>
+    </div>
+    <div class="x-page-num">05</div>
+    <div class="x-bottomline"></div>
+  </section>
+
+  <!-- ============ 6 内容页 · KPI+表格 ============ -->
+  <section class="slide" data-theme="c8" data-title="内容页 · KPI与表格">
+    <header class="x-titlebar anim d1"><h2>页面标题：数据一览</h2></header>
+    <div class="x-grad anim d1"></div>
+    <div class="x-body">
+      <div style="display:grid; grid-template-columns:280px 1fr; gap:24px; height:100%;">
+        <div style="display:flex; flex-direction:column; gap:18px;">
+          <div class="x-card x-kpi anim d1"><div class="v">1,286<small> 万</small></div><div class="bar"></div><div class="l">关键指标说明（万/亿）</div></div>
+          <div class="x-card x-kpi anim d2"><div class="v">38<small> %</small></div><div class="bar"></div><div class="l">占比指标说明</div></div>
+          <div class="x-card x-kpi anim d3"><div class="v">+12.6<small> %</small></div><div class="bar"></div><div class="l">同比增幅</div></div>
+        </div>
+        <div class="x-twrap anim d2">
+          <table class="x-table">
+            <thead><tr><th>项目</th><th>单位</th><th class="num">本期</th><th class="num">同比</th></tr></thead>
+            <tbody>
+              <tr><td>指标一</td><td>万</td><td class="num">1,286</td><td class="num">+12.6%</td></tr>
+              <tr><td>指标二</td><td>%</td><td class="num">38.0</td><td class="num">+3.2pct</td></tr>
+              <tr><td>指标三</td><td>万</td><td class="num">956</td><td class="num">+8.1%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="x-page-num">06</div>
+    <div class="x-bottomline"></div>
+  </section>
+
+  <!-- ============ 7 结尾页 ============ -->
+  <section class="slide" data-theme="c8" data-title="结尾页">
+    <div class="x-cover">
+      <div class="c1" style="top:270px; text-align:center;">
+        <h1 class="anim d1" style="font-size:56px;">感谢聆听</h1>
+        <div class="sub anim d2">欢迎批评指正 · 联系方式占位</div>
+      </div>
+      <div class="c2 anim d3" style="left:0; right:0; justify-content:center;">
+        <span class="x-chip">汇报人</span>
+        <span class="x-chip">2026年9月</span>
+      </div>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<!-- 控制条 -->
+<div id="ctrl">
+  <button id="btnPrev" title="上一页 (←)">‹</button>
+  <span class="pg"><span id="pgCur">1</span> / <span id="pgTotal">7</span></span>
+  <button id="btnNext" title="下一页 (→)">›</button>
+  <span class="sep"></span>
+  <button id="btnGrid" title="缩略图 (O)">▦</button>
+  <button id="btnFull" title="全屏 (F)">⛶</button>
+  <span class="sep"></span>
+  <select id="themeSel" title="切换配色主题（全页面统一生效）">
+    <option value="c8">C8 电信风格红金</option>
+    <option value="c2">C2 党政红金</option>
+    <option value="c3">C3 电信品牌蓝</option>
+    <option value="c4">C4 电信品牌红</option>
+    <option value="c5">C5 品牌红+红橙黄渐变</option>
+    <option value="c6">C6 品牌红+马卡龙</option>
+    <option value="c7">C7 深红+深蓝</option>
+  </select>
+  <span class="sep"></span>
+  <button id="btnPrint" title="打印/导出PDF (Ctrl+P)">⎙</button>
+</div>
+
+<!-- 缩略图浮层 -->
+<div id="ov"><div class="grid" id="ovGrid"></div></div>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var slides = [].slice.call(deck.querySelectorAll('.slide'));
+  var cur = 0, total = slides.length;
+  document.getElementById('pgTotal').textContent = total;
+
+  /* ---------- 翻页 ---------- */
+  function show(i){
+    if(i < 0 || i > total-1) return;
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    /* 重启入场动画 */
+    var els = slides[cur].querySelectorAll('.anim');
+    for(var k=0; k<els.length; k++){
+      els[k].style.animation = 'none';
+    }
+    void slides[cur].offsetWidth;
+    for(var k2=0; k2<els.length; k2++){
+      els[k2].style.animation = '';
+    }
+    document.getElementById('pgCur').textContent = cur+1;
+    location.hash = 'p' + (cur+1);
+    if(document.getElementById('ov').classList.contains('open')) renderGrid();
+  }
+
+  /* ---------- 舞台等比缩放 ---------- */
+  function fit(){
+    var s = Math.min(window.innerWidth/1280, window.innerHeight/720);
+    deck.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  }
+  fit();
+  window.addEventListener('resize', fit);
+
+  /* ---------- 主题切换（全页面统一）---------- */
+  var sel = document.getElementById('themeSel');
+  function applyTheme(t){
+    document.body.dataset.theme = t;
+    for(var i=0; i<slides.length; i++){ slides[i].dataset.theme = t; }
+    try{ localStorage.setItem('ppt-theme', t); }catch(e){}
+  }
+  sel.addEventListener('change', function(){ applyTheme(sel.value); });
+  try{
+    var saved = localStorage.getItem('ppt-theme');
+    if(saved){ sel.value = saved; applyTheme(saved); }
+  }catch(e){}
+
+  /* ---------- 键盘 ---------- */
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){
+      e.preventDefault(); show(cur+1);
+    } else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){
+      e.preventDefault(); show(cur-1);
+    } else if(e.key === 'Home'){ show(0); }
+    else if(e.key === 'End'){ show(total-1); }
+    else if(e.key === 'f' || e.key === 'F'){ toggleFull(); }
+    else if(e.key === 'o' || e.key === 'O'){ toggleOv(); }
+    else if(e.key === 'Escape'){ closeOv(); }
+  });
+
+  /* ---------- 全屏 ---------- */
+  function toggleFull(){
+    if(document.fullscreenElement){
+      if(document.exitFullscreen) document.exitFullscreen().catch(function(){});
+    }else{
+      if(document.documentElement.requestFullscreen){
+        document.documentElement.requestFullscreen().catch(function(){});
+      }
+    }
+  }
+
+  /* ---------- 按钮绑定 ---------- */
+  document.getElementById('btnFull').onclick = toggleFull;
+  document.getElementById('btnPrev').onclick = function(){ show(cur-1); };
+  document.getElementById('btnNext').onclick = function(){ show(cur+1); };
+  document.getElementById('btnGrid').onclick = toggleOv;
+  document.getElementById('btnPrint').onclick = function(){ window.print(); };
+
+  /* ---------- 缩略图浮层 ---------- */
+  var ov = document.getElementById('ov');
+  var ovGrid = document.getElementById('ovGrid');
+  function renderGrid(){
+    ovGrid.innerHTML = '';
+    for(var i=0; i<slides.length; i++){
+      (function(idx, src){
+        var th = document.createElement('div');
+        th.className = 'th' + (idx === cur ? ' cur' : '');
+        var ratio = document.createElement('div');
+        ratio.className = 'ratio';
+        var mini = document.createElement('div');
+        mini.className = 'mini';
+        var clone = src.cloneNode(true);
+        clone.classList.add('active');
+        mini.appendChild(clone);
+        ratio.appendChild(mini);
+        th.appendChild(ratio);
+        var cap = document.createElement('div');
+        cap.className = 'cap';
+        var idxS = document.createElement('span');
+        idxS.textContent = 'P' + (idx+1);
+        var ttl = document.createElement('span');
+        ttl.textContent = (src.dataset.title || '');
+        cap.appendChild(idxS);
+        cap.appendChild(ttl);
+        th.appendChild(cap);
+        th.onclick = function(){ show(idx); closeOv(); };
+        ovGrid.appendChild(th);
+      })(i, slides[i]);
+    }
+  }
+  function toggleOv(){ if(ov.classList.contains('open')){ closeOv(); } else { openOv(); } }
+  function openOv(){ renderGrid(); ov.classList.add('open'); }
+  function closeOv(){ ov.classList.remove('open'); }
+  ov.addEventListener('click', function(e){ if(e.target === ov) closeOv(); });
+
+  /* ---------- 触屏滑动翻页 ---------- */
+  var tx = 0, ty = 0;
+  document.addEventListener('touchstart', function(e){
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)){
+      if(dx < 0){ show(cur+1); } else { show(cur-1); }
+    }
+  }, {passive:true});
+
+  /* ---------- 控制条自动隐藏（3.5s 无操作）---------- */
+  var ctrl = document.getElementById('ctrl');
+  var hideTimer = null;
+  function poke(){
+    ctrl.classList.remove('hidden');
+    if(hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(function(){
+      if(!ov.classList.contains('open')) ctrl.classList.add('hidden');
+    }, 3500);
+  }
+  var evts = ['mousemove','keydown','touchstart'];
+  for(var ei=0; ei<evts.length; ei++){
+    document.addEventListener(evts[ei], poke, {passive:true});
+  }
+  poke();
+
+  /* ---------- H5：点按翻页热区 ---------- */
+  var tzL = document.getElementById('tzL');
+  var tzR = document.getElementById('tzR');
+  function bindTap(el, fn){
+    if(!el) return;
+    el.addEventListener('click', fn);
+  }
+  bindTap(tzL, function(){ show(cur-1); });
+  bindTap(tzR, function(){ show(cur+1); });
+
+  /* ---------- H5：竖屏提示（仅手机且未跳过时显示）---------- */
+  var rotSkip = document.getElementById('rotSkip');
+  var rotAsked = false;
+  try{ rotAsked = localStorage.getItem('ppt-rot-skip') === '1'; }catch(e){}
+  function checkOrient(){
+    var isPhone = window.matchMedia('(hover:none) and (pointer:coarse)').matches;
+    var isPortrait = window.innerHeight > window.innerWidth;
+    document.body.classList.toggle('is-portrait', isPhone && isPortrait && !rotAsked);
+  }
+  if(rotSkip){
+    rotSkip.addEventListener('click', function(){
+      rotAsked = true;
+      try{ localStorage.setItem('ppt-rot-skip','1'); }catch(e){}
+      checkOrient();
+    });
+  }
+  window.addEventListener('resize', checkOrient);
+  checkOrient();
+
+  /* ---------- 初始页：支持 #p3 深链 ---------- */
+  var m = location.hash.match(/^#p(\d+)$/);
+  slides[0].classList.add('active');
+  if(m){
+    var n = parseInt(m[1], 10);
+    if(n >= 1 && n <= total){
+      slides[0].classList.remove('active');
+      cur = n-1;
+      slides[cur].classList.add('active');
+    }
+  }
+  document.getElementById('pgCur').textContent = cur+1;
+})();
+</script>
+</body>
+</html>

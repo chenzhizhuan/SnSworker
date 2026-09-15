@@ -288,7 +288,12 @@ export interface ChatState extends HostPendingSendStore, InterruptHostPendingSto
     spaceId: string,
     organizationId?: string,
     modelId?: string,
-    lifecycleOptions?: { trigger?: SessionCreateTrigger; activate?: boolean },
+    lifecycleOptions?: {
+      trigger?: SessionCreateTrigger
+      activate?: boolean
+      /** 会话池隔离：创建会话时写入 agent_mode（如 'ask'） */
+      agentMode?: string
+    },
   ) => Promise<void | string>
   /**
    * 唯一建会话入口：复用本 Space 指针 / 合并 in-flight / 否则 provision。

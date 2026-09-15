@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "deck_title": "经营复盘",
+  "slides": [
+    {
+      "slide": 1,
+      "role": "cover",
+      "claim": "经营复盘",
+      "proof_object": "cover",
+      "template": "T1",
+      "source_refs": ["N/A"],
+      "macro_layout": "cover-section-closing"
+    },
+    {
+      "slide": 2,
+      "role": "result",
+      "claim": "核心指标总体达成",
+      "proof_object": "KPI cards",
+      "template": "T13",
+      "source_refs": ["SRC-001#Sheet1!A1:F8"],
+      "macro_layout": "single-proof"
+    },
+    {
+      "slide": 3,
+      "role": "action",
+      "claim": "三项动作压降续约风险",
+      "proof_object": "action cards",
+      "template": "T24 + local variant",
+      "source_refs": ["SRC-002#措施清单"],
+      "macro_layout": "cards-grid-table"
+    }
+  ]
+}

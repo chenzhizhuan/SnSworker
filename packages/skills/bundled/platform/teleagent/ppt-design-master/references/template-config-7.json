@@ -1,0 +1,73 @@
+{
+  "name": "电信风格PPT模板",
+  "name_en": "China Telecom Style PPT Template",
+  "config_id": "C8",
+  "config_name": "电信风格红金",
+  "source": "深入贯彻中央八项规定精神学习教育专题党课材料（潘军）.pptx",
+  "priority": "首选推荐",
+  "scene": "电信风格PPT/党课/党建汇报/政治类/电信内部汇报/改革推进汇报",
+  "page_size": { "width": 13.333, "height": 7.5, "unit": "inch", "ratio": "16:9" },
+  "background_images": {
+    "cover": { "file": "assets/panjun-template/bg_cover.png", "desc": "封面背景（含中国电信Logo+天翼AI Logo透明+底部暖色绸带装饰）" },
+    "content": { "file": "assets/panjun-template/bg_content.png", "desc": "内容页背景（白底+红橙黄装饰分隔线+天翼AI Logo透明+底部红线）" },
+    "transition": { "file": "assets/panjun-template/bg_transition.png", "desc": "章节过渡页背景（与封面同，含Logo+绸带装饰）" },
+    "end": { "file": "assets/panjun-template/bg_end.png", "desc": "结尾页背景（白底+中国电信Logo+天翼AI Logo+装饰图+红色谢谢横条）" }
+  },
+  "colors": {
+    "primary": "C00000",
+    "primary_name": "中国红/深红",
+    "bottom_line": "B91B21",
+    "card_bg": "F8CEA4",
+    "card_border": "DD1715",
+    "free_shape": "EB554D",
+    "gradient_end": "D21B00",
+    "light_gold": "FFF3D7",
+    "text": "000000",
+    "brown": "543100",
+    "red_highlight": "FF0000",
+    "gold_num": "FED5A7",
+    "deep_red": "D02227",
+    "white": "FFFFFF",
+    "text_secondary": "666666",
+    "border_light": "E5E5E5"
+  },
+  "fonts": {
+    "main": "微软雅黑 (Microsoft YaHei)",
+    "subtitle_1": "方正小标宋简体",
+    "subtitle_2": "楷体",
+    "notes": "封面副标题用方正小标宋简体+楷体，其余全微软雅黑"
+  },
+  "font_sizes": {
+    "cover_title": { "size": 54, "bold": true, "color": "C00000", "font": "微软雅黑", "align": "center", "line_spacing": 1.5, "shadow": "outer" },
+    "cover_subtitle": { "size": 24, "bold": false, "font": "方正小标宋简体+楷体", "align": "center", "line_spacing": 1.2 },
+    "page_title": { "size": 22, "bold": true, "color": "FFFFFF", "font": "微软雅黑", "bg": "C00000" },
+    "chapter_num": { "size": 28, "bold": true, "color": "FFFFFF", "font": "微软雅黑", "bg": "OVAL C00000" },
+    "chapter_title": { "size": 48, "bold": true, "color": "C00000", "font": "微软雅黑", "align": "center" },
+    "chapter_subtitle": { "size": 18, "bold": false, "color": "666666", "font": "微软雅黑", "align": "center" },
+    "card_title": { "size": 20, "bold": true, "color": "C00000", "font": "微软雅黑" },
+    "body": { "size": 14, "bold": false, "color": "000000", "font": "微软雅黑" },
+    "small_body": { "size": 11, "bold": false, "color": "000000", "font": "微软雅黑" },
+    "end_title": { "size": 44, "bold": true, "color": "FFFFFF", "font": "微软雅黑", "align": "center", "shadow": "outer" },
+    "end_subtitle": { "size": 24, "bold": false, "color": "C00000", "font": "微软雅黑", "align": "center" }
+  },
+  "layout": {
+    "title_bar": { "x": 0.367, "y": 0.234, "w": 8.454, "h": 0.503, "fill": "C00000" },
+    "decorative_line": { "x": 0.367, "y": 0.883, "w": 12.598, "h": 0.074, "image": "image1.jpeg" },
+    "bottom_line": { "x": 0, "y": 7.427, "w": 13.333, "h": 0.085, "fill": "B91B21" },
+    "content_area": { "x": 0.372, "y": 1.262, "w": 12.628, "h": 5.846 },
+    "end_red_bar": { "x": 0, "y": 2.805, "w": 13.333, "h": 1.608, "fill": "C00000" }
+  },
+  "page_types": {
+    "cover": { "bg": "cover", "elements": ["可编辑主标题", "可编辑副标题"], "note": "标题54pt C00000居中+阴影，副标题24pt方正小标宋+楷体" },
+    "toc": { "bg": "content", "elements": ["目录大字", "椭圆序号", "浅橙圆角矩形条", "标题+描述"], "note": "目录40pt红色，4项竖排，椭圆序号+浅橙底色条" },
+    "chapter_transition": { "bg": "transition", "elements": ["椭圆序号", "大标题", "副标题"], "note": "椭圆序号居中，48pt红色大标题居中" },
+    "content": { "bg": "content", "elements": ["红色标题栏", "内容卡片/表格/图表"], "note": "标题栏C00000白字，内容区1.262-7.1" },
+    "end": { "bg": "end", "elements": ["谢谢聆听叠加红色横条", "总结语", "汇报信息"], "note": "背景含Logo+装饰图，文字可编辑" }
+  },
+  "card_styles": {
+    "orange_card": { "fill": "F8CEA4", "border": "none", "radius": 0.04, "title_color": "C00000", "body_color": "000000" },
+    "white_card": { "fill": "FFFFFF", "border": "DD1715 width=1", "radius": 0.02, "title_color": "C00000" },
+    "red_card": { "fill": "C00000", "border": "none", "radius": 0.08, "title_color": "FFF3D7", "body_color": "FFF3D7" }
+  },
+  "generation_script": "基于PptxGenJS + Node.js，背景图用合成图片（图片内含Logo/装饰，避免白底问题），所有文字为可编辑文本框叠加"
+}

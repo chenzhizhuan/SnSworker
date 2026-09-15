@@ -1,0 +1,120 @@
+# ──────────────────────────────────────────────
+# TeleAgent 用户支持 FAQ Pro — 回复模板
+# 风格：简化FAQ风格，不使用工单式的四段结构
+# ──────────────────────────────────────────────
+
+templates:
+
+  # ── 通用FAQ回复模板 ──
+  faq_standard:
+    format: |
+      问题：{question}
+      答案：{answer}
+    description: "标准FAQ格式：问题转述 + 直答"
+
+  # ── 产品材料回复模板 ──
+  material_direct:
+    format: "{raw_reply}"
+    description: "产品材料域有 raw_reply 时直接输出原文，不做任何改写"
+
+  # ── 功能已有回复模板 ──
+  feature_existing:
+    format: |
+      当前已支持此功能！{usage_detail}
+      {extension}
+    description: "功能已上线时使用，附带详细操作指引和延伸推荐"
+    fields:
+      usage_detail: "具体的操作步骤说明，不要只写'在XX页面操作'，要写清楚点哪里、看到什么"
+      extension: "相关的延伸功能推荐，如'如需更多技能，可在技能广场浏览安装。'"
+    example: |
+      当前已支持此功能！操作方式：打开左侧技能管理页面，即可查看、开启或关闭已安装的技能。
+      如需更多技能，可在技能广场浏览安装。
+
+  # ── 功能规划中回复模板 ──
+  feature_planned:
+    format: |
+      {feature_name}已在规划中。{workaround_hint}我们会持续优化，请关注后续版本更新。
+    description: "功能已进入规划但未上线时使用，附当前替代方案"
+    fields:
+      feature_name: "用户提到的功能名称，友好表述"
+      workaround_hint: "当前的替代方案说明（如有），格式：'目前您可以先XX来XX。' 无替代方案时留空"
+    example: |
+      截图粘贴功能已在规划中。目前您可以先将截图保存到工作空间，再在输入框中@该图片文件来发送。我们会持续优化，请关注后续版本更新。
+
+  # ── 功能暂无计划回复模板 ──
+  feature_not_planned:
+    format: |
+      {feature_name}目前暂无计划，但您的需求反馈已记录，我们会持续评估用户需求。
+    description: "功能不在规划中时使用，同时必须将需求追加记录到 knowledge/not-planned-requests.md"
+    action: "追加记录到 not-planned-requests.md（日期、功能关键词、用户原话摘要、记录人）"
+    example: |
+      信创PC适配目前暂无计划，但您的需求反馈已记录，我们会持续评估用户需求。
+
+  # ── 版本问题回复模板 ──
+  version_issue:
+    format: |
+      这是已知问题。
+      原因：{root_cause}
+      临时解决：{workaround}
+      修复版本：{fixed_in}
+    description: "版本已知问题的标准回复"
+
+  version_issue_no_fix:
+    format: |
+      这是已知问题。
+      原因：{root_cause}
+      临时解决：{workaround}
+      目前正在修复中，请关注新版本更新。
+    description: "版本已知问题但尚未修复时的回复"
+
+  # ── 版本未匹配回复模板 ──
+  version_unknown:
+    format: |
+      当前问题暂未在已知问题库中匹配到。
+      建议您：1. 更新到最新版本；2. 如问题仍存在，请联系技术支持提供详细复现步骤和日志。
+    description: "症状未匹配到已知问题时的兜底回复"
+
+  # ── 混合问题回复模板 ──
+  hybrid_multi_domain:
+    format: |
+      针对您提到的几个方面分别回复：
+      {answers}
+    description: "问题涉及多个域时，逐域回答后合并"
+
+  # ── 禁用语检查 ──
+  prohibited_terms:
+    description: "以下术语禁止出现在面向用户的回复中"
+    terms:
+      - "opencode"
+      - "CC"
+      - "Claude Code"
+      - "Codex"
+      - "Bun"
+      - "Electron"
+      - "gateway"
+      - "trajectory"
+      - "BOM"
+      - "Segfault"
+      - "Token Plan"
+      - "API Key"
+      - "embedding"
+      - "tokenizer"
+      - "subagent"
+      - "hook"
+      - "ElectronStore"
+      - "JSON.parse"
+      - "HTTP_PROXY"
+      - "WSReconnect"
+      - "DeepSeek"
+    note: "如果必须提到某个概念，用用户可理解的表述替代，如'核心服务'替代'Bun Server'，'连接中断'替代'WSReconnect'。注意：'DeepSeek'在用户主动询问该模型时可以直接提及，但在诊断类回复中应避免主动推荐特定第三方模型。"
+
+  # ── 功能暂不支持回复模板 ──
+  feature_not_supported:
+    format: |
+      {feature_name}目前暂不支持。{alternative_hint}如有需求请反馈，我们会持续评估。
+    description: "功能明确不支持时使用（区别于not_planned：not_supported是明确做了不支持决策的，如Linux部署）"
+    fields:
+      feature_name: "用户提到的功能名称"
+      alternative_hint: "可替代的方案说明（如有），如'如需集成到服务器，SDK方案在规划中。'"
+    example: |
+      Linux服务器部署目前暂不支持。当前支持Windows、Mac和Windows Server系统。如需集成到服务器，SDK方案在规划中。

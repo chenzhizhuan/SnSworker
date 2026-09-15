@@ -331,6 +331,51 @@ describe('createSessionLifecycleAction', () => {
       { agentId: 'agent-active', workspaceId: SPACE },
     )
   })
+
+  it('activate:false + agentMode:ask：binding 写入 agent_mode 且只挂桶不切前台', async () => {
+    spaceStoreState.selectedSpace = {
+      id: SPACE,
+      type: 'workspace',
+      organization_id: 'org-1',
+    }
+    spaceStoreState.spaces = [spaceStoreState.selectedSpace]
+    state = {
+      ...state,
+      currentSessionId: 'sess-open',
+      currentSessionIdBySpaceId: { [SPACE]: 'sess-open' },
+      draftSessionBySpaceId: { [SPACE]: true },
+      sessionsBySpaceId: { [SPACE]: [makeSession('sess-open', SPACE)] },
+    }
+    createMock.mockResolvedValue({
+      ...makeSession('sess-ask', SPACE),
+      agent_mode: 'ask',
+    } as ChatSession)
+
+    const sessionId = await makeActions().createSession(SPACE, 'org-1', undefined, {
+      trigger: 'explicit',
+      activate: false,
+      agentMode: 'ask',
+    })
+
+    // 后端 binding 应携带 agent_mode='ask'（会话池隔离）
+    expect(createMock).toHaveBeenCalledWith(
+      SPACE,
+      'org-1',
+      undefined,
+      { agentId: 'agent-1', workspaceId: SPACE, agentMode: 'ask' },
+    )
+    // attachOnly：返回新会话 id，且不切前台 / 不改草稿指针
+    expect(sessionId).toBe('sess-ask')
+    expect(state.currentSessionId).toBe('sess-open')
+    expect(state.currentSessionIdBySpaceId[SPACE]).toBe('sess-open')
+    expect(state.draftSessionBySpaceId[SPACE]).toBe(true)
+    expect(state.sessionsBySpaceId[SPACE]?.map((s) => s.id)).toEqual([
+      'sess-ask',
+      'sess-open',
+    ])
+    // 空消息桶预置
+    expect(state.messagesBySessionId['sess-ask']).toEqual([])
+  })
   })
 
   describe('ensureSessionForSpace 竞态 ', () => {

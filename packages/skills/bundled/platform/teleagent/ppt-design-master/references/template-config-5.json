@@ -1,0 +1,145 @@
+{
+  "template_id": "5",
+  "template_name": "AI+文旅商业模式PPT",
+  "page_count": 9,
+  "scenario": "AI+行业融合方案、文旅数字化、智能体平台介绍、数据集能力展示、行业大模型推广",
+  "source": "基于9张AI+文旅主题PPT截图逐页还原",
+  "colors": {
+    "primary": "C8102E",
+    "redBright": "E60012",
+    "redDark": "8B0000",
+    "blue": "0066CC",
+    "blueDark": "005AAA",
+    "blueBg": "E8F0FE",
+    "blueCard": "EDF4FD",
+    "green": "4CAF50",
+    "greenBg": "E8F5E9",
+    "greenCard": "E8F8E8",
+    "yellow": "FFC107",
+    "yellowBg": "FFFDE7",
+    "yellowCard": "FFF8E1",
+    "purple": "9C27B0",
+    "purpleBg": "F3E5F5",
+    "purpleCard": "F5EEF8",
+    "cyan": "00BCD4",
+    "cyanBg": "E0F7FA",
+    "cyanCard": "E0F5F8",
+    "orange": "F29400",
+    "pinkLight": "FCE4EC",
+    "pinkTag": "FFF0F3",
+    "redDeep": "A82820",
+    "teal": "009688",
+    "tealBg": "E0F2F1",
+    "titleBgDark": "2C2C2C",
+    "text": "000000",
+    "textGray": "666666",
+    "textLight": "999999",
+    "borderLight": "E5E5E5",
+    "white": "FFFFFF",
+    "fillGray": "F5F5F5",
+    "gray1": "333333",
+    "gray2": "555555",
+    "gray3": "888888",
+    "gray4": "CCCCCC",
+    "gray5": "E8E8E8"
+  },
+  "fonts": {
+    "title": { "fontFace": "Microsoft YaHei", "fontSize": 22, "bold": true, "color": "000000" },
+    "subtitle": { "fontFace": "Microsoft YaHei", "fontSize": 13, "bold": false, "color": "000000" },
+    "cardTitle": { "fontFace": "Microsoft YaHei", "fontSize": 11, "bold": true, "color": "000000" },
+    "body": { "fontFace": "Microsoft YaHei", "fontSize": 9, "bold": false, "color": "000000" },
+    "small": { "fontFace": "Microsoft YaHei", "fontSize": 7.5, "bold": false, "color": "666666" },
+    "pageNum": { "fontFace": "Microsoft YaHei", "fontSize": 10, "bold": false, "color": "999999" }
+  },
+  "decoration": {
+    "topBar": "通栏红色矩形装饰条(#C8102E)，高0.035英寸，位于标题下方",
+    "titleBarDark": "深灰色通栏(#2C2C2C)白字标题，用于政策解读类页面",
+    "bottomWave": "红色圆角矩形模拟弧形底块(#C8102E)，白字总结语",
+    "cardStyle": "圆角矩形(rectRadius=0.06)，白底，浅灰(#CCCCCC)或彩色细边框",
+    "cardTitleBar": "彩色标题栏填充(#005AAA蓝 或 #C8102E红)，白字",
+    "cardUnderline": "标题下红色短线(宽0.35英寸，高0.02英寸，#C8102E)",
+    "brokenBorder": "半闭合暗红边框(#A82820，gap=0.3，lineWidth=0.014)"
+  },
+  "layout_params": {
+    "slideW": 10,
+    "slideH": 5.625,
+    "margin": { "left": 0.35, "right": 0.35, "top": 0.12, "bottom": 0.25 },
+    "titleY": 0.12,
+    "titleH": 0.5,
+    "redBarY": 0.66,
+    "contentStartY": 0.85
+  },
+  "page_structures": [
+    {
+      "page": 1,
+      "title": "政策东风：AI + 文旅",
+      "layout": "标题+红色装饰线 → 导语段(红色高亮关键词) → 粉色时间线+4红圆点 → 4卡片(圆角白底+浅灰边框+标题+红短线+正文+红色结论) → 底部红色弧形块(白字总结)",
+      "key_elements": "时间线(粉色横线+4红圆点+日期标签)、4卡片(政策标题+正文+红结论)、底部红色弧形块"
+    },
+    {
+      "page": 2,
+      "title": "政策东风：实施意见解读",
+      "layout": "深灰色标题栏(白字)+红色分隔线 → 总目标段(红色高亮4组关键词) → 8模块2×4网格(蓝色标题栏+白底内容区+浅灰边框)",
+      "key_elements": "深灰标题栏、8卡片2×4网格(蓝色标题栏#005AAA+白字)、项目符号列表"
+    },
+    {
+      "page": 3,
+      "title": "技术机遇：从AI集成走向AI原生",
+      "layout": "红色装饰条+标题 → 左侧55%：3个浅红边框卡片(技术演进/需求变化/市场定位) → 右侧45%：3级阶梯示意图(浅蓝→青蓝→淡紫+AI图标)",
+      "key_elements": "浅红边框圆角卡片(#F48FB1)、3级阶梯(浅蓝#BBDEFB→青蓝#B2DFDB→淡紫#D1C4E9)、向上箭头"
+    },
+    {
+      "page": 4,
+      "title": "技术机遇：大模型通往AGI",
+      "layout": "5张等级卡片(L1黄/L2绿/L3青绿+NOW标签/L4蓝/L5紫，上白下彩) → 3段能力展示(吐字→推理→行动)+红色箭头+商用标签",
+      "key_elements": "5等级卡片(上白图标+下彩色标题描述)、NOW红色标签、3阶段(手机UI模拟+模块卡片)、红色箭头连接"
+    },
+    {
+      "page": 5,
+      "title": "技术机遇：AI原生vs AI+",
+      "layout": "左右对比卡片(红边框圆角+红下划线+场景/痛点+架构示意图) → 灰色箭头连接 → 底部浅蓝模块(三核心变革)",
+      "key_elements": "旧世界/新世界对比卡片、AI核心标识(黑底白字AI方块)、灰色箭头、底部浅蓝色三变革模块"
+    },
+    {
+      "page": 6,
+      "title": "价值重构：人货场",
+      "layout": "标题(红高亮'文旅行业')+红色分隔线 → 副标题+引导文字 → 3栏卡片(G端蓝/B端绿/C端紫，主卡片+附属卡片，图标+过去/现在对比)",
+      "key_elements": "3栏配色(G蓝/B青绿/C紫)、过去/现在对比、图标圆形、附属小卡片"
+    },
+    {
+      "page": 7,
+      "title": "核心燃料：高质量数据集",
+      "layout": "红色横幅标题 → 说明正文(红高亮'价值密度') → 左右模块(半闭合红棕边框)：左侧S曲线图(4条sigmoid曲线+图例+公式)，右侧3要点(三角箭头)",
+      "key_elements": "S曲线图(pptxgenjs line chart，4条sigmoid曲线)、半闭合红棕边框、红色要点标题条、公式标注"
+    },
+    {
+      "page": 8,
+      "title": "平台赋能：智能体平台",
+      "layout": "标题 → 4粉色标签+Agent蓝色标签 → 智能体平台大卡片(紫图标) → 3子平台卡片(BI/知识库/多模态) → 3蓝色上箭头+标签 → 右侧30%：3界面截图占位",
+      "key_elements": "粉色标签(#FFF0F3)、Agent蓝色标签、平台卡卡片(图标+标题+描述)、向上箭头、右侧截图占位框"
+    },
+    {
+      "page": 9,
+      "title": "数据集能力3：标注服务",
+      "layout": "红色标题栏(白字+右上角'中电信文宣科技'logo) → 副标题(红色高亮) → 三栏并列：左(7中心授牌+实拍图占位)、中(6领域分标框2×3红边框)、右(队伍建设+行业深耕虚线框)",
+      "key_elements": "红色标题栏、橙红标签(#E64A19)、6领域卡片2×3、虚线框子模块、企业logo(蓝红拼接方块)"
+    }
+  ],
+  "helper_functions": [
+    "addPageNum(slide, num) - 右下角灰色页码",
+    "addBrokenBorder(slide, x, y, w, h, color) - 半闭合暗红边框(四角留缺口)",
+    "addRedBarTitle(slide, title, titleSize) - 顶部红色装饰条+居中标题"
+  ],
+  "design_features": [
+    "白底为主，正红色(#C8102E)作为主装饰色",
+    "统一顶部红色装饰条+居中黑色标题",
+    "深灰色标题栏(#2C2C2C)用于政策解读类页面",
+    "蓝色(#005AAA)标题栏+白字用于卡片标题区域",
+    "马卡龙色系(蓝/绿/紫/黄)做模块区分",
+    "圆角矩形卡片+细灰/红边框",
+    "红色高亮关键词+红色短线分隔",
+    "半闭合暗红边框(#A82820)用于模块边框",
+    "底部红色弧形块+白色总结文字",
+    "S曲线图使用pptxgenjs原生图表功能"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "skill_name": "quantum-algorithm-qml",
+  "should_trigger": [
+    "Implement the selected quantum-kernel route.",
+    "Materialize the selected hybrid neural QML adapter.",
+    "Implement a quantum reservoir, generative model, autoencoder, or reinforcement learner.",
+    "Train and persist the planner-selected VQR model.",
+    "Check whether the selected QML variant has a real local adapter implementation."
+  ],
+  "should_not_trigger": [
+    "Research which QML route is appropriate.",
+    "Train the classical baseline.",
+    "Build the FastAPI service or QCCP page.",
+    "Independently verify the completed application.",
+    "Implement a purely classical CNN with no quantum component.",
+    "Run QAOA for a combinatorial optimization problem."
+  ]
+}

@@ -15,11 +15,15 @@
  *   - 主区：ChatPanel controlledSessionId 受控嵌入（不碰全局指针 / 共享桶指针）。
  *
  * 会话生命周期：
- *   - 首问：ChatPanel 草稿态输入 → ensureSessionForSpace（agentMode:'ask'）
- *     → store 出现新会话 → AskPage 自动绑定 activeSessionId；
+ *   - 新问答：点击按钮时先决策（askNewSessionTargetPolicy）：
+ *     ① 当前激活会话本身就是空白 → 停在原地，不新建不切换；
+ *     ② 否则优先复用最近一个空白 ask 会话（单槽，避免堆空行）；
+ *     ③ 仅当无任何空白会话时才 createSession（agentMode:'ask'，attachOnly）
+ *     并自动激活；创建中按钮禁用防连点；
  *   - 追问 / 停止 / 重试：ChatPanel 内部回调（受控 currentSessionId 短路全局指针）；
- *   - 历史会话：点击后 loadSessionMessages hydrate → setActiveSessionId。
- *   - 新问答：清空 activeSessionId → ChatPanel 回到草稿态。
+ *   - 历史会话：点击后 loadSessionMessages hydrate → setActiveSessionId；
+ *   - 兑底：任何路径（含删除/清空）后 activeSessionId 为空时，若 store 内仍有
+ *     ask 会话则自动绑定最近一个，保证 ChatPanel 永远有可用的受控会话。
  */
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
@@ -31,6 +35,10 @@ import { useChatStore } from '@stores/chat/useChatStore'
 import { isSessionBusy } from '@stores/chat/execution/sessionRunProjection'
 import { resolveChatSessionListQuery } from '@stores/chat/session/utils/chatSessionScope'
 import { ChatPanel } from '@components/chat/panel/ChatPanel'
+import {
+  decideAskNewSessionTarget,
+  type AskSessionLike,
+} from '@components/layout/askNewSessionTargetPolicy'
 import { getChatClient } from '@/services/chatApi'
 import type { ChatSession } from '@tabtin/chat-client'
 import { WorkspaceApiService } from '@tabtin/app-shell'
@@ -65,6 +73,7 @@ export const AskPage: React.FC = () => {
   const [history, setHistory] = useState<AskHistoryEntry[]>([])
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [loadingHistory, setLoadingHistory] = useState(false)
+  const [creatingSession, setCreatingSession] = useState(false)
   const [askWorkspace, setAskWorkspace] = useState<WorkspaceSummary | null>(null)
   const [workspaceLoading, setWorkspaceLoading] = useState(true)
   const [workspaceError, setWorkspaceError] = useState<string | null>(null)
@@ -176,10 +185,9 @@ export const AskPage: React.FC = () => {
     }
   }, [storeAskSessions, history])
 
-  // ── 草稿首发自动收口：activeSessionId 为 null 时，用户在 ChatPanel 草稿态
-  // 发送首条消息 → ChatPanel 通过 ensureSessionForSpace 创建 ask 会话并写入 store。
-  // 这里监听 storeAskSessions，一旦出现新会话且当前无 active 指向，自动绑定，
-  // 使 ChatPanel controlledSessionId 从 null 切到新会话，消息立即可见。 ──
+  // ── 自动收口：activeSessionId 为 null 时，若有新 ask 会话进入 store
+  // （含 handleNewAsk 点击即创建后的新会话），自动绑定到最近一个，
+  // 使 ChatPanel controlledSessionId 始终指向有效会话。 ──
   useEffect(() => {
     if (activeSessionId || !spaceId || storeAskSessions.length === 0) return
     // 找最近的 ask 会话（按 last_message_at 降序，无则取第一个）
@@ -213,6 +221,28 @@ export const AskPage: React.FC = () => {
     }
   }, [spaceId, activeSessionId, history])
 
+  // ── 「新问答」决策池：store 桶 ∪ history ──
+  // store 桶：新会话创建时实时写入，has_messages 字段权威；
+  // history：服务器全量列表——重启后 store 桶可能为空，仅看 store 会误判
+  // 「无空白会话」而堆新建。合并去重，store 命中优先（更新鲜）。
+  const askDecisionPool = useMemo<AskSessionLike[]>(() => {
+    const byId = new Map<string, AskSessionLike>()
+    for (const entry of history) {
+      // history 查询本身已按 status:'active' + agent_mode:'ask' 过滤
+      byId.set(entry.id, {
+        id: entry.id,
+        status: 'active',
+        agent_mode: 'ask',
+        message_count: entry.message_count,
+        last_message_at: entry.last_message_at,
+      })
+    }
+    for (const s of storeAskSessions) {
+      byId.set(s.id, s)
+    }
+    return Array.from(byId.values())
+  }, [history, storeAskSessions])
+
   // 组件卸载时中断进行中的问答
   useEffect(() => {
     return () => {
@@ -232,11 +262,52 @@ export const AskPage: React.FC = () => {
     }
   }, [])
 
-  /** 新问答：回到草稿态（清空 activeSessionId，ChatPanel 进入草稿输入模式） */
-  const handleNewAsk = useCallback(() => {
+  /** 新问答：空白不堆积——active 空白停在原地，否则复用最近空白，无空白才新建 */
+  const handleNewAsk = useCallback(async () => {
+    if (creatingSession) return
     if (activeSessionId && isSessionBusy(activeSessionId)) return
-    setActiveSessionId(null)
-  }, [activeSessionId])
+    if (!spaceId || !organizationId) {
+      console.warn('[AskPage] handleNewAsk: spaceId 或 organizationId 为空，跳过创建')
+      return
+    }
+
+    // 决策：当前会话已空白 → 不动；有空白可复用 → 激活它；否则才新建
+    const decision = decideAskNewSessionTarget({
+      activeSessionId,
+      askSessions: askDecisionPool,
+    })
+    if (decision.action === 'keep_active') return
+    if (decision.action === 'reuse_empty') {
+      const targetId = decision.sessionId
+      // 复用前需确认目标不在运行中（如另一个空会话正被流式写入首答）
+      if (!isSessionBusy(targetId)) {
+        setActiveSessionId(targetId)
+        const cached = useChatStore.getState().messagesBySessionId[targetId]
+        if (cached === undefined) {
+          await useChatStore.getState().loadSessionMessages(targetId)
+        }
+      }
+      return
+    }
+
+    setCreatingSession(true)
+    try {
+      const sessionId = await useChatStore.getState().createSession(
+        spaceId,
+        organizationId,
+        undefined,
+        { trigger: 'explicit', activate: false, agentMode: 'ask' },
+      )
+      if (sessionId) {
+        setActiveSessionId(sessionId)
+        void refreshHistory()
+      }
+    } catch (err) {
+      console.warn('[AskPage] handleNewAsk failed:', err)
+    } finally {
+      setCreatingSession(false)
+    }
+  }, [activeSessionId, askDecisionPool, creatingSession, organizationId, refreshHistory, spaceId])
 
   /** 删除单条 ask 会话 */
   const handleDeleteSession = useCallback(async (sessionId: string) => {
@@ -319,10 +390,15 @@ export const AskPage: React.FC = () => {
         <div className="p-3">
           <button
             type="button"
-            onClick={handleNewAsk}
-            className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent/20"
+            onClick={() => void handleNewAsk()}
+            disabled={creatingSession}
+            className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            <Plus className="h-4 w-4" aria-hidden />
+            {creatingSession ? (
+              <span className="block h-4 w-4 animate-spin rounded-full border-2 border-border border-t-accent" aria-hidden />
+            ) : (
+              <Plus className="h-4 w-4" aria-hidden />
+            )}
             {t('sidebar:ask.newAsk', { defaultValue: '新问答' })}
           </button>
         </div>

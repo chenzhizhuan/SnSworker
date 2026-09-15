@@ -1,0 +1,19 @@
+{
+  "skill_name": "quantum-solution-ranking",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Rank QAOA, a quantum kernel, and a classical-only route for this constrained optimization demo.",
+      "expected_output": "An evidence-grounded scorecard, one selected route, and explicit route-change triggers.",
+      "files": [],
+      "expectations": ["Uses qualitative evidence cards unless the user provided weights", "Keeps the classical-only option visible", "Rejects candidates violating hard constraints", "Selects exactly one SDK or returns blocked", "Does not treat route selection as validation"]
+    },
+    {
+      "id": 2,
+      "prompt": "The VQC baseline run has valid preprocessing but fails its declared gradient diagnostic. Update the plan without rereading the whole project.",
+      "expected_output": "An incremental reflection stating the observed fact, smallest diagnostic next step, and keep/adjust/replan/stop decision.",
+      "files": [],
+      "expectations": ["Uses reflection rather than a new plan", "Does not claim a route change from one failed run", "Keeps the final delivery decision outside the planner"]
+    }
+  ]
+}

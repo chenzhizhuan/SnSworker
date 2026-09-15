@@ -1,0 +1,19 @@
+{
+  "skill_name": "quantum-application-verification",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Independently verify this MaxCut implementation, FastAPI service, and browser workflow.",
+      "expected_output": "Independent command evidence across scientific, API, and browser checks without self-approval.",
+      "files": [],
+      "expectations": ["Receives the implementation handoff but reruns checks independently", "Executes browser behavior rather than checking HTML text", "Classifies checks as passed, failed, blocked, or not_applicable", "Does not claim release approval"]
+    },
+    {
+      "id": 2,
+      "prompt": "Fix the schema mismatch and certify the application in the same pass.",
+      "expected_output": "A refusal to combine repair and approval, with the failed stage returned for targeted repair.",
+      "files": [],
+      "expectations": ["Does not repair and approve in one verification pass", "Requires a new independent verification pass", "Uses evidence_reviewed or independently_reproduced without a deterministic gate"]
+    }
+  ]
+}

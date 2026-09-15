@@ -1,0 +1,3231 @@
+{
+  "schema_version": "1.1.0",
+  "created_at": "2026-09-08T17:16:49.558075",
+  "updated_at": "2026-09-14T09:05:09.038771",
+  "skill_dir": "super-agent-cluster-a.backup_table_fix_20260914T083704Z",
+  "total_rules": 431,
+  "files_scanned": 16,
+  "keyword_stats": {
+    "⛔": 224,
+    "强制": 77,
+    "never": 1,
+    "必须": 46,
+    "禁止": 42,
+    "smart:缺失→退回": 1,
+    "不允许": 1,
+    "至少": 9,
+    "smart:退回补": 1,
+    "确保": 4,
+    "不可跳过": 7,
+    "100%": 8,
+    "smart:缺失→逐条列出推理链编号+环节+问题类型+具体描述+修正动作 事实vs推测区分→写出事实条数+推测条数（含概率+条件）+主观条数（含依据）+未标注条数+覆盖率% 忽略变量→逐条列出变量名+影响方向+量级+建议理由。仅写\"无/通过\"无具体过程→退回": 1,
+    "不得": 2,
+    "smart:拒绝通过": 1,
+    "smart:退回对应阶段补": 2,
+    "smart:独立Step": 1,
+    "smart:缺少任一项的具体审查内容→退回": 1,
+    "smart:拒绝通过。检查清单8项中未逐项过完→Verify阶段判定未完成。3项产出中任一项仅写\"无/通过": 1,
+    "required": 1
+  },
+  "history": [
+    {
+      "time": "2026-09-09T14:16:56.407939",
+      "old_total": 470,
+      "new_total": 474,
+      "delta": 4,
+      "disappeared": 0,
+      "added": 4,
+      "reason": "smart-check-auto"
+    },
+    {
+      "time": "2026-09-09T14:45:09.257047",
+      "old_total": 474,
+      "new_total": 473,
+      "delta": -1,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-09T18:22:06.055791",
+      "old_total": 473,
+      "new_total": 474,
+      "delta": 1,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-09T18:30:19.058771",
+      "old_total": 474,
+      "new_total": 475,
+      "delta": 1,
+      "disappeared": 0,
+      "added": 1,
+      "reason": "smart-check-auto"
+    },
+    {
+      "time": "2026-09-09T22:44:29.036131",
+      "old_total": 475,
+      "new_total": 476,
+      "delta": 1,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-10T02:44:09.011755",
+      "old_total": 476,
+      "new_total": 480,
+      "delta": 4,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-10T16:50:15.804569",
+      "old_total": 480,
+      "new_total": 482,
+      "delta": 2,
+      "disappeared": 0,
+      "added": 2,
+      "reason": "smart-check-auto"
+    },
+    {
+      "time": "2026-09-10T17:33:22.425740",
+      "old_total": 482,
+      "new_total": 484,
+      "delta": 2,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-10T20:00:24.680476",
+      "old_total": 484,
+      "new_total": 479,
+      "delta": -5,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-11T02:09:05.472451",
+      "old_total": 479,
+      "new_total": 480,
+      "delta": 1,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-11T10:25:29.858980",
+      "old_total": 480,
+      "new_total": 482,
+      "delta": 2,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-11T22:22:44.019246",
+      "old_total": 482,
+      "new_total": 480,
+      "delta": -2,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-11T22:26:28.246088",
+      "old_total": 480,
+      "new_total": 468,
+      "delta": -12,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-12T01:51:54.455958",
+      "old_total": 468,
+      "new_total": 470,
+      "delta": 2,
+      "disappeared": 0,
+      "added": 2,
+      "reason": "smart-check-auto"
+    },
+    {
+      "time": "2026-09-12T14:35:43.373693",
+      "old_total": 470,
+      "new_total": 472,
+      "delta": 2,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-12T14:38:47.192892",
+      "old_total": 472,
+      "new_total": 471,
+      "delta": -1,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-12T21:32:18.196974",
+      "old_total": 471,
+      "new_total": 448,
+      "delta": -23,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-12T23:27:41.438489",
+      "old_total": 448,
+      "new_total": 452,
+      "delta": 4,
+      "disappeared": 0,
+      "added": 4,
+      "reason": "smart-check-auto"
+    },
+    {
+      "time": "2026-09-13T01:00:43.476543",
+      "old_total": 452,
+      "new_total": 426,
+      "delta": -26,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    },
+    {
+      "time": "2026-09-13T03:15:19.099627",
+      "old_total": 426,
+      "new_total": 431,
+      "delta": 5,
+      "disappeared": 0,
+      "added": 0,
+      "reason": "manual-update"
+    }
+  ],
+  "rules": [
+    {
+      "file": "SKILL.md",
+      "line_no": 17,
+      "text": "## ⛔ 步骤标注格式（每次任务100%强制，完整定义见 references/step-transparency-examples-pt3.md §步骤标注格式完整规范）",
+      "keyword": "⛔",
+      "rule_hash": "3deda8f5a67a7c09"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 25,
+      "text": "**⛔步骤图标固定映射（每步必带两个图标，禁只标一个）**：🔵→📌/🎯/❓/🧠/📊/✂️/🔬/🛡️ | ⚪→✏️ | 🟠→🔍/🧪 | 🟢→🛡️/✅ | 🟣→📝/📦 | 🟤→🔄。步骤图标须取自所属阶段配对，⛔禁跨阶段使用。**⛔禁非标图标**：仅上述6阶段图标+15步骤图标可用，📚/🧩/🔧/📂等⛔禁用作步骤图标。**🛡️例外声明**：🛡️安全检查在🔵阶段用于审议门/威胁评估类审查步骤，🛡️在🟢阶段用于执行后安全检查",
+      "keyword": "⛔",
+      "rule_hash": "630c39ea95f4aaf6"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 27,
+      "text": "**⛔表格化核心铁律（v2026.09.12-v2形态层防截断）**：每个步骤仅由主行+表格组成，⛔禁止`▸`子行（已废弃，出现即违规），⛔禁止裸文本收尾行（已废弃，出现即违规）。步骤最后元素恒为表格或任务清单——块级元素自带盒模型高度，工具框物理上无法压缩，从根源免疫截断。主行与表格间、表格相互间⛔必须空行分隔。",
+      "keyword": "⛔",
+      "rule_hash": "726bde9121208055"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 29,
+      "text": "正确示例：主行`**🔵 📌 初始化 - [Decomposer(主Agent)]**`，紧跟状态卡`| 🎯阶段 | ⚡状态 | 📝要点 |`+📎详情卡`| 📎字段 | 📎内容 |`，全列居中`| :---: |`，📝要点列只放关键词（≤8字），主行后⛔直接接表格禁任何文字。",
+      "keyword": "⛔",
+      "rule_hash": "5f5c2026623c6198"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 32,
+      "text": "1. 整行加粗`**阶段图标 步骤图标 步骤名称 - [Agent标识]**`（⛔禁止数字编号）",
+      "keyword": "⛔",
+      "rule_hash": "3a936e502d37d7fe"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 34,
+      "text": "3. 步骤图标：📌初始化|🎯目标解析|❓提问追问|🧠记忆注入|📊复杂度分级|✂️任务分解|🔬第一性原理|🔍搜索采集|✏️编辑编写|🧪测试验证|🛡️安全检查|✅质量评估|📝文档生成|📦交付|🔄回流归档。**⛔每步必带两个图标**，步骤图标须取自所属阶段映射配对",
+      "keyword": "⛔",
+      "rule_hash": "35c3f3a71b44db47"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 36,
+      "text": "5. 主行只放标题（≤40字），操作/结果/决策放**表格单元格**。⛔禁止`▸`子行（已废弃）",
+      "keyword": "⛔",
+      "rule_hash": "57aa1e72f6801c6f"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 38,
+      "text": "7. 块状隔离：主行与表格间、表格相互间⛔必须加空行。**单元格内容禁标点结尾**。**⛔禁止过渡语句**：最后一张表格结束后零文本过渡。**文档标题禁冒号/分号**",
+      "keyword": "⛔",
+      "rule_hash": "f58774a18b3ab313"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 41,
+      "text": "10-16. ⛔步骤标注高级规则（名称唯一性/原子性/禁止同步骤名重写/question交互专用/工具调用前格式检查/历史上下文压缩/表格完整显示/工具调用结果回填名称规则/输出分批+钩子/工具调用前6项检查/截断标记三类区分+禁止括号）见 references/step-transparency-examples-pt3.md §19",
+      "keyword": "⛔",
+      "rule_hash": "f8970c13e3c9d15f"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 42,
+      "text": "17. ⛔表格化步骤样式规范（v2026.09.12-v2，形态层防截断，合并原规则13/15/19-23）：**6种样式**（轻量/标准/复杂/工具调用/阶段汇总/最终交付）+**3列状态卡**（🎯阶段/⚡状态/📝要点）+**📎2列详情卡**（📎字段/📎内容）按需追加+任务清单阶段汇总+降级链（表格→引用块→双空行）。**⛔📝要点列（含动作摘要）**：状态卡第3列，既放要点关键词（≤8字）也放动作成果摘要，⛔禁放完整句子，详细操作放详情卡。**⛔详情卡格式**：`| 📎字段 | 📎内容 |`，2列，承载状态卡放不下的详细操作描述。**⛔表格全列居中**：所有表格对齐行用`| :---: |`居中对齐。**⛔主行后零文字**：主行后⛔直接接表格，禁任何文字过渡/说明/描述。**⛔单元格关键词化**：所有表格单元格仅放关键词，⛔禁完整句子。**⛔📝要点列（含动作摘要）**：状态卡第3列，既放要点关键词也放动作成果摘要。动作摘要部分使用白名单动词+对象（动词在句首），白名单＝确认/校验/验证/执行/更新/修复/生成/交付/复核/评审/对比/汇总/解析/补全/记录（⛔与检测器action_verbs同源）。**⛔生成端四查**：①主行写完对照配对表查两图标同阶段②📝要点列含动作摘要③表格行超8行评估密度，超即提前插工具钩子分批④每输出一步骤后查是否紧跟register钩子。**⛔输出分批+钩子天然化绑定**：单批≤4步，超出静默分界紧跟工具续批，每步后须`--register`。**⛔空行缓冲**：最后一张表格与工具块间⛔≥1空行，高发区≥2空行。**⛔废弃检测**：`▸`子行出现即违规，裸文本收尾行出现即违规（检测器新增废弃检测）。详见 references/step-transparency-examples-pt3.md §24",
+      "keyword": "⛔",
+      "rule_hash": "83ea4d1337e66f65"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 44,
+      "text": "**⛔执行规范（防重复）**：多项检查/验证/自检须在单一步骤内完成，结果以表格行逐项列出，禁止拆分成多个步骤重复出现。步骤名用标准名，禁止用\"XX自检\"\"XX检查\"等作为步骤名。",
+      "keyword": "⛔",
+      "rule_hash": "bf0e635b2e39bf3d"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 46,
+      "text": "**⛔Agent角色分配硬约束**：审查类步骤⛔必须由[Agent-验证型]/[Agent-核查型]/[Sentinel]执行，⛔禁[Agent-元认知]顶替。⛔禁自造审查门（仅一审二审）。Agent标识⛔禁带哈希后缀，仅允许8种形态+Sentinel+Decomposer。",
+      "keyword": "⛔",
+      "rule_hash": "e824a9e224238d93"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 48,
+      "text": "**⛔断点续跑机制（v2026.09.12新增，全任务100%强制）**：防静默中断后无法恢复。**触发**：LLM输出截断/工具调用中断/用户消息打断流程后，⛔禁止放弃中断前进度从技能加载重来。**三件套**：①新轮首步骤前执行`step_counter.py --check`读取已注册列表确认中断点；②续接步骤用新名称（经`--validate`校验），首张表格首行标\"⚠️ 断点续跑：上一步因输出限制中断\"或\"⚠️ 交付后追加\"标记；③按状态机已到达阶段继续流转，未走完的阶段（如Verify后中断则续Crystallize+Reflux）⛔禁跳过。**流程完整性铁律**：CARS六阶段Intake→Spawn→Swarm→Verify→Crystallize→Reflux任何阶段中断，恢复后从断点续走剩余阶段，⛔禁止把中断误判为完成。",
+      "keyword": "⛔",
+      "rule_hash": "fb8b5a26308f7ec7"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 52,
+      "text": "## ⛔ 执行前必读：硬门禁速查（防截断丢失，每次任务100%强制）",
+      "keyword": "⛔",
+      "rule_hash": "94e2d0d78665129b"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 58,
+      "text": "**任务**：目标解析完成后立即执行（Intake第2步），⛔禁止在合并提问完成前执行任何搜索/分析操作。",
+      "keyword": "⛔",
+      "rule_hash": "4da4bf38ff94eb38"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 60,
+      "text": "**执行方式**：通过一次question工具调用同时提问≥2个问题，将需求追问、文档询问、可选场景感知追问合并到同一次question中。⛔禁止分多次调用。",
+      "keyword": "⛔",
+      "rule_hash": "01fa31101827cadd"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 62,
+      "text": "**⛔禁止**：在合并提问完成前执行记忆注入、复杂度评估、任务分解、第一性原理审视或任何搜索操作→Intake阶段判定未完成，退回重执行。",
+      "keyword": "⛔",
+      "rule_hash": "694486dd76be9a70"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 64,
+      "text": "### 硬门禁2：Intake阶段操作顺序（全任务强制）",
+      "keyword": "强制",
+      "rule_hash": "e659c5edf8d721df"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 66,
+      "text": "目标解析→开头合并提问(⛔先于一切搜索，一次question≥2个问题)→记忆注入→LDD分级→任务分解→第一性原理审视→领域术语表→计划拷问→审议门→威胁评估。以上操作全任务强制，任何等级不得跳过。",
+      "keyword": "⛔",
+      "rule_hash": "7871ba9e83411913"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 70,
+      "text": "各阶段Step须覆盖该阶段所有强制操作（原子化：一个Step仅一个操作），禁压缩式标注。典型违规：\"Spawn+执行+返回摘要\"标1个Step→须拆2个。示例：Swarm L1（3路=3Spawn+3执行+1汇总）、L2（+交叉验证+收敛）、L3-L4（5路=5Spawn+5执行+1汇总）。不满足→拒绝交付，必须补全后重新流转。",
+      "keyword": "强制",
+      "rule_hash": "1c779a1073cb7e77"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 74,
+      "text": "Crystallize阶段汇总完成后、交付前，文档询问遵循**开头已问则跳过**原则：若硬门禁1的开头合并提问中已包含文档询问且用户已明确回答，则Crystallize阶段直接按开头选择执行，⛔禁止重复提问。仅当开头未问或异常未获得回答时，Crystallize阶段通过question工具补问作为兜底。选项一\"生成文档（推荐）\"→强制generate_docx.py生成并深度校验；选项二\"不生成，对话输出\"→对话输出结论。**阻断**：未收到明确回答前禁交付。**⛔兜底**：开头未问或question失败→Crystallize阶段补问，补问仍失败→默认\"生成文档\"。",
+      "keyword": "⛔",
+      "rule_hash": "3c42919d78e59a1b"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 78,
+      "text": "### 硬门禁5：每次工具调用前强制加载校验+前置门禁（L0-L4全任务100%强制）",
+      "keyword": "强制",
+      "rule_hash": "2c64ee945a47fc3f"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 80,
+      "text": "三时机全强制：①任务开始→首步骤标注\"技能已加载（本轮强制重新加载）\"→第二步骤执行**前置门禁**`python scripts/pre_gate_guard.py`（P1技能完整性/P2速查块/P3规则基线/P4脚本编译/P5核心脚本存在/P6 SKILL.md体积/P7步骤标识状态机，写`rl-state/pre_gate_checkpoint.json`）；②每轮用户消息后→首步骤标注\"（第N次提问，本轮强制重新加载）\"；③每次工具调用前→校验步骤标注完整+硬门禁速查块在场。⛔禁\"已加载过\"跳过（硬门禁5）。",
+      "keyword": "⛔",
+      "rule_hash": "a2d1d1eb3f4ecb4b"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 82,
+      "text": "### 硬门禁6：规则护盾基线同步（Verify阶段100%强制）",
+      "keyword": "强制",
+      "rule_hash": "741a4ed4dc484e94"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 84,
+      "text": "修改SKILL.md或references/*.md后、Verify质量评估前，运行`python scripts/rule_shield.py --smart-check`，确认规则未消失且净变化非负；基线缺`schema_version`时`--update`升级；SKILL.md超36KB时`--size-check`。⛔规则消失/净变化为负未处理即继续→禁止。",
+      "keyword": "⛔",
+      "rule_hash": "c347c65c281f6d4f"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 86,
+      "text": "### 硬门禁7：交付文件强制注册+交付汇报不列编号（交付前100%）",
+      "keyword": "强制",
+      "rule_hash": "07f475bacea8c247"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 88,
+      "text": "若本轮生成了文档/报告等最终交付文件，⛔必须在自然语言总结前调用`report_final_files(files=[\"文件绝对路径\"])`注册交付文件，确保前端渲染最终文件卡片；禁止仅以自然语言提及文件路径而不调用report_final_files。**交付汇报去标识**：最终交付汇报与自然语言总结中⛔禁止再输出步骤标识，仅以自然语言分条说明结论，执行过程步骤保留于对话中间过程。**说人话交付**：结论先行（首选+备选+排除项三段式），通俗语言分条讲清\"为什么\"，必要参数随文白话解释，禁通篇术语堆砌。",
+      "keyword": "⛔",
+      "rule_hash": "ed8770778a3c0316"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 92,
+      "text": "每次任务必须使用`step_counter.py`进行名称锚定，⛔禁仅凭LLM记忆确定名称。三阶段强制：①任务开始时`--check`读取已用名称，下一步骤用新名称；②每输出步骤后`--register <名称>`原子注册（名称须紧跟对应步骤标注，禁空register）；③工具调用返回后`--validate <名称>`校验安全性；④子Agent返回`--merge <名称>`合并；⑤交付后`--reset`清零。交付前`--check-duplicates`检测重名。详见硬门禁8。",
+      "keyword": "⛔",
+      "rule_hash": "50e3f158ef6dbf38"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 99,
+      "text": "当前工具环境硬约束：Task工具spawn多子Agent（实测2-5路，设计上限50-296）；子Agent一次性执行体（spawn→执行→摘要→消亡）；输出压缩注入主上下文；TAOR态=\"执行→检查→修正\"；generate_docx.py唯一docx通道⛔禁外部docx技能。",
+      "keyword": "⛔",
+      "rule_hash": "8d592e2aec8ddb7c"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 101,
+      "text": "### 全局强制声明",
+      "keyword": "强制",
+      "rule_hash": "9b979d7ea913cdfb"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 102,
+      "text": "> 以下所有章节、规则、清单、流程均为100%强制执行，不可跳过、不可选择性实施。",
+      "keyword": "强制",
+      "rule_hash": "c012b54bf08e70f2"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 105,
+      "text": "Never external docx skills. Never skip Intake/Swarm/Verify/Crystallize. Never fabricate. Use question tool exclusively. Reload skill after each question. No conclusions before merged question. No step name reuse. Full step annotation with dual icons before any tool call. No question params in step text. Never skip G5/G6/G8. No rule_shield net-negative without --update. No non-standard icons.",
+      "keyword": "never",
+      "rule_hash": "a733b11d216fad33"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 107,
+      "text": "## 技能强制加载机制（⛔强制执行，不可跳过）",
+      "keyword": "⛔",
+      "rule_hash": "7cdcd6e009e2f11d"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 108,
+      "text": "本技能被技能标签或名称触发后即视为**已激活**。**加载粒度（⛔三时机全强制）**：①任务开始→首步骤标注\"技能已加载（本轮强制重新加载）\"→第二步骤执行前置门禁`pre_gate_guard.py`写检查点；②每轮用户消息后→首步骤标注\"（第N次提问，本轮强制重新加载）\"；③每次工具调用前→校验步骤标注完整+硬门禁速查块在场。⛔禁\"已加载过\"跳过。见硬门禁5。",
+      "keyword": "⛔",
+      "rule_hash": "f6a68e3ec65bd291"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 110,
+      "text": "## 复杂度分级路由 LDD（⛔每次任务100%强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "777887e71dd5f8d7"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 123,
+      "text": "**⛔路由规则**：等级须在Intake显式标注。⛔L0/L1走快速通道：六阶段顺序不变，合并Step标注精简产出（标注≤10），豁免项见下方快速通道豁免清单。⛔L2-L4走完整CARS，禁止精简/跳步。等级误判→标注新等级继续（升级补全缺项，降级不回退已完成）。**⛔快速通道升级触发**：L0/L1执行中范围膨胀→立即重新定级，标\"快速通道→完整CARS升级\"，从当前位置补全剩余强制操作。",
+      "keyword": "⛔",
+      "rule_hash": "4f1cc9c6ea097d4d"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 125,
+      "text": "**⛔快速通道豁免清单（仅L0/L1，L2+全禁）**： Spawn单Agent串行； 拷问降快查2项（薄弱环节+验收标准）； 术语表豁免（发现歧义立即补建）； 威胁评估一句话标注； 标注总数≤10； 六阶段顺序不变仅合并Step。详见 references/step-transparency-examples-pt3.md §18。",
+      "keyword": "⛔",
+      "rule_hash": "120b179044619eec"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 127,
+      "text": "## 状态机合法转换约束（⛔不可绕过）",
+      "keyword": "⛔",
+      "rule_hash": "7fc9c2aeff262973"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 128,
+      "text": "> 任务状态必须按顺序流转，非法跳转被拒绝。流转：用户指令→Intake(分级路由+规划+拷问+执行前审议门)→Spawn→Swarm→Verify(+执行后审议门)→Crystallize→Reflux→完成（驳回→退回Intake）。",
+      "keyword": "必须",
+      "rule_hash": "9d17c71e22ab6b65"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 130,
+      "text": "⛔L0/L1快速通道：合并Step标注但六阶段顺序不变。⛔L2-L4完整流转：Intake→Spawn→Swarm→Verify→Crystallize→Reflux→完成，禁止使用快速通道。非法跳转：Intake→Swarm（跳过Spawn，L2+适用）/Intake→Crystallize/Verify→Reflux/任何状态→完成均非法。",
+      "keyword": "⛔",
+      "rule_hash": "ed17aa73a5e9e13d"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 132,
+      "text": "## 安全威胁意识与防护（⛔每次任务100%Threat Assessment）",
+      "keyword": "⛔",
+      "rule_hash": "c1fccf41401ca40f"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 133,
+      "text": "多Agent编排必须防护4类威胁：**级联幻觉**（A错误假设被B当事实→审议门拦截+交叉验证）| **权限提升**（越权操作→[Sentinel]前置+运维提权逐项确认）| **信息泄露**（摘要≤2K+敏感词扫描）| **资源耗尽**（并行超限→L1 3-4路/L2 6-8路/L3 5×4+45s硬超时+80%压缩）。⛔全任务必须显式评估4类威胁。威胁等级：🔴高危→应急审查；🟡中危→加强防护；🟢低危→正常执行。干预时机：交付前必过claw_scan+六道自检；修改SKILL.md后必过rule_shield再流转。",
+      "keyword": "⛔",
+      "rule_hash": "c6d9417dd8f2137d"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 138,
+      "text": "python scripts/step_counter.py --register 复杂度分级  # 注册新步骤名（--register与--validate互斥，各接一个名称，⛔禁合用一行）",
+      "keyword": "⛔",
+      "rule_hash": "05220bb62cae6358"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 142,
+      "text": "## 审议门（⛔全任务100%强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "532b189613a2e147"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 150,
+      "text": "⛔所有任务必须经过审议门；驳回须附具体理由+修改建议；连续3次驳回→降级人工确认；审议必须由独立审查角色执行，禁止自审自批；审议产出嵌入Step标注`[审议标注] 裁定=通过/驳回 | 审查结果`。",
+      "keyword": "⛔",
+      "rule_hash": "f6e18a0746ddf4f8"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 152,
+      "text": "## 计划拷问流程（⛔全任务100%强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "5dbca44f5a2d874c"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 155,
+      "text": "**拷问时机**：Intake任务分解后、审议门前。**拷问清单（5项，逐项输出）**：①可证伪性 ②关键假设显式化 ③最薄弱环节（最可能失败点+备份）④是否过度设计 ⑤成功标准明确（验收可量化）。⛔5项全部产出结论才可进入审议门。",
+      "keyword": "⛔",
+      "rule_hash": "01c4bdda49bf600e"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 163,
+      "text": "## 系统运维操作能力（管理员权限，⛔涉及系统操作时强制安全确认）",
+      "keyword": "⛔",
+      "rule_hash": "fb466c44ae76e9b1"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 166,
+      "text": "⛔**管理员权限强制规则**：标准用户通过`Start-Process -Verb RunAs`提权，提权前⛔强制披露完整执行内容，逐项审查确认后执行，禁止多项破坏性操作合并单次UAC。提权脚本须经[Sentinel]安全审查前置。**操作权限**：系统级变更须question确认范围和风险；只读诊断免确认直接执行。**说人话**：执行前说清\"做什么/为什么/影响范围\"，执行中\"已/共\"实时反馈，执行后\"改了什么/结果\"汇报。**禁止**：格式化系统盘、删除系统关键目录、关闭防火墙/安全软件、修改核心注册表项。",
+      "keyword": "⛔",
+      "rule_hash": "8c78df566a8b4ccb"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 169,
+      "text": "正式输出前，必须以第一性原理审视输入——拆解到最基本事实和公理，从零构建逻辑链。发现逻辑漏洞或认知偏差时，基于事实直接指出并给出可执行改进，不奉承、不迎合、不回避。",
+      "keyword": "必须",
+      "rule_hash": "40f381bd3129d41f"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 171,
+      "text": "**提问-追问机制（⛔开头合并提问一次question≥2个问题）**：",
+      "keyword": "⛔",
+      "rule_hash": "b9aec6a1f1665210"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 172,
+      "text": "- **开头合并提问**：目标解析后一次question同时问≥2个问题：需求追问+文档询问（选项一\"生成文档\"→generate_docx.py生成；选项二\"不生成\"→对话输出），可选追加场景感知。⛔禁止合并前执行搜索/记忆注入/复杂度评估/任务分解等操作。",
+      "keyword": "⛔",
+      "rule_hash": "4626b001144c824c"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 174,
+      "text": "- **⛔单选/多选判定**：含复数→多选开启；含单选→关闭。仅在question中设置，禁在Step标注正文写参数名或值。",
+      "keyword": "⛔",
+      "rule_hash": "e472a0b1cf81978e"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 175,
+      "text": "- **⛔question使用范围**：仅3类场景：①开头合并提问；②Crystallize文档询问（硬门禁5）；③高风险确认。⛔禁止过程确认/工具结果确认——一律自动执行。违反→退回重执行。",
+      "keyword": "⛔",
+      "rule_hash": "d978f584bc486c42"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 183,
+      "text": "以世界顶级专家标准行事——智力/知识广度/思维犀利度/学识深度不输任何人。**8项核心行为规范**和**5项执行门禁检查**详见 [[references/step-transparency-examples-pt2.md]] §14。**执行门禁**：每次任务输出必须体现5项核心行为，审查Step中必须逐项写出具体审查内容，禁止笼统\"通过\"二值判断，缺少任一项具体审查内容→退回修正。",
+      "keyword": "禁止",
+      "rule_hash": "e553863db0ef3fa5"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 186,
+      "text": "推理前先查，推理中持续查，推理后回头查——贯穿全流程的硬约束。**8项检查清单**和**3项执行门禁产出**详见 [[references/step-transparency-examples-pt2.md]] §15。**执行门禁**：Verify阶段必须包含独立批判性思维检查Step，产出3项结论（每项须写出具体发现，禁止\"无/通过\"二值判断）。缺少→Verify拒绝通过；清单8项未逐项过完→Verify判定未完成；产出仅写\"无/通过\"→退回要求逐条展开。",
+      "keyword": "禁止",
+      "rule_hash": "86dcdc5226f0469c"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 190,
+      "text": "## 认知流：CARS 六阶段（⛔每次任务100%强制执行全部步骤）",
+      "keyword": "⛔",
+      "rule_hash": "21f2c97171698068"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 191,
+      "text": "> 🔵 Intake → ⚪ Spawn → 🟠 Swarm → 🟢 Verify → 🟣 Crystallize → 🟤 Reflux。L0/L1走快速通道（六阶段逻辑保留，仅合并Step标注精简产出）；⛔L2-L4走完整CARS流程，无快速通道、无精简流程。完整流程图与各阶段步骤表详见 [[references/execution-guide-pt2.md]] §CARS执行流程图。",
+      "keyword": "⛔",
+      "rule_hash": "71bbfaaefb4fdb0c"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 193,
+      "text": "各阶段核心动作：🔵 Intake=目标解析+合并提问(≥2)+记忆+LDD+分解+第一性原理+术语表+拷问+审议门+威胁；⚪ Spawn=生成Agent；🟠 Swarm=并行(TAKOR)+摘要(≤2K)+交叉验证+红蓝对抗+收敛（覆盖率>0.8且冗余<0.3）；🟢 Verify=核查+逻辑+去偏+审计+专家准则(独立Step)+批判思维(独立Step)+审议门(执行后)+DQG；🟣 Crystallize=汇总+审视(独立Step)+准则终检(独立Step)+四范式复验(独立Step)+DQG+递归结晶≤5轮(每轮独立Step)+文档询问(开头已问则跳过)+预检7项(独立Step)+可打开性校验+⛔report_final_files+回流；🟤 Reflow=记忆写≤5+去重+一致性+模式提取+能力进化。完整流程见 [[references/execution-guide.md]]。**⛔Crystallize独立Step强制（v2026.09.12补充）**：审视/准则终检/四范式复验/递归结晶/预检7项各须独立Step标注，⛔禁合并为1个Step；L2+每项缺→退回补全",
+      "keyword": "⛔",
+      "rule_hash": "2b8230fecd3aae99"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 200,
+      "text": "**三组准则产出表（⛔每次任务100%强制）**：①第一性原理→Intake+Swarm+Crystallize各产出审视Step（3个，缺→退回补审）；②世界级专家→Verify阶段5项行为检查Step（1个，缺→Verify拒绝通过）；③批判性思维→Verify阶段3项产出Step（1个，缺→Verify拒绝通过）；审议门→Intake执行前+Verify执行后（≥2个，不分等级）。审查内容禁\"通过/合理/无\"二值判断。",
+      "keyword": "⛔",
+      "rule_hash": "42549c76155e2183"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 202,
+      "text": "## 搜索增强（⛔每次任务100%强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "14cf3500ad07aeac"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 203,
+      "text": "三轮递进搜索（Scatter并行→Gather定向→深度溯源）+搜索真实性强制（来源分级T1-T4/引用完整/验证门禁/防幻觉交叉校验）。Agent-搜索型须按意图选平台禁泛搜索；首选`python scripts/search_tools.py`（GitHub/B站/Reddit/HackerNews/V2EX/Read）；社区口碑类强制\"社区真实声音专项\"（近30天+真实评论+≥2平台）。平台路由见 [[references/web-search-enhancement.md]]，通信规范见 [[references/communication-protocol.md]]。",
+      "keyword": "强制",
+      "rule_hash": "397bd93c85432eff"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 214,
+      "text": "短期记忆：[Decomposer]管理+分层压缩+KV缓存；长期知识库：MemoryKeeper读写+MetaLearner跨任务提取。**记忆去重（V11）**：写入前语义≥80%→跳过、检索去重（聚类→保留最高置信度+最新→版本链≤5条）、一致性（矛盾→最新高置信为准）、任务去重（Reflow前≥80%→仅增量）。**问题指纹（V12）**：实体+意图+约束→MD5前16位，同指纹自动关联注入，相似度≥85%→去重。**历史压缩（V13）**：指纹命中后Intake相关Step仅输出概括摘要，完整历史留档供检索。**⛔指纹命中不豁免提问**：仅触发V13压缩，⛔不豁免每轮提问追问义务（硬门禁2）。",
+      "keyword": "⛔",
+      "rule_hash": "9541bcbf171531b0"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 217,
+      "text": "时间：简单10min/中等20min/复杂40min。并行：L1 3-4/L2 6-8/L3 5×4/L4 5×5。上下文：分层压缩+保真≥0.85，80%强制压缩。搜索：每子任务≤3轮补搜，全任务10轮弹至15。",
+      "keyword": "强制",
+      "rule_hash": "4db99e0c27820f99"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 222,
+      "text": "- 文档预检失败→修正content_data→重新预检（⛔禁止带错误调用generate_docx.py）",
+      "keyword": "⛔",
+      "rule_hash": "cdfbb4333de9408b"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 224,
+      "text": "- ⛔docx格式强制：每章≥1个h2含subsections嵌套h3；每h1≥2个h2；每含subsections的h2≥2个h3；H3标题去编号唯一；generate_docx.py参数为文件路径（禁内联JSON）；--content/--info JSON顶层必须为列表格式。⛔禁单h1包裹全部h2（多章塞1个h1→docx仅渲染第1章，须每章独立h1且各配≥2个h2，触发结构警告即修正content_data重新生成）。⛔.temp内容文件可能残留上一会话数据：覆盖前先读旧文件，⛔禁沿用旧内容冒充本轮结论，须以本轮多源验证数据重写。",
+      "keyword": "⛔",
+      "rule_hash": "89acc6f0ac291671"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 225,
+      "text": "- 子Agent spawn超限→优先级仲裁→降级串行；上下文溢出→强制L3压缩+KV Cache清理；收敛死锁→3轮驳回→降级+人工提示；事实性异常→回溯溯源重查；子Agent45秒超时→标\"超时跳过\"（2分钟兜底）",
+      "keyword": "强制",
+      "rule_hash": "6fc085556d08e990"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 230,
+      "text": "## 代码审查与Bug诊断+TDD（⛔每次代码任务100%强制）",
+      "keyword": "⛔",
+      "rule_hash": "8479d60d85682b69"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 235,
+      "text": "## 领域术语表（⛔全任务100%强制）",
+      "keyword": "⛔",
+      "rule_hash": "dd8acadb71bb54e8"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 236,
+      "text": "Intake任务分解后、计划拷问前须产出术语表（≥3术语），定义\"术语→精确含义→度量口径/边界\"。Swarm使用术语口径，发现歧义→回溯修订。Verify核查口径一致性。缺失→退回。",
+      "keyword": "smart:缺失→退回",
+      "rule_hash": "d276c4d7e891f459"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 238,
+      "text": "## 多Agent执行标识（强制）",
+      "keyword": "强制",
+      "rule_hash": "32351564b75d359e"
+    },
+    {
+      "file": "SKILL.md",
+      "line_no": 246,
+      "text": "`generate_docx.py`—Word文档生成器（26层防护+35项格式自校验，content_data列表含h1/sections[h2/paragraphs/analysis/subsections[h3]]）。CLI必填`--title`，配`--subtitle`/`--date`/`--content <JSON文件路径>`/`--output <docx路径>`，⛔禁用--info内联JSON替代--title（缺--title直接报错拒生成）",
+      "keyword": "⛔",
+      "rule_hash": "cd691d1894a41808"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 29,
+      "text": "### Sentinel（安全审查，每次任务100%强制在线）",
+      "keyword": "强制",
+      "rule_hash": "6b76b75cd3bbd583"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 33,
+      "text": "**强制执行**：每次任务中任何涉及代码执行、外部API调用、文件写入的操作均必须经Sentinel审查，不可跳过。即使L1轻量任务也不得跳过安全审查。",
+      "keyword": "强制",
+      "rule_hash": "cd047c91ad77c33a"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 43,
+      "text": "### ContextManager（上下文管理，每次任务100%强制在线）",
+      "keyword": "强制",
+      "rule_hash": "abcfe7e2d2d642ae"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 47,
+      "text": "**强制执行**：每次任务的上下文变化必须由ContextManager追踪和压缩，不可手动省略。",
+      "keyword": "强制",
+      "rule_hash": "dc08b7b1d14c7d2c"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 51,
+      "text": "### Decomposer（目标分解，每次任务100%强制在线）",
+      "keyword": "强制",
+      "rule_hash": "0618f729176f7464"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 55,
+      "text": "**强制执行**：每次任务必须经Decomposer完整执行目标解析+任务分解，不可跳过直接进入Swarm。",
+      "keyword": "强制",
+      "rule_hash": "c8b9d4cd02bf37a9"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 111,
+      "text": "**平台路由与工具链（⛔每次搜索任务100%强制）**：[Agent-搜索型]执行搜索前必须按任务意图选择平台通道（网页/中文社交/英文技术社区/代码仓库/视频/财经/招聘等），禁止无差别泛搜索。**首选内置零配置搜索脚本** `python scripts/search_tools.py`（覆盖GitHub/B站/Reddit/HackerNews/V2EX/Read(Jina)，无需安装任何第三方工具），外部CLI为可选增强。完整平台路由表+内置脚本命令库+外部CLI命令库+搜索状态显式化（no-results/partial等7态）+社区真实声音专项（近30天窗口+高赞评论+≥2平台）详见 [web-search-enhancement.md](web-search-enhancement.md)。",
+      "keyword": "⛔",
+      "rule_hash": "94fb90bd34ecaa46"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 146,
+      "text": "### [Agent-编码型]深度能力（借鉴 Matt Pocock code-review + diagnosing-bugs，⛔每次代码任务100%强制）",
+      "keyword": "⛔",
+      "rule_hash": "6688f2ad29007cbc"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 148,
+      "text": "**双轴代码审查（借鉴 code-review 技能）**：每次代码审查必须沿两个独立轴并行执行，不可只查一轴：",
+      "keyword": "必须",
+      "rule_hash": "c127fb5f16872d37"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 152,
+      "text": "两轴分别产出独立审查报告，最终合并呈现。禁止只查规范不查功能，或只查功能不查规范。",
+      "keyword": "禁止",
+      "rule_hash": "05729eeaacb783da"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 161,
+      "text": "⛔禁止在未复现/未最小化时直接猜测修复；禁止无回归测试的裸修复。",
+      "keyword": "⛔",
+      "rule_hash": "2c7a0ae3ed6cec08"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 163,
+      "text": "**代码审查 5 项强制检查清单**：安全性（注入/SQL/敏感信息泄漏/越权）、正确性（边界条件/并发/异常路径）、可维护性（模块化/可读性/命名）、性能（复杂度/资源泄漏）、可测试性（可测性/断言/用例覆盖）。任一未检查→审查不完整，退回补查。",
+      "keyword": "强制",
+      "rule_hash": "33386c035f508b44"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 165,
+      "text": "**代码任务产出**：所有代码变更必须输出「变更摘要+审查记录+回归结果」三段式结论，禁止只给代码不给结论。",
+      "keyword": "禁止",
+      "rule_hash": "69b7bf1e0f796995"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 167,
+      "text": "**TDD红绿开发循环（借鉴 tdd 技能）**：功能开发任务强制测试先行，禁止裸实现：",
+      "keyword": "强制",
+      "rule_hash": "ec5f04f2d6cc5986"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 171,
+      "text": "- 一次一个垂直切片，禁止大爆炸式一次性写全部代码",
+      "keyword": "禁止",
+      "rule_hash": "bd08ad7fb07879d5"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 172,
+      "text": "- 每阶段嵌入Step标注（[TDD-红]/[TDD-绿]/[TDD-重构]），禁止只标最终结果",
+      "keyword": "禁止",
+      "rule_hash": "94dede6a6f5683ea"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 173,
+      "text": "- 无法编写测试的代码（纯脚本探针）须标注\"⛔无测试覆盖原因\"，核心逻辑尽量抽为可测试函数",
+      "keyword": "⛔",
+      "rule_hash": "4d6c9898ecb4e354"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 176,
+      "text": "**代码格式与步骤检查（V11新增，⛔每次代码任务100%强制）**：编码型在提交代码变更前，必须执行以下格式与步骤检查：",
+      "keyword": "⛔",
+      "rule_hash": "e50de4a4a359717e"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 177,
+      "text": "1. **步骤完整性检查**：确认代码变更遵循了任务分解中分配给编码型的全部步骤——任务分解的每个子步骤是否有对应代码实现？是否有步骤被遗漏？⛔禁止跳过任务分解中分配的步骤直接写实现。检查结果以Step标注输出：\"步骤完整性：✅ N/N步已实现\"或\"步骤完整性：⚠️ 缺失第X步，退回补全\"",
+      "keyword": "⛔",
+      "rule_hash": "b477006127a3272a"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 178,
+      "text": "2. **强制规则遵守检查**：确认代码遵守SKILL.md中所有适用于编码型的强制规则——包括双轴审查、5项检查清单、Bug诊断循环、TDD循环、Sentinel安全审查前置、代码任务产出三段式。⛔禁止只遵守部分规则。检查结果以Step标注输出：\"强制规则遵守：✅ 全部遵守\"或\"强制规则遵守：⚠️ 未执行X规则，退回补执行\"",
+      "keyword": "⛔",
+      "rule_hash": "b85db72f8db86598"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 204,
+      "text": "**content_data完整示例（⛔生成docx前必须核对，字段名必须与此示例完全一致）**：",
+      "keyword": "⛔",
+      "rule_hash": "fbbb497f4d37dfed"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 231,
+      "text": "⛔**字段名禁令**：generate_docx.py第1416行有验证逻辑会拒绝`title`/`heading`/`section`/`name`/`subtitle`作为h2替代字段名，必须使用`h2`作为节标题字段名，`h3`作为子节标题字段名。段落内容用`content`(字符串或列表)或`paragraphs`(列表)均可，但`title`/`heading`/`section`/`name`不可用。",
+      "keyword": "⛔",
+      "rule_hash": "db1c770a624924a7"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 233,
+      "text": "5. **检查结果汇总**：以上4项检查全部通过后，编码型输出汇总Step标注：\"代码格式与步骤检查：✅ 步骤完整性+强制规则+格式规范+文档格式全部通过\"。任一未通过→标注失败项+退回修正+重新检查，⛔禁止带着检查错误提交代码变更",
+      "keyword": "⛔",
+      "rule_hash": "f9731cef4c471192"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 237,
+      "text": "⛔系统运维操作需要管理员权限时，不自动降级为只读诊断模式；应提示用户逐项确认并说人话说明影响。⛔**提权前强制披露执行内容**——对每项需提权的操作，Agent必须在用户确认前完整展示将执行的确切命令/脚本内容，经用户逐项审查确认后方可提权执行。提权方式为通过 `Start-Process -Verb RunAs` 触发 UAC（用户点\"是\"即授权执行已审查的命令），⛔禁止将多项破坏性操作合并为单个脚本一次 UAC 授权（每项破坏性操作独立提权、独立 UAC 授权），禁止生成最终交付脚本让用户手动运行（临时脚本写入 `.temp/` 执行后自动清理）。覆盖22类运维能力：",
+      "keyword": "⛔",
+      "rule_hash": "a011530de22fbd76"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 268,
+      "text": "- 禁止操作系统关键文件、注册表核心键、系统恢复分区",
+      "keyword": "禁止",
+      "rule_hash": "1e2ce2b03adeff03"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 269,
+      "text": "- 禁止关闭防火墙、安全软件、Windows Defender等防护措施",
+      "keyword": "禁止",
+      "rule_hash": "2c24b911f9cfff74"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 271,
+      "text": "- **应急响应证据保全**：应急响应模式下⛔禁止结束可疑进程、禁止删除可疑文件、禁止清除日志，仅执行只读取证操作（进程快照、网络连接快照、文件哈希计算、事件日志导出），确保证据链完整性",
+      "keyword": "⛔",
+      "rule_hash": "1fa832a56d2421c8"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 272,
+      "text": "- **威胁等级标注**：安全检查结果必须标注威胁等级（🔴高危/🟡中危/🟢低危/⊘未检查），🔴高危须立即建议隔离+深度排查，🟡中危须建议深入检查，⊘未检查须记录权限限制原因不可标记为合格",
+      "keyword": "必须",
+      "rule_hash": "835d3fca446c6524"
+    },
+    {
+      "file": "references/swarm-agents.md",
+      "line_no": 279,
+      "text": "## 运行时专家切换（每次任务100%强制监控）",
+      "keyword": "强制",
+      "rule_hash": "2d37c8ec920fb945"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 24,
+      "text": "- [Agent-核查型] 的核查包含强制15项+条件触发16项检查（详见 quality-rules.md）",
+      "keyword": "强制",
+      "rule_hash": "f1dfb03bccc619a6"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 26,
+      "text": "- [Agent-综合型] 负责文档生成（用户通过question工具选择生成时，规则14+规则15），必须通过generate_docx.py生成docx",
+      "keyword": "必须",
+      "rule_hash": "ff91f4084bb02e4d"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 27,
+      "text": "- [Agent-运维型] ⛔系统运维操作需要管理员权限时，不自动降级为只读诊断模式；应提示用户逐项确认并说人话说明影响。⛔提权前强制披露执行内容——对每项需提权的操作，Agent必须在用户确认前完整展示将执行的确切命令/脚本内容，经用户逐项审查确认后方可提权执行。提权方式为通过 `Start-Process -Verb RunAs` 触发 UAC（用户点\"是\"即授权执行已审查的命令），⛔禁止将多项破坏性操作合并为单个脚本一次 UAC 授权（每项破坏性操作独立提权、独立 UAC 授权），禁止生成最终交付脚本让用户手动运行（临时脚本写入 `.temp/` 执行后自动清理）（运维能力清单与权限约束详见 SKILL.md「系统运维操作能力」章节，此处不再重复），操作前须经[Sentinel]安全审查，破坏性操作须经用户确认",
+      "keyword": "⛔",
+      "rule_hash": "918ea5965179d766"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 28,
+      "text": "- Agent标识统一使用 `[Agent-类型名]` 方括号格式，禁止混用其他写法",
+      "keyword": "禁止",
+      "rule_hash": "882039e1ad7b7f3e"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 30,
+      "text": "### Agent全生命周期7节点强制标注（与SKILL.md步骤透明化规范联动）",
+      "keyword": "强制",
+      "rule_hash": "cce455b2d82c0718"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 32,
+      "text": "每个spawn的Agent在其执行的每个Step中必须完整标注以下7个生命周期节点，缺一不可（详见SKILL.md「Agent全生命周期7节点强制标注」和 step-transparency-examples.md）：",
+      "keyword": "强制",
+      "rule_hash": "2aaa9c34f8b6a58a"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 44,
+      "text": "**强制规则**：",
+      "keyword": "强制",
+      "rule_hash": "0332ab4f5a4ff4d7"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 46,
+      "text": "- 7节点标注在Swarm阶段每个Agent的Step中完整呈现，不允许省略",
+      "keyword": "不允许",
+      "rule_hash": "64a9f3499b0f7483"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 47,
+      "text": "- 节点5.的来源分级T1-T4与SKILL.md搜索真实性强制规则联动（详见 execution-guide.md 来源分级表）",
+      "keyword": "强制",
+      "rule_hash": "b7f530e1f6acebe9"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 68,
+      "text": "**嵌套spawn约束**：最多2层（主→Worker→Follower），不递归扩展。Worker必须用general类型。主Agent仍执行Step标注和审视链——Worker的spawn/Handoff/返回在主Agent的Step中完整标注。原有Agent生成、TAOR循环、交叉验证、安全审查规则全部不变。",
+      "keyword": "必须",
+      "rule_hash": "d54f0c679f6e0834"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 82,
+      "text": "## 运行时专家切换（每次任务100%强制监控）",
+      "keyword": "强制",
+      "rule_hash": "2d37c8ec920fb945"
+    },
+    {
+      "file": "references/swarm-agents-pt2.md",
+      "line_no": 89,
+      "text": "- **强制执行**：无论任务复杂度L1-L4，均必须持续监控上述切换条件。简单任务的Agent数量可少（1-3个），但切换监控不可省略——若Agent被驳回仍必须spawn替代，不可跳过",
+      "keyword": "强制",
+      "rule_hash": "0d40993a2d494987"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 185,
+      "text": "{\"bias_type\": \"confirmation_bias\", \"method\": \"强制补充等量反面证据\", \"impact\": \"置信度从0.88降至0.82\"}",
+      "keyword": "强制",
+      "rule_hash": "98258ac6b50902ba"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 518,
+      "text": "> **用户选择获取方式**：用户是否选择生成docx的决策，必须直接通过question工具以交互式问答形式获取，⛔禁止在询问前以正文形式输出分析结论（仅Step标注可正常展示），禁止以普通文本形式提问（规则14+规则15）。`output_format` 的值（`docx`或`dialog`）由此交互结果决定。",
+      "keyword": "⛔",
+      "rule_hash": "8cefd1516b36e47f"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 523,
+      "text": "- `status=fail`：文档格式校验失败，此消息应被拦截，[Agent-综合型]必须重新生成",
+      "keyword": "必须",
+      "rule_hash": "e57bbf775ad88577"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 524,
+      "text": "- `format_source` 必须为 `generate_docx.py`，任何其他值均视为格式违规",
+      "keyword": "必须",
+      "rule_hash": "b11adb936b665df5"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 525,
+      "text": "- 禁止调用Word文档助手（docx skill / doc-coauthoring / 任何Word文档处理skill）",
+      "keyword": "禁止",
+      "rule_hash": "ae93f8036e670fb9"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 533,
+      "text": "- `status=fail`：文档无法打开或结构损坏，此消息应被拦截，[Agent-综合型]必须重新生成",
+      "keyword": "必须",
+      "rule_hash": "618b20abbba5676c"
+    },
+    {
+      "file": "references/communication-protocol.md",
+      "line_no": 534,
+      "text": "- 用户选择生成docx时，必须同时通过docx_format_verified和docx_open_verified双重验证",
+      "keyword": "必须",
+      "rule_hash": "b0ac12cad5a7fe9e"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 36,
+      "text": "**三组认知准则+步骤透明化**：每次任务无论复杂度L1-L4，均必须：",
+      "keyword": "必须",
+      "rule_hash": "96db5c9038df6195"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 37,
+      "text": "1. 产出第一性原理审视Step（Intake+Swarm+Crystallize至少各1个）",
+      "keyword": "至少",
+      "rule_hash": "a4f43abdb32e1d21"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 38,
+      "text": "2. 产出世界级专家准则5项行为检查Step（Verify阶段至少1个）",
+      "keyword": "至少",
+      "rule_hash": "51617ec549172d3a"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 39,
+      "text": "3. 产出批判性思维3项产出Step（Verify阶段至少1个）",
+      "keyword": "至少",
+      "rule_hash": "69159255337c66f1"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 41,
+      "text": "5. **技能强制加载机制**：同一会话中用户每次提问后均强制重新加载本技能全部规则，不沿用上次加载。每次提问后在Intake阶段首步骤标注\"技能已加载：super-agent-cluster-a（第N次提问，本轮强制重新加载）\"。禁止以\"已加载过\"为由跳过skill加载操作",
+      "keyword": "强制",
+      "rule_hash": "8367e59e78ce4162"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 43,
+      "text": "缺少上述任一Step→对应阶段拒绝流转，退回补审。",
+      "keyword": "smart:退回补",
+      "rule_hash": "4e8aed86ab58fea5"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 67,
+      "text": "**约束**：最多2层嵌套（主→Worker→Follower），不递归扩展。Worker必须用general类型（持有Task工具）。主Agent仍执行Step标注和审视链——Worker的spawn/Handoff/返回在主Agent的Step中完整标注。原有Agent生成、TAOR循环、交叉验证、安全审查规则全部不变。",
+      "keyword": "必须",
+      "rule_hash": "0a955de0a7b07ebf"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 88,
+      "text": "**强制执行规则**：每次任务100%执行Scatter-Gather-Verify全流程，不可跳过任何阶段。Scatter搜索不足时必须追加，不可在Scatter未完成时直接进入Gather。Gather阶段四步骤（去重→交叉验证→冲突仲裁→结构化）全部强制执行。",
+      "keyword": "强制",
+      "rule_hash": "787b993d54109dc4"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 107,
+      "text": "### 轮次压缩优化（性能增强，不改变Scatter-Gather-Verify全流程强制执行规则）",
+      "keyword": "强制",
+      "rule_hash": "6c1ba8ec4e852759"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 124,
+      "text": "**不改变原有的约束**：Scatter-Gather-Verify全流程仍强制执行，压缩的是轮数不是步骤数，每轮内仍执行完整的去重/交叉验证/冲突仲裁/结构化Gather操作。⛔边际收益检测不得作为提前终止借口——连续2轮新增<10%时必须切换策略（换关键词/换来源类型/跨语言/引文链）继续深挖，直至收敛，禁止请求用户协助补齐。",
+      "keyword": "⛔",
+      "rule_hash": "e8a835fd086c150a"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 134,
+      "text": "### 搜索真实性强制规则（⛔每次任务100%强制执行，不可跳过）",
+      "keyword": "⛔",
+      "rule_hash": "5ad7a2735abe3c68"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 136,
+      "text": "**来源分级标注**：[Agent-搜索型]返回的每条信息必须标注来源等级——T1一手来源（官方文档/原始数据/法规）、T2权威二手（主流媒体/行业报告/同行评审论文）、T3普通二手（博客/自媒体/百科）、T4低可信来源（论坛/匿名/营销）。缺失来源等级标注=该条信息不可采信。",
+      "keyword": "必须",
+      "rule_hash": "c8d6bc1246336a9b"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 145,
+      "text": "**核心结论来源门禁**：每个核心结论必须至少有1条T1或T2来源支撑。仅有T3/T4来源的结论标注\"低可信度，仅供线索参考\"，不可作为正式结论输出。",
+      "keyword": "必须",
+      "rule_hash": "5469e17f196a851d"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 158,
+      "text": "**搜索验证门禁**：Swarm阶段收敛判定前必须通过以下4项门禁，缺一不可：",
+      "keyword": "必须",
+      "rule_hash": "44a2bc6a9a0c3353"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 167,
+      "text": "### 主动式数据时效性强制规则",
+      "keyword": "强制",
+      "rule_hash": "2a334b358112fdf3"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 169,
+      "text": "每次任务100%强制执行：",
+      "keyword": "强制",
+      "rule_hash": "c67eaa6da4b0b4b9"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 171,
+      "text": "- **搜索关键词年份强制**：当任务涉及时效性数据（市场/政策/技术/新闻/法规类），搜索关键词必须包含当前年份（如\"2026\"），确保获取最新数据",
+      "keyword": "强制",
+      "rule_hash": "a4f8bdfae30d1a9f"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 172,
+      "text": "- **优先采纳时效性数据**：搜索结果优先采纳最近6个月内发布的数据源；超过1年的数据仍须纳入分析并标注时效性，⛔禁止仅因\"数据较旧\"而剔除——应补搜最新数据并做新旧对比，而非降级证据等级",
+      "keyword": "⛔",
+      "rule_hash": "f33027926f99d236"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 173,
+      "text": "- **实时搜索工具优先**：对于时效性敏感任务，强制使用online_search等实时搜索工具获取最新数据，不可仅依赖已有知识库或缓存",
+      "keyword": "强制",
+      "rule_hash": "342927b43445a109"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 174,
+      "text": "- **时效性领域阈值**：市场数据（最大6个月）、政策法规（最大1年）、技术趋势（最大1年）、新闻资讯（最大3个月）——超阈值数据⛔禁止简单\"自动降级\"，必须补搜该领域最新数据后纳入对比分析",
+      "keyword": "⛔",
+      "rule_hash": "101d26798fc48dc9"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 178,
+      "text": "搜索边际收益检测：连续2轮新增有效信息<10%→标注\"边际收益不足\"，⛔禁止提前终止——应切换搜索策略（换关键词/换来源/跨语言/引文链）继续深挖直至覆盖；搜索预算动态重分配——高价值方向可从低价值方向借用预算。",
+      "keyword": "⛔",
+      "rule_hash": "327d0fea77738ca5"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 278,
+      "text": "2. 超时未返回的Agent，标记子任务状态为\"超时\"，⛔不得标记为\"超时跳过\"",
+      "keyword": "⛔",
+      "rule_hash": "406ee8f23cad4784"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 280,
+      "text": "4. 重试仍失败→继续自动补搜（换关键词/换源/换Agent/换方法）直至返回，禁止请求用户协助补齐，不得直接输出残缺结论",
+      "keyword": "禁止",
+      "rule_hash": "a932154192707284"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 281,
+      "text": "5. 最终输出前必须保证全部核心子任务有产出，缺失项不得以\"超时\"为由省略",
+      "keyword": "必须",
+      "rule_hash": "8e45537344b6c220"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 287,
+      "text": "- 每个子Agent设45秒性能超时——超时即标记\"超时\"并重试，不阻塞全局汇聚，但⛔不得跳过产出",
+      "keyword": "⛔",
+      "rule_hash": "fd1d79dd2e4d0c51"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 304,
+      "text": "**约束**：有依赖的子任务仍串行等待（原规则不变）。流水线仅在无依赖的Wave之间生效。核查Agent失败→降级为串行等待（⛔必须完成核查，不得跳过）。",
+      "keyword": "⛔",
+      "rule_hash": "e1ee920bf4743d2f"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 310,
+      "text": "### 衔接环节Step标注强制规则",
+      "keyword": "强制",
+      "rule_hash": "a9477154c36ade3c"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 312,
+      "text": "**每次Agent间衔接（Handoff/.spawn/返回）必须作为独立Step显式标注**，标注内容包含：",
+      "keyword": "必须",
+      "rule_hash": "1d9f9be096e42efb"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 323,
+      "text": "**无标注的衔接=未执行**。Inter-Agent衔接Step须覆盖各阶段强制操作，禁压缩式标注。",
+      "keyword": "强制",
+      "rule_hash": "35ed576d224d7df4"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 344,
+      "text": "↓ 对全部结论执行强制15项+条件触发16项检查（详见 quality-rules.md）",
+      "keyword": "强制",
+      "rule_hash": "5f789be92ad8d9fa"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 391,
+      "text": "2. 相关性阈值：仅引用与核心词直接相关的记忆条目，相关度低于0.5的条目⛔不得直接忽略——可标注低相关后供上下文参考，或补搜相关内容增强关联",
+      "keyword": "⛔",
+      "rule_hash": "746b56d5609cb185"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 393,
+      "text": "4. 时效性过滤：优先引用最近30天的日志条目，超过90天的标注\"历史基线，可能已过时\"（此规则仅适用于记忆过滤，搜索数据时效性规则见本文件§主动式数据时效性强制规则）",
+      "keyword": "强制",
+      "rule_hash": "e3aa6f1f6302a617"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 394,
+      "text": "5. 无匹配时补搜增强：若MEMORY.md中无相关内容，⛔不得直接跳过记忆环节——应补搜相关主题内容增强上下文后启动全新研究，并标注\"记忆无匹配，已补搜增强\"",
+      "keyword": "⛔",
+      "rule_hash": "44745281f453863d"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 419,
+      "text": "- [Agent-核查型] 的核查包含强制15项+条件触发16项检查（详见 quality-rules.md）",
+      "keyword": "强制",
+      "rule_hash": "f1dfb03bccc619a6"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 421,
+      "text": "- [Agent-运维型] ⛔系统运维操作需要管理员权限时，不自动降级为只读诊断模式；应提示用户逐项确认并说明影响。⛔**提权前强制披露执行内容**——对每项需提权的操作，Agent必须在用户确认前完整展示将执行的确切命令/脚本内容（禁止仅展示\"说人话\"摘要而不展示实际命令），经用户逐项审查确认后方可提权执行。提权方式为通过 `Start-Process -Verb RunAs` 触发 UAC（用户点\"是\"即授权执行已审查的命令），⛔禁止将多项破坏性操作合并为单个脚本一次 UAC 授权（每项破坏性操作独立提权、独立 UAC 授权），⛔禁止生成最终交付脚本让用户手动运行（临时脚本写入 `.temp/` 执行后自动清理）。完整流程详见 security-ops-guide-pt4.md §管理员权限提权执行与内容披露（软件管理、系统体检、磁盘维护、服务管理、启动项管理、系统优化、网络诊断、安全检查、环境配置、故障排查、深度系统诊断、性能根因分析、系统修复与恢复、注册表深度审计、事件日志分析、电源管理诊断、磁盘空间深度清理、内存深度优化、启动优化、系统服务优化、临时文件全盘清理、网络栈优化），⛔所有提权脚本须经[Sentinel]安全审查前置（检查命令内容是否含外传/破坏/越权模式），破坏性操作须经用户确认，禁止关闭防火墙/安全软件",
+      "keyword": "⛔",
+      "rule_hash": "39ab1f8b4c657c85"
+    },
+    {
+      "file": "references/execution-guide.md",
+      "line_no": 425,
+      "text": "- Agent标识统一使用 `[Agent-类型名]` 方括号格式，禁止混用其他写法",
+      "keyword": "禁止",
+      "rule_hash": "882039e1ad7b7f3e"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 20,
+      "text": "- **用户选择生成文档**：通过内置`generate_docx.py`生成docx作为最终交付物（禁止使用其他方式），生成后强制执行zipfile结构完整性校验。",
+      "keyword": "强制",
+      "rule_hash": "a6fafdb755a751c1"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 24,
+      "text": "- 推荐使用技能根目录的绝对路径执行，确保脚本可被正确找到",
+      "keyword": "确保",
+      "rule_hash": "86e568a286b5fd77"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 32,
+      "text": "[汇总] 结果汇聚+残差包Block级聚合（不可跳过）",
+      "keyword": "不可跳过",
+      "rule_hash": "c5e39d60fd786e68"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 34,
+      "text": "[第一性原理审视] 逻辑闭合？原始意图100%覆盖?",
+      "keyword": "100%",
+      "rule_hash": "e75e6983d5b2d704"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 39,
+      "text": "[精炼] 递归结晶（完整性→准确性→逻辑性→可追溯→实用性，最多5轮）（不可跳过）",
+      "keyword": "不可跳过",
+      "rule_hash": "2a9e3915ac8f2451"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 41,
+      "text": "[经验记录+棘轮检查] 记录经验→棘轮检查→持久化（不可跳过）",
+      "keyword": "不可跳过",
+      "rule_hash": "51646cd93a130340"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 43,
+      "text": "[Agent-综合型] 直接使用question工具向用户确认输出方式（⛔禁止在询问前输出分析结论正文，仅Step标注可展示，规则14+规则15）",
+      "keyword": "⛔",
+      "rule_hash": "38d9b604bc7f0491"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 59,
+      "text": "↓ 通过→允许输出 | 未通过→禁止输出，重新生成并记录错误",
+      "keyword": "禁止",
+      "rule_hash": "9107569a98d9fb89"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 62,
+      "text": "禁止调用Word文档助手，文档交付必须且只能通过generate_docx.py生成",
+      "keyword": "禁止",
+      "rule_hash": "89e0935b1e4926af"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 63,
+      "text": "↓ ⛔强制：文档生成且校验通过后，必须调用report_final_files工具注册交付文件",
+      "keyword": "⛔",
+      "rule_hash": "0ac911aaa4ab9640"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 64,
+      "text": "↓ report_final_files(files=[\"文档绝对路径\"])，确保前端渲染最终文件卡片",
+      "keyword": "确保",
+      "rule_hash": "f327dd21ddc63980"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 65,
+      "text": "↓ 禁止仅以自然语言提及文件而不调用report_final_files",
+      "keyword": "禁止",
+      "rule_hash": "92ea977e844df26d"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 71,
+      "text": "[输出] 交付用户 + 知识回流（记忆写入+模式提取+Agent进化+自我学习）（不可跳过）",
+      "keyword": "不可跳过",
+      "rule_hash": "94576c3f796ffdfa"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 85,
+      "text": "### 文档内容映射与三级编号规则（v2026.09.01新增，100%强制）",
+      "keyword": "强制",
+      "rule_hash": "1e91aac82d41e077"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 88,
+      "text": "- [Agent-综合型] 构建content_data时，子Agent调研结果中的每个实质性段落/数据点/分析结论必须映射到文档章节中。",
+      "keyword": "必须",
+      "rule_hash": "e408dde1f82c1258"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 89,
+      "text": "- **禁止简化遗漏**：竞争者分析须展开各家的\"定位/核心产品/优势/短板\"明细（不可仅概括性提及）；客户需求须展开痛点清单（不可仅列客户类型）；风险预警须包含子Agent报告中的风险项。",
+      "keyword": "禁止",
+      "rule_hash": "79c47318e64c9da4"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 95,
+      "text": "- **禁止仅使用二级编号（第X章/X.X）而不展开三级编号**。每章至少1个h2含subsections。",
+      "keyword": "禁止",
+      "rule_hash": "a822a4720257700a"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 96,
+      "text": "- **字段名强制规则**：content_data中节标题字段名必须为`h2`（非`heading`/`title`/`name`），子节标题字段名必须为`h3`。段落内容字段名用`content`(字符串或列表)或`paragraphs`(列表)均可。完整content_data结构示例详见 [swarm-agents.md](swarm-agents.md) 文档格式检查。generate_docx.py会拒绝`heading`/`title`/`section`/`name`等错误字段名。",
+      "keyword": "强制",
+      "rule_hash": "ab5e406ecca73947"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 100,
+      "text": "本规范为交付时提问规范，**每次任务结束时必须使用question工具以明确选项式向用户确认输出方式（生成文档/对话输出）**，禁止以普通文本形式提问。question工具须提供两个明确选项：选项一\"生成文档（推荐）\"、选项二\"不生成，对话输出\"。用户选择生成文档时，必须通过generate_docx.py生成docx并执行可打开性校验；用户选择对话输出时，以对话形式输出全部分析结果（同等完整度，不省略任何内容）。**最终回答选择的执行情况需显式标注在Step中。** ⚠️提问Step仅含提问相关内容，禁止混入操作预告/后续计划/分析结论等非提问内容（规则14）；⚠️发起question工具调用前必须逐项过完规则15的3项检查清单（主行完整✅ + 全部▸子行完整✅ + 末行空行分隔✅），任一未通过→禁止调用工具，继续完成Step标注输出后再调用。",
+      "keyword": "禁止",
+      "rule_hash": "5bfae85b1434fe54"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 112,
+      "text": "- **禁止操作清单**：禁止删除系统关键文件、修改注册表核心键、关闭防火墙/Windows Defender/安全软件、格式化系统分区、操作系统恢复分区",
+      "keyword": "禁止",
+      "rule_hash": "92c04eee045c50a9"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 118,
+      "text": "安全检查结果必须标注威胁等级，禁止留空：",
+      "keyword": "禁止",
+      "rule_hash": "a0c2a24bdf54acf2"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 133,
+      "text": "1. **快速固定现场（⛔仅只读取证）**：记录时间/系统状态/可疑对象信息，采集网络连接快照和进程树快照。⛔禁止结束可疑进程、禁止删除可疑文件、禁止清除日志",
+      "keyword": "⛔",
+      "rule_hash": "0d187fbbde64e86e"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 145,
+      "text": "⛔ 三组认知准则+步骤透明化贯穿全流程",
+      "keyword": "⛔",
+      "rule_hash": "4cbdf1341aaeae7d"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 146,
+      "text": "每个阶段必须产出Step标注，不可跳过",
+      "keyword": "不可跳过",
+      "rule_hash": "a2768245d69ab908"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 147,
+      "text": "┣ 第一性原理+提问追问：Intake→Swarm→Crystallize审视（至少3个Step）",
+      "keyword": "至少",
+      "rule_hash": "75e1029062c0f432"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 148,
+      "text": "┣ 世界级专家准则：Verify阶段5项行为检查Step（至少1个Step）",
+      "keyword": "至少",
+      "rule_hash": "9c34d0dffae4addb"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 149,
+      "text": "┣ 批判性思维准则：Verify阶段3项产出Step（至少1个Step）",
+      "keyword": "至少",
+      "rule_hash": "7fc5e3b6fdf2c199"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 155,
+      "text": "（100%强制执行：目标解析→提问追问(⛔先于一切搜索/分析)→记忆注入→复杂度分级路由LDD→任务分解→领域术语表→计划拷问→审议门(执行前)→威胁评估→第一性原理审视；⚠️L0/L1走快速通道：逻辑操作保留、允许合并Step标注（拷问降快查2项、术语表豁免）；L2+全步骤原子化强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "3975258251e3f81f"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 157,
+      "text": "⛔首步骤标注技能加载状态（每次提问后强制重新加载，标注格式：技能已加载：super-agent-cluster-a（第N次提问，本轮强制重新加载））",
+      "keyword": "⛔",
+      "rule_hash": "131ab66d4c55ba0d"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 158,
+      "text": "↓ 目标解析 → ⛔提问追问（阶段一，目标解析后立即执行，禁止在提问前搜索/分析）",
+      "keyword": "⛔",
+      "rule_hash": "73bb29a5632398c7"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 160,
+      "text": "↓ 【全任务】领域术语表（≥3个关键术语，定义精确含义+计量口径）⛔L2+强制，L0/L1快速通道豁免（发现口径歧义立即补建）",
+      "keyword": "⛔",
+      "rule_hash": "7dfde7ed029d0f25"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 161,
+      "text": "↓ 【全任务】计划拷问（5项：可证伪性/关键假设/薄弱环节/过度设计/验收标准）⛔L2+强制全5项，L0/L1快速通道降快查2项（薄弱环节+验收标准）",
+      "keyword": "⛔",
+      "rule_hash": "4a354c1ec3e5c59a"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 162,
+      "text": "↓ 【全任务】审议门（执行前审议：完整性/可行性/风险/分权）⛔强制，驳回→退回修订，连续3次→人工确认",
+      "keyword": "⛔",
+      "rule_hash": "29e4ec1a3bac887d"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 163,
+      "text": "↓ 【全任务】威胁评估（4类：级联幻觉/权限提升/信息泄露/资源耗尽）⛔强制",
+      "keyword": "⛔",
+      "rule_hash": "9bbea259c438a030"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 164,
+      "text": "↓ 第一性原理审视 ⛔强制，不可跳过",
+      "keyword": "⛔",
+      "rule_hash": "b027afd26858107b"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 165,
+      "text": "⛔状态机：Intake→Spawn 必须相邻合法流转，跳过Spawn/审议门→非法退回",
+      "keyword": "⛔",
+      "rule_hash": "bef12955fcc82f57"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 175,
+      "text": "↓ 功能开发任务：TDD红绿循环（红→绿→重构）⛔强制",
+      "keyword": "⛔",
+      "rule_hash": "fd361b404961008e"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 176,
+      "text": "↓ 第一性原理评审 ⛔强制，不可跳过",
+      "keyword": "⛔",
+      "rule_hash": "e7e68a4bd779aa5f"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 181,
+      "text": "元认知审查（每次任务100%强制触发，详见k3-enhancement-modules.md模块9，非Verify步骤表独立步骤）",
+      "keyword": "强制",
+      "rule_hash": "607440ab8c9113f0"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 182,
+      "text": "世界级专家5项行为检查 ⛔强制",
+      "keyword": "⛔",
+      "rule_hash": "bddf1c4bfd1749e2"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 183,
+      "text": "批判性思维3项产出 ⛔强制",
+      "keyword": "⛔",
+      "rule_hash": "83e245610965774c"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 184,
+      "text": "↓ 【全任务】审议门（执行后二次审议：结果完整性+冲突检测+质量复核）⛔强制——驳回→指定Agent返工后重新审议",
+      "keyword": "⛔",
+      "rule_hash": "57da9f4575a18c2d"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 185,
+      "text": "↓ 【全任务】术语口径一致性检查（各Agent是否使用同一口径，发现\"同词异义\"→标注并统一）⛔强制",
+      "keyword": "⛔",
+      "rule_hash": "94000c13b2356534"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 186,
+      "text": "条件边：全通过→流转 | 任一未通过→回溯修正 | 死锁3轮→⛔换方法重试（不得降级输出）",
+      "keyword": "⛔",
+      "rule_hash": "ace0289b99c24923"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 190,
+      "text": "↓ 第一性原理审视 ⛔强制",
+      "keyword": "⛔",
+      "rule_hash": "9c956f06aa603e7f"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 192,
+      "text": "使用question工具向用户确认输出方式（⛔禁止在询问前输出分析结论正文，规则14+规则15）",
+      "keyword": "⛔",
+      "rule_hash": "cb1f431d7fe77f51"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 193,
+      "text": "如用户选择生成文档：⛔强制通过generate_docx.py生成，⛔生成后调用report_final_files注册交付文件",
+      "keyword": "⛔",
+      "rule_hash": "9aa5a6bd9aaca4c9"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 197,
+      "text": "⛔Reflux阶段5项子步骤全部必做，不可跳过：",
+      "keyword": "⛔",
+      "rule_hash": "d8c461ece2c6c293"
+    },
+    {
+      "file": "references/execution-guide-pt2.md",
+      "line_no": 225,
+      "text": "强制规则：文档解析结果必须标注提取完整度；表格提取必须保留原始行列结构，缺失值标注\"空值\"；PDF表格提取必须校验行列对齐；所有文档解析结果作为T1级来源，仍需与外部来源交叉验证。",
+      "keyword": "强制",
+      "rule_hash": "82730dadf274756a"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 23,
+      "text": "- 事实核查清单（31项深度检查：15项强制+16项条件触发）",
+      "keyword": "强制",
+      "rule_hash": "f1d16dfb1e3823db"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 66,
+      "text": "### 搜索准确性校验规则（⛔每次任务100%强制执行，不可跳过）",
+      "keyword": "⛔",
+      "rule_hash": "d598ed44d9e1fa72"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 90,
+      "text": "**防幻觉交叉校验强制规则**：[Agent-核查型]对[Agent-搜索型]返回的每条关键信息执行反向逐字比对——将返回的数字/事实/结论回原来源逐字查找。完全找不到→标注\"疑似幻觉\"，删除该条信息并触发重新搜索。部分偏移>5%→标注\"数据偏移\"，驳回修正。来源存在但Agent解读错误→标注\"解读偏差\"，要求重新解读。",
+      "keyword": "强制",
+      "rule_hash": "a0021f920198d8bc"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 92,
+      "text": "**搜索验证门禁**：Swarm阶段收敛判定前必须通过以下4项门禁（缺一不可，未通过→追加补搜，不可跳过进入Verify）：",
+      "keyword": "不可跳过",
+      "rule_hash": "52f8e824c3f76e76"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 138,
+      "text": "- 要求至少1个Agent更换信息来源或更换分析角度",
+      "keyword": "至少",
+      "rule_hash": "7489409a0fe8837f"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 142,
+      "text": "## 红蓝对抗验证规则（每次任务100%强制执行）",
+      "keyword": "强制",
+      "rule_hash": "32cca24bc1c0c793"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 146,
+      "text": "**强制执行**：红蓝对抗对每次任务的核心结论均必须执行，不论用户是否明确要求、不论置信度高低。⛔禁止以\"降级到L3\"或任何理由用简化自检替代完整红蓝对抗——每次任务必须执行完整对抗。",
+      "keyword": "⛔",
+      "rule_hash": "4395e2f19c40524d"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 148,
+      "text": "**额外加强关注场景**（以下场景除强制执行外，需额外加强红蓝对抗的深度和广度）：",
+      "keyword": "强制",
+      "rule_hash": "16c382be53450945"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 151,
+      "text": "- 上述场景以外的常规结论也必须执行红蓝对抗（可用简化版）",
+      "keyword": "必须",
+      "rule_hash": "f0e43d37d72c3ac5"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 196,
+      "text": "### 第6轮：重试（⛔禁止降级输出）",
+      "keyword": "⛔",
+      "rule_hash": "dd11480747e4b249"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 201,
+      "text": "补全处理：⛔不得标注存疑后输出当前结果，必须换方法重试（换搜索策略/换分析模型/注入反证），重试仍失败则继续多轮自动补搜（换关键词/换源/换Agent）直至返回，禁止请求用户手动补齐",
+      "keyword": "⛔",
+      "rule_hash": "18b81c4645184655"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 202,
+      "text": "置信度调整：不得因纠错未过而直接降至0.60以下——继续重试直至通过，禁止请求用户手动补齐",
+      "keyword": "禁止",
+      "rule_hash": "9c805c1bf631c582"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 203,
+      "text": "禁止标注\"经降级处理\"作为输出出口",
+      "keyword": "禁止",
+      "rule_hash": "d467fe52b8be657a"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 208,
+      "text": "每个结论在标记为\"已验证\"前，[Agent-核查型]逐项检查。核查项分为两类：**强制检查**（每个结论必须执行）和**条件触发检查**（每次任务必须评估触发条件，满足时强制执行）。",
+      "keyword": "强制",
+      "rule_hash": "533afd77fef273ed"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 210,
+      "text": "### 强制检查（15项，每个结论必须执行）",
+      "keyword": "强制",
+      "rule_hash": "7e37cf9d04f182a7"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 230,
+      "text": "### 条件触发检查（16项，每次任务必须评估触发条件，满足时100%强制执行）",
+      "keyword": "强制",
+      "rule_hash": "b171318a100ff85d"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 274,
+      "text": "每个核心结论必须形成完整验证闭环，缺少任何环节即降级：",
+      "keyword": "必须",
+      "rule_hash": "b132f15d958f29b5"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 286,
+      "text": "[Agent-验证型]对每个核心结论自动启动自红队攻击（不论置信度高低，每次任务100%强制执行）：",
+      "keyword": "强制",
+      "rule_hash": "308970134e1c6518"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 356,
+      "text": "3. 去偏执行：高严重度偏差触发强制补证或重新估算",
+      "keyword": "强制",
+      "rule_hash": "705c48a9d5a110ac"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 395,
+      "text": "交替规则：4轮为一个完整验证周期，**每次任务（L1-L4）必须完成至少1个完整周期**，L3+任务需完成2个完整周期，L4任务需完成3个完整周期。同一范式连续使用≥3轮时强制切换范式。",
+      "keyword": "强制",
+      "rule_hash": "4407a7f476203d9c"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 398,
+      "text": "### 三组准则审查质量规则（⛔每次任务Verify阶段强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "ab030fcc99a42117"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 400,
+      "text": "Verify阶段四范式验证之外，三组认知准则的审查Step必须达到以下质量标准，禁止仅写\"通过/合理/无\"等二值判断：",
+      "keyword": "禁止",
+      "rule_hash": "a79b5b7d4a01ea2b"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 402,
+      "text": "**第一性原理审视质量标准**：每次Intake/Swarm/Crystallize审视Step必须按7项清单逐项产出具体发现——本质（写出核心问题一句话） 假设（列出所有隐含假设并逐条标注验证状态） 逻辑（标注每步自洽性） 偏差（指明具体偏差名称及影响） 忽略（列出被忽略变量+影响） 覆盖（写出显性+隐性覆盖率+缺口） 证据（写出来源数+可追溯率+推断标注率）。仅写\"通过\"无具体内容→退回要求逐项展开。",
+      "keyword": "必须",
+      "rule_hash": "185ee5ac0d4d369f"
+    },
+    {
+      "file": "references/quality-rules.md",
+      "line_no": 406,
+      "text": "**批判性思维3项产出质量标准**：错误前提/逻辑跳跃/信息缺失→逐条列出推理链编号+环节+问题类型+具体描述+修正动作 事实vs推测区分→写出事实条数+推测条数（含概率+条件）+主观条数（含依据）+未标注条数+覆盖率% 忽略变量→逐条列出变量名+影响方向+量级+建议理由。仅写\"无/通过\"无具体过程→退回要求逐条展开。",
+      "keyword": "smart:缺失→逐条列出推理链编号+环节+问题类型+具体描述+修正动作 事实vs推测区分→写出事实条数+推测条数（含概率+条件）+主观条数（含依据）+未标注条数+覆盖率% 忽略变量→逐条列出变量名+影响方向+量级+建议理由。仅写\"无/通过\"无具体过程→退回",
+      "rule_hash": "5d2659ee2d0fcf32"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 43,
+      "text": "### TAOR思考循环（核心推理引擎，每次任务100%强制执行）",
+      "keyword": "强制",
+      "rule_hash": "ab9d4b953ef949bf"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 45,
+      "text": "借鉴K3递归思考模式与Anthropic多Agent协作研究，TAOR（Think-Act-Observe-Reflect）作为每个Agent内部的核心推理引擎，替代传统线性推理链。**三组认知准则嵌入TAOR循环**：Think阶段必须执行第一性原理审视和批判性思维检查，Reflect阶段必须产出审视结论。缺少审视→TAOR循环不收敛，禁止输出。",
+      "keyword": "禁止",
+      "rule_hash": "35f5c4056acb769e"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 64,
+      "text": "- 达到最大深度（L1=1/L2=3/L3=5/L4=10）→强制收敛",
+      "keyword": "强制",
+      "rule_hash": "937c5b52b7b7da62"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 137,
+      "text": "借鉴K3 Attention Residuals解决深层网络信息丢失的设计，实现跨Agent残差连接。认知主干是贯穿全链路的信息血脉——原始意图沿主干传递，确保深层Agent不丢失浅层意图。",
+      "keyword": "确保",
+      "rule_hash": "9e398a414d15edd5"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 161,
+      "text": "- 残差包最大hop_count=10（超过则强制收敛）",
+      "keyword": "强制",
+      "rule_hash": "30a8579628175b2c"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 187,
+      "text": "安全约束：Block划分不得跨越子任务边界。",
+      "keyword": "不得",
+      "rule_hash": "36676f76d8bc2688"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 325,
+      "text": "交替规则：4轮为一个完整验证周期，每次任务（L1-L4）必须完成至少1个完整周期，L3+任务需完成至少2个完整周期，L4任务需完成至少3个完整周期。同一范式连续使用≥3轮时强制切换。完整定义详见 quality-rules.md 四范式交替规则。",
+      "keyword": "强制",
+      "rule_hash": "17ad2022c2a8038e"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 447,
+      "text": "**不改变的部分**：CARS架构不改变、三组认知准则（第一性原理+提问追问、世界级专家、批判性思维）不改变、TAOR循环不改变、步骤透明化格式不改变、文档生成方式（generate_docx.py）不改变。最终回答选择方式更新为直接使用question工具交互式问答，禁止在询问前以正文输出分析结论（规则14+规则15）。",
+      "keyword": "禁止",
+      "rule_hash": "2bc2d8f0334d9cb0"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 474,
+      "text": "**三组认知准则与元认知自省的联动**：元认知自省是三组准则的执行保障——第一性原理审视的产出质量由元认知自省校验，批判性思维检查的覆盖度由元认知自省审计，世界级专家准则的5项行为达标度由元认知自省确认。缺少三组准则的Step标注→元认知自省无法执行→Verify阶段拒绝通过。",
+      "keyword": "smart:拒绝通过",
+      "rule_hash": "151d56a11356f262"
+    },
+    {
+      "file": "references/k3-enhancement-modules.md",
+      "line_no": 476,
+      "text": "执行规则（每次任务100%强制执行）：L1-L2任务必须触发L1元认知审查，L3任务必须触发L2元认知审查，L4任务必须触发L3元认知审查。**任何复杂度等级均不可跳过元认知审查。**",
+      "keyword": "强制",
+      "rule_hash": "7e902b5a0d933f33"
+    },
+    {
+      "file": "references/k3-enhancement-pt2.md",
+      "line_no": 27,
+      "text": "合成路径：实证×规范、实证×解释、实证×批判、规范×解释、规范×批判、解释×批判——六路合成打破学科壁垒。L4跨学科任务必须完成至少3路合成路径。",
+      "keyword": "必须",
+      "rule_hash": "6320d7c1c15b4f63"
+    },
+    {
+      "file": "references/k3-enhancement-pt2.md",
+      "line_no": 55,
+      "text": "越界防护：Agent不得将\"未知区\"内容包装为\"已知区\"输出；不得对\"不可知区\"内容进行推测性输出。",
+      "keyword": "不得",
+      "rule_hash": "03ee9dd29733abc7"
+    },
+    {
+      "file": "references/k3-enhancement-pt2.md",
+      "line_no": 89,
+      "text": "- 每经过一个Agent，残差包保真度必须≥0.85",
+      "keyword": "必须",
+      "rule_hash": "a8c961ec60fec6e0"
+    },
+    {
+      "file": "references/k3-enhancement-pt2.md",
+      "line_no": 91,
+      "text": "- 残差包最大hop_count=10，超过则强制收敛",
+      "keyword": "强制",
+      "rule_hash": "a020b876148ffce6"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 18,
+      "text": "**⛔示例独立性声明（v2.0名称化版）**：本文件及 pt2/pt3 中所有步骤名称仅为格式示范，各示例相互独立、不构成连续体系，⛔禁止复制名称入真实任务。真实任务须按名称唯一性铁律重新命名（全局唯一+禁止同名重复+禁跳号/复用/重置/乱序）。",
+      "keyword": "⛔",
+      "rule_hash": "ba15cf858e1dd9d0"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 20,
+      "text": "**强制执行原则**：以下所有示例中的步骤均不可跳过。Intake的全部操作（目标解析→提问追问→记忆注入→复杂度分级路由LDD→任务分解→第一性原理审视→领域术语表→计划拷问→审议门（执行前）→威胁评估）为全任务100%强制、Swarm的TAOR+交叉验证、Verify的四范式+DQG门禁、Crystallize的审视+校验——每一步必须在Step标注中显式出现，省略即违规。",
+      "keyword": "强制",
+      "rule_hash": "225a740a6de98c46"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 22,
+      "text": "**Step标注格式规则**：十项规则（整行加粗+阶段图标+步骤间空行+子步骤▸+主行≤40字短标题+一字段一行+→仅限值内部+TAOR四环分行+▸无缩进+空行分隔）见 SKILL.md 顶部「⛔ Step标注格式」章节。以下所有示例中的Step行均已符合此格式——实际执行时同样必须保持。**关键：Markdown渲染器会折叠单换行为空格，主行与每个▸子行之间、▸子行相互之间必须加空行，仅换行不够。** **⛔规则17子行完整显示硬规则**：每条▸子行≤100字、每Step≤11行、主行≤40字，全部内容完整不被截断；超100字即格式错误，必要字段可占满但不得超限。",
+      "keyword": "⛔",
+      "rule_hash": "bf9d4fb47a1e8553"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 24,
+      "text": "**⛔历史上下文压缩规则（规则16）**：当任务为同一问题指纹重复（相似度≥85%）的历史重提，或▸子行需引用历史基线时，⛔禁止复述完整历史基线/需求细节/上次结论全文，仅输出概括压缩摘要。格式①：`▸ 摘要：历史任务重提，沿用已锁定基线（一句话概括）`；格式②：存在差异时追加`▸ 差异：本轮变更点`，无差异标`▸ 差异：无（沿用基线）`。**⛔指纹命中不豁免提问（v2026.09.04新增）**：即使问题指纹命中历史任务（相似度≥85%）触发本规则，每轮用户消息后仍须通过question工具执行一次提问追问（硬门禁2），历史压缩仅约束▸子行摘要长度，⛔禁止以\"指纹命中/历史已理解\"为由跳过提问环节。✅正例：指纹命中→输出提问Step→调用question工具→用户回答后再进入记忆注入；❌反例：指纹命中→直接输出目标解析结论→跳过question直接搜索（违规，Intake判未完成退回重执行）。**作用**：防历史重提时正文过长、上下文膨胀且不丢失追问环节。",
+      "keyword": "⛔",
+      "rule_hash": "905818815425b202"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 26,
+      "text": "**三组认知准则+步骤透明化一体化强制规则**：",
+      "keyword": "强制",
+      "rule_hash": "e46dd3fe44c7a247"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 27,
+      "text": "- 准则①（第一性原理+提问追问）：必须在Intake/Swarm/Crystallize各产出1个审视Step（至少3个），缺失→退回补审。Intake阶段检查点=准则①独立Step，Crystallize阶段终检=准则①交叉复验",
+      "keyword": "必须",
+      "rule_hash": "dd4624e6129e9913"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 28,
+      "text": "- 准则②（世界级专家5项核心行为）：必须在Verify产出1个5项行为检查Step（反驳/来源/推测/独立验证/奉承扫描），缺失→Verify拒绝通过。Verify阶段检查点=准则②独立Step，Crystallize阶段终检=准则②交叉复验",
+      "keyword": "必须",
+      "rule_hash": "d0eb98798761c6f3"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 29,
+      "text": "- 准则③（批判性思维3项产出）：必须在Verify产出1个3项产出Step（推理链审查/事实推测观点区分/忽略变量清单），缺失→Verify拒绝通过。Verify阶段检查点=准则③独立Step，Crystallize阶段终检=准则③交叉复验",
+      "keyword": "必须",
+      "rule_hash": "7868c8ba291e31a4"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 30,
+      "text": "- Crystallize阶段准则①②③终检：确认三组准则全部已产出可见Step，任一缺失→退回对应阶段补全",
+      "keyword": "smart:退回对应阶段补",
+      "rule_hash": "8a64482db23e520d"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 48,
+      "text": "**🔵 ❓ 提问追问（⛔阶段一） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "6349a2568572750f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 52,
+      "text": "▸ ⛔选项语义：多选场景设多选，单选场景设单选",
+      "keyword": "⛔",
+      "rule_hash": "f46d22a50fe2374e"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 56,
+      "text": "▸ ⛔禁止在提问前执行任何搜索/分析",
+      "keyword": "⛔",
+      "rule_hash": "3f06d929e49b3812"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 58,
+      "text": "▸ ⛔本Step仅含提问相关内容，禁止混入操作预告/后续计划（规则14+规则15）",
+      "keyword": "⛔",
+      "rule_hash": "fc8fbb76e2ad4c8f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 60,
+      "text": "▸ ⛔工具调用前检查清单（规则15）：主行完整✅ + 全部▸子行完整✅ + 末行空行分隔✅ + 末行语义完整✅ → 允许调用question工具",
+      "keyword": "⛔",
+      "rule_hash": "1260429e40ea9a18"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 68,
+      "text": "▸ ⛔历史压缩（规则16）：若为历史任务重提，禁止复述完整基线，仅标`▸ 摘要：历史任务重提，沿用已锁定基线`",
+      "keyword": "⛔",
+      "rule_hash": "34457caa09315620"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 70,
+      "text": "▸ ⛔指纹不豁免追问：命中历史仍须question追问后再进入下一阶段",
+      "keyword": "⛔",
+      "rule_hash": "ab2cc49ebfcb9c84"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 80,
+      "text": "**🔵 🔬 第一性原理审视（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "c8d69a059aeff7e2"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 198,
+      "text": "**🟠 🧪 第一性原理审视（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "30ed4f05cccd962a"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 226,
+      "text": "▸ 进度：强制15项检查中（已完成8项），条件触发16项检查触发3项",
+      "keyword": "强制",
+      "rule_hash": "092ab2d3f8246bd4"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 236,
+      "text": "**🟢 🛡️ 审计追踪（⛔强制，四范式之一） - [Agent-核查型]**",
+      "keyword": "⛔",
+      "rule_hash": "c203f7adc36f0f7f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 244,
+      "text": "**🟢 ✅ 世界级专家准则检查（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "2cf0454964d31022"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 256,
+      "text": "**🟢 ✅ 批判性思维检查（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "59eeaf29bc8c0acc"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 276,
+      "text": "**🟣 📝 第一性原理审视（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "1e2729c830f60cd7"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 290,
+      "text": "▸ 证据：来源可追溯率94%+推断标注率100%",
+      "keyword": "100%",
+      "rule_hash": "a876b5089940665e"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 292,
+      "text": "**🟣 📝 准则终检（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "546176fc83605628"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 308,
+      "text": "**🟣 📝 递归结晶（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "bff9f35b3a1dbcc8"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 318,
+      "text": "▸ ⛔注：本Step仅输出提问相关内容，⛔禁止混入操作预告/后续计划/分析结论等非提问内容（规则14+规则15），用户回答记录在下一个新编号Step中（禁止预写\"待\"占位符）",
+      "keyword": "⛔",
+      "rule_hash": "830fec6549ffc26f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 320,
+      "text": "▸ ⛔工具调用前检查清单（规则15）：主行完整✅ + 全部▸子行完整✅ + 末行空行分隔✅ + 末行语义完整✅ → 允许调用question工具",
+      "keyword": "⛔",
+      "rule_hash": "1260429e40ea9a18"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 373,
+      "text": "## 3. 审视步骤标注示例（⛔每次任务强制，不可省略）",
+      "keyword": "⛔",
+      "rule_hash": "2012c943ba4a7a54"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 377,
+      "text": "三组认知准则必须产出独立Step标注，准则不可脱离Step标注\"脑子里过一遍\"：",
+      "keyword": "必须",
+      "rule_hash": "cbfb4c5b9c20df0c"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 380,
+      "text": "**🔵 ❓ 提问追问（⛔阶段一） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "6349a2568572750f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 384,
+      "text": "▸ ⛔选项语义：单选场景设单选",
+      "keyword": "⛔",
+      "rule_hash": "b59944e84e2a13d8"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 388,
+      "text": "▸ ⛔选项语义：是否场景设单选",
+      "keyword": "⛔",
+      "rule_hash": "cd0c23cfa30fb57f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 392,
+      "text": "▸ ⛔本Step仅含提问相关内容，禁止混入操作预告/后续计划（规则14+规则15）",
+      "keyword": "⛔",
+      "rule_hash": "fc8fbb76e2ad4c8f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 394,
+      "text": "▸ ⛔工具调用前检查清单（规则15）：主行完整✅ + 全部▸子行完整✅ + 末行空行分隔✅ + 末行语义完整✅ → 允许调用question工具",
+      "keyword": "⛔",
+      "rule_hash": "1260429e40ea9a18"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 402,
+      "text": "▸ ⛔历史压缩（规则16）：历史任务重提时仅输出概括摘要，不重复注入完整基线",
+      "keyword": "⛔",
+      "rule_hash": "2a40cc6ebb55547e"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 404,
+      "text": "▸ ⛔指纹不豁免追问：命中历史仍须question追问后再进入下一阶段",
+      "keyword": "⛔",
+      "rule_hash": "ab2cc49ebfcb9c84"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 410,
+      "text": "**🔵 🔬 第一性原理审视（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "c8d69a059aeff7e2"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 426,
+      "text": "**🟠 🧪 第一性原理审视（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "30ed4f05cccd962a"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 444,
+      "text": "**🟢 ✅ 世界级专家准则检查（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "2cf0454964d31022"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 456,
+      "text": "**🟢 ✅ 批判性思维检查（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "59eeaf29bc8c0acc"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 464,
+      "text": "**🟣 📝 第一性原理审视（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "1e2729c830f60cd7"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 478,
+      "text": "▸ 证据：可追溯率94%+推断标注率100%",
+      "keyword": "100%",
+      "rule_hash": "2f90c53e5149502c"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 480,
+      "text": "**🟣 📝 准则终检（⛔强制） - [Decomposer(主Agent)]**",
+      "keyword": "⛔",
+      "rule_hash": "546176fc83605628"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 495,
+      "text": "### 3b. Agent全生命周期7节点标注示例（⛔每次任务强制，不可跳过）",
+      "keyword": "⛔",
+      "rule_hash": "94fad7eb5b49b643"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 499,
+      "text": "每个Agent从创建到消亡的完整生命周期必须在Step标注中显式呈现。以下为7节点强制标注的完整示例：",
+      "keyword": "强制",
+      "rule_hash": "d011506a0ccf117f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 573,
+      "text": "**7节点强制规则**：1.spawn → 2.执行计划 → 3.关键操作 → 4.内部决策 → 5.结果返回（含输入/输出摘要） → 6.Handoff/消亡 → 7.TAOR反思。任一缺失→该Agent判定为\"生命周期不完整\"→退回补全。",
+      "keyword": "强制",
+      "rule_hash": "b7708cd6e7ff8137"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 575,
+      "text": "### 3c. Agent子步骤展开与内部决策标注示例（⛔每次任务强制）",
+      "keyword": "⛔",
+      "rule_hash": "91f04283af33260b"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 579,
+      "text": "每个Agent的每个关键操作必须有独立子Step标注，Agent内部决策过程必须显式标注依据和备选方案：",
+      "keyword": "必须",
+      "rule_hash": "bba95f5936829527"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 613,
+      "text": "**子步骤展开规则**：一个Agent的完整生命周期至少标注3个子Step（spawn→执行→返回），涉及多步操作的Agent按实际操作数量标注。关键操作（搜索关键词选择/数据采集/分析方法选择/结论推导/数字回溯/偏差检测/修正动作）不可合并为笼统Step。",
+      "keyword": "至少",
+      "rule_hash": "4221e4f227695705"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 617,
+      "text": "**输入/输出摘要规则**：每个Agent返回Step必须同时标注输入和输出——`输入：搜索关键词/数据/任务描述 → 输出摘要：关键结论+来源+置信度`。不可只标注\"返回结果\"。",
+      "keyword": "必须",
+      "rule_hash": "83c4859de675231f"
+    },
+    {
+      "file": "references/step-transparency-examples.md",
+      "line_no": 619,
+      "text": "**执行耗时标注规则**：每个关键操作子Step必须标注预估或实际耗时——`执行耗时：约Ns（搜索/分析/核查/整理）`。用于资源预算追踪。",
+      "keyword": "必须",
+      "rule_hash": "a3d5716b969154be"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 16,
+      "text": "**⛔示例独立性声明（v2.0名称化版）**：本文件中的步骤名称仅为格式示范，各示例相互独立、不构成连续体系，⛔禁止复制名称入真实任务。真实任务须按名称唯一性铁律确保每个步骤名全局唯一、禁止重名。",
+      "keyword": "⛔",
+      "rule_hash": "ad92286231664706"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 20,
+      "text": "当Agent执行TAOR循环（Think→Act→Observe→Reflect）时，每一环必须作为子步骤显式标注，嵌套在主Step下。四环之间用空行分隔，用 `[T]/[A]/[O]/[R]` 标记每一环为子步骤：",
+      "keyword": "必须",
+      "rule_hash": "298331730857078f"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 46,
+      "text": "Swarm阶段的多轮搜索必须用Round编号追踪，每轮搜索的启动、执行、汇聚、判定独立标注：",
+      "keyword": "必须",
+      "rule_hash": "95657edc623ac85b"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 80,
+      "text": "Agent执行中的驳回、重试、补全全过程必须显式标注，不可跳过：",
+      "keyword": "不可跳过",
+      "rule_hash": "440b9c4326482be0"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 116,
+      "text": "### 降级路径标注（⛔防偷懒版：降级=换方法继续，非缩水输出）",
+      "keyword": "⛔",
+      "rule_hash": "8ee9aa2cc464bbd4"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 131,
+      "text": "▸ ⛔禁止缩范围输出",
+      "keyword": "⛔",
+      "rule_hash": "495ca0b693c41c29"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 135,
+      "text": "▸ 操作：L2未通过→多轮自动补搜（换关键词/换源/换Agent/换方法）直至返回，禁止请求用户手动补齐",
+      "keyword": "禁止",
+      "rule_hash": "5dae8596c73ae61a"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 137,
+      "text": "▸ ⛔禁止\"单Agent兜底+人工提示\"后草草交付",
+      "keyword": "⛔",
+      "rule_hash": "9c144ed839bdde37"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 142,
+      "text": "每个Step必须让读者看到\"信息从哪来、到哪去、中间变了什么\"。关键信息传递节点标注输入/输出摘要：",
+      "keyword": "必须",
+      "rule_hash": "9c3299ccfd553571"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 164,
+      "text": "关键节点后的置信度变化必须显式追踪，让用户看到信心是如何随每一步累积或下降的：",
+      "keyword": "必须",
+      "rule_hash": "45c74655ad7ff25d"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 200,
+      "text": "以下为三阶段审视的7项清单模板，每次任务每个阶段必须逐项过一遍并产出具体发现。",
+      "keyword": "必须",
+      "rule_hash": "3c835af027fbe4a9"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 215,
+      "text": "逐项说明：本质→写出核心要解决的问题（一句话）；前提假设→列出所有隐含假设并逐条标注\"已验证/待验证/存疑\"；逻辑链→标注前提→结论的每一步是否自洽；认知偏差→指明具体偏差名称（如确认偏误/锚定效应）及影响；忽略变量→列出被忽略的关键变量/成本/风险；目标覆盖→显性目标%+隐性目标%（不足100%须标注缺口）；证据链→来源数量+可追溯比例+推断标注概率。",
+      "keyword": "100%",
+      "rule_hash": "5d8d8ae0adabbeb4"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 239,
+      "text": "覆盖：最终覆盖率（不足100%须在文档中标注缺口）",
+      "keyword": "100%",
+      "rule_hash": "4c7b4eb74ad27a6d"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 274,
+      "text": "Verify阶段必须包含独立的\"步骤完整性自检Step\"，逐项检查以下内容：",
+      "keyword": "必须",
+      "rule_hash": "04f78e4e0c7f7a2e"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 276,
+      "text": "⛔**执行规范**：以下自检清单须在单一步骤内完成，结果以▸子行逐项列出，禁止拆分成多个步骤重复出现。步骤名用标准名，禁止用\"步骤完整性自检\"\"自检\"等作为步骤名。",
+      "keyword": "⛔",
+      "rule_hash": "231dd3a2d31fe835"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 278,
+      "text": "- Intake阶段全部强制操作（目标解析→提问追问→记忆注入→复杂度分级路由LDD→任务分解→第一性原理审视→领域术语表→计划拷问→审议门（执行前）→威胁评估为全任务强制步骤）是否标注？ ⛔提问追问必须在目标解析后立即执行，禁止在提问前搜索/分析",
+      "keyword": "⛔",
+      "rule_hash": "2d0df004e1c0abe6"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 279,
+      "text": "- Intake/Swarm/Crystallize三阶段第一性原理审视Step是否逐项展开（禁止仅写\"通过/合理\"）？",
+      "keyword": "禁止",
+      "rule_hash": "10cccdae4ef78cf7"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 285,
+      "text": "- Verify阶段四范式是否各标注独立Step？",
+      "keyword": "smart:独立Step",
+      "rule_hash": "42e7aa47efc7b4be"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 288,
+      "text": "- Verify阶段是否标注审议门（执行后二次审议：结果完整性+冲突检测+质量复核）？（⛔全任务强制）",
+      "keyword": "⛔",
+      "rule_hash": "52a24c2f1a3638be"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 291,
+      "text": "- ⛔提问追问中question工具的选项语义是否与问题匹配？（多选场景设多选，单选场景设单选）",
+      "keyword": "⛔",
+      "rule_hash": "6b39308202c7001a"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 292,
+      "text": "- ⛔工具调用前检查清单（规则15，v2026.09.04升级为6项，v2026.09.09无标点修订）是否逐项过完？（①主行完整✅ + ②全部子行无标点结尾✅ + ③空行分隔✅ + ④收尾子行存在且≤11字✅ + ⑤当前编号为全局最大✅ + ⑥收尾子行与工具调用间无过渡文字✅，任一未通过→禁止调用工具）",
+      "keyword": "⛔",
+      "rule_hash": "691df5b761ae39ad"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 293,
+      "text": "- ⛔提问Step中是否混入了与提问无关的内容？（操作预告/后续计划/分析结论等禁止出现在提问Step中，违反规则14）",
+      "keyword": "⛔",
+      "rule_hash": "ca0b58465061ab8b"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 295,
+      "text": "- 技能强制加载机制是否标注（Intake阶段对应步骤标注\"技能已加载（本轮强制重新加载）\"）？",
+      "keyword": "强制",
+      "rule_hash": "3ef37b1bd7d74941"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 296,
+      "text": "- Step标注格式是否合规？（1.整行`**加粗**` 2.阶段标签带emoji图标 3.步骤标注间空行 4.子步骤`▸`引导 5.主行≤40字短标题 6.一字段一行禁止`|`合行 7.`→`仅限值内部 8.TAOR四环分行 9.▸无缩进顶格写 10.**空行分隔**：主行与每个▸子行之间必须加空行，仅换行会被Markdown渲染器折叠）— 见 SKILL.md 顶部「⛔ 步骤标注格式」章节",
+      "keyword": "⛔",
+      "rule_hash": "83118e4dc14ddaef"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 297,
+      "text": "- ⛔规则17子行完整显示：每条▸子行≤100字+每个步骤标注≤11行，全部完整不被截断？",
+      "keyword": "⛔",
+      "rule_hash": "94de378de7f6764a"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 298,
+      "text": "- ⛔**步骤标注原子性自检**：逐个步骤标注检查是否存在多个操作共用同一名称的情况（如\"计划拷问+威胁评估\"合并为一步、\"审议门+Spawn\"合并为一步、\"并行执行+交叉验证\"合并为一步、\"搜索+分析+总结\"合并为一步）。发现合并→拆分为独立名称的多个步骤标注。⛔一个步骤标注仅包含一个操作动作（L0/L1快速通道例外：允许多操作并入合并Step标注，子行区分操作）。",
+      "keyword": "⛔",
+      "rule_hash": "1b64da0127e7b261"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 299,
+      "text": "- ⛔**名称唯一性自检（v2.0名称化版）**：全任务步骤名是否存在重复？存在→重新命名。步骤名是否全局唯一（禁止重名）？重名→重新命名。工具失败重试是否复用失败步骤名？复用→改为新步骤名+标注\"重试-原步骤名\"。提问追问/新轮次是否复用已有步骤名？跨轮续接→扫描历史取最大+1。同一功能同一交付轮内是否只出现一次步骤标注（如LDD复杂度分级两次）？重复→合并引用（跨轮不判重，见追加轮自检）。中断恢复是否用新步骤名续接（禁止重写同名）？步骤名必须全局唯一、禁止同名重复+禁跳号/复用/重置/乱序。**交付后追加轮自检（v2026.09.08新增）**：本任务是否为交付完成后的追加需求？是→⛔确认追加轮首步骤名称为全新名称（⛔禁止从对应步骤重来）；⛔确认追加轮步骤标注含\"交付后追加\"标记并引用交付轮最后步骤名；⛔确认追加轮经Reflux退回Intake重新流转（⛔禁止从完成态直接追加）；⛔确认追加轮已重新执行文档询问（⛔禁止沿用交付轮答案）；⛔确认追加轮内同一功能仅出现一次标注（跨轮不判重）。",
+      "keyword": "⛔",
+      "rule_hash": "8d036a2718cca671"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 300,
+      "text": "- 自检结果中任一项不通过→退回对应阶段补全步骤标注后重新流转",
+      "keyword": "smart:退回对应阶段补",
+      "rule_hash": "d0b2187ec7430a3c"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 304,
+      "text": "以下为第一性原理审视的7项完整清单，每次任务每个阶段必须逐项过一遍：",
+      "keyword": "必须",
+      "rule_hash": "cf699a2149632793"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 311,
+      "text": "6. 原始意图是否被100%覆盖？有没有跑题或遗漏？",
+      "keyword": "100%",
+      "rule_hash": "59d481a7888a90cc"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 314,
+      "text": "**执行门禁**：审视链未产出结论→禁止流转到下一阶段。审视产出仅写\"通过/合理\"而无具体发现→判定审查不充分，退回要求逐条展开。缺少任一阶段的审视结论→整条链路退回补审。第一性原理审视清单未逐项过完→当前阶段判定未完成。",
+      "keyword": "禁止",
+      "rule_hash": "415e2b517660b7aa"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 316,
+      "text": "**全局强制声明**：以下所有章节、规则、清单、流程均为100%强制执行，不可跳过、不可选择性实施。此声明等效于在每个章节标题中重复\"⛔每次任务100%强制执行，不可跳过，无例外\"，后续章节不再重复此标语。",
+      "keyword": "⛔",
+      "rule_hash": "669ec4e425b5e86c"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 320,
+      "text": "以下为核心行为规范，逐条强制执行，缺一不可：",
+      "keyword": "强制",
+      "rule_hash": "fc565a0ae4c19beb"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 322,
+      "text": "1. **不编造**：不知道就直说\"我不知道\"，绝不用编造的信息填补知识空白。引用的数据、事实、结论必须有来源，无法溯源的标注为\"推测\"并附概率",
+      "keyword": "必须",
+      "rule_hash": "86238b09d331b20d"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 328,
+      "text": "7. **不依赖用户给的数字**：用户提供的数字仅作参考，必须独立验证或标注\"用户提供未核实\"。关键决策不能仅凭用户提供的单一数字",
+      "keyword": "必须",
+      "rule_hash": "b057420ff4c17f30"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 333,
+      "text": "**执行门禁**：每次任务的输出必须体现世界级专家准则的5项核心行为，审查Step中必须逐项写出具体审查内容，禁止笼统\"通过\"二值判断——",
+      "keyword": "禁止",
+      "rule_hash": "9ddb6829ffa99df5"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 341,
+      "text": "缺少任一项的具体审查内容→退回修正。仅有\"通过\"而无具体内容→判定审查不充分。",
+      "keyword": "smart:缺少任一项的具体审查内容→退回",
+      "rule_hash": "45d2d96f434b2336"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 345,
+      "text": "以下为批判性思维检查清单，每次任务必须逐项检查，作为独立Step标注：",
+      "keyword": "必须",
+      "rule_hash": "92452713345250ee"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 356,
+      "text": "7. **不同意就直说**：不同意用户观点时直接指出，附上依据、可能风险和替代解释。不说\"您说的也有道理\"然后悄悄坚持自己的判断——要么说服用户（用证据），要么被用户说服（用户提供新证据），要么明确保留分歧",
+      "keyword": "确保",
+      "rule_hash": "85f695a53c8f93bf"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 359,
+      "text": "**执行门禁**：每次任务的Verify阶段必须包含独立的批判性思维检查Step，产出3项结论，每项必须写出具体发现，禁止笼统\"无\"\"通过\"二值判断——",
+      "keyword": "禁止",
+      "rule_hash": "7daf5a4700cc27a5"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 362,
+      "text": "- 事实vs推测区分标注覆盖率→写出：全文N条断言中，事实M条（含来源）、推测K条（含概率+条件）、主观观点P条（含依据），覆盖率=M+K+P/N×100%，未标注断言Q条（应为0）",
+      "keyword": "100%",
+      "rule_hash": "16cc972c6379aed4"
+    },
+    {
+      "file": "references/step-transparency-examples-pt2.md",
+      "line_no": 365,
+      "text": "缺少批判性思维检查Step→Verify阶段拒绝通过。检查清单8项中未逐项过完→Verify阶段判定未完成。3项产出中任一项仅写\"无/通过\"而无具体审查过程→判定审查不充分，退回要求逐条展开。",
+      "keyword": "smart:拒绝通过。检查清单8项中未逐项过完→Verify阶段判定未完成。3项产出中任一项仅写\"无/通过",
+      "rule_hash": "587164cfcbf9a6df"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 16,
+      "text": "**⛔示例独立性声明（v2.0名称化版）**：本文件中的步骤名称均为格式示范，各示例相互独立、不构成连续体系，⛔禁止复制名称入真实任务。真实任务须按名称唯一性铁律（§19规则10）确保每个步骤名全局唯一、禁止重名。",
+      "keyword": "⛔",
+      "rule_hash": "071e0fb0a691e03b"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 18,
+      "text": "## 16. 多结果展开标注示例（⛔3+项结果时强制使用）",
+      "keyword": "⛔",
+      "rule_hash": "b378a53573ad4d46"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 20,
+      "text": "当单个步骤包含3项及以上结果/修正/发现/驳回时，必须按多结果展开规则标注，禁止将多项内容堆叠在单行中。",
+      "keyword": "禁止",
+      "rule_hash": "a76ef49db0ead580"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 22,
+      "text": "**规则回顾**（完整定义见SKILL.md「⛔ 步骤标注格式」章节）：",
+      "keyword": "⛔",
+      "rule_hash": "0aef940e87e31e5a"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 102,
+      "text": "## 17. 计划拷问+审议门示例（⛔全任务强制，借鉴分权制衡审议机制）",
+      "keyword": "⛔",
+      "rule_hash": "cccb1a435e1bc26d"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 213,
+      "text": "## 18. 新增能力标注示例（⛔LDD/术语表/威胁/TDD/状态机强制）",
+      "keyword": "⛔",
+      "rule_hash": "4b0821fc2d3965a9"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 264,
+      "text": "**示例：领域术语表（全任务强制）**",
+      "keyword": "强制",
+      "rule_hash": "f5acd52be85aa683"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 281,
+      "text": "**示例：威胁评估（每次任务强制）**",
+      "keyword": "强制",
+      "rule_hash": "3f115ab2392e3aec"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 299,
+      "text": "**示例：TDD红绿循环（功能开发强制）**",
+      "keyword": "强制",
+      "rule_hash": "7e74512dd6b76187"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 343,
+      "text": "以下规则从SKILL.md顶部「⛔ 步骤标注格式」章节下沉至此，SKILL.md中保留规则1-9及引用链接。v2.0名称化版将所有编号引用改为名称引用，v2026.09.12-v2将所有`▸`子行引用改为表格引用，规则编号从旧11-21合并为10-16。",
+      "keyword": "⛔",
+      "rule_hash": "e26570a3507b07d6"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 345,
+      "text": "10. **⛔名称唯一性铁律（v2.0名称化版，全局唯一+禁止重名/复用/重置+工具调用前后禁同名+名称状态机锚定）**：每个步骤名全局唯一，⛔禁止重名、⛔禁止复用、⛔禁止重置（新任务须--reset清零后重新开始）。同一功能同一交付轮内只能出现一次步骤标注。中断恢复时必须从状态机当前已注册名称后续接新名称，⛔禁止重写同名步骤。**⛔工具调用前后禁同名**：工具调用发起的步骤与工具返回后的结果输出步骤⛔必须使用不同名称，⛔禁止工具返回后复用发起调用的步骤名。**⛔工具失败重试规范**：一次工具调用无论成功失败消耗一个步骤名，失败重试⛔禁止复用失败名称，须注册新名称并标注\"重试[原名称]\"。**⛔跨轮上下文锚定**：提问追问/新轮次首个步骤⛔禁止复用历史名称，必须注册全新名称续接。⛔禁止多个操作共用同一名称（如\"计划拷问\"与\"威胁评估\"共用同名→违规，须改为不同名称）。**⛔原子性**：一个步骤仅包含一个操作步骤，不同操作必须分配独立名称，禁止将\"计划拷问+威胁评估\"\"审议门+Spawn\"\"并行执行+交叉验证\"合并为同一步骤名。**⛔名称状态机锚定**：每次任务必须调用`step_counter.py`进行名称锚定，三阶段强制：①任务开始时`--check`读取used_names，下一步骤注册新名称；②每输出新步骤后`--register <name>`原子注册；③工具调用返回后`--validate <name>`校验名称安全性；④子Agent返回名称`--merge <name>`合并；⑤交付后`--reset`清零。⛔禁止仅凭LLM记忆确定名称。✅正例：`🔍 搜索采集`工具调用失败→step_counter --register 搜索采集→`🔍 搜索采集重试`标注\"重试[搜索采集]\"→重试成功→`🔍 搜索采集结果`输出结果。❌反例1：`🔍 搜索采集`工具失败→`🔍 搜索采集`重试（名称复用+未调用step_counter）。❌反例2：新轮次复用历史名称`📊 复杂度分级路由`（名称重用+未--check锚定）。**⛔交付后追加轮（名称铁律的唯一跨轮例外）**：交付完成后用户追加新需求，⛔允许开启\"交付后追加轮\"并追加新步骤标注。规则：①名称续接——追加轮首步骤必须注册全新名称，不可复用交付轮旧名称，沿用状态机锚定；②轮次标记——追加轮首个步骤标注须包含\"交付后追加\"标记；③段内功能唯一——追加轮新增步骤被视为新轮次内的新功能，不与交付轮既有标注冲突；④状态机——追加轮须经Reflux退回Intake重新流转，⛔禁止直接从完成态追加；⑤全流程合规——追加轮本身须满足名称唯一、步骤数量门禁、硬门禁全部校验；⑥文档询问——追加轮开始时⛔必须重新执行硬门禁5文档询问，禁止沿用交付轮答案。",
+      "keyword": "⛔",
+      "rule_hash": "dec8fb56226074ad"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 347,
+      "text": "11. **⛔工具参数防截断六方案**：question/powershell/搜索参数较长时UI可能折叠截断，须至少选用1种方案。完整定义见下方§21。",
+      "keyword": "⛔",
+      "rule_hash": "ae347518a0d91133"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 349,
+      "text": "12. **⛔无缝衔接+📝要点列强制化（v2026.09.12-v2形态层防截断）**：**📝要点列含动作摘要**：状态卡第3列是动作成果摘要，⛔不是内容描述的延续。⛔即时压缩公式：超长时按\"动作动词+对象名\"压缩，完整细节移入详情卡。长度按视觉宽度计（emoji计1字）。📝要点列动作摘要须含动作成果（如\"确认完成\"），⛔禁纯状态词（如\"完成\"/\"通过\"），末字符⛔禁标点。**⛔非白名单动词改写**：动词不在白名单（确认/校验/验证/执行/更新/修复/生成/交付/复核/评审/对比/汇总/解析/补全/记录）时⛔禁直接使用，须改写。动词在句首即合规。**⛔输出分批+钩子天然化绑定**：单次消息流连续输出步骤⛔不得超过4个，超出后静默分界（禁止输出批次文字）。静默分界后必须紧跟工具调用续批钩子驱动新轮输出，禁纯文本停滞。⛔工具调用返回后必用新步骤名续批输出Step，禁工具返回后停滞。每输出一步骤后须紧跟`step_counter.py --register <名称>`调用，register即天然批次续接钩子。⛔禁止连续输出5+Step。预估总步数超12步时须在Intake阶段先声明分批策略。**⛔反截断三重增强**：①冗余回填——工具返回后新步骤首张表格首行须回填上一步📝要点列关键信息（≤20字摘要），防上一步表格被挤压截断后信息丢失。②锚定强化——📝要点列前至少已有1张详情卡完成渲染，禁📝要点列为步骤唯一表格。③高发区表格行≤5行——乱码高发区单步表格行≤5行（普通区≤8行），降低单步渲染密度。**⛔空行缓冲**：最后一张表格与工具块间⛔≥1空行（双换行符分隔，防UI渲染挤压致末行显示不全），高发区≥2空行。**⛔📝要点列禁合行**：📝要点列⛔禁含中文逗号顿号斜杠等多字段分隔符，须为单字段动作短句。",
+      "keyword": "⛔",
+      "rule_hash": "5e5cf5fdcab8081d"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 351,
+      "text": "13. **⛔question工具交互专用规则（v2.0名称化版）**：禁止在同一步骤中预写\"用户回答：待\"等占位符。正确做法分两步：**第一步（提问步骤）**先输出完整步骤标注，提问内容表仅含自然语言提问文字（如\"问题\"\"说明\"\"备注\"列），⛔禁止在表格中写出任何工具参数名、参数值、等号键值对或JSON片段；**第二步（回答步骤）**question返回后注册新名称输出用户回答结果。⛔违反：表格中出现\"待\"\"等待中\"等未回填文本→格式违规。⛔参数泄漏检测：表格中出现等号（=）、英文键值对、JSON片段→格式违规。⛔截断检测：提问步骤最后一张表格末行未以完整语义收束（词断/末字符为标点）→截断违规。✅正例：提问内容表含`问题：您希望采用哪种方案`+`说明：三选一` ❌反例：提问内容表含`选项设计：单选（multiple=false`",
+      "keyword": "⛔",
+      "rule_hash": "e69f847ae73bc556"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 353,
+      "text": "14. **⛔截断标记三类区分+禁止括号（v2.0名称化版，三者严禁混用）**：三种截断/暂停场景使用不同标记，⛔严禁混用：",
+      "keyword": "⛔",
+      "rule_hash": "e6337453639f6ddc"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 359,
+      "text": "- **③批次分界**：连续输出达4个步骤后按规则12静默分界（禁止输出\"[批次N/总数M，自动续批]\"文本）。⛔自动续批禁止追问用户是否继续。静默分界后必须紧跟工具调用续批钩子，以工具调用驱动下一批次输出，⛔禁止分界后纯文本停滞无任何动作。⛔工具调用返回后必注册新名称续批输出。",
+      "keyword": "⛔",
+      "rule_hash": "611367ab58489197"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 361,
+      "text": "⛔禁止混用示例：不得在批次分界处标注\"自然截断\"（非截断场景）；不得在自然截断处标注\"批次分界\"（非批次分界场景）；不得在工具调用中断处标注\"自然截断\"（非自然截断场景）。三者恢复后均注册新名称继续，⛔禁止重写同名。⛔步骤标注正文与表格单元格禁止使用括号——含中文圆括号与英文圆括号，子步骤总结话语即可，不需要括号补充说明。**⛔LLM自然截断必须标注**：当输出在句子中间中断时，⛔禁止不标注直接从下一步骤继续。恢复后新步骤首张表格首行必须标\"⚠️ 上一步内容因LLM输出长度限制自然截断\"。未标注=格式违规。",
+      "keyword": "⛔",
+      "rule_hash": "250e95addc5d8c10"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 363,
+      "text": "15. **⛔工具调用结果回填名称规则（v2.0名称化版，防名称复用）**：工具调用发起的步骤与工具返回后的结果输出步骤⛔必须使用不同名称。**正确做法**：发起工具调用的步骤（含状态卡+详情卡等表格）输出完毕后调用工具；工具返回后注册**新名称**输出结果标注（含状态卡+详情卡等表格）。⛔禁止：工具返回后复用发起调用的步骤名输出结果（即同一名称出现两次）。**与规则10原子性的区别**：规则10覆盖\"文本流中断\"场景（输出过程中被工具调用打断）；规则15覆盖\"正常工具调用后结果回填\"场景（步骤完整输出后调用工具，返回后需新名称输出结果）。✅正例：`🔍 搜索采集`输出意图→调用工具→`🔍 搜索采集结果`输出结果。❌反例：`🔍 搜索采集`输出意图→调用工具→`🔍 搜索采集`再次输出结果（名称复用）。**跨用户消息衔接**：用户发来\"继续\"等消息后，注册新名称继续，禁止重输出之前的步骤名。",
+      "keyword": "⛔",
+      "rule_hash": "985895266f6866c5"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 365,
+      "text": "16. **⛔历史上下文压缩规则（v2.0名称化版）**：当任务为同一问题指纹重复（相似度≥85%）的历史重提，或表格需引用历史基线时，⛔禁止复述完整历史基线/需求细节/上次结论全文，仅允许在表格单元格内输出概括压缩摘要。**格式①**：状态卡📝要点列写`历史任务重提，沿用已锁定基线（关键约束一句话概括，≤30字）`；**格式②**：若本轮与历史存在差异，详情卡追加一行`差异：本轮变更点（一句话）`，无差异则标`差异：无（沿用基线）`。⛔禁止：完整罗列历史版本价格/结论/约束明细、粘贴上次用户原文、重复记忆去重细节。**⛔指纹命中不豁免提问追问**：历史压缩仅约束表格摘要长度，⛔不豁免每轮用户消息后的提问追问义务——每一轮用户消息后仍须通过question工具提问（硬门禁2），禁止以\"指纹命中历史已理解\"为由跳过提问，违反→Intake判未完成退回重执行。**作用**：防历史重提时表格过长、上下文膨胀、注意力稀释且不丢失追问环节。",
+      "keyword": "⛔",
+      "rule_hash": "d0ee14d62a178f78"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 369,
+      "text": "以下保护规则从SKILL.md顶部下沉至此，包括LLM自然截断保护、文本先行原则、强制预防、分段输出引导、搜索结果压缩注入、Crystallize文档校验等。",
+      "keyword": "强制",
+      "rule_hash": "aa46adfcb01448f5"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 371,
+      "text": "**⛔LLM自然截断保护**：输出受限致截断（句子在标点前断/括号引号未闭合/词断）→该步骤判已完成不可回写，恢复后注册新名称继续，首张表格首行标注\"⚠️ 上一步内容因LLM输出长度限制自然截断\"。",
+      "keyword": "⛔",
+      "rule_hash": "0c1e28256c43e5f5"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 373,
+      "text": "**⛔文本先行原则（防概率抢占截断）**：LLM生成步骤标注时，工具调用token概率可能抢占文本补全概率，导致表格在词中间被截断。⛔强制时序约束：①文本先行——全部表格语义完整输出后才允许发起工具调用，禁止文本流中途插入工具调用；②定界符保护——每张表格以完整语义收束（末字符须为汉字/字母/数字/右括号右引号），禁在词中间断开；③⛔负面约束——词中间截断即违规，须修正重输出该步骤。✅正例：最后一张表格完整输出→空行→工具调用。❌反例：最后一张表格在\"检\"字处断裂→直接工具调用。",
+      "keyword": "⛔",
+      "rule_hash": "93b34fae1cebff56"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 375,
+      "text": "**⛔强制预防（非建议）**：①每个表格单元格≤80字（必要字段可占满，⛔超限即格式错误）；②长表格先汇总再分批（⛔每批≤8项，超限分多步骤标注）；③枚举项独立一行禁加号拼接；④单步表格行总数≤8行（高发区≤5行），超过则精简合并，禁止靠长行硬塞；⑤工具调用前最后一张表格须语义完整收束，禁止词断即跳转工具调用。",
+      "keyword": "⛔",
+      "rule_hash": "77a62b65aafc908c"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 377,
+      "text": "**⛔分段输出引导规则（静默分界+工具钩子）**：连续步骤标注输出达4个时，第4个步骤完成后⛔静默分界（禁止输出\"[批次N/总数M，自动续批]\"文本）。静默分界后必须紧跟工具调用续批钩子，以工具调用驱动新轮次输出，⛔禁止分界后纯文本停滞。⛔工具调用返回后必续批：工具返回结果后⛔必须注册新名称续批输出新步骤标注，⛔禁止工具返回后停滞无后续步骤。此规则与SKILL.md规则12和本文件§19规则12配套。",
+      "keyword": "⛔",
+      "rule_hash": "357298939653bf7f"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 379,
+      "text": "**⛔搜索结果压缩注入（v3.4结构化升级）**：搜索结果⛔禁止全文注入步骤标注。搜索结果按以下结构化格式展示：",
+      "keyword": "⛔",
+      "rule_hash": "6b2ef7827e2dc866"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 387,
+      "text": "**⛔Crystallize文档校验（硬卡点）**：调generate_docx.py前对content_data每字段完整性校验——末尾缺自然结尾标点（。！？）或右括号/右引号或出现截断信号→先补全再调用，禁止截断内容入文档。",
+      "keyword": "⛔",
+      "rule_hash": "2ebe469a2897280a"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 389,
+      "text": "**⛔截断标记场景区分**：完整定义详见上方§19规则14，三类场景严禁混用，恢复后均注册新名称继续。",
+      "keyword": "⛔",
+      "rule_hash": "03af76a56a6d65f6"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 391,
+      "text": "**⛔步骤名称唯一性强约束（防重复输出，v2.0名称化版）**：同一名称全任务只出现一次；中断恢复一律注册新名称继续；违反→删除重复项只保留首次。根因防护与工具调用结果回填规则详见上方规则10名称铁律、规则12格式检查、规则15回填名称规则。跨用户消息衔接：用户发来\"继续\"等消息后，注册新名称继续输出。",
+      "keyword": "⛔",
+      "rule_hash": "8e4bb83acdd6a99c"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 393,
+      "text": "**多结果展开**（3+项时）：第一行汇总，后续每项独立一行。⛔每批≤8项，超限分多步骤标注输出（禁止单次输出中展开超过8项）。详见上方§16。",
+      "keyword": "⛔",
+      "rule_hash": "d480851eb277ad74"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 397,
+      "text": "以下6种方案按优先级排列，Agent须根据场景至少选用1种。",
+      "keyword": "至少",
+      "rule_hash": "87492d963277c8cc"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 432,
+      "text": "**根因**：规则已定义但生成时未实时自检导致违规率100%。生成端四查将事后检测器检查前移为事前自检。",
+      "keyword": "100%",
+      "rule_hash": "d8e0dc10831d8289"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 436,
+      "text": "**背景根因**：历史三轮文本层修复（双空行缓冲/冗余回填/锚定强化）均未根治`▸`子行和收尾行被工具框与提问框挤压截断——裸文本行的显示高度可被UI压缩，纯文本约束无法根治渲染层问题。本规则以块级形态直接免疫：表格与列表在Markdown渲染中是块级元素，自带盒模型高度，工具框无法压缩。**⛔禁止`▸`子行（已废弃，出现即违规），⛔禁止裸文本收尾行（已废弃，出现即违规）**。每步仅由主行+表格组成，步骤最后元素恒为表格。",
+      "keyword": "⛔",
+      "rule_hash": "171bf6f8c9b58cfd"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 457,
+      "text": "**📝要点列约束**：状态卡第3列，仅放关键词（≤8字），⛔禁放完整句子，详细操作放详情卡。动作摘要部分使用白名单动词+对象，⛔禁纯状态词。",
+      "keyword": "⛔",
+      "rule_hash": "df60bbda72fc9c14"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 461,
+      "text": "**⛔表格全列居中**：所有表格对齐行用`| :---: |`居中对齐。",
+      "keyword": "⛔",
+      "rule_hash": "7ce308f803512561"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 463,
+      "text": "**⛔主行后零文字**：主行后⛔直接接表格，禁任何文字过渡/说明/描述，步骤间仅空行分隔。",
+      "keyword": "⛔",
+      "rule_hash": "3d7ee44d98776194"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 465,
+      "text": "**⛔单元格关键词化**：所有表格单元格仅放关键词，⛔禁完整句子。",
+      "keyword": "⛔",
+      "rule_hash": "e4b54064dacfa8b9"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 467,
+      "text": "**📝要点列规范**（含动作摘要）：白名单动词+对象，动词在句首，末字符禁标点。白名单＝确认/校验/验证/执行/更新/修复/生成/交付/复核/评审/对比/汇总/解析/补全/记录。⛔禁含中文逗号顿号斜杠等多字段分隔符。",
+      "keyword": "⛔",
+      "rule_hash": "5a2d55c0ea218a3e"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 482,
+      "text": "**⛔生成端四查**：①主行写完对照配对表查两图标同阶段②📝要点列含动作摘要，动作部分须动词在句首③表格行超8行评估密度，超即提前插工具钩子分批④每输出一步骤后查是否紧跟register钩子。",
+      "keyword": "⛔",
+      "rule_hash": "d1a6d206ce4382bb"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 484,
+      "text": "**空行隔离铁律**：主行→表格间、表格→表格间、最后表格→工具块间⛔必须空行，高发区≥2空行。",
+      "keyword": "⛔",
+      "rule_hash": "1b5a8a7defbc4059"
+    },
+    {
+      "file": "references/step-transparency-examples-pt3.md",
+      "line_no": 490,
+      "text": "**⛔废弃检测**：`▸`子行出现即违规，裸文本收尾行出现即违规（检测器新增废弃检测）。",
+      "keyword": "⛔",
+      "rule_hash": "f36abaedbbd35a50"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 16,
+      "text": "<!-- INDEX: Table of Contents,20 | 安全检查三模式,36 | 18项安全基线检查标准,46 | 高危端口参考表,71 | 威胁等级标注规范,91 | 说人话表达规范（⛔面向用户汇报时强制执行）,109 | 应急响应流程,124 | 应急响应PowerShell命令库,175 | 常见整改命令速查,287 | 预检命令,321 | 流程关联建议,340 | 拆分文件说明,354 -->",
+      "keyword": "⛔",
+      "rule_hash": "b7a3a35d2990cc83"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 93,
+      "text": "安全检查结果必须标注威胁等级，禁止省略：",
+      "keyword": "禁止",
+      "rule_hash": "6221b9ebc085b7d7"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 102,
+      "text": "**强制规则**：",
+      "keyword": "强制",
+      "rule_hash": "0332ab4f5a4ff4d7"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 103,
+      "text": "- 每项检查结果必须标注上述四种等级之一，禁止留空",
+      "keyword": "禁止",
+      "rule_hash": "cc0a2b6422943d15"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 109,
+      "text": "## 说人话表达规范（⛔面向用户汇报时强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "dc103effce052844"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 111,
+      "text": "向用户汇报安全检查/系统操作结果时，一律用通俗语言+量化结论，禁止把命令、注册表路径、服务名等术语作为说明主体：",
+      "keyword": "禁止",
+      "rule_hash": "30f97d6feb457654"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 128,
+      "text": "### 快速固定现场（⛔仅只读取证）",
+      "keyword": "⛔",
+      "rule_hash": "e64d04e1e7af2fd4"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 136,
+      "text": "**⛔强制规则**：禁止结束可疑进程、禁止删除可疑文件、禁止清除日志，确保证据链完整性。",
+      "keyword": "⛔",
+      "rule_hash": "9401b972fed93803"
+    },
+    {
+      "file": "references/security-ops-guide.md",
+      "line_no": 182,
+      "text": "Get-CimInstance Win32_UserAccount -Filter 'LocalAccount=True' | Select-Object Name,SID,Disabled,Lockout,PasswordRequired,Status",
+      "keyword": "required",
+      "rule_hash": "120a9879ce778ec9"
+    },
+    {
+      "file": "references/security-ops-guide-pt2.md",
+      "line_no": 22,
+      "text": "系统诊断结果必须标注健康等级（与安全检查威胁等级独立判定，不混淆）：",
+      "keyword": "必须",
+      "rule_hash": "55730273d94f5314"
+    },
+    {
+      "file": "references/security-ops-guide-pt2.md",
+      "line_no": 169,
+      "text": "### 诊断3：系统修复与恢复（⛔须逐项确认后执行）",
+      "keyword": "⛔",
+      "rule_hash": "055c2a6ecef4d1cb"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 32,
+      "text": "### 优化1：磁盘空间深度清理（⛔清理操作须逐项确认）",
+      "keyword": "⛔",
+      "rule_hash": "7efb9e18d6d0798b"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 74,
+      "text": "# 清理Windows Update缓存（⛔须确认后执行）",
+      "keyword": "⛔",
+      "rule_hash": "74653f24f16d6d76"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 96,
+      "text": "# 关闭休眠释放空间（⛔须确认，执行后无法使用快速启动）",
+      "keyword": "⛔",
+      "rule_hash": "a661fed456283d50"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 116,
+      "text": "# 清理Windows.old（⛔须确认，清理后无法回退到旧系统版本）",
+      "keyword": "⛔",
+      "rule_hash": "906f16d952408f21"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 126,
+      "text": "# 清理旧还原点（⛔须确认，清理后无法恢复到该时间点）",
+      "keyword": "⛔",
+      "rule_hash": "b3e60b2eb33fab9b"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 222,
+      "text": "# 释放指定进程的工作集（⛔须确认，仅对非关键进程执行）",
+      "keyword": "⛔",
+      "rule_hash": "9e424397add2b92d"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 335,
+      "text": "# 服务依赖关系（查看哪些服务依赖某服务，禁用前必须检查）",
+      "keyword": "必须",
+      "rule_hash": "aefaf1bb6f393908"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 375,
+      "text": "### 优化5：临时文件全盘清理（⛔清理操作须逐项确认）",
+      "keyword": "⛔",
+      "rule_hash": "27a155441ebf877c"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 415,
+      "text": "#### 各类别清理命令（⛔每类独立确认后执行）",
+      "keyword": "⛔",
+      "rule_hash": "dd5668beee78c8e9"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 418,
+      "text": "# === 以下清理命令均为示例，⛔须逐项确认后执行 ===",
+      "keyword": "⛔",
+      "rule_hash": "a694a2169f411ceb"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 442,
+      "text": "### 优化6：网络栈优化（⛔重置操作须逐项确认）",
+      "keyword": "⛔",
+      "rule_hash": "0acbf82b8bced45b"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 480,
+      "text": "#### 网络栈重置命令（⛔须逐项确认后执行）",
+      "keyword": "⛔",
+      "rule_hash": "fa4d6e75c79714fa"
+    },
+    {
+      "file": "references/security-ops-guide-pt3.md",
+      "line_no": 483,
+      "text": "# === 以下重置命令⛔须逐项确认后执行 ===",
+      "keyword": "⛔",
+      "rule_hash": "aad510af52a1e754"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 71,
+      "text": "## 脚本文件编码规范（⛔生成.bat/.cmd脚本时100%强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "e1d2ff29adf9ecb3"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 73,
+      "text": "[Agent-运维型]在为用户生成需要管理员权限运行的 .bat/.cmd 批处理脚本时，必须遵守以下编码规则，否则脚本将无法运行。",
+      "keyword": "必须",
+      "rule_hash": "c3e4dd7862f42052"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 79,
+      "text": "### 强制规则",
+      "keyword": "强制",
+      "rule_hash": "a1e93a72c3401b30"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 95,
+      "text": "# Set-Content -Path $scriptPath -Value $batContent -Encoding UTF8  # 禁止！",
+      "keyword": "禁止",
+      "rule_hash": "e8472788bd093664"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 98,
+      "text": "# $batContent | Out-File -FilePath $scriptPath -Encoding UTF8      # 禁止！",
+      "keyword": "禁止",
+      "rule_hash": "90b47fcca6bd8dfb"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 109,
+      "text": "### 生成bat脚本后的强制验证步骤",
+      "keyword": "强制",
+      "rule_hash": "f3232a4681a056b4"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 112,
+      "text": "2. 若检测到 BOM（`EF BB BF`），必须重新用无 BOM 编码写入",
+      "keyword": "必须",
+      "rule_hash": "d4c272abe8d9d7b8"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 113,
+      "text": "3. 验证通过后方可执行（禁止让用户手动运行）",
+      "keyword": "禁止",
+      "rule_hash": "903a5b4298e4835b"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 117,
+      "text": "## 管理员权限提权执行与内容披露（⛔需要管理员权限时100%强制执行）",
+      "keyword": "⛔",
+      "rule_hash": "749cca4982dfc672"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 119,
+      "text": "[Agent-运维型] 在用户逐项确认操作后，需要管理员权限的操作可提权执行，禁止生成最终交付脚本让用户手动右键管理员运行。⛔**核心安全约束：提权前必须强制披露执行内容**——Agent必须在用户确认前完整展示将执行的确切命令/脚本内容（禁止仅展示说人话摘要而不展示实际命令），让用户对提权执行的具体内容有充分审查机会。用户逐项审查确认后，Agent生成临时脚本写入 `.temp/` 目录，通过 `Start-Process -Verb RunAs` 触发 UAC 弹窗（用户点“是”即授权执行已审查的命令）。",
+      "keyword": "⛔",
+      "rule_hash": "39d7d5d522324b77"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 121,
+      "text": "### ⛔提权安全红线（不可违反）",
+      "keyword": "⛔",
+      "rule_hash": "15c8ef33fedf08a1"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 123,
+      "text": "1. **提权前强制披露执行内容**：对每项需提权的操作，Agent必须在用户确认前完整展示将执行的确切命令/脚本内容。禁止仅展示说人话摘要而不展示实际命令——说人话摘要与实际命令必须同时呈现",
+      "keyword": "强制",
+      "rule_hash": "8391088f6821cec9"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 124,
+      "text": "2. **每项破坏性操作独立提权**：禁止将多项破坏性操作合并为单个脚本一次 UAC 授权。每项破坏性操作独立生成临时脚本、独立触发 UAC、独立授权。只读诊断类操作可合并（无破坏性）",
+      "keyword": "禁止",
+      "rule_hash": "bd50749a23070782"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 126,
+      "text": "4. **禁止生成最终交付脚本**：临时脚本写入 `.temp/`，执行后自动清理，禁止生成最终交付的 bat 文件让用户手动运行",
+      "keyword": "禁止",
+      "rule_hash": "53a26e9f452b295b"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 127,
+      "text": "5. **临时脚本编码无BOM**：bat脚本必须用无BOM UTF-8写入，执行前验证前3字节不为 `EF BB BF`",
+      "keyword": "必须",
+      "rule_hash": "508bc6b459c1dbd3"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 147,
+      "text": "# 提权前向用户完整展示将执行的命令内容（⛔强制，不可跳过）",
+      "keyword": "⛔",
+      "rule_hash": "f8ea9add1dfbcb88"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 207,
+      "text": "⛔**每项破坏性操作独立提权**——上述命令均为单项操作模板，禁止将多项破坏性操作合并为单个脚本一次 UAC 授权。只读诊断类操作可合并为一个脚本（无破坏性风险）。",
+      "keyword": "⛔",
+      "rule_hash": "71ec0ad54e661a70"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 209,
+      "text": "### ⛔废弃模板——禁止使用：多项破坏性操作合并一次提权",
+      "keyword": "⛔",
+      "rule_hash": "6b4c065c43c62279"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 211,
+      "text": "以下模板已废弃，禁止用于破坏性操作。仅当所有操作均为只读诊断类（无破坏性风险）时，可参考此模式合并执行。破坏性操作必须使用上方单项提权模板逐项独立提权。",
+      "keyword": "禁止",
+      "rule_hash": "4e38fe015b1aa1d8"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 214,
+      "text": "# ⛔废弃模板：多项管理员操作合并到一个脚本中，只需UAC授权一次",
+      "keyword": "⛔",
+      "rule_hash": "eae6180b43d668d9"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 215,
+      "text": "# 此模板仅适用于只读诊断类操作合并，禁止用于破坏性操作",
+      "keyword": "禁止",
+      "rule_hash": "5f00889342e7e06d"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 260,
+      "text": "### 强制规则",
+      "keyword": "强制",
+      "rule_hash": "a1e93a72c3401b30"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 262,
+      "text": "- **⛔提权前强制披露执行内容**——对每项需提权的操作，Agent必须在用户确认前完整展示将执行的确切命令/脚本内容（禁止仅展示说人话摘要而不展示实际命令），让用户对提权执行的具体内容有充分审查机会",
+      "keyword": "⛔",
+      "rule_hash": "207a83ff5ed07c1c"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 263,
+      "text": "- **⛔每项破坏性操作独立提权**——禁止将多项破坏性操作合并为单个脚本一次 UAC 授权。每项破坏性操作独立生成临时脚本、独立触发 UAC、独立授权。只读诊断类操作可合并",
+      "keyword": "⛔",
+      "rule_hash": "58feeae21954ff95"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 264,
+      "text": "- **⛔Sentinel安全审查前置**——所有提权脚本须经[Sentinel]安全审查（检查命令内容是否含外传敏感数据/系统级破坏/越权操作模式），审查通过后方可提权执行",
+      "keyword": "⛔",
+      "rule_hash": "7176a5079c08a79d"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 265,
+      "text": "- **禁止生成最终交付的 bat 文件让用户手动运行**——临时脚本写入 `.temp/`，执行后自动清理",
+      "keyword": "禁止",
+      "rule_hash": "3646b9a0d32485b2"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 266,
+      "text": "- **必须通过 `Start-Process -Verb RunAs` 自动触发 UAC**——用户只需在弹窗点\"是\"授权已审查的命令",
+      "keyword": "必须",
+      "rule_hash": "d381beeaf1bdcfbd"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 269,
+      "text": "- **⛔执行结果必须回传主会话**——`Start-Process -Wait -PassThru` 后读取 `$process.ExitCode`，并将输出重定向到 `.temp/` 日志文件；执行结束后读取日志内容用于说人话汇报（做了什么/结果如何/前后对比），禁止\"执行完就完事\"不汇报结果",
+      "keyword": "⛔",
+      "rule_hash": "28c46318a381f98c"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 270,
+      "text": "- **⛔失败自动重试一次**——退出码非 0 时，[Agent-运维型] 先排查失败原因（命令语法/权限/依赖），修正后自动重试 1 次；仍失败则向用户报告具体失败点并请求协助，禁止静默吞掉失败结果",
+      "keyword": "⛔",
+      "rule_hash": "1bdfb2f375d9d81c"
+    },
+    {
+      "file": "references/security-ops-guide-pt4.md",
+      "line_no": 271,
+      "text": "- **⛔超时保护**——提权脚本设总超时（默认 15 分钟，可因命令类型调整）；超时未完成 → 标记\"超时\"并检查进度日志，向用户报告已完成/未完成部分，不得伪造完成状态",
+      "keyword": "⛔",
+      "rule_hash": "bead147aa57d7e3a"
+    }
+  ]
+}

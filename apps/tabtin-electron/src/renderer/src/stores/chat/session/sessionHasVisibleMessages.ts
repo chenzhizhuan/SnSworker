@@ -1,4 +1,9 @@
-import type { ChatSession } from '@tabtin/chat-client'
+/** 结构化最小入参：任何含可见性契约字段的会话形态（ChatSession / 列表条目等） */
+export type SessionVisibilityLike = {
+  has_messages?: boolean | null
+  message_count?: number | null
+  last_message_at?: string | null
+}
 
 /**
  * 会话是否应出现在主侧栏（非空草稿）。
@@ -11,7 +16,7 @@ import type { ChatSession } from '@tabtin/chat-client'
  * `has_messages === false` 或 `message_count === 0` 时**不**再被
  * `last_message_at` 抬成非空——避免权威空会话被时间戳误亮。
  */
-export function sessionHasVisibleMessages(session: ChatSession): boolean {
+export function sessionHasVisibleMessages(session: SessionVisibilityLike): boolean {
   if (typeof session.has_messages === 'boolean') {
     return session.has_messages
   }

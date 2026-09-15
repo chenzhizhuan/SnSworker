@@ -1,0 +1,11 @@
+{
+  "skill_name": "quantum-algorithm-qaoa",
+  "should_trigger": [
+    "Convert this constrained portfolio problem to QUBO and solve it with QAOA.",
+    "Decode top-k MaxCut bitstrings and compare them with an exact classical solver."
+  ],
+  "should_not_trigger": [
+    "Estimate the H2 ground-state energy with VQE.",
+    "Package an existing result as a QCCP frontend page."
+  ]
+}

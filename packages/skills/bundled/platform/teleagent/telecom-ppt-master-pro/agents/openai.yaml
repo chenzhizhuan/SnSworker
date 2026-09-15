@@ -1,0 +1,7 @@
+interface:
+  display_name: "电信 PPT 大师"
+  short_description: "创建、原生编辑、模板复用并质检中国电信风格PowerPoint材料"
+  icon_small: "./assets/telecom-ppt-master-icon.png"
+  icon_large: "./assets/telecom-ppt-master-icon.png"
+  brand_color: "#C00000"
+  default_prompt: "使用 $telecom-ppt-master 处理我的电信PPT材料：先判断是新建、原生编辑还是模板工作区，再产出可编辑且经过真实QA的交付物。"

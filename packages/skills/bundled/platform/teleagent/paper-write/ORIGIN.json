@@ -1,0 +1,17 @@
+{
+  "schema": "jianshi-skill-origin/v1",
+  "sourceRepo": "xstongxue/best-skills",
+  "sourcePath": "skills/paper-write/SKILL.md",
+  "sourceCommit": "fd28854edc4b1aa9c991003a8b7928474cb669c4",
+  "sourceUrl": "https://github.com/xstongxue/best-skills/blob/fd28854edc4b1aa9c991003a8b7928474cb669c4/skills/paper-write/SKILL.md",
+  "license": "Apache-2.0",
+  "licenseFile": "LICENSE.md",
+  "sourceBodySha256": "dc8b8caf1e35004dbb2976ecd1d940827dc23e700caaca811dbb46af984bedb5",
+  "modifications": [
+    "使用新的语义化英文 slug 形成独立发布对象",
+    "增加中国业务场景中文展示名与摘要",
+    "增加 agents/openai.yaml",
+    "增加每次回复帮助标准块",
+    "保留原能力边界、许可证和来源记录"
+  ]
+}

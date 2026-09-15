@@ -1,0 +1,93 @@
+categories:
+- name: 网络与链接
+  items:
+  - q: 浏览器自动化MCP使用中断开连接
+    a: 您好！出现时请在工具设置中重新连接。如频繁断连，可尝试让TeleAgent自行修复，指令可以为“浏览器自动化（Playwright MCP）连接失败，帮我检查原因并修复”。如有其他问题请联系在线客服！
+    status: 已解决
+- name: 网络与连接
+  items:
+  - q: 提示"429 Too Many Requests"频繁报错
+    a: '服务端限频，短时间请求过多导致。
+
+      处理：
+
+      1. 关闭不用的对话，减少同时活跃的会话数
+
+      2. 等几分钟后重试
+
+      3. 如持续出现，可能是服务端临时过载，稍后会恢复
+
+      后续版本会优化自动退避重试机制。'
+    status: 修复中
+  - q: 笔记本合盖再打开后无法使用
+    a: 电脑休眠后网络连接断开，但应用不会自动重连。重新打开应用即可恢复。
+    status: 修复中
+  - q: 运行中出现401报错
+    a: 登录凭证已失效，退出产品重新登录即可。
+    status: 临时方案
+  - q: 提示"连接失败"或"无法连接"
+    a: '常见原因：
+
+      1. 代理设置残留：之前用过VPN/代理软件，关闭后代理设置仍在。
+
+      排查：打开CMD运行 echo %HTTP_PROXY%，如非空值则有残留。
+
+      清除：Win+R - regedit - HKEY_CURRENT_USER\Environment - 删除 HTTP_PROXY 和 HTTPS_PROXY - 重启应用
+
+      2. 网络不稳定：尝试切换手机热点测试
+
+      3. 企业网络限制：联系IT将TeleAgent加入白名单'
+    status: 临时方案
+  - q: TeleAgent网页版登录不了怎么办？
+    a: 您好！您可以尝试切换网络（如用手机热点），异常网络代理可能导致登录失败。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 提示 Authentication Fails / invalid API key 怎么办？
+    a: 您好！在TeleAgent中，请确认您选择的模型供应商是否正确，天翼云Token Plan和息壤是不同的供应商选项。如果使用DeepSeek，建议直接购买DeepSeek官方API。
+    status: 使用引导
+  - q: 使用TeleAgent频繁掉线/账号弹出
+    a: 您好！此问题为网络环境问题，您可以退出后断开网络再重新进入。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: 浏览器自动化连接TeleAgent失败？
+    a: 您好！出现时请在工具设置中重新连接。如频繁断连，可尝试让TeleAgent自行修复，指令可以为“浏览器自动化（Playwright MCP）连接失败，帮我检查原因并修复”。如有其他问题请联系在线客服！
+    status: 已解决
+  - q: VPN/代理下TeleAgent自动退出？
+    a: 您好！是的，请不要在挂着代理的环境下使用TeleAgent。代理环境可能导致登录失败和连接异常，请您断开VPN/代理后重试。
+    status: 使用引导
+  - q: 微信连接每天重启后失效？
+    a: 断开连接后重新连接即可，1.1.3已增强IM连接稳定性
+    status: 修复中
+  - q: 代理残留导致TeleAgent无法连接怎么处理？
+    a: '您好！请按以下步骤排查TeleAgent的连接问题：
+
+      1) 执行命令关闭代理：reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d
+      0 /f
+
+      2) 检查环境变量残留 echo %HTTP_PROXY% %HTTPS_PROXY%
+
+      3) 云桌面需设置HTTP_PROXY/HTTPS_PROXY环境变量
+
+      4) 导出日志给技术支持分析
+
+      如有其他问题请联系在线客服！'
+    status: 使用引导
+  - q: AKSK认证方式(appkey+appsign)能否配置？
+    a: 目前不支持，这种appkey+appsign认证方式月底会兼容
+    status: 规划中
+  - q: 短信验证一直显示加载中
+    a: 服务压力大导致不稳定
+    status: 临时方案
+  - q: 显示服务繁忙/429报错
+    a: 用户量增长导致服务压力大出现不稳定
+    status: 临时方案
+  - q: 上游服务错误是什么原因？
+    a: 用量较大正在推进扩容，可能出现模型服务抖动
+    status: 修复中
+  - q: 天翼云token无法在teleagent上使用？
+    a: TeleAgent改名后天翼云调用名仍用旧名导致无法调用，正在沟通解决；可尝试自定义provider，将app key填入API密钥位置、app id填入提供商ID
+    status: 排查中
+  - q: TeleAgent模型异常报错（受限内网）
+    a: 您好！受限内网（10.127.x.x）首次启动时，若未配置代理会导致LLM API不可达，请您关闭代理或正确配置代理。如有其他问题请联系在线客服！
+    status: 使用引导
+  - q: 响应速度越来越慢怎么回事？
+    a: 算力资源紧张/上游服务不稳定，可接入第三方模型，已上线额度管控保障稳定性
+    status: 优化中

@@ -1,0 +1,526 @@
+{
+  "repo": "https://gitee.com/jerry_mus/fairyland-hero.git",
+  "branch": "main",
+  "files": [
+    {
+      "path": "img/刺客.jpg",
+      "size": 189525
+    },
+    {
+      "path": "img/占星师.jpg",
+      "size": 197456
+    },
+    {
+      "path": "img/史莱姆.jpg",
+      "size": 193600
+    },
+    {
+      "path": "img/地精.jpg",
+      "size": 200968
+    },
+    {
+      "path": "img/幽魂.jpg",
+      "size": 195228
+    },
+    {
+      "path": "img/战士_女.jpg",
+      "size": 192390
+    },
+    {
+      "path": "img/战士_男.jpg",
+      "size": 197764
+    },
+    {
+      "path": "img/暗夜飞蛾.jpg",
+      "size": 189602
+    },
+    {
+      "path": "img/暗礁鬼蟹.jpg",
+      "size": 203162
+    },
+    {
+      "path": "img/枯萎之王.jpg",
+      "size": 197911
+    },
+    {
+      "path": "img/枯萎精灵.jpg",
+      "size": 185920
+    },
+    {
+      "path": "img/枯藤妖.jpg",
+      "size": 193679
+    },
+    {
+      "path": "img/污水鼠.jpg",
+      "size": 188227
+    },
+    {
+      "path": "img/法师.jpg",
+      "size": 197080
+    },
+    {
+      "path": "img/海祸咒灵.jpg",
+      "size": 199990
+    },
+    {
+      "path": "img/潮汐女巫.jpg",
+      "size": 193786
+    },
+    {
+      "path": "img/熔岩巨像.jpg",
+      "size": 195166
+    },
+    {
+      "path": "img/牧师.jpg",
+      "size": 296573
+    },
+    {
+      "path": "img/猎人.jpg",
+      "size": 186509
+    },
+    {
+      "path": "img/王座卫兵.jpg",
+      "size": 201409
+    },
+    {
+      "path": "img/王座守卫.jpg",
+      "size": 203771
+    },
+    {
+      "path": "img/矿坑傀儡.jpg",
+      "size": 190778
+    },
+    {
+      "path": "img/矿穴魔蛛.jpg",
+      "size": 187543
+    },
+    {
+      "path": "img/腐沼蠕虫.jpg",
+      "size": 201805
+    },
+    {
+      "path": "img/野灵.jpg",
+      "size": 200248
+    },
+    {
+      "path": "img/骨骸兵.jpg",
+      "size": 195925
+    },
+    {
+      "path": "music/SoundTeMP - Labyrinth.mp3",
+      "size": 2432697
+    },
+    {
+      "path": "music/SoundTeMP - Risk your life.mp3",
+      "size": 2930902
+    },
+    {
+      "path": "music/SoundTeMP - Streamside.mp3",
+      "size": 2567280
+    },
+    {
+      "path": "music/SoundTeMP - Theme of Alberta.mp3",
+      "size": 3425768
+    },
+    {
+      "path": "music/SoundTeMP - Theme of Geffen.mp3",
+      "size": 3099342
+    },
+    {
+      "path": "music/SoundTeMP - Theme of Morroc.mp3",
+      "size": 2269693
+    },
+    {
+      "path": "music/SoundTeMP - Theme of Payon.mp3",
+      "size": 2489121
+    },
+    {
+      "path": "music/SoundTeMP - Theme of Prontera.mp3",
+      "size": 4598977
+    },
+    {
+      "path": "music/SoundTeMP - Title.mp3",
+      "size": 1414128
+    },
+    {
+      "path": "music/SoundTeMP - Wind of Tragedy.mp3",
+      "size": 1900215
+    },
+    {
+      "path": "video/刺客_技能_影袭.mp4",
+      "size": 610284
+    },
+    {
+      "path": "video/刺客_技能_快速刺击.mp4",
+      "size": 1395730
+    },
+    {
+      "path": "video/刺客_技能_暗杀.mp4",
+      "size": 760321
+    },
+    {
+      "path": "video/刺客_技能_毒刃.mp4",
+      "size": 911586
+    },
+    {
+      "path": "video/战士_女_剧情_Q1_第一幕.mp4",
+      "size": 1160084
+    },
+    {
+      "path": "video/战士_女_剧情_Q1_第二幕.mp4",
+      "size": 2161829
+    },
+    {
+      "path": "video/战士_女_剧情_Q2_第二幕.mp4",
+      "size": 2265069
+    },
+    {
+      "path": "video/战士_女_剧情_Q3_第一幕.mp4",
+      "size": 1740426
+    },
+    {
+      "path": "video/战士_女_剧情_Q3_第三幕.mp4",
+      "size": 1251780
+    },
+    {
+      "path": "video/战士_女_剧情_Q3_第二幕.mp4",
+      "size": 1110783
+    },
+    {
+      "path": "video/战士_女_剧情_Q4_第一幕.mp4",
+      "size": 1681632
+    },
+    {
+      "path": "video/战士_女_剧情_Q4_第三幕.mp4",
+      "size": 2388269
+    },
+    {
+      "path": "video/战士_女_剧情_Q4_第二幕.mp4",
+      "size": 1041961
+    },
+    {
+      "path": "video/战士_女_剧情_Q5_第一幕.mp4",
+      "size": 1029604
+    },
+    {
+      "path": "video/战士_女_剧情_Q5_第三幕.mp4",
+      "size": 1539485
+    },
+    {
+      "path": "video/战士_女_剧情_Q5_第二幕.mp4",
+      "size": 1762190
+    },
+    {
+      "path": "video/战士_女_剧情_Q5_第四幕.mp4",
+      "size": 1530492
+    },
+    {
+      "path": "video/战士_女_失败.mp4",
+      "size": 1825574
+    },
+    {
+      "path": "video/战士_女_技能_援护.mp4",
+      "size": 830510
+    },
+    {
+      "path": "video/战士_女_技能_旋风斩.mp4",
+      "size": 1522378
+    },
+    {
+      "path": "video/战士_女_技能_盾反.mp4",
+      "size": 1682385
+    },
+    {
+      "path": "video/战士_女_技能_连斩.mp4",
+      "size": 1940002
+    },
+    {
+      "path": "video/战士_女_普攻.mp4",
+      "size": 1308938
+    },
+    {
+      "path": "video/战士_女_牧师_失败.mp4",
+      "size": 1494882
+    },
+    {
+      "path": "video/战士_女_牧师_胜利.mp4",
+      "size": 1138345
+    },
+    {
+      "path": "video/战士_女_胜利.mp4",
+      "size": 2839791
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P1.mp4",
+      "size": 4142912
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P10.mp4",
+      "size": 1229631
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P11.mp4",
+      "size": 1383825
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P12.mp4",
+      "size": 1305611
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P13.mp4",
+      "size": 1055845
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P14.mp4",
+      "size": 691498
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P15.mp4",
+      "size": 1406014
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P16.mp4",
+      "size": 1110699
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P17.mp4",
+      "size": 979899
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P18.mp4",
+      "size": 759817
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P19.mp4",
+      "size": 1460094
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P2.mp4",
+      "size": 8831880
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P20.mp4",
+      "size": 1513320
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P21.mp4",
+      "size": 1383615
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P22.mp4",
+      "size": 1489307
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P3.mp4",
+      "size": 7706742
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P4.mp4",
+      "size": 1029475
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P5.mp4",
+      "size": 1402496
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P6.mp4",
+      "size": 1614152
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P7.mp4",
+      "size": 1704101
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P8.mp4",
+      "size": 1476637
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第一幕_P9.mp4",
+      "size": 1038950
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第三幕.mp4",
+      "size": 2161829
+    },
+    {
+      "path": "video/战士_男_剧情_Q1_第二幕.mp4",
+      "size": 848023
+    },
+    {
+      "path": "video/战士_男_剧情_Q2_第一幕.mp4",
+      "size": 1039336
+    },
+    {
+      "path": "video/战士_男_剧情_Q2_第二幕.mp4",
+      "size": 2265069
+    },
+    {
+      "path": "video/战士_男_剧情_Q3_第一幕.mp4",
+      "size": 1303351
+    },
+    {
+      "path": "video/战士_男_剧情_Q3_第三幕.mp4",
+      "size": 1251780
+    },
+    {
+      "path": "video/战士_男_剧情_Q3_第二幕.mp4",
+      "size": 1110783
+    },
+    {
+      "path": "video/战士_男_剧情_Q4_第一幕.mp4",
+      "size": 1499295
+    },
+    {
+      "path": "video/战士_男_剧情_Q4_第三幕.mp4",
+      "size": 2388269
+    },
+    {
+      "path": "video/战士_男_剧情_Q4_第二幕.mp4",
+      "size": 1309945
+    },
+    {
+      "path": "video/战士_男_剧情_Q5_第一幕.mp4",
+      "size": 1110500
+    },
+    {
+      "path": "video/战士_男_剧情_Q5_第三幕.mp4",
+      "size": 1275486
+    },
+    {
+      "path": "video/战士_男_剧情_Q5_第二幕.mp4",
+      "size": 1483947
+    },
+    {
+      "path": "video/战士_男_剧情_Q5_第四幕.mp4",
+      "size": 1530492
+    },
+    {
+      "path": "video/战士_男_失败.mp4",
+      "size": 1561892
+    },
+    {
+      "path": "video/战士_男_技能_援护.mp4",
+      "size": 1671516
+    },
+    {
+      "path": "video/战士_男_技能_旋风斩.mp4",
+      "size": 1591329
+    },
+    {
+      "path": "video/战士_男_技能_深割.mp4",
+      "size": 1318458
+    },
+    {
+      "path": "video/战士_男_技能_盾反.mp4",
+      "size": 1635459
+    },
+    {
+      "path": "video/战士_男_技能_连斩.mp4",
+      "size": 1993961
+    },
+    {
+      "path": "video/战士_男_普攻.mp4",
+      "size": 1589362
+    },
+    {
+      "path": "video/战士_男_法师_刺客_失败.mp4",
+      "size": 911642
+    },
+    {
+      "path": "video/战士_男_法师_刺客_胜利.mp4",
+      "size": 907185
+    },
+    {
+      "path": "video/战士_男_法师_失败.mp4",
+      "size": 2644150
+    },
+    {
+      "path": "video/战士_男_法师_胜利.mp4",
+      "size": 1394820
+    },
+    {
+      "path": "video/战士_男_牧师_刺客_失败.mp4",
+      "size": 666334
+    },
+    {
+      "path": "video/战士_男_牧师_刺客_胜利.mp4",
+      "size": 1455766
+    },
+    {
+      "path": "video/战士_男_牧师_失败.mp4",
+      "size": 2370808
+    },
+    {
+      "path": "video/战士_男_牧师_猎人_失败.mp4",
+      "size": 950476
+    },
+    {
+      "path": "video/战士_男_牧师_猎人_胜利.mp4",
+      "size": 1089139
+    },
+    {
+      "path": "video/战士_男_牧师_胜利.mp4",
+      "size": 848406
+    },
+    {
+      "path": "video/战士_男_胜利.mp4",
+      "size": 1022911
+    },
+    {
+      "path": "video/战士_男_药水.mp4",
+      "size": 1197749
+    },
+    {
+      "path": "video/战士_男_防守.mp4",
+      "size": 961478
+    },
+    {
+      "path": "video/法师_技能_奥术冲击.mp4",
+      "size": 1083389
+    },
+    {
+      "path": "video/法师_技能_爆炎术.mp4",
+      "size": 1795760
+    },
+    {
+      "path": "video/法师_技能_连锁闪电.mp4",
+      "size": 1572609
+    },
+    {
+      "path": "video/法师_技能_陨星术.mp4",
+      "size": 1945765
+    },
+    {
+      "path": "video/牧师_技能_圣光赐福.mp4",
+      "size": 708827
+    },
+    {
+      "path": "video/牧师_技能_圣疗.mp4",
+      "size": 872196
+    },
+    {
+      "path": "video/牧师_技能_神圣惩戒.mp4",
+      "size": 962789
+    },
+    {
+      "path": "video/牧师_技能_群体祈祷.mp4",
+      "size": 1646812
+    },
+    {
+      "path": "video/猎人_技能_瞄准射击.mp4",
+      "size": 1451408
+    },
+    {
+      "path": "video/猎人_技能_穿透箭.mp4",
+      "size": 1590213
+    },
+    {
+      "path": "video/猎人_技能_连射.mp4",
+      "size": 1369235
+    },
+    {
+      "path": "video/猎人_技能_鹰眼狙击.mp4",
+      "size": 2318258
+    }
+  ]
+}

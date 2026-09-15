@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "has_data": false,
+  "fields": {
+    "purpose": {"value": "经营复盘", "status": "confirmed", "risk": "A", "source": "user"},
+    "desired_action": {"value": "确认三项改进动作", "status": "confirmed", "risk": "A", "source": "user"},
+    "audience": {"value": "市公司领导", "status": "confirmed", "risk": "A", "source": "user"},
+    "source_of_truth": {"value": "SRC-001", "status": "known", "risk": "A", "source": "user"},
+    "template_mode": {"value": "内置5G模板", "status": "confirmed", "risk": "A", "source": "user"},
+    "deliverables": {"value": ["PPTX"], "status": "confirmed", "risk": "A", "source": "user"},
+    "confidentiality": {"value": "内部", "status": "confirmed", "risk": "A", "source": "user"},
+    "page_count": {"value": 12, "status": "confirmed", "risk": "A", "source": "user"},
+    "must_exclude": {"value": null, "status": "unknown", "risk": "A", "source": "missing"},
+    "internet_allowed": {"value": null, "status": "unknown", "risk": "A", "source": "missing"}
+  },
+  "blocking_unknowns": [],
+  "conflicts": [],
+  "ready_for_planning": true
+}

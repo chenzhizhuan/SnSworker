@@ -1,0 +1,11 @@
+{
+  "skill_name": "quantum-solution-ranking",
+  "should_trigger": [
+    "Compare the candidate quantum routes and select one implementation plan.",
+    "Re-rank the routes after the selected SDK dependency proved unavailable."
+  ],
+  "should_not_trigger": [
+    "Search the web for QML benchmark papers.",
+    "Execute the approved VQE experiment."
+  ]
+}

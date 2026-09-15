@@ -1,0 +1,11 @@
+{
+  "name": "示例-老王",
+  "slug": "shi-li-lao-wang",
+  "company": "示例公司",
+  "level": "P7",
+  "role": "后端技术负责人",
+  "mbti": "INTJ",
+  "notes": "示例同事分身，展示输出格式",
+  "created_at": "2026-07-01T00:00:00",
+  "updated_at": "2026-07-01T00:00:00"
+}

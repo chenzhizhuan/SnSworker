@@ -1,0 +1,39 @@
+{
+  "checkpoint_time": "2026-09-14T09:49:24.594572",
+  "skill_dir": "C:\\Users\\Administrator\\.config\\TeleAgent\\skills\\super-agent-cluster-a.backup_table_fix_20260914T083704Z",
+  "all_passed": true,
+  "checks": {
+    "P1": {
+      "passed": true,
+      "detail": "SKILL.md exists (8192 bytes head read)"
+    },
+    "P2": {
+      "passed": true,
+      "detail": "硬门禁速查块在前100行内确认"
+    },
+    "P3": {
+      "passed": true,
+      "detail": "rule_shield --smart-check PASS (431 rules)"
+    },
+    "P4": {
+      "passed": true,
+      "detail": "ast.parse 7/7 PASS"
+    },
+    "P5": {
+      "passed": true,
+      "detail": "All 2 core scripts present"
+    },
+    "P6": {
+      "passed": true,
+      "detail": "SKILL.md 31084 bytes < 43000 hard limit"
+    },
+    "P7": {
+      "passed": true,
+      "detail": "step_counter.py --check PASS (registered=12) [gaps OK]"
+    }
+  },
+  "skill_md_size": 31084,
+  "script_count": 7,
+  "rule_shield_rules": 431,
+  "version": "1.0"
+}

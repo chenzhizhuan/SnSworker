@@ -1,0 +1,99 @@
+{
+  "template_id": "2",
+  "template_name": "电信改革汇报风格",
+  "name_cn": "电信改革汇报风格",
+  "page_count": 24,
+  "scene": "改革汇报、经营分析、战略部署、年度总结",
+  "color_scheme": {
+    "id": "C3",
+    "name": "电信品牌蓝",
+    "primary": "#004488",
+    "secondary": "#4472C4",
+    "accent_orange": "#ED7D31",
+    "accent_light_blue": "#5B9BD5",
+    "accent_green": "#70AD47",
+    "accent_gold": "#FFC000",
+    "white": "#FFFFFF",
+    "light_gray": "#E7E6E6",
+    "dark_gray": "#2C2C2C",
+    "medium_gray_blue": "#44546A"
+  },
+  "fonts": {
+    "title": {
+      "name": "微软雅黑",
+      "size": 36,
+      "bold": true,
+      "color": "#004488"
+    },
+    "subtitle": {
+      "name": "微软雅黑",
+      "size": 24,
+      "bold": true,
+      "color": "#4472C4"
+    },
+    "body": {
+      "name": "微软雅黑",
+      "size": 16,
+      "bold": false,
+      "color": "#2C2C2C"
+    },
+    "caption": {
+      "name": "微软雅黑",
+      "size": 12,
+      "bold": false,
+      "color": "#44546A"
+    },
+    "data_number": {
+      "name": "微软雅黑",
+      "size": 48,
+      "bold": true,
+      "color": "#ED7D31"
+    }
+  },
+  "layout": {
+    "slide_width": 10,
+    "slide_height": 7.5,
+    "margin_left": 0.6,
+    "margin_right": 0.6,
+    "margin_top": 0.5,
+    "margin_bottom": 0.5,
+    "content_width": 8.8,
+    "content_height": 5.5,
+    "logo_position": { "x": 8.5, "y": 0.2, "width": 1.2, "height": 0.5, "note": "右上角中国电信+5G logo，需用户提供" }
+  },
+  "page_structure": [
+    { "page": 1, "type": "cover", "title": "封面页", "description": "深蓝渐变背景，白色标题，右上角logo" },
+    { "page": 2, "type": "toc", "title": "目录页", "description": "3栏编号布局，蓝色编号块" },
+    { "page": 3, "type": "section_cover", "title": "第一章节过渡", "description": "深蓝全屏背景，章节标题居中" },
+    { "page": 4, "type": "content", "title": "第一章节-背景介绍", "description": "左文右图，白底蓝字" },
+    { "page": 5, "type": "data", "title": "第一章节-数据概览", "description": "4列数据卡片，橙色大数字" },
+    { "page": 6, "type": "chart", "title": "第一章节-趋势图表", "description": "折线图，蓝色主线+橙色高亮" },
+    { "page": 7, "type": "section_cover", "title": "第二章节过渡", "description": "深蓝全屏背景" },
+    { "page": 8, "type": "content", "title": "第二章节-现状分析", "description": "表格布局，斑马纹行" },
+    { "page": 9, "type": "chart", "title": "第二章节-对比柱状图", "description": "柱状图，蓝橙双色对比" },
+    { "page": 10, "type": "chart", "title": "第二章节-占比饼图", "description": "环形饼图，品牌色系" },
+    { "page": 11, "type": "section_cover", "title": "第三章节过渡", "description": "深蓝全屏背景" },
+    { "page": 12, "type": "content", "title": "第三章节-改革举措", "description": "流程图，横向5步" },
+    { "page": 13, "type": "content", "title": "第三章节-实施路径", "description": "时间线布局，关键节点标注" },
+    { "page": 14, "type": "chart", "title": "第三章节-多维雷达图", "description": "雷达图，6维度能力评估" },
+    { "page": 15, "type": "content", "title": "第三章节-组织保障", "description": "组织架构图，层级树状" },
+    { "page": 16, "type": "section_cover", "title": "第四章节过渡", "description": "深蓝全屏背景" },
+    { "page": 17, "type": "data", "title": "第四章节-预期成果", "description": "3列数据卡片，绿色正向指标" },
+    { "page": 18, "type": "chart", "title": "第四章节-目标对比", "description": "并列柱状图，现状vs目标" },
+    { "page": 19, "type": "content", "title": "第四章节-风险管控", "description": "风险矩阵表格，红黄绿三级标注" },
+    { "page": 20, "type": "summary", "title": "总结页", "description": "蓝色背景，白色文字，核心要点提炼" },
+    { "page": 21, "type": "action", "title": "下一步计划", "description": "甘特图风格，4季度任务排布" },
+    { "page": 22, "type": "quote", "title": "愿景展望页", "description": "大字标语，蓝色引号装饰" },
+    { "page": 23, "type": "closing", "title": "结尾页", "description": "感谢聆听，深蓝主视觉" },
+    { "page": 24, "type": "back_cover", "title": "封底页", "description": "深蓝背景，单位名称+日期+logo" }
+  ],
+  "decorations": {
+    "header_bar": { "color": "#004488", "height": 0.06, "position": "top" },
+    "footer_bar": { "color": "#4472C4", "height": 0.03, "position": "bottom" },
+    "page_number": { "color": "#44546A", "font_size": 10, "position": "bottom_right" },
+    "logo": { "position": "top_right", "note": "中国电信+5G logo，需用户提供或从内部品牌库获取" }
+  },
+  "chart_colors": ["#004488", "#4472C4", "#ED7D31", "#5B9BD5", "#70AD47", "#FFC000"],
+  "image_prompts_file": "references/asset-manifest.md",
+  "safety_note": "生图prompt中不得出现党旗、党徽、党标等政治符号词汇"
+}

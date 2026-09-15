@@ -1,0 +1,202 @@
+{
+  "template_id": "3",
+  "template_name": "电信品牌红风格",
+  "name_cn": "电信品牌红风格",
+  "page_count": 53,
+  "scene": "产品介绍、技术分享、业务推广、燎原课件",
+  "color_scheme": {
+    "id": "C4",
+    "name": "电信品牌红+暖色渐变",
+    "primary": "C8102E",
+    "accent_dark": "8B0000",
+    "accent_light": "FFF0E5",
+    "brand_blue": "005AAA",
+    "blue": "0066CC",
+    "blue_light": "E3F2FD",
+    "orange": "F29400",
+    "yellow": "FFCC00",
+    "green": "009688",
+    "green_light": "E8F5E9",
+    "teal": "008080",
+    "purple_light": "F3E8FF",
+    "pink_light": "FFF5F5",
+    "white": "FFFFFF",
+    "black": "000000",
+    "text": "333333",
+    "text_secondary": "666666",
+    "text_light": "999999",
+    "border_light": "E5E5E5",
+    "card_bg": "F5F5F5",
+    "gray_light": "F0F0F0"
+  },
+  "fonts": {
+    "title": {
+      "name": "Microsoft YaHei",
+      "size": 20,
+      "bold": true,
+      "color": "C8102E"
+    },
+    "subtitle": {
+      "name": "Microsoft YaHei",
+      "size": 10,
+      "bold": false,
+      "color": "666666"
+    },
+    "body": {
+      "name": "Microsoft YaHei",
+      "size": 8,
+      "bold": false,
+      "color": "333333"
+    },
+    "caption": {
+      "name": "Microsoft YaHei",
+      "size": 9,
+      "bold": false,
+      "color": "999999"
+    },
+    "card_title": {
+      "name": "Microsoft YaHei",
+      "size": 10,
+      "bold": true,
+      "color": "FFFFFF"
+    },
+    "data_number": {
+      "name": "Microsoft YaHei",
+      "size": 72,
+      "bold": true,
+      "color": "C8102E"
+    }
+  },
+  "layout": {
+    "slide_width": 10,
+    "slide_height": 5.625,
+    "layout_type": "LAYOUT_16x9",
+    "margin_left": 0.7,
+    "margin_right": 0.25,
+    "margin_top": 0.5,
+    "margin_bottom": 0.5,
+    "content_width": 8.6,
+    "content_height": 4.5,
+    "logo_position": { "x": 8.45, "y": 0.12, "width": 1.3, "height": 0.4, "note": "右上角中国电信+5G logo" }
+  },
+  "decorations": {
+    "title_bar": {
+      "type": "double_square",
+      "description": "标题左侧红色+深红色双层方块装饰",
+      "square1": { "x_offset": 0.7, "y": 0.5, "w": 0.22, "h": 0.22, "color": "C8102E" },
+      "square2": { "x_offset": 0.76, "y": 0.56, "w": 0.22, "h": 0.22, "color": "8B0000" }
+    },
+    "gradient_bar": {
+      "type": "three_color_gradient",
+      "description": "标题下方三色渐变装饰条(红-橙-黄)",
+      "y": 0.98,
+      "segments": [
+        { "x": 0.7, "w": 2.87, "color": "C8102E" },
+        { "x": 3.57, "w": 2.87, "color": "F29400" },
+        { "x": 6.44, "w": 2.86, "color": "FFCC00" }
+      ],
+      "height": 0.03
+    },
+    "bottom_line": {
+      "color": "C8102E",
+      "y": 5.35,
+      "width": 10,
+      "height": 0.025
+    },
+    "page_number": {
+      "color": "999999",
+      "font_size": 9,
+      "position": "bottom_right",
+      "x": 9.2,
+      "y": 5.1
+    }
+  },
+  "chart_colors": ["C8102E", "F29400", "FFCC00", "005AAA", "009688", "8B0000"],
+  "helper_functions": {
+    "addBrand": "右上角添加中国电信+5G logo图片",
+    "addTitleBar": "标题栏：左侧双红方块 + 标题文字 + 三色渐变装饰条 + 可选副标题",
+    "addBottomLine": "底部红线 + 页码",
+    "addCard": "白底卡片：带标题栏(彩色填充) + 正文区域，可自定义标题色",
+    "addFlowNode": "圆角矩形流程节点，可自定义底色/文字色/字号",
+    "addArrowRight": "向右箭头连接符",
+    "makeTable": "表格：红底白字表头 + 粉白交替行 + 灰色边框",
+    "addBackLink": "右上角返回链接(蓝色文字)"
+  },
+  "page_structure": [
+    { "page": 1, "type": "cover", "title": "封面页", "description": "电信红主色封面，标题居中，底部三色装饰条" },
+    { "page": 2, "type": "agenda", "title": "目录页", "description": "四大模块编号目录，红色编号块" },
+    { "page": 3, "type": "content", "title": "多网连接管理-概述", "description": "标题栏+图文概述" },
+    { "page": 4, "type": "content", "title": "多网连接管理-价值", "description": "3列价值卡片" },
+    { "page": 5, "type": "content", "title": "多网连接管理-架构", "description": "系统架构图，分层展示" },
+    { "page": 6, "type": "chart", "title": "多网连接管理-数据", "description": "饼图(故障占比57/26/10/5/1%)" },
+    { "page": 7, "type": "content", "title": "多网连接管理-流程", "description": "流程图，横向步骤" },
+    { "page": 8, "type": "content", "title": "多网连接管理-案例", "description": "案例卡片展示" },
+    { "page": 9, "type": "content", "title": "多网连接管理-AI架构", "description": "6层AI智能体架构图" },
+    { "page": 10, "type": "content", "title": "多网连接管理-能力", "description": "能力矩阵展示" },
+    { "page": 11, "type": "section_cover", "title": "网络随选-过渡", "description": "章节过渡页" },
+    { "page": 12, "type": "content", "title": "网络随选-概述", "description": "产品概述+图标列表" },
+    { "page": 13, "type": "content", "title": "网络随选-架构", "description": "技术架构图" },
+    { "page": 14, "type": "content", "title": "网络随选-功能", "description": "功能卡片列表" },
+    { "page": 15, "type": "content", "title": "网络随选-流程", "description": "开通流程图" },
+    { "page": 16, "type": "content", "title": "网络随选-优势", "description": "4列优势对比" },
+    { "page": 17, "type": "content", "title": "网络随选-场景", "description": "应用场景展示" },
+    { "page": 18, "type": "content", "title": "网络随选-总结", "description": "小结页" },
+    { "page": 19, "type": "section_cover", "title": "翼安访-过渡", "description": "章节过渡页" },
+    { "page": 20, "type": "content", "title": "翼安访-概述", "description": "产品介绍" },
+    { "page": 21, "type": "content", "title": "翼安访-架构", "description": "系统架构图" },
+    { "page": 22, "type": "content", "title": "翼安访-功能", "description": "功能模块卡片" },
+    { "page": 23, "type": "content", "title": "翼安访-流程", "description": "访客管理流程图" },
+    { "page": 24, "type": "content", "title": "翼安访-数据", "description": "数据统计展示" },
+    { "page": 25, "type": "content", "title": "翼安访-案例", "description": "应用案例" },
+    { "page": 26, "type": "content", "title": "翼安访-总结", "description": "小结页" },
+    { "page": 27, "type": "content", "title": "市场推广-时间线", "description": "时间线流程图，推广阶段" },
+    { "page": 28, "type": "content", "title": "市场推广-策略", "description": "推广策略展示" },
+    { "page": 29, "type": "content", "title": "市场推广-渠道", "description": "渠道布局" },
+    { "page": 30, "type": "content", "title": "市场推广-目标", "description": "目标数据展示" },
+    { "page": 31, "type": "content", "title": "市场推广-进展", "description": "进展汇报" },
+    { "page": 32, "type": "content", "title": "市场推广-成效", "description": "成效数据" },
+    { "page": 33, "type": "content", "title": "市场推广-总结", "description": "阶段总结" },
+    { "page": 34, "type": "content", "title": "补充内容1", "description": "扩展内容页" },
+    { "page": 35, "type": "content", "title": "补充内容2", "description": "扩展内容页" },
+    { "page": 36, "type": "content", "title": "补充内容3", "description": "扩展内容页" },
+    { "page": 37, "type": "content", "title": "核心价值对比", "description": "对比表格，百分比红色高亮" },
+    { "page": 38, "type": "content", "title": "安全APN-概述", "description": "产品介绍" },
+    { "page": 39, "type": "content", "title": "安全APN-架构", "description": "架构图" },
+    { "page": 40, "type": "content", "title": "安全APN-功能", "description": "功能模块" },
+    { "page": 41, "type": "content", "title": "安全APN-流程", "description": "开通流程" },
+    { "page": 42, "type": "content", "title": "安全APN-优势", "description": "优势对比" },
+    { "page": 43, "type": "content", "title": "安全APN-场景", "description": "应用场景" },
+    { "page": 44, "type": "content", "title": "安全APN-案例", "description": "成功案例" },
+    { "page": 45, "type": "content", "title": "安全APN-总结", "description": "小结" },
+    { "page": 46, "type": "content", "title": "综合方案-概述", "description": "方案总览" },
+    { "page": 47, "type": "content", "title": "综合方案-流程", "description": "4阶段流程图" },
+    { "page": 48, "type": "content", "title": "综合方案-实施", "description": "实施路径" },
+    { "page": 49, "type": "content", "title": "综合方案-数据", "description": "数据成效" },
+    { "page": 50, "type": "content", "title": "综合方案-展望", "description": "未来展望" },
+    { "page": 51, "type": "content", "title": "综合方案-总结", "description": "总结" },
+    { "page": 52, "type": "content", "title": "补充案例", "description": "扩展案例" },
+    { "page": 53, "type": "closing", "title": "谢谢页", "description": "电信红大字\u0027谢谢!\u0027居中 + 底部三色装饰条" }
+  ],
+  "image_prompts_file": "references/asset-manifest.md",
+  "safety_note": "生图prompt中不得出现党旗、党徽、党标等政治符号词汇",
+  "pptxgenjs_helpers": {
+    "note": "以下为PptxGenJS辅助函数的代码签名，完整实现见生成脚本",
+    "addBrand": "function addBrand(slide) - 右上角logo",
+    "addTitleBar": "function addTitleBar(slide, title, subtitle) - 标题栏+渐变条",
+    "addBottomLine": "function addBottomLine(slide, pageNum) - 底部线+页码",
+    "addCard": "function addCard(slide, x, y, w, h, title, body, opts) - 卡片",
+    "addFlowNode": "function addFlowNode(slide, x, y, w, h, label, opts) - 流程节点",
+    "addArrowRight": "function addArrowRight(slide, x, y, w, h, color) - 箭头",
+    "makeTable": "function makeTable(slide, headers, rows, opts) - 表格",
+    "addBackLink": "function addBackLink(slide) - 返回链接"
+  },
+  "design_principles": {
+    "title_decoration": "标题左侧双红色方块(主色+深红错位) + 标题下方三色渐变条(红-橙-黄各占1/3宽度)",
+    "card_style": "白底+浅灰边框，标题栏彩色填充白字，正文区小字号密集排版",
+    "flow_style": "圆角矩形节点(ROUNDED_RECTANGLE) + RIGHT_ARROW连接，主色/品牌蓝交替使用",
+    "table_style": "表头红底白字居中，数据行粉白交替，第一列居中其余左对齐",
+    "bottom_decoration": "底部全宽红色细线(0.025英寸高) + 右下角灰色页码",
+    "closing_style": "结尾页72pt红色\u0027谢谢!\u0027居中 + 底部三色装饰条(红-橙-黄均分)",
+    "font_rule": "标题20pt粗体红色，副标题10pt灰色，正文8pt深灰，卡片标题10pt白色"
+  }
+}

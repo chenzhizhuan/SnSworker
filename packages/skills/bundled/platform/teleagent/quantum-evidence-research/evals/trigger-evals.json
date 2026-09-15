@@ -1,0 +1,11 @@
+{
+  "skill_name": "quantum-evidence-research",
+  "should_trigger": [
+    "Research a fair classical baseline and evaluation protocol for this VQC task.",
+    "Verify the maintained SDK components and TianYan constraints before planning."
+  ],
+  "should_not_trigger": [
+    "Choose the winning route from the evidence report.",
+    "Implement the selected PennyLane classifier."
+  ]
+}

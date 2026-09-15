@@ -1,0 +1,16 @@
+{
+  "metadata": {"title": "三页最小回归", "author": "telecom-ppt-master"},
+  "slides": [
+    {"type": "cover", "title": "三页最小回归", "subtitle": "模板继承与文件校验"},
+    {"type": "kpi", "title": "核心指标总体达成", "items": [
+      {"value": "102%", "label": "收入完成率"},
+      {"value": "96%", "label": "续约率", "note": "需关注"},
+      {"value": "+3.2pp", "label": "渗透率提升", "semantic": "positive"}
+    ]},
+    {"type": "three_cards", "title": "三项动作压降续约风险", "cards": [
+      {"title": "客户", "items": ["识别高风险客户", "分层触达"]},
+      {"title": "渠道", "items": ["压实责任网格", "日清日结"]},
+      {"title": "产品", "items": ["优化续约组合", "强化价值表达"]}
+    ]}
+  ]
+}

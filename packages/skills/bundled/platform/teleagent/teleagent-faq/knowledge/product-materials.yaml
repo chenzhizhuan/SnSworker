@@ -1,0 +1,66 @@
+# ──────────────────────────────────────────────
+# TeleAgent 用户支持 FAQ Pro — 产品材料域
+# 更新时间: 2026-05-28
+# ──────────────────────────────────────────────
+
+categories:
+  - id: intro
+    name: 产品介绍
+    resources:
+      - name: "星辰超级智能体（TeleAgent）产品介绍"
+        type: pptx
+        url: "https://pan.baidu.com/s/1uj3zyrvMHhKSXL8d83D_kA?pwd=ige2"
+        audience: "所有用户"
+        summary: "产品介绍PPT，包含产品定位、核心功能和使用场景"
+        note: "提取码: ige2"
+        raw_reply: |
+          星辰超级智能体（TeleAgent）产品介绍.pptx
+          链接: https://pan.baidu.com/s/1uj3zyrvMHhKSXL8d83D_kA?pwd=ige2 提取码: ige2
+
+  - id: course
+    name: 学习课程
+    resources:
+      - name: "TeleAgent 使用课程"
+        type: course
+        url: "https://weixin.qq.com/sph/AJUT05yTgV"
+        audience: "新用户"
+        summary: "产品使用课程，帮助快速上手"
+        raw_reply: |
+          课程介绍：https://weixin.qq.com/sph/AJUT05yTgV
+
+  - id: download
+    name: 下载与文档
+    resources:
+      - name: "官网下载与在线文档"
+        type: url
+        url: "https://www.teleai.com.cn/product/TeleAgent"
+        audience: "所有用户"
+        summary: "产品官网，提供安装包下载和使用文档入口"
+        raw_reply: |
+          官网下载：https://www.teleai.com.cn/product/TeleAgent
+          安装后右上角可直接连接在线文档，有使用手册和功能介绍。
+
+  - id: training
+    name: 培训材料
+    resources:
+      - name: "培训课件与视频回放"
+        type: Offline
+        url: ""
+        audience: "参加培训的用户"
+        summary: "线下培训的课件和视频回放，需向培训老师获取"
+        raw_reply: |
+          现场培训材料请联系现场培训老师获取。培训后团队统一组织分发，可能有视频回放。
+
+  - id: certification
+    name: 安全认证
+    resources:
+      - name: "安全能力认证"
+        type: info
+        url: ""
+        audience: "关注合规的用户"
+        summary: "产品已通过中国信通院企业级类Claw智能体安全能力认证，入选可信清单"
+        raw_reply: |
+          星辰超级智能体首批通过中国信通院企业级类Claw智能体安全能力认证，入选可信清单。详细认证信息可在官网查询。
+
+# 当用户询问产品材料时，如果某个资源有 raw_reply 字段，直接输出 raw_reply 内容，
+# 不需要额外改写或总结。

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "deck_title": "错误样例",
+  "slides": [
+    {"slide": 1, "role": "result", "claim": "A", "proof_object": "card", "template": "T99", "source_refs": ["N/A"], "macro_layout": "cards"},
+    {"slide": 2, "role": "result", "claim": "B", "proof_object": "card", "template": "T4", "source_refs": ["SRC-1"], "macro_layout": "cards"},
+    {"slide": 3, "role": "result", "claim": "C", "proof_object": "card", "template": "T4", "source_refs": ["SRC-1"], "macro_layout": "cards"}
+  ]
+}

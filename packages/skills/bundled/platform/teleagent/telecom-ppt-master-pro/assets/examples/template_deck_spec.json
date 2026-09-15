@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "title": "电信模板最小验证",
+    "author": "中国电信"
+  },
+  "font": "Microsoft YaHei",
+  "slides": [
+    {
+      "type": "cover",
+      "title": "电信模板最小验证",
+      "subtitle": "原生页眉继承与正文安全区检查",
+      "kicker": "仅用于验证通用模板生成器"
+    },
+    {
+      "type": "kpi",
+      "prefix": "核心数据",
+      "title": "三项指标验证",
+      "items": [
+        {"value": "98.5%", "label": "目标完成率", "semantic": "positive"},
+        {"value": "12.4万", "label": "累计规模"},
+        {"value": "+3.2PP", "label": "同比提升", "semantic": "positive"}
+      ]
+    },
+    {
+      "type": "three_cards",
+      "prefix": "工作部署",
+      "title": "三项行动形成闭环",
+      "cards": [
+        {"title": "目标", "items": ["明确责任", "锁定时限"]},
+        {"title": "执行", "items": ["分层推进", "过程跟踪"]},
+        {"title": "复盘", "items": ["结果评估", "问题闭环"]}
+      ]
+    }
+  ]
+}

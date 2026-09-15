@@ -1,0 +1,33 @@
+{
+  "skill_name": "quantum-application-intake",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a MaxCut application, but the SDK, metric, and delivery target are not specified.",
+      "expected_output": "A reviewable contract that separates resolved facts, defaults, and blocking decisions before planning.",
+      "files": [],
+      "expectations": ["Inspects existing context first", "Defaults only execution to a local simulator", "Records unresolved SDK, metric, and delivery decisions", "Does not claim the QAOA route is validated"]
+    },
+    {
+      "id": 2,
+      "prompt": "Run my existing circuit on TianYan hardware and expose the result in a local demo.",
+      "expected_output": "An intake contract that records TianYan authorization separately from local demo packaging.",
+      "files": [],
+      "expectations": ["Requires explicit TianYan authorization", "Never requests credentials in chat", "Records execution and delivery as separate concerns"]
+    },
+    {
+      "id": 3,
+      "prompt": "Use quantum machine learning to predict temperature. Select an appropriate SDK and model for me.",
+      "expected_output": "A QML intent contract that dispatches evidence research without preselecting the implementation route.",
+      "files": [],
+      "expectations": ["Uses selected_sdk cqlib with sdk_policy default when no SDK is specified", "Does not select VQR, encoding, ansatz, optimizer, or backend", "Records unknown dataset provenance as a structured unresolved decision"]
+    },
+    {
+      "id": 4,
+      "prompt": "Build a local FastAPI QML demo, but implementation has not started.",
+      "expected_output": "A minimal intake manifest that records delivery intent without inventing implementation details.",
+      "files": [],
+      "expectations": ["Records application_slug and local_fastapi_demo", "Uses onboard as the network source", "Does not invent entrypoints, endpoints, assets, or browser selectors"]
+    }
+  ]
+}

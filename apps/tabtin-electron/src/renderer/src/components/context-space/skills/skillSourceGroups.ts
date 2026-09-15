@@ -41,10 +41,14 @@ export const MINE_SUB_GROUP_ORDER: MineSubGroup[] = [
 ]
 
 /**
- * 能力市场「推荐」货架：仅压缩包导入的 6 个 pack。
+ * 能力市场「推荐」货架：
+ * 1. 压缩包导入的 6 个 marketplace pack（原有逻辑）；
+ * 2. platform 预装技能（TeleAgent 内置技能等）——随安装包预装、无需获取即可用，
+ *    在「推荐」货架展示，卡片显示「内置」标识。
  * 已获取仍留在推荐，卡片 CTA 由「获取」变为「管理」；「我的」可另列同一批资产。
  */
 export function isRecommendedMarketCatalogSkill(skill: SkillIndexEntry): boolean {
+  if (normalizeSkillSource(skill.source) === 'platform') return true
   if (normalizeSkillSource(skill.source) !== 'app') return false
   return isRecommendedMarketPackSkill(skill)
 }

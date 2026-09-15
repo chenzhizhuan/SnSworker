@@ -1,0 +1,11 @@
+{
+  "skill_name": "quantum-cloud-execution",
+  "should_trigger": [
+    "I explicitly authorize this circuit to run on the selected TianYan device.",
+    "Poll the authorized TianYan job and retrieve its result through the existing Cqlib integration."
+  ],
+  "should_not_trigger": [
+    "Run this circuit on a local statevector simulator.",
+    "Submit this workload to IBM Quantum or another cloud platform."
+  ]
+}

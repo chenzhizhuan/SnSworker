@@ -1,0 +1,11 @@
+{
+  "skill_name": "quantum-application-intake",
+  "should_trigger": [
+    "Turn this application idea into concrete quantum workflow requirements.",
+    "We changed from a local demo to TianYan execution; update the application contract."
+  ],
+  "should_not_trigger": [
+    "Implement the already approved QAOA plan.",
+    "Independently rerun the API and browser tests."
+  ]
+}

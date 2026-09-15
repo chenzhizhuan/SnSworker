@@ -1,0 +1,521 @@
+versions:
+  1.1.3:
+    issues:
+    - id: TC-1.1.3-001
+      symptoms:
+      - 模型一直加载中
+      - 登录成功但无法使用AI功能
+      - 界面显示模型加载但始终无响应
+      - 连接正常但AI不回复
+      root_cause: 软件内部网络通信在特定网络环境下静默中断，既不超时也不报错
+      impact: 部分企业内网或特殊网络环境用户
+      workaround: 尝试开启全局代理或VPN；或切换手机热点测试是否能恢复；如仍无效建议全清重装
+      fixed_in: null
+    - id: TC-1.1.3-002
+      symptoms:
+      - 企业微信、定时任务、浏览器操作全部不能用
+      - 只有AI对话能用，其他功能都报错
+      - IM连接不上、定时任务执行失败
+      root_cause: 升级后部分组件找不到所需的运行环境路径
+      impact: 从旧版本升级的用户
+      workaround: 手动安装Node.js LTS版本后重启软件
+      fixed_in: null
+    - id: TC-1.1.3-003
+      symptoms:
+      - 任务执行中卡住不动
+      - 写文件或编辑文件时一直显示运行中
+      - 任务显示执行但没有任何输出
+      root_cause: 部分环境下文件操作工具内部挂起，无法完成执行
+      impact: 执行写文件、编辑文件等操作时可能出现
+      workaround: 开启新会话重试；如反复出现建议全清重装
+      fixed_in: null
+    - id: TC-1.1.3-004
+      symptoms:
+      - 偶尔连接失败
+      - 时好时坏
+      - 有时候能用有时候不能
+      root_cause: 本地网络不稳定导致软件内部通信间歇性中断
+      impact: WiFi信号弱或网络波动的用户
+      workaround: 切换手机热点测试；使用5GHz WiFi或有线网络；手动指定DNS为8.8.8.8
+      fixed_in: null
+    - id: TC-1.1.3-005
+      symptoms:
+      - 软件端口冲突
+      - 启动后出现多个后台进程
+      - 关闭再打开提示端口被占用
+      root_cause: 正常关闭时后台服务未完全退出，端口未释放
+      impact: 频繁开关软件的用户
+      workaround: 在任务管理器中结束所有相关进程后重新打开
+      fixed_in: null
+    - id: TC-1.1.3-006
+      symptoms:
+      - 不满意上次结果怎么重新做
+      - 想让AI重新生成上一个回答
+      root_cause: 需明确发出重新执行的指令，软件不会自动重做
+      impact: 所有用户
+      workaround: 在新消息中明确说明需要重新执行或修改要求，如'请重新生成，要求更简洁'
+      fixed_in: null
+  1.1.2:
+    issues:
+    - id: TC-1.1.2-001
+      symptoms:
+      - 打开软件闪退
+      - 软件运行遇到问题弹窗
+      - 安装了安全管控软件的电脑无法启动
+      - 启动后反复弹窗报错
+      root_cause: 部分企业安全管控软件会拦截软件核心服务的启动
+      impact: 安装了联软等企业安全管控软件的电脑
+      workaround: 联系IT部门将软件加入安全白名单，或在安全模式下删除安全管控组件
+      fixed_in: null
+    - id: TC-1.1.2-002
+      symptoms:
+      - 软件启动后弹窗报错
+      - 打开就报运行遇到问题
+      - 自定义技能后软件无法启动
+      root_cause: 技能数据文件编码异常导致软件启动被阻塞
+      impact: 创建或导入自定义技能的用户
+      workaround: 删除冲突的自定义技能目录；如无法定位，建议全清重装
+      fixed_in: null
+    - id: TC-1.1.2-003
+      symptoms:
+      - 无法连接
+      - 打开软件显示连接失败
+      - 显示正在连接但一直无法进入
+      - 服务无法访问但软件状态显示正常
+      root_cause: 安全软件或防火墙阻断了软件内部通信端口
+      impact: Windows环境下开启了系统防火墙或安全软件的用户
+      workaround: 在防火墙设置中添加软件的入站规则（端口4397/TCP）；或临时关闭防火墙验证
+      fixed_in: null
+    - id: TC-1.1.2-004
+      symptoms:
+      - 对话突然变成英文
+      - 执行过程中出现英文技术内容
+      - 自动压缩后语言变成英文
+      root_cause: 对话内容自动压缩时，内部处理过程未对用户隐藏
+      impact: 长时间对话、上下文接近上限时可能出现
+      workaround: 等待压缩完成后助手会自动恢复中文；如未恢复可开启新会话
+      fixed_in: null
+    - id: TC-1.1.2-005
+      symptoms:
+      - 界面白屏
+      - 任务执行后页面变空白
+      - 页面无响应无法操作
+      root_cause: 界面渲染异常导致页面崩溃且无法自动恢复
+      impact: 长时间使用或执行复杂任务后可能出现
+      workaround: 重启软件；如反复出现建议删除数据库后重新打开
+      fixed_in: null
+    - id: TC-1.1.2-006
+      symptoms:
+      - 企业微信一直显示连接中
+      - 企微配置后无法收到回复
+      - 企微连接失败但无错误提示
+      root_cause: 企业微信凭证失效后软件持续重试但未给出错误提示
+      impact: 使用企业微信功能的用户
+      workaround: 删除企业微信配置文件后重新配置（路径：~/.local/share/teleai-super-agent/im-service/wecom-state.json）
+      fixed_in: null
+  1.1.1:
+    issues:
+    - id: TC-1.1.1-001
+      symptoms:
+      - Mac安装后打不开
+      - Mac打开立即闪退
+      - macOS提示应用已损坏
+      root_cause: macOS安全策略阻止了软件核心服务的运行
+      impact: Mac用户，尤其是macOS安全设置较高的环境
+      workaround: 卸载软件→在终端执行xattr命令清除安全标记→重新安装（三步均不可省略）
+      fixed_in: null
+    - id: TC-1.1.1-002
+      symptoms:
+      - 核心文件丢失
+      - 软件提示找不到运行所需文件
+      - 运行时文件自动消失
+      root_cause: 安全软件可能静默隔离了软件的核心运行文件
+      impact: 安装了企业安全管控软件的电脑
+      workaround: 删除软件的运行时目录后重启（软件会自动重新提取文件）；或在安全软件隔离区恢复被删除的文件
+      fixed_in: null
+    - id: TC-1.1.1-003
+      symptoms:
+      - Mac启动报错
+      - Mac打开软件提示权限不足
+      root_cause: macOS系统目录缺失导致软件无法创建必要的配置文件
+      impact: Mac用户
+      workaround: 在终端执行 mkdir -p ~/.local/state 创建缺失目录
+      fixed_in: null
+    - id: TC-1.1.1-004
+      symptoms:
+      - 软件白屏
+      - 打开后界面空白
+      - 启动后反复白屏
+      root_cause: 软件核心服务内存不足导致反复重启
+      impact: 内存8GB的设备出现概率较高
+      workaround: 关闭不用的会话；避免同时打开多个工作空间；定期重启软件
+      fixed_in: null
+    - id: TC-1.1.1-005
+      symptoms:
+      - 自定义技能导入后软件无法启动
+      - 技能同名冲突
+      - 导入技能后打不开软件
+      root_cause: 自定义技能名称冲突或数据文件编码异常，阻塞软件启动
+      impact: 导入自定义技能的用户
+      workaround: 删除冲突的技能目录；编码问题需全清重装
+      fixed_in: null
+    - id: TC-1.1.1-006
+      symptoms:
+      - 任务执行半天没结果
+      - 显示执行中但一直没有输出
+      - 任务卡住不动
+      root_cause: 模型生成的指令过大导致处理失败，任务静默终止
+      impact: 执行内容生成类任务（如写大文件）时可能出现
+      workaround: 开启新会话重新执行；在指令中提示避免一次性生成超大内容
+      fixed_in: null
+    - id: TC-1.1.1-007
+      symptoms:
+      - 定时任务执行内容不完整
+      - 定时任务的指令被截断
+      root_cause: Windows环境下命令行对特殊字符的处理导致任务指令被截断
+      impact: Windows用户使用定时任务功能
+      workaround: 手动编辑定时任务补全被截断的内容
+      fixed_in: null
+    - id: TC-1.1.1-008
+      symptoms:
+      - 会话一直显示执行中
+      - 任务显示运行但实际已停止
+      - 无法新建任务
+      root_cause: 服务端连接中断后会话状态未正确更新
+      impact: 网络不稳定或长时间使用的用户
+      workaround: 刷新页面或新建会话
+      fixed_in: null
+    - id: TC-1.1.1-009
+      symptoms:
+      - 报错信息看不懂
+      - 只显示错误码没有具体说明
+      - 错误提示过于笼统
+      root_cause: 错误提示未展示具体的错误类型和原因
+      impact: 所有用户遇到错误时
+      workaround: 暂无法自助排查，需联系技术支持提供日志
+      fixed_in: null
+    - id: TC-1.1.1-010
+      symptoms:
+      - 微信/企微发消息没有回复
+      - IM发消息后一直没响应
+      - 手机端发消息软件端无反应
+      root_cause: 即时通讯服务未正确感知会话的暂停状态
+      impact: 使用微信或企业微信功能的用户
+      workaround: 删除即时通讯路由配置文件后重启
+      fixed_in: null
+    - id: TC-1.1.1-011
+      symptoms:
+      - IM功能崩溃
+      - 微信功能突然不能用
+      - 磁盘空间不足后软件异常
+      root_cause: 磁盘空间不足时即时通讯组件崩溃
+      impact: 磁盘空间紧张的用户
+      workaround: 清理磁盘空间后重启软件
+      fixed_in: null
+    - id: TC-1.1.1-012
+      symptoms:
+      - 界面白屏不可恢复
+      - 执行任务后页面变空白
+      - 白屏后无法操作只能强关
+      root_cause: 界面渲染异常导致页面崩溃且无法自动恢复
+      impact: 长时间使用或执行复杂任务后可能出现
+      workaround: 重装新版本（新版代码可能避开同一问题）；或删除数据库后重新打开
+      fixed_in: null
+    - id: TC-1.1.1-013
+      symptoms:
+      - 登录状态失效
+      - 使用中突然提示需要重新登录
+      - Token过期
+      root_cause: 登录凭证到期后未自动刷新
+      impact: 长时间未关闭软件的用户
+      workaround: 重新登录即可
+      fixed_in: null
+    - id: TC-1.1.1-014
+      symptoms:
+      - 企业安全软件拦截后软件无法启动
+      - 安装了联软等管控软件后闪退
+      root_cause: 企业安全管控软件注入组件导致核心服务崩溃
+      impact: 安装了联软UniAccess等企业安全管控软件的用户
+      workaround: 联系IT部门将软件加入安全白名单
+      fixed_in: null
+  1.1.0:
+    issues:
+    - id: TC-1.1.0-001
+      symptoms:
+      - 合盖后打开软件连不上
+      - 电脑休眠恢复后无法使用
+      - 笔记本睡眠后软件异常
+      root_cause: 电脑休眠恢复后网络连接未自动重新建立
+      impact: 笔记本用户合盖休眠后
+      workaround: 避免合盖休眠；休眠恢复后刷新页面
+      fixed_in: null
+    - id: TC-1.1.0-002
+      symptoms:
+      - 偶尔连不上
+      - 时好时坏
+      - 有时候能用有时候不能
+      - 'Error: Unable to connect'
+      root_cause: 网络波动或服务端连接不稳定导致间歇性连接失败
+      impact: 网络环境不稳定的用户（如家庭WiFi、网络波动）
+      workaround: 尝试切换手机热点测试；更换更稳定的网络；检查网络代理设置
+      fixed_in: null
+  1.0.4:
+    issues:
+    - id: TC-1.0.4-001
+      symptoms:
+      - 打开后一直加载
+      - 启动卡在加载界面
+      - 插件同步导致无法进入
+      root_cause: 内置插件同步过程阻塞了软件启动
+      impact: 使用此版本的用户
+      workaround: 清除插件缓存后重启
+      fixed_in: null
+  1.0.3:
+    issues:
+    - id: TC-1.0.3-001
+      symptoms:
+      - 安装后打开闪退
+      - CPU不支持导致无法运行
+      - Windows Server无法启动
+      - 退出码3221225501
+      - 退出码0xC0000409
+      - exit code 3
+      root_cause: 软件核心运行环境对CPU指令集（AVX2）或系统版本有最低要求
+      impact: 老旧CPU（不支持AVX2指令集）或旧版Windows系统的用户
+      workaround: 可换用支持AVX2指令集的电脑，或耐心等待——预计八月份会推出利旧优化版本
+      fixed_in: null
+    - id: TC-1.0.3-002
+      symptoms:
+      - 电脑上已安装了同类软件导致冲突
+      - 和同类软件冲突
+      root_cause: 与其他同类软件的运行环境存在冲突
+      impact: 同时安装了其他AI编程工具的用户
+      workaround: 清理其他同类软件的运行环境
+      fixed_in: null
+    - id: TC-1.0.3-003
+      symptoms:
+      - 安全软件拦截导致无法启动
+      - 杀毒软件阻止运行
+      - Device Guard拦截
+      root_cause: 安全软件拦截了软件核心服务的启动
+      impact: 安装了杀毒软件或企业安全管控的企业用户
+      workaround: 将软件加入安全软件白名单；企业用户联系IT部门提单
+      fixed_in: null
+    - id: TC-1.0.3-004
+      symptoms:
+      - 安装包提示架构不匹配
+      - 装了Mac版本但提示不对
+      - 下载了错误版本
+      root_cause: 安装包版本与电脑系统架构不匹配
+      impact: 下载了错误架构安装包的用户
+      workaround: 下载与电脑系统对应的正确架构版本，全清后重装
+      fixed_in: null
+    - id: TC-1.0.3-005
+      symptoms:
+      - 之前用过代理现在连不上
+      - 关闭代理后仍无法访问
+      - 网络正常但软件连不上
+      root_cause: 之前设置的代理信息残留，导致所有网络请求仍走已关闭的代理
+      impact: 曾经使用过网络代理的Windows用户
+      workaround: 清理系统代理残留设置：1)在注册表中清除代理启用项 2)删除残留的代理环境变量 3)重启软件
+      fixed_in: null
+    - id: TC-1.0.3-006
+      symptoms:
+      - DNS无法解析
+      - 域名解析失败连不上
+      root_cause: DNS解析异常
+      impact: 网络环境特殊的用户
+      workaround: 手动指定DNS服务器地址
+      fixed_in: null
+    - id: TC-1.0.3-007
+      symptoms:
+      - 公司网络拦截软件访问
+      - 企业内网无法使用
+      root_cause: 企业安全软件拦截了软件的出站网络请求
+      impact: 企业内网用户
+      workaround: 联系IT部门将软件加入安全白名单
+      fixed_in: null
+    - id: TC-1.0.3-008
+      symptoms:
+      - 登录状态异常跳过
+      - 未登录就进入软件
+      root_cause: 登录状态缓存异常导致跳过了正常登录流程
+      impact: 切换账号或重装后的用户
+      workaround: 清除登录状态缓存后重新登录
+      fixed_in: null
+    - id: TC-1.0.3-009
+      symptoms:
+      - Mac的.config目录报错
+      - 提示配置目录权限异常
+      root_cause: macOS系统配置目录的格式或权限异常
+      impact: Mac用户
+      workaround: 修复配置目录：删除异常文件并重建目录，或修正目录权限
+      fixed_in: null
+    - id: TC-1.0.3-010
+      symptoms:
+      - 任务执行突然中断
+      - 任务没完成就停了
+      - 输出内容被截断
+      root_cause: 模型输出长度受限导致任务指令被截断
+      impact: 执行复杂或长输出任务的用户
+      workaround: 在指令中提示分步执行，避免一次性输出过多内容
+      fixed_in: null
+    - id: TC-1.0.3-011
+      symptoms:
+      - 模型响应超时
+      - 等了很久没有结果
+      - 请求超时
+      root_cause: 模型服务响应超时
+      impact: 使用高峰期或网络不稳定的用户
+      workaround: 新建会话重试
+      fixed_in: null
+    - id: TC-1.0.3-012
+      symptoms:
+      - 会话一直显示执行中无法恢复
+      - 任务卡死
+      root_cause: 会话状态异常，无法自动恢复
+      impact: 长时间使用或网络中断后
+      workaround: 刷新页面或新建会话
+      fixed_in: null
+    - id: TC-1.0.3-013
+      symptoms:
+      - 前端等待时界面卡住
+      - 加载中卡住不动
+      root_cause: 界面等待后台服务响应时阻塞
+      impact: 所有用户
+      workaround: 刷新页面
+      fixed_in: null
+    - id: TC-1.0.3-014
+      symptoms:
+      - 会话太大导致界面卡死
+      - 对话太长后软件变慢或崩溃
+      root_cause: 单个会话内容过大导致前端内存溢出
+      impact: 长时间使用同一个会话的用户
+      workaround: 删除会话历史数据或新建会话
+      fixed_in: null
+    - id: TC-1.0.3-015
+      symptoms:
+      - MCP工具安装弹出确认框
+      - Playwright安装需要确认
+      root_cause: MCP工具首次使用需要额外安装依赖
+      impact: 使用浏览器操作等MCP工具的用户
+      workaround: 在终端预先全局安装对应工具
+      fixed_in: null
+    - id: TC-1.0.3-016
+      symptoms:
+      - 公司网络无法使用浏览器操作工具
+      - Windows下某些命令找不到
+      root_cause: Windows环境下系统路径继承方式存在差异
+      impact: Windows用户使用MCP工具时
+      workaround: 等待软件更新修复
+      fixed_in: null
+    - id: TC-1.0.3-017
+      symptoms:
+      - 工作空间目录找不到了
+      - 设置的工作空间路径无效
+      root_cause: 工作空间目录被移动或删除后软件未校验
+      impact: 手动移动或删除了工作空间目录的用户
+      workaround: 重新设置工作空间路径
+      fixed_in: null
+    - id: TC-1.0.3-018
+      symptoms:
+      - 企微连接配置异常
+      - 企微扫码后状态异常
+      - 企微绑定失败
+      root_cause: 即时通讯服务的状态管理存在不一致
+      impact: 使用企业微信功能的用户
+      workaround: 删除即时通讯状态文件后重新配置
+      fixed_in: null
+  跨版本通用:
+    issues:
+    - id: TC-CROSS-001
+      symptoms:
+      - 微信发消息对方收不到
+      - 微信消息发出去了但没有回复
+      - 微信消息丢失
+      root_cause: 微信消息发送后未获得确认，可能静默丢失
+      impact: 使用微信功能的用户
+      workaround: 删除微信状态文件后重置重启（不保证未来消息一定能送达）
+      fixed_in: null
+    - id: TC-CROSS-002
+      symptoms:
+      - 微信/企微发消息后长时间无回复
+      - IM消息已发送但迟迟没反应
+      root_cause: 即时通讯服务未正确检测到软件端已完成响应
+      impact: 使用微信或企业微信功能的用户
+      workaround: 暂无可靠的绕过方案，等待软件更新修复
+      fixed_in: null
+    - id: TC-CROSS-003
+      symptoms:
+      - 磁盘空间不足软件异常
+      - 硬盘满了之后软件崩溃
+      root_cause: 磁盘空间不足时软件未做优雅处理
+      impact: 磁盘空间紧张的用户
+      workaround: 清理磁盘空间后重启软件
+      fixed_in: null
+    - id: TC-CROSS-004
+      symptoms:
+      - 数据库损坏
+      - 软件数据异常
+      root_cause: 非正常关闭可能导致本地数据库文件不一致
+      impact: 强制关闭软件或断电后
+      workaround: 删除数据库缓存文件后重新打开
+      fixed_in: null
+    - id: TC-CROSS-005
+      symptoms:
+      - 内网专用域名无法访问
+      - 公司内部系统连不上
+      root_cause: 内网域名解析未配置
+      impact: 需要在软件中访问公司内部系统的用户
+      workaround: 在网络设置中添加对应的DNS或hosts条目
+      fixed_in: null
+  用户环境:
+    issues:
+    - id: TC-ENV-001
+      symptoms:
+      - 之前用过代理现在连不上
+      - 关了VPN还是不行
+      root_cause: 系统代理设置残留，所有网络请求仍走已关闭的代理端口
+      impact: 曾经使用代理软件的Windows用户
+      workaround: 清理注册表中的代理设置和环境变量残留，重启软件
+      fixed_in: null
+    - id: TC-ENV-002
+      symptoms:
+      - 企业网络拦截
+      - 公司电脑连不上
+      root_cause: 企业安全软件拦截了软件的网络请求
+      impact: 企业内网用户
+      workaround: 联系IT部门将软件加入安全白名单
+      fixed_in: null
+    - id: TC-ENV-003
+      symptoms:
+      - Mac配置目录权限报错
+      root_cause: macOS配置目录的所有者或类型异常
+      impact: Mac用户（尤其使用sudo安装或多个用户的电脑）
+      workaround: 修复目录权限或重建配置目录
+      fixed_in: null
+    - id: TC-ENV-004
+      symptoms:
+      - 安装后提示不是有效的win32应用程序
+      - 系统不支持安装
+      root_cause: 操作系统不满足最低要求（需Windows 10及以上64位系统）
+      impact: 使用老旧Windows系统或32位系统的用户
+      workaround: 升级操作系统至Windows 10及以上64位版本（无法通过软件设置解决）
+      fixed_in: null
+    - id: TC-ENV-005
+      symptoms:
+      - 云电脑安装后报Unable to connect
+      - Windows Server虚拟机无法连接
+      root_cause: 云桌面虚拟机无直连公网能力，运行时不会自动读取系统代理设置
+      impact: 使用OpenStack云桌面等虚拟化环境的用户
+      workaround: 设置系统环境变量HTTP_PROXY和HTTPS_PROXY指向IT提供的代理地址，然后重启软件。Windows Server 2022以上镜像可用，2016不支持。
+      fixed_in: null
+    - id: TC-ENV-006
+      symptoms:
+      - 旧版本升级后新旧版本并存
+      - 1.0.3及以下版本安装新版后出问题
+      root_cause: 1.0.3及以下版本的升级机制不支持覆盖安装
+      impact: 从1.0.3及更早版本升级的用户
+      workaround: 先手动卸载旧版本再安装新版本。历史任务、记忆、技能不受影响。
+      fixed_in: null
+更新时间: '2026-06-30'
