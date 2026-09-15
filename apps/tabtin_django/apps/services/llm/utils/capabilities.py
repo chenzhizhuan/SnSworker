@@ -672,10 +672,14 @@ def _build_from_service_capabilities(model_instance: Any, provider: Any) -> Any:
     )
 
     # === reasoning(规则 6) ===
-    if _flag("supports_reasoning"):
+    # DeepSeek V4 默认开启思考模式，返回 reasoning_content 字段。
+    # OpenAIService.CAPABILITIES.supports_reasoning=False，但 DeepSeek
+    # 复用 OpenAIService，需通过 provider 特判覆盖。
+    _reasoning_default = pname == "deepseek"
+    if _flag("supports_reasoning", default=_reasoning_default):
         # surface 按 provider 推:claude→thinking_block / openai→hidden /
-        # gemini→extra_body_thinking_config / moonshot/qwen→delta_reasoning_content /
-        # minimax→think_tag_inline / 其他默认 hidden
+        # gemini→extra_body_thinking_config / moonshot/kimi/qwen/deepseek→
+        # delta_reasoning_content / minimax→think_tag_inline / 其他默认 hidden
         if pname in ("claude", "anthropic"):
             r_surface = "thinking_block"
             r_format = "thinking_block"
@@ -684,7 +688,7 @@ def _build_from_service_capabilities(model_instance: Any, provider: Any) -> Any:
             r_surface = "extra_body_thinking_config"
             r_format = "thinking_config"
             r_param_path = "extra_body.google.thinking_config"
-        elif pname in ("moonshot", "kimi", "qwen"):
+        elif pname in ("moonshot", "kimi", "qwen", "deepseek"):
             r_surface = "delta_reasoning_content"
             r_format = "reasoning_content_field"
             r_param_path = None
