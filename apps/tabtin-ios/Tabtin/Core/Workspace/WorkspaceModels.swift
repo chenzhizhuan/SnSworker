@@ -976,7 +976,7 @@ enum WorkspaceMemoryProviderScope: String, Codable, CaseIterable, Sendable {
 
     var groupTitle: String {
         switch self {
-        case .global: return "SnSworker 官方"
+        case .global: return "智算方舟官方"
         case .user: return "我的模型"
         case .organization: return "组织模型"
         }

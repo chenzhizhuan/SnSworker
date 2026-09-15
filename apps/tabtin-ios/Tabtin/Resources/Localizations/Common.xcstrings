@@ -4212,7 +4212,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请在系统设置中允许 SnSworker 使用相机，然后返回重试。"
+            "value": "请在系统设置中允许智算方舟使用相机，然后返回重试。"
           }
         }
       }

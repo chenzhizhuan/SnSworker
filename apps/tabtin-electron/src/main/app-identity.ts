@@ -15,35 +15,35 @@ export interface TabTinAppIdentity {
 const PROFILE_IDENTITIES: Record<TabTinRuntimeProfile, TabTinAppIdentity> = {
   development: {
     profile: 'development',
-    appId: 'com.snsworker.app.dev',
-    productName: 'SnSworker Dev',
-    userDataDirName: 'SnSworker Dev',
+    appId: 'com.zhifangfang.app.dev',
+    productName: '智算方舟 Dev',
+    userDataDirName: '智算方舟 Dev',
   },
   local: {
     profile: 'local',
-    appId: 'com.snsworker.app.local',
-    productName: 'SnSworker Local',
-    userDataDirName: 'SnSworker Local',
+    appId: 'com.zhifangfang.app.local',
+    productName: '智算方舟 Local',
+    userDataDirName: '智算方舟 Local',
   },
   community: {
     profile: 'community',
-    appId: 'com.snsworker.community',
-    productName: 'SnSworker',
-    userDataDirName: 'SnSworker',
+    appId: 'com.zhifangfang.community',
+    productName: '智算方舟',
+    userDataDirName: '智算方舟',
   },
   preprod: {
     profile: 'preprod',
-    appId: 'com.snsworker.app.preprod',
+    appId: 'com.zhifangfang.app.preprod',
     // Electron safeStorage derives its macOS Keychain service from app.getName().
     // Keep this distinct from production and aligned with the packaged app name.
-    productName: 'SnSworker Preprod',
-    userDataDirName: 'SnSworker Preprod',
+    productName: '智算方舟 Preprod',
+    userDataDirName: '智算方舟 Preprod',
   },
   production: {
     profile: 'production',
-    appId: 'com.snsworker.app',
-    productName: 'SnSworker',
-    userDataDirName: 'SnSworker',
+    appId: 'com.zhifangfang.app',
+    productName: '智算方舟',
+    userDataDirName: '智算方舟',
   },
 }
 
@@ -63,7 +63,7 @@ function inferProfileFromText(value: string | undefined): TabTinRuntimeProfile |
   if (!normalized) return undefined
   if (normalized.includes('preprod')) return 'preprod'
   if (normalized.includes('community')) return 'community'
-  if (normalized.includes('com.snsworker.app.local')) return 'local'
+  if (normalized.includes('com.zhifangfang.app.local') || normalized.includes('com.snsworker.app.local')) return 'local'
   if (/(^|[^a-z0-9])tabtin[^a-z0-9]+local([^a-z0-9]|$)/.test(normalized)) return 'local'
   return undefined
 }

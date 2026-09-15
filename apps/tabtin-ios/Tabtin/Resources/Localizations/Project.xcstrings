@@ -565,7 +565,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Open SnSworker on your computer" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请在电脑打开 SnSworker" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请在电脑打开智算方舟" } }
       }
     },
     "project.myAgents.toolsSourceOrg" : {

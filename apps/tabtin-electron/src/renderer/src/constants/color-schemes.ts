@@ -17,18 +17,18 @@ export interface ColorScheme {
 
 export const COLOR_SCHEMES: ColorScheme[] = [
   {
+    id: 'teal',
+    label: i18n.t('theme:colorScheme.options.teal'),
+    description: i18n.t('theme:colorScheme.descriptions.teal'),
+    accentLight: '170 100% 27%',
+    accentDark: '170 100% 45%',
+  },
+  {
     id: 'blue',
     label: i18n.t('theme:colorScheme.options.blue'),
     description: i18n.t('theme:colorScheme.descriptions.blue'),
     accentLight: '215 65% 52%',
     accentDark: '215 65% 62%',
-  },
-  {
-    id: 'teal',
-    label: i18n.t('theme:colorScheme.options.teal'),
-    description: i18n.t('theme:colorScheme.descriptions.teal'),
-    accentLight: '178 55% 42%',
-    accentDark: '178 55% 55%',
   },
   {
     id: 'orange',
@@ -67,7 +67,7 @@ export const COLOR_SCHEMES: ColorScheme[] = [
   },
 ]
 
-export const DEFAULT_COLOR_SCHEME: ColorSchemeId = 'blue'
+export const DEFAULT_COLOR_SCHEME: ColorSchemeId = 'teal'
 
 export const getColorSchemeById = (id: ColorSchemeId) =>
   COLOR_SCHEMES.find((scheme) => scheme.id === id) ?? COLOR_SCHEMES[0]

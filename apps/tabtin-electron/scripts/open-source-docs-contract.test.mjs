@@ -118,8 +118,8 @@ test('root READMEs front-load the hosted service and business contact', () => {
   for (const entry of [
     {
       file: 'README.md',
-      boundary: '## 为什么做 SnSworker',
-      website: '[访问 SnSworker 官网](https://tabtin.com/)',
+      boundary: '## 为什么做智算方舟',
+      website: '[访问智算方舟官网](https://tabtin.com/)',
       business: '[contact@larchiveai.com](mailto:contact@larchiveai.com)',
     },
     {

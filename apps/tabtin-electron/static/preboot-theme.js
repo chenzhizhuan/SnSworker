@@ -1,7 +1,7 @@
 (() => {
   const COLOR_SCHEMES = {
     blue: { light: '215 65% 52%', dark: '215 65% 62%' },
-    teal: { light: '178 55% 42%', dark: '178 55% 55%' },
+    teal: { light: '170 100% 27%', dark: '170 100% 45%' },
     orange: { light: '28 75% 52%', dark: '28 75% 60%' },
     rose: { light: '350 55% 52%', dark: '350 55% 62%' },
     slate: { light: '220 10% 42%', dark: '220 10% 60%' },

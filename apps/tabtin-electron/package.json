@@ -1,7 +1,7 @@
 {
   "name": "tabtin-electron",
   "version": "1.0.0",
-  "description": "SnSworker Agent-first unified work platform desktop application",
+  "description": "智算方舟 Agent-first unified work platform desktop application",
   "type": "module",
   "main": "out/main/index.mjs",
   "private": true,
@@ -321,8 +321,8 @@
     "xlsx": "0.18.5"
   },
   "build": {
-    "appId": "com.snsworker.app.local",
-    "productName": "SnSworker Local",
+    "appId": "com.zhifangfang.app.local",
+    "productName": "智算方舟 Local",
     "publish": {
       "provider": "generic",
       "url": "http://127.0.0.1:6060/desktop-updates"

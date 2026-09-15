@@ -86,7 +86,7 @@ export const SidebarAuthInline: React.FC = () => {
           />
           <div className="text-center space-y-1">
             <div className="text-subtitle font-semibold text-foreground leading-tight">
-              SnSworker
+              智算方舟
             </div>
             <div
               className={cn(

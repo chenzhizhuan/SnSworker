@@ -394,7 +394,7 @@ async function handleRequest(
   }
 
   if (validateTokenAuth(req, res, serverInfo?.token ?? null, [
-    '确保在 SnSworker 内置终端中运行命令',
+    '确保在智算方舟内置终端中运行命令',
     '运行 tabtin doctor 进行环境诊断',
   ])) return
 

@@ -2229,7 +2229,7 @@ struct WorkspaceInvitationsScreen: View {
                         Text(OrganizationRole.editor.title)
                             .foregroundStyle(.tt.textAccent)
                     }
-                    Text("手机号邀请仅支持已注册的 SnSworker 用户，将以编辑者身份加入组织。")
+                    Text("手机号邀请仅支持已注册的智算方舟用户，将以编辑者身份加入组织。")
                         .font(.tt.meta)
                         .foregroundStyle(.tt.textTertiary)
                 } else {

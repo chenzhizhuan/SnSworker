@@ -68,7 +68,7 @@ function BootScreen() {
   return (
     <div className="boot-screen">
       <div className="loading-spinner boot-spinner" />
-      <div className="boot-title">正在启动 SnSworker...</div>
+      <div className="boot-title">正在启动智算方舟...</div>
     </div>
   )
 }

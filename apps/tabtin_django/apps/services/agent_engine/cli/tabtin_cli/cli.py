@@ -15,7 +15,7 @@ argparse 风格的命令族实现：
 - ``tabtin pkg ...``                 — Package Registry 包管理
 
 **v3.1（2026-04-19）**：``tabtin connect`` 命令族整体删除（方向锚 H8）。
-SnSworker 对 Device 级第三方 App 不代管凭据，由 App 自己管（OS keychain 等）。
+智算方舟对 Device 级第三方 App 不代管凭据，由 App 自己管（OS keychain 等）。
 
 **为什么用 argparse 不用 click/typer**：保持零额外依赖（A1-A4 已是纯 stdlib + Django），
 让本模块在 ``python -m`` 形式下立即可用，不需要 ``pip install`` 任何新包。
@@ -103,7 +103,7 @@ GENERAL_HELP_EPILOG = """\
   tabtin pkg install <app_id>/<skill-name>
 
 第三方 CLI 凭据由 App 自己管（OS keychain 等）。
-SnSworker 不代管凭据，登录请直接跑 App 原生命令。
+智算方舟不代管凭据，登录请直接跑 App 原生命令。
 
 更多帮助：``tabtin <子命令> --help``
 """
@@ -112,7 +112,7 @@ SnSworker 不代管凭据，登录请直接跑 App 原生命令。
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog=PROG_NAME,
-        description="SnSworker 平台统一 CLI — install / pkg 命令族",
+        description="智算方舟平台统一 CLI — install / pkg 命令族",
         epilog=GENERAL_HELP_EPILOG,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

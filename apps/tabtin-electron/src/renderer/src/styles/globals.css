@@ -321,36 +321,43 @@
   }
 
   :root[data-color-scheme="teal"] {
-    --canvas: 175 12% 97%;
-    --background: 175 15% 99%;
-    --foreground: 175 8% 15%;
-    --card: 175 15% 99%;
-    --card-foreground: 175 8% 15%;
-    --popover: 175 15% 99%;
-    --popover-foreground: 175 8% 15%;
-    --primary: 178 55% 42%;
+    /* 青瓷绿（Celadon Green）— 参考 221.237.179.2:13481 浅色外观
+       主色 #008878，hover #006e61，浅底 #e8f6f2，页面底 #f7f9f8
+       侧栏 #FFFFFF，主内容区 #F7F9F8 */
+    --canvas: 150 14% 97%;
+    --background: 150 12% 99%;
+    --foreground: 200 10% 12%;
+    --card: 150 12% 99%;
+    --card-foreground: 200 10% 12%;
+    --popover: 150 12% 99%;
+    --popover-foreground: 200 10% 12%;
+    --primary: 170 100% 27%;
     --primary-foreground: 0 0% 99%;
-    --secondary: 175 8% 95%;
-    --secondary-foreground: 175 8% 15%;
-    --muted: 175 10% 94%;
-    --muted-foreground: 175 5% 44%;
-    --accent: 178 55% 42%;
+    --secondary: 168 10% 95%;
+    --secondary-foreground: 200 10% 12%;
+    --muted: 168 10% 94%;
+    --muted-foreground: 215 6% 44%;
+    --accent: 170 100% 27%;
     --accent-foreground: 0 0% 99%;
-    --border: 175 6% 89%;
-    --input: 175 10% 94%;
-    --ring: 178 55% 42%;
+    --border: 168 8% 89%;
+    --input: 168 10% 94%;
+    --ring: 170 100% 27%;
     --ambient-hue-secondary: 350;
-    --brand-50: 178 40% 97%;
-    --brand-100: 178 45% 94%;
-    --brand-200: 178 48% 90%;
-    --brand-300: 178 50% 82%;
-    --brand-400: 178 52% 68%;
-    --brand-500: 178 55% 42%;
-    --brand-600: 178 55% 37%;
-    --brand-700: 178 55% 32%;
-    --brand-800: 178 55% 27%;
-    --brand-900: 178 55% 22%;
-    --brand-950: 178 55% 16%;
+    --brand-50: 170 50% 97%;
+    --brand-100: 170 55% 94%;
+    --brand-200: 170 60% 90%;
+    --brand-300: 170 65% 82%;
+    --brand-400: 170 70% 68%;
+    --brand-500: 170 100% 27%;
+    --brand-600: 170 100% 22%;
+    --brand-700: 170 100% 18%;
+    --brand-800: 170 100% 14%;
+    --brand-900: 170 100% 10%;
+    --brand-950: 170 100% 6%;
+    /* 侧栏纯白，与参考站一致 */
+    --sidebar-fill: 0 0% 100%;
+    /* 主内容区浅灰绿 #F7F9F8 */
+    --workspace-main-fill: 150 14% 97%;
   }
 
   .dark[data-color-scheme="teal"] {
@@ -1141,6 +1148,12 @@
     --surface-canvas-card: 0 0% 100%;
     background-color: hsl(var(--surface-canvas-card));
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+
+  /* 青瓷绿（teal）浅色：主内容区用 #F7F9F8，与参考站 221.237.179.2:13481 一致 */
+  :root[data-color-scheme="teal"] .surface-canvas-card {
+    --surface-canvas-card: 150 14% 97%;
+    background-color: hsl(var(--surface-canvas-card));
   }
 
   .dark .surface-canvas-card {

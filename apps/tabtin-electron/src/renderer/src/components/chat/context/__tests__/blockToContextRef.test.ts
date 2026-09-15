@@ -278,9 +278,9 @@ describe('blockToContextRef — 6 种 tab 资源类型还原', () => {
   it('webpage：从 block.url 还原 resourceId，meta 含 pageTitle / favicon', () => {
     const ref = blockToContextRef({
       type: 'webpage',
-      preview: 'SnSworker 官网',
+      preview: '智算方舟官网',
       url: 'https://worker.sns.app',
-      page_title: 'SnSworker',
+      page_title: '智算方舟',
       favicon: 'https://worker.sns.app/favicon.ico',
       space_id: 'space-1',
       space_name: 'Space 1',
@@ -290,12 +290,12 @@ describe('blockToContextRef — 6 种 tab 资源类型还原', () => {
     expect(ref).toMatchObject({
       type: 'webpage',
       resourceId: 'https://worker.sns.app',
-      label: 'SnSworker 官网',
+      label: '智算方舟官网',
       tabType: 'tabweb',
       spaceId: 'space-1',
       spaceName: 'Space 1',
       meta: {
-        pageTitle: 'SnSworker',
+        pageTitle: '智算方舟',
         favicon: 'https://worker.sns.app/favicon.ico',
       },
     })

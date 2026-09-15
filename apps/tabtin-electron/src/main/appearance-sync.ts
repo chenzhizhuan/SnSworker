@@ -8,7 +8,7 @@ type ViewFactoryLike = {
   getWebContents: (id: string) => WebContents | null | undefined
 }
 
-const BG_COLOR_LIGHT = '#F5F3F0'
+const BG_COLOR_LIGHT = '#F7F9F8'
 const BG_COLOR_DARK = '#111319'
 
 export interface AppearanceSyncController {

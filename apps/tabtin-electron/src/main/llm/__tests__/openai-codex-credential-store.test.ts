@@ -83,7 +83,7 @@ describe('OpenAICodexCredentialStore', () => {
     await expect(store.read()).resolves.toMatchObject({ access: 'second-access' })
   })
 
-  it('按 SnSworker 用户隔离 ChatGPT 凭据', async () => {
+  it('按智算方舟用户隔离 ChatGPT 凭据', async () => {
     const passwords = new Map<string, string>()
     let currentAccount = 'user:user-a'
     const store = new OpenAICodexCredentialStore({

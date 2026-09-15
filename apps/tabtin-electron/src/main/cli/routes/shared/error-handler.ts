@@ -65,10 +65,10 @@ export type ErrorCode =
 export type { SendJSON, DjangoProxyResult }
 
 const ELECTRON_SUGGESTIONS: Partial<Record<string, string[]>> = {
-  UNAUTHORIZED: ['请先登录 SnSworker 应用', '确保在 SnSworker 内置终端中运行命令'],
-  AUTH_EXPIRED: ['登录已过期，请重新打开 SnSworker 应用', '应用会自动刷新登录状态'],
+  UNAUTHORIZED: ['请先登录智算方舟应用', '确保在智算方舟内置终端中运行命令'],
+  AUTH_EXPIRED: ['登录已过期，请重新打开智算方舟应用', '应用会自动刷新登录状态'],
   PERMISSION_DENIED: ['当前账号没有访问该资源的权限', '请确认你拥有对应组织或 Space 的访问权限'],
-  QUOTA_EXCEEDED: ['配额已用尽，请在 SnSworker 设置中查看详情'],
+  QUOTA_EXCEEDED: ['配额已用尽，请在智算方舟设置中查看详情'],
   RATE_LIMIT_EXCEEDED: ['请求过于频繁，请稍等片刻后重试'],
 }
 
@@ -159,7 +159,7 @@ export async function djangoRequest(
   if (!accessToken) {
     return {
       status: 401,
-      data: errorResponse('UNAUTHORIZED', '未登录，请先登录 SnSworker'),
+      data: errorResponse('UNAUTHORIZED', '未登录，请先登录智算方舟'),
     }
   }
   const userInfo = await TokenManager.getUserInfo()

@@ -373,7 +373,7 @@ function delay(milliseconds: number, signal: AbortSignal): Promise<void> {
 
 function loginResultPage(success: boolean): string {
   const message = success
-    ? 'ChatGPT Codex 登录已完成，您可以返回 SnSworker。'
-    : '登录校验失败，请返回 SnSworker 后重试。';
+    ? 'ChatGPT Codex 登录已完成，您可以返回智算方舟。'
+    : '登录校验失败，请返回智算方舟后重试。';
   return `<!doctype html><html><body><p>${message}</p></body></html>`;
 }

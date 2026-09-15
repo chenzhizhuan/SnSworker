@@ -42,41 +42,41 @@ interface TrayLabels {
 
 const TRAY_LABELS: Record<StartupUiLocale, TrayLabels> = {
   'zh-CN': {
-      tooltip: 'SnSworker',
-      open: '打开 SnSworker',
+      tooltip: '智算方舟',
+      open: '打开智算方舟',
       quit: '退出',
-      hiddenHintTitle: 'SnSworker 仍在后台运行',
+      hiddenHintTitle: '智算方舟仍在后台运行',
       hiddenHintBody: '窗口已隐藏。点击托盘 / 菜单栏图标，或点击任务栏 / Dock 图标可重新打开。可在设置中关闭此行为。',
   },
   'zh-TW': {
-    tooltip: 'SnSworker', open: '開啟 SnSworker', quit: '結束', hiddenHintTitle: 'SnSworker 仍在背景執行',
+    tooltip: '智算方舟', open: '開啟 智算方舟', quit: '結束', hiddenHintTitle: '智算方舟 仍在背景執行',
     hiddenHintBody: '視窗已隱藏。點擊系統匣 / 選單列圖示，或工作列 / Dock 圖示即可重新開啟。你可以在設定中關閉此行為。',
   },
   'en-US': {
-    tooltip: 'SnSworker',
-    open: 'Open SnSworker',
+    tooltip: '智算方舟',
+    open: 'Open 智算方舟',
     quit: 'Quit',
-    hiddenHintTitle: 'SnSworker is still running',
+    hiddenHintTitle: '智算方舟 is still running',
     hiddenHintBody: 'The window was hidden. Click the tray or menu bar icon to reopen it, or use the taskbar / Dock. You can change this in Settings.',
   },
   'ja-JP': {
-    tooltip: 'SnSworker', open: 'SnSworker を開く', quit: '終了', hiddenHintTitle: 'SnSworker はバックグラウンドで実行中です',
+    tooltip: '智算方舟', open: '智算方舟 を開く', quit: '終了', hiddenHintTitle: '智算方舟 はバックグラウンドで実行中です',
     hiddenHintBody: 'ウィンドウは非表示になりました。トレイ / メニューバー、タスクバー / Dock のアイコンをクリックすると再度開けます。この動作は設定で変更できます。',
   },
   'ko-KR': {
-    tooltip: 'SnSworker', open: 'SnSworker 열기', quit: '종료', hiddenHintTitle: 'SnSworker이 백그라운드에서 실행 중입니다',
+    tooltip: '智算方舟', open: '智算方舟 열기', quit: '종료', hiddenHintTitle: '智算方舟이 백그라운드에서 실행 중입니다',
     hiddenHintBody: '창이 숨겨졌습니다. 트레이 / 메뉴 막대 또는 작업 표시줄 / Dock 아이콘을 클릭하여 다시 열 수 있습니다. 설정에서 이 동작을 변경할 수 있습니다.',
   },
   'de-DE': {
-    tooltip: 'SnSworker', open: 'SnSworker öffnen', quit: 'Beenden', hiddenHintTitle: 'SnSworker wird im Hintergrund ausgeführt',
+    tooltip: '智算方舟', open: '智算方舟 öffnen', quit: 'Beenden', hiddenHintTitle: '智算方舟 wird im Hintergrund ausgeführt',
     hiddenHintBody: 'Das Fenster wurde ausgeblendet. Klicken Sie zum Öffnen auf das Taskleisten-/Menüleistensymbol oder auf das Symbol in der Taskleiste/im Dock. Dieses Verhalten können Sie in den Einstellungen ändern.',
   },
   'fr-FR': {
-    tooltip: 'SnSworker', open: 'Ouvrir SnSworker', quit: 'Quitter', hiddenHintTitle: 'SnSworker s’exécute toujours en arrière-plan',
+    tooltip: '智算方舟', open: 'Ouvrir 智算方舟', quit: 'Quitter', hiddenHintTitle: '智算方舟 s’exécute toujours en arrière-plan',
     hiddenHintBody: 'La fenêtre a été masquée. Cliquez sur l’icône de la barre d’état / des menus ou sur celle de la barre des tâches / du Dock pour la rouvrir. Ce comportement peut être modifié dans les paramètres.',
   },
   'es-ES': {
-    tooltip: 'SnSworker', open: 'Abrir SnSworker', quit: 'Salir', hiddenHintTitle: 'SnSworker sigue ejecutándose en segundo plano',
+    tooltip: '智算方舟', open: 'Abrir 智算方舟', quit: 'Salir', hiddenHintTitle: '智算方舟 sigue ejecutándose en segundo plano',
     hiddenHintBody: 'La ventana se ha ocultado. Haz clic en el icono de la bandeja / barra de menús o en el de la barra de tareas / Dock para volver a abrirla. Puedes cambiar este comportamiento en Ajustes.',
   },
 }

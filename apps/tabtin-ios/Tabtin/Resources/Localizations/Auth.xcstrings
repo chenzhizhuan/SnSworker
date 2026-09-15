@@ -26,7 +26,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Log in to SnSworker" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "登录 SnSworker" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "登录智算方舟" } }
       }
     },
     "auth.language.switchToEnglish" : {
@@ -201,7 +201,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter your invitation code to start using SnSworker." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请输入邀请码后继续使用 SnSworker。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请输入邀请码后继续使用智算方舟。" } }
       }
     },
     "auth.inviteCodePlaceholder" : {

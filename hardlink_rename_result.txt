@@ -1,0 +1,3 @@
+Store file: D:\.pnpm-store\v3\files\00\007d862a2642ce435d6711075aeab31194b2d6d1ae814e3cf540a26364ff75c74792721190a13b24d67b6a1ac8a9ec4acaff91c1aa17ecfacae1fa1c7a4dd0-index.json
+Hardlinked 20 files from store
+Node fs.renameSync (hardlinked): OK (1ms)
