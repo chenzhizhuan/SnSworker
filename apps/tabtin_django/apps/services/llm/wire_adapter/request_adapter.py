@@ -22,6 +22,8 @@
 9. ``_normalize_json_mode``(可能 inject system 提示;若先于 _normalize_system
    会导致 system 还没归位被 mutate 错误)
 10. ``_normalize_reasoning_param``(独立字段,放最后)
+11. ``_normalize_reasoning_content``(消息级兜底,放最末 — 为带 tool_calls
+    的 assistant 消息注入空 reasoning_content,防 DeepSeek 400)
 
 异常:任何 capability gate 拒绝抛 ``CapabilityGateError``,LLMProxy
 ``proxy_stream_events`` 捕获后通过 W0 已有 SSE error 路径透传中文文案。
@@ -126,6 +128,7 @@ def adapt_request(
     body = _normalize_cache_control(body, caps, ctx)
     body = _normalize_json_mode(body, caps, ctx, downgrade_events)
     body = _normalize_reasoning_param(body, caps, ctx, downgrade_events)
+    body = _normalize_reasoning_content(body, caps, ctx)
 
     logger.debug(
         "[wire_adapter][adapt_request] done request_id=%s downgrade_events=%d",
@@ -2354,6 +2357,74 @@ def _normalize_reasoning_param(
     return body
 
 
+# ---------------------------------------------------------------------------
+# 11. _normalize_reasoning_content
+# ---------------------------------------------------------------------------
+
+def _normalize_reasoning_content(
+    body: Dict[str, Any],
+    caps: ResolvedCapabilities,
+    ctx: Optional[Any] = None,
+) -> Dict[str, Any]:
+    """为思考模式下带 tool_calls 的 assistant 历史消息注入 reasoning_content。
+
+    requires_before: _normalize_reasoning_param
+    requires_after:  (none — pipeline 末端)
+
+    背景:
+    DeepSeek V4 在思考模式下,assistant 消息会携带 ``reasoning_content`` 字段。
+    多轮工具调用时,历史 assistant 消息如果带 ``tool_calls`` 但缺少
+    ``reasoning_content``,DeepSeek 会返回 400:
+    ``"The reasoning_content in the thinking mode must be passed back
+    to the API."``
+
+    设备端 ``agent-runtime`` 的 ``replay-transcript-history.ts`` 已修复保留
+    thinking 块的逻辑,但客户端构造的消息经 LLM Proxy 转发给上游时,可能
+    因各种路径(旧客户端 / 第三方调用 / 历史消息未携带)导致 ``reasoning_content``
+    缺失。本 helper 作为服务端兜底,确保转发给 DeepSeek 的消息合规。
+
+    行为:
+    - 仅对 ``caps.reasoning.format == "reasoning_content_field"`` 的模型生效
+      (DeepSeek / Kimi K2+ / Qwen 等)。
+    - 遍历 ``body["messages"]``,对 role=assistant 且有 ``tool_calls`` 的消息,
+      若缺少 ``reasoning_content`` 字段则注入空字符串 ``""``。
+    - 不修改已有 ``reasoning_content`` 的消息(幂等)。
+    - 不处理不带 ``tool_calls`` 的 assistant 消息(纯文本回复无此要求)。
+    """
+    fmt = (caps.reasoning.format or caps.reasoning.surface or "").lower()
+    if fmt != "reasoning_content_field":
+        return body
+
+    messages = body.get("messages")
+    if not isinstance(messages, list):
+        return body
+
+    request_id = getattr(ctx, "request_id", "?") if ctx is not None else "?"
+    patched = 0
+
+    for msg in messages:
+        if not isinstance(msg, dict):
+            continue
+        if msg.get("role") != "assistant":
+            continue
+        tool_calls = msg.get("tool_calls")
+        if not tool_calls:
+            continue
+        if "reasoning_content" not in msg:
+            msg["reasoning_content"] = ""
+            patched += 1
+
+    if patched:
+        logger.debug(
+            "[wire_adapter][normalize_reasoning_content] injected empty "
+            "reasoning_content for %d assistant messages with tool_calls "
+            "request_id=%s",
+            patched, request_id,
+        )
+
+    return body
+
+
 __all__ = [
     "adapt_request",
     "CapabilityGateError",
@@ -2365,4 +2436,5 @@ __all__ = [
     "_normalize_cache_control",
     "_normalize_json_mode",
     "_normalize_reasoning_param",
+    "_normalize_reasoning_content",
 ]
