@@ -20,8 +20,8 @@ import {
 } from './MarketplacePagination';
 
 describe('MarketplacePagination', () => {
-  it('每页固定展示 12 项并可前后翻页', () => {
-    const items = Array.from({ length: 25 }, (_, index) => ({
+  it('每页固定展示 25 项并可前后翻页', () => {
+    const items = Array.from({ length: 60 }, (_, index) => ({
       id: String(index + 1),
     }));
 
@@ -33,19 +33,20 @@ describe('MarketplacePagination', () => {
       />,
     );
 
-    expect(screen.getAllByText(/^项目 /)).toHaveLength(12);
+    expect(screen.getAllByText(/^项目 /)).toHaveLength(25);
     expect(screen.getByText('1 / 3')).toBeTruthy();
     expect(
       screen.getByRole('button', { name: '上一页' }).hasAttribute('disabled'),
     ).toBe(true);
 
     fireEvent.click(screen.getByRole('button', { name: '下一页' }));
-    expect(screen.getAllByText(/^项目 /)).toHaveLength(12);
-    expect(screen.getByText('项目 13')).toBeTruthy();
+    expect(screen.getAllByText(/^项目 /)).toHaveLength(25);
+    expect(screen.getByText('项目 26')).toBeTruthy();
+    expect(screen.getByText('项目 50')).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: '下一页' }));
-    expect(screen.getAllByText(/^项目 /)).toHaveLength(1);
-    expect(screen.getByText('项目 25')).toBeTruthy();
+    expect(screen.getAllByText(/^项目 /)).toHaveLength(10);
+    expect(screen.getByText('项目 60')).toBeTruthy();
     expect(
       screen.getByRole('button', { name: '下一页' }).hasAttribute('disabled'),
     ).toBe(true);

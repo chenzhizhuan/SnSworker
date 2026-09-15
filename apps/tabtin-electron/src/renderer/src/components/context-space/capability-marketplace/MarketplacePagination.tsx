@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@components/ui';
 import { cn } from '@utils/cn';
 
-export const MARKETPLACE_PAGE_SIZE = 12;
+export const MARKETPLACE_PAGE_SIZE = 25;
 
 export function paginateMarketplaceItems<T>(
   items: readonly T[],
