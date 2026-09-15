@@ -473,8 +473,17 @@ export class WebviewManager {
       this.requestSync(tabId)
       return
     }
-    this.reveal(entry)
-    // slot 可能在隐藏期间挪过位置，恢复后补一拍测量
+    // 有 slot 时同步测量当前 rect：拿到有效几何才 reveal，避免用陈旧 lastRect
+    // 在旧位置闪现一帧（切一级菜单 → 左上角闪现浏览器内容的根因）。
+    if (entry.slotEl && entry.slotEl.isConnected) {
+      this.measureAndApply(entry)
+      // measureAndApply 拿到有效 rect → 已 reveal（pendingVisible=false）；
+      // 0 尺寸 / 未连接 → pendingVisible 仍 true → 不 reveal，等 rAF 重测
+    } else {
+      // 无 slot（setRect 测试路径 / slot 尚未挂载）：用已有 lastRect reveal，
+      // 无 lastRect 则只恢复可见性样式（visibility/pointerEvents），不落位置
+      this.reveal(entry)
+    }
     this.requestSync(tabId)
   }
 

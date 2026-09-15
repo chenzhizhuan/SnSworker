@@ -14,6 +14,8 @@ import { contextRegistry } from '@components/context-space/registry'
 import { useSpaceContextTabsStore } from '@stores/useSpaceContextTabsStore'
 import { useCrawlViewPortal, type CrawlViewSlotSource } from './CrawlViewPortalContext'
 import { resolveCrawlViewTabScope } from './crawlViewTabScope'
+import { electronCrawlspaceHost } from '@/crawlspace/host/electron-crawlspace-host'
+import { getBrowserContainerMode } from '@/utils/browserContainerMode'
 import i18n from '@/i18n'
 import { createIPCErrorHandler } from '../utils/ipc-error-handler'
 
@@ -242,6 +244,27 @@ export const CrawlViewPortalLayer: React.FC = () => {
       }
     })
     return unsubscribe
+  }, [])
+
+  // 组件卸载时主动 hide 所有已知 webview：切换一级菜单导致 portalEnabled=false
+  // → ContentAreaPortalHost 不再渲染 CrawlViewPortalLayer → 整棵子树卸载。
+  // 但 <webview> 元素挂在 body 稳定层（不受 React 卸载影响），如果不主动 hide，
+  // 页面会持续残留在旧位置覆盖主界面。useWebviewDisplay 的卸载 cleanup 走
+  // 微任务延迟，来不及在绘制前生效——这里同步兜底。
+  useEffect(() => {
+    return () => {
+      const isWebviewContainer = getBrowserContainerMode() === 'webview'
+      if (!isWebviewContainer) return
+      const hostView = electronCrawlspaceHost.view
+      if (!hostView?.hide) return
+      // 遍历当前所有 view entry，逐个 hide
+      Object.values(useCrawlTabStore.getState().crawlspaceContextCache).forEach(cache => {
+        cache?.viewList?.forEach(view => {
+          if (view.isClosing) return
+          hostView.hide!(view.viewId).catch(() => {})
+        })
+      })
+    }
   }, [])
 
   const ensureRoot = useCallback((viewId: string): HTMLDivElement | null => {

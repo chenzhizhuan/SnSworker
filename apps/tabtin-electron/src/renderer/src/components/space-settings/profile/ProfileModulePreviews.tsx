@@ -600,7 +600,7 @@ export const SubAgentsPreview: React.FC<{ spaceId: string }> = ({ spaceId }) => 
     return (
       <ModulePreviewHint>
         {t('profilePane.previewHints.subagents', {
-          defaultValue: '配置专门的子 Agent（如代码 reviewer、文案润色），让 Tin 在执行任务时按需召唤。',
+          defaultValue: '配置专门的子 Agent（如代码 reviewer、文案润色），让智算方舟 在执行任务时按需召唤。',
         })}
       </ModulePreviewHint>
     )

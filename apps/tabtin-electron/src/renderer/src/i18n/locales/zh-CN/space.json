@@ -307,7 +307,7 @@
       "deviceUnbound": "绑定一台设备，Agent 才能在你的电脑上跑命令、读文件、操作浏览器。",
       "apps": "从应用市场启用想用的内嵌 App，例如 TabData、TabDoc、TabSlide。",
       "extensions": "外部集成连接后，Tin 就能在这些渠道里和你协作。",
-      "subagents": "配置专门的子 Agent（如代码 reviewer、文案润色），让 Tin 在执行任务时按需召唤。",
+      "subagents": "配置专门的子 Agent（如代码 reviewer、文案润色），让智算方舟 在执行任务时按需召唤。",
       "sharing": "把 Agent 分享给组织成员，或委托其他人代为操作。",
       "channels": "把 Agent 接到外部渠道，在熟悉的工具里继续协作。"
     },

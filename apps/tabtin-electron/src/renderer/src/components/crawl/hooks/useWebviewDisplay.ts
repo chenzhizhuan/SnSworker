@@ -83,10 +83,14 @@ export function useWebviewDisplay({
       return false
     }
     pendingShowRef.current = false
-    showViewRef.current?.(undefined, bounds)
+    // 先 syncTo 再 show：manager.show 内部依赖 slotEl 同步测量最新几何
+    // （measureAndApply）后才 reveal——若先 show，slotEl 还是上一会话的旧 slot
+    // （已断开），会走 fallback 用陈旧 lastRect reveal，导致切回时在旧位置
+    // 闪现一帧（左上角残留的根因）。
     if (containerRef.current) {
       getWebviewManager().syncTo(tabId, containerRef.current)
     }
+    showViewRef.current?.(undefined, bounds)
     return true
   }, [containerRef, showViewRef, tabId])
 
@@ -173,18 +177,20 @@ export function useWebviewDisplay({
   // ── 卸载：hide + 释放 overlay 穿透（与 useViewDisplay 的 isClosing 检查同口径） ──
   // 同样用 useLayoutEffect：卸载发生在切走/销毁路径，hide 必须在 paint 前生效，
   // 否则卸载帧会闪现 webview 页面。
+  // hide 同步执行（不走 Promise.resolve().then 微任务延迟）：useLayoutEffect 的
+  // cleanup 已在 pre-paint 同步阶段，微任务延迟会让浏览器先绘制卸载帧再 hide，
+  // 仍有一帧闪现窗口。
   useLayoutEffect(() => {
     if (!enabled) return
     const currentTabId = tabId
     return () => {
       releaseOverlayPassthrough()
-      Promise.resolve().then(() => {
-        const store = useCrawlTabStore.getState()
-        const cache = crawlspaceId ? store.crawlspaceContextCache[crawlspaceId] : null
-        const isClosing = cache?.viewList?.some(view => view.viewId === currentTabId && view.isClosing)
-        if (isClosing) return
+      const store = useCrawlTabStore.getState()
+      const cache = crawlspaceId ? store.crawlspaceContextCache[crawlspaceId] : null
+      const isClosing = cache?.viewList?.some(view => view.viewId === currentTabId && view.isClosing)
+      if (!isClosing) {
         hostView?.hide?.(currentTabId).catch(handleError('hide'))
-      })
+      }
     }
   }, [enabled, crawlspaceId, tabId, hostView, releaseOverlayPassthrough])
 }

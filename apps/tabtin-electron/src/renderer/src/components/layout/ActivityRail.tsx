@@ -104,8 +104,10 @@ export function resolveActivityRailActive(input: {
     return null
   }
   if (activeAppPage === 'collaboration' || activeAppPage === 'project') return 'projects'
-  // 自动化 / 技能库是能力中心域次级入口，窄栏归能力中心高亮。
-  if (activeAppPage === 'skill' || activeAppPage === 'automation') return 'capability'
+  // 技能库是能力中心域次级入口，窄栏归能力中心高亮。
+  // 自动化已归入「办件事」域，窄栏高亮 tasks 而非 capability。
+  if (activeAppPage === 'skill') return 'capability'
+  if (activeAppPage === 'automation') return 'tasks'
   if (effectiveMainNavTab === 'agents') return 'agents'
   if (effectiveMainNavTab === 'im') return 'messages'
   if (effectiveMainNavTab === 'cloud-docs') return 'cloud-docs'

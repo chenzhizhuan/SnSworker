@@ -780,7 +780,7 @@
     <!-- Memory Settings v2.0 -->
     <!-- 严格对齐 Electron MemoryPanel + UserPortraitPanel -->
     <string name="memory_title">Tin 的记忆</string>
-    <string name="memory_description">在当前组织的所有设备和对话中持续记忆，让 Tin 跨天还能想起你的偏好和经验。</string>
+    <string name="memory_description">在当前组织的所有设备和对话中持续记忆，让智算方舟 跨天还能想起你的偏好和经验。</string>
     <string name="memory_enable">启用记忆</string>
     <string name="memory_enable_hint">关闭后，不再沉淀记忆、生成画像或自动召回</string>
 
