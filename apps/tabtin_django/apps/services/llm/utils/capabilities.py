@@ -674,9 +674,9 @@ def _build_from_service_capabilities(model_instance: Any, provider: Any) -> Any:
     # === reasoning(规则 6) ===
     # DeepSeek V4 默认开启思考模式，返回 reasoning_content 字段。
     # OpenAIService.CAPABILITIES.supports_reasoning=False，但 DeepSeek
-    # 复用 OpenAIService，需通过 provider 特判覆盖。
-    _reasoning_default = pname == "deepseek"
-    if _flag("supports_reasoning", default=_reasoning_default):
+    # 复用 OpenAIService，service_caps 会显式返回 False 覆盖 default。
+    # 因此对 deepseek provider 强制启用 reasoning，不走 _flag 读取。
+    if pname == "deepseek" or _flag("supports_reasoning"):
         # surface 按 provider 推:claude→thinking_block / openai→hidden /
         # gemini→extra_body_thinking_config / moonshot/kimi/qwen/deepseek→
         # delta_reasoning_content / minimax→think_tag_inline / 其他默认 hidden
