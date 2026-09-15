@@ -420,7 +420,7 @@ struct AgentEditSheet: View {
             } header: {
                 Text("头像")
             } footer: {
-                Text("从 SnSworker 预置头像中选择。")
+                Text("从智算方舟预置头像中选择。")
             }
             Section {
                 TextField(L10n.Project.myAgentsPersonaPlaceholder, text: $rules, axis: .vertical)
@@ -495,7 +495,7 @@ private struct AgentCreateSheet: View {
             } header: {
                 Text("头像")
             } footer: {
-                Text("从 SnSworker 预置头像中选择。")
+                Text("从智算方舟预置头像中选择。")
             }
 
             Section(L10n.Project.myAgentsTemplate) {

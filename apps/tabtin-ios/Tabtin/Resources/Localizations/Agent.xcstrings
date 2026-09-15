@@ -19,7 +19,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Create new Workspaces in SnSworker for desktop." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新建工作空间请在电脑版 SnSworker 中完成。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新建工作空间请在电脑版智算方舟中完成。" } }
       }
     },
     "spaceList.searchPlaceholder" : {
@@ -656,7 +656,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No working directory yet. Set one for this Agent on the desktop app (its Agent settings → Working Directory) first, then you can choose its type here." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未设置工作目录。请先在电脑版 SnSworker 的该 Agent 设置里选择工作目录，之后即可在这里选择目录类型。" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未设置工作目录。请先在电脑版智算方舟的该 Agent 设置里选择工作目录，之后即可在这里选择目录类型。" } }
       }
     },
     "agent.workType.sectionLabel" : {
@@ -1188,7 +1188,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "SnSworker Only" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仅限 SnSworker" } }
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仅限智算方舟" } }
       }
     },
     "agent.security.term.tabtinOnlyDesc" : {

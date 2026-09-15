@@ -17,17 +17,24 @@
       HTML_ARTIFACT_CDN_ORIGINS / Tin 面板沙箱对齐：unpkg / jsdelivr / esm.sh / cdnjs / fonts）。
     -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://localhost:5173 ws://localhost:5173 https://unpkg.com https://cdn.jsdelivr.net https://esm.sh https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; worker-src 'self' blob: http://localhost:5173; style-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://esm.sh https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' data: https://unpkg.com https://cdn.jsdelivr.net https://esm.sh https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: blob: https: http: tabtin-file:; media-src 'self' blob: https: http: tabtin-file:; connect-src 'self' blob: https: http: ws: tabtin-file:; frame-src 'self' blob: http: https:;" />
-    <title>SnSworker - AI 工作平台</title>
+    <title>智算方舟 - AI 工作平台</title>
     <script src="./preboot-theme.js"></script>
     <style>
-      /* 与 globals.css :root 默认暖中性 token 对齐，供 JS 加载前的静态占位使用 */
+      /* 与 globals.css :root[data-color-scheme="teal"] 青瓷绿 token 对齐，
+         供 JS 加载前的静态占位使用；避免启动 loading 页面出现暖灰色闪烁 */
       :root {
-        --canvas: 40 20% 97%;
-        --background: 40 25% 99%;
-        --foreground: 30 10% 15%;
-        --muted: 36 14% 94%;
-        --muted-foreground: 30 6% 44%;
-        --primary: 215 65% 52%;
+        --canvas: 150 14% 97%;
+        --background: 150 12% 99%;
+        --foreground: 200 10% 12%;
+        --muted: 168 10% 94%;
+        --muted-foreground: 215 6% 44%;
+        --primary: 170 100% 27%;
+      }
+
+      /* 青瓷绿侧栏纯白、主内容区 #F7F9F8（与参考站 221.237.179.2:13481 一致） */
+      :root[data-color-scheme="teal"] {
+        --canvas: 150 14% 97%;
+        --sidebar-fill: 0 0% 100%;
       }
 
       .dark {
@@ -97,7 +104,7 @@
       <!-- 加载状态 -->
       <div class="boot-screen">
         <div class="loading-spinner boot-spinner"></div>
-        <div class="boot-title">正在启动 SnSworker...</div>
+        <div class="boot-title">正在启动智算方舟...</div>
       </div>
     </div>
 

@@ -7,7 +7,7 @@ W3 起 ChatMessage.content_blocks_json 与 ConversationState.messages_json 都�
 Anthropic ContentBlock[] 形态。但两者职责不同：
 
 - `chat_message.content_blocks_json` —— **用户可见消息**真相源（UI 渲染 + 历史
-  回看）。包含所有 ContentBlock 类型，含 SnSworker 扩展（tabtin_rich_content /
+  回看）。包含所有 ContentBlock 类型，含智算方舟扩展（tabtin_rich_content /
   tabtin_skill_invocation / tabtin_source_ref / tabtin_approval_request 等）。
 
 - `conversation_state.messages_json` —— **LLM context 快照**（下次 LLM 调用入参）。

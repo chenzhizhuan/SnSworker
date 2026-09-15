@@ -80,10 +80,16 @@ function run(command, args, options = {}) {
     useShell && command.includes(' ') && !command.startsWith('"')
       ? `"${command}"`
       : command;
+  const env = { ...(options.env ?? process.env) };
+  if (process.platform === 'win32') {
+    // 让 Node 用双引号包裹含空格参数，避免 DEP0190 DeprecationWarning
+    // （"Passing args to a child process with shell option true... not escaped"）。
+    env.CLI_ARGS_USE_DOUBLE_QUOTES = 'true';
+  }
   const result = spawnSync(shellSafeCommand, args, {
     cwd: options.cwd ?? ROOT,
     stdio: 'inherit',
-    env: options.env ?? process.env,
+    env,
     shell: useShell,
   });
   if ((result.status ?? 1) !== 0) {

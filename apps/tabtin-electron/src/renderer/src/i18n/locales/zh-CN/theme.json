@@ -8,8 +8,8 @@
   "colorScheme": {
     "toggle": "切换配色风格",
     "options": {
+      "teal": "青瓷绿",
       "orange": "活力橙",
-      "teal": "深青蓝",
       "crimson": "赤橙",
       "slate": "商务灰",
       "emerald": "翠绿",
@@ -21,7 +21,7 @@
     },
     "descriptions": {
       "orange": "温暖活力，创新高效",
-      "teal": "专业沉稳，数据商务",
+      "teal": "青瓷质感，清爽专业",
       "crimson": "热情行动，快速响应",
       "slate": "中性专业，严肃正式",
       "emerald": "清新高效，成长协作",

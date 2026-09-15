@@ -8,8 +8,8 @@
   "colorScheme": {
     "toggle": "Switch color scheme",
     "options": {
+      "teal": "Celadon Green",
       "orange": "Vivid Orange",
-      "teal": "Deep Teal",
       "crimson": "Crimson",
       "slate": "Business Gray",
       "emerald": "Emerald",
@@ -21,7 +21,7 @@
     },
     "descriptions": {
       "orange": "Warm and energetic",
-      "teal": "Professional and steady",
+      "teal": "Celadon texture, clean and professional",
       "crimson": "Bold and responsive",
       "slate": "Neutral and formal",
       "emerald": "Fresh and collaborative",

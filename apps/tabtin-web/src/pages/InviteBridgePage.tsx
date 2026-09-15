@@ -80,9 +80,9 @@ export function InviteBridgePage() {
           </div>
           <div className="space-y-3">
             <div className="space-y-1">
-              <h1 className="text-title font-semibold text-foreground">正在打开 SnSworker 客户端</h1>
+              <h1 className="text-title font-semibold text-foreground">正在打开智算方舟客户端</h1>
               <p className="text-body text-muted-foreground">
-                浏览器会尝试唤起本机 SnSworker 客户端来处理组织邀请。
+                浏览器会尝试唤起本机智算方舟客户端来处理组织邀请。
               </p>
             </div>
 

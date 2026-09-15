@@ -313,10 +313,10 @@ function Install-PythonRuntime {
         Write-Host "  · 跳过 Python 运行时构建：产物已存在 $archivePath"
     } else {
         $env:TARGET_MANIFEST_PLATFORM = $Platform
-        $builder = Join-Path $PSScriptRoot 'build-python-runtime.ps1'
+        $builder = Join-Path $PSScriptRoot '..\package\build-python-runtime.ps1'
         & $builder
     }
-    $manifest = Join-Path $PSScriptRoot 'gen-python-runtime-manifest.mjs'
+    $manifest = Join-Path $PSScriptRoot '..\package\gen-python-runtime-manifest.mjs'
     & node $manifest --required-platform $Platform
     if ($LASTEXITCODE -ne 0) { throw '生成 Python runtime manifest 失败' }
     Write-Host "  · Python 已就绪: $PythonRuntimeDir"

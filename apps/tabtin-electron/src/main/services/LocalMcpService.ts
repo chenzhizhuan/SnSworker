@@ -388,7 +388,7 @@ function safeErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     // OAuth 网页授权超过 SDK 默认 60s 时常见；给用户可读提示（技术原文仍保留在后半）
     if (/Request timed out|-32001/i.test(error.message)) {
-      return `浏览器授权或连接确认超时。请重新授权，并在系统浏览器完成登录后尽快回到 SnSworker。（${error.message}）`
+      return `浏览器授权或连接确认超时。请重新授权，并在系统浏览器完成登录后尽快回到智算方舟。（${error.message}）`
     }
     return error.message
   }
