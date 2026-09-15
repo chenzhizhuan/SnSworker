@@ -27,8 +27,10 @@
  *      不在重放层做额外改写。
  *   2. **user 消息折回 string**：与 live 的 string content 一致（见 toStructuralHistory）。
  *   3. **env context 调到当前 user 之前**：与 live 注入顺序 `[ctx, user]` 一致。
- *   4. 丢弃 thinking 块 —— 与现行 `selectRecentHistoryForRuntime` 契约一致（保留带
- *      签名的历史 thinking 是后续工作，配套 W7 cache_edits 做窗口管理）。
+ *   4. thinking 块按 `preserve_for_tools` 语义保留：带 tool_use 的 assistant 消息
+ *      保留 thinking（DeepSeek 等思考模式 provider 要求 tool-call 回合回传
+ *      reasoning_content）；无 tool_use 的消息丢弃 thinking。出口 `proxy-provider`
+ *      按 provider policy 再过滤（双保险，非 DeepSeek provider 无副作用）。
  *   5. `filterUnresolvedToolUses` 丢弃半拉子 assistant（transcript 结构正确时为 no-op）。
  *
  * 宿主在本地 transcript 不可用（跨设备 / 云端 agent）时回退到 renderer history，
@@ -122,8 +124,8 @@ function toVisibleVideoBlock(record: Record<string, unknown>): ContentBlock | nu
  * 把 transcript `Message[]` 转成保留结构的 `RuntimeHistoryMessage[]`。
  *
  * - 仅保留 role ∈ {user, assistant}；
- * - 丢弃 thinking 块（见模块注释）；
- * - 丢弃丢空后无内容的消息（如纯 thinking 的 assistant）；
+ * - thinking 块按 `preserve_for_tools` 语义保留（见模块注释）；
+ * - 丢弃丢空后无内容的消息（如纯 thinking 且无 tool_use 的 assistant）；
  * - tool_result / tool_use 原样保留（raw，不改写）。
  */
 function toStructuralHistory(transcript: Message[]): RuntimeHistoryMessage[] {
@@ -140,12 +142,23 @@ function toStructuralHistory(transcript: Message[]): RuntimeHistoryMessage[] {
 
     if (!Array.isArray(message.content)) continue;
 
-    const blocks: ContentBlock[] = [];
+    // 先收集全部模型可见块（含 thinking），再按 tool_use 有无决定是否保留 thinking。
+    // 对带 tool_use 的 assistant 消息保留 thinking：DeepSeek 等思考模式 provider
+    // 要求 tool-call 回合的历史 assistant 消息回传 reasoning_content，否则 400。
+    // 无 tool_use 的消息丢弃 thinking（对齐 preserve_for_tools policy；出口再按
+    // provider policy 过滤，双保险）。
+    const rawBlocks: ContentBlock[] = [];
     for (const block of message.content) {
       const modelBlock = toModelVisibleBlock(block);
-      if (!modelBlock || modelBlock.type === 'thinking') continue;
-      blocks.push(modelBlock);
+      if (!modelBlock) continue;
+      rawBlocks.push(modelBlock);
     }
+    if (rawBlocks.length === 0) continue;
+
+    const hasToolUse = rawBlocks.some((b) => b.type === 'tool_use');
+    const blocks = hasToolUse
+      ? rawBlocks
+      : rawBlocks.filter((b) => b.type !== 'thinking');
     if (blocks.length === 0) continue;
 
     // ：user 消息结构与 live 对齐。live 的真 user / env context 都是

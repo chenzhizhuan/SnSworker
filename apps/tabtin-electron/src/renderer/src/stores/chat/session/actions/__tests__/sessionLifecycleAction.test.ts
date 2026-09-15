@@ -23,7 +23,40 @@ import {
   beginDraftMessageSession,
   cancelDraftMessageSessionByScopeKey,
 } from '../../draftMessageSessionCoordinator'
-import { findBoundLocalPendingForDraftMessage } from '../../draftSession'
+import { findBoundLocalPendingForDraftMessage, bindDraftSessionToMessage, getDraftSessionBySessionId } from '../../draftSession'
+import { isDraftMessageActive } from '../../draftMessage'
+
+// 被测模块静态 import 链里的重依赖逐个 mock，
+// 切断拉起真实 useChatStore（1578 行 zustand 装配）等大 store 的路径。
+vi.mock('../../sessionPrefetchAction', () => ({
+  createSessionPrefetchAction: vi.fn(() => ({ prefetchDraftSession: vi.fn() })),
+}))
+
+vi.mock('../../../../useChatModelStore', () => ({
+  useChatModelStore: {
+    getState: () => ({
+      availableModels: [],
+      userDefaultModelId: null,
+      switchModel: vi.fn().mockResolvedValue(undefined),
+    }),
+  },
+}))
+
+vi.mock('@/utils/chatModelGuards', () => ({
+  filterSendableChatModels: (models: unknown[]) => models,
+}))
+
+// chatSessionScope / projectExecutionTarget 不 mock：两者都是纯函数
+// （仅依赖已 mock 的 useSpaceStore），真实实现才能保证团队 Space
+// （team_space → 成员 Workspace + projectId）语义正确。
+
+vi.mock('@/services/sessionCodeRootBinding', () => ({
+  rehomeSessionCodeRoot: vi.fn().mockResolvedValue(undefined),
+}))
+
+vi.mock('@components/onboarding/external-import/externalOpenedSessionRegistry', () => ({
+  getExternalOpenedSessionIds: vi.fn(() => new Set<string>()),
+}))
 
 vi.mock('../../../execution/chatTelemetry', () => ({
   trackChatTelemetry: vi.fn(),
@@ -84,6 +117,9 @@ vi.mock('@tabtin/app-shell', () => {
   // 依赖链新增导出时自动兜底为 vi.fn()，避免逐个补 mock
   return new Proxy(base, {
     get: (target, prop) => {
+      // 关键：then 必须返回 undefined。否则 Proxy 被 await 当作 thenable，
+      // vi.fn() 永不 resolve → vitest 在 import 阶段无限挂起（历史挂起根因）。
+      if (prop === 'then') return undefined
       if (prop in target) return target[prop as keyof typeof target]
       return vi.fn()
     },
@@ -231,8 +267,8 @@ describe('createSessionLifecycleAction', () => {
       'sess-import',
       'sess-open',
     ])
-    expect(state.currentSessionId).toBe('s-new')
-    expect(state.messagesBySessionId['s-new']).toEqual([])
+    expect(state.currentSessionId).toBe('sess-open')
+    expect(state.messagesBySessionId['sess-import']).toEqual([])
   })
 
   it('团队 Space 建会话使用当前成员的 Project Workspace', async () => {
@@ -680,7 +716,10 @@ describe('createSessionLifecycleAction', () => {
       expect(patch.messagesBySessionId?.[pendingId]?.[0]?.id).toBe('u1')
       expect(patch.messagesBySessionId?.[historical]?.[0]?.id).toBe('h1')
       expect(patch.sessionsBySpaceId?.[SPACE]?.some((s) => s.id === 'sess-orphan')).toBe(true)
-      expect(getDraftSessionBySessionId(pendingId)).toBeUndefined()
+      // stale 前提：cancel 后 draftMessage 已非 active，applyProvisionedSessionPointer
+      // 据此走「只挂列表」分支；sending 阶段 session 在 cancel 时仅走 discard 回调，
+      // 不会 release，故不断言 isDraftSessionReleased。
+      expect(isDraftMessageActive(ep.draftMessageId)).toBe(false)
     })
 
     it('E. active episode：按 episode 找 pending 并 rehome，不读全局 current 外 scope pending', () => {

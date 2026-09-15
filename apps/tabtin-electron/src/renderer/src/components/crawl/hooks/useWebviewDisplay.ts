@@ -19,7 +19,7 @@
  * 对现状路径零影响。
  */
 
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { useCrawlTabStore } from '@stores/useCrawlTabStore'
 import {
   beginCrawlViewMousePassthrough,
@@ -91,7 +91,14 @@ export function useWebviewDisplay({
   }, [containerRef, showViewRef, tabId])
 
   // ── 主 effect：仅 isActive 决定 show/hide；overlay 只穿透、不藏页 ──
-  useEffect(() => {
+  // 用 useLayoutEffect（pre-paint）而不是 useEffect：webview 挂在 body 直属
+  // 稳定层（#tabtin-webview-layer, z=10），React 层的 DOM 隐藏覆盖不到它；
+  // isActive 变 false 时如果 hide 在 post-paint 才执行，切走标签/一级菜单的
+  // 那一帧里 webview 仍 visible 停在旧 rect 上，会"闪现"在界面上（2026-09-15
+  // live：协作沟通 → 切一级菜单闪现）。useLayoutEffect 让 hide 在浏览器绘制
+  // 前同步生效，彻底消除这一帧窗口。show 分支内部仍走 tryShowWithFreshBounds
+  // （含 manager.show + syncTo，同步路径），语义不变。
+  useLayoutEffect(() => {
     if (!enabled) {
       releaseOverlayPassthrough()
       return
@@ -164,7 +171,9 @@ export function useWebviewDisplay({
   }, [enabled, isActive, tabId, tryShowWithFreshBounds])
 
   // ── 卸载：hide + 释放 overlay 穿透（与 useViewDisplay 的 isClosing 检查同口径） ──
-  useEffect(() => {
+  // 同样用 useLayoutEffect：卸载发生在切走/销毁路径，hide 必须在 paint 前生效，
+  // 否则卸载帧会闪现 webview 页面。
+  useLayoutEffect(() => {
     if (!enabled) return
     const currentTabId = tabId
     return () => {

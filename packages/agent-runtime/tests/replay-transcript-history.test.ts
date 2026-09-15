@@ -78,18 +78,18 @@ describe('buildReplayHistoryFromTranscript', () => {
 
     // #1 user 文本
     expect(history[0]).toEqual({ role: 'user', content: '打开小红书' });
-    // #2 assistant 保留 tool_use（thinking 被丢），不退化
-    expect(blockTypes(history[1]!)).toEqual(['tool_use']);
-    const toolUse = assistantBlocks(history[1]!)[0] as Extract<ContentBlock, { type: 'tool_use' }>;
+    // #2 assistant 保留 thinking + tool_use（preserve_for_tools），不退化
+    expect(blockTypes(history[1]!)).toEqual(['thinking', 'tool_use']);
+    const toolUse = assistantBlocks(history[1]!)[1] as Extract<ContentBlock, { type: 'tool_use' }>;
     expect(toolUse.id).toBe('run_terminal_command_0');
     expect(toolUse.name).toBe('run_terminal_command');
     // #3 user tool_result 配对保留
     expect(blockTypes(history[2]!)).toEqual(['tool_result']);
-    // #4 assistant 文本总结保留（thinking 丢）
+    // #4 assistant 文本总结保留（无 tool_use → thinking 丢）
     expect(blockTypes(history[3]!)).toEqual(['text']);
   });
 
-  it('正：thinking 块一律丢弃', () => {
+  it('正：无 tool_use 的消息丢弃 thinking（preserve_for_tools）', () => {
     const transcript: Message[] = [
       {
         role: 'assistant',
@@ -103,13 +103,49 @@ describe('buildReplayHistoryFromTranscript', () => {
     expect(blockTypes(history[0]!)).toEqual(['text']);
   });
 
-  it('反：纯 thinking 的 assistant → 整条丢弃（不留空消息）', () => {
+  it('反：纯 thinking 的 assistant（无 tool_use）→ 整条丢弃（不留空消息）', () => {
     const transcript: Message[] = [
       { role: 'user', content: 'hi' },
       { role: 'assistant', content: [{ type: 'thinking', thinking: 'only thinking' }] },
     ];
     const history = buildReplayHistoryFromTranscript(transcript);
     expect(history).toEqual([{ role: 'user', content: 'hi' }]);
+  });
+
+  it('正：带 tool_use 的 assistant 保留 thinking（DeepSeek preserve_for_tools）', () => {
+    // DeepSeek 思考模式要求：带 tool_calls 的历史 assistant 消息必须回传
+    // reasoning_content，否则 400。重放层保留 thinking 块，出口 pickRoundtripReasoning
+    // 据此生成 reasoning_content。
+    const transcript: Message[] = [
+      { role: 'user', content: '查天气' },
+      {
+        role: 'assistant',
+        content: [
+          { type: 'thinking', thinking: '需要调用天气API' },
+          { type: 'tool_use', id: 'weather_0', name: 'run_terminal_command', input: { command: 'curl weather' } },
+        ],
+      },
+      {
+        role: 'user',
+        content: [
+          { type: 'tool_result', tool_use_id: 'weather_0', content: '{"temp":25}' },
+        ],
+      },
+      {
+        role: 'assistant',
+        content: [
+          { type: 'thinking', thinking: '整理结果' },
+          { type: 'text', text: '今天25度' },
+        ],
+      },
+    ];
+    const history = buildReplayHistoryFromTranscript(transcript);
+    // #2 带 tool_use 的 assistant → thinking + tool_use 都保留
+    expect(blockTypes(history[1]!)).toEqual(['thinking', 'tool_use']);
+    const thinkingBlock = assistantBlocks(history[1]!)[0] as Extract<ContentBlock, { type: 'thinking' }>;
+    expect(thinkingBlock.thinking).toBe('需要调用天气API');
+    // #4 无 tool_use 的 assistant → thinking 丢弃，只留 text
+    expect(blockTypes(history[3]!)).toEqual(['text']);
   });
 
   it('正：tool_result 保留 raw（不再被 projection 改写， ②）', () => {

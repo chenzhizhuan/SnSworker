@@ -71,9 +71,11 @@ export const CodexSessionShareDialog: React.FC<Props> = ({
       if (!alreadyCompressed) {
         const zip = new JSZip()
         zip.file(source.fileName.replace(/\.zip$/i, '.jsonl'), source.buffer)
-        archive = await zip.generateAsync(
-          { type: 'uint8array', compression: 'DEFLATE' },
-          ({ percent }) => setProgress(10 + Math.round(percent / 10)),
+        archive = new Uint8Array(
+          await zip.generateAsync(
+            { type: 'uint8array', compression: 'DEFLATE' },
+            ({ percent }) => setProgress(10 + Math.round(percent / 10)),
+          ),
         )
       }
       setProgress(20)
