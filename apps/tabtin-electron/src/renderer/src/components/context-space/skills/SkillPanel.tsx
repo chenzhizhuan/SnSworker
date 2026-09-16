@@ -341,8 +341,10 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({
     [currentDevice, syncedDeviceFingerprint],
   )
   useEffect(() => {
-    if (organizationId) void loadDevices(organizationId)
-  }, [organizationId, loadDevices])
+    // 设备列表仅在「我的」子筛选选中 device 时需要；延迟到用户实际操作才加载，
+    // 避免每次进入能力中心都发起不必要的 API 请求（2026-09-16 性能优化）。
+    if (organizationId && mineScopeFilter === 'device') void loadDevices(organizationId)
+  }, [organizationId, loadDevices, mineScopeFilter])
 
   // 切换组织后货架数据与工作区 tab 都变了，搜索 / 分类 / 「我的」子筛选不能跨组织残留。
   useEffect(() => {

@@ -17,6 +17,9 @@ const TABS: CapabilityTab[] = ['skills', 'connectors']
 export function CapabilityMarketplacePage({ spaceId }: { spaceId?: string | null }) {
   const { t } = useTranslation('context')
   const [activeTab, setActiveTab] = useState<CapabilityTab>('skills')
+  // 连接器 tab 懒挂载：首次进入能力中心只加载技能面板（省 4 个 IPC/API + 15s 轮询）。
+  // 用户点过"连接器"后保持 keepalive，切回技能 tab 时 Activity 保留其状态不重建。
+  const [connectorsVisited, setConnectorsVisited] = useState(false)
   const currentUserRole = useOrganizationStore(state => state.currentUserRole)
   const organizationId = useSpaceStore(state =>
     spaceId ? state.spaces.find(space => space.id === spaceId)?.organization_id ?? null : null,
@@ -52,7 +55,10 @@ export function CapabilityMarketplacePage({ spaceId }: { spaceId?: string | null
                 role="tab"
                 aria-selected={selected}
                 aria-controls={`capability-panel-${tab}`}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => {
+                  setActiveTab(tab)
+                  if (tab === 'connectors') setConnectorsVisited(true)
+                }}
                 className={cn(
                   'relative h-9 px-3.5 text-body font-medium transition-colors',
                   selected ? 'font-medium text-foreground' : 'text-muted-foreground/60 hover:text-foreground',
@@ -89,22 +95,27 @@ export function CapabilityMarketplacePage({ spaceId }: { spaceId?: string | null
             </section>
           </Activity>
 
-          <Activity mode={activeTab === 'connectors' ? 'visible' : 'hidden'}>
-            <section
-              id="capability-panel-connectors"
-              role="tabpanel"
-              aria-labelledby="capability-tab-connectors"
-              className="min-w-0"
-            >
-              <McpPanel
-                embedded
-                organizationId={organizationId}
-                canManage={canManageConnectors}
-                liveCatalog
-                catalogActive={activeTab === 'connectors'}
-              />
-            </section>
-          </Activity>
+          {/* 连接器面板懒挂载：首次进入能力中心时不加载 McpPanel（4240 行 + 4 个
+              IPC/API + 15s 轮询），仅在用户点击"连接器"tab 后才挂载，此后通过
+              Activity keepalive 保持状态。 */}
+          {connectorsVisited && (
+            <Activity mode={activeTab === 'connectors' ? 'visible' : 'hidden'}>
+              <section
+                id="capability-panel-connectors"
+                role="tabpanel"
+                aria-labelledby="capability-tab-connectors"
+                className="min-w-0"
+              >
+                <McpPanel
+                  embedded
+                  organizationId={organizationId}
+                  canManage={canManageConnectors}
+                  liveCatalog
+                  catalogActive={activeTab === 'connectors'}
+                />
+              </section>
+            </Activity>
+          )}
         </div>
       </div>
     </StandaloneModulePage>

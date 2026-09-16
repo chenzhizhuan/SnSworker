@@ -1056,10 +1056,13 @@ export function useSkillsListQuery(
     },
     retryDelay: attemptIndex => Math.min(500 * (attemptIndex + 1), 2_000),
     // 新鲜缓存直接用于首屏；过期时仍由 React Query 保留旧数据并在后台刷新。
-    staleTime: liveCatalog ? 30_000 : 60_000,
+    staleTime: liveCatalog ? 60_000 : 120_000,
     gcTime: 30 * 60_000,
-    refetchOnMount: true,
-    refetchInterval: liveCatalog && catalogActive ? 15_000 : false,
+    // 不强制每次挂载都重新拉取：30s 内有缓存直接用，后台静默刷新。
+    // 之前 refetchOnMount: true 导致每次切进能力中心都重新发起 API+IPC，
+    // 配合 15s 轮询在浏览态过于激进（2026-09-16 性能优化）。
+    refetchOnMount: false,
+    refetchInterval: liveCatalog && catalogActive ? 30_000 : false,
     // 轮询期间保留上一帧列表，避免骨架闪一下。
     placeholderData: liveCatalog ? keepPreviousData : undefined,
   })

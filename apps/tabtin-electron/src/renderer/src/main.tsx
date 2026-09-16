@@ -263,6 +263,12 @@ async function bootstrap(): Promise<void> {
     })
     .catch((error) => console.debug('[Bootstrap] 首屏第 2 层预热失败:', error))
 
+  // 预热能力中心 chunk：用户点击一级菜单「能力中心」时 chunk 已就绪，
+  // 消除 React.lazy 首次加载延迟（2026-09-16 性能优化）。
+  void import('@components/layout/CapabilityPage')
+    .then((m) => m.preloadCapabilityPage())
+    .catch((error) => console.debug('[Bootstrap] 能力中心 chunk 预热失败:', error))
+
   errorReporter.initErrorReporter()
 
   // Sentry 渲染进程接入：VITE_SENTRY_DSN 未配置时 no-op；

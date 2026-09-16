@@ -9,11 +9,19 @@
 import React, { Suspense } from 'react'
 import { useSkillLibraryContextSpaceId } from '@components/settings/panels/SkillLibraryPanel'
 
-const CapabilityMarketplacePage = React.lazy(() =>
+const loadCapabilityMarketplacePage = () =>
   import('@components/context-space/capability-marketplace/CapabilityMarketplacePage').then(
     m => ({ default: m.CapabilityMarketplacePage }),
-  ),
-)
+  )
+
+const CapabilityMarketplacePage = React.lazy(loadCapabilityMarketplacePage)
+
+/**
+ * 预热能力中心 chunk（CapabilityMarketplacePage → SkillPanel）。
+ * 在 bootstrap 第 2 层 idle 窗口 kick off，让用户首次点击「能力中心」时
+ * chunk 已就绪，消除 React.lazy 首次加载的磁盘 IO 延迟（2026-09-16 性能优化）。
+ */
+export const preloadCapabilityPage = (): Promise<unknown> => loadCapabilityMarketplacePage()
 
 const LoadingFallback: React.FC = () => (
   <div className="flex h-full w-full items-center justify-center">
