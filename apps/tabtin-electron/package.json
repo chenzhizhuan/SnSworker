@@ -36,6 +36,7 @@
     "build:mac:local:x64": "bash scripts/build-packaged-app.sh mac local x64",
     "build:mac:dmg:quick": "bash scripts/build-mac-dmg-quick.sh",
     "build:win:local": "bash scripts/build-packaged-app.sh win local x64",
+    "build:win:community:x86": "bash scripts/build-packaged-app.sh win community ia32",
     "build:win:local:quick": "bash scripts/build-win-nsis-quick.sh local x64",
     "build:linux:local": "bash scripts/build-packaged-app.sh linux local x64",
     "build:win:community": "bash scripts/build-packaged-app.sh win community x64",
@@ -322,7 +323,7 @@
   },
   "build": {
     "appId": "com.zhifangfang.app.local",
-    "productName": "智算方舟 Local",
+    "productName": "智算方舟",
     "publish": {
       "provider": "generic",
       "url": "http://127.0.0.1:6060/desktop-updates"
@@ -375,7 +376,11 @@
       "!node_modules/@img/sharp-win32-*/**",
       "!node_modules/@img/sharp-linux*/**",
       "!node_modules/@img/sharp-libvips-win32-*/**",
-      "!node_modules/@img/sharp-libvips-linux*/**"
+      "!node_modules/@img/sharp-libvips-linux*/**",
+      "!node_modules/.pnpm/**/node_modules/global",
+      "!node_modules/.pnpm/**/node_modules/global/**",
+      "!node_modules/.pnpm/**/node_modules/global-agent",
+      "!node_modules/.pnpm/**/node_modules/global-agent/**"
     ],
     "extraResources": [
       {
@@ -605,19 +610,21 @@
       "entitlementsInherit": "build/entitlements.mac.plist",
       "icon": "build/icons/icon.icns",
       "extendInfo": {
-        "NSAudioCaptureUsageDescription": "SnSworker \u4f7f\u7528\u7cfb\u7edf\u97f3\u9891\u7528\u4e8e\u5c4f\u5e55\u5f55\u5236\u548c\u5a92\u4f53\u5de5\u4f5c\u6d41\u3002",
-        "NSCameraUsageDescription": "SnSworker \u5728\u542f\u7528\u5a92\u4f53\u5f55\u5236\u529f\u80fd\u65f6\u4f7f\u7528\u6444\u50cf\u5934\u3002",
-        "NSMicrophoneUsageDescription": "SnSworker \u4f7f\u7528\u9ea6\u514b\u98ce\u7528\u4e8e\u8bed\u97f3\u8f93\u5165\u548c\u5a92\u4f53\u5f55\u5236\u3002",
-        "NSScreenCaptureUsageDescription": "SnSworker \u4ec5\u5728\u4f60\u660e\u786e\u8981\u6c42 Agent \u89c2\u5bdf\u5c4f\u5e55\u6216\u8fdb\u884c\u684c\u9762\u63a7\u5236\u65f6\u624d\u4f1a\u8bf7\u6c42\u5c4f\u5e55\u5f55\u5236\u6743\u9650\uff0c\u7528\u4e8e\u5c4f\u5e55\u8bc6\u522b\u3001\u64cd\u4f5c\u53cd\u9988\u548c\u6545\u969c\u6392\u67e5\u3002",
-        "NSLocationWhenInUseUsageDescription": "SnSworker \u4ec5\u5728\u4f60\u660e\u786e\u8981\u6c42 Agent \u83b7\u53d6\u4f4d\u7f6e\u65f6\u624d\u4f1a\u8bf7\u6c42\u5b9a\u4f4d\uff0c\u7528\u4e8e\u9700\u8981\u5730\u7406\u4f4d\u7f6e\u7684\u4efb\u52a1\u3002",
-        "NSLocationUsageDescription": "SnSworker \u4ec5\u5728\u4f60\u660e\u786e\u8981\u6c42 Agent \u83b7\u53d6\u4f4d\u7f6e\u65f6\u624d\u4f1a\u8bf7\u6c42\u5b9a\u4f4d\uff0c\u7528\u4e8e\u9700\u8981\u5730\u7406\u4f4d\u7f6e\u7684\u4efb\u52a1\u3002",
-        "NSDesktopFolderUsageDescription": "SnSworker Agent \u4ec5\u5728\u4f60\u660e\u786e\u6307\u793a\u65f6\u624d\u4f1a\u8bfb\u5199\u684c\u9762\u4e0a\u7684\u6587\u4ef6\uff0c\u4f8b\u5982\u8ba9\u5b83\u6574\u7406\u684c\u9762\u622a\u56fe\u3001\u5f52\u6863\u4e0b\u8f7d\u6587\u4ef6\u3002\u6bcf\u4e00\u6b21\u8bbf\u95ee\u90fd\u4f1a\u5728\u5bf9\u8bdd\u4e2d\u544a\u8bc9\u4f60\u5177\u4f53\u8def\u5f84\uff0c\u6388\u6743\u540e\u4f60\u968f\u65f6\u53ef\u4ee5\u5728\u7cfb\u7edf\u8bbe\u7f6e\u4e2d\u64a4\u9500\u3002",
-        "NSDocumentsFolderUsageDescription": "SnSworker Agent \u4ec5\u5728\u4f60\u660e\u786e\u6307\u793a\u65f6\u624d\u4f1a\u8bfb\u5199\u300c\u6587\u7a3f\u300d\u6587\u4ef6\u5939\u4e2d\u7684\u6587\u4ef6\uff0c\u5178\u578b\u573a\u666f\u662f\u5904\u7406\u4f60\u4fdd\u5b58\u7684\u9879\u76ee\u6587\u6863\u3001\u7b14\u8bb0\u6216 PDF\u3002\u6bcf\u4e00\u6b21\u8bbf\u95ee\u90fd\u4f1a\u5728\u5bf9\u8bdd\u4e2d\u544a\u8bc9\u4f60\u5177\u4f53\u8def\u5f84\u3002",
-        "NSDownloadsFolderUsageDescription": "SnSworker Agent \u4ec5\u5728\u4f60\u660e\u786e\u6307\u793a\u65f6\u624d\u4f1a\u8bfb\u5199\u300c\u4e0b\u8f7d\u300d\u6587\u4ef6\u5939\u4e2d\u7684\u6587\u4ef6\uff0c\u4f8b\u5982\u89e3\u538b\u3001\u8f6c\u6362\u3001\u5f52\u6863\u4f60\u521a\u4e0b\u8f7d\u7684\u8d44\u6599\u3002\u6bcf\u4e00\u6b21\u8bbf\u95ee\u90fd\u4f1a\u5728\u5bf9\u8bdd\u4e2d\u544a\u8bc9\u4f60\u5177\u4f53\u8def\u5f84\u3002",
-        "NSRemovableVolumesUsageDescription": "SnSworker Agent \u4ec5\u5728\u4f60\u660e\u786e\u6307\u793a\u5904\u7406\u5916\u63a5\u78c1\u76d8\u4e0a\u7684\u6587\u4ef6\u65f6\u624d\u4f1a\u8bbf\u95ee U \u76d8\u548c\u5916\u63a5\u786c\u76d8\uff0c\u4f8b\u5982\u8ba9\u5b83\u8bfb\u53d6\u786c\u76d8\u91cc\u7684\u9879\u76ee\u6587\u4ef6\u3002",
-        "NSNetworkVolumesUsageDescription": "SnSworker Agent \u4ec5\u5728\u4f60\u660e\u786e\u6307\u793a\u5904\u7406\u5171\u4eab\u6587\u4ef6\u5939\u65f6\u624d\u4f1a\u8bbf\u95ee\u7f51\u7edc\u5171\u4eab\u76d8\uff0c\u4f8b\u5982\u8ba9\u5b83\u8bfb\u53d6\u516c\u53f8 NAS \u4e0a\u7684\u6587\u4ef6\u3002",
-        "NSLocalNetworkUsageDescription": "SnSworker \u4f7f\u7528\u672c\u5730\u7f51\u7edc\u8fde\u63a5\u4f60\u6307\u5b9a\u7684\u5c40\u57df\u7f51 SnSworker \u670d\u52a1\uff0c\u4ee5\u5b8c\u6210\u767b\u5f55\u3001\u534f\u4f5c\u548c\u9080\u8bf7\u94fe\u63a5\u8bbf\u95ee\u3002",
-        "NSAppleEventsUsageDescription": "SnSworker Agent \u5728\u4f60\u4ea4\u7ed9\u5b83\u7684\u4efb\u52a1\u9700\u8981\u65f6\uff0c\u4f1a\u901a\u8fc7 Apple Events \u63a7\u5236\u5176\u4ed6\u5e94\u7528\uff08\u5982\u53d1\u90ae\u4ef6\u3001\u64cd\u4f5c\u65e5\u5386\u3001\u63a7\u5236\u6d4f\u89c8\u5668\uff09\u3002\u7cfb\u7edf\u4f1a\u9488\u5bf9\u6bcf\u4e2a\u76ee\u6807\u5e94\u7528\u5355\u72ec\u8be2\u95ee\u6388\u6743\u3002"
+        "CFBundleDisplayName": "智算方舟",
+        "CFBundleName": "智算方舟",
+        "NSAudioCaptureUsageDescription": "智算方舟使用系统音频用于屏幕录制和媒体工作流。",
+        "NSCameraUsageDescription": "智算方舟在启用媒体录制功能时使用摄像头。",
+        "NSMicrophoneUsageDescription": "智算方舟使用麦克风用于语音输入和媒体录制。",
+        "NSScreenCaptureUsageDescription": "智算方舟仅在你明确要求 Agent 观察屏幕或进行桌面控制时才会请求屏幕录制权限，用于屏幕识别、操作反馈和故障排查。",
+        "NSLocationWhenInUseUsageDescription": "智算方舟仅在你明确要求 Agent 获取位置时才会请求定位，用于需要地理位置的任务。",
+        "NSLocationUsageDescription": "智算方舟仅在你明确要求 Agent 获取位置时才会请求定位，用于需要地理位置的任务。",
+        "NSDesktopFolderUsageDescription": "智算方舟 Agent 仅在你明确指示时才会读写桌面上的文件，例如让它整理桌面截图、归档下载文件。每一次访问都会在对话中告诉你具体路径，授权后你随时可以在系统设置中撤销。",
+        "NSDocumentsFolderUsageDescription": "智算方舟 Agent 仅在你明确指示时才会读写「文稿」文件夹中的文件，典型场景是处理你保存的项目文档、笔记或 PDF。每一次访问都会在对话中告诉你具体路径。",
+        "NSDownloadsFolderUsageDescription": "智算方舟 Agent 仅在你明确指示时才会读写「下载」文件夹中的文件，例如解压、转换、归档你刚下载的资料。每一次访问都会在对话中告诉你具体路径。",
+        "NSRemovableVolumesUsageDescription": "智算方舟 Agent 仅在你明确指示处理外接磁盘上的文件时才会访问 U 盘和外接硬盘，例如让它读取硬盘里的项目文件。",
+        "NSNetworkVolumesUsageDescription": "智算方舟 Agent 仅在你明确指示处理共享文件夹时才会访问网络共享盘，例如让它读取公司 NAS 上的文件。",
+        "NSLocalNetworkUsageDescription": "智算方舟使用本地网络连接你指定的局域网智算方舟服务，以完成登录、协作和邀请链接访问。",
+        "NSAppleEventsUsageDescription": "智算方舟 Agent 在你交给它的任务需要时，会通过 Apple Events 控制其他应用（如发邮件、操作日历、控制浏览器）。系统会针对每个目标应用单独询问授权。"
       },
       "target": [
         {
@@ -638,6 +645,7 @@
     },
     "dmg": {
       "title": "${productName}",
+      "icon": "build/icons/icon.icns",
       "background": "build/dmg/background.png",
       "iconSize": 128,
       "iconTextSize": 14,

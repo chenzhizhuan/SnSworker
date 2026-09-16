@@ -126,7 +126,7 @@ if [ "$PROFILE" = "community" ]; then
     exit 0
   fi
 fi
-# 第三个参数 / 环境变量都可指定目标 CPU 架构（arm64 / x64；缺省 host arch）。
+# 第三个参数 / 环境变量都可指定目标 CPU 架构（arm64 / x64 / ia32；缺省 host arch）。
 # 仅 mac 和 win 关心；linux 默认 x64。
 HOST_ARCH_RAW="$(uname -m)"
 case "$HOST_ARCH_RAW" in
@@ -146,8 +146,9 @@ EXTRA_BUILDER_ARGS=()
 case "$ARCH" in
   arm64) ARCH_FLAG="--arm64" ;;
   x64)   ARCH_FLAG="--x64" ;;
+  ia32|x86) ARCH="ia32"; ARCH_FLAG="--ia32" ;;
   *)
-    echo "Unsupported arch: $ARCH (允许 arm64 / x64)" >&2
+    echo "Unsupported arch: $ARCH (允许 arm64 / x64 / ia32)" >&2
     exit 1
     ;;
 esac
@@ -809,18 +810,25 @@ PROFILE_EXECUTABLE_NAME=""
 PROFILE_SHORTCUT_NAME=""
 case "$PROFILE" in
   local)
-    PROFILE_PRODUCT_NAME="SnSworker Local"
-    PROFILE_APP_ID="com.snsworker.app.local"
+    PROFILE_PRODUCT_NAME="智算方舟 Local"
+    PROFILE_APP_ID="com.zhifangfang.app.local"
     PROFILE_EXECUTABLE_NAME="snsworker-local"
-    PROFILE_SHORTCUT_NAME="SnSworker Local"
+    PROFILE_SHORTCUT_NAME="智算方舟 Local"
     ;;
   community)
-    PROFILE_PRODUCT_NAME="SnSworker"
-    PROFILE_APP_ID="com.snsworker.community"
+    PROFILE_PRODUCT_NAME="智算方舟"
+    PROFILE_APP_ID="com.zhifangfang.community"
     PROFILE_EXECUTABLE_NAME="snsworker"
-    PROFILE_SHORTCUT_NAME="SnSworker"
+    PROFILE_SHORTCUT_NAME="智算方舟"
     ;;
 esac
+
+# macOS 的 Finder、Dock、DMG 和权限弹窗只展示对外品牌。
+# Bundle ID 仍按 profile 隔离，但不把内部环境后缀暴露给用户。
+if [ "$TARGET_RUNTIME" = "darwin" ]; then
+  PROFILE_PRODUCT_NAME="智算方舟"
+  PROFILE_EXECUTABLE_NAME=""
+fi
 
 if [ "$PROFILE" = "local" ]; then
   UPDATE_PUBLISH_URL="${TABTIN_UPDATE_PUBLISH_URL:-http://127.0.0.1:6060/desktop-updates}"
@@ -847,9 +855,11 @@ EXTRA_BUILDER_ARGS+=(
   "--config.productName=$PROFILE_PRODUCT_NAME"
   "--config.appId=$PROFILE_APP_ID"
   "--config.extraMetadata.version=$PROFILE_VERSION"
-  "--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"
   "--publish=never"
 )
+if [ -n "$PROFILE_EXECUTABLE_NAME" ]; then
+  EXTRA_BUILDER_ARGS+=("--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME")
+fi
 if [ "$TARGET_RUNTIME" = "win32" ]; then
   EXTRA_BUILDER_ARGS+=("--config.nsis.shortcutName=$PROFILE_SHORTCUT_NAME")
 fi

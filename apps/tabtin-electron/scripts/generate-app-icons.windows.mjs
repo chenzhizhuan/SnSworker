@@ -3,16 +3,14 @@
  * Windows 版全平台 app 图标生成脚本（新 logo 交付用，一次性）。
  *
  * 与 scripts/generate-app-icons.mjs 的逻辑完全一致，唯一差异：
- *   - 不依赖 macOS 的 iconutil，因此跳过 .icns 打包；
- *   - 改为在 build/icons/macos-iconset/ 输出 .icns 所需的全套 iconset PNG，
- *     在 Mac 上执行 `iconutil -c icns -o icon.icns macos-iconset` 即可补齐
- *     build/icons/icon.icns 与 icon-preprod.icns（见文末说明）。
+ *   - 不依赖 macOS 的 iconutil；直接写出 PNG-based .icns，同时保留
+ *     build/icons/macOS-iconset/ 供 Mac 端用 iconutil 重建原生变体。
  *
  * 输出（与仓库内 SSoT 脚本一致）：
  *   build/icon-source/icon-master.png   完整 1024 PNG（规范化源图，回退用）
  *   build/icons/icon-{16..1024}.png     多尺寸 PNG（套 82% 安全区）
  *   build/icons/icon.png                1024 PNG（linux + win，builder 自动转 ico）
- *   build/icons/macos-iconset/          10 张 iconset PNG（Mac 端打包 .icns 用）
+ *   build/icons/macOS-iconset/          10 张 iconset PNG（Mac 端可重建 .icns）
  *   build/icons/icon-preprod.png        预发粉色 1024
  *   static/icon.png                     打包用 1024（main-app import.meta.url）
  *   static/icon-preprod.png             预发打包用 1024
@@ -179,6 +177,33 @@ function writeIconset(pngBuffers, iconsetDir) {
   }
 }
 
+// iconutil is only available on macOS. Keep the checked-in .icns files in
+// sync when icons are generated on Windows by writing the PNG-based ICNS
+// representation directly (supported by modern macOS and electron-builder).
+function writePortableIcns(pngBuffers, icnsPath) {
+  const entries = [
+    ['icp4', 16],
+    ['icp5', 32],
+    ['icp6', 64],
+    ['ic07', 128],
+    ['ic08', 256],
+    ['ic09', 512],
+    ['ic10', 1024],
+  ];
+  const chunks = entries.map(([type, size]) => {
+    const payload = pngBuffers[size];
+    const header = Buffer.alloc(8);
+    header.write(type, 0, 4, 'ascii');
+    header.writeUInt32BE(payload.length + header.length, 4);
+    return Buffer.concat([header, payload]);
+  });
+  const body = Buffer.concat(chunks);
+  const header = Buffer.alloc(8);
+  header.write('icns', 0, 4, 'ascii');
+  header.writeUInt32BE(body.length + header.length, 4);
+  writeFileSync(icnsPath, Buffer.concat([header, body]));
+}
+
 async function main() {
   console.log('→ 检查依赖');
   const sourcePng = resolveSourcePng();
@@ -243,6 +268,8 @@ async function main() {
   console.log('→ 准备 macOS .icns 交接（iconset 文件夹，Mac 端打包）');
   writeIconset(pngBuffers, CONFIG.macosIconsetDir);
   console.log(`  ✓ ${CONFIG.macosIconsetDir}`);
+  writePortableIcns(pngBuffers, resolve(CONFIG.iconsDir, 'icon.icns'));
+  console.log(`  ✓ ${resolve(CONFIG.iconsDir, 'icon.icns')}`);
 
   console.log('→ 生成预发专属粉色图标');
   const preprodPngBuffers = {};
@@ -255,6 +282,8 @@ async function main() {
   console.log(`  ✓ ${CONFIG.preprodStaticIcon}`);
   writeIconset(preprodPngBuffers, CONFIG.macosIconsetPreprodDir);
   console.log(`  ✓ ${CONFIG.macosIconsetPreprodDir}`);
+  writePortableIcns(preprodPngBuffers, resolve(CONFIG.iconsDir, 'icon-preprod.icns'));
+  console.log(`  ✓ ${resolve(CONFIG.iconsDir, 'icon-preprod.icns')}`);
 
   console.log('\n✅ Windows 端全部完成。');
   console.log('   - win:   build/icons/icon.png  (electron-builder 自动转 .ico)');
@@ -264,10 +293,7 @@ async function main() {
   console.log('   - ios:   apps/tabtin-ios/**/AppIcon-1024.png');
   console.log('   - android: apps/tabtin-android/**/ic_launcher_foreground.png');
   console.log('');
-  console.log('   ⚠️  .icns 需要 macOS iconutil，在 Mac 上执行：');
-  console.log('       cd apps/tabtin-electron/build/icons');
-  console.log('       iconutil -c icns -o icon.icns macOS-iconset');
-  console.log('       iconutil -c icns -o icon-preprod.icns macOS-iconset-preprod');
+  console.log('   - mac:   build/icons/icon.icns（Windows 端已生成 PNG-based ICNS；Mac 端可用 iconutil 重建）');
 }
 
 main().catch((e) => {
