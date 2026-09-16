@@ -10,6 +10,17 @@ const quickMacBuildScript = fs.readFileSync(
   'utf8',
 )
 const installer = fs.readFileSync(installerPath, 'utf8')
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'),
+)
+
+// macOS 的系统可见品牌必须来自最终 builder 配置，而不是运行时 app.setName()。
+// 这样 Finder、Dock、DMG 与权限弹窗在应用启动前就能显示一致的名称和图标。
+assert.equal(packageJson.build.productName, '智算方舟')
+assert.equal(packageJson.build.mac.icon, 'build/icons/icon.icns')
+assert.equal(packageJson.build.mac.extendInfo.CFBundleDisplayName, '智算方舟')
+assert.equal(packageJson.build.mac.extendInfo.CFBundleName, '智算方舟')
+assert.doesNotMatch(JSON.stringify(packageJson.build.mac.extendInfo), /SnSworker/)
 
 // 开源版发行身份：Local（本地自测）+ Community（社区发行）。
 // 内部版 Preprod profile 已在开源化时移除（installer.nsh 仍保留 Preprod 残留清理）。
@@ -21,11 +32,16 @@ assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="智算方舟"'))
 assert.ok(buildScript.includes('PROFILE_APP_ID="com.zhifangfang.community"'))
 assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="snsworker"'))
 assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="智算方舟"'))
+assert.match(
+  buildScript,
+  /if \[ "\$TARGET_RUNTIME" = "darwin" \]; then\s+PROFILE_PRODUCT_NAME="智算方舟"\s+PROFILE_EXECUTABLE_NAME="snsworker"\s+fi/,
+)
 // executableName 的目标平台已参数化（win/dmg 共用同一段）。
 assert.ok(buildScript.includes('"--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"'))
 assert.ok(buildScript.includes('"--config.nsis.shortcutName=$PROFILE_SHORTCUT_NAME"'))
-assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="智算方舟 Local"'))
+assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="智算方舟"'))
 assert.ok(quickMacBuildScript.includes('PROFILE_APP_ID="com.zhifangfang.app.local"'))
+assert.ok(quickMacBuildScript.includes('executableName: "snsworker"'))
 
 const appIdentity = fs.readFileSync(
   path.join(__dirname, '..', 'src', 'main', 'app-identity.ts'),

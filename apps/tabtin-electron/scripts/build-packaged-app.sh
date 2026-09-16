@@ -823,6 +823,13 @@ case "$PROFILE" in
     ;;
 esac
 
+# macOS 的 Finder、Dock、DMG 和权限弹窗只展示对外品牌。
+# Bundle ID 仍按 profile 隔离，但不把内部环境后缀暴露给用户。
+if [ "$TARGET_RUNTIME" = "darwin" ]; then
+  PROFILE_PRODUCT_NAME="智算方舟"
+  PROFILE_EXECUTABLE_NAME="snsworker"
+fi
+
 if [ "$PROFILE" = "local" ]; then
   UPDATE_PUBLISH_URL="${TABTIN_UPDATE_PUBLISH_URL:-http://127.0.0.1:6060/desktop-updates}"
 else
