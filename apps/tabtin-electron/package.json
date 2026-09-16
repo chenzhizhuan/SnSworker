@@ -36,6 +36,7 @@
     "build:mac:local:x64": "bash scripts/build-packaged-app.sh mac local x64",
     "build:mac:dmg:quick": "bash scripts/build-mac-dmg-quick.sh",
     "build:win:local": "bash scripts/build-packaged-app.sh win local x64",
+    "build:win:community:x86": "bash scripts/build-packaged-app.sh win community ia32",
     "build:win:local:quick": "bash scripts/build-win-nsis-quick.sh local x64",
     "build:linux:local": "bash scripts/build-packaged-app.sh linux local x64",
     "build:win:community": "bash scripts/build-packaged-app.sh win community x64",
@@ -375,7 +376,11 @@
       "!node_modules/@img/sharp-win32-*/**",
       "!node_modules/@img/sharp-linux*/**",
       "!node_modules/@img/sharp-libvips-win32-*/**",
-      "!node_modules/@img/sharp-libvips-linux*/**"
+      "!node_modules/@img/sharp-libvips-linux*/**",
+      "!node_modules/.pnpm/**/node_modules/global",
+      "!node_modules/.pnpm/**/node_modules/global/**",
+      "!node_modules/.pnpm/**/node_modules/global-agent",
+      "!node_modules/.pnpm/**/node_modules/global-agent/**"
     ],
     "extraResources": [
       {

@@ -126,7 +126,7 @@ if [ "$PROFILE" = "community" ]; then
     exit 0
   fi
 fi
-# 第三个参数 / 环境变量都可指定目标 CPU 架构（arm64 / x64；缺省 host arch）。
+# 第三个参数 / 环境变量都可指定目标 CPU 架构（arm64 / x64 / ia32；缺省 host arch）。
 # 仅 mac 和 win 关心；linux 默认 x64。
 HOST_ARCH_RAW="$(uname -m)"
 case "$HOST_ARCH_RAW" in
@@ -146,8 +146,9 @@ EXTRA_BUILDER_ARGS=()
 case "$ARCH" in
   arm64) ARCH_FLAG="--arm64" ;;
   x64)   ARCH_FLAG="--x64" ;;
+  ia32|x86) ARCH="ia32"; ARCH_FLAG="--ia32" ;;
   *)
-    echo "Unsupported arch: $ARCH (允许 arm64 / x64)" >&2
+    echo "Unsupported arch: $ARCH (允许 arm64 / x64 / ia32)" >&2
     exit 1
     ;;
 esac
@@ -809,16 +810,16 @@ PROFILE_EXECUTABLE_NAME=""
 PROFILE_SHORTCUT_NAME=""
 case "$PROFILE" in
   local)
-    PROFILE_PRODUCT_NAME="SnSworker Local"
-    PROFILE_APP_ID="com.snsworker.app.local"
+    PROFILE_PRODUCT_NAME="智算方舟 Local"
+    PROFILE_APP_ID="com.zhifangfang.app.local"
     PROFILE_EXECUTABLE_NAME="snsworker-local"
-    PROFILE_SHORTCUT_NAME="SnSworker Local"
+    PROFILE_SHORTCUT_NAME="智算方舟 Local"
     ;;
   community)
-    PROFILE_PRODUCT_NAME="SnSworker"
-    PROFILE_APP_ID="com.snsworker.community"
+    PROFILE_PRODUCT_NAME="智算方舟"
+    PROFILE_APP_ID="com.zhifangfang.community"
     PROFILE_EXECUTABLE_NAME="snsworker"
-    PROFILE_SHORTCUT_NAME="SnSworker"
+    PROFILE_SHORTCUT_NAME="智算方舟"
     ;;
 esac
 

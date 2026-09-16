@@ -72,8 +72,8 @@ echo "  · app 版本号: $PROFILE_VERSION"
 
 PROFILE_PRODUCT_NAME=""
 PROFILE_APP_ID=""
-PROFILE_PRODUCT_NAME="SnSworker Local"
-PROFILE_APP_ID="com.snsworker.app.local"
+PROFILE_PRODUCT_NAME="智算方舟 Local"
+PROFILE_APP_ID="com.zhifangfang.app.local"
 echo "  · app identity: productName=${PROFILE_PRODUCT_NAME}, appId=${PROFILE_APP_ID}"
 
 ARTIFACT_UPDATE_CHANNEL="stable"

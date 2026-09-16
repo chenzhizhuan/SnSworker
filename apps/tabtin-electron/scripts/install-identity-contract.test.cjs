@@ -13,19 +13,19 @@ const installer = fs.readFileSync(installerPath, 'utf8')
 
 // 开源版发行身份：Local（本地自测）+ Community（社区发行）。
 // 内部版 Preprod profile 已在开源化时移除（installer.nsh 仍保留 Preprod 残留清理）。
-assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker Local"'))
-assert.ok(buildScript.includes('PROFILE_APP_ID="com.snsworker.app.local"'))
+assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="智算方舟 Local"'))
+assert.ok(buildScript.includes('PROFILE_APP_ID="com.zhifangfang.app.local"'))
 assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="snsworker-local"'))
-assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker Local"'))
-assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="SnSworker"'))
-assert.ok(buildScript.includes('PROFILE_APP_ID="com.snsworker.community"'))
+assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="智算方舟 Local"'))
+assert.ok(buildScript.includes('PROFILE_PRODUCT_NAME="智算方舟"'))
+assert.ok(buildScript.includes('PROFILE_APP_ID="com.zhifangfang.community"'))
 assert.ok(buildScript.includes('PROFILE_EXECUTABLE_NAME="snsworker"'))
-assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="SnSworker"'))
+assert.ok(buildScript.includes('PROFILE_SHORTCUT_NAME="智算方舟"'))
 // executableName 的目标平台已参数化（win/dmg 共用同一段）。
 assert.ok(buildScript.includes('"--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"'))
 assert.ok(buildScript.includes('"--config.nsis.shortcutName=$PROFILE_SHORTCUT_NAME"'))
-assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="SnSworker Local"'))
-assert.ok(quickMacBuildScript.includes('PROFILE_APP_ID="com.snsworker.app.local"'))
+assert.ok(quickMacBuildScript.includes('PROFILE_PRODUCT_NAME="智算方舟 Local"'))
+assert.ok(quickMacBuildScript.includes('PROFILE_APP_ID="com.zhifangfang.app.local"'))
 
 const appIdentity = fs.readFileSync(
   path.join(__dirname, '..', 'src', 'main', 'app-identity.ts'),

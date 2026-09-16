@@ -53,6 +53,10 @@
 !macroend
 
 !macro deleteTabTinCredentials
+  Delete "$APPDATA\智算方舟\credentials.json"
+  Delete "$APPDATA\智算方舟 Dev\credentials.json"
+  Delete "$APPDATA\智算方舟 Local\credentials.json"
+  Delete "$APPDATA\智算方舟 Preprod\credentials.json"
   Delete "$APPDATA\SnSworker\credentials.json"
   Delete "$APPDATA\SnSworker Dev\credentials.json"
   Delete "$APPDATA\SnSworker Local\credentials.json"
@@ -92,6 +96,10 @@
 !macroend
 
 !macro wipeTabTinLocalData
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\智算方舟"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\智算方舟 Dev"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\智算方舟 Local"
+  !insertmacro wipeTabTinProfileConfig "$APPDATA\智算方舟 Preprod"
   !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker"
   !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker Dev"
   !insertmacro wipeTabTinProfileConfig "$APPDATA\SnSworker Local"
@@ -106,6 +114,14 @@
   RMDir /r "$LOCALAPPDATA\com.snsworker.app.dev-updater"
   RMDir /r "$LOCALAPPDATA\com.snsworker.app.local-updater"
   RMDir /r "$LOCALAPPDATA\com.snsworker.app.preprod-updater"
+  RMDir /r "$LOCALAPPDATA\com.zhifangfang.app-updater"
+  RMDir /r "$LOCALAPPDATA\com.zhifangfang.app.dev-updater"
+  RMDir /r "$LOCALAPPDATA\com.zhifangfang.app.local-updater"
+  RMDir /r "$LOCALAPPDATA\com.zhifangfang.app.preprod-updater"
+  RMDir /r "$LOCALAPPDATA\智算方舟-updater"
+  RMDir /r "$LOCALAPPDATA\智算方舟 Dev-updater"
+  RMDir /r "$LOCALAPPDATA\智算方舟 Local-updater"
+  RMDir /r "$LOCALAPPDATA\智算方舟 Preprod-updater"
   RMDir /r "$LOCALAPPDATA\SnSworker-updater"
   RMDir /r "$LOCALAPPDATA\SnSworker Dev-updater"
   RMDir /r "$LOCALAPPDATA\SnSworker Local-updater"
