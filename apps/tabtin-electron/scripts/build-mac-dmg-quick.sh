@@ -430,7 +430,6 @@ node -e '
   }
   pkg.build.mac = {
     ...(pkg.build.mac || {}),
-    executableName: "snsworker",
     target: [{ target: "dmg", arch: [arch] }],
     gatekeeperAssess: false,
   }

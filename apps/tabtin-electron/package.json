@@ -603,7 +603,6 @@
     ],
     "mac": {
       "category": "public.app-category.productivity",
-      "executableName": "snsworker",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "notarize": false,
@@ -646,6 +645,7 @@
     },
     "dmg": {
       "title": "${productName}",
+      "icon": "build/icons/icon.icns",
       "background": "build/dmg/background.png",
       "iconSize": 128,
       "iconTextSize": 14,

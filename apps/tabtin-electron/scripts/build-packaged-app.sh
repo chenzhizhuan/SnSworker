@@ -827,7 +827,7 @@ esac
 # Bundle ID 仍按 profile 隔离，但不把内部环境后缀暴露给用户。
 if [ "$TARGET_RUNTIME" = "darwin" ]; then
   PROFILE_PRODUCT_NAME="智算方舟"
-  PROFILE_EXECUTABLE_NAME="snsworker"
+  PROFILE_EXECUTABLE_NAME=""
 fi
 
 if [ "$PROFILE" = "local" ]; then
@@ -855,9 +855,11 @@ EXTRA_BUILDER_ARGS+=(
   "--config.productName=$PROFILE_PRODUCT_NAME"
   "--config.appId=$PROFILE_APP_ID"
   "--config.extraMetadata.version=$PROFILE_VERSION"
-  "--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME"
   "--publish=never"
 )
+if [ -n "$PROFILE_EXECUTABLE_NAME" ]; then
+  EXTRA_BUILDER_ARGS+=("--config.${TARGET_NAME}.executableName=$PROFILE_EXECUTABLE_NAME")
+fi
 if [ "$TARGET_RUNTIME" = "win32" ]; then
   EXTRA_BUILDER_ARGS+=("--config.nsis.shortcutName=$PROFILE_SHORTCUT_NAME")
 fi
