@@ -249,7 +249,7 @@ describe('WebviewManager', () => {
       expect(manager.getVisibility('tab-h')).toBe('throttle')
     })
 
-    it('keepalive 档：opacity 0 + pointer-events none + inert，原位保留（不节流）', async () => {
+    it('keepalive 档：opacity 0 + clip-path 裁剪 + pointer-events none + inert，原位保留（不节流）', async () => {
       await manager.ensure('tab-k', { url: 'https://example.com' })
       manager.setRect('tab-k', { x: 15, y: 25, width: 400, height: 300 })
       manager.show('tab-k')
@@ -257,6 +257,8 @@ describe('WebviewManager', () => {
       manager.hide('tab-k', 'keepalive')
       const el = manager.getElementForTesting('tab-k')!
       expect(el.style.opacity).toBe('0')
+      // clip-path 硬裁剪：OOPIF 纹理提交与 opacity 合成竞态时的第二道防线
+      expect(el.style.clipPath).toBe('inset(50%)')
       expect(el.style.pointerEvents).toBe('none')
       expect(el.hasAttribute('inert')).toBe(true)
       expect(el.style.visibility).toBe('')
@@ -266,6 +268,38 @@ describe('WebviewManager', () => {
       expect(manager.getVisibility('tab-k')).toBe('keepalive')
     })
 
+    it('born-hidden Agent 页面 keepAliveHidden 同样携带 clip-path 裁剪', async () => {
+      await manager.ensure('tab-bg-clip', { url: 'https://example.com' })
+      manager.keepAliveHidden('tab-bg-clip')
+      const el = manager.getElementForTesting('tab-bg-clip')!
+      expect(el.style.opacity).toBe('0')
+      expect(el.style.clipPath).toBe('inset(50%)')
+      // 后台逻辑视口在屏幕原位（0,0 1280×720），但被裁剪为 0 可见区域
+      expect(el.style.left).toBe('0px')
+      expect(el.style.width).toBe('1280px')
+    })
+
+    it('keepalive→throttle→show 全流转 clipPath 不残留', async () => {
+      await manager.ensure('tab-c', { url: 'https://example.com' })
+      manager.setRect('tab-c', { x: 7, y: 8, width: 200, height: 160 })
+      manager.show('tab-c')
+
+      manager.hide('tab-c', 'keepalive')
+      expect(manager.getElementForTesting('tab-c')!.style.clipPath).toBe('inset(50%)')
+
+      // keepalive → throttle：裁剪应清除（脱屏 + visibility:hidden 已足够）
+      manager.hide('tab-c', 'throttle')
+      expect(manager.getElementForTesting('tab-c')!.style.clipPath).toBe('')
+
+      // throttle → show：恢复可见，任何隐藏样式（含 clipPath）都不残留
+      manager.show('tab-c')
+      const el = manager.getElementForTesting('tab-c')!
+      expect(el.style.clipPath).toBe('')
+      expect(el.style.opacity).toBe('')
+      expect(el.style.visibility).toBe('')
+      expect(el.style.left).toBe('7px')
+    })
+
     it('show 恢复：清掉两档隐藏样式并回位', async () => {
       await manager.ensure('tab-s', { url: 'https://example.com' })
       manager.setRect('tab-s', { x: 5, y: 6, width: 100, height: 80 })
@@ -273,6 +307,7 @@ describe('WebviewManager', () => {
       manager.show('tab-s')
       const el = manager.getElementForTesting('tab-s')!
       expect(el.style.opacity).toBe('')
+      expect(el.style.clipPath).toBe('')
       expect(el.style.visibility).toBe('')
       expect(el.style.pointerEvents).toBe('auto')
       expect(el.hasAttribute('inert')).toBe(false)
@@ -281,6 +316,7 @@ describe('WebviewManager', () => {
       manager.hide('tab-s', 'throttle')
       manager.show('tab-s')
       expect(el.style.visibility).toBe('')
+      expect(el.style.clipPath).toBe('')
       expect(el.style.left).toBe('5px')
     })
 

@@ -492,6 +492,7 @@ export class WebviewManager {
     entry.visibility = 'visible'
     entry.el.style.visibility = ''
     entry.el.style.opacity = ''
+    entry.el.style.clipPath = ''
     entry.el.style.pointerEvents = this.mousePassthrough ? 'none' : 'auto'
     entry.el.removeAttribute('inert')
     if (entry.lastRect) {
@@ -504,8 +505,18 @@ export class WebviewManager {
 
   /**
    * throttle：visibility:hidden + 移出视口（Chromium 节流，省资源）——普通切走。
-   * keepalive：opacity:0 + pointer-events:none + inert（不节流，rAF 60Hz）——
-   *   Agent 后台执行中的页面。判定与接入在 webviewHostView.hide（Phase 3 已接）。
+   * keepalive：opacity:0 + clip-path 硬裁剪 + pointer-events:none + inert
+   *   （不节流，rAF 60Hz）——Agent 后台执行中的页面。判定与接入在
+   *   webviewHostView.hide（Phase 3 已接）。
+   *
+   * clip-path 双保险（2026-09-16 闪现修复）：keepalive 态元素在屏幕原位，
+   * 唯一视觉遮挡 opacity:0 走合成器路径，OOPIF 纹理异步提交时存在竞态窗口
+   * （throttle→keepalive 异步升级时 applyRectForce 把元素从 -10000px 移回
+   * 原位并 0×0→1280×720 resize，guest 纹理帧先于 opacity 样式合成 → 旧网页
+   * 内容闪现一帧，随后 opacity:0 常驻不可见但像素已出）。叠加
+   * clip-path: inset(50%) 把可见区域裁为 0：几何上元素仍在视口内（
+   * IntersectionObserver/rAF 不节流，任务页面环境不变），视觉上与 opacity
+   * 独立的两条裁剪路径，任一合成竞态失效都不再出像素。
    */
   hide(tabId: string, mode: WebviewHideMode = 'throttle'): void {
     const entry = this.entries.get(tabId)
@@ -515,6 +526,7 @@ export class WebviewManager {
     if (mode === 'throttle') {
       entry.el.style.visibility = 'hidden'
       entry.el.style.opacity = ''
+      entry.el.style.clipPath = ''
       entry.el.style.pointerEvents = 'none'
       entry.el.removeAttribute('inert')
       entry.el.style.left = `${PARKED_OFFSCREEN_PX}px`
@@ -522,6 +534,7 @@ export class WebviewManager {
     } else {
       entry.el.style.visibility = ''
       entry.el.style.opacity = '0'
+      entry.el.style.clipPath = 'inset(50%)'
       entry.el.style.pointerEvents = 'none'
       entry.el.setAttribute('inert', '')
       // keepalive 保持原位与尺寸（保证 rAF/渲染管线不被节流）
