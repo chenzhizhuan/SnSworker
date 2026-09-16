@@ -1780,6 +1780,14 @@ export class TabTinProxyProvider implements LLMProvider {
       try {
         input = JSON.parse(acc.arguments);
       } catch {
+        // 模型输出被截断（max_tokens 打断 arguments JSON）等场景会走到这里。
+        // 保留原始字符串作为 input 让工具端给出明确报错，但必须留痕：
+        // 坏字符串一旦入库，历史回放时 convertAssistantMessage 会对它做
+        // safeToolCallArguments 复验，避免坏 arguments 每轮复读打挂上游。
+        console.warn(
+          `[E2E][LLM] malformed tool_call arguments (id=${acc.id} name=${acc.name} ` +
+            `len=${acc.arguments?.length ?? 0} head=${String(acc.arguments ?? '').slice(0, 40)})`
+        );
         input = acc.arguments;
       }
       yield {
@@ -2171,6 +2179,25 @@ export class TabTinProxyProvider implements LLMProvider {
  *
  * @internal 导出仅供单元测试；生产路径由 convertMessages → buildRequestBody 调用
  */
+/**
+ * 坏 arguments 防复读：模型生成时被截断的 tool call arguments 会以字符串形态
+ * 入库（flushToolAccumulators 的 JSON.parse 失败分支保留原文）。历史回放时若
+ * 把坏字符串原样写回 function.arguments，上游 tool-call-parser（如 vLLM
+ * qwen3_coder）会对 arguments 做 JSON 解析并直接 400，导致该会话每轮必挂、
+ * 前端持续显示「模型服务暂时不可用」（2026-09-16 生产事故）。
+ * 回传前复验：解析失败替换为 '{}'（保留 id 配对结构，工具端按空参数报错，
+ * 对话链路得以继续）。
+ */
+function safeToolCallArguments(raw: string): string {
+  if (!raw) return raw;
+  try {
+    JSON.parse(raw);
+    return raw;
+  } catch {
+    return '{}';
+  }
+}
+
 export function convertAssistantMessage(
   blocks: ContentBlock[],
   reasoningHistoryPolicy: 'drop' | 'preserve_for_tools' | 'preserve' = 'drop',
@@ -2191,7 +2218,10 @@ export function convertAssistantMessage(
         type: 'function',
         function: {
           name: tu.name,
-          arguments: typeof tu.input === 'string' ? tu.input : JSON.stringify(tu.input),
+          arguments:
+            typeof tu.input === 'string'
+              ? safeToolCallArguments(tu.input)
+              : JSON.stringify(tu.input),
         },
       });
     }

@@ -9,6 +9,7 @@
 - _normalize_cache_control:strip / 保留 / 幂等
 - _normalize_json_mode:json_schema 降级 prompt / output_config 改名 / 透传
 - _normalize_reasoning_param:hidden drop / Claude budget / Moonshot delta drop
+- _normalize_tool_call_arguments:坏 JSON 修复为 {} / 合法透传 / 空透传 / dict 序列化
 """
 
 from __future__ import annotations
@@ -31,6 +32,7 @@ from apps.services.llm.wire_adapter.request_adapter import (
     _normalize_json_mode,
     _normalize_reasoning_param,
     _normalize_system,
+    _normalize_tool_call_arguments,
     _normalize_tool_choice,
     _normalize_tool_definitions,
     _normalize_videos,
@@ -1663,6 +1665,109 @@ class AdaptRequestIntegrationTests(SimpleTestCase):
 
 
 # ---------------------------------------------------------------------------
+# 10. _normalize_tool_call_arguments
+# ---------------------------------------------------------------------------
+
+class NormalizeToolCallArgumentsTests(SimpleTestCase):
+    """坏 arguments（模型输出截断的历史 tool call）净化行为。"""
+
+    def _assistant_with_calls(self, *args_list):
+        return {
+            "messages": [{
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                    {"id": f"t{i}", "type": "function",
+                     "function": {"name": f"tool_{i}", "arguments": a}}
+                    for i, a in enumerate(args_list)
+                ],
+            }],
+        }
+
+    def test_malformed_arguments_repaired_to_empty_object(self):
+        """截断的坏 JSON → "{}"，并记 1 条 capability_downgrade 事件。"""
+        bad = '{"path": "artifacts/a.html", "new_string": "const data = {\\n  \\"'
+        body = self._assistant_with_calls(bad)
+        events = []
+        out = _normalize_tool_call_arguments(
+            body, ResolvedCapabilities(), _ctx(), events,
+        )
+        self.assertEqual(
+            out["messages"][0]["tool_calls"][0]["function"]["arguments"], "{}",
+        )
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["feature"], "tool_call_arguments")
+        self.assertIn("1", events[0]["message"])
+
+    def test_valid_arguments_passthrough(self):
+        good = '{"query": "test"}'
+        body = self._assistant_with_calls(good)
+        events: list = []
+        out = _normalize_tool_call_arguments(
+            body, ResolvedCapabilities(), _ctx(), events,
+        )
+        self.assertEqual(
+            out["messages"][0]["tool_calls"][0]["function"]["arguments"], good,
+        )
+        self.assertEqual(events, [])
+
+    def test_empty_arguments_passthrough(self):
+        """空字符串是 OpenAI 协议常见形态（无参数），保持原样不触发事件。"""
+        body = self._assistant_with_calls("")
+        events: list = []
+        out = _normalize_tool_call_arguments(
+            body, ResolvedCapabilities(), _ctx(), events,
+        )
+        self.assertEqual(
+            out["messages"][0]["tool_calls"][0]["function"]["arguments"], "",
+        )
+        self.assertEqual(events, [])
+
+    def test_dict_arguments_serialized(self):
+        """客户端直接传 dict（协议要求 string）→ 序列化为合法 JSON。"""
+        body = self._assistant_with_calls({"a": 1})
+        events: list = []
+        out = _normalize_tool_call_arguments(
+            body, ResolvedCapabilities(), _ctx(), events,
+        )
+        self.assertEqual(
+            out["messages"][0]["tool_calls"][0]["function"]["arguments"],
+            '{"a": 1}',
+        )
+        self.assertEqual(events, [])
+
+    def test_multiple_bad_calls_single_event(self):
+        """多个坏 call 全部修复，但 downgrade 事件只记 1 条（防事件风暴）。"""
+        bad1 = '{"x": "unterminated'
+        bad2 = '{"y": 1, "z":'
+        body = self._assistant_with_calls(bad1, bad2)
+        events = []
+        out = _normalize_tool_call_arguments(
+            body, ResolvedCapabilities(), _ctx(), events,
+        )
+        calls = out["messages"][0]["tool_calls"]
+        self.assertEqual(calls[0]["function"]["arguments"], "{}")
+        self.assertEqual(calls[1]["function"]["arguments"], "{}")
+        self.assertEqual(len(events), 1)
+        self.assertIn("2", events[0]["message"])
+
+    def test_non_assistant_and_missing_tool_calls_untouched(self):
+        body = {
+            "messages": [
+                {"role": "user", "content": "hi"},
+                {"role": "assistant", "content": "plain"},
+                {"role": "tool", "tool_call_id": "t0", "content": "r"},
+            ],
+        }
+        events: list = []
+        out = _normalize_tool_call_arguments(
+            body, ResolvedCapabilities(), _ctx(), events,
+        )
+        self.assertEqual(out, body)
+        self.assertEqual(events, [])
+
+
+# ---------------------------------------------------------------------------
 # Order constraint(顺序约束)— 防 W2 重构时打乱 helper 顺序
 # ---------------------------------------------------------------------------
 
@@ -1682,6 +1787,7 @@ class HelperOrderConstraintTests(SimpleTestCase):
         "_normalize_cache_control",
         "_normalize_json_mode",
         "_normalize_reasoning_param",
+        "_normalize_tool_call_arguments",
     ]
 
     def test_adapt_request_helper_order_documented(self):

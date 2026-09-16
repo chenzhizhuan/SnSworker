@@ -1523,6 +1523,42 @@ def _sanitize_openai_tool_pairing(messages: list[dict]) -> tuple[list[dict], boo
     return (result if changed else messages, changed)
 
 
+def _repair_malformed_tool_call_arguments(messages: list[dict]) -> int:
+    """兜底净化损坏的 tool_call ``function.arguments``（wire_adapter 关闭时的保险）。
+
+    与 ``wire_adapter._normalize_tool_call_arguments`` 同源：模型历史 tool call
+    的 arguments 若为非空字符串但 JSON 解析失败（典型：生成时被 max_tokens 截断，
+    设备端 JSON.parse 失败后原样入库），上游 vLLM 的 qwen3_coder tool-call-parser
+    会对 arguments 做 json 解析并直接 400，使该会话每轮必挂。此处改写为 ``"{}"``
+    保留配对结构，让对话可继续。返回修复计数。
+
+    注：wire_adapter 开启时 messages 已深拷贝；关闭路径 mutate 原始请求体深层
+    引用无下游副作用（body 在此后不再读取 messages）。
+    """
+    repaired = 0
+    for message in messages or []:
+        if not isinstance(message, dict) or message.get("role") != "assistant":
+            continue
+        calls = message.get("tool_calls")
+        if not isinstance(calls, list):
+            continue
+        for call in calls:
+            if not isinstance(call, dict):
+                continue
+            func = call.get("function")
+            if not isinstance(func, dict):
+                continue
+            raw = func.get("arguments")
+            if not isinstance(raw, str) or not raw:
+                continue
+            try:
+                json.loads(raw)
+            except ValueError:
+                func["arguments"] = "{}"
+                repaired += 1
+    return repaired
+
+
 def _handle_upstream_http_error(
     ctx: ProxyContext,
     upstream_body: Dict[str, Any],
@@ -1725,6 +1761,15 @@ def stream_upstream(
         logger.warning(
             "[LLMProxy][%s] sanitized invalid tool/message pairing before upstream",
             ctx.request_id,
+        )
+
+    repaired_args = _repair_malformed_tool_call_arguments(
+        upstream_body.get("messages") or [],
+    )
+    if repaired_args:
+        logger.warning(
+            "[LLMProxy][%s] repaired %d malformed tool_call arguments before upstream",
+            ctx.request_id, repaired_args,
         )
 
     _normalize_upstream_request_params(upstream_body, ctx)

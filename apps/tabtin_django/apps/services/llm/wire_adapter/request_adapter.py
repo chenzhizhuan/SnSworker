@@ -128,6 +128,7 @@ def adapt_request(
     body = _normalize_cache_control(body, caps, ctx)
     body = _normalize_json_mode(body, caps, ctx, downgrade_events)
     body = _normalize_reasoning_param(body, caps, ctx, downgrade_events)
+    body = _normalize_tool_call_arguments(body, caps, ctx, downgrade_events)
     body = _normalize_reasoning_content(body, caps, ctx)
 
     logger.debug(
@@ -2361,6 +2362,95 @@ def _normalize_reasoning_param(
 # 11. _normalize_reasoning_content
 # ---------------------------------------------------------------------------
 
+def _normalize_tool_call_arguments(
+    body: Dict[str, Any],
+    caps: ResolvedCapabilities,
+    ctx: Optional[Any] = None,
+    downgrade_events: Optional[List[Dict[str, Any]]] = None,
+) -> Dict[str, Any]:
+    """净化 assistant 消息 tool_calls 中损坏的 function.arguments JSON。
+
+    根因（2026-09-16 生产事故,人物画像会话持续报「模型服务暂时不可用」）:
+    模型生成 tool call 时 arguments 可能被 max_tokens 截断（如 edit_file 的大
+    new_string）。设备端 agent-runtime 的 JSON.parse 失败后把坏字符串原样入库
+    （proxy-provider.ts flushToolAccumulators 的 catch 分支）,下一轮请求把坏
+    arguments 随历史带回上游。vLLM 的 qwen3_coder tool-call-parser 会对
+    arguments 做 json 解析,坏 JSON → 400 "Unterminated string ...",且该会话
+    从此每轮必挂（历史里坏消息永远在场）,前端持续显示「模型服务暂时不可用」。
+
+    行为:
+    - 遍历 ``body["messages"]`` 中 role=assistant 的 ``tool_calls[].function.arguments``
+    - 非空字符串且 json 解析失败 → 改写为 ``"{}"``（保留 tool_call id 与后续
+      tool 消息的配对结构;对应工具按空参数执行失败,但对话链路得以继续）
+    - 空/None arguments 保持原样（OpenAI 协议常见形态,上游自身可处理）
+    - 非字符串（客户端直接传 dict 等）→ 序列化为合法 JSON 字符串
+    - 每次请求最多记一条 capability_downgrade 事件,避免事件风暴
+    """
+    messages = body.get("messages")
+    if not isinstance(messages, list):
+        return body
+
+    request_id = getattr(ctx, "request_id", "?") if ctx is not None else "?"
+    repaired = 0
+    first_bad_tool = ""
+    first_bad_detail = ""
+
+    for msg in messages:
+        if not isinstance(msg, dict):
+            continue
+        if msg.get("role") != "assistant":
+            continue
+        tool_calls = msg.get("tool_calls")
+        if not isinstance(tool_calls, list):
+            continue
+        for call in tool_calls:
+            if not isinstance(call, dict):
+                continue
+            func = call.get("function")
+            if not isinstance(func, dict):
+                continue
+            raw = func.get("arguments")
+            if raw is None or raw == "":
+                continue
+            if not isinstance(raw, str):
+                # 协议要求 arguments 为 JSON 字符串;客户端直接传对象时序列化
+                try:
+                    func["arguments"] = json_lib.dumps(raw, ensure_ascii=False)
+                except Exception:  # noqa: BLE001 - 不可序列化对象兜底
+                    func["arguments"] = "{}"
+                    repaired += 1
+                continue
+            try:
+                json_lib.loads(raw)
+            except Exception as exc:  # noqa: BLE001 - json.JSONDecodeError 等
+                if not first_bad_tool:
+                    first_bad_tool = str(func.get("name") or "?")
+                    first_bad_detail = f"{type(exc).__name__}: {exc}"
+                func["arguments"] = "{}"
+                repaired += 1
+
+    if repaired:
+        logger.warning(
+            "[wire_adapter][normalize_tool_call_arguments] repaired %d malformed "
+            "tool_call arguments (first: %s, %s) request_id=%s",
+            repaired, first_bad_tool, first_bad_detail[:160], request_id,
+        )
+        _append_capability_downgrade_event(
+            downgrade_events,
+            ctx=ctx,
+            stage="tool_call_arguments",
+            feature="tool_call_arguments",
+            fallback_to="{}",
+            reason="malformed_tool_call_arguments",
+            message=(
+                f"检测到 {repaired} 处历史工具调用参数损坏（可能因模型输出截断），"
+                "已自动修复为空参数以继续本次对话。"
+            ),
+        )
+
+    return body
+
+
 def _normalize_reasoning_content(
     body: Dict[str, Any],
     caps: ResolvedCapabilities,
@@ -2436,5 +2526,6 @@ __all__ = [
     "_normalize_cache_control",
     "_normalize_json_mode",
     "_normalize_reasoning_param",
+    "_normalize_tool_call_arguments",
     "_normalize_reasoning_content",
 ]
