@@ -111,6 +111,19 @@ android {
         externalNativeBuild {
             cmake {
                 arguments("-DANDROID_STL=none")
+                // 本地 Windows 构建机：NDK r28 自带工具链文件在 Clang 编译器识别阶段崩溃
+                // （输出停在 "-- The C compiler identification is Clang 19.0.1"，无更多错误）。
+                // 通过 -DCMAKE_TOOLCHAIN_FILE 显式指定 tools/android-sdk-setup/ndk28.cmake
+                // （等效工具链，直接调用 NDK 编译器，绕过 NDK 内置脚本）。
+                // 其他构建机若 NDK 内置工具链可用，可用 -P 覆盖移除此项。
+                // 注：cmake arguments() 只能挂在 defaultConfig.externalNativeBuild.cmake
+                // （ExternalNativeCmakeOptions）；顶层 externalNativeBuild.cmake（Cmake）
+                // 只有 path/version 属性，写 arguments() 会脚本编译失败（Unresolved reference）。
+                val ndkToolchainOverride = providers.gradleProperty("NDK_TOOLCHAIN_FILE").orNull
+                    ?: System.getenv("NDK_TOOLCHAIN_FILE")
+                if (!ndkToolchainOverride.isNullOrBlank()) {
+                    arguments("-DCMAKE_TOOLCHAIN_FILE=$ndkToolchainOverride")
+                }
             }
         }
     }
@@ -167,16 +180,6 @@ android {
         cmake {
             path = file("src/main/jni/CMakeLists.txt")
             version = "3.22.1+"
-            // 本地 Windows 构建机：NDK r28 自带工具链文件在 Clang 编译器识别阶段崩溃
-            // （输出停在 "-- The C compiler identification is Clang 19.0.1"，无更多错误）。
-            // 通过 -DCMAKE_TOOLCHAIN_FILE 显式指定仓库内 tools/android-sdk-setup/ndk28.cmake
-            // （等效工具链，直接调用 NDK 编译器，绕过 NDK 内置脚本）。
-            // 其他构建机若 NDK 内置工具链可用，可用 -P 覆盖移除此项。
-            val ndkToolchainOverride = providers.gradleProperty("NDK_TOOLCHAIN_FILE").orNull
-                ?: System.getenv("NDK_TOOLCHAIN_FILE")
-            if (!ndkToolchainOverride.isNullOrBlank()) {
-                arguments("-DCMAKE_TOOLCHAIN_FILE=$ndkToolchainOverride")
-            }
         }
     }
 
