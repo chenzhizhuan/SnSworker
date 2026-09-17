@@ -34,14 +34,15 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tabtin.mobile.R
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.min
@@ -81,7 +82,7 @@ public fun LaunchSplashOverlay(
         modifier = modifier
             .fillMaxSize()
             .background(paper)
-            .semantics { contentDescription = "正在准备你的工作现场" },
+            .semantics { contentDescription = "智算方舟正在准备你的工作现场" },
     ) {
         val isPad = maxWidth >= 600.dp
         val shortSide = min(maxWidth.value, maxHeight.value)
@@ -113,12 +114,19 @@ public fun LaunchSplashOverlay(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = if (isReady) "工作现场已就绪" else "正在准备你的工作现场",
+                text = stringResource(R.string.app_name),
                 color = ink,
-                fontSize = if (isPad) 20.sp else 16.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontSize = if (isPad) 28.sp else 24.sp,
+                fontWeight = FontWeight.ExtraBold,
             )
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(6.dp))
+            Text(
+                text = if (isReady) "工作现场已就绪" else "正在准备你的工作现场",
+                color = ink.copy(alpha = 0.72f),
+                fontSize = if (isPad) 16.sp else 14.sp,
+                fontWeight = FontWeight.Medium,
+            )
+            Spacer(Modifier.height(10.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 repeat(3) { index ->
                     if (index > 0) Spacer(Modifier.width(6.dp))
@@ -172,17 +180,17 @@ private fun LaunchSplashArtwork(
             }
         }
 
-        val tinContainerWidth = maxWidth * (0.37f * 108f / 68f)
+        val arkContainerWidth = maxWidth * 0.5f
         Box(
             modifier = Modifier
-                .width(tinContainerWidth)
-                .aspectRatio(1f)
+                .width(arkContainerWidth)
+                .aspectRatio(128f / 104f)
                 .graphicsLayer {
                     val current = elapsed.value
                     val enter = ramp(current, 0.26f, 1.02f)
-                    val tinScale = 0.78f + enter * 0.22f
-                    scaleX = tinScale
-                    scaleY = tinScale
+                    val arkScale = 0.78f + enter * 0.22f
+                    scaleX = arkScale
+                    scaleY = arkScale
                     translationY = if (current in 1.34f..2.32f) {
                         -4f * density * sin((current - 1.34f) / 0.98f * PI.toFloat())
                     } else {
@@ -191,23 +199,11 @@ private fun LaunchSplashArtwork(
                 },
         ) {
             Image(
-                painter = painterResource(com.tabtin.mobile.R.drawable.splash_tin_base),
+                painter = painterResource(R.drawable.splash_ark_art),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(ink),
                 modifier = Modifier.fillMaxSize(),
             )
-            Canvas(Modifier.fillMaxSize()) {
-                val eyeScaleY = blinkScale(elapsed.value)
-                val unit = size.width / 108f
-                listOf(44f, 64f).forEach { eyeX ->
-                    withTransform({
-                        translate(left = eyeX * unit, top = 69.5f * unit)
-                        scale(scaleX = 1f, scaleY = eyeScaleY)
-                    }) {
-                        drawCircle(ink, radius = 5f * unit, center = androidx.compose.ui.geometry.Offset.Zero)
-                    }
-                }
-            }
         }
     }
 }
@@ -234,12 +230,6 @@ private fun easeInOutCubic(progress: Float): Float = if (progress < 0.5f) {
 }
 
 private fun easeOutQuart(progress: Float): Float = 1f - (1f - progress).pow(4)
-
-private fun blinkScale(elapsed: Float): Float {
-    if (elapsed !in 1.98f..2.16f) return 1f
-    val distance = abs(elapsed - 2.07f) / 0.09f
-    return 0.08f + min(distance, 1f) * 0.92f
-}
 
 private fun dotOpacity(elapsed: Float, index: Int): Float {
     val raw = elapsed - 0.82f - index * 0.11f

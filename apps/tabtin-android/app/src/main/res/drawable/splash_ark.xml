@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android SplashScreen 会把图形放入固定图标容器，收进安全区以衔接应用内动画。 -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/splash_ark_art"
+    android:inset="25%" />
