@@ -297,46 +297,57 @@ function resolveSessionRecord(
 
 type MessageListAccess = Parameters<ChatClient['messages']['list']>[2]
 
+type InitialMessagesResult = {
+  messages: ChatMessage[]
+  hasEarlier: boolean
+  showPerMessageCost?: boolean | null
+}
+
+/**
+ * 会话首屏消息加载：统一锚定「最新页」。
+ *
+ * 服务端 messages.list 的 offset 分页是 ASC 正序（offset=0 = 会话最旧页），
+ * 而 before 游标翻页只能往更旧方向走——因此首屏必须落在最新页，否则
+ * >50 条的会话跨端打开时只显示会话开头片段，且 preload/手动上翻永远
+ * 补不齐更新的部分（滚动补全方向与缺口方向相反）。
+ *
+ * 实现：先以 limit 探测（拿 has_more / total），has_more 时按
+ * total-offset 拉最新一页；hasEarlier 表示最新页之前是否还有更早历史。
+ */
 async function listInitialMessages(
   client: ChatClient,
   sessionId: string,
   access: MessageListAccess,
-  initialMessagePage: SessionSelectionOptions['initialMessagePage'] = 'default',
-): Promise<{
-  messages: ChatMessage[]
-  hasEarlier: boolean
-}> {
+): Promise<InitialMessagesResult> {
   const firstPage = await client.messages.list(
     sessionId,
     { limit: INITIAL_MESSAGE_PAGE_SIZE },
     access,
   )
   const firstMessages: ChatMessage[] = firstPage?.messages ?? (Array.isArray(firstPage) ? firstPage : [])
-  if (initialMessagePage !== 'latest' || !firstPage?.has_more) {
-    return {
-      messages: firstMessages,
-      hasEarlier: firstPage?.has_more ?? false,
-    }
+  const showPerMessageCost = firstPage?.show_per_message_cost ?? null
+  if (!firstPage?.has_more) {
+    return { messages: firstMessages, hasEarlier: false, showPerMessageCost }
   }
 
   if (!Number.isFinite(firstPage.total)) {
-    throw new Error('messages.list latest page requires total when has_more=true')
+    // 服务端未回 total 时无法定位最新页：退回第一页（保留 has_more 语义）。
+    return { messages: firstMessages, hasEarlier: true, showPerMessageCost }
   }
   const latestOffset = Math.max(0, Number(firstPage.total) - INITIAL_MESSAGE_PAGE_SIZE)
   if (latestOffset <= 0) {
-    return {
-      messages: firstMessages,
-      hasEarlier: false,
-    }
+    return { messages: firstMessages, hasEarlier: false, showPerMessageCost }
   }
   const latestPage = await client.messages.list(
     sessionId,
     { limit: INITIAL_MESSAGE_PAGE_SIZE, offset: latestOffset },
     access,
   )
+  const latestMessages: ChatMessage[] = latestPage?.messages ?? (Array.isArray(latestPage) ? latestPage : [])
   return {
-    messages: latestPage?.messages ?? (Array.isArray(latestPage) ? latestPage : []),
+    messages: latestMessages,
     hasEarlier: true,
+    showPerMessageCost: latestPage?.show_per_message_cost ?? showPerMessageCost,
   }
 }
 
@@ -1251,26 +1262,28 @@ if (cached !== undefined) {
         const client = getChatClient()
         // ：fetch 前捕获写入权威 epoch；merge + 门控 + 写 + cache 内聚在 reconcileFromServer。
         const fetchEpoch = getSessionMessagesFacade(sessionId).captureEpoch()
-        const response = await client.messages.list(sessionId, { limit: 50 })
-        const messages: ChatMessage[] = response?.messages ?? (Array.isArray(response) ? response : [])
+        // 分屏同主链：首屏锚定最新页（服务端 offset 分页为 ASC 正序，
+        // 直接 limit 拉到的是会话最旧一页）。
+        const initial = await listInitialMessages(client, sessionId, undefined)
+        const messages: ChatMessage[] = initial.messages
         // ：与全局对账同一套 upsert
         const result = get().reconcileFromServer(sessionId, fetchEpoch, messages)
         if (result.dropped) {
           markSessionStale(sessionId)
         } else {
           set((state: SessionCrudStore) => ({
-            hasMoreBySessionId: { ...state.hasMoreBySessionId, [sessionId]: response?.has_more ?? false },
+            hasMoreBySessionId: { ...state.hasMoreBySessionId, [sessionId]: initial.hasEarlier },
           }))
           markSessionFresh(sessionId)
-          if (response?.has_more) {
+          if (initial.hasEarlier) {
             // 跨设备补全：无本机 transcript 的会话后台拉全历史。
             void runHistoryPreload(sessionId)
           }
         }
 
-        if (response?.show_per_message_cost != null) {
+        if (initial.showPerMessageCost != null) {
           const { useBillingStore } = await import('@/stores/useBillingStore')
-          useBillingStore.getState().setShowPerMessageCost(!!response.show_per_message_cost)
+          useBillingStore.getState().setShowPerMessageCost(!!initial.showPerMessageCost)
         }
       } catch (error) {
         console.error('[Chat] loadSessionMessages failed:', error)
@@ -1393,7 +1406,6 @@ if (cached !== undefined) {
           client,
           sessionId,
           sharedAccess ? { shareId: sharedAccess.shareId } : undefined,
-          initialMessagePage,
         ).then(({ messages: fresh, hasEarlier }) => {
           if (!isLatestRequest()) return
           const result = get().reconcileFromServer(sessionId, fetchEpoch, fresh)
@@ -1537,7 +1549,6 @@ if (cached !== undefined) {
           client,
           sessionId,
           sharedAccess ? { shareId: sharedAccess.shareId } : undefined,
-          initialMessagePage,
         )
         if (!isLatestRequest()) return
         const result = get().reconcileFromServer(sessionId, fetchEpoch, messages)
