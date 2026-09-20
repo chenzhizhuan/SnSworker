@@ -49,6 +49,20 @@ const SAFE_UPSTREAM_CODES = new Set([
   'NOT_FOUND',
   'SEARCH_ERROR',
   'BILLING_ERROR',
+  // ── /api/search/web invocation 校验码（api.py 对 SearchInvocationValidationError
+  // 返回 exc.code.upper()；此前这些码不在白名单，403 被吞成通用
+  // permission_denied 文案，排障时误导成“组织/Space 权限问题”（实际是
+  // agent_run_id 上下文校验失败）。见 invocation_identity.py 全部 raise 点。
+  'SEARCH_INVOCATION_RUN_FORBIDDEN',
+  'SEARCH_INVOCATION_CONTEXT_INCOMPLETE',
+  'SEARCH_INVOCATION_COMPONENT_INVALID',
+  'SEARCH_INVOCATION_RUN_INVALID',
+  'SEARCH_ORGANIZATION_FORBIDDEN',
+  'SEARCH_INVOCATION_IN_PROGRESS',
+  'SEARCH_INVOCATION_CLOSED',
+  'IDENTITY_KEY_CONFLICT',
+  'SEARCH_RESULT_REPLAY_UNAVAILABLE',
+  'SEARCH_BILLING_SETTLEMENT_PENDING',
 ]);
 
 const SAFE_EXTRA_METADATA_KEYS = new Set([
@@ -244,6 +258,18 @@ const SEARCH_BILLING_QUOTA_CODES = new Set([
   'search_billing_member_budget',
 ]);
 
+// /api/search/web 的 invocation 上下文校验码（服务端 api.py 返回大写形态）。
+// 语义：agent_run_id / 组织上下文未被服务端接受——不是搜索渠道问题，重试同参
+// 无意义；应停止重试并向用户报告。典型诱因：子 Agent 用了未注册的本地 run id
+// （已由 web-tools.ts 改用顶层锚点修复，此处为兕底可见性）。
+const SEARCH_INVOCATION_REJECTED_CODES = new Set([
+  'SEARCH_INVOCATION_RUN_FORBIDDEN',
+  'SEARCH_INVOCATION_CONTEXT_INCOMPLETE',
+  'SEARCH_INVOCATION_COMPONENT_INVALID',
+  'SEARCH_INVOCATION_RUN_INVALID',
+  'SEARCH_ORGANIZATION_FORBIDDEN',
+]);
+
 function translateSearchError(
   input: BackendErrorInput,
   upstreamCode: string | undefined,
@@ -265,6 +291,26 @@ function translateSearchError(
       error_kind: MISSING_REQUIRED_PARAM,
       message: 'search_term is required',
       hint: 'Provide the web search query in search_term before calling web_search.',
+    };
+  }
+
+  if (SEARCH_INVOCATION_REJECTED_CODES.has(normalizedCode)) {
+    return {
+      ...base,
+      error_kind: PERMISSION_DENIED,
+      message: 'The server rejected this web search call because the agent run context was not accepted.',
+      hint:
+        'Do not retry web_search with the same run context. Tell the user the server rejected the agent run context for web search, and ask them to retry from a new conversation turn if needed.',
+    };
+  }
+
+  if (normalizedCode === 'SEARCH_INVOCATION_IN_PROGRESS' || normalizedCode === 'SEARCH_INVOCATION_CLOSED') {
+    return {
+      ...base,
+      error_kind: RATE_LIMITED,
+      message: 'The same web search is already executing or has already been closed.',
+      hint:
+        'Wait briefly for the in-flight search to settle instead of launching a duplicate web_search call.',
     };
   }
 

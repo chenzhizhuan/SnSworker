@@ -170,6 +170,67 @@ describe('backend error translator', () => {
     });
   });
 
+  // 2026-09-20 生产事故回归：子 Agent web_search 403 被吞成通用
+  // permission_denied（"You do not have permission..."），误导为 Space/组织
+  // 权限问题，实际是 SEARCH_INVOCATION_RUN_FORBIDDEN（agent_run_id 未在服务端
+  // 注册）。修复：这些码进白名单 + 专门分支给出准确 message/hint。
+  it('surfaces search invocation context rejection codes for web_search', () => {
+    expect(translateBackendError({
+      status: 403,
+      body: { code: 'SEARCH_INVOCATION_RUN_FORBIDDEN', message: '无权使用该 Agent Run 进行联网搜索' },
+      toolName: 'web_search',
+      operation: 'web search',
+    })).toMatchObject({
+      error_kind: 'permission_denied',
+      message: 'The server rejected this web search call because the agent run context was not accepted.',
+      upstream_code: 'SEARCH_INVOCATION_RUN_FORBIDDEN',
+      upstream_status: 403,
+    });
+
+    expect(translateBackendError({
+      status: 403,
+      body: { code: 'SEARCH_ORGANIZATION_FORBIDDEN', message: '无权使用该组织进行联网搜索' },
+      toolName: 'web_search',
+      operation: 'web search',
+    })).toMatchObject({
+      error_kind: 'permission_denied',
+      upstream_code: 'SEARCH_ORGANIZATION_FORBIDDEN',
+    });
+
+    expect(translateBackendError({
+      status: 400,
+      body: { code: 'SEARCH_INVOCATION_CONTEXT_INCOMPLETE', message: 'Agent 搜索必须同时提供 agent_run_id 和工具调用标识' },
+      toolName: 'web_search',
+      operation: 'web search',
+    })).toMatchObject({
+      error_kind: 'permission_denied',
+      upstream_code: 'SEARCH_INVOCATION_CONTEXT_INCOMPLETE',
+    });
+  });
+
+  it('maps in-progress / closed search invocation conflicts to rate limiting semantics', () => {
+    expect(translateBackendError({
+      status: 409,
+      body: { code: 'SEARCH_INVOCATION_IN_PROGRESS', message: '同一联网搜索正在执行' },
+      toolName: 'web_search',
+      operation: 'web search',
+    })).toMatchObject({
+      error_kind: 'rate_limited',
+      message: 'The same web search is already executing or has already been closed.',
+      upstream_code: 'SEARCH_INVOCATION_IN_PROGRESS',
+    });
+
+    expect(translateBackendError({
+      status: 409,
+      body: { code: 'SEARCH_INVOCATION_CLOSED', message: '该联网搜索调用已关闭' },
+      toolName: 'web_search',
+      operation: 'web search',
+    })).toMatchObject({
+      error_kind: 'rate_limited',
+      upstream_code: 'SEARCH_INVOCATION_CLOSED',
+    });
+  });
+
   it('only exposes whitelisted product-semantic upstream codes', () => {
     const unknown = translateBackendError({
       status: 404,

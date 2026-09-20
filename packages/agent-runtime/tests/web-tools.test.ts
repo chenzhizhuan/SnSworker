@@ -117,6 +117,49 @@ describe('web_search W7 工具结果', () => {
     ]);
   });
 
+  // 403 SEARCH_INVOCATION_RUN_FORBIDDEN 根因修复：子 Agent 的 agentRunId 是
+  // 客户端本地 run id，服务端 agent_engine_runs 查不到 → invocation 校验 403。
+  // 修复后计费归因锚点优先取 fileHistoryAnchorId（子 Agent 继承的顶层主 run id）。
+  it('bills web_search against the top-level run anchor when running inside a sub-agent', async () => {
+    mock.setResponder(() => buildJson({ results: [], total_count: 0 }));
+    const tool = findTool(createWebTools(deps), 'web_search');
+    // 子 Agent 场景：agentRunId=子 run（服务端无记录），fileHistoryAnchorId=父轮主 run
+    const subagentContext: ToolContext = {
+      ...noopContext,
+      agentRunId: '22222222-2222-2222-2222-222222222222',
+      fileHistoryAnchorId: '11111111-1111-1111-1111-111111111111',
+      toolUseId: 'tool-subagent-search-1',
+    };
+
+    await tool.execute({ search_term: 'subagent query' }, subagentContext);
+
+    expect(mock.calls).toHaveLength(1);
+    expect(mock.calls[0].body).toEqual({
+      query: 'subagent query',
+      count: 8,
+      biz_type: 'orchestration.web_search',
+      agent_run_id: '11111111-1111-1111-1111-111111111111',
+      client_tool_invocation_component: 'tool-subagent-search-1',
+    });
+  });
+
+  // 兼容旧宿主 / legacy 测试 context：无 fileHistoryAnchorId 时回落 agentRunId，
+  // 主 Agent 生产链路二者相等，行为不变。
+  it('falls back to agentRunId when fileHistoryAnchorId is absent', async () => {
+    mock.setResponder(() => buildJson({ results: [], total_count: 0 }));
+    const tool = findTool(createWebTools(deps), 'web_search');
+    const legacyContext: ToolContext = {
+      ...noopContext,
+      agentRunId: '33333333-3333-3333-3333-333333333333',
+    };
+
+    await tool.execute({ search_term: 'legacy' }, legacyContext);
+
+    expect(mock.calls).toHaveLength(1);
+    expect(mock.calls[0].body?.agent_run_id).toBe('33333333-3333-3333-3333-333333333333');
+    expect(mock.calls[0].body?.client_tool_invocation_component).toBe('mock-tool-use');
+  });
+
   it('returns preview results for LLM and full results for the tool UI without emitting rich content', async () => {
     mock.setResponder(() => buildJson({
       summary: 'AI summary text',

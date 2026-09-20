@@ -87,7 +87,7 @@ export function createWebTools(deps: WebToolsDeps): Tool[] {
 
 function buildWebSearchBody(
   params: WebSearchParams,
-  context?: Pick<ToolContext, 'agentRunId' | 'toolUseId'>,
+  context?: Pick<ToolContext, 'agentRunId' | 'toolUseId' | 'fileHistoryAnchorId'>,
 ): Record<string, unknown> {
   const count = Math.max(1, Math.min(params.count ?? 8, 50))
   const body: Record<string, unknown> = {
@@ -99,9 +99,18 @@ function buildWebSearchBody(
   if (params.include_summary != null) body.summary = params.include_summary
   if (params.include_domains?.length) body.include_domains = params.include_domains
   if (params.exclude_domains?.length) body.exclude_domains = params.exclude_domains
-  if (context?.agentRunId) {
-    body.agent_run_id = context.agentRunId
-    if (context.toolUseId) {
+  // 子 Agent 的 agentRunId 是客户端本地生成的子 run id，从未写入服务端
+  // agent_engine_runs 权威表；/api/search/web 的防滥用校验
+  // （invocation_identity.py）要求 agent_run_id 必须命中表中已注册的 run，
+  // 否则 403 SEARCH_INVOCATION_RUN_FORBIDDEN（子 Agent 里 web_search 必挂）。
+  // fileHistoryAnchorId 是「顶层对话轮」run id——主 Agent 时等于 agentRunId，
+  // 子 Agent fork 时继承父锚点（agent-tool.ts），始终对应服务端注册的主 run。
+  // 因此计费归因锚点优先取 fileHistoryAnchorId，与 plan-store /
+  // shell-file-history 的 `anchorId ?? agentRunId` 同款惯例。
+  const billingRunId = context?.fileHistoryAnchorId || context?.agentRunId
+  if (billingRunId) {
+    body.agent_run_id = billingRunId
+    if (context?.toolUseId) {
       body.client_tool_invocation_component = context.toolUseId
     }
   }
