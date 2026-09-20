@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SnSworker</string>
+    <string name="app_name">智算方舟</string>
 
     <string name="common_close">Close</string>
     <string name="common_back">Back</string>

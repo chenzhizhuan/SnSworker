@@ -660,7 +660,8 @@
       right: 18px;
       bottom: 16px;
       width: 150px;
-      aspect-ratio: 96 / 80;
+      aspect-ratio: 128 / 104;
+      color: var(--paper);
       opacity: 0;
       transform-origin: 50% 82%;
       will-change: transform, opacity;
@@ -672,22 +673,8 @@
       overflow: visible;
     }
 
-    .tin-face {
-      fill: #2c2c27;
-      stroke: var(--paper);
-    }
-
-    .tin-feature {
-      fill: var(--paper);
-    }
-
-    .tin-antenna {
-      fill: none;
-      stroke: var(--paper);
-    }
-
     .tin-signal-point {
-      fill: var(--paper);
+      fill: currentColor;
       opacity: 0;
       transform-box: fill-box;
       transform-origin: center;
@@ -1010,22 +997,22 @@
 </head>
 
 <body>
-  <main class="stage" id="motion" role="img" aria-label="SnSworker 从意图到成果的协作动画">
+  <main class="stage" id="motion" role="img" aria-label="智算方舟从意图到成果的协作动画">
     <div class="stage-canvas" id="stage-canvas">
       <section class="brand-intro" id="brand-intro" aria-hidden="true">
         <div class="brand-lockup">
           <div class="brand-mark-field" id="brand-mark-field">
-            <svg viewBox="0 0 96 80" aria-hidden="true">
-              <rect x="18" y="28" width="60" height="44" rx="13" fill="#fff" stroke="#262420" stroke-width="5" />
-              <circle cx="38" cy="50" r="5" fill="#262420" />
-              <circle cx="58" cy="50" r="5" fill="#262420" />
-              <path d="M48 28V16" fill="none" stroke="#262420" stroke-width="5" stroke-linecap="round" />
-              <circle cx="48" cy="11" r="5.5" fill="#262420" />
-              <rect x="22" y="7" width="10" height="5" rx="2.5" fill="#262420" transform="rotate(45 27 9.5)" />
-              <rect x="64" y="7" width="10" height="5" rx="2.5" fill="#262420" transform="rotate(-45 69 9.5)" />
+            <svg viewBox="0 0 128 104" data-brand-logo="snsworker-ark" aria-hidden="true">
+              <rect data-logo-part="pixel" x="14" y="45" width="10" height="10" rx="2" fill="currentColor" />
+              <rect data-logo-part="pixel" x="23" y="33" width="10" height="10" rx="2" fill="currentColor" />
+              <rect data-logo-part="pixel" x="33" y="48" width="10" height="10" rx="2" fill="currentColor" />
+              <rect data-logo-part="pixel" x="39" y="19" width="10" height="10" rx="2" fill="currentColor" />
+              <path data-logo-part="sail" d="M48 68C57 42 76 21 104 8V59C82 59 64 63 48 68Z" fill="currentColor" />
+              <path data-logo-part="wave" d="M15 70C37 82 55 76 72 68C85 62 99 62 115 68L107 83C91 78 77 78 62 85C44 93 27 88 15 70Z" fill="currentColor" />
+              <path data-logo-part="wave" d="M51 91C68 97 82 85 108 89C89 99 69 107 51 91Z" fill="currentColor" />
             </svg>
           </div>
-          <h1 class="brand-word"><span>Tab</span><span>Tin</span></h1>
+          <h1 class="brand-word"><span>智算</span><span>方舟</span></h1>
         </div>
         <div class="manifesto">
           <i class="manifesto-rule" id="manifesto-rule"></i>
@@ -1169,18 +1156,14 @@
           </div>
         </section>
         <div class="tin-wrap" id="tin-wrap">
-          <svg viewBox="0 0 96 80" aria-hidden="true">
-            <rect class="tin-face" x="18" y="28" width="60" height="44" rx="13" stroke-width="5" />
-            <circle class="tin-feature" cx="38" cy="50" r="5" />
-            <circle class="tin-feature" cx="58" cy="50" r="5" />
-            <path class="tin-antenna" d="M48 28V16" stroke-width="5" stroke-linecap="round" />
-            <circle class="tin-feature" cx="48" cy="11" r="5.5" />
-            <g transform="rotate(45 27 9.5)">
-              <rect class="tin-signal-point" x="22" y="7" width="10" height="5" rx="2.5" />
-            </g>
-            <g transform="rotate(-45 69 9.5)">
-              <rect class="tin-signal-point" x="64" y="7" width="10" height="5" rx="2.5" />
-            </g>
+          <svg viewBox="0 0 128 104" data-brand-logo="snsworker-ark" aria-hidden="true">
+            <rect class="tin-signal-point" data-logo-part="pixel" x="14" y="45" width="10" height="10" rx="2" />
+            <rect class="tin-signal-point" data-logo-part="pixel" x="23" y="33" width="10" height="10" rx="2" />
+            <rect class="tin-signal-point" data-logo-part="pixel" x="33" y="48" width="10" height="10" rx="2" />
+            <rect class="tin-signal-point" data-logo-part="pixel" x="39" y="19" width="10" height="10" rx="2" />
+            <path data-logo-part="sail" d="M48 68C57 42 76 21 104 8V59C82 59 64 63 48 68Z" fill="currentColor" />
+            <path data-logo-part="wave" d="M15 70C37 82 55 76 72 68C85 62 99 62 115 68L107 83C91 78 77 78 62 85C44 93 27 88 15 70Z" fill="currentColor" />
+            <path data-logo-part="wave" d="M51 91C68 97 82 85 108 89C89 99 69 107 51 91Z" fill="currentColor" />
           </svg>
         </div>
         <p class="finale-note" id="finale-note"></p>
@@ -1214,7 +1197,7 @@
 
       const copies = {
         zh: {
-          aria: '智算方舟 从意图到成果的协作动画',
+          aria: '智算方舟从意图到成果的协作动画',
           introTitle: ['不止于对话。', '更在于共事。'],
           introNote: '每一份意图，都在同一工作现场化为可见、可追溯、可接续的成果。',
           phasePrefix: '不止', phaseCrossed: '回应', phaseAccent: '付诸行动',

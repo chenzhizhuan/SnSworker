@@ -16,7 +16,7 @@ struct LaunchSplashView: View {
         }
         .ignoresSafeArea()
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("正在准备你的工作现场")
+        .accessibilityLabel("智算方舟正在准备你的工作现场")
         .accessibilityAddTraits(.updatesFrequently)
     }
 }
@@ -46,16 +46,20 @@ private struct LaunchSplashFrame: View {
                     LaunchSplashArtwork(
                         elapsed: elapsed,
                         ink: ink,
-                        paper: paper,
                         opacity: visualOpacity
                     )
                     .frame(width: visualSize, height: visualSize)
 
                     VStack(spacing: 12) {
-                        Text(ready ? "工作现场已就绪" : "正在准备你的工作现场")
-                            .font(.system(size: isPad ? 20 : 16, weight: .semibold))
-                            .tracking(-0.3)
+                        Text("智算方舟")
+                            .font(.system(size: isPad ? 28 : 24, weight: .heavy))
+                            .tracking(-0.6)
                             .foregroundStyle(ink)
+
+                        Text(ready ? "工作现场已就绪" : "正在准备你的工作现场")
+                            .font(.system(size: isPad ? 16 : 14, weight: .medium))
+                            .tracking(-0.3)
+                            .foregroundStyle(ink.opacity(0.72))
 
                         HStack(spacing: 6) {
                             ForEach(0..<3, id: \.self) { index in
@@ -85,7 +89,6 @@ private struct LaunchSplashFrame: View {
 private struct LaunchSplashArtwork: View {
     let elapsed: TimeInterval
     let ink: Color
-    let paper: Color
     let opacity: Double
 
     var body: some View {
@@ -122,55 +125,64 @@ private struct LaunchSplashArtwork: View {
                 )
             }
 
-            drawTin(context: &context, center: center, unit: unit)
+            drawArk(context: &context, center: center, unit: unit)
         }
         .opacity(opacity)
     }
 
-    private func drawTin(context: inout GraphicsContext, center: CGPoint, unit: CGFloat) {
+    private func drawArk(context: inout GraphicsContext, center: CGPoint, unit: CGFloat) {
         let enter = ramp(elapsed, from: 0.26, to: 1.02)
         let scale = 0.78 + enter * 0.22
         let floatY = elapsed >= 1.34 && elapsed <= 2.32
             ? -4 * sin((elapsed - 1.34) / 0.98 * .pi) * unit
             : 0
-        let bodyWidth = 60 * unit * scale
-        let bodyHeight = 44 * unit * scale
-        let bodyTop = center.y - bodyHeight * 0.18 + floatY
-        let bodyRect = CGRect(
-            x: center.x - bodyWidth / 2,
-            y: bodyTop,
-            width: bodyWidth,
-            height: bodyHeight
+        let markUnit = unit * scale
+        let origin = CGPoint(
+            x: center.x - 64 * markUnit,
+            y: center.y - 52 * markUnit + floatY
         )
-        let body = Path(roundedRect: bodyRect, cornerRadius: 13 * unit * scale)
-        context.fill(body, with: .color(paper))
-        context.stroke(body, with: .color(ink), lineWidth: 5 * unit * scale)
-
-        let antennaBottom = bodyRect.minY
-        let antennaTop = antennaBottom - 12 * unit * scale
-        var antenna = Path()
-        antenna.move(to: CGPoint(x: center.x, y: antennaBottom))
-        antenna.addLine(to: CGPoint(x: center.x, y: antennaTop))
-        context.stroke(antenna, with: .color(ink), style: StrokeStyle(lineWidth: 5 * unit * scale, lineCap: .round))
-        let knob = CGRect(
-            x: center.x - 5.5 * unit * scale,
-            y: antennaTop - 10.5 * unit * scale,
-            width: 11 * unit * scale,
-            height: 11 * unit * scale
-        )
-        context.fill(Path(ellipseIn: knob), with: .color(ink))
-
-        let eyeScaleY = blinkScale(elapsed)
-        let eyeY = bodyRect.minY + 22 * unit * scale
-        for xOffset in [-10.0, 10.0] {
-            let eyeRect = CGRect(
-                x: center.x + xOffset * unit * scale - 5 * unit * scale,
-                y: eyeY - 5 * unit * scale * eyeScaleY,
-                width: 10 * unit * scale,
-                height: 10 * unit * scale * eyeScaleY
-            )
-            context.fill(Path(ellipseIn: eyeRect), with: .color(ink))
+        let point: (CGFloat, CGFloat) -> CGPoint = { x, y in
+            CGPoint(x: origin.x + x * markUnit, y: origin.y + y * markUnit)
         }
+
+        let pixels: [(CGFloat, CGFloat)] = [(14, 45), (23, 33), (33, 48), (39, 19)]
+        for (x, y) in pixels {
+            let pixel = CGRect(
+                x: origin.x + x * markUnit,
+                y: origin.y + y * markUnit,
+                width: 10 * markUnit,
+                height: 10 * markUnit
+            )
+            context.fill(
+                Path(roundedRect: pixel, cornerRadius: 2 * markUnit),
+                with: .color(ink)
+            )
+        }
+
+        var sail = Path()
+        sail.move(to: point(48, 68))
+        sail.addCurve(to: point(104, 8), control1: point(57, 42), control2: point(76, 21))
+        sail.addLine(to: point(104, 59))
+        sail.addCurve(to: point(48, 68), control1: point(82, 59), control2: point(64, 63))
+        sail.closeSubpath()
+        context.fill(sail, with: .color(ink))
+
+        var upperWave = Path()
+        upperWave.move(to: point(15, 70))
+        upperWave.addCurve(to: point(72, 68), control1: point(37, 82), control2: point(55, 76))
+        upperWave.addCurve(to: point(115, 68), control1: point(85, 62), control2: point(99, 62))
+        upperWave.addLine(to: point(107, 83))
+        upperWave.addCurve(to: point(62, 85), control1: point(91, 78), control2: point(77, 78))
+        upperWave.addCurve(to: point(15, 70), control1: point(44, 93), control2: point(27, 88))
+        upperWave.closeSubpath()
+        context.fill(upperWave, with: .color(ink))
+
+        var lowerWave = Path()
+        lowerWave.move(to: point(51, 91))
+        lowerWave.addCurve(to: point(108, 89), control1: point(68, 97), control2: point(82, 85))
+        lowerWave.addCurve(to: point(51, 91), control1: point(89, 99), control2: point(69, 107))
+        lowerWave.closeSubpath()
+        context.fill(lowerWave, with: .color(ink))
     }
 
     private func strokeCircle(
@@ -214,11 +226,4 @@ private func easeInOutCubic(_ progress: Double) -> Double {
 
 private func easeOutQuart(_ progress: Double) -> Double {
     1 - pow(1 - progress, 4)
-}
-
-private func blinkScale(_ elapsed: TimeInterval) -> Double {
-    guard elapsed >= 1.98, elapsed <= 2.16 else { return 1 }
-    let midpoint = 2.07
-    let distance = abs(elapsed - midpoint) / 0.09
-    return 0.08 + min(distance, 1) * 0.92
 }

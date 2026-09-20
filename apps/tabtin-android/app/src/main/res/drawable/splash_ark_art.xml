@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 智算方舟启动页单色标志；几何与登录页内联 SVG 保持一致。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="104dp"
+    android:viewportWidth="128"
+    android:viewportHeight="104">
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M16,45H22A2,2 0,0 1,24 47V53A2,2 0,0 1,22 55H16A2,2 0,0 1,14 53V47A2,2 0,0 1,16 45Z" />
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M25,33H31A2,2 0,0 1,33 35V41A2,2 0,0 1,31 43H25A2,2 0,0 1,23 41V35A2,2 0,0 1,25 33Z" />
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M35,48H41A2,2 0,0 1,43 50V56A2,2 0,0 1,41 58H35A2,2 0,0 1,33 56V50A2,2 0,0 1,35 48Z" />
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M41,19H47A2,2 0,0 1,49 21V27A2,2 0,0 1,47 29H41A2,2 0,0 1,39 27V21A2,2 0,0 1,41 19Z" />
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M48,68C57,42 76,21 104,8V59C82,59 64,63 48,68Z" />
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M15,70C37,82 55,76 72,68C85,62 99,62 115,68L107,83C91,78 77,78 62,85C44,93 27,88 15,70Z" />
+    <path
+        android:fillColor="@color/splash_ink"
+        android:pathData="M51,91C68,97 82,85 108,89C89,99 69,107 51,91Z" />
+</vector>
