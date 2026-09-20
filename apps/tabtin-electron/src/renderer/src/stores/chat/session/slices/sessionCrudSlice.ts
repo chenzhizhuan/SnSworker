@@ -411,6 +411,8 @@ export function createSessionCrudActions(
   const latestSelectRequestBySessionId = new Map<string, number>()
   // loadSessions 并发去重：同一 space 的服务器请求 in-flight 期间不重复发。
   const inflightSessionLoads = new Set<string>()
+  // 跨设备历史补全（后台拉全量）：同会话预载 in-flight 期间只跑一个循环。
+  const historyPreloadInflight = new Set<string>()
   const pendingArchivedSessionIds = new Map<string, number>()
   const pendingOverlaySessions = new Map<string, { spaceId: string; session: ChatSession; markedAt: number }>()
   const optimisticArchiveSnapshots = new Map<string, {
@@ -427,6 +429,106 @@ export function createSessionCrudActions(
 
   const markSessionArchivedTombstone = (sessionId: string) => {
     pendingArchivedSessionIds.set(sessionId, Date.now())
+  }
+
+  /**
+   * 单页历史翻页内核：手动翻页与后台补全共用同一门控、游标与合并路径。
+   * 返回结构化结果供调用方决策（preload 循环靠它判断完成/停滞）。
+   */
+  const fetchOlderMessagesPage = async (
+    sessionId: string,
+  ): Promise<
+    | { kind: 'more'; added: number }
+    | { kind: 'done' }
+    | { kind: 'gated' }
+    | { kind: 'error'; error: unknown }
+  > => {
+    const state = get()
+    if (state.isLoadingMoreBySessionId?.[sessionId]) return { kind: 'gated' }
+    if (state.hasMoreBySessionId?.[sessionId] === false) return { kind: 'done' }
+
+    const existing = state.messagesBySessionId[sessionId]
+    if (!existing || existing.length === 0) return { kind: 'done' }
+
+    const oldestId = existing[0]?.id
+    if (!oldestId) return { kind: 'done' }
+
+    set((s: SessionCrudStore) => ({
+      isLoadingMoreBySessionId: { ...s.isLoadingMoreBySessionId, [sessionId]: true },
+    }))
+
+    try {
+      const client = getChatClient()
+      // epoch 门控统一经会话消息门面。
+      const facade = getSessionMessagesFacade(sessionId)
+      // ：fetch 前捕获写入权威 epoch，写回经 commitServerMerge 门控。
+      const fetchEpoch = facade.captureEpoch()
+      const response = await client.messages.list(sessionId, {
+        limit: 30,
+        before: oldestId,
+      })
+      const olderMessages: ChatMessage[] = response?.messages ?? []
+
+      if (olderMessages.length > 0) {
+        facade.commitServerMerge(fetchEpoch, () => {
+          // 去重 + 时间线重排在 prependOlderMessages 内聚；IDB 只追加实际新增 id。
+          const beforeIds = new Set(
+            (get().messagesBySessionId[sessionId] ?? []).map((m) => m.id),
+          )
+          get().prependOlderMessages(sessionId, olderMessages)
+          const added = (get().messagesBySessionId[sessionId] ?? [])
+            .filter((m) => !beforeIds.has(m.id))
+          if (added.length > 0) appendCachedMessages(sessionId, added)
+        })
+      }
+
+      const hasMore = response?.has_more ?? false
+      set((s: SessionCrudStore) => ({
+        hasMoreBySessionId: { ...s.hasMoreBySessionId, [sessionId]: hasMore },
+        isLoadingMoreBySessionId: { ...s.isLoadingMoreBySessionId, [sessionId]: false },
+      }))
+      return hasMore ? { kind: 'more', added: olderMessages.length } : { kind: 'done' }
+    } catch (error) {
+      set((s: SessionCrudStore) => ({
+        isLoadingMoreBySessionId: { ...s.isLoadingMoreBySessionId, [sessionId]: false },
+      }))
+      return { kind: 'error', error }
+    }
+  }
+
+  /**
+   * 跨设备历史补全：无本机 runtime transcript 的设备（如 Windows 首开
+   * Mac 上创建的会话）初始页仅 50 条，手动滚动每次 30 条不够用。
+   * 进入会话后后台循环翻页拉全历史；滚动补偿复用 viewport 层
+   * isLoadingMore 的 history-prepended 路径，阅读位置不受影响。
+   */
+  const runHistoryPreload = async (sessionId: string) => {
+    if (!sessionId) return
+    if (historyPreloadInflight.has(sessionId)) return
+    // 共享会话翻页走 onLoadMore 内联的 shareId 分支，此路径不适用。
+    if (useSessionAccessStore.getState().bySessionId[sessionId]) return
+    if (get().hasMoreBySessionId?.[sessionId] !== true) return
+    if ((get().messagesBySessionId?.[sessionId] ?? []).length === 0) return
+
+    historyPreloadInflight.add(sessionId)
+    try {
+      const MAX_ROUNDS = 200 // ~6000 条，防御异常数据导致的死循环
+      const MAX_STALL = 5 // 连续无进展（并发翻页在途/网络失败）即放弃，下次进入会话续跑
+      let stallRounds = 0
+      for (let round = 0; round < MAX_ROUNDS; round++) {
+        const outcome = await fetchOlderMessagesPage(sessionId)
+        if (outcome.kind === 'done') return
+        if (outcome.kind === 'more') {
+          stallRounds = 0
+          continue
+        }
+        stallRounds += 1
+        if (stallRounds >= MAX_STALL) return
+        await new Promise(resolve => setTimeout(resolve, 400))
+      }
+    } finally {
+      historyPreloadInflight.delete(sessionId)
+    }
   }
 
   const applyCurrentArchiveFocus = (spaceId: string, sessionId: string) => {
@@ -1094,7 +1196,13 @@ if (cached !== undefined) {
     loadSessionMessages: async (sessionId: string) => {
       if (!sessionId) return
       const memoryCached = get().messagesBySessionId[sessionId]
-      if (memoryCached !== undefined) return
+      if (memoryCached !== undefined) {
+        // 跨设备补全续跑：上次后台预载未完成/失败时，重开会话继续拉全历史。
+        if (get().hasMoreBySessionId[sessionId] === true) {
+          void runHistoryPreload(sessionId)
+        }
+        return
+      }
 
       const idbCached = await getCachedMessages(sessionId)
       if (idbCached && idbCached.length > 0) {
@@ -1154,6 +1262,10 @@ if (cached !== undefined) {
             hasMoreBySessionId: { ...state.hasMoreBySessionId, [sessionId]: response?.has_more ?? false },
           }))
           markSessionFresh(sessionId)
+          if (response?.has_more) {
+            // 跨设备补全：无本机 transcript 的会话后台拉全历史。
+            void runHistoryPreload(sessionId)
+          }
         }
 
         if (response?.show_per_message_cost != null) {
@@ -1175,56 +1287,14 @@ if (cached !== undefined) {
 
     loadMoreMessages: async (sessionId: string) => {
       if (!sessionId) return
-      const state = get()
-      if (state.isLoadingMoreBySessionId[sessionId]) return
-      if (state.hasMoreBySessionId[sessionId] === false) return
-
-      const existing = state.messagesBySessionId[sessionId]
-      if (!existing || existing.length === 0) return
-
-      const oldestId = existing[0]?.id
-      if (!oldestId) return
-
-      set((s: SessionCrudStore) => ({
-        isLoadingMoreBySessionId: { ...s.isLoadingMoreBySessionId, [sessionId]: true },
-      }))
-
-      try {
-        const client = getChatClient()
-        // epoch 门控统一经会话消息门面。
-        const facade = getSessionMessagesFacade(sessionId)
-        // ：fetch 前捕获写入权威 epoch，写回经 commitServerMerge 门控。
-        const fetchEpoch = facade.captureEpoch()
-        const response = await client.messages.list(sessionId, {
-          limit: 30,
-          before: oldestId,
-        })
-        const olderMessages: ChatMessage[] = response?.messages ?? []
-
-        if (olderMessages.length > 0) {
-          facade.commitServerMerge(fetchEpoch, () => {
-            // 去重 + 时间线重排在 prependOlderMessages 内聚；IDB 只追加实际新增 id。
-            const beforeIds = new Set(
-              (get().messagesBySessionId[sessionId] ?? []).map((m) => m.id),
-            )
-            get().prependOlderMessages(sessionId, olderMessages)
-            const added = (get().messagesBySessionId[sessionId] ?? [])
-              .filter((m) => !beforeIds.has(m.id))
-            if (added.length > 0) appendCachedMessages(sessionId, added)
-          })
-        }
-
-        set((s: SessionCrudStore) => ({
-          hasMoreBySessionId: { ...s.hasMoreBySessionId, [sessionId]: response?.has_more ?? false },
-          isLoadingMoreBySessionId: { ...s.isLoadingMoreBySessionId, [sessionId]: false },
-        }))
-      } catch (error) {
-        console.error('[Chat] loadMoreMessages failed:', error)
-        set((s: SessionCrudStore) => ({
-          isLoadingMoreBySessionId: { ...s.isLoadingMoreBySessionId, [sessionId]: false },
-        }))
+      const outcome = await fetchOlderMessagesPage(sessionId)
+      if (outcome.kind === 'error') {
+        console.error('[Chat] loadMoreMessages failed:', outcome.error)
       }
     },
+
+    /** 后台拉全会话历史（跨设备补全）：不阻塞首屏，循环翻页直到 has_more=false。 */
+    preloadFullHistory: (sessionId: string) => runHistoryPreload(sessionId),
 
     selectSession: async (
       spaceId: string,
@@ -1341,6 +1411,10 @@ if (cached !== undefined) {
             }))
           }
           markSessionFresh(sessionId)
+          if (hasEarlier && !sharedAccess) {
+            // 跨设备补全：背景同步后仍有更早历史时后台拉全。
+            void runHistoryPreload(sessionId)
+          }
         }).catch(err => {
           console.warn('[Chat] Background sync failed:', err)
           markSessionStale(sessionId, err)
@@ -1473,6 +1547,10 @@ if (cached !== undefined) {
           const resolved = get().messagesBySessionId[sessionId] ?? messages
           applyMessages(resolved, hasEarlier)
           markSessionFresh(sessionId)
+          if (hasEarlier && !sharedAccess) {
+            // 跨设备补全：无缓存首屏后仍有更早历史时后台拉全。
+            void runHistoryPreload(sessionId)
+          }
         }
         trackChatTelemetry('session.select.done', { sessionId, messageCount: messages.length },
           { counterKey: 'session.select.done', sessionId })

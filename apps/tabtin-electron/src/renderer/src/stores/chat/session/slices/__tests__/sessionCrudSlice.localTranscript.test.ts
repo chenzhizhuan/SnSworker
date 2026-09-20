@@ -41,6 +41,15 @@ vi.mock('../../../../useSessionReadStore', () => ({
 vi.mock('@/services/sessionFreshness', () => ({ markSessionFresh: vi.fn(), markSessionStale: vi.fn() }))
 vi.mock('@tabtin/smartsheet-ui/toast', () => ({ toast: vi.fn() }))
 vi.mock('@/i18n', () => ({ default: { t: (k: string) => k } }))
+vi.mock('@/services/agentService/sessionMessages', () => ({
+  getSessionMessagesFacade: () => ({
+    captureEpoch: () => 0,
+    commitServerMerge: (_epoch: number, write: () => void) => {
+      write()
+      return 'committed'
+    },
+  }),
+}))
 
 // ：本机会话判据为 true，transcript 读取按用例注入；enrich 用真实实现。
 vi.mock('@/services/localAgentClient', () => ({ isLocalRuntimeAvailable: () => true }))
@@ -66,6 +75,7 @@ describe('#4897 selectSession/loadSessionMessages 本机 transcript 权威', () 
     currentSessionIdBySpaceId: Record<string, string | null>
     messagesBySessionId: Record<string, ChatMessage[]>
     hasMoreBySessionId: Record<string, boolean>
+    isLoadingMoreBySessionId: Record<string, boolean>
     checkpointsBySessionId: Record<string, Record<string, string>>
     lastContextSyncFingerprintBySessionId: Record<string, string>
     isLoading: boolean
@@ -85,6 +95,12 @@ describe('#4897 selectSession/loadSessionMessages 本机 transcript 权威', () 
       return { changed: true, newCount: messages.length, dropped: false }
     },
     clearSessionMessages: (sid: string) => setSessionMessages(sid, []),
+    prependOlderMessages: (sid: string, older: ChatMessage[]) => {
+      const existing = state.messagesBySessionId[sid] ?? []
+      const ids = new Set(existing.map((m) => m.id))
+      const deduped = older.filter((m) => !ids.has(m.id))
+      state.messagesBySessionId = { ...state.messagesBySessionId, [sid]: [...deduped, ...existing] }
+    },
     setCurrentSessionForSpace: vi.fn(),
   }) as unknown as SessionCrudStore
   const set = vi.fn((partial: unknown) => {
@@ -109,6 +125,7 @@ describe('#4897 selectSession/loadSessionMessages 本机 transcript 权威', () 
       currentSessionIdBySpaceId: {},
       messagesBySessionId: {},
       hasMoreBySessionId: {},
+      isLoadingMoreBySessionId: {},
       checkpointsBySessionId: {},
       lastContextSyncFingerprintBySessionId: {},
       isLoading: false,
@@ -201,10 +218,25 @@ describe('#4897 selectSession/loadSessionMessages 本机 transcript 权威', () 
         oldest_id: 'm31',
         newest_id: 'm80',
       })
+      // 跨设备补全（触发点 C：hasEarlier=true）从最旧 id 继续翻页，拉齐 m1-m30。
+      .mockResolvedValueOnce({
+        messages: messages.slice(0, 30),
+        total: 80,
+        has_more: false,
+        oldest_id: 'm1',
+        newest_id: 'm30',
+      })
 
     await makeActions().selectSession(SPACE, SESSION, {
       initialMessagePage: 'latest',
     })
+
+    // 后台补全不阻塞首屏；等 hasMore 收敛到 false（拉全）。
+    const deadline = Date.now() + 3000
+    while (state.hasMoreBySessionId[SESSION] !== false) {
+      if (Date.now() > deadline) break
+      await new Promise(resolve => setTimeout(resolve, 10))
+    }
 
     expect(listMock).toHaveBeenNthCalledWith(
       1,
@@ -218,11 +250,17 @@ describe('#4897 selectSession/loadSessionMessages 本机 transcript 权威', () 
       expect.objectContaining({ limit: 50, offset: 30 }),
       undefined,
     )
+    expect(listMock).toHaveBeenNthCalledWith(
+      3,
+      SESSION,
+      expect.objectContaining({ limit: 30, before: 'm31' }),
+    )
+    // latest 首屏以服务端快照替换，随后后台补全拉齐全量历史。
     expect(state.messagesBySessionId[SESSION].map(message => message.id)).toEqual(
-      messages.slice(30).map(message => message.id),
+      messages.map(message => message.id),
     )
     expect(state.messagesBySessionId[SESSION].map(message => message.id)).not.toContain('cached-first-page')
-    expect(state.hasMoreBySessionId[SESSION]).toBe(true)
+    expect(state.hasMoreBySessionId[SESSION]).toBe(false)
   })
 
   it('续接新任务打开时不把本机 transcript 当权威', async () => {

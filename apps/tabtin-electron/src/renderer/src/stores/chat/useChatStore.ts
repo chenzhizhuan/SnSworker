@@ -355,6 +355,8 @@ export interface ChatState extends HostPendingSendStore, InterruptHostPendingSto
   loadSessionMessages: (sessionId: string) => Promise<void>
   /** 加载更多历史消息（向上滚动时触发） */
   loadMoreMessages: (sessionId: string) => Promise<void>
+  /** 跨设备补全：后台拉全会话历史，循环翻页直到 has_more=false（不阻塞首屏） */
+  preloadFullHistory: (sessionId: string) => Promise<void>
   /** 各会话是否还有更早的消息可以加载 */
   hasMoreBySessionId: Record<string, boolean>
   /** 各会话是否正在加载更多消息 */
