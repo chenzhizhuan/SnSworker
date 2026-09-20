@@ -53,7 +53,11 @@ android {
         "https://api-test.example.com/api"
     }
     val releaseWsBaseUrl = if (releaseUsesProduction) {
-        "ws://221.237.179.2:13493"
+        // Agent 网关 WS 走 Django ASGI（/ws/v1/gateway），不是 collab-live（13493）。
+        // 13493 是 Y.js 协作 WS（Hocuspocus），不服务 /v1/gateway 路径 → 连接永远 404。
+        // gatewayUrl() 会在 URL 不以 /ws/v1/gateway 结尾时追加 /v1/gateway，
+        // 所以这里给完整路径让它原样使用（与 test 环境一致）。
+        "ws://221.237.179.2:13492/ws/v1/gateway"
     } else {
         "wss://api-test.example.com/ws/v1/gateway"
     }
