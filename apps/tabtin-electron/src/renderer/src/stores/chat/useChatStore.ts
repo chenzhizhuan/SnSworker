@@ -23,12 +23,8 @@ import { markSessionsSuspended } from '../../services/sessionSuspended'
 import { useSessionFreshnessStore } from '../useSessionFreshnessStore'
 import { useWsConnectionStore } from '../useWsConnectionStore'
 import type { ChatSession, ChatMessage } from '@tabtin/chat-client'
-import { useAuthStore } from '../useAuthStore'
 import i18n from '@/i18n'
 import type { ChatSessionTokenUsage } from '@/utils/chatSessionTokenUsage'
-import { trackChatTelemetry } from './execution/chatTelemetry'
-import { streamingContent } from './execution/streamingContent'
-import { resolveComposerStopMode } from './messages/actions/composerStopDecision'
 import {
   getSessionRunProjection,
   isSessionBusy,
@@ -40,7 +36,6 @@ import {
 } from './execution/activeRunBinding'
 import { reconcileSessionRunState } from './execution/sessionRunReconcile'
 import { cleanup as cleanupSeqTracker } from './stream/handlers/seqTracker'
-import { markAbortRequested } from './stream/handlers/abortGrace'
 import { markRunSuperseded } from './stream/handlers/supersededRuns'
 import type {
   AgentModeName,

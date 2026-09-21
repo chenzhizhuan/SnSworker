@@ -2,28 +2,34 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
 
 const mockConnect = vi.fn()
-const mockAddListener = vi.fn()
-const mockRemoveListener = vi.fn()
-const mockOnReconnectedEvent = vi.fn()
-const mockOffReconnectedEvent = vi.fn()
+const mockOnEvent = vi.fn()
+const mockOnReconnected = vi.fn()
 const mockSubscribe = vi.fn()
 const mockUnsubscribe = vi.fn()
 const mockRequest = vi.fn()
+const mockGetStatus = vi.fn()
 
-vi.mock('@/services/chatApi', () => ({
-  getChatClient: () => ({
-    getGateway: () => ({
-      connect: mockConnect,
-      addListener: mockAddListener,
-      removeListener: mockRemoveListener,
-      onReconnectedEvent: mockOnReconnectedEvent,
-      offReconnectedEvent: mockOffReconnectedEvent,
+// mainAgentGateway 走 window.tabtin.agentGateway bridge（main 进程 IPC）：
+// - addListener/onReconnectedEvent 是本地 Set，事件经 bridge.onEvent/onReconnected 分发
+// - subscribe/unsubscribe 参数为 { topics, options } 包装
+// 旧 mock 挂在 chatApi.getGateway 上与现行架构失配，订阅链用例全部空转。
+function installBridgeMock(): void {
+  ;(window as unknown as { tabtin?: unknown }).tabtin = {
+    agentGateway: {
+      getStatus: mockGetStatus,
+      reconnect: mockConnect,
+      onEvent: mockOnEvent,
+      onReconnected: mockOnReconnected,
       subscribe: mockSubscribe,
       unsubscribe: mockUnsubscribe,
       request: mockRequest,
-    }),
-  }),
-}))
+    },
+  }
+}
+
+function uninstallBridgeMock(): void {
+  delete (window as unknown as { tabtin?: unknown }).tabtin
+}
 
 const mockOrganizationState: {
   selectedOrganization: { id: string } | null
@@ -38,9 +44,21 @@ vi.mock('@/stores/useOrganizationStore', () => ({
     selector(mockOrganizationState),
 }))
 
+// membership 守卫与 WS 连接 store：真实实现会拉起 auth/IPC 链，测试环境不可用。
+vi.mock('@/services/gatewayOrganizationMembership', () => ({
+  isGatewayMembershipReadyForOrganization: () => true,
+}))
+vi.mock('@/stores/useWsConnectionStore', () => ({
+  useWsConnectionStore: (selector: (state: { organizationAccessRecoveryInFlight: boolean }) => unknown) =>
+    selector({ organizationAccessRecoveryInFlight: false }),
+}))
+
 describe('useGatewayTopic', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    installBridgeMock()
+    // getStatus 返回非 ready，让 connect() 走 reconnect 分支（mainAgentGateway 语义）。
+    mockGetStatus.mockResolvedValue('idle')
     mockConnect.mockResolvedValue(true)
     mockSubscribe.mockResolvedValue({ ok: true })
     mockUnsubscribe.mockResolvedValue({ ok: true })
@@ -50,6 +68,7 @@ describe('useGatewayTopic', () => {
   })
 
   afterEach(() => {
+    uninstallBridgeMock()
     vi.resetModules()
   })
 
@@ -71,7 +90,7 @@ describe('useGatewayTopic', () => {
     await waitFor(() => {
       expect(mockUnsubscribe).toHaveBeenCalledTimes(1)
     })
-    expect(mockUnsubscribe).toHaveBeenCalledWith(['tracker.events.ws-1'])
+    expect(mockUnsubscribe).toHaveBeenCalledWith({ topics: ['tracker.events.ws-1'] })
     expect(mockRequest).not.toHaveBeenCalled()
   })
 
@@ -205,7 +224,7 @@ describe('useGatewayTopic', () => {
     expect(mockConnect).toHaveBeenCalledTimes(1)
     unmount()
     await waitFor(() => {
-      expect(mockUnsubscribe).toHaveBeenCalledWith(['billing.events.ws-1'])
+      expect(mockUnsubscribe).toHaveBeenCalledWith({ topics: ['billing.events.ws-1'] })
     })
   })
 
@@ -218,17 +237,17 @@ describe('useGatewayTopic', () => {
     )
 
     await waitFor(() => {
-      expect(mockAddListener).toHaveBeenCalledTimes(1)
+      expect(mockOnEvent).toHaveBeenCalledTimes(1)
     })
 
-    const listener = mockAddListener.mock.calls[0][0] as (envelope: Record<string, unknown>) => void
-    listener({
+    const dispatcher = mockOnEvent.mock.calls[0][0] as (envelope: Record<string, unknown>) => void
+    dispatcher({
       type: 'agent.stream.lifecycle',
       event_id: 'evt-other',
       _topic: 'agent.stream.chat-session-b',
       payload: { phase: 'start' },
     })
-    listener({
+    dispatcher({
       type: 'agent.stream.lifecycle',
       event_id: 'evt-current',
       _topic: 'agent.stream.chat-session-a',
@@ -259,13 +278,53 @@ describe('useGatewayTopic', () => {
     await waitFor(() => {
       expect(mockSubscribe).toHaveBeenCalledTimes(1)
     })
-    const reconnect = mockOnReconnectedEvent.mock.calls[0]?.[0] as (() => void) | undefined
+    const reconnect = mockOnReconnected.mock.calls[0]?.[0] as (() => void) | undefined
     expect(reconnect).toEqual(expect.any(Function))
     reconnect?.()
 
     await waitFor(() => {
       expect(mockSubscribe.mock.calls.length).toBeGreaterThanOrEqual(3)
     }, { timeout: 8000 })
+
+    unsubscribe()
+  }, 15000)
+
+  it('启动窗口 NOT_READY 退避耗尽后，重连事件仍能恢复订阅（不再永久失联）', async () => {
+    // 回归：冷启动 WS 未就绪 → ipc-shim 把 ok:false envelope 转 throw →
+    // WS_SUBSCRIBE_THROWN。旧实现在失败分支摘掉 reconnectHandler，
+    // 6 次退避耗尽（giving up）后即使网关最终 ready 该 topic 也收不到事件。
+    // 新实现保留 listener + reconnectHandler：重连事件到来即补订阅成功。
+    const { subscribeGatewayTopic } = await import('../useGatewayTopic')
+    const onReconnected = vi.fn()
+    let callCount = 0
+    mockSubscribe.mockImplementation(async () => {
+      callCount += 1
+      // 冷启动窗口：首次订阅时 WS 未就绪（ipc-shim 把 ok:false 转 throw）；
+      // 重连事件到来后的补订阅即成功。
+      if (callCount === 1) {
+        throw new Error('ws connection not ready')
+      }
+      return { ok: true }
+    })
+
+    const unsubscribe = subscribeGatewayTopic('tracker.events.ws-coldstart', {
+      logPrefix: 'TrackerEventStream',
+      onReconnected,
+    })
+
+    await waitFor(() => {
+      expect(mockSubscribe).toHaveBeenCalledTimes(1)
+    })
+
+    // WS 稍后才真正就绪：重连事件到来 → 补订阅 → 恢复
+    const reconnect = mockOnReconnected.mock.calls[0]?.[0] as (() => void) | undefined
+    expect(reconnect).toEqual(expect.any(Function))
+    reconnect?.()
+
+    await waitFor(() => {
+      expect(mockSubscribe.mock.calls.length).toBeGreaterThanOrEqual(2)
+    }, { timeout: 8000 })
+    expect(onReconnected).toHaveBeenCalled()
 
     unsubscribe()
   }, 15000)

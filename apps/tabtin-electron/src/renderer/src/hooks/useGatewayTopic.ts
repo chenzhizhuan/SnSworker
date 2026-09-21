@@ -335,8 +335,12 @@ export function subscribeGatewayTopic(
       reconnectHandler = rh
       gw.onReconnectedEvent(rh)
 
-      retainGatewayTopic(topic)
-      retainedTopic = topic
+      // 首次 retain 幂等：初始订阅失败重试会再次走 connect()，若无条件累加
+      // refCount，重试次数会让计数失衡（卸载时只 release 一次 → 订阅泄漏）。
+      if (retainedTopic !== topic) {
+        retainGatewayTopic(topic)
+        retainedTopic = topic
+      }
 
       const subscribed = await ensureGatewayTopicSubscribed(gw, topic)
       if (!runActive) {
@@ -348,11 +352,13 @@ export function subscribeGatewayTopic(
         return
       }
       if (!subscribed.ok) {
-        detachListeners()
-        if (retainedTopic === topic) {
-          retainedTopic = null
-          await releaseGatewayTopic(gw, topic)
-        }
+        // 不 detach / 不 release：保留 listener + reconnectHandler，
+        // 让重试等待期内 WS 真正就绪后的重连事件能自动补订阅。
+        // 启动窗口（token 未就绪/WS 未连上）订阅会持续 NOT_READY，
+        // 若此时摘掉重连钩子，6 次退避耗尽后即使网关最终 ready
+        // 该 topic 也永久失联（组件不重挂载/不切 org 不会重试）。
+        // 未订阅成功时 listener 无事件可收（服务端只推已订阅 topic），
+        // 保留无副作用；卸载路径的 cleanup 仍会统一 detach + release。
         const reason = subscribed.code ? `initial subscribe failed (${subscribed.code})` : 'initial subscribe failed'
         setStatus('error', subscribed.message ?? 'subscribe failed')
         if (subscribed.retryable) {
