@@ -36,3 +36,11 @@ class WorkspaceMemoryMigrationContractTests(SimpleTestCase):
         operation = module.Migration.operations[0]
         self.assertIsInstance(operation, migrations.AlterField)
         self.assertEqual(operation.field.default, True)
+
+    def test_backfill_enabled_migration_is_non_destructive_on_reverse(self):
+        module = importlib.import_module(
+            "apps.agent_memory.migrations.0005_backfill_auto_memory_enabled_on"
+        )
+        operation = module.Migration.operations[0]
+        self.assertIsInstance(operation, migrations.RunPython)
+        self.assertIs(operation.reverse_code, migrations.RunPython.noop)
