@@ -16,6 +16,7 @@ interface WorkspaceAutoMemorySectionProps {
 }
 
 const INVALID_EXPLICIT_MODEL = 'invalid_explicit_model'
+const OFFICIAL_DEFAULT_MODEL_VALUE = 'official_default'
 
 const GROUPS: Array<{ scope: WorkspaceMemoryProviderScope; label: string }> = [
   { scope: 'global', label: '智算方舟官方' },
@@ -66,16 +67,17 @@ export const WorkspaceAutoMemorySection: React.FC<WorkspaceAutoMemorySectionProp
     void load()
   }, [load])
 
-  // 后端继续兼容旧客户端的 official_default；新客户端只把具体模型 UUID 视为可启用配置。
   const currentExplicitModelAvailable = useMemo(() => {
     if (settings?.memory_model_mode !== 'explicit_model') return false
     const exactId = settings.memory_model?.id
     return Boolean(exactId && models.some(model => model.id === exactId))
   }, [models, settings])
 
-  const selectedValue = currentExplicitModelAvailable
-    ? settings?.memory_model?.id ?? INVALID_EXPLICIT_MODEL
-    : INVALID_EXPLICIT_MODEL
+  const selectedValue = settings?.memory_model_mode === 'explicit_model'
+    ? currentExplicitModelAvailable
+      ? settings?.memory_model?.id ?? INVALID_EXPLICIT_MODEL
+      : INVALID_EXPLICIT_MODEL
+    : OFFICIAL_DEFAULT_MODEL_VALUE
   const explicitModelNeedsReselection =
     settings?.memory_model_mode === 'explicit_model' && !currentExplicitModelAvailable
   const effectiveAutoMemoryEnabled = Boolean(settings?.auto_memory_enabled || pendingEnable)
@@ -99,7 +101,9 @@ export const WorkspaceAutoMemorySection: React.FC<WorkspaceAutoMemorySectionProp
 
   const handleToggle = (enabled: boolean): void => {
     if (!settings) return
-    if (enabled && !currentExplicitModelAvailable) {
+    // official_default 即“智算方舟官方默认模型”，开/关都无需先选具体模型；
+    // 仅 explicit_model 模式且所选模型已失效时，要求先重选再原子开启。
+    if (enabled && settings.memory_model_mode === 'explicit_model' && !currentExplicitModelAvailable) {
       setPendingEnable(true)
       return
     }
@@ -114,6 +118,14 @@ export const WorkspaceAutoMemorySection: React.FC<WorkspaceAutoMemorySectionProp
   const handleModelChange = async (modelId: string): Promise<void> => {
     if (!settings || modelId === INVALID_EXPLICIT_MODEL) return
     const shouldEnable = pendingEnable && !settings.auto_memory_enabled
+    if (modelId === OFFICIAL_DEFAULT_MODEL_VALUE) {
+      const updated = await update({
+        ...(shouldEnable ? { auto_memory_enabled: true } : {}),
+        memory_model_mode: 'official_default',
+      })
+      if (updated) setPendingEnable(false)
+      return
+    }
     const updated = await update({
       ...(shouldEnable ? { auto_memory_enabled: true } : {}),
       memory_model_mode: 'explicit_model',
@@ -180,7 +192,8 @@ export const WorkspaceAutoMemorySection: React.FC<WorkspaceAutoMemorySectionProp
             }}
             className="h-9 rounded-md border border-border/40 bg-background px-3 text-body text-foreground focus:border-accent/60 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {!currentExplicitModelAvailable && (
+            <option value={OFFICIAL_DEFAULT_MODEL_VALUE}>智算方舟官方模型（默认）</option>
+            {settings?.memory_model_mode === 'explicit_model' && !currentExplicitModelAvailable && (
               <option value={INVALID_EXPLICIT_MODEL} disabled>
                 {explicitModelNeedsReselection ? '记忆模型需要重新选择' : '请选择记忆模型'}
               </option>

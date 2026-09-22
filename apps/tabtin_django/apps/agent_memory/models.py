@@ -195,9 +195,9 @@ class WorkspaceMemorySettings(TimeStampedModel):
         verbose_name="Organization Workspace 所属组织",
     )
     auto_memory_enabled = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name="自动记忆增强",
-        help_text="新 Workspace 默认关闭；存量兼容由独立数据迁移显式回填开启。",
+        help_text="新 Workspace 默认开启（默认使用智算方舟官方默认记忆模型）；存量兼容由独立数据迁移显式回填开启。",
     )
     memory_model_mode = models.CharField(
         max_length=24,

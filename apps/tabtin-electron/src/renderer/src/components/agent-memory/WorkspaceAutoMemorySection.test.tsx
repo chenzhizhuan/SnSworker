@@ -70,7 +70,7 @@ describe('WorkspaceAutoMemorySection', () => {
     })
   })
 
-  it('读取设置并按官方、个人和组织模型分组展示，不提供官方推荐选项', async () => {
+  it('读取设置并按官方默认、个人和组织模型分组展示', async () => {
     render(<WorkspaceAutoMemorySection organizationId="workspace-a" />)
 
     expect((await screen.findByRole('switch', { name: '自动记忆增强' })).getAttribute('aria-checked')).toBe('true')
@@ -80,6 +80,7 @@ describe('WorkspaceAutoMemorySection', () => {
     expect(getSettings).toHaveBeenCalledWith('workspace-a')
     expect(listModels).toHaveBeenCalledWith('workspace-a')
     expect(screen.queryByRole('option', { name: '智算方舟官方 · 官方推荐' })).toBeNull()
+    expect(screen.getByRole('option', { name: '智算方舟官方模型（默认）' })).toBeTruthy()
     expect(screen.getByRole('group', { name: '智算方舟官方' })).toBeTruthy()
     expect(screen.getByRole('group', { name: '我的模型' })).toBeTruthy()
     expect(screen.getByRole('group', { name: '组织模型' })).toBeTruthy()
@@ -108,7 +109,7 @@ describe('WorkspaceAutoMemorySection', () => {
     })
   })
 
-  it('新组织必须先打开开关才能选择模型，首次选择原子开启', async () => {
+  it('official_default 下关闭状态可直接开启，默认选中智算方舟官方模型', async () => {
     getSettings.mockResolvedValue({ ...legacyOfficialDefaultSettings, auto_memory_enabled: false })
     render(<WorkspaceAutoMemorySection organizationId="workspace-a" />)
 
@@ -116,23 +117,12 @@ describe('WorkspaceAutoMemorySection', () => {
     const selector = screen.getByLabelText('记忆模型') as HTMLSelectElement
     expect(toggle.disabled).toBe(false)
     expect(selector.disabled).toBe(true)
-    expect(selector.value).toBe('invalid_explicit_model')
+    expect(selector.value).toBe('official_default')
 
     fireEvent.click(toggle)
 
-    expect(selector.disabled).toBe(false)
-    expect(updateSettings).not.toHaveBeenCalled()
-
-    fireEvent.change(selector, {
-      target: { value: officialModel.id },
-    })
-
     await waitFor(() => {
-      expect(updateSettings).toHaveBeenCalledWith('workspace-a', {
-        auto_memory_enabled: true,
-        memory_model_mode: 'explicit_model',
-        memory_model_id: officialModel.id,
-      })
+      expect(updateSettings).toHaveBeenCalledWith('workspace-a', { auto_memory_enabled: true })
     })
   })
 
@@ -147,6 +137,19 @@ describe('WorkspaceAutoMemorySection', () => {
 
     await waitFor(() => {
       expect(updateSettings).toHaveBeenCalledWith('workspace-a', { auto_memory_enabled: false })
+    })
+  })
+
+  it('explicit 模式下可切回智算方舟官方默认模型', async () => {
+    render(<WorkspaceAutoMemorySection organizationId="workspace-a" />)
+    const selector = await screen.findByLabelText('记忆模型')
+
+    fireEvent.change(selector, { target: { value: 'official_default' } })
+
+    await waitFor(() => {
+      expect(updateSettings).toHaveBeenCalledWith('workspace-a', {
+        memory_model_mode: 'official_default',
+      })
     })
   })
 

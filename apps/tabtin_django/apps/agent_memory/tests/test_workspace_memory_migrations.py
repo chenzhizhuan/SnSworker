@@ -27,3 +27,12 @@ class WorkspaceMemoryMigrationContractTests(SimpleTestCase):
         operation = module.Migration.operations[0]
         self.assertIsInstance(operation, migrations.RunPython)
         self.assertIs(operation.reverse_code, migrations.RunPython.noop)
+
+    def test_default_enabled_migration_is_additive_alterfield_only(self):
+        module = importlib.import_module(
+            "apps.agent_memory.migrations.0004_auto_memory_enabled_default_on"
+        )
+        self.assertEqual(len(module.Migration.operations), 1)
+        operation = module.Migration.operations[0]
+        self.assertIsInstance(operation, migrations.AlterField)
+        self.assertEqual(operation.field.default, True)

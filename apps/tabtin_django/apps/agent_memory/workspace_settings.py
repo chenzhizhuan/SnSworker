@@ -337,12 +337,12 @@ def serialize_memory_model(model: Any) -> Optional[dict[str, str]]:
 def get_workspace_memory_settings(
     owner: WorkspaceMemoryOwner,
 ) -> WorkspaceMemorySettings:
-    """读取设置；迁移后新增 owner 缺行时按正式产品规则 lazy-create 为 OFF。"""
+    """读取设置；迁移后新增 owner 缺行时按正式产品规则 lazy-create 为 ON（官方默认记忆模型）。"""
     query = owner.query()
     settings, _created = WorkspaceMemorySettings.objects.get_or_create(
         **query,
         defaults={
-            "auto_memory_enabled": False,
+            "auto_memory_enabled": True,
             "memory_model_mode": WorkspaceMemorySettings.ModelMode.OFFICIAL_DEFAULT,
             "memory_model": None,
         },
@@ -428,7 +428,7 @@ class WorkspaceMemorySettingsService:
         if current is None:
             current = WorkspaceMemorySettings(
                 **query,
-                auto_memory_enabled=False,
+                auto_memory_enabled=True,
                 memory_model_mode=WorkspaceMemorySettings.ModelMode.OFFICIAL_DEFAULT,
                 created_by_id=self.actor_id,
             )

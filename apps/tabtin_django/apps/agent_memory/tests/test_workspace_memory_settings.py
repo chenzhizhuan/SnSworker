@@ -79,8 +79,8 @@ class WorkspaceMemorySettingsModelContractTests(SimpleTestCase):
         self.assertIn("wm_settings_personal_user_uniq", names)
         self.assertIn("wm_settings_organization_uniq", names)
 
-    def test_new_settings_default_off_with_official_default_mode(self):
-        self.assertFalse(
+    def test_new_settings_default_on_with_official_default_mode(self):
+        self.assertTrue(
             WorkspaceMemorySettings._meta.get_field(
                 "auto_memory_enabled"
             ).get_default()
