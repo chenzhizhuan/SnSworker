@@ -1,6 +1,6 @@
 {
   "name": "tabtin-electron",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "智算方舟 Agent-first unified work platform desktop application",
   "type": "module",
   "main": "out/main/index.mjs",
