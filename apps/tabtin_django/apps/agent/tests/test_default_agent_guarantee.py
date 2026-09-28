@@ -37,6 +37,7 @@ from apps.tabtinspace.services.onboarding_defaults import (
     CODE_ENGINEER_STARTER_SKILL_KEYS_V7,
     DEFAULT_ONBOARDING_AGENT_NAME,
     OSS_STARTER_SKILL_KEYS_TO_UNASSIGN,
+    RETIRED_STARTER_AGENT_TEMPLATE_IDS,
     STARTER_AGENT_ROSTER_VERSION,
     STARTER_AGENT_TEMPLATE_IDS,
     SYSTEM_DEFAULT_PROVISION_SOURCE,
@@ -328,7 +329,7 @@ class DefaultAgentGuaranteeTests(TestCase):
                     expected,
                 )
 
-    def test_list_api_ensures_five_agent_starter_roster(self):
+    def test_list_api_ensures_two_agent_starter_roster(self):
         self.assertFalse(
             Agent.objects.filter(
                 organization=self.organization,
@@ -344,7 +345,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         payload = response.json()
         data = payload.get("data", payload)
         agents = data.get("agents") or []
-        self.assertEqual(len(agents), 5)
+        self.assertEqual(len(agents), 2)
         self.assertTrue(agents[0]["is_default"])
         self.assertEqual(agents[0]["name"], DEFAULT_ONBOARDING_AGENT_NAME)
         agent = Agent.objects.get(id=agents[0]["id"])
@@ -378,10 +379,7 @@ class DefaultAgentGuaranteeTests(TestCase):
             ),
             {
                 DEFAULT_ONBOARDING_AGENT_NAME,
-                "小智 代码版",
-                "小智 文书版",
-                "小智 数据版",
-                "小智 冲浪版",
+                "投标小助手",
             },
         )
         starter_agents = Agent.objects.filter(
@@ -393,14 +391,16 @@ class DefaultAgentGuaranteeTests(TestCase):
             self.assertTrue(starter_agent.custom_rules.strip())
             self.assertLessEqual(len(starter_agent.custom_rules), 80)
 
-        code_agent = starter_agents.get(template_id="code-engineer")
-        self.assertTrue(
-            set(CODE_ENGINEER_STARTER_SKILL_KEYS).issubset(
-                set(
-                    AgentSkillLink.objects.filter(agent=code_agent)
-                    .values_list("skill_canonical_key", flat=True)
-                )
-            )
+        bid_agent = starter_agents.get(template_id="bid-assistant")
+        bid_template = get_agent_template("bid-assistant")
+        self.assertIsNotNone(bid_template)
+        self.assertEqual(bid_agent.name, bid_template.name)
+        self.assertEqual(
+            set(
+                AgentSkillLink.objects.filter(agent=bid_agent, enabled=True)
+                .values_list("skill_canonical_key", flat=True)
+            ),
+            set(bid_template.skills),
         )
 
     def test_roster_upgrade_backfills_empty_rules_without_overwriting_user_edits(self):
@@ -425,11 +425,7 @@ class DefaultAgentGuaranteeTests(TestCase):
                 name=template_id,
                 type="bot",
                 template_id=template_id,
-                custom_rules=(
-                    "保留用户写的规则"
-                    if template_id == "code-engineer"
-                    else ""
-                ),
+                custom_rules="保留用户写的规则",
             )
 
         response = self.client.get(
@@ -451,11 +447,11 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
         self.assertTrue(all(agent.custom_rules for agent in specialists))
         self.assertEqual(
-            specialists.get(template_id="code-engineer").custom_rules,
+            specialists.get(template_id="bid-assistant").custom_rules,
             "保留用户写的规则",
         )
 
-    def test_roster_v3_backfills_code_skills_and_v8_reenables_locked_skill(self):
+    def test_roster_upgrade_from_v2_removes_retired_code_agent_and_provisions_bid_assistant(self):
         default = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -487,20 +483,40 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        links = AgentSkillLink.objects.filter(agent=code_agent)
+        # v10：退役代码版被物理移除，历史补齐分支不再为其写技能
+        self.assertFalse(Agent.objects.filter(id=code_agent.id).exists())
+        # 投标小助手就位并携带三个招投标技能
+        bid_template = get_agent_template("bid-assistant")
+        self.assertIsNotNone(bid_template)
+        bid_agent = Agent.objects.get(
+            organization=self.organization,
+            owner_user=self.user,
+            template_id="bid-assistant",
+        )
+        self.assertEqual(
+            set(
+                AgentSkillLink.objects.filter(agent=bid_agent, enabled=True)
+                .values_list("skill_canonical_key", flat=True)
+            ),
+            set(bid_template.skills),
+        )
+        # 小智的日常模板技能基线在升级中补齐
+        general_template = get_agent_template("general-assistant")
         self.assertTrue(
-            set(CODE_ENGINEER_STARTER_SKILL_KEYS_V3).issubset(
-                set(links.values_list("skill_canonical_key", flat=True))
+            set(general_template.skills).issubset(
+                set(
+                    AgentSkillLink.objects.filter(agent=default)
+                    .values_list("skill_canonical_key", flat=True)
+                )
             )
         )
-        self.assertTrue(links.get(skill_canonical_key=disabled_key).enabled)
         default.refresh_from_db()
         self.assertEqual(
             default.settings[AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY],
             STARTER_AGENT_ROSTER_VERSION,
         )
 
-    def test_roster_v4_backfills_issue_workflow_for_existing_code_agent(self):
+    def test_roster_upgrade_from_v3_removes_retired_code_agent(self):
         default = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -525,11 +541,11 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(
+        self.assertFalse(Agent.objects.filter(id=code_agent.id).exists())
+        self.assertFalse(
             AgentSkillLink.objects.filter(
                 agent=code_agent,
                 skill_canonical_key=CODE_ENGINEER_STARTER_SKILL_KEYS_V4[0],
-                enabled=True,
             ).exists()
         )
         default.refresh_from_db()
@@ -538,7 +554,7 @@ class DefaultAgentGuaranteeTests(TestCase):
             STARTER_AGENT_ROSTER_VERSION,
         )
 
-    def test_roster_v6_removes_short_lived_review_defaults(self):
+    def test_roster_upgrade_from_v5_removes_retired_code_agent_and_its_links(self):
         default = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -574,6 +590,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+        self.assertFalse(Agent.objects.filter(id=code_agent.id).exists())
         self.assertFalse(
             AgentSkillLink.objects.filter(
                 agent=code_agent,
@@ -586,7 +603,7 @@ class DefaultAgentGuaranteeTests(TestCase):
             STARTER_AGENT_ROSTER_VERSION,
         )
 
-    def test_roster_v7_backfills_ponytail_for_existing_code_agent(self):
+    def test_roster_upgrade_from_v6_removes_retired_code_agent(self):
         default = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -611,11 +628,11 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(
+        self.assertFalse(Agent.objects.filter(id=code_agent.id).exists())
+        self.assertFalse(
             AgentSkillLink.objects.filter(
                 agent=code_agent,
                 skill_canonical_key=CODE_ENGINEER_STARTER_SKILL_KEYS_V7[0],
-                enabled=True,
             ).exists()
         )
         default.refresh_from_db()
@@ -624,7 +641,7 @@ class DefaultAgentGuaranteeTests(TestCase):
             STARTER_AGENT_ROSTER_VERSION,
         )
 
-    def test_roster_v8_backfills_and_reenables_core_template_skills(self):
+    def test_roster_upgrade_from_v7_reenables_default_skills_and_removes_retired_doc_agent(self):
         default = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -644,18 +661,10 @@ class DefaultAgentGuaranteeTests(TestCase):
             template_id="doc-writer",
         )
         general_template = get_agent_template("general-assistant")
-        doc_template = get_agent_template("doc-writer")
         self.assertIsNotNone(general_template)
-        self.assertIsNotNone(doc_template)
         AgentSkillLink.objects.create(
             agent=default,
             skill_canonical_key=general_template.skills[-1],
-            source="app",
-            enabled=False,
-        )
-        AgentSkillLink.objects.create(
-            agent=doc_agent,
-            skill_canonical_key=doc_template.skills[0],
             source="app",
             enabled=False,
         )
@@ -666,23 +675,35 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        for agent, template in (
-            (default, general_template),
-            (doc_agent, doc_template),
-        ):
-            links = AgentSkillLink.objects.filter(
-                agent=agent,
-                skill_canonical_key__in=template.skills,
-            )
-            self.assertEqual(links.count(), len(template.skills))
-            self.assertFalse(links.filter(enabled=False).exists())
+        # 退役文书版被移除；小智的日常技能基线被补齐并重开
+        self.assertFalse(Agent.objects.filter(id=doc_agent.id).exists())
+        links = AgentSkillLink.objects.filter(
+            agent=default,
+            skill_canonical_key__in=general_template.skills,
+        )
+        self.assertEqual(links.count(), len(general_template.skills))
+        self.assertFalse(links.filter(enabled=False).exists())
+        # 投标小助手新建并携带三个招投标技能
+        bid_template = get_agent_template("bid-assistant")
+        bid_agent = Agent.objects.get(
+            organization=self.organization,
+            owner_user=self.user,
+            template_id="bid-assistant",
+        )
+        self.assertEqual(
+            set(
+                AgentSkillLink.objects.filter(agent=bid_agent, enabled=True)
+                .values_list("skill_canonical_key", flat=True)
+            ),
+            set(bid_template.skills),
+        )
         default.refresh_from_db()
         self.assertEqual(
             default.settings[AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY],
             STARTER_AGENT_ROSTER_VERSION,
         )
 
-    def test_roster_v9_unassigns_retired_oss_starter_skills(self):
+    def test_roster_upgrade_from_v8_removes_retired_doc_and_data_agents(self):
         default = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
@@ -729,6 +750,9 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+        # v10：退役文书/数据版连同携带行一并移除（OSS 卸载分支随之空转）
+        self.assertFalse(Agent.objects.filter(id=doc_agent.id).exists())
+        self.assertFalse(Agent.objects.filter(id=data_agent.id).exists())
         self.assertFalse(
             AgentSkillLink.objects.filter(
                 agent=doc_agent,
@@ -756,7 +780,7 @@ class DefaultAgentGuaranteeTests(TestCase):
         specialist = Agent.objects.get(
             organization=self.organization,
             owner_user=self.user,
-            template_id="code-engineer",
+            template_id="bid-assistant",
         )
         specialist.is_active = False
         specialist.save(update_fields=["is_active", "updated_at"])
@@ -770,20 +794,20 @@ class DefaultAgentGuaranteeTests(TestCase):
             Agent.objects.filter(
                 organization=self.organization,
                 owner_user=self.user,
-                template_id="code-engineer",
+                template_id="bid-assistant",
             ).count(),
             1,
         )
-        self.assertEqual(len(second.json()["data"]["agents"]), 4)
+        self.assertEqual(len(second.json()["data"]["agents"]), 1)
 
     def test_starter_roster_reuses_existing_template_agent(self):
         existing = Agent.objects.create(
             organization=self.organization,
             owner_user=self.user,
-            name="我已有的代码助手",
+            name="我已有的投标助手",
             type="bot",
-            template_id="code-engineer",
-            template_version="0.2.0",
+            template_id="bid-assistant",
+            template_version="0.1.0",
         )
         existing_office_agent = Agent.objects.create(
             organization=self.organization,
@@ -793,6 +817,14 @@ class DefaultAgentGuaranteeTests(TestCase):
             template_id="office-secretary",
             template_version="0.2.0",
         )
+        retired = Agent.objects.create(
+            organization=self.organization,
+            owner_user=self.user,
+            name="我已有的代码助手",
+            type="bot",
+            template_id="code-engineer",
+            template_version="0.2.0",
+        )
 
         response = self.client.get(
             f"/api/agents?organization_id={self.organization.id}",
@@ -800,22 +832,35 @@ class DefaultAgentGuaranteeTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+        # 现役首发模板：复用既有实例，不重复创建，并补齐头像与技能基线
         self.assertEqual(
             Agent.objects.filter(
                 organization=self.organization,
                 owner_user=self.user,
-                template_id="code-engineer",
+                template_id="bid-assistant",
             ).count(),
             1,
         )
         existing.refresh_from_db()
         self.assertTrue(existing.is_active)
-        self.assertEqual(existing.settings.get("avatar_key"), "code-engineer")
+        self.assertEqual(existing.settings.get("avatar_key"), "doc-writer")
+        bid_template = get_agent_template("bid-assistant")
+        self.assertTrue(
+            set(bid_template.skills).issubset(
+                set(
+                    AgentSkillLink.objects.filter(agent=existing)
+                    .values_list("skill_canonical_key", flat=True)
+                )
+            )
+        )
+        # 非首发模板：保持不动，仅补齐展示信息
         existing_office_agent.refresh_from_db()
         self.assertEqual(
             existing_office_agent.settings.get("avatar_key"),
             "office-secretary",
         )
+        # 退役首发模板：升级时物理移除
+        self.assertFalse(Agent.objects.filter(id=retired.id).exists())
 
     def test_listing_fast_path_does_not_enter_locked_ensure_for_existing_default(self):
         """已有默认 Agent 的列表热路径纯读：不加锁、不修 Skill/App。"""
@@ -1004,4 +1049,162 @@ class DefaultAgentGuaranteeTests(TestCase):
         self.assertNotEqual(
             (created.settings or {}).get(AGENT_SETTINGS_PROVISION_SOURCE_KEY),
             SYSTEM_DEFAULT_PROVISION_SOURCE,
+        )
+
+    def test_roster_v10_removes_retired_agents_and_preserves_chat_history(self):
+        """v10 升级：旧首发四助手物理移除，会话历史经 SET_NULL 保留。"""
+        default = Agent.objects.create(
+            organization=self.organization,
+            owner_user=self.user,
+            name=DEFAULT_ONBOARDING_AGENT_NAME,
+            type="bot",
+            is_default=True,
+            template_id="general-assistant",
+            settings=build_system_default_agent_settings(
+                {AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY: 9}
+            ),
+        )
+        retired_agents = [
+            Agent.objects.create(
+                organization=self.organization,
+                owner_user=self.user,
+                name=factory_name,
+                type="bot",
+                template_id=template_id,
+            )
+            for template_id, factory_name in (
+                ("code-engineer", "小智 代码版"),
+                ("doc-writer", "小智 文书版"),
+                ("data-analyst", "小智 数据版"),
+                ("web-researcher", "小智 冲浪版"),
+            )
+        ]
+        session = ChatSession.objects.create(
+            user=self.user,
+            organization_id=str(self.organization.id),
+            agent=retired_agents[0],
+        )
+
+        response = self.client.get(
+            f"/api/agents?organization_id={self.organization.id}",
+            **self.auth,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        for retired_agent in retired_agents:
+            self.assertFalse(
+                Agent.objects.filter(id=retired_agent.id).exists(),
+                f"退役助手应被移除: {retired_agent.template_id}",
+            )
+        session.refresh_from_db()
+        self.assertIsNone(session.agent_id)
+        self.assertTrue(
+            Agent.objects.filter(
+                organization=self.organization,
+                owner_user=self.user,
+                template_id="bid-assistant",
+                is_active=True,
+            ).exists()
+        )
+        default.refresh_from_db()
+        self.assertEqual(
+            default.settings[AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY],
+            STARTER_AGENT_ROSTER_VERSION,
+        )
+
+    def test_roster_v10_deactivates_retired_agent_when_delete_is_protected(self):
+        """退役助手被项目任务快照引用（PROTECT）时降级为停用，升级不中断。"""
+        default = Agent.objects.create(
+            organization=self.organization,
+            owner_user=self.user,
+            name=DEFAULT_ONBOARDING_AGENT_NAME,
+            type="bot",
+            is_default=True,
+            template_id="general-assistant",
+            settings=build_system_default_agent_settings(
+                {AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY: 9}
+            ),
+        )
+        code_agent = Agent.objects.create(
+            organization=self.organization,
+            owner_user=self.user,
+            name="小智 代码版",
+            type="bot",
+            template_id="code-engineer",
+        )
+
+        with patch.object(
+            Agent,
+            "delete",
+            side_effect=ProtectedError("referenced by project task run", []),
+        ):
+            response = self.client.get(
+                f"/api/agents?organization_id={self.organization.id}",
+                **self.auth,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        code_agent.refresh_from_db()
+        self.assertTrue(Agent.objects.filter(id=code_agent.id).exists())
+        self.assertFalse(code_agent.is_active)
+        self.assertTrue(
+            Agent.objects.filter(
+                organization=self.organization,
+                owner_user=self.user,
+                template_id="bid-assistant",
+                is_active=True,
+            ).exists()
+        )
+        default.refresh_from_db()
+        self.assertEqual(
+            default.settings[AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY],
+            STARTER_AGENT_ROSTER_VERSION,
+        )
+
+    def test_bid_assistant_template_skills_are_locked_baseline(self):
+        """投标小助手的三个招投标技能是锁定基线；退役模板不再锁定。"""
+        from apps.skills.services.agent_link_writer import AgentSkillLinkWriter
+
+        bid_template = get_agent_template("bid-assistant")
+        self.assertIsNotNone(bid_template)
+        bid_agent = Agent.objects.create(
+            organization=self.organization,
+            owner_user=self.user,
+            name="投标小助手",
+            type="bot",
+            template_id="bid-assistant",
+        )
+        for skill_key in bid_template.skills:
+            self.assertTrue(
+                AgentSkillLinkWriter.is_locked_template_skill(
+                    bid_agent, skill_key
+                )
+            )
+
+        code_agent = Agent.objects.create(
+            organization=self.organization,
+            owner_user=self.user,
+            name="小智 代码版",
+            type="bot",
+            template_id="code-engineer",
+        )
+        code_template = get_agent_template("code-engineer")
+        self.assertIsNotNone(code_template)
+        self.assertFalse(
+            AgentSkillLinkWriter.is_locked_template_skill(
+                code_agent, code_template.skills[0]
+            )
+        )
+
+    def test_retired_starter_template_ids_are_disjoint_from_current_roster(self):
+        """退役模板与现役首发阵容不得重叠，防止升级误删新助手。"""
+        self.assertFalse(
+            RETIRED_STARTER_AGENT_TEMPLATE_IDS
+            & set(STARTER_AGENT_TEMPLATE_IDS)
+        )
+        self.assertEqual(
+            RETIRED_STARTER_AGENT_TEMPLATE_IDS,
+            frozenset(
+                {"code-engineer", "doc-writer", "data-analyst", "web-researcher"}
+            ),
         )

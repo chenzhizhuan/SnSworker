@@ -1213,6 +1213,7 @@ class AgentService(BaseService):
             CODE_ENGINEER_STARTER_SKILL_KEYS_V7,
             LOCKED_TEMPLATE_SKILL_AGENT_IDS,
             OSS_STARTER_SKILL_KEYS_TO_UNASSIGN,
+            RETIRED_STARTER_AGENT_TEMPLATE_IDS,
             STARTER_AGENT_ROSTER_VERSION,
             STARTER_AGENT_TEMPLATE_IDS,
         )
@@ -1278,6 +1279,28 @@ class AgentService(BaseService):
                 template_id__in=bundled_templates,
             )
         )
+
+        # v10：退役旧首发四助手（二开定制收敛阵容）。物理移除，会话历史经
+        # SET_NULL 保留；被项目任务快照（ProjectTaskRun PROTECT）引用的降级为
+        # 停用，保留执行历史可追溯。退役助手不再参与后续阵容处理。
+        if provisioned_version < 10:
+            from django.db.models import ProtectedError
+
+            retired_agents = [
+                agent for agent in existing_template_agents
+                if agent.template_id in RETIRED_STARTER_AGENT_TEMPLATE_IDS
+            ]
+            for retired_agent in retired_agents:
+                try:
+                    retired_agent.delete()
+                except ProtectedError:
+                    retired_agent.is_active = False
+                    retired_agent.save(update_fields=['is_active'])
+            if retired_agents:
+                existing_template_agents = [
+                    agent for agent in existing_template_agents
+                    if agent.template_id not in RETIRED_STARTER_AGENT_TEMPLATE_IDS
+                ]
         agents_to_update = []
         for existing_agent in existing_template_agents:
             template = bundled_templates[existing_agent.template_id]

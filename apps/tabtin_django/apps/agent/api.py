@@ -55,11 +55,12 @@ RESP_CREATE_WITH_CONFLICT = {
 
 @router.get("", auth=jwt_auth, response={200: dict, 401: ErrorResponse, 403: ErrorResponse})
 def list_organization_agents(request: HttpRequest, organization_id: UUID):
-    """列出组织下的 Agent（身份）；首次进入幂等补建五个首发角色。
+    """列出组织下的 Agent（身份）；首次进入幂等补建首发角色。
 
-    默认小智承担日常角色，另外补齐代码、文书、数据、冲浪四个模板 Agent。
-    完成后走纯读快路径；补建若遇锁超时等数据库错误，降级返回已有列表，
-    避免读接口整体 500。
+    默认小智承担日常角色，另补建投标小助手（二开定制：挂载招标文件分析、
+    标书编写、标书合规审查三个招投标技能）。v10 升级同时物理移除旧首发
+    四助手（代码/文书/数据/冲浪）。完成后走纯读快路径；补建若遇锁超时
+    等数据库错误，降级返回已有列表，避免读接口整体 500。
     """
     try:
         page = max(1, int(request.GET.get("page", "1") or "1"))

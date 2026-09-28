@@ -46,23 +46,31 @@ AGENT_SETTINGS_PROVISION_SOURCE_KEY = "provision_source"
 # v7：增加固定到 v4.9.0 的 Ponytail 核心编码 Skill，不引入其生命周期 Hook。
 # v8：按 数字助手交接配置补齐四个核心助手的模板 Skill，并强制保持启用。
 # v9：开源不再提供远程文书/数据 AI pack，存量核心助手卸掉对应空引用。
-STARTER_AGENT_ROSTER_VERSION = 9
+# v10：首发阵容收敛为「小智 + 投标小助手」（二开定制）：新组织只补建投标
+# 小助手；存量组织里旧首发四助手（代码/文书/数据/冲浪）在升级时物理移除，
+# 被项目任务快照（ProjectTaskRun PROTECT）引用的降级为停用。
+STARTER_AGENT_ROSTER_VERSION = 10
 AGENT_SETTINGS_STARTER_ROSTER_VERSION_KEY = "starter_roster_version"
 STARTER_AGENT_TEMPLATE_IDS = (
     "general-assistant",
+    "bid-assistant",
+)
+
+# v10 退役的首发模板。升级时按 template_id 清理存量实例；manifest 本身保留，
+# 用户仍可在新建助手时手动从这些模板创建。
+RETIRED_STARTER_AGENT_TEMPLATE_IDS = frozenset({
     "code-engineer",
     "doc-writer",
     "data-analyst",
     "web-researcher",
-)
+})
 
-# 交接包定义的四个核心助手。其模板 Skill 是角色能力基线：创建时默认携带，
+# 核心助手的模板 Skill 是角色能力基线：创建时默认携带，
 # 存量升级时补齐并重开，运行期不可关闭或摘除。其它模板仍保持用户可配置。
+# v10 起核心助手收敛为小智（日常基线）+ 投标小助手（招投标三技能基线）。
 LOCKED_TEMPLATE_SKILL_AGENT_IDS = frozenset({
     "general-assistant",
-    "code-engineer",
-    "doc-writer",
-    "data-analyst",
+    "bid-assistant",
 })
 
 # v3 一次性存量补齐清单。这里刻意保存升级快照，而不是运行时读取模板当前值：
