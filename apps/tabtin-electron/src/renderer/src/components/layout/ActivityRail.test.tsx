@@ -9,6 +9,7 @@ const {
   dragEndHandlerRef,
   overlayRenderRef,
   prefsState,
+  orgRoleState,
 } = vi.hoisted(() => ({
   navigationMock: vi.fn(),
   setOrderMock: vi.fn(),
@@ -20,6 +21,9 @@ const {
   },
   prefsState: {
     activityRailDomainOrder: undefined as string[] | undefined,
+  },
+  orgRoleState: {
+    role: null as 'owner' | 'admin' | 'editor' | 'viewer' | null,
   },
 }))
 
@@ -54,6 +58,12 @@ vi.mock('./primaryNavigation', () => ({
 
 vi.mock('@/utils/featureFlags', () => ({
   PROJECTS_UI_ENABLED: true,
+}))
+
+vi.mock('@stores/useOrganizationStore', () => ({
+  useOrganizationStore: (selector: (state: unknown) => unknown) => selector({
+    currentUserRole: orgRoleState.role,
+  }),
 }))
 
 vi.mock('@/components/common/dnd-kit', () => ({
@@ -116,6 +126,7 @@ describe('ActivityRail domain ordering', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     prefsState.activityRailDomainOrder = undefined
+    orgRoleState.role = null
     dragEndHandlerRef.current = null
     overlayRenderRef.current = null
   })
@@ -123,7 +134,7 @@ describe('ActivityRail domain ordering', () => {
   it('keeps click navigation working when drag listeners share the button', () => {
     render(<ActivityRail executionSpaceId="space-1" />)
 
-    fireEvent.click(screen.getByRole('button', { name: '消息' }))
+    fireEvent.click(screen.getByRole('button', { name: '协作沟通' }))
 
     expect(navigationMock).toHaveBeenCalledOnce()
     expect(navigationMock).toHaveBeenCalledWith('messages')
@@ -138,12 +149,18 @@ describe('ActivityRail domain ordering', () => {
     } as DragEndEvent)
 
     expect(setOrderMock).toHaveBeenCalledOnce()
+    // 可见集（非管理者：无 scenarios / cockpit）重排后归并回全量顺序，
+    // 不可见域保留原槽位。
     expect(setOrderMock).toHaveBeenCalledWith([
+      'ask',
       'messages',
       'tasks',
+      'projects',
       'agents',
       'cloud-docs',
-      'projects',
+      'capability',
+      'scenarios',
+      'cockpit',
     ])
     expect(navigationMock).not.toHaveBeenCalled()
   })
@@ -160,7 +177,7 @@ describe('ActivityRail domain ordering', () => {
     render(<ActivityRail executionSpaceId="space-1" />)
 
     expect(screen.getAllByRole('button').map(button => button.getAttribute('aria-label')))
-      .toEqual(['云文档', '任务', '消息', '数字助手', '项目'])
+      .toEqual(['资料空间', '办件事', '协作沟通', '数字助手', '做项目', '问一句', '能力中心'])
   })
 
   it('ignores a drag that ends outside the rail', () => {
@@ -186,5 +203,25 @@ describe('ActivityRail domain ordering', () => {
     expect(container.querySelector('[data-testid="activity-rail"]')).toBeNull()
     // 纯展示：不渲染 button / aria-label，避免 overlay 内重复 useSortable 与可交互残留
     expect(container.querySelector('button')).toBeNull()
+  })
+
+  it('hides scenarios and cockpit from non-manager members', () => {
+    orgRoleState.role = 'editor'
+
+    render(<ActivityRail executionSpaceId="space-1" />)
+
+    const labels = screen.getAllByRole('button').map(button => button.getAttribute('aria-label'))
+    expect(labels).not.toContain('场景市场')
+    expect(labels).not.toContain('经营看板')
+  })
+
+  it('shows scenarios and cockpit to the organization owner', () => {
+    orgRoleState.role = 'owner'
+
+    render(<ActivityRail executionSpaceId="space-1" />)
+
+    const labels = screen.getAllByRole('button').map(button => button.getAttribute('aria-label'))
+    expect(labels).toContain('场景市场')
+    expect(labels).toContain('经营看板')
   })
 })

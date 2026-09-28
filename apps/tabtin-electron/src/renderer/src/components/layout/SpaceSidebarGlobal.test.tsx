@@ -289,26 +289,40 @@ describe('resolveEffectiveMainNavTab', () => {
 })
 
 describe('resolveVisibleRailDomainIds', () => {
-  it('Projects 关闭时只隐藏项目域，其余域仍在', () => {
-    const ids = resolveVisibleRailDomainIds({ projectsEnabled: false, isCockpitVisible: false })
+  it('Projects 关闭且非管理者时只保留基础域', () => {
+    const ids = resolveVisibleRailDomainIds({
+      projectsEnabled: false,
+      isCockpitVisible: false,
+      isScenariosVisible: false,
+    })
     expect(ids).not.toContain('projects')
     expect(ids).not.toContain('cockpit')
-    expect(ids).toEqual(['ask', 'tasks', 'agents', 'messages', 'cloud-docs', 'capability', 'scenarios'])
+    expect(ids).not.toContain('scenarios')
+    expect(ids).toEqual(['ask', 'tasks', 'agents', 'messages', 'cloud-docs', 'capability'])
   })
 
-  it('Projects 打开且超管可见时全部域齐全', () => {
-    expect(resolveVisibleRailDomainIds({ projectsEnabled: true, isCockpitVisible: true }))
+  it('Projects 打开且管理者可见时全部域齐全', () => {
+    expect(resolveVisibleRailDomainIds({
+      projectsEnabled: true,
+      isCockpitVisible: true,
+      isScenariosVisible: true,
+    }))
       .toEqual(['ask', 'tasks', 'projects', 'agents', 'messages', 'cloud-docs', 'capability', 'scenarios', 'cockpit'])
   })
 
-  it('非超管时隐藏 cockpit 域', () => {
-    const ids = resolveVisibleRailDomainIds({ projectsEnabled: true, isCockpitVisible: false })
+  it('非管理者时隐藏 cockpit 与 scenarios 域', () => {
+    const ids = resolveVisibleRailDomainIds({
+      projectsEnabled: true,
+      isCockpitVisible: false,
+      isScenariosVisible: false,
+    })
     expect(ids).not.toContain('cockpit')
+    expect(ids).not.toContain('scenarios')
   })
 })
 
 describe('resolveActivityRailActive', () => {
-  it('app-page 归并到域粒度：协作/Project 沉浸 → 项目；数字助手 → agents 域；自动化/技能 → 任务', () => {
+  it('app-page 归并到域粒度：协作/Project 沉浸 → 项目；数字助手 → agents 域；技能 → 能力中心；自动化 → 办件事', () => {
     expect(resolveActivityRailActive({
       effectiveMainNavTab: 'agent',
       activeAppPage: 'collaboration',
@@ -321,12 +335,15 @@ describe('resolveActivityRailActive', () => {
       effectiveMainNavTab: 'agents',
       activeAppPage: null,
     })).toBe('agents')
-    for (const page of ['skill', 'automation'] as const) {
-      expect(resolveActivityRailActive({
-        effectiveMainNavTab: 'agent',
-        activeAppPage: page,
-      })).toBe('capability')
-    }
+    // 技能库是能力中心域次级入口；自动化已归入「办件事」域，高亮 tasks。
+    expect(resolveActivityRailActive({
+      effectiveMainNavTab: 'agent',
+      activeAppPage: 'skill',
+    })).toBe('capability')
+    expect(resolveActivityRailActive({
+      effectiveMainNavTab: 'agent',
+      activeAppPage: 'automation',
+    })).toBe('tasks')
   })
 
   it('设置态最优先：按 category 高亮组织/个人头像，而非残留 app-page', () => {

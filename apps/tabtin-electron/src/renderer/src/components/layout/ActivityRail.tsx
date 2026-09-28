@@ -1,8 +1,11 @@
 /**
  * ActivityRail —— 常驻窄栏（56px，与宽侧栏共享实色底）。
  *
- * 自上而下：组织头像 → 五大域（任务 / 消息 / 数字助手 / 云文档 / 项目）→
+ * 自上而下：组织头像 → 主导航域（问一句 / 办件事 / 做项目* / 数字助手 /
+ * 协作沟通 / 资料空间 / 能力中心 / 场景市场* / 经营看板*）→
  * 底部客服 + 通知 + 个人头像。侧栏展开/折叠在 ShellTopBar 组织名旁。
+ * （* 做项目受 PROJECTS_UI_ENABLED 开关控制；场景市场与经营看板仅组织
+ *  管理者可见，见 resolveVisibleRailDomainIds。）
  *
  * 组织 / 个人头像点击固定落到组织资料 / 个人资料，不经齿轮中转、不复用上次 section。
  * 域切换派发与未读徽标和第二列内容面板同源（usePrimaryNavigation）；
@@ -136,15 +139,17 @@ const DOMAIN_NAV_ITEMS: Array<{
   { id: 'cockpit', labelKey: 'sidebar:rail.cockpit', defaultLabel: '经营看板', Icon: RailCockpitIcon },
 ]
 
-/** Projects 开关关闭时隐藏“做项目”域；cockpit 仅超管可见；其余域不受开关控制。 */
+/** Projects 开关关闭时隐藏“做项目”域；场景市场 / 经营看板仅组织管理者可见；其余域不受开关控制。 */
 export function resolveVisibleRailDomainIds(input: {
   projectsEnabled: boolean
   isCockpitVisible: boolean
+  isScenariosVisible: boolean
 }): DomainRailItemId[] {
   return DOMAIN_NAV_ITEMS
     .filter(item => {
       if (item.id === 'projects' && !input.projectsEnabled) return false
       if (item.id === 'cockpit' && !input.isCockpitVisible) return false
+      if (item.id === 'scenarios' && !input.isScenariosVisible) return false
       return true
     })
     .map(item => item.id)
@@ -182,7 +187,11 @@ export const ActivityRail: React.FC<ActivityRailProps> = ({
   })
 
   const currentUserRole = useOrganizationStore(state => state.currentUserRole)
-  const isCockpitVisible = canManageOrganization(currentUserRole)
+  // 场景市场与经营看板同为组织管理者（owner）专属域，沿用同一判定保持语义一致；
+  // 未来需要差异化放开（如场景市场对 editor 开放）时再拆成独立条件。
+  const isManagerOnlyDomainVisible = canManageOrganization(currentUserRole)
+  const isCockpitVisible = isManagerOnlyDomainVisible
+  const isScenariosVisible = isManagerOnlyDomainVisible
 
   const handleDomainClick = useCallback((id: DomainRailItemId) => {
     if (id === 'tasks') {
@@ -226,8 +235,12 @@ export const ActivityRail: React.FC<ActivityRailProps> = ({
   const setRailDomainOrder = useSpaceViewPrefsStore(s => s.setActivityRailDomainOrder)
 
   const visibleDomainIds = useMemo(
-    () => resolveVisibleRailDomainIds({ projectsEnabled: PROJECTS_UI_ENABLED, isCockpitVisible }),
-    [isCockpitVisible],
+    () => resolveVisibleRailDomainIds({
+      projectsEnabled: PROJECTS_UI_ENABLED,
+      isCockpitVisible,
+      isScenariosVisible,
+    }),
+    [isCockpitVisible, isScenariosVisible],
   )
   const orderedDomainIds = useMemo(
     () => resolveRailDomainOrder({ visibleIds: visibleDomainIds, storedOrder: railDomainOrder }),
