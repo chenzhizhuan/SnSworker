@@ -1472,6 +1472,7 @@ case "$CLI_GOOS" in
 esac
 case "$CLI_GOARCH" in
   x64) CLI_GOARCH="amd64" ;;
+  ia32) CLI_GOARCH="386" ;;
 esac
 
 # Read go buildinfo with short retries. Fresh Windows PE files can briefly fail

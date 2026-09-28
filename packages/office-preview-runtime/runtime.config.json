@@ -29,6 +29,15 @@
         "pdftoppm": "native/poppler/bin/pdftoppm.exe"
       }
     },
+    "win32-ia32": {
+      "url": "https://tabtin-cn-dev.oss-cn-shanghai.aliyuncs.com/desktop-updates/office-preview-runtime.tar.gz",
+      "sha256": "7f710df7724f47f43899a01a8a8cc0299c9ffb24794841afbd9898b9c59685e9",
+      "size": 512457014,
+      "tools": {
+        "soffice": "native/libreoffice-headless/program/soffice.exe",
+        "pdftoppm": "native/poppler/bin/pdftoppm.exe"
+      }
+    },
     "win32-arm64": {
       "tools": {
         "soffice": "native/libreoffice-headless/program/soffice.exe",
