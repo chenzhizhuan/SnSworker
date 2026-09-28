@@ -1,5 +1,5 @@
 ---
-name: tabfiles-operator
+name: 云盘文件操作
 description: >
   云盘裸文件操作——把本地文件/文件夹保存、归档到 Organization 云盘，
   列出云盘文件、获取下载链接。用户说「保存到云盘」「归档到云盘」
@@ -8,7 +8,7 @@ metadata:
   version: "0.1.0"
   tabtin:
     category: storage
-    displayName: "TabFiles Operator"
+    displayName: "云盘文件操作"
     autoActivateFor:
       - tabfiles
     tags:

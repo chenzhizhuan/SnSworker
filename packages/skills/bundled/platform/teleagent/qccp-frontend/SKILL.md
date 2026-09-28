@@ -1,8 +1,11 @@
 ---
-name: qccp-frontend
+name: 天衍前端助手
 description: "Guides self-contained Vue 3 page artifacts for the qccp-web TianYan Quantum Computing Cloud Platform frontend and quantum application showcases. Use for qccp pages, Element Plus SFCs, bilingual content, optional QCIS displays, routes, i18n, and frontend verification evidence. Trigger after qccp-ui. Do NOT use for backend/API implementation, quantum algorithm work, design-only review, or final readiness."
 name_cn: 天衍前端助手
 description_cn: 支持生成符合天衍量子云平台规范的Vue 3前端页面代码。包含路由配置、中英双语国际化及QCIS线路图展示等功能，辅助快速构建可交付的量子应用前端工程。
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # qccp-web Frontend Page

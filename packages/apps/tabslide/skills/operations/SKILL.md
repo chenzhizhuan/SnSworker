@@ -1,5 +1,5 @@
 ---
-name: operations
+name: 演示文稿命令操作
 description: >
   TabSlide 命令操作——创建、编辑、预览、导出演示文稿的完整
   CLI 命令参考。

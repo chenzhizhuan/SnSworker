@@ -1,5 +1,5 @@
 ---
-name: export-word-pdf
+name: 导出 Word/PDF
 description: >
   导出 Word/PDF——把 Space 文档或草稿导出为可外发的 DOCX/PDF。用户说"导出 Word""生成 PDF""给客户发文档"时使用。
 metadata:

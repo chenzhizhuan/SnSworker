@@ -1,5 +1,5 @@
 ---
-name: source-synthesis
+name: 多源信息综合
 description: >
   多源综合——多篇材料去重、冲突标注、结论分级。用户丢来一堆链接/文档要求综合时使用。
 metadata:

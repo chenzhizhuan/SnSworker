@@ -1,5 +1,5 @@
 ---
-name: file-generation
+name: 办公文件生成
 description: >
   生成办公文件——在当前工作目录生成 Office / PDF
   文件（xlsx / docx / pptx / pdf；用户说 ppt 时按

@@ -1,5 +1,5 @@
 ---
-name: landing-copy
+name: 落地页文案
 description: >
   落地页文案——价值主张、标题、CTA、异议处理。用户要落地页/官网文案时使用。
 metadata:

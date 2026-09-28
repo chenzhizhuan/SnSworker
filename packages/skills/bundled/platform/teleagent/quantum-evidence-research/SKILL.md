@@ -1,8 +1,11 @@
 ---
-name: quantum-evidence-research
+name: 量子科研检索器
 description: "Researches actionable evidence for quantum application decisions: classical baselines, datasets, known methods, maintained SDK components, evaluation protocols, backend constraints, and TianYan platform requirements. Use when planning lacks sourced evidence. Do NOT use to implement code, make the final route decision, or claim application readiness."
 name_cn: 量子科研检索器 
 description_cn: 专业的量子前沿技术与基线调研工具。支持检索经典对比算法、公开数据集及 SDK 组件可行性，输出带有溯源依据的研究简报，为量子路线决策提供数据支撑。
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Quantum Evidence Research

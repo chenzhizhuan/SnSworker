@@ -1,5 +1,5 @@
 ---
-name: excel-data-viz
+name: Excel 数据可视化
 description: >-
   Upload one or more Excel/CSV files to automatically analyze key data points,
   extract insights, and generate visualizations (line charts, bar charts, pie charts,
@@ -10,6 +10,9 @@ description: >-
 name_cn: Excel数据可视化
 description_cn: 上传Excel/CSV文件，自动分析关键数据并生成折线图、饼图、柱状图、环形图、热力图等可视化图表
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: data
 ---
 
 # Excel 数据可视化

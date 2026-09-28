@@ -1,9 +1,12 @@
 ---
-name: space-gemini-image
+name: AI 图像生成
 description: AI image generation skill using TeleAgent built-in ImageGen tools. Supports text-to-image and image-to-image modes. Trigger when user wants to generate images, draw, paint, create artwork, or AI illustration.
 name_cn: AI图像生成
 description_cn: 当用户想要生成图片、画图、绘画、创建图像、AI作画时使用此技能。支持文生图和图生图。
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: ai_media
 ---
 
 # AI图像生成

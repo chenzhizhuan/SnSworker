@@ -1,9 +1,12 @@
 ---
-name: ai-short-video
+name: AI 短视频制作
 description: "AI short video creation with subtitles and voiceover. Use when user wants to create short videos, make video from text/script, generate videos with dubbing, add subtitles to video, or produce content for social media platforms (Douyin, Kuaishou, Bilibili, Xiaohongshu). Supports two modes: (1) text-to-video: script to AI images + TTS audio + subtitles to MP4, (2) image-to-video: user images + TTS audio + subtitles to MP4. Outputs MP4 video + SRT subtitle file."
 name_cn: AI短视频制作
 description_cn: 根据文案或图片自动生成带字幕和配音的短视频，支持抖音/快手竖屏等多种规格
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: ai_media
 ---
 
 # AI Short Video

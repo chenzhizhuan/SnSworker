@@ -1,5 +1,5 @@
 ---
-name: browser-operator
+name: 浏览器交互操作
 description: >
   浏览器交互与单页读取。用户要打开/浏览网页、点击填表走流程、读懂某一页、
   截图或导出 PDF/Markdown、处理登录或验证码时使用。成批结构化采集用
@@ -8,7 +8,7 @@ metadata:
   version: 0.9.7
   tabtin:
     category: web
-    displayName: "Browser Operator"
+    displayName: "浏览器交互操作"
     tags:
       - automation
       - interaction

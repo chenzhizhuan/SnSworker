@@ -1,6 +1,9 @@
 ---
-name: using-superpowers
+name: 超能工作流入门
 description: Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions
+metadata:
+  tabtin:
+    category: developer
 ---
 
 <SUBAGENT-STOP>

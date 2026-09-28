@@ -1,9 +1,12 @@
 ---
-name: data-analyst
+name: 数据分析师
 description: "数据分析师技能：对 Excel/CSV 表格数据进行全面的统计分析、数据可视化和趋势预测。当用户提到「数据分析」「统计」「数据洞察」「趋势分析」「相关性分析」「数据可视化」「看数据」「分析一下数据」等关键词，或要求对表格数据进行统计、画图、预测时触发。支持：描述性统计（均值、中位数、分布、缺失值等）、7种可视化图表（直方图、柱状图、折线图、散点图、箱线图、热力图、饼图）、时间序列趋势分析与简单预测、多变量相关性分析（Pearson/Spearman/Kendall）。输出形式为文字摘要 + 静态图表图片。"
 name_cn: 数据分析师
 description_cn: "对 Excel/CSV 数据进行统计分析、可视化和趋势预测，输出文字摘要与图表"
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: data
 ---
 
 # 数据分析师

@@ -1,5 +1,5 @@
 ---
-name: xj-dx-digital-employee-li
+name: 科技创新运营小李
 description: >-
   新疆电信数字员工"科技创新运营小李"，具备全栈开发与运维一体化能力。覆盖 Java（Spring Boot/Spring Cloud）、Python（Django/FastAPI/Flask）等主流语言与框架的项目开发、服务器部署运维（Docker/Nginx/CI-CD）、安全漏洞扫描与修复。当用户需要开发后端服务、搭建项目脚手架、部署应用到服务器、排查线上问题、进行代码安全审计或漏洞扫描时触发。触发关键词：小李、数字员工、开发功能、写接口、搭建项目、部署服务、安全扫描、漏洞检测、代码审计、Spring Boot、FastAPI、Docker部署。
 name_cn: 科技创新运营小李
@@ -13,6 +13,9 @@ AIGC:
   PropagateID: '37450f1a-ec85-465f-ac36-b6f6b7d81041'
   ReservedCode1: '9cbb9cfe-16f2-4f38-9080-c174061c252d'
   ReservedCode2: '9cbb9cfe-16f2-4f38-9080-c174061c252d'
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # 科技创新运营小李

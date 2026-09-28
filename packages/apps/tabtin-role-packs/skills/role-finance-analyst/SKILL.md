@@ -1,5 +1,5 @@
 ---
-name: role-finance-analyst
+name: 财务分析工作法
 description: >
   财务分析工作法——指标解读、差异分析、假设透明。用户要财务分析备忘时使用（非审计意见）。
 metadata:

@@ -1,5 +1,5 @@
 ---
-name: seo-page-audit
+name: 页面 SEO 审计
 description: >
   页面 SEO 审计——meta、结构、内链、可读性清单。用户要 SEO 检查或优化建议时使用。
 metadata:

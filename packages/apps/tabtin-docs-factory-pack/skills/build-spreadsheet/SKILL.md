@@ -1,5 +1,5 @@
 ---
-name: build-spreadsheet
+name: 数据表文件生成
 description: >
   生成数据表文件——从对话或 TabData 生成带结构/公式的表格文件。用户要 Excel/CSV 交付件时使用。
 metadata:

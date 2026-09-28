@@ -1,7 +1,10 @@
 ---
-name: token-sales-assistant
+name: 天翼云销售助手
 description: |
   Use when the user asks to analyze an enterprise client for 息壤 Token/算力 sales opportunity — includes BEIK report generation, customer tier judgment (算力层 vs 应用层), Token consumption scenario mining, and value-driven conversation script creation. Triggers: user mentions Token 销售, 息壤, 政企客户调研, AI 算力商机, 拜访前准备, BEIK 报告, 客户档位, 算力层/应用层, 价值切入话术, or asks "分析 XX 公司的 Token 机会". Covers AI 开发商, 规上工业, 外贸跨境, 软件开发, 高职院校, 内容/客服密集企业.
+metadata:
+  tabtin:
+    category: sales_crm
 ---
 
 # 息壤 Token 销售助手

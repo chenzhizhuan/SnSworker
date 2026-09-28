@@ -1,5 +1,5 @@
 ---
-name: super-agent-cluster-a
+name: 多智能体协同集群
 description: 认知超越博士教授，主Agent调度多智能体并行采集，互查互验消灭偏差。借鉴分权制衡，方案经审议门与计划拷问后执行，二次审议保障可靠。复杂度分级路由快通道或全流程，状态机禁非法跳转，威胁模型防级联幻觉与资源耗尽。代码支持双轴审查与TDD，搜索按意图选通道，问题指纹防记忆混乱，历史重提压缩摘要，门禁渐进式阶段验证，表格PDF运维。
 name_cn: SuperAgent集群
 description_cn: 认知超越博士教授，主智能体调度多智能体并行采集，互查互验纠偏。分权制衡，方案经审议门与计划拷问后落地，二次审议可靠。复杂度分级路由，状态机禁非法跳转，威胁模型防级联幻觉与资源耗尽。代码支持双轴审查与TDD，搜索按意图选通道，问题指纹防记忆混乱，历史重提压缩摘要，门禁分阶段验证，表格PDF运维，表格化防截断，图标跨阶段配对，步骤名唯一化。
@@ -12,6 +12,9 @@ AIGC:
   PropagateID: 'c3c3f046-15b5-45f3-84e3-19c1ae8cdb64'
   ReservedCode1: '4be51acd-8974-410a-8ab4-1152113d8f36'
   ReservedCode2: '4be51acd-8974-410a-8ab4-1152113d8f36'
+metadata:
+  tabtin:
+    category: productivity
 ---
 
 ## ⛔ 步骤标注格式（每次任务100%强制，完整定义见 references/step-transparency-examples-pt3.md §步骤标注格式完整规范）

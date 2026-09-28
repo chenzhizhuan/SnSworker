@@ -1,5 +1,5 @@
 ---
-name: brief-to-slide-deck
+name: 简报转演示稿
 description: >
   简报转演示稿——把文档 / 汇报转成给老板 / 客户看的
   PPT deck。用户要求"把文档做成 PPT""把汇报变成幻灯片""生成

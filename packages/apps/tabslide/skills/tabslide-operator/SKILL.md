@@ -1,5 +1,5 @@
 ---
-name: tabslide-operator
+name: 演示文稿操作
 description: >
   演示文稿操作——创建、编辑、放映、导出可继续协作的
   PPT / 幻灯片 / 演示文稿。用户要做 / 改演示时使用；
@@ -8,7 +8,7 @@ metadata:
   version: "0.1.0"
   tabtin:
     category: doc
-    displayName: "TabSlide Operator"
+    displayName: "演示文稿操作"
     autoActivateFor:
       - tabslide
     tags:

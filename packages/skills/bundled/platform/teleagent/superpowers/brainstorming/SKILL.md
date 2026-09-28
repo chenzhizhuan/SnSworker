@@ -1,6 +1,9 @@
 ---
-name: brainstorming
+name: 头脑风暴
 description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Brainstorming Ideas Into Designs

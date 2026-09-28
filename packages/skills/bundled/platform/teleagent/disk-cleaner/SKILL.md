@@ -1,9 +1,12 @@
 ---
-name: disk-cleaner
+name: 磁盘垃圾清理
 description: "Scan and clean junk files on Windows disk drives (C/D/E etc.). Covers temp files, caches, logs, recycle bin, Windows update cache, error reports, prefetch, crash dumps, and browser cache. Always scans first, presents report for user confirmation, then cleans. Use when user mentions: 清理磁盘, 清理垃圾, 清理C盘, 磁盘清理, disk cleanup, clean disk, free up space, 磁盘空间不足, 清理缓存, 清理临时文件, disk cleaner."
 name_cn: 磁盘垃圾清理
 description_cn: 扫描并清理Windows磁盘垃圾文件，支持多盘符，先扫描后确认再清理
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: utility
 ---
 
 # 磁盘垃圾清理

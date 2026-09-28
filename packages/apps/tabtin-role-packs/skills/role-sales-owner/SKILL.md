@@ -1,5 +1,5 @@
 ---
-name: role-sales-owner
+name: 销售负责人工作法
 description: >
   销售负责人工作法——管线审视、预测、辅导话术。用户以销售负责人视角推进时使用。
 metadata:

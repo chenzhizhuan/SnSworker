@@ -1,5 +1,5 @@
 ---
-name: role-ops-owner
+name: 运营负责人工作法
 description: >
   运营负责人工作法——目标拆解、实验设计、复盘。用户以运营视角推增长/活动时使用。
 metadata:

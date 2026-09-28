@@ -1,5 +1,5 @@
 ---
-name: platform-reach
+name: 平台化内容获取
 description: >
   平台化内容获取——对登录墙 / 强风控或垂直站点（小红书、抖音、B站、淘宝、
   天猫、京东、同花顺、东方财富）用**内置适配器**做搜索、阅读、评论。走 `tabtin reach`
@@ -10,7 +10,7 @@ metadata:
   version: 0.3.0
   tabtin:
     category: web
-    displayName: "Platform Reach"
+    displayName: "平台化内容获取"
     tags:
       - scraping
       - platform

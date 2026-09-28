@@ -1,5 +1,5 @@
 ---
-name: lark-sync-brief
+name: 飞书同步简报
 description: >
   飞书同步简报——把 Space 结论整理成适合飞书群/文档的同步稿，并给出粘贴或 CLI 发送步骤。用户要同步到飞书时使用。
 metadata:

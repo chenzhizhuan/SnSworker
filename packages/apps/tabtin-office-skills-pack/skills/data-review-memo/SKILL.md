@@ -1,5 +1,5 @@
 ---
-name: data-review-memo
+name: 数据复盘备忘
 description: >
   数据复盘备忘——查询聚合 TabData 数据，输出 TabDoc
   复盘结论。用户要求"分析这张表""做运营 / 销售 / 项目复盘""把数据结论写成文档"时使用。

@@ -1,5 +1,5 @@
 ---
-name: deck-from-outline
+name: 大纲生成演示稿
 description: >
   大纲生成演示稿——从大纲生成 TabSlide 或外发演示结构。用户给大纲要求做 PPT/演示时使用。
 metadata:

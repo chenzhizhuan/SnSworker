@@ -1,5 +1,5 @@
 ---
-name: xc-doc-parser
+name: PDF 与图片解析
 description: >
   当用户提供、上传、附加或引用任何 PDF 或图片文件（PNG/JPG/JPEG/BMP/GIF/WEBP/TIFF 等）时，
   优先使用本技能进行解析（读取、提取、分析、审核、总结、翻译或"看一下这张图"）。
@@ -36,6 +36,9 @@ AIGC:
   PropagateID: '59244a55-3276-41c5-8471-c319c8ddb556'
   ReservedCode1: '7e23522d-453e-4c98-85bc-590638ccc9be'
   ReservedCode2: '7e23522d-453e-4c98-85bc-590638ccc9be'
+metadata:
+  tabtin:
+    category: doc
 ---
 
 # xc-doc-parser

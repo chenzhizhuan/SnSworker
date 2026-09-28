@@ -1,5 +1,5 @@
 ---
-name: mail-triage-ops
+name: 邮件分拣处理
 description: >
   邮件分拣编排——分类、优先级、回复草稿、转任务。用户要处理收件箱或邮件跟进时使用。
 metadata:

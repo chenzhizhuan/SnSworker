@@ -1,8 +1,11 @@
 ---
-name: cloud189-assistant
+name: 天翼云盘助手
 description: Tianyi Cloud Drive assistant that routes user requests to the right sub-workflow — document polishing/proofreading, document translation, PPT generation, report organizing, or photo search. Document/report/PPT operations are limited to "我的应用/云盘智能体" directory; photo search supports full-disk search. Self-contained, no dependency on other skills (except pptx/xlsx skills for output generation).
 name_cn: 天翼云盘助手
 description_cn: 天翼云盘统一助手，根据用户意图路由到对应子流程——文档润色、文档翻译、PPT生成、报表整理、照片搜索。文档/报表/PPT操作仅限"我的应用/云盘智能体"目录；照片搜索支持全盘搜索。自包含运行，PPT和报表生成分别依赖pptx和xlsx技能。
+metadata:
+  tabtin:
+    category: storage
 ---
 
 # 天翼云盘助手

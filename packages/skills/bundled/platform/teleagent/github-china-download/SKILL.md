@@ -1,5 +1,5 @@
 ---
-name: github-china-download
+name: GitHub 国内下载
 description: Download GitHub Release binaries in China via proxy.
 name_cn: GitHub国内下载
 description_cn: GitHub仓库国内加速下载

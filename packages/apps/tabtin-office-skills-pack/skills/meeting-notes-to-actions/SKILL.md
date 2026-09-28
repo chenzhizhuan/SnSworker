@@ -1,5 +1,5 @@
 ---
-name: meeting-notes-to-actions
+name: 会议纪要行动项整理
 description: >
   会议纪要整理——沉淀纪要、提炼 action items、结构化行动项、
   同步到文档 / 任务表。用户贴会议记录、录音转写、讨论要点，
@@ -9,7 +9,7 @@ metadata:
   version: "0.1.0"
   tabtin:
     category: collaboration
-    displayName: "会议纪要与行动项"
+    displayName: "会议纪要转行动项"
     tags:
       - meeting
       - notes

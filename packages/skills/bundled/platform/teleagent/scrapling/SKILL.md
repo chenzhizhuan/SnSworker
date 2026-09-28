@@ -1,5 +1,5 @@
 ---
-name: scrapling
+name: 高性能网页爬虫
 description: "Adaptive web scraping framework that handles everything from a single request to full-scale crawls. Bypasses anti-bot systems like Cloudflare Turnstile, learns from website changes, supports CSS/XPath selection, session requests, stealth mode and spider crawls. Use when users ask about 爬虫, 网页抓取, web scraping, data extraction, crawl websites, 采集网页数据, scraping with Python, bypass Cloudflare, adaptive scraping, spider."
 name_cn: 高性能网页爬虫
 description_cn: "自适应网页爬虫框架：单次请求到全量爬取一条龙，自带绕过 Cloudflare/反爬验证、三种抓取器（普通/隐身/浏览器）、自适应元素定位、会话保持与代理轮换、Spider 并发爬取。内置微博/知乎/B站/贴吧/抖音/小红书六大平台反爬实测经验与一键探测脚本（抖音 a_bogus 签名绕过、小红书登录态采集），附豆瓣 PoW 破解、IP 封禁排查、断点续爬等踩坑实录。政企场景：政府采购网/电信采购网（瑞数防护绕过）/工信部招投标标讯采集；金融场景：央行/证监会/招标投标公共服务平台监管动态与标讯采集。"
@@ -12,6 +12,9 @@ AIGC:
   PropagateID: '4aa33619-034a-4827-b500-5135bdd71236'
   ReservedCode1: 'ca3c701d-fcc4-415d-98d3-f689acba3bf7'
   ReservedCode2: 'ca3c701d-fcc4-415d-98d3-f689acba3bf7'
+metadata:
+  tabtin:
+    category: web
 ---
 
 # Scrapling 智能爬虫

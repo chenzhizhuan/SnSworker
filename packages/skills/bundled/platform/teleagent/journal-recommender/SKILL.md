@@ -1,9 +1,12 @@
 ---
-name: journal_recommender
+name: 学术期刊匹配助手
 description: Use when the user asks for journal recommendation, 选刊, 投稿期刊筛选, 期刊匹配, 适合投稿的期刊, 投哪个期刊, or wants 3-5 suitable journals for a manuscript based on an abstract, discipline, CAS/JCR ranking, impact factor, Aims & Scope, review speed, OA/APC, and publication-risk checks.
 name_cn: 学术期刊匹配助手
 description_cn: 学术论文投稿选刊助手。基于论文摘要和研究方向，智能匹配适合投稿的期刊，并从期刊影响力、研究领域匹配度、审稿效率、开放获取政策及投稿风险等维度进行综合评估，帮助用户快速找到合适的投稿目标
 
+metadata:
+  tabtin:
+    category: education
 ---
 
 # Journal Recommender

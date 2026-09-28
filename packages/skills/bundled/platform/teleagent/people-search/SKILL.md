@@ -1,9 +1,12 @@
 ---
-name: people-search
+name: 人物关系图谱检索
 description: 基于互联网公开信息的多实体关联搜索与关系图谱生成技能。对用户提供的任意实体（人物、公司、组织、事件、项目等），通过多轮迭代搜索收集关联信息，构建实体关系网络，输出交互式HTML关系图和Mermaid静态图。当用户提到"查某人信息""关系图""关联搜索""信息关联""人肉搜索""背景调查""关系梳理"等关键词时触发。
 name_cn: 人肉搜索
 description_cn: 从互联网公开信息中搜索实体关联，生成可视化关系图谱
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: research
 ---
 
 # 人肉搜索 - 实体关联搜索与关系图谱

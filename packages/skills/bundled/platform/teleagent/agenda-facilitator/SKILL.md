@@ -1,9 +1,12 @@
 ---
-name: agenda-facilitator
+name: 议程主持助手
 description: "Design outcome-driven meeting agendas with preparation, timeboxes, decision points, facilitation prompts, and parking lots. Use when the user needs workshops, reviews, planning meetings, and decision sessions."
 name_cn: "议程主持助手"
 description_cn: "把会议从信息汇报改造成有产出、有节奏的决策与协作过程。"
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: productivity
 ---
 
 # 议程主持助手

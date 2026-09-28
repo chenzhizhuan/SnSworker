@@ -1,11 +1,14 @@
 ---
-name: prompt-refinement
+name: 提示词进化器
 version: "2.1"
 last_updated: "2026-08-03"
 description: "AI提示词进化技能。基于七条核心原则（给足背景、中立提问、渐进迭代、分块处理、选对工具、触发思考、上下文卫生），通过三轮提问法将用户粗略需求打磨为高质量提示词，并立即执行验证效果。当用户说\"帮我优化提示词\"、\"提示词不好用\"、\"怎么写好提示词\"、\"完善prompt\"、\"提示词工程\"、\"打磨提示词\"、\"提示词太简单\"、\"提示词写不好\"、\"prompt怎么写\"、\"帮我写个prompt\"、\"提示词调优\"、\"prompt优化\"、\"提示词进化\"时触发。也适用于用户给出模糊需求、需要澄清后才能执行任务的场景。"
 name_cn: "提示词进化器"
 description_cn: "七条原则+三轮提问，把你的粗略想法进化为高质量AI提示词，立刻执行对比进化效果。"
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: productivity
 ---
 
 # 提示词进化器

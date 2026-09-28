@@ -1,5 +1,5 @@
 ---
-name: meeting-sync-mail
+name: 会后同步邮件
 description: >
   会后同步邮件——把结论与行动项写成可发送同步邮件草稿。用户要会后群发同步时使用。
 metadata:

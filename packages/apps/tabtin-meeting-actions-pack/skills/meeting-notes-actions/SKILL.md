@@ -1,5 +1,5 @@
 ---
-name: meeting-notes-actions
+name: 会议纪要与行动项
 description: >
   会议纪要与行动项——沉淀纪要、提炼 action items，可同步文档/任务表。用户贴会议记录要求整理时使用。
 metadata:

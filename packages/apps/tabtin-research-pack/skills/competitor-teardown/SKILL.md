@@ -1,5 +1,5 @@
 ---
-name: competitor-teardown
+name: 竞品拆解分析
 description: >
   竞品拆解——多源对比功能/定价/话术，输出对比表与洞察。用户要竞品分析、对标拆解时使用。
 metadata:

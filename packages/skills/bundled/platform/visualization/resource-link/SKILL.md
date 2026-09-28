@@ -1,5 +1,5 @@
 ---
-name: resource-link
+name: 资源链接插入
 description: >
   插入资源链接——在 chat 文字流里给资源链接，markdown
   link 形态 [显示文本](tabtin://resource/<type>/<id>?hint=<carrierApp>)，

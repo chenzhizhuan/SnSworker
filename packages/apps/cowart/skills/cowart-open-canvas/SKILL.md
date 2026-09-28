@@ -1,5 +1,5 @@
 ---
-name: cowart-open-canvas
+name: 开放画布
 display_name: Cowart Open Canvas
 description: >
   Open and use the Cowart local infinite canvas for

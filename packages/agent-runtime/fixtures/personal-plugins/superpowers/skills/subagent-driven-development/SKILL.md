@@ -1,6 +1,9 @@
 ---
-name: subagent-driven-development
+name: 子代理驱动开发
 description: Use when executing implementation plans with independent tasks in the current session
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Subagent-Driven Development

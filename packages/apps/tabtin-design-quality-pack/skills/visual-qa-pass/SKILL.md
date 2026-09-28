@@ -1,5 +1,5 @@
 ---
-name: visual-qa-pass
+name: 视觉走查验收
 description: >
   视觉走查——对比、间距、状态、暗色模式检查清单。用户要 UI 走查或设计验收时使用。
 metadata:

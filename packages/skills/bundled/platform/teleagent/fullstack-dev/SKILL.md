@@ -1,5 +1,5 @@
 ---
-name: fullstack-dev
+name: 全栈开发
 description: |
   Full-stack backend architecture and frontend-backend integration guide.
   TRIGGER when: building a full-stack app, creating REST API with frontend, scaffolding backend service,
@@ -9,6 +9,9 @@ description: |
 name_cn: 全栈开发
 description_cn: 全栈应用架构与开发指南，涵盖后端架构、前后端集成、API设计、认证、数据库访问与生产加固。
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Full-Stack Development Practices

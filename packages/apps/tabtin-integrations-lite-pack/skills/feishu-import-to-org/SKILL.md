@@ -1,5 +1,5 @@
 ---
-name: feishu-import-to-org
+name: 飞书资产迁入
 description: >
   飞书资产迁入组织——把用户选定的飞书多维表 / 云文档（Docx）/ 知识库节点链接
   一次性导入当前 Organization 云盘（表→TabData，文档→TabDoc）。用户说导入飞书、

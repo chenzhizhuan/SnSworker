@@ -1,10 +1,13 @@
 ---
-name: teleagent-faq
+name: TeleAgent 用户支持助手
 description: >
   TeleAgent（星辰超级智能体）用户支持FAQ技能，面向终端用户提供标准化的自助问题解答支持。
   覆盖产品材料、功能规划、版本问题速查、故障自助排查、使用技巧、安装启动、IM渠道等全场景。
 name_cn: "TeleAgent用户支持助手"
 description_cn: "TeleAgent用户支持助手技能，面向终端用户提供标准化的自助问题解答支持，覆盖产品材料、功能规划、版本问题速查、故障自助排查、使用技巧等全场景。"
+metadata:
+  tabtin:
+    category: customer_support
 ---
 
 ## 概述

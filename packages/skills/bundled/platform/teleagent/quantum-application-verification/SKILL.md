@@ -1,8 +1,11 @@
 ---
-name: quantum-application-verification
+name: 量子应用验证工具
 description: "Run focused delivery checks in an isolated snapshot and document observed results without certifying application correctness."
 name_cn: 量子应用验证工具
 description_cn:  提供隔离环境下的量子应用自动化验证服务。支持执行预检指令，探测交付物完整性及运行状态，并自动生成标准验证报告，确保最终交付资产的可靠性。
+metadata:
+  tabtin:
+    category: engineering
 ---
 
 # Quantum Application Verification

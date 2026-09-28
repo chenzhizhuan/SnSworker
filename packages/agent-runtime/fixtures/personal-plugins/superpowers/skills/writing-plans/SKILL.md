@@ -1,6 +1,9 @@
 ---
-name: writing-plans
+name: 撰写实施计划
 description: Use when you have a spec or requirements for a multi-step task, before touching code
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Writing Plans

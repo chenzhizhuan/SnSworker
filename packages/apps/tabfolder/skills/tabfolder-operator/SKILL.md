@@ -1,5 +1,5 @@
 ---
-name: tabfolder-operator
+name: 本地文件管理
 description: >
   本地文件管理——浏览、预览、读写、搜索文件与目录、
   跨 App 协作。用户要在本地文件系统里找文件 / 看内容
@@ -8,7 +8,7 @@ metadata:
   version: 0.1.0
   tabtin:
     category: device
-    displayName: "TabFolder Operator"
+    displayName: "本地文件管理"
     tags:
       - file
       - management

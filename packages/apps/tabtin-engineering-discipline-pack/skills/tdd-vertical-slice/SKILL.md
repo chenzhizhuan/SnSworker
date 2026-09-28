@@ -1,5 +1,5 @@
 ---
-name: tdd-vertical-slice
+name: 垂直切片 TDD
 description: >
   垂直切片 TDD——一测一实现，防过度设计。用户要求 TDD 或测试先行时使用。
 metadata:

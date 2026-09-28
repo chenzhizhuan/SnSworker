@@ -1,5 +1,5 @@
 ---
-name: coauthor-longform
+name: 长文共创
 description: >
   长文共创——大纲、分节起草、修订循环，沉淀到 TabDoc。用户要求写方案/说明/长文且需要共创修订时使用。
 metadata:

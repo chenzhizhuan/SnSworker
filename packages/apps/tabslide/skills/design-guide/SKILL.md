@@ -1,5 +1,5 @@
 ---
-name: design-guide
+name: 演示设计指导
 description: >
   演示设计指导——应用视觉设计原则、规划布局策略、
   执行质量检查。做 PPT / 幻灯片视觉设计时参考。

@@ -750,7 +750,8 @@
       "data": "Daten",
       "research": "Forschung",
       "creative": "Kreativ",
-      "engineering": "Ingenieurwesen"
+      "engineering": "Ingenieurwesen",
+      "business": "Business"
     },
     "mineSubGroup": {
       "published_private": "Nur ich",

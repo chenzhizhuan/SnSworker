@@ -1,9 +1,12 @@
 ---
-name: colleague-distill
+name: 同事蒸馏器
 description: 将同事的工作方式、技术规范、沟通风格蒸馏成数字分身。支持上传 Word、PPT、PDF、聊天记录、邮件等各类文件，生成 Work Skill + Persona 双模型。当用户提到"蒸馏同事"、"创建数字分身"、"复刻同事工作方式"、"同事走了留下经验"、"离职交接"、"数字孪生"时触发。
 name_cn: 同事蒸馏器
 description_cn: 上传同事的 Word/PPT/聊天记录等文件，蒸馏生成能替他工作的数字分身
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: knowledge
 ---
 
 # 同事蒸馏器

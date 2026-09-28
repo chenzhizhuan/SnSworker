@@ -1,5 +1,5 @@
 ---
-name: session-handoff
+name: 会话交接文档
 description: >
   会话交接——把当前会话压缩成下一位 Agent / 下一会话可接手的交接文档。用户说"交接""换会话继续""上下文快满了"时使用。
 metadata:

@@ -1,5 +1,5 @@
 ---
-name: learning-digest
+name: 学习消化笔记
 description: >
   学习消化笔记——课程/文章整理为结构化笔记与练习题，优先落 TabMemo。用户要学习笔记、消化材料时使用。
 metadata:

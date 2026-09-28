@@ -1,5 +1,5 @@
 ---
-name: cv-model-training
+name: CV 模型训练助手
 description: YOLOv8 model training and inference API deployment in Docker containers. Covers data preparation, training configuration, inference server setup, and common pitfalls like class id mismatch and stale cache files.
 name_cn: CV二开小助手
 description_cn: 在Docker容器中训练YOLOv8模型并部署推理API服务，涵盖数据集准备、训练配置、推理服务搭建及常见问题排查。
@@ -11,6 +11,9 @@ AIGC:
   PropagateID: 41f54c30-529c-4591-8d2c-3905a6c46d6b
   ReservedCode1: f7c46992-165b-4e37-a4fa-0a41d7360c1a
   ReservedCode2: f7c46992-165b-4e37-a4fa-0a41d7360c1a
+metadata:
+  tabtin:
+    category: developer
 ---
 # CV模型训练与推理部署
 

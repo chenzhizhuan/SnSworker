@@ -1,9 +1,12 @@
 ---
-name: remove-ai-flavor
+name: 去 AI 味优化
 description: 去除 AI 味道的文章风格优化技能。用于识别并改写文章、公众号稿、自媒体稿、口播稿、演讲稿、课程稿、产品文案中的 AI 痕迹、模板腔、资料味、翻译腔、内容空心、空洞大词、过度金句、破折号滥用、bullet 堆叠、动不动加粗等问题；当用户说"去 AI 味""去除 AI 痕迹""不像 AI 写的""更像人写的""更自然""别太机器味""去掉模板感""改得像公众号终稿"时使用。不用于事实核查、从零选题策划、论文转公众号、纯标题生成或追求 AI 检测器通过率。
 name_cn: 去AI味优化
 description_cn: 识别并改写文章中的AI痕迹、模板腔、翻译腔、空洞大词等问题，让文本更自然更像人写的。
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: writing
 ---
 
 # 去除 AI 味道

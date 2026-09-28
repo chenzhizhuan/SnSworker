@@ -1,9 +1,12 @@
 ---
-name: paper-deep-read
+name: 论文精读
 description: |
   Academic paper deep reading and structured analysis skill. Three-layer progressive analysis (overview, method detail, innovation) with symbol-level formula explanation and quality-aware PDF parsing. Trigger words: "精读论文", "论文精读", "论文分析", "read paper", "analyze paper", "paper review", "解读论文", "帮我读这篇论文", "论文创新点", "理解论文方法", "explain paper".
 name_cn: paper_deep_read
 description_cn: 论文深度精读与分析助手，支持从论文概览、方法解析到创新挖掘的结构化解读，并提供公式级解释，帮助用户快速理解复杂学术论文。
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Paper Deep Read

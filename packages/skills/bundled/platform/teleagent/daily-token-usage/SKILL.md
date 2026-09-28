@@ -1,9 +1,12 @@
 ---
-name: daily-token-usage
+name: 每日 Token 用量查询
 description: 查询 TeleAgent 每日 Token 用量统计。从 TeleAgent 日志中解析 token 消耗数据（输入/输出/缓存读取/合计），输出当日明细和本月累计。触发场景：用户问"今天消耗了多少token""token用量""token统计""看看token消耗""本月token用量"等。关键词：token、用量、消耗、统计、额度。
 name_cn: 每日Token用量查询
 description_cn: 查询 TeleAgent 每日 Token 消耗统计，包括输入/输出/缓存读取用量及本月累计，支持文本和Markdown格式输出。
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: utility
 ---
 
 # 每日Token用量查询

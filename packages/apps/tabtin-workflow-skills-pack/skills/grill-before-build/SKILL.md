@@ -1,5 +1,5 @@
 ---
-name: grill-before-build
+name: 开干前方案拷问
 description: >
   开干前拷问——在写代码或落库前，逐项追问方案假设、依赖与取舍，直到达成共识。用户说"先讨论方案""帮我拷问一下""别急着做"时使用。
 metadata:

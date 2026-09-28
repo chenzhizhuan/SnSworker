@@ -750,7 +750,8 @@
       "data": "データ",
       "research": "研究",
       "creative": "クリエイティブ",
-      "engineering": "エンジニアリング"
+      "engineering": "エンジニアリング",
+      "business": "ビジネス"
     },
     "mineSubGroup": {
       "published_private": "私だけ",

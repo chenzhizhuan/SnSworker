@@ -1,5 +1,5 @@
 ---
-name: dangjian-toolbox
+name: 国企党建工作工具箱
 description: 国企党建工作工具箱——党建材料写作、考试刷题、发展党员、巡察整改、民主评议等8大场景的元技能路由中枢。说需求自动路由到最佳能力，输出合规材料。纯Markdown无脚本，内置安全红线双检机制。
 version: 1.0.0
 updated_at: '2026-09-04'
@@ -19,6 +19,9 @@ AIGC:
   ReservedCode1: dcfdde9e-0220-499c-876c-98e3d18d3ac0
   ReservedCode2: dcfdde9e-0220-499c-876c-98e3d18d3ac0
 name_cn: 国企党建工作工具箱
+metadata:
+  tabtin:
+    category: writing
 ---
 # 党建工作工具箱
 

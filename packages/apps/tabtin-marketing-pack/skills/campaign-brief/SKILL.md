@@ -1,5 +1,5 @@
 ---
-name: campaign-brief
+name: 活动策划简报
 description: >
   活动 Brief——目标/人群/渠道/素材清单一页纸。用户要活动策划 brief 时使用。
 metadata:

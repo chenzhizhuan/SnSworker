@@ -1,10 +1,13 @@
 ---
-name: remotion-video-toolkit
+name: Remotion 程序化视频
 description: Complete toolkit for programmatic video creation with Remotion + React. Covers animations, timing, rendering (CLI/Node.js/Lambda/Cloud Run), captions, 3D, charts, text effects, transitions, and media handling. Use when writing Remotion code, building video generation pipelines, or creating data-driven video templates.
 description_cn: |-
   用 React 写视频，从代码到成片。
   动画、转场、字幕、3D、图表、文字特效、媒体处理——全部组件化声明，像搭 UI 一样搭视频。本地 CLI 实时预览，Node.js 批量渲染，Lambda / Cloud Run 云端弹性出片。数据驱动模板，一条代码生成千条个性化视频。
   视频的工程化时代，你只管写组件，成片交给流水线。
+metadata:
+  tabtin:
+    category: ai_media
 ---
 # Remotion Video Toolkit
 

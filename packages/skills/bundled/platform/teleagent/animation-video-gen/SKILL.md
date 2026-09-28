@@ -1,5 +1,5 @@
 ---
-name: animation-video-gen
+name: 动画视频生成
 description: 'Generate real animated videos from text, images, prompts, or video scripts. Powered by 即梦 Seedream/Seedance with 7 modes: text2img, text2video, img2video (first+last frame), ref2video (≤9 ref images), vivid2video (motion replication), multimodal, video_extend. v2.4: storyboard refinement (action/shot_type/camera/ambient/emotion/duration_seconds), slash-archetype voice mapping fix, royalty-free BGM library index (BGM_LIBRARY_DIR two-tier match returning real file paths) + 10 synth SFX, real xfade transitions (no black frames), animate_video fix (--preview default off), platform specs (platform_specs.md) + free asset list (free_resources.md), 6-tier TTS fallback (火山→edge→gTTS→pyttsx3→SAPI5→静音). Supports both vertical (9:16) and horizontal (16:9/4:3) 1080P MP4 output via --ratio parameter across all scripts. Trigger: 动画视频, 短剧动画, 竖屏动画, 横屏动画, 抖音短剧, 快手短剧, 生成动画, 文字转动画, 图片转动画, 提示词生成短剧, 脚本转短剧, animation video, short drama.'
 name_cn: 动画视频生成V4
 description_cn: |-
@@ -17,6 +17,9 @@ AIGC:
   PropagateID: ed301bd9-7865-4a55-9201-48b4f2f0739b
   ReservedCode1: 5b1a3d50-0e2f-4f90-90f9-979003b6a8f3
   ReservedCode2: 5b1a3d50-0e2f-4f90-90f9-979003b6a8f3
+metadata:
+  tabtin:
+    category: ai_media
 ---
 # 动画视频生成
 

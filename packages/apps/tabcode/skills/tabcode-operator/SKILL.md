@@ -1,5 +1,5 @@
 ---
-name: tabcode-operator
+name: 代码项目操作
 description: >
   代码项目操作——读写编辑文件、搜索代码、诊断验证、
   运行 lint、执行 Git 安全操作。用户提到"读文件""写代码""搜索代码""git""lint"时使用。
@@ -7,7 +7,7 @@ metadata:
   version: 0.3.1
   tabtin:
     category: developer
-    displayName: "TabCode Operator"
+    displayName: "代码项目操作"
     tags:
       - code
       - development

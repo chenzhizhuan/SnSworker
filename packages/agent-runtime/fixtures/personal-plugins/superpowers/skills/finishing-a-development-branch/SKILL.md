@@ -1,6 +1,9 @@
 ---
-name: finishing-a-development-branch
+name: 收尾开发分支
 description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Finishing a Development Branch

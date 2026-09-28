@@ -1,5 +1,5 @@
 ---
-name: table-association
+name: 多维表关联操作
 description: >
   多维表关联运行时操作——创建 link 字段、挂/解绑关联目标、
   查候选记录、改单/多关联基数、核对当前关联。用户说「关联到 / 挂上 /
@@ -10,7 +10,7 @@ metadata:
   version: 0.1.0
   tabtin:
     category: data
-    displayName: "Table Association"
+    displayName: "多维表关联操作"
     autoActivateFor:
       - tabdata
     tools:

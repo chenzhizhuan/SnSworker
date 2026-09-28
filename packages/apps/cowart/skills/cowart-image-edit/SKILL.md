@@ -1,5 +1,5 @@
 ---
-name: cowart-image-edit
+name: 图像编辑
 display_name: Cowart Image Edit
 description: >
   Edit and revise Cowart canvas images: read user-provided

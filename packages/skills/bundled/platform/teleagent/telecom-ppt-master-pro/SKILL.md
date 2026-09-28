@@ -1,5 +1,5 @@
 ---
-name: telecom-ppt-master-pro
+name: 电信运营汇报 PPT
 description: Create, modify and quality-assure China Telecom-style PowerPoint for operations analysis, business review, symposium, work deployment, advocacy training, branch/user profiles and Excel data reports. Deep-red visual system, 7 themes, 34 page templates, 12 scenario presets, native 5G template inheritance, optional local progress preview, JS/Python engines, and an engineering quality gate (task routing, machine-readable artifacts, validation scripts, smoke tests).
 name_cn: 电信PPT大师v91
 description_cn: 创建、原生编辑、模板复用并质检中国电信风格PPT，覆盖经营分析、业务复盘、座谈会、宣贯培训、专项汇报、营业部/用户画像及数据报表场景。深红视觉体系，7主题、34模板、12场景预设、5G原生模板继承；JS/Python双引擎，可选本地进度预览；v9.0工程化质量校验，数据可追溯、结果可校验。
@@ -11,6 +11,9 @@ AIGC:
   PropagateID: 'ff5869f8-d4f0-47d2-adf1-875b3d9ce86a'
   ReservedCode1: 'e60f4a1c-7595-4a43-9ea7-df4645c4ce6b'
   ReservedCode2: 'e60f4a1c-7595-4a43-9ea7-df4645c4ce6b'
+metadata:
+  tabtin:
+    category: doc
 ---
 
 # 电信PPT大师 v9.0

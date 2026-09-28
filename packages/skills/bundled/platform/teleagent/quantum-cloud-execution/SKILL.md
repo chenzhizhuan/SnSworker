@@ -1,8 +1,11 @@
 ---
-name: quantum-cloud-execution
+name: 天衍云端调度助手
 description: "Controls explicitly authorized execution on the TianYan Quantum Computing Cloud Platform through the existing Cqlib integration: capability preflight, credentials via environment or ignored config, device selection, compilation constraints, job submission, polling, retrieval, and provenance. Use only when the user requests TianYan execution. Do NOT use for another cloud provider or local simulation, and never silently fall back to a simulator or another device."
 name_cn: 天衍云端调度助手
 description_cn: 天衍量子云平台专属的物理真机调度工具。支持编译约束检查、任务提交、状态轮询与结果解析，安全代理云端算力执行，自动记录完整的物理执行状态。
+metadata:
+  tabtin:
+    category: engineering
 ---
 
 # Quantum Cloud Execution

@@ -1,6 +1,9 @@
 ---
-name: systematic-debugging
+name: 系统化调试
 description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Systematic Debugging

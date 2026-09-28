@@ -1,5 +1,5 @@
 ---
-name: skill-creator
+name: 技能创建器
 description: >
   技能创建器——交互式创建、校验、打包 SKILL.md。用户要新建/改进 skill 时使用。
 metadata:

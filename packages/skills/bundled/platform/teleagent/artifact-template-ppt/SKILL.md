@@ -1,9 +1,12 @@
 ---
-name: artifact-template-ppt
+name: 电信红白高密度汇报 PPT
 description: "Create or edit China Telecom-style internal presentations (电信红白高密度汇报PPT) with pptxgenjs. Use when the user selects this template, names 电信红白高密度汇报PPT, asks for 电信/中国电信 red-white compact PPT materials, or explicitly invokes artifact-template-ppt for project reports, innovation results, advanced-role or craftsman presentations, training exchanges, team building, security, digitalization, AI, or internal leadership briefings."
 name_cn: 电信红白高密度汇报PPT
 description_cn: "按电信红白、文字紧凑、证据优先的风格生成项目与内部汇报PPT，保留参考母版视觉系统，用 pptxgenjs 输出可编辑 PPTX"
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: doc
 ---
 
 # 电信红白高密度汇报PPT

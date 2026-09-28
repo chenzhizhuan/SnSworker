@@ -1,6 +1,9 @@
 ---
-name: executing-plans
+name: 执行实施计划
 description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Executing Plans

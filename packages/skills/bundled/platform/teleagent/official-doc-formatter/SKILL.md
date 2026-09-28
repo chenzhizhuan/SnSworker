@@ -1,9 +1,12 @@
 ---
-name: official-doc-formatter
+name: 官方公文格式化
 description: 官方公文/请示/通知等体制内文档格式化技能。根据国标GB/T 9704规范，自动设置页面边距、字体字号、行间距、缩进、标题层级、中英文分离字体等格式。当用户提到"公文格式化"、"请示排版"、"通知格式"、"红头文件"、"官方文档格式"、"体制内文档"或需要对docx文件按国标公文规范进行格式调整时触发。
 name_cn: 官方公文格式化
 description_cn: 按国标GB/T 9704规范自动格式化体制内公文，支持请示、通知、函、报告等文种
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: doc
 ---
 
 # 官方公文格式化

@@ -1,11 +1,14 @@
 ---
-name: ai-bid-writing
+name: 信息化标书写作
 description: |
   信息化行业专业AI标书写作引擎。面向系统集成商、软件开发商、IT运维服务商、网络安全服务商，
   覆盖软件开发、系统集成、运维服务、网络安全、数据治理、云服务等信息化项目的技术方案编写。
   Trigger keywords: write bid, technical proposal, bidding document, proposal writing, generate proposal, write chapter X,
   scoring table, bid analysis, heading system, proposal outline, 写标书, 技术标, 投标方案, 方案写作, 生成方案, 写第X章, 评分表, 招标文件分析, 标题体系, 标书大纲,
   信息化, 系统集成, 软件开发, 运维服务, 网络安全, 等保, 信创.
+metadata:
+  tabtin:
+    category: writing
 ---
 
 # AI标书写作 — 信息化行业技术方案写作流程 v3.1

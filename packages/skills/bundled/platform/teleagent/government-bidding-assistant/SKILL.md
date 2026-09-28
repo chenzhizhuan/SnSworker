@@ -1,5 +1,5 @@
 ---
-name: government-bidding-assistant
+name: 政企客户部招投标助手
 description: "政企客户部专用招标信息搜索与汇总技能。在通用招投标助手能力基础上，面向政企客户部业务场景定制：搜索中国公开招标采购平台上的政企类项目信息（智慧城市、政务信息化、数字化集成、云服务、AI能力建设等），支持按关键词、时间范围、地区、公告类型筛选，并生成网页形式汇总展示，辅助政企客户经理发现商机、跟踪项目动态。Use when the user asks to 查政企招标, 政企商机, 政务信息化招标, 政企项目采购, 政企投标, 客户部招标信息, 招投标汇总, or any bidding/tender search for government & enterprise clients."
 name_cn: 政企客户部招投标助手
 description_cn: "面向政企客户部的招标信息搜索与商机汇总工具，覆盖智慧政务、政务信息化、行业数字化等政企项目，支持关键词/时间/地区筛选并生成网页汇总。"
@@ -12,6 +12,9 @@ AIGC:
   PropagateID: '9a5fa6d3-f06f-4d70-88e7-50ba6714a18f'
   ReservedCode1: 'e5994294-2e5b-4504-88a0-95290f8d1096'
   ReservedCode2: 'e5994294-2e5b-4504-88a0-95290f8d1096'
+metadata:
+  tabtin:
+    category: sales_crm
 ---
 
 # 政企客户部招投标助手

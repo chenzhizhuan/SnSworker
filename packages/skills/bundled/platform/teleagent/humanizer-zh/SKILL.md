@@ -1,5 +1,5 @@
 ---
-name: humanizer-zh
+name: AI 文本去痕
 description: |
   中文AI文本去痕工具。检测并修复文本中的AI写作痕迹，使内容更自然、更像人类书写。
   覆盖24种AI写作模式（内容/语言/语法/风格/交流/填充词）。
@@ -24,6 +24,9 @@ description: |
   - 学术论文（需保持学术规范）
 name_cn: AI文本去痕
 description_cn: 中文AI文本去痕工具，检测并修复24种AI写作模式，让文本更自然有人味。
+metadata:
+  tabtin:
+    category: writing
 ---
 
 # 中文AI文本去痕

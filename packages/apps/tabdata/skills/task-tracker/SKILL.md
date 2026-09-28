@@ -1,5 +1,5 @@
 ---
-name: task-tracker
+name: 任务进度跟踪
 description: >
   任务进度跟踪——登记步骤计划、实时更新状态、记录决策与问题、
   跨会话恢复、多 Agent 分工协作。接到 ≥3 步的复杂任务、
@@ -9,7 +9,7 @@ metadata:
   version: 0.2.3
   tabtin:
     category: collaboration
-    displayName: "Task Tracker"
+    displayName: "任务进度跟踪"
     emoji: "\U0001F4CB"
     tags: [agent, task, tracking, table]
 ---

@@ -1,5 +1,5 @@
 ---
-name: followup-sequence
+name: 销售跟进序列
 description: >
   跟进序列——多触点跟进节奏与话术草稿。用户要销售跟进计划或连续触达时使用。
 metadata:

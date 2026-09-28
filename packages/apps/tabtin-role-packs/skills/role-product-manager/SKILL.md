@@ -1,5 +1,5 @@
 ---
-name: role-product-manager
+name: 产品经理工作法
 description: >
   产品经理工作法——问题定义、方案取舍、PRD/验收、优先级。用户以产品经理视角推进需求时使用。
 metadata:

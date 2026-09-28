@@ -1,5 +1,5 @@
 ---
-name: discovery-call-notes
+name: 销售通话纪要
 description: >
   发现通话纪要——痛点、决策链、下一步，可落 CRM 表。用户贴销售通话/访谈要整理时使用。
 metadata:

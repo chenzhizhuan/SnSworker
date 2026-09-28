@@ -1,5 +1,5 @@
 ---
-name: win-loss-review
+name: 赢单输单复盘
 description: >
   赢单/输单复盘——归因、可复制动作、需改进项。用户要销售复盘时使用。
 metadata:

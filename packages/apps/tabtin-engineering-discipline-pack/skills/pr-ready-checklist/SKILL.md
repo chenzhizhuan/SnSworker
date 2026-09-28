@@ -1,5 +1,5 @@
 ---
-name: pr-ready-checklist
+name: PR 就绪检查
 description: >
   PR 就绪检查——标题、描述、风险、验证步骤模板。用户要开 PR 或检查是否可提审时使用。
 metadata:

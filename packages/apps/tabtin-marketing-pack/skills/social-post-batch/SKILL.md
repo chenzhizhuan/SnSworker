@@ -1,5 +1,5 @@
 ---
-name: social-post-batch
+name: 社媒短文批量创作
 description: >
   社媒短文批量——一稿多平台改写，语气可控。用户要微博/推文/社群短文批量时使用。
 metadata:

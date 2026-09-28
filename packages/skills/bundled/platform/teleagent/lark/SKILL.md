@@ -1,8 +1,11 @@
 ---
-name: lark
+name: 飞书连接器
 description: "飞书/lark全能力集成：飞书链接器支持调用飞书即时通讯、邮件、文档、电子表格、多维表格、知识库、日历、任务、审批、OKR、考勤、视频会议、妙记、通讯录、妙搭应用及 OpenAPI探索等能力。"
 name_cn: 飞书连接器
 description_cn: "飞书连接器支持调用飞书即时通讯、邮件、文档、电子表格、多维表格、知识库、日历、任务、审批、OKR、考勤、视频会议、妙记、通讯录、妙搭应用及 OpenAPI探索等能力。"
+metadata:
+  tabtin:
+    category: collaboration
 ---
 
 # lark

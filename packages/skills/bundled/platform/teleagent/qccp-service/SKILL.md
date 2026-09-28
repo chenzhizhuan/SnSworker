@@ -1,8 +1,11 @@
 ---
-name: qccp-service
+name: 天衍后端助手
 description: "Guides backend, API, and runnable local FastAPI demo artifacts for CT TianYan Quantum Computing Cloud Platform showcases. Local standalone HTML follows qccp-ui visual rules; Vue/qccp-web work remains qccp-frontend scope. Use for Python FastAPI packaging or explicit Java/Spring Cloud qccp-service integration, endpoint contracts, deployment checks, and backend verification evidence."
 name_cn: 天衍后端助手
 description_cn: 提供天衍平台标准后端API及服务部署代码生成能力。支持Python FastAPI独立演示环境搭建，以及 Java/Spring Cloud 模块的规范化接口接入与联调。
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # qccp-service Backend and Local Demo Dispatcher

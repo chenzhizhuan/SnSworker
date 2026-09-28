@@ -1,5 +1,5 @@
 ---
-name: tabtin-widget
+name: 可视化组件渲染
 description: >
   渲染可视化组件——用 show_widget 编译 SVG / HTML(no-script)
   / Mermaid 图做自由可视化。内容能落 present_to_user

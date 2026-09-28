@@ -1,9 +1,12 @@
 ---
-name: excel-data-cleaner
+name: Excel 数据整理
 description: Clean and organize raw Excel/CSV data. Supports deduplication (full-row or by-column), missing value handling (drop, fill with value/mean/median/ffill/bfill/auto), and table merging (join by key columns like VLOOKUP, vertical stack, horizontal concatenation, multi-file batch merge, merge all sheets from one file). Use when user asks to clean data, remove duplicates, handle blanks/nulls, merge sheets or files, combine tables, consolidate multiple files/sheets, or any raw data preparation task on spreadsheets.
 name_cn: Excel 数据整理
 description_cn: 清洗和整理 Excel/CSV 原始数据，支持去重、空值处理、合并表格（含多文件合并与多工作表合并）
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: data
 ---
 
 # Excel Data Cleaner

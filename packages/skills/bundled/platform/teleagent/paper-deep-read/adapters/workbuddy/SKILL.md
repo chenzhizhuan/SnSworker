@@ -1,7 +1,10 @@
 ---
-name: paper-deep-read
+name: 论文精读 WorkBuddy 适配
 description: |
   Academic paper deep reading and structured analysis skill. Three-layer progressive analysis (overview, method detail, innovation) with symbol-level formula explanation and quality-aware PDF parsing. Trigger words: "精读论文", "论文精读", "论文分析", "read paper", "analyze paper", "paper review", "解读论文", "帮我读这篇论文", "论文创新点", "理解论文方法", "explain paper".
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Paper Deep Read

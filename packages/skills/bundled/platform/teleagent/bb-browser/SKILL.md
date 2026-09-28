@@ -1,9 +1,12 @@
 ---
-name: bb-browser
+name: 个人浏览器操作助手
 description: 电信员工每天登录多个内外网系统查数据，但这些系统基本没有API，AI想帮忙却进不去。本技能直接把已登录的浏览器接力给AI用，通过Cookie调取数据，网站看到的就是合法用户在查。预置36个平台命令，内网系统10分钟可CLI化。
 name_cn: 个人浏览器操作助手
 description_cn: 直接把已登录的浏览器接力给AI用，通过Cookie调取数据，网站看到的就是合法用户在查。预置36个平台一键调用，内网系统10分钟可CLI化。适合运维、客服、报表岗跨系统查数。
 allowed-tools: Bash(bb-browser:*)
+metadata:
+  tabtin:
+    category: web
 ---
 
 # 个人浏览器操作助手 (bb-browser)

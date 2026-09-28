@@ -1,5 +1,5 @@
 ---
-name: ui-anti-slop
+name: 界面去 AI 味
 description: >
   去 AI 味界面——避免通用紫渐变/卡片堆砌，对齐设计系统与品牌。用户抱怨界面像 AI 生成或要设计规范落地时使用。
 metadata:

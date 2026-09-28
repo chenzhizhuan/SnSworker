@@ -1,5 +1,5 @@
 ---
-name: tabdoc-operator
+name: 文档操作
 description: >
   文档操作——创建、编辑、检索、整理叙事性长文档、
   报告、需求 spec、会议纪要、知识沉淀。用户要写 /
@@ -8,7 +8,7 @@ metadata:
   version: 0.14.6
   tabtin:
     category: doc
-    displayName: "TabDoc Operator"
+    displayName: "文档操作"
     tags:
       - document
       - knowledge

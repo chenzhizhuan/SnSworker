@@ -1,5 +1,5 @@
 ---
-name: device-operations
+name: 设备状态查询
 description: >
   查询移动设备状态——读取当前 Space 内已绑定的 iOS
   / Android / IoT 能力设备的设备信息、电池状态、网络状态。

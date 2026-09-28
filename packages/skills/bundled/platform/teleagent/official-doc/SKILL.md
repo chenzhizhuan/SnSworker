@@ -1,5 +1,5 @@
 ---
-name: official-doc
+name: 公文写作
 description: >
   Generate professional Chinese official documents (公文) including notices (通知), requests for instructions (请示),
   reports (报告), work plans (工作方案), speeches (发言稿), meeting opening/closing remarks (开幕词/闭幕词),
@@ -14,6 +14,9 @@ description: >
 name_cn: 公文写作神器
 description_cn: 一键生成规范公文Word文档，支持通知、请示、报告、方案、发言稿、党建材料等15种公文类型，符合党政机关公文格式标准。
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: doc
 ---
 
 # Official Document Writer

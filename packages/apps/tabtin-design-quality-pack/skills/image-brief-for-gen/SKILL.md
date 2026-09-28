@@ -1,5 +1,5 @@
 ---
-name: image-brief-for-gen
+name: 生图需求描述
 description: >
   生图 Brief——给 Cowart/生图工具写可执行 brief。用户要生成配图、图标、海报前先写 brief 时使用。
 metadata:

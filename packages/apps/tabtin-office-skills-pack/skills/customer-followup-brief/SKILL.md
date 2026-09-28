@@ -1,5 +1,5 @@
 ---
-name: customer-followup-brief
+name: 客户跟进简报
 description: >
   客户跟进简报——整合沟通记录、TabDoc、TabData 的客户信息，
   生成客户简报，写入下一步动作。用户提到客户、商机、

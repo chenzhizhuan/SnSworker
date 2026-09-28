@@ -1,12 +1,12 @@
 ---
-name: suggesting-skills
+name: 技能推荐助手
 description: >
   推荐该装的技能——根据当前任务匹配技能市场/已装技能并建议安装或启用。用户卡住或重复做同类事时使用。
 metadata:
   version: "0.1.0"
   tabtin:
     category: automation
-    displayName: "推荐该装的技能"
+    displayName: "技能推荐"
     tags:
       - meta
       - suggest

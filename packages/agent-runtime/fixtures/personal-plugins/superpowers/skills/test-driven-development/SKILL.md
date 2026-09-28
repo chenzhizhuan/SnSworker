@@ -1,6 +1,9 @@
 ---
-name: test-driven-development
+name: 测试驱动开发
 description: Use when implementing any feature or bugfix, before writing implementation code
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Test-Driven Development (TDD)

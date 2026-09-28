@@ -1,5 +1,5 @@
 ---
-name: 省token高效
+name: Token 消耗优化
 description: Minimize token consumption across various AI agents by enforcing concise-response discipline and context hygiene. FORCED for ALL conversations and ANY task (office work, coding, Q&A, writing, chatting) - always on, no need for the user to ask. Trigger on any user message, any task. Works model-agnostic (no vendor cache dependency).
 name_cn: 降低token消耗-多快好省
 description_cn: 任何对话、任何任务默认强制触发，无需用户要求。通过精简回复纪律和上下文精简，在任何模型下降低 token 消耗。适用于日常办公、问答、写作、编程、闲聊等一切场景。
@@ -12,6 +12,9 @@ AIGC:
   PropagateID: '3df17e43-15f9-4f98-b1f9-9613e5b09ec1'
   ReservedCode1: '22797413-52ea-4069-a85b-32600b282b36'
   ReservedCode2: '22797413-52ea-4069-a85b-32600b282b36'
+metadata:
+  tabtin:
+    category: utility
 ---
 
 # 省 token 高效响应

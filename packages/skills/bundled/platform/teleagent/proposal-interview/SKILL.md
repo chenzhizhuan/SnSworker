@@ -1,8 +1,11 @@
 ---
-name: proposal-interview
+name: 职场表达助手
 description: Structured interview to discover personal facts and generate reusable, approved statements for proposals and cover letters. Creates personalized content for Upwork, LinkedIn, email, job portals, and grants. Multi-person support. Use when drafting proposals, cover letters, or building a library of professional statements.
 name_cn: 职场表达助手
 description_cn: AI 职场表达助手，通过结构化访谈挖掘个人经历、项目经验和职业优势，生成经过确认的可复用专业表达素材。支持求职信、项目提案、领英资料、商务邮件等内容创作，帮助用户打造个性化、高质量的职业文案
+metadata:
+  tabtin:
+    category: writing
 ---
 
 # Proposal & Cover Letter Discovery Interview

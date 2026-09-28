@@ -1,5 +1,5 @@
 ---
-name: mcp-operations
+name: MCP 连接管理
 description: >
   操作本机 MCP 连接——通过 `tabtin mcp` CLI 查看当前
   Space 已挂载的本机 MCP servers、tools/resources/

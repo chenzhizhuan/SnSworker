@@ -1,5 +1,5 @@
 ---
-name: ci-failure-triage
+name: CI 失败分诊
 description: >
   CI 失败分诊——读日志定位并给出最小修复建议。用户说 CI 挂了、帮看失败时使用。
 metadata:

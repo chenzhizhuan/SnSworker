@@ -1,8 +1,10 @@
 ---
-name: antd-frontend-develop
+name: Ant Design 前端开发
 description: Ant Design React全套开发技能，包含组件查询、页面代码生成、后台看板开发、样式美化、Ant Design Pro项目搭建，用户提到antd、后台页面、数据看板、表格表单、B端管理系统时自动触发本技能
 license: Apache-2.0
 metadata:
+  tabtin:
+    category: developer
   author: 前端开发工程师
   version: "1.0.0"
 ---

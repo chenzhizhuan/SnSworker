@@ -1,5 +1,5 @@
 ---
-name: collect-to-table
+name: 网页采集入表
 description: Use when 用户要把网页采集结果或已有成批结构化数据落入多维表，且数据含嵌套明细、可复用对象、关联或反查需求，或落库前需要判断单表还是多表；也用于要求可重跑、批次覆盖或采集后直接建表。
 metadata:
   version: 0.1.9

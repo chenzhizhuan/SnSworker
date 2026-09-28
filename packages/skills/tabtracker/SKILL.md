@@ -1,5 +1,5 @@
 ---
-name: tabtracker
+name: 自动化任务管理
 description: >
   管理自动化任务——创建、列出、暂停、恢复、立即触发（产品模块名「自动化」，
   具体条目称「自动化任务」；CLI 命令仍为 tabtin tracker）。当用户表达"派活"意图时使用：

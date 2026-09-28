@@ -1,8 +1,11 @@
 ---
-name: quantum-algorithm-qml
+name: 量子机器学习
 description: "Routes evidence-selected quantum machine-learning work across quantum kernels, variational supervised models, hybrid neural models, quantum reservoirs, generative models, representation learning, and reinforcement learning. Use only for the qml_model workstream after plan.md selects one QMLRoute. Do not use for baseline, research, API/UI, documentation, verification, QAOA, or VQE."
 name_cn: 量子机器学习
 description_cn: 聚焦量子机器学习领域的全能助手。支持构建量子核方法、混合神经网络及量子生成模型，提供从数据预处理、模型训练到推理验证的端到端工程化支持。
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Quantum Machine Learning

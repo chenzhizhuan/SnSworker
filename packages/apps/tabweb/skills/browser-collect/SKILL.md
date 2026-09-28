@@ -1,5 +1,5 @@
 ---
-name: browser-collect
+name: 浏览器批量采集
 description: >
   浏览器批量结构化采集，产物为 JSON/JSONL + manifest。用户要批量抓列表/详情数据、
   爬取成批网页数据时使用。单页阅读或问答用 browser-operator；下图片/视频用
@@ -8,7 +8,7 @@ metadata:
   version: 0.3.2
   tabtin:
     category: web
-    displayName: "Browser Collect"
+    displayName: "浏览器批量采集"
     tags:
       - scraping
       - extraction

@@ -1,5 +1,5 @@
 ---
-name: browser-media
+name: 浏览器媒体下载
 description: >
   浏览器媒体资源探测与下载（含流媒体）。用户要下载页面图片/视频/音频，或问
   「这页有哪些能下的」时使用；只要求说明/列清单时不下载。结构化列表采集用
@@ -8,7 +8,7 @@ metadata:
   version: 0.2.3
   tabtin:
     category: web
-    displayName: "Browser Media"
+    displayName: "浏览器媒体下载"
     tags:
       - download
       - media

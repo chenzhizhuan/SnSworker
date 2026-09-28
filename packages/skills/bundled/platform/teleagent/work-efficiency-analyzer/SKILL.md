@@ -1,9 +1,12 @@
 ---
-name: work-efficiency-analyzer
+name: 工作赋能分析器
 description: "上传工作周报/日报/月报/项目汇报等材料，自动提取工作内容，从自动化潜力、技能覆盖度、重复性、耗时占比、质量敏感度五维评估每项工作的TeleAgent适配度，生成匹配技能、优化方案、推荐提示词案例和可视化HTML单页报告。当用户提到'工作分析'、'提效分析'、'赋能分析'、'工作效率'、'能力匹配'、'工作内容分析'、'TeleAgent能帮我做什么'时触发。"
 name_cn: 工作赋能分析器
 description_cn: 上传工作材料，自动分析每项工作的TeleAgent适配度、优化空间和推荐提示词，生成HTML报告
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: productivity
 ---
 
 # 工作赋能分析器

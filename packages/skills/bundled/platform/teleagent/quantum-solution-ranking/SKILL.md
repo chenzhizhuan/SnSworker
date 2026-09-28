@@ -1,9 +1,12 @@
 ---
-name: quantum-solution-ranking
+name: 量子方案决策助手
 description: "Turns research evidence into a bounded, executable quantum-application plan and reflects on observed experiments."
 name_cn: 量子方案决策助手
 description_cn: 核心的量子技术路线规划大脑。基于调研证据自动评估算法可行性，输出结构化的工程研发计划（plan.md），并支持在实验迭代中动态反思与调整优化策略。
 
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Quantum Application Planning

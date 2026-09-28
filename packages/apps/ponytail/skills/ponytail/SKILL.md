@@ -1,5 +1,5 @@
 ---
-name: ponytail
+name: 极简编码模式
 description: >
   Ponytail 极简编码模式：像见多识广的资深工程师一样，先判断需求是否真的需要
   （YAGNI），再依次复用现有代码、标准库、平台原生能力和已有依赖，只写能够
@@ -10,6 +10,7 @@ license: MIT
 metadata:
   version: "4.9.0"
   tabtin:
+    category: developer
     homepage: "https://github.com/DietrichGebert/ponytail"
     upstreamVersion: "v4.9.0"
     argumentHint: "[lite|full|ultra]"

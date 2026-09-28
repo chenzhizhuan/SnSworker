@@ -1,5 +1,5 @@
 ---
-name: report-generator
+name: 工作日报周报生成
 description: 职场日报/周报/月报生成器。将零散的工作要点转化为结构清晰、数据化、领导易读的汇报文档。触发词：「写日报」「写周报」「写月报」「生成报告」「汇报」「工作总结」「report」「日报」「周报」「月报」「工作汇报」。也适用于用户随意列出一堆工作内容后说「帮我整理一下」「帮我写个汇报」。（数智体系-姜鑫）
 author: 电信数智-集成服务部-产数交付支撑中心
 AIGC:
@@ -10,6 +10,9 @@ AIGC:
   PropagateID: 'f3d30450-8e98-4a1a-b727-5174a693a085'
   ReservedCode1: '306e0cdd-759d-4899-9f3b-516171e1791e'
   ReservedCode2: '306e0cdd-759d-4899-9f3b-516171e1791e'
+metadata:
+  tabtin:
+    category: productivity
 ---
 
 # 职场汇报文档生成器

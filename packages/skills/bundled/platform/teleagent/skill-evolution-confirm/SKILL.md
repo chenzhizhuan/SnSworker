@@ -1,9 +1,12 @@
 ---
-name: skill-evolution-confirm
+name: 技能自进化确认
 description: Use only when a message explicitly contains @skill-evolution-confirm (or its data-skill-id), or when the user asks to roll back a change previously accepted through Skill evolution. Never use for ordinary Skill updates, new-Skill confirmation without that explicit marker, non-evolution rollback or restore, or reading or inspecting any Skill.
 name_cn: Skill自进化确认器
 description_cn: 用于确认 TeleAgent 自进化流程生成的 Skill 待更新内容，并按回退凭证恢复已接受的变更。本技能须配合自进化流程使用，不可独立调用。
 
+metadata:
+  tabtin:
+    category: productivity
 ---
 
 # Skill Evolution Confirmation

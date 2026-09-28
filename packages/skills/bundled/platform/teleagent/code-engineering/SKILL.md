@@ -1,5 +1,5 @@
 ---
-name: code-engineering
+name: 代码工程最佳实践
 description: Code engineering best practices for structured development. Use when writing, modifying, debugging, or refactoring code. Enforces task decomposition, constraint checking, template reuse, and post-task review. Triggers on any code-related task including bug fixes, new features, refactoring, scripts, automation, and system integration.
 name_cn: 代码工程最佳实践
 description_cn: 结构化代码开发框架，核心为十阶段工作流加T0/T1/T2三级风险分级。小改走快速通道，核心重构走全流程，按需加载协议节省token。十阶段涵盖设计、拆解、检查、验证、根因分析、复盘到分支集成，设硬门禁。内置反合理化拦截，对接review-evolver提取经验写入记忆。
@@ -13,6 +13,9 @@ AIGC:
   PropagateID: '59a5d773-3de9-4055-94ce-2c9572507dc7'
   ReservedCode1: 'fc03ddbd-94d7-4e18-a30c-393a04f1982d'
   ReservedCode2: 'fc03ddbd-94d7-4e18-a30c-393a04f1982d'
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Code Engineering Best Practices

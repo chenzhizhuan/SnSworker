@@ -1,5 +1,5 @@
 ---
-name: cloud-drive
+name: 云盘上传与归档
 description: >
   云盘上传与归档——把本地 Markdown / CSV / PDF / 图片保存到 Space 云盘，
   或上传整个一级文件夹。用户说「保存到云盘」「归档到云盘」「上传云盘」

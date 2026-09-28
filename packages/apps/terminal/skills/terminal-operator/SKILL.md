@@ -1,5 +1,5 @@
 ---
-name: terminal-operator
+name: 终端命令执行
 description: >
   终端命令执行——通过 run_terminal_command 用一次性
   shell 子进程执行命令。wait_ms 决定阻塞时长；wait_ms:0
@@ -10,7 +10,7 @@ metadata:
   version: 1.0.0
   tabtin:
     category: developer
-    displayName: "Terminal Operator"
+    displayName: "终端命令执行"
     tags:
       - terminal
       - shell

@@ -1,8 +1,11 @@
 ---
-name: quantum-application-intake
+name: 量子需求分析师
 description: "Clarifies a quantum application request and records a readable Intake handoff. Use before research. Do not choose the algorithm, implement code, or approve delivery."
 name_cn: 量子需求分析师
 description_cn: 智能化量子应用需求梳理工具。通过结构化解析提取用户目标、输入输出限制及资源约束，自动生成标准需求文档与应用清单，为工程研发确立清晰边界。
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Quantum Application Intake

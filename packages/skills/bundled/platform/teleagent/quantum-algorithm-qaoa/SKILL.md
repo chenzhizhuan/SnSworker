@@ -1,8 +1,11 @@
 ---
-name: quantum-algorithm-qaoa
+name: 量子组合优化
 description: "Guides SDK-neutral QAOA application engineering for QUBO/Ising optimization, MaxCut, portfolio selection, scheduling, unit commitment, knapsack/TSP-like problems, penalty design, feasible decoding, baseline comparison, and quantum_report.md evidence. Use after the user selects Cqlib, Qiskit, or PennyLane and the project records quantum_runtime. Load only the selected SDK reference. Do NOT use for VQE, QML, hybrid neural models, application packaging, or final delivery readiness."
 name_cn: 量子组合优化
 description_cn: 专业的量子近似优化算法（QAOA）开发工具。支持 QUBO/Ising 模型构建与 MaxCut 等组合优化问题求解，提供经典基线对比及多量子 SDK 的底层代码适配。
+metadata:
+  tabtin:
+    category: research
 ---
 
 # Quantum Algorithm: QAOA

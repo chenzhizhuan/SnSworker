@@ -1,5 +1,5 @@
 ---
-name: html-spec
+name: HTML 转 PPT 元素
 description: >
   转换 HTML 为 PPT 元素——把 HTML 转成可编辑 PPT
   元素的契约：白名单决定可编辑范围，data-tabslide-rasterize

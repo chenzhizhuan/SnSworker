@@ -1,5 +1,5 @@
 ---
-name: slide-visual-polish
+name: 演示视觉润色
 description: >
   演示视觉润色——TabSlide 版式、层级、留白规范。用户要美化幻灯片时使用。
 metadata:

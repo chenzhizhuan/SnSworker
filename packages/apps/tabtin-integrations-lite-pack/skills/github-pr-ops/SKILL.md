@@ -1,5 +1,5 @@
 ---
-name: github-pr-ops
+name: GitHub PR 编排
 description: >
   GitHub PR 编排——用 gh/CLI 查看失败检查、评论、保持 PR 可合并的偏好流程。用户提 GitHub/PR/CI 相关协作时使用。
 metadata:

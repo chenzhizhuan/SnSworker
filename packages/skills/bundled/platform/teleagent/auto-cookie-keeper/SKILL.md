@@ -1,5 +1,5 @@
 ---
-name: auto-cookie-keeper
+name: OA 系统登录保活
 name_cn: 全天候OA综调等系统保持登录神器
 description_cn: >
   7×24小时网页登录态保活 + 20项企业办公自动化，一次配置终身免登录。
@@ -23,6 +23,9 @@ AIGC:
   PropagateID: '51307272-4118-4d84-b397-9f81f91caca7'
   ReservedCode1: '077024e6-db7f-4f34-a921-f362065b178b'
   ReservedCode2: '077024e6-db7f-4f34-a921-f362065b178b'
+metadata:
+  tabtin:
+    category: automation
 ---
 
 ## 这能帮你干什么

@@ -1,5 +1,5 @@
 ---
-name: calendar-day-plan
+name: 日历日程编排
 description: >
   日历日程编排——根据任务与会议约束排出一日/一周计划草稿。用户要排日程或日计划时使用。
 metadata:

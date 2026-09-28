@@ -1,8 +1,11 @@
 ---
-name: qcc-mcp
+name: 企查查企业信息查询
 description: "通过企查查 qcc-company、qcc-risk、qcc-ipr、qcc-operation、qcc-executive 五个 MCP 服务查询中国企业的工商股权、财务年报、司法执行与监管风险、知识产权与线上资产、经营资质与招投标舆情，以及企业董事、监事和高级管理人员（统称“董监高”）的任职投资与个人风险。用于企业检索、KYB/AML、供应商与合作方核查、尽职调查、知识产权核查、经营分析和董监高背调，也用于企查查 MCP 的连接、安装、API Key 配置、JSON 导入及凭证错误处理；必须先确认连接与 API Key 状态，再完成企业实体锚定，并按当前/历史、企业/董监高、自身/关联精确路由。"
 name_cn: 企查查
 description_cn:  基于企查查数据的5大企业信息查询服务，覆盖工商登记、股权与实控人、司法与执行风险、监管与税务风险、知识产权、经营动态，以及董监高任职、个人风险与历史记录，适用于企业核验、供应商准入、KYB 与尽职调查。
+metadata:
+  tabtin:
+    category: sales_crm
 ---
 
 # 企查查五服务 MCP Skill

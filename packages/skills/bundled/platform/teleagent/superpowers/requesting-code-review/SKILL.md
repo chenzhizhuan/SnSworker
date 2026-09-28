@@ -1,6 +1,9 @@
 ---
-name: requesting-code-review
+name: 发起代码评审
 description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Requesting Code Review

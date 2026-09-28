@@ -1,5 +1,5 @@
 ---
-name: proposal-one-pager
+name: 方案一页纸
 description: >
   方案一页纸——客户语境下的方案摘要。用户要销售方案摘要/一页纸时使用。
 metadata:

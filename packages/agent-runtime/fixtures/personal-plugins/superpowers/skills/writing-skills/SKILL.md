@@ -1,6 +1,9 @@
 ---
-name: writing-skills
+name: 编写与校验技能
 description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Writing Skills

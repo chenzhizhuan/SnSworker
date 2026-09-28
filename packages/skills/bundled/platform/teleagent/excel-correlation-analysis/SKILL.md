@@ -1,5 +1,5 @@
 ---
-name: excel-correlation-analysis
+name: Excel 关联性分析
 description: >
   Excel表格数据关联性分析及可视化输出。当用户需要对Excel数据进行字段关联度分析、
   生成数据字典、可视化字段分布、分析特定内容的关联原因时使用。触发词："关联性分析"、
@@ -8,6 +8,9 @@ description: >
 name_cn: Excel表格数据关联性分析及可视化输出
 description_cn: 分析Excel数据字段关联度，生成数据字典并可视化输出
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: data
 ---
 
 # Excel表格数据关联性分析及可视化输出

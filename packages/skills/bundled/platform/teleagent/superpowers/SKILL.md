@@ -1,5 +1,5 @@
 ---
-name: superpowers
+name: 超能开发方法论
 description: Use when starting any software development task - provides a complete agentic development methodology including brainstorming, TDD, systematic debugging, plan writing, and code review. Activates before writing code to ensure design-first, test-driven, evidence-based workflows. Triggers on feature development, bug fixing, refactoring, and any multi-step coding project.
 name_cn: 超能开发方法论
 description_cn: 完整的智能体软件开发方法论，涵盖需求头脑风暴、测试驱动开发、系统化调试、计划编写和代码审查等全流程。
@@ -13,6 +13,9 @@ AIGC:
   PropagateID: 'd22ed594-a63a-4dae-ac04-cdf72138b6a5'
   ReservedCode1: 'ffa00c72-1239-4c1b-8985-1a2923157c5d'
   ReservedCode2: 'ffa00c72-1239-4c1b-8985-1a2923157c5d'
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Superpowers - Agentic Development Methodology

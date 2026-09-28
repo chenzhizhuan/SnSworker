@@ -1,8 +1,11 @@
 ---
-name: dev-team
+name: 软件开发技术团队
 description: 虚拟软件技术团队——覆盖架构设计、UI/UX、前端/后端/移动端编码、AI工程、代码审计、安全审查、性能优化、数据库设计、测试策略、DevOps、技术文档等全栈开发场景。当用户提出任何软件开发、功能实现、系统设计、代码审查、技术方案评估、bug修复、重构、性能调优等任务时自动触发。
 name_cn: "软件开发技术团队"
 description_cn: "虚拟开发团队技能，22个专家Agent，覆盖架构/设计/开发/审查/安全/性能/测试/AI/DevOps全栈场景"
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # 虚拟开发团队 (Dev Team)

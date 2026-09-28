@@ -1,5 +1,5 @@
 ---
-name: skill-authoring
+name: 流程沉淀为技能
 description: >
   编写新技能——把反复出现的流程沉淀为 SKILL.md（含 frontmatter、references）。用户要求"做成 skill""沉淀流程""教 Agent 以后这样干"时使用。
 metadata:

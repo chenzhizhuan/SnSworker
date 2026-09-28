@@ -1,5 +1,5 @@
 ---
-name: web-research-brief
+name: 网页调研简报
 description: >
   网页调研简报——给定主题浏览/采集后产出带出处的简报。用户要求调研、搜资料、做 desk research 时使用。
 metadata:

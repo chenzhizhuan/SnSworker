@@ -1,5 +1,5 @@
 ---
-name: meeting-agenda-builder
+name: 会前议程构建
 description: >
   会前议程——目标、议题、时间盒、会前必读。用户要准备会议议程时使用。
 metadata:

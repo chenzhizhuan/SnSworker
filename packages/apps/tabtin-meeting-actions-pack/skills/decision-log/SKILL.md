@@ -1,5 +1,5 @@
 ---
-name: decision-log
+name: 决策日志
 description: >
   决策日志——记录决策、背景、选项、后果，便于追溯。用户要沉淀会议决策或 ADR 轻量版时使用。
 metadata:

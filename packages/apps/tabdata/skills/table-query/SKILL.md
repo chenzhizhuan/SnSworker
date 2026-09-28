@@ -1,5 +1,5 @@
 ---
-name: table-query
+name: 多维表查询统计
 description: >
   多维表查询——用 SQL 筛选检索、统计汇总、分组聚合（COUNT/
   SUM/平均）、排序去重、按条件批量更新。用户要"查一下
@@ -9,7 +9,7 @@ metadata:
   version: 0.2.4
   tabtin:
     category: data
-    displayName: "Table Query"
+    displayName: "多维表查询统计"
     autoActivateFor:
       - tabdata
     preload_tools_for:

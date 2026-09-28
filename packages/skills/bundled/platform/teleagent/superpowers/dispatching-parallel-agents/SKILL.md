@@ -1,6 +1,9 @@
 ---
-name: dispatching-parallel-agents
+name: 并行子代理调度
 description: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
+metadata:
+  tabtin:
+    category: developer
 ---
 
 # Dispatching Parallel Agents

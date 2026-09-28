@@ -1,5 +1,5 @@
 ---
-name: parallel-review-pass
+name: 多视角代码评审
 description: >
   多视角评审——正确性/安全/性能/可读性分视角汇总。用户要 code review 时使用。
 metadata:

@@ -1,5 +1,5 @@
 ---
-name: project-status-brief
+name: 项目状态简报
 description: >
   项目状态简报——收集 TabData 任务、TabDoc 文档、
   TabMemo 记录，整理风险与下一步，输出一页项目简报。

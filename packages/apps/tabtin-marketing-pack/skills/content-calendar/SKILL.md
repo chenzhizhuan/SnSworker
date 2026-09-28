@@ -1,5 +1,5 @@
 ---
-name: content-calendar
+name: 内容日历排期
 description: >
   内容日历——主题池到周历到草稿链。用户要内容排期、选题日历时使用。
 metadata:

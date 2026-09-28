@@ -1,5 +1,5 @@
 ---
-name: table-operator
+name: 多维表操作
 description: >
   多维表操作——加字段、改记录、删行、批量插入更新、记录评论协作、
   搜索记录、建看板 / 表单视图、转换字段类型。
@@ -9,7 +9,7 @@ metadata:
   version: 0.4.11
   tabtin:
     category: data
-    displayName: "Table Operator"
+    displayName: "多维表操作"
     autoActivateFor:
       - tabdata
     tools:

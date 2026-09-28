@@ -1,5 +1,5 @@
 ---
-name: table-modeling
+name: 多维表建模
 description: >
   多维表建模——设计表结构、决策单表或双表 link、规划字段并创建关联表。
   用户已有字段清单，或提到关联表格、一对多、主表+明细、电影+演员、
@@ -9,7 +9,7 @@ metadata:
   version: 0.3.0
   tabtin:
     category: data
-    displayName: "Table Modeling"
+    displayName: "多维表建模"
     autoActivateFor:
       - tabdata
     tools:

@@ -1,5 +1,5 @@
 ---
-name: weekly-report-builder
+name: 周报月报生成
 description: >
   周报月报生成——收集 TabMemo、TabDoc、TabData 事实，
   输出 TabDoc 报告，需要演示时生成 TabSlide 大纲。

@@ -1,8 +1,11 @@
 ---
-name: prototype-generator
+name: 项目原型生成器
 description: Interactive HTML prototype generator for software projects. Use when user asks to "create prototype", "generate wireframe", "make mockup", "生成原型", "画原型", "交互原型", "原型图", or similar. Covers Web management systems, mobile apps, mini-programs, and data visualization dashboards. Produces single-file interactive HTML prototypes with high-fidelity UI, mock data, and page navigation. Can read existing PRD documents to auto-extract fields, flows, and permissions.
 name_cn: 项目原型生成器
 description_cn: 生成高交互单HTML原型，支持Web管理系统、移动端APP、小程序和大屏展示，可基于PRD文档自动生成
+metadata:
+  tabtin:
+    category: design
 ---
 
 # Prototype Generator

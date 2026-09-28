@@ -1,9 +1,12 @@
 ---
-name: docx
+name: Word 文档助手
 description: "Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. When TeleAgent needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks"
 name_cn: "Word文档助手"
 description_cn: "支持创建、读取、编辑和整理 Word 文档，可用于报告、备忘录、信函、模板等正式文件的生成与排版，也能处理目录、标题、页码、表格、图片、批注和修订记录，适合把零散内容整理成规范、可交付的 .docx 文档。"
 license: Proprietary. LICENSE.txt has complete terms
+metadata:
+  tabtin:
+    category: doc
 ---
 
 # 技能：docx

@@ -1,5 +1,5 @@
 ---
-name: verify-before-done
+name: 完成前验收
 description: >
   完成前验收——在声称完成前对照验收清单自检（功能、回归、文档、资源链接）。用户说"验收一下""真的做完了吗""检查再交"时使用。
 metadata:

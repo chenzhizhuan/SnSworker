@@ -1,5 +1,5 @@
 ---
-name: token-customer-mining
+name: 天翼云客户挖掘
 name_cn: Token获客宝
 description: |
    天翼云 Token 目标客户抓取技能。输入城市名称，自动按 7 类客户画像搜索并筛选 100 个 Token 目标客户清单。
@@ -8,6 +8,9 @@ description: |
    输入：城市名称（如"宁波"、"杭州"、"苏州"）。
    输出：100 家目标客户清单表格（含企业名称、画像类别、当前API供应商、替换理由、优先级、切入话术）。
 description_cn: 输入城市名，按7类画像搜索并筛选100个Token目标客户清单
+metadata:
+  tabtin:
+    category: sales_crm
 ---
 
 # 天翼云 Token 目标客户抓取技能

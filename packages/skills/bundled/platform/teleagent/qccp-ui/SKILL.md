@@ -1,8 +1,11 @@
 ---
-name: qccp-ui
+name: 天衍 UI 审查助手
 description: "Guides the strict TianYan Quantum Computing Cloud Platform UI design specification for qccp/cloud showcase pages. Use for qccp-style pages, design tokens, visual consistency, platform UI components, and layout rules before qccp-frontend work. Do NOT use for backend/API work, quantum algorithm implementation, or final delivery readiness decisions."
 name_cn: 天衍UI审查助手
 description_cn: 内置天衍量子云平台UI 2.0官方设计规范。支持对前端页面的色彩令牌、组件状态及响应式排版进行像素级审查，确保云平台展示界面的视觉高度一致性。
+metadata:
+  tabtin:
+    category: design
 ---
 
 # UI Design Spec

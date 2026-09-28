@@ -1,7 +1,9 @@
 ---
-name: Windows电脑安全检查
+name: Windows 电脑安全检查
 description: "Windows 应急响应和安全基线排查专用工具，用户提供主机信息后，AI 自动引导进行全面的安全检查并分析结果。适用于安全基线检查、合规检查、终端安全检查、应急排查、可疑进程分析、配置审计等场景。"
 metadata:
+  tabtin:
+    category: utility
   name_cn: Windows 电脑终端安全检查
   description_cn: 对授权的 Windows 终端执行可复核的应急响应和安全排查，默认只读，分析专业
   version: 3.0

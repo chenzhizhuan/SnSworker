@@ -1,5 +1,5 @@
 ---
-name: tabsite-operator
+name: 网站创建发布
 description: >
   网站创建发布——创建、管理、发布轻量级网站 / Dashboard
   / 轻应用，站点直接调用 TabData API。用户要搭站点
@@ -8,7 +8,7 @@ metadata:
   version: 0.2.0
   tabtin:
     category: web
-    displayName: "TabSite Operator"
+    displayName: "网站创建发布"
     tags:
       - site
       - webapp

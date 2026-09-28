@@ -1,5 +1,5 @@
 ---
-name: cowart-image-gen
+name: 图像生成
 display_name: Cowart Image Generation
 description: >
   Generate and place AI images into the Cowart canvas

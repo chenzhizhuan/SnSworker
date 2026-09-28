@@ -1,9 +1,12 @@
 ---
-name: anomaly-investigation-planner
+name: 异常调查规划师
 description: "Investigate metric anomalies through validation, segmentation, change correlation, decomposition, and hypothesis testing. Use when the user needs unexpected spikes, drops, breaks, and data incidents."
 name_cn: "异常调查规划师"
 description_cn: "区分真实业务变化、口径变化和数据故障并形成证据链。"
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: analysis
 ---
 
 # 异常调查规划师

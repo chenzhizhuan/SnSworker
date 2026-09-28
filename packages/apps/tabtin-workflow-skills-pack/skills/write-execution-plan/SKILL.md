@@ -1,5 +1,5 @@
 ---
-name: write-execution-plan
+name: 可执行计划编写
 description: >
   写可执行计划——把目标拆成可验证步骤、验收标准与风险。用户要求"写计划""拆任务""怎么做"且尚未进入实现时使用。
 metadata:

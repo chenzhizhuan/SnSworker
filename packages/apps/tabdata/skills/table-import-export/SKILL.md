@@ -1,5 +1,5 @@
 ---
-name: table-import-export
+name: 多维表导入导出
 description: >
   多维表导入导出——导入 JSON/JSONL、CSV、Excel 写进多维表，
   导出表格为 CSV / Excel / PDF 文件交付。手上已有结构化文件/JSON 要写进表、
@@ -12,7 +12,7 @@ metadata:
   version: 0.4.8
   tabtin:
     category: data
-    displayName: "Table Import & Export"
+    displayName: "多维表导入导出"
     autoActivateFor:
       - tabdata
     tools:

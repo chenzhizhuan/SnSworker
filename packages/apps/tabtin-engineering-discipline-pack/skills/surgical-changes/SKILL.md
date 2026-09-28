@@ -1,5 +1,5 @@
 ---
-name: surgical-changes
+name: 克制式改动
 description: >
   克制改动——先读再改、最小 diff、不顺手重构。用户要求小心改、别动太多、或审查改动范围时使用。
 metadata:

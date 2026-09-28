@@ -1,9 +1,12 @@
 ---
-name: issue-tracker-workflow
+name: 问题跟踪工作流
 description: >-
   创建和使用团队问题跟踪表，把问题描述、截图或录屏、处理状态、代码修复、
   开发自测与人工验收串成闭环。用户说“记录这个 bug / 建问题表 / 问题汇总表 /
   处理这条问题 / 解决这个问题单”，或当前上下文包含问题表、问题记录链接时使用。
+metadata:
+  tabtin:
+    category: workflow
 ---
 
 # 问题跟踪工作流

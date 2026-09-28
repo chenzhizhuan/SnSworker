@@ -1,9 +1,12 @@
 ---
-name: gov-lookup
+name: 政府部门与关键人查询
 description: 查询政府部门组织架构与关键人信息。从互联网公开信息搜索政府机构的内设机构、领导班子、领导分工等，支持生成结构化表格和可视化组织架构图。当用户提到"政府部门""组织架构""领导班子""厅长/局长是谁""机构设置""内设机构""关键人""三定方案""领导分工"等关键词时触发。
 name_cn: 政府部门与关键人查询
 description_cn: 查询政府部门组织架构与关键人信息，支持结构化表格和可视化架构图
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: research
 ---
 
 # 政府部门与关键人查询

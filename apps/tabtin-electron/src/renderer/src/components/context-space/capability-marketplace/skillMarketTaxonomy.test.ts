@@ -14,11 +14,12 @@ describe('resolveSkillMarketCategory', () => {
     ['research', 'research'],
     ['creative', 'creative'],
     ['engineering', 'engineering'],
-  ] as const)('分类 %s 对应压缩包文件夹 key %s', (input, expected) => {
+    ['business', 'business'],
+  ] as const)('分类 %s 原生值直接命中', (input, expected) => {
     expect(resolveSkillMarketCategory(input)).toBe(expected)
   })
 
-  it('推荐分类顺序与压缩包文件夹一致', () => {
+  it('推荐分类顺序：六类压缩包 + business（商务办公）', () => {
     expect([...SKILL_MARKET_CATEGORY_ORDER]).toEqual([
       'writing',
       'collab',
@@ -26,13 +27,29 @@ describe('resolveSkillMarketCategory', () => {
       'research',
       'creative',
       'engineering',
+      'business',
     ])
   })
 
-  it('未分类 / 旧细分类不进新推荐 chip', () => {
+  it('27 类体系归一到推荐七类（预装技能 category 能被 tabs 捡到）', () => {
+    expect(resolveSkillMarketCategory('doc')).toBe('writing')
+    expect(resolveSkillMarketCategory('analysis')).toBe('research')
+    expect(resolveSkillMarketCategory('developer')).toBe('engineering')
+    expect(resolveSkillMarketCategory('collaboration')).toBe('collab')
+    expect(resolveSkillMarketCategory('finance')).toBe('data')
+    expect(resolveSkillMarketCategory('design')).toBe('creative')
+    expect(resolveSkillMarketCategory('sales_crm')).toBe('business')
+    // 预装技能里出现过的超纲值也一并归一
+    expect(resolveSkillMarketCategory('storage')).toBe('engineering')
+    expect(resolveSkillMarketCategory('integration')).toBe('collab')
+  })
+
+  it('未分类与未映射杂类仍不进推荐 chip', () => {
     expect(resolveSkillMarketCategory(null)).toBeNull()
-    expect(resolveSkillMarketCategory('developer')).toBeNull()
-    expect(resolveSkillMarketCategory('analysis')).toBeNull()
+    expect(resolveSkillMarketCategory('')).toBeNull()
+    expect(resolveSkillMarketCategory('other')).toBeNull()
+    expect(resolveSkillMarketCategory('lifestyle')).toBeNull()
+    expect(resolveSkillMarketCategory('unknown_category')).toBeNull()
   })
 })
 

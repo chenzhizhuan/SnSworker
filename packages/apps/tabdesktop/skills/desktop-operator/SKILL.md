@@ -1,5 +1,5 @@
 ---
-name: desktop-operator
+name: 桌面操控
 description: >
   桌面操控（Computer Use）——截屏、点击 / 拖拽 /
   滚动鼠标、输入键盘、管理窗口。用户提到"操控桌面""打开应用""点击屏幕""截屏""桌面自动化""Computer

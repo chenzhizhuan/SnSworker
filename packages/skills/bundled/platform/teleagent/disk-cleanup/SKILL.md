@@ -1,9 +1,12 @@
 ---
-name: disk-cleanup
+name: C 盘深度清理
 description: Windows C盘深度清理工具。扫描并清理磁盘空间，覆盖回收站、系统临时文件、浏览器缓存、开发工具缓存(npm/pip/Yarn/JetBrains/VSCode)、聊天软件缓存(微信/企业微信/钉钉/QQ/腾讯会议)、办公软件缓存(WPS)、多版本残留等。当用户提到"C盘满了"、"磁盘空间不足"、"清理C盘"、"释放空间"、"深度清理"、"磁盘清理"时触发。
 name_cn: C盘深度清理
 description_cn: 扫描并深度清理Windows C盘空间，涵盖回收站、系统缓存、浏览器缓存、开发工具缓存、聊天软件缓存、WPS缓存、多版本残留等，释放磁盘空间。
 create_source: super-agent-skill-creator
+metadata:
+  tabtin:
+    category: utility
 ---
 
 # C盘深度清理
