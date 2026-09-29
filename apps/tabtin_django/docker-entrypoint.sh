@@ -59,6 +59,21 @@ case "${role}" in
     # The long-running web process receives only the runtime role and cannot
     # read the root/postgres-owned one-shot password files.
     unset PG_INIT_PASSWORD_FILE PG_MIGRATOR_PASSWORD_FILE TABTIN_COMMUNITY_DATABASE_SQL_ROOT
+    echo "[entrypoint] pre-warming Django URL resolver (cold-start ~20s → 0 for first user request)"
+    gosu snsworker python -c "
+import os, django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tabtin.settings')
+django.setup()
+from django.urls import resolve
+# 触发 URL 路由懒加载完成 Pydantic 模型构造
+try:
+    resolve('/api/skills/visible')
+    resolve('/api/agents')
+    resolve('/api/auth/profile')
+    print('[entrypoint] URL resolver warmed')
+except Exception as e:
+    print(f'[entrypoint] URL warm-up warning (non-fatal): {e}')
+"
     echo "[entrypoint] starting Community daphne on 0.0.0.0:6060"
     exec gosu snsworker python -m daphne \
       --ping-interval 45 \
