@@ -811,6 +811,9 @@ export function normalizeTargetArch(value) {
   ) {
     return 'arm64'
   }
+  if (normalized === 'ia32' || normalized === 'x86' || normalized === 'i386' || normalized === 'i686' || normalized === '386') {
+    return 'ia32'
+  }
   return undefined
 }
 
@@ -906,6 +909,9 @@ export const WINDOWS_NATIVE_ASSET_SPECS = [
     required: true,
     pkgDir: () => 'node-pty',
     files: (arch) => [{ rel: `prebuilds/win32-${arch}/conpty.node` }],
+    // ia32 无预编译 conpty.node 且 node-gyp 在 Python 3.12 下缺 distutils 无法编译；
+    // 终端功能在 32 位上不可用，但不阻断安装包构建。
+    optionalForArchs: ['ia32'],
   },
 ]
 
@@ -1039,11 +1045,15 @@ export function evaluateWindowsNativeAssets(arch, io, specs = WINDOWS_NATIVE_ASS
   for (const spec of specs) {
     const presence = resolveWindowsNativeAssetPresence(spec, arch, io)
     const messages = []
+    // 检查该架构是否在 optionalForArchs 中（降级为警告而非阻断）
+    const isOptional = spec.optionalForArchs?.includes(arch)
     if (!presence.installed) {
       messages.push(
-        spec.required
-          ? `缺少必需原生依赖：${spec.pkgDir(arch)}（目标架构 ${arch}）`
-          : `未打入可选原生依赖：${spec.pkgDir(arch)}（目标架构 ${arch}，按裁剪处理）`,
+        isOptional
+          ? `未打入可选原生依赖：${spec.pkgDir(arch)}（目标架构 ${arch}，按裁剪处理）`
+          : spec.required
+            ? `缺少必需原生依赖：${spec.pkgDir(arch)}（目标架构 ${arch}）`
+            : `未打入可选原生依赖：${spec.pkgDir(arch)}（目标架构 ${arch}，按裁剪处理）`,
       )
     } else {
       for (const path of presence.missingFiles ?? []) {
@@ -1051,7 +1061,7 @@ export function evaluateWindowsNativeAssets(arch, io, specs = WINDOWS_NATIVE_ASS
       }
     }
     const decorated = messages.map((message) => `[${spec.id}] ${message}`)
-    if (spec.required) criticalHits.push(...decorated)
+    if (spec.required && !isOptional) criticalHits.push(...decorated)
     else warningHits.push(...decorated)
   }
   return { criticalHits, warningHits }
@@ -1206,7 +1216,7 @@ function normalizeGoTarget(target, arch) {
       : normalizedTarget === 'win' || normalizedTarget === 'win32' || normalizedTarget === 'windows'
         ? 'windows'
         : normalizedTarget,
-    goarch: normalizedArch === 'x64' ? 'amd64' : normalizedArch,
+    goarch: normalizedArch === 'x64' ? 'amd64' : normalizedArch === 'ia32' ? '386' : normalizedArch,
   }
 }
 

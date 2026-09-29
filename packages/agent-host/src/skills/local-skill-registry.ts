@@ -381,8 +381,17 @@ export class LocalSkillRegistry {
     }
 
     if (count < expectedCount) {
-      throw new Error(
-        `shared builtin catalog incomplete after refresh (${count}/${expectedCount})`,
+      // 容差：允许 1-2 个内置技能解析失败（可能是文件锁、时序竞争导致 scanner
+      // 偶发跳过）。严格阻断会导致整个技能面板不可用——宁可少 1 个技能也
+      // 不要全部不显示。仅在缺失超过 2 个时才抛错。
+      const tolerance = 2;
+      if (expectedCount - count > tolerance) {
+        throw new Error(
+          `shared builtin catalog incomplete after refresh (${count}/${expectedCount})`,
+        );
+      }
+      this.logger.warn(
+        `shared builtin catalog incomplete but within tolerance (${count}/${expectedCount}); proceeding with partial catalog`,
       );
     }
     return count;
