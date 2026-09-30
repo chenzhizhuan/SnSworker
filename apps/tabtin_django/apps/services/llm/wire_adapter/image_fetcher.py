@@ -318,12 +318,51 @@ def _validate_fetch_url(url: str) -> None:
         )
 
 
+def _effective_port(parsed) -> Optional[int]:
+    """归一化端口：显式端口优先，否则按 scheme 默认(http=80/https=443)。"""
+    try:
+        port = parsed.port
+    except (ValueError, TypeError):
+        return None
+    if port is not None:
+        return port
+    return {"http": 80, "https": 443}.get(parsed.scheme)
+
+
+def _matches_configured_local_oss_origin(parsed) -> bool:
+    """URL 与 settings.LOCAL_OSS_PUBLIC_BASE_URL 同 (scheme, host, 有效端口)。
+
+    生产 Web 部署的 base origin(TABTIN_PUBLIC_BASE_URL,如 http://SERVER_IP:13492)
+    生成的签名 URL host 非环回,但存储同样在本机(LOCAL_OSS_ROOT),且服务器常无法
+    回环访问自己的公网地址——与其同源的 OSS URL 也只能由本机直读。
+    factory 已保证 public/upload 两个端点同 origin,比对 public 即覆盖两者。
+    """
+    try:
+        from django.conf import settings
+
+        base = urlparse(str(getattr(settings, "LOCAL_OSS_PUBLIC_BASE_URL", "") or ""))
+    except Exception:
+        return False
+    if base.scheme not in ("http", "https") or not base.hostname:
+        return False
+    if parsed.scheme != base.scheme:
+        return False
+    url_host = (parsed.hostname or "").rstrip(".").lower()
+    base_host = base.hostname.rstrip(".").lower()
+    if not url_host or url_host != base_host:
+        return False
+    return _effective_port(parsed) == _effective_port(base)
+
+
 def _is_trusted_local_oss_url(url: str) -> bool:
-    """本机 dev OSS 直读 URL:host=127.0.0.1/localhost 且 path 以 /api/services/oss/ 开头。
+    """本机 OSS 直读 URL：环回 host 或与 LOCAL_OSS_PUBLIC_BASE_URL 同 origin，
+    且 path 以 /api/services/oss/ 开头。
 
     与前端 ``apps/tabtin-electron/src/shared/llm-image-url.ts::isTrustedLocalOssUrl``
-    对齐。这类 URL 云端上游 / SSRF 守卫下的 HTTP 拉取都够不着,须由本机
-    Django 直接读存储转 base64。
+    的环回分支对齐；生产 Web 部署(SERVER_IP/域名 base)生成的签名 URL 与配置
+    origin 同源,同样视为受信本机 OSS——这类 URL 云端上游 / SSRF 守卫下的 HTTP
+    拉取都够不着(服务器常无法回环访问自身公网地址),须由本机 Django 直接读存储
+    转 base64。
     """
     try:
         parsed = urlparse(url)
@@ -331,10 +370,12 @@ def _is_trusted_local_oss_url(url: str) -> bool:
         return False
     if parsed.scheme not in ("http", "https"):
         return False
-    host = (parsed.hostname or "").rstrip(".").lower()
-    if host not in ("127.0.0.1", "localhost"):
+    if not parsed.path.startswith("/api/services/oss/"):
         return False
-    return parsed.path.startswith("/api/services/oss/")
+    host = (parsed.hostname or "").rstrip(".").lower()
+    if host in ("127.0.0.1", "localhost"):
+        return True
+    return _matches_configured_local_oss_origin(parsed)
 
 
 def _local_oss_provider_enabled() -> bool:
@@ -420,8 +461,8 @@ def fetch_image_to_data_url(
         ImageFetchError(reason='timeout'/'http_error'/'network_error'/'oversize',
                         host=..., status=...) — 由 LLMProxy 走 SSE error 路径。
     """
-    # 本机 dev OSS(127.0.0.1 /api/services/oss/*):云端上游与 SSRF 守卫都够不着,
-    # 直接读本机存储转 base64,不走 HTTP 拉取。
+    # 本机 OSS(环回或与配置 origin 同源):云端上游与 SSRF 守卫都够不着(服务器
+    # 常无法回环访问自身公网地址),直接读本机存储转 base64,不走 HTTP 拉取。
     if _is_trusted_local_oss_url(url) and _local_oss_provider_enabled():
         return _read_local_oss_to_data_url(url, max_size_bytes=max_size_bytes)
 
@@ -507,11 +548,12 @@ def rewrite_local_oss_images(
     *,
     max_size_bytes: int = DEFAULT_MAX_SIZE_BYTES,
 ) -> List[Dict[str, Any]]:
-    """把受信本机 dev OSS 图片(127.0.0.1 /api/services/oss/*)就地转 base64。
+    """把受信本机 OSS 图片(环回或与 LOCAL_OSS_PUBLIC_BASE_URL 同源)就地转 base64。
 
     与 ``normalize_image_urls`` 的区别:只处理本机 OSS URL、直接读盘(不发 HTTP)、
-    **不管模型 input_via 是否含 url 都转**——因为这类 URL 云端上游拿不到。公网
-    URL / data URL 一律原样保留,交给后续 ``normalize_image_urls`` 或透传处理。
+    **不管模型 input_via 是否含 url 都转**——因为这类 URL 云端上游拿不到(服务器
+    常无法回环访问自身公网地址)。公网 URL / data URL 一律原样保留,交给后续
+    ``normalize_image_urls`` 或透传处理。
 
     provider 非 local(生产)时直接返回原 messages,不做任何改写。
     """

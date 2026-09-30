@@ -527,3 +527,73 @@ class LocalOssDirectReadTests(SimpleTestCase):
         out = rewrite_local_oss_images(msgs)
         # provider 非 local:原样返回同一对象,不改写
         self.assertIs(out, msgs)
+
+
+@override_settings(SERVICES_OSS_PROVIDER="local")
+@override_settings(
+    LOCAL_OSS_PUBLIC_BASE_URL="http://221.237.179.2:13492/api/services/oss/local-object"
+)
+class ProductionOriginDirectReadTests(SimpleTestCase):
+    """生产 Web 部署(SERVER_IP base)签名 URL 同样走本机直读。
+
+    场景:服务器无法回环访问自身公网地址,Django 生成的 OSS URL host 非环回,
+    但与 LOCAL_OSS_PUBLIC_BASE_URL 同源——须在发往上游前直读转 base64,
+    不依赖任何网络可达性。
+    """
+
+    PROD_URL = (
+        "http://221.237.179.2:13492/api/services/oss/local-object"
+        "?object_key=agent%2Fread-file%2Fa.png&method=GET&expires=3600"
+        "&content_type=&download=0&signature=GET%3Aagent%2Fread-file%2Fa.png%3A3600%3Asig"
+    )
+
+    def _mock_oss(self, content: bytes = b"\x89PNG\r\n\x1a\n", content_type: str = "image/png"):
+        svc = MagicMock()
+        svc.download_file.return_value = {
+            "success": True,
+            "data": {"content": content, "content_type": content_type},
+        }
+        return patch("apps.services.oss.services.factory.get_oss_service", return_value=svc)
+
+    def test_is_trusted_local_oss_url_matches_configured_origin(self):
+        self.assertTrue(_is_trusted_local_oss_url(self.PROD_URL))
+        # 反:同 host 不同端口 / 不同 host / 非 OSS 路径不算受信本机 OSS
+        self.assertFalse(_is_trusted_local_oss_url(
+            "http://221.237.179.2:8080/api/services/oss/local-object?object_key=x"))
+        self.assertFalse(_is_trusted_local_oss_url(
+            "http://221.237.179.3:13492/api/services/oss/local-object?object_key=x"))
+        self.assertFalse(_is_trusted_local_oss_url(
+            "http://221.237.179.2:13492/tmp/x.png"))
+        self.assertFalse(_is_trusted_local_oss_url(
+            "https://221.237.179.2:13492/api/services/oss/local-object?object_key=x"))
+        # 环回 URL 在生产 base 下依然受信(dev 兼容)
+        self.assertTrue(_is_trusted_local_oss_url(
+            "http://127.0.0.1:6060/api/services/oss/local-object?object_key=x"))
+
+    def test_fetch_production_origin_short_circuits_to_direct_read(self):
+        with self._mock_oss(content=b"PROD", content_type="image/png") as m, patch(
+            "apps.services.llm.wire_adapter.image_fetcher.httpx.Client"
+        ) as MockClient:
+            data_url = fetch_image_to_data_url(self.PROD_URL)
+        # 直读短路:不发 HTTP(MockClient 未被实例化),object_key 正确解引用
+        MockClient.assert_not_called()
+        self.assertTrue(data_url.startswith("data:image/png;base64,"))
+        self.assertEqual(base64.b64decode(data_url.split(",", 1)[1]), b"PROD")
+        m.return_value.download_file.assert_called_once_with("agent/read-file/a.png")
+
+    def test_rewrite_local_oss_images_converts_production_origin(self):
+        msgs = [{
+            "role": "user",
+            "content": [
+                {"type": "text", "text": "看这张图"},
+                {"type": "image_url", "image_url": {"url": self.PROD_URL}},
+                {"type": "image_url", "image_url": {"url": "https://cdn.example.com/pub.png"}},
+            ],
+        }]
+        with self._mock_oss(content=b"CCCC"):
+            out = rewrite_local_oss_images(msgs)
+        parts = out[0]["content"]
+        # 生产同源 OSS → data:;无关公网 URL 原样保留;原 messages 不被 mutate
+        self.assertTrue(parts[1]["image_url"]["url"].startswith("data:image/png;base64,"))
+        self.assertEqual(parts[2]["image_url"]["url"], "https://cdn.example.com/pub.png")
+        self.assertEqual(msgs[0]["content"][1]["image_url"]["url"], self.PROD_URL)
