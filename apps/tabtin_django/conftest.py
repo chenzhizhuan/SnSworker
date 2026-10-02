@@ -126,6 +126,7 @@ _ISOLATED_SETTINGS_HINTS: dict[str, str] = {
     # ：新用户默认 Agent onboarding 单测。复用 share_test 隔离 settings
     # （tabtinspace + users，绕过主 settings DDL）。
     "test_default_agent_onboarding": "tabtin.settings_share_test",
+    "test_register_welcome_credits": "tabtin.settings_share_test",
     # work_type 主线：create_bot_space router 透传 working_dir/working_dir_type
     # 落库回归。复用 share_test 隔离 settings（同上理由：tabtinspace 全模型 syncdb
     # 到 in-memory SQLite，绕过主 settings 的 billing/payment MySQL DDL + tabdata
@@ -771,6 +772,11 @@ _ISOLATED_TEST_FILES: dict[str, str] = {
         "tabtin.settings_share_test",
     # ：默认 Agent onboarding service 单测复用 settings_share_test。
     "apps/tabtinspace/tests/test_default_agent_onboarding.py":
+        "tabtin.settings_share_test",
+    # ：注册欢迎点券赠送集成单测（注册链路真实建组织+真实 grant 落库），
+    # 复用 settings_share_test（模型链已补齐：agent/skills/tabmemo/conversation/
+    # wallet/llm + skip PG-only 模型）。
+    "apps/tabtinspace/tests/test_register_welcome_credits.py":
         "tabtin.settings_share_test",
     "apps/tabdata/tests/test_password_migration.py":
         "tabtin.settings_share_test",

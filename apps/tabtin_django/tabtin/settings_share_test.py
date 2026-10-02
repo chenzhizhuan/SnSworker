@@ -56,7 +56,7 @@ class _ShareTestRouter:
     必须保持路由一致才能让 ORM 查询命中。
     """
 
-    _PG_APPS = {"tabdoc", "tabdata", "tabtinspace", "notification", "oss", "agent", "skills", "tabmemo"}
+    _PG_APPS = {"tabdoc", "tabdata", "tabtinspace", "notification", "oss", "agent", "skills", "tabmemo", "conversation", "wallet", "llm"}
 
     _SKIP_MODELS = {
         # tabdata 模块下纯 PG 模型
@@ -75,6 +75,9 @@ class _ShareTestRouter:
         # tabmemo 的 PG 专有模型（SearchVectorField + GIN），SQLite 建不了；
         # signals 只用 MemoRecordStyle，跳过 Memo 不影响注册链路。
         "tabmemo.memo",
+        # llm 的 PG 专有模型（capability_domains ArrayField + GinIndex）；
+        # conversation.ChatSession FK 的 llm.LLMModel 不受影响。
+        "llm.llmprovider",
     }
 
     def db_for_read(self, model, **hints):
@@ -116,6 +119,9 @@ INSTALLED_APPS = [  # type: ignore[name-defined]
     "apps.agent",
     "apps.skills",
     "apps.tabmemo",
+    "apps.chat.conversation",
+    "apps.users.wallet",
+    "apps.services.llm",
     "apps.services.oss",
     "apps.services.notification",
     "apps.services.billing",

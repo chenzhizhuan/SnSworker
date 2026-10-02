@@ -1,84 +1,164 @@
-"""注册欢迎点券赠送回归测试（TABTIN_REGISTER_WELCOME_CREDITS，默认 1000）。
+"""注册欢迎点券赠送集成回归测试（TABTIN_REGISTER_WELCOME_CREDITS，默认 1000）。
 
-被测单元：OrganizationService._grant_register_welcome_credits —— 赠送金额读
-settings、失败不阻断注册。编排层（ensure_personal_organization 首建分支调用
-本方法、幂等不重发）由生产容器端到端验证：在真实注册链路创建用户后核对
-钱包余额 1000 与 grant 流水（见部署验证脚本）。
+跑在 settings_share_test（in-memory SQLite + syncdb）：注册链路真实执行
+（create_user → signal → ensure_personal_organization → 真实 grant_credits
+落库），断言钱包余额与 WalletTransaction 流水。与既有 onboarding 测试同模式
+断开 create_user_profile 信号、mock 掉与赠送无关的市场 app 安装副作用。
 
-纯单元级（SimpleTestCase，不建库）：本仓库 isolated settings
-（tabtin.settings_share_test）的最小 app 集当前无法承载 wallet 域
-（billing 模型 FK wallet.OrganizationWallet → wallet FK conversation 域，
-补链会持续扩大 isolated 集合），故 wallet service 以 patch 真实路径的方式
-替代，断言注册链路以正确参数调用了赠送。
+覆盖：
+- 新用户注册 → 钱包真实到账 1000 + grant 流水（幂等：仅一条）
+- 重复 onboarding 不重发
+- 配置为 0 时关闭赠送（余额保持 0）
+- 非法配置安全跳过
+- 赠送异常不阻断注册
 """
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
+from uuid import uuid4
 
-from django.test import SimpleTestCase, override_settings
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.test import TestCase, override_settings
 
+from apps.services.common.db_router import postgres_app_db_alias
+from apps.tabtinspace.models import Organization
 from apps.tabtinspace.services.organization_service import OrganizationService
+from apps.users.wallet.models import WalletTransaction
+from apps.users.wallet.services.organization_wallet_service import (
+    OrganizationWalletService,
+)
 
-_GRANT_PATH = (
-    "apps.users.wallet.services.organization_wallet_service."
-    "OrganizationWalletService.grant_credits"
+# 与既有 DefaultSpaceOnboardingTests 相同的 onboarding 副作用屏蔽面：
+# - provision_billing：isolated 双库布局下 sync 会跨 alias 查 Organization
+#   必挂（真 PG 无此问题）；钱包改由 grant 的 get_or_create 兜底创建，落库
+#   路径依然真实。
+# - _schedule_balance_increase_side_effects：余额联动（通知/解锁/低余额
+#   告警）与赠送落库无关，且在 share_test 下会拉 payment 域模块。
+# - auto_install_core_apps / provision_builtin_extensions：市场 app 安装，与赠送无关。
+_ONBOARDING_PATCHES = (
+    patch(
+        "apps.tabtinspace.services.app_catalog_service."
+        "OrganizationAppCatalogService.auto_install_core_apps"
+    ),
+    patch.object(OrganizationService, "provision_builtin_extensions"),
+    patch.object(OrganizationService, "provision_billing"),
+    patch(
+        "apps.users.wallet.services.organization_wallet_service."
+        "OrganizationWalletService._schedule_balance_increase_side_effects"
+    ),
 )
 
 
-class RegisterWelcomeCreditsUnitTests(SimpleTestCase):
-    """_grant_register_welcome_credits 行为单元。"""
+class RegisterWelcomeCreditsIntegrationTests(TestCase):
+    databases = {"default", "postgresql"}
 
-    def setUp(self) -> None:
-        super().setUp()
-        self._grant = patch(_GRANT_PATH)
-        self.mock_grant = self._grant.start()
-        self.addCleanup(self._grant.stop)
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        from apps.users.auth.signals import create_user_profile
 
-    def test_grants_default_1000_with_expected_args(self) -> None:
-        OrganizationService._grant_register_welcome_credits(
-            "org-123", user_id="user-9",
+        cls._create_user_profile_signal = create_user_profile
+        post_save.disconnect(receiver=create_user_profile, sender=get_user_model())
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        post_save.connect(receiver=cls._create_user_profile_signal, sender=get_user_model())
+        super().tearDownClass()
+
+    def _start_patches(self) -> None:
+        for p in _ONBOARDING_PATCHES:
+            p.start()
+            self.addCleanup(p.stop)
+
+    def _create_user(self, label: str):
+        User = get_user_model()
+        return User.objects.db_manager(postgres_app_db_alias()).create_user(
+            email=f"{label}-{uuid4().hex[:8]}@tabtin.test",
+            password="TabtinTest#2026",
+            nickname="Welcome User",
+            is_active=True,
         )
 
-        self.mock_grant.assert_called_once()
-        args, kwargs = self.mock_grant.call_args
-        self.assertEqual(args[0], "org-123")
-        self.assertEqual(args[1], 1000)
-        self.assertEqual(kwargs.get("description"), "注册欢迎赠送")
-        self.assertEqual(kwargs.get("user_id"), "user-9")
+    def _get_personal_org(self, user) -> Organization:
+        return Organization.objects.get(
+            owner_id=user.id,
+            type=Organization.OrganizationType.PERSONAL,
+        )
 
-    def test_explicit_config_amount_is_passed_through(self) -> None:
-        with override_settings(TABTIN_REGISTER_WELCOME_CREDITS=2500):
-            OrganizationService._grant_register_welcome_credits("org-456")
+    def _wallet_credits(self, organization_id: str):
+        wallet = OrganizationWalletService().get_or_create_wallet(organization_id)
+        return wallet.credits
 
-        args, _kwargs = self.mock_grant.call_args
-        self.assertEqual(args[1], 2500)
+    def test_new_user_registration_grants_default_1000(self) -> None:
+        self._start_patches()
+        user = self._create_user("welcome-credits")
+
+        organization = self._get_personal_org(user)
+        org_id = str(organization.id)
+
+        self.assertEqual(self._wallet_credits(org_id), 1000)
+
+        txs = WalletTransaction.objects.filter(
+            organization_id=org_id, transaction_type="grant",
+        )
+        self.assertEqual(txs.count(), 1)
+        tx = txs.first()
+        self.assertEqual(tx.amount, 1000)
+        self.assertEqual(tx.description, "注册欢迎赠送")
+
+    def test_repeated_onboarding_does_not_regrant(self) -> None:
+        self._start_patches()
+        user = self._create_user("welcome-idempotent")
+        org_id = str(self._get_personal_org(user).id)
+
+        _org, created = OrganizationService.ensure_personal_organization(user)
+        self.assertFalse(created)
+
+        self.assertEqual(self._wallet_credits(org_id), 1000)
+        self.assertEqual(
+            WalletTransaction.objects.filter(
+                organization_id=org_id, transaction_type="grant",
+            ).count(),
+            1,
+        )
 
     @override_settings(TABTIN_REGISTER_WELCOME_CREDITS=0)
     def test_zero_config_disables_grant(self) -> None:
-        OrganizationService._grant_register_welcome_credits("org-789")
+        self._start_patches()
+        user = self._create_user("welcome-disabled")
+        org_id = str(self._get_personal_org(user).id)
 
-        self.mock_grant.assert_not_called()
+        self.assertEqual(self._wallet_credits(org_id), 0)
+        self.assertEqual(
+            WalletTransaction.objects.filter(
+                organization_id=org_id, transaction_type="grant",
+            ).count(),
+            0,
+        )
 
     @override_settings(TABTIN_REGISTER_WELCOME_CREDITS="not-a-number")
     def test_invalid_config_skips_grant_safely(self) -> None:
-        OrganizationService._grant_register_welcome_credits("org-abc")
+        self._start_patches()
+        user = self._create_user("welcome-invalid")
+        org_id = str(self._get_personal_org(user).id)
 
-        self.mock_grant.assert_not_called()
+        self.assertEqual(self._wallet_credits(org_id), 0)
 
-    def test_grant_failure_does_not_raise(self) -> None:
-        self.mock_grant.side_effect = RuntimeError("wallet down")
+    def test_grant_failure_does_not_block_registration(self) -> None:
+        self._start_patches()
+        with patch(
+            "apps.users.wallet.services.organization_wallet_service."
+            "OrganizationWalletService.grant_credits",
+            side_effect=RuntimeError("wallet down"),
+        ):
+            user = self._create_user("welcome-failure")
 
-        # 赠送失败仅记日志，不得阻断注册链路
-        OrganizationService._grant_register_welcome_credits("org-down", user_id="u1")
-
-        self.mock_grant.assert_called_once()
-
-
-class FakeWalletInjectionGuardTests(SimpleTestCase):
-    """防御性校验：_GRANT_PATH patch 的是真实模块方法，不存在假模块注入。"""
-
-    def test_patch_target_is_real_service_method(self) -> None:
-        from apps.users.wallet.services import organization_wallet_service as mod
-
-        self.assertTrue(hasattr(mod.OrganizationWalletService, "grant_credits"))
-        self.assertIsNotNone(getattr(mod.OrganizationWalletService, "grant_credits"))
+        # 赠送失败：注册链路未被阻断，个人组织正常创建，钱包保持 0
+        self.assertTrue(
+            Organization.objects.filter(
+                owner_id=user.id,
+                type=Organization.OrganizationType.PERSONAL,
+            ).exists()
+        )
+        self.assertEqual(self._wallet_credits(str(self._get_personal_org(user).id)), 0)
