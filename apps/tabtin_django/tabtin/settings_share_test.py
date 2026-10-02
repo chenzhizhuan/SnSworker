@@ -6,6 +6,8 @@ Wave 2 协作者邀请 / 管理 service 单测专用 settings。
 - ``MIGRATION_MODULES = _DisableMigrations()`` 让 Django syncdb 建表，
   绕过 conversation/0024 的 MySQL FULLTEXT、PG GIN/tsvector 等 SQLite 不认的 DDL
 - INSTALLED_APPS 装 share service 用例需要的最小集
+  （含 apps.agent：tabtinspace.models 顶部 re-export apps.agent.models.Agent，
+  缺它整个 tabtinspace 模型层都 import 不了）
 - DATABASE_ROUTERS 保留 tabdoc/tabdata/tabtinspace/notification 路由器（因
   service 代码会显式 ``.using('postgresql')`` 和 ``connections['postgresql'].on_commit``）
 
@@ -54,7 +56,7 @@ class _ShareTestRouter:
     必须保持路由一致才能让 ORM 查询命中。
     """
 
-    _PG_APPS = {"tabdoc", "tabdata", "tabtinspace", "notification", "oss"}
+    _PG_APPS = {"tabdoc", "tabdata", "tabtinspace", "notification", "oss", "agent", "skills", "tabmemo"}
 
     _SKIP_MODELS = {
         # tabdata 模块下纯 PG 模型
@@ -70,6 +72,9 @@ class _ShareTestRouter:
         "tabdata.connectortablemapping",
         "tabdata.dbreadonlyconnection",
         "tabdata.tableapitoken",
+        # tabmemo 的 PG 专有模型（SearchVectorField + GIN），SQLite 建不了；
+        # signals 只用 MemoRecordStyle，跳过 Memo 不影响注册链路。
+        "tabmemo.memo",
     }
 
     def db_for_read(self, model, **hints):
@@ -108,6 +113,9 @@ INSTALLED_APPS = [  # type: ignore[name-defined]
     "apps.users.auth",
     "apps.users.membership",
     "apps.tabtinspace",
+    "apps.agent",
+    "apps.skills",
+    "apps.tabmemo",
     "apps.services.oss",
     "apps.services.notification",
     "apps.services.billing",

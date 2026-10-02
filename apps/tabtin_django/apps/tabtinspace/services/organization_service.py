@@ -275,6 +275,9 @@ class OrganizationService(BaseService):
 
         cls.provision_community_membership(str(organization.id))
         cls.provision_billing(str(organization.id))
+        cls._grant_register_welcome_credits(
+            str(organization.id), user_id=str(locked_user.id),
+        )
         cls.provision_builtin_extensions(str(organization.id))
         if should_dispatch_credit:
             transaction.on_commit(
@@ -747,6 +750,50 @@ class OrganizationService(BaseService):
             transaction.on_commit(_do_schedule, using=postgres_app_db_alias())
         except Exception:
             _do_schedule()
+
+    @classmethod
+    def _grant_register_welcome_credits(
+        cls, organization_id: str, *, user_id: str = '',
+    ) -> None:
+        """新注册个人组织自动赠送欢迎点券（TABTIN_REGISTER_WELCOME_CREDITS，默认 1000）。
+
+        仅在 ensure_personal_organization 首次创建分支（created=True）调用，
+        重复 onboarding / 再次登录不会重发；团队组织走 create_organization，
+        不经过本方法。金额 ≤ 0 视为关闭。发放失败仅记 error 日志、不阻断注册
+        （钱包流水可事后手工补发）。
+        """
+        from django.conf import settings as dj_settings
+
+        try:
+            amount = int(getattr(dj_settings, 'TABTIN_REGISTER_WELCOME_CREDITS', 1000) or 0)
+        except (TypeError, ValueError):
+            logger.warning(
+                "TABTIN_REGISTER_WELCOME_CREDITS 配置非法，注册赠送已跳过: %r",
+                getattr(dj_settings, 'TABTIN_REGISTER_WELCOME_CREDITS', None),
+            )
+            return
+        if amount <= 0:
+            return
+        try:
+            from apps.users.wallet.services.organization_wallet_service import (
+                OrganizationWalletService,
+            )
+
+            OrganizationWalletService().grant_credits(
+                organization_id,
+                amount,
+                description='注册欢迎赠送',
+                user_id=user_id or None,
+            )
+            logger.info(
+                "注册欢迎点券已发放: organization=%s amount=%s", organization_id, amount,
+            )
+        except Exception as exc:
+            logger.error(
+                "注册欢迎点券发放失败（不阻断注册，可按流水手工补发）: "
+                "organization=%s amount=%s error=%s",
+                organization_id, amount, exc, exc_info=True,
+            )
 
     @classmethod
     def provision_builtin_extensions(cls, organization_id: str):

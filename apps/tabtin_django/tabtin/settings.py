@@ -2198,6 +2198,9 @@ WECHAT_PLATFORM_PUBLIC_KEY_ID = os.getenv("WECHAT_PLATFORM_PUBLIC_KEY_ID", "")
 
 # ========== 点券配置 ==========
 CREDITS_PER_YUAN = int(os.getenv("CREDITS_PER_YUAN", "100"))  # 1元 = 100点券
+# 注册欢迎赠送：新用户首次创建个人组织时自动赠送的点券额度；0 或负数 = 关闭。
+# 由 OrganizationService.ensure_personal_organization 首建分支发放，幂等不重发。
+TABTIN_REGISTER_WELCOME_CREDITS = int(os.getenv("TABTIN_REGISTER_WELCOME_CREDITS", "1000"))
 
 # ========== 订单配置 ==========
 ORDER_EXPIRE_MINUTES = int(os.getenv("ORDER_EXPIRE_MINUTES", "15"))  # 订单过期时间（分钟）
