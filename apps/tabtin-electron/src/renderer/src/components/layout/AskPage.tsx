@@ -21,14 +21,23 @@
  *     ③ 仅当无任何空白会话时才 createSession（agentMode:'ask'，attachOnly）
  *     并自动激活；创建中按钮禁用防连点；
  *   - 追问 / 停止 / 重试：ChatPanel 内部回调（受控 currentSessionId 短路全局指针）；
- *   - 历史会话：点击后 loadSessionMessages hydrate → setActiveSessionId；
+ *   - 历史会话：点击后先 hydrateSessionRecord 把 session 记录写进 store 桶
+ *     （身份选择器依赖 getSessionById，缺记录会显示「会话身份加载失败」占位），
+ *     再 loadSessionMessages hydrate → setActiveSessionId；运行中的会话也允许
+ *     进入（ChatContent 挂载后自动 attach 流续读，不再静默拦截）；
+ *   - 生成不随页面中断（闭环调优）：离开问一句页 / 刷新窗口，主进程 host
+ *     继续后台生成并经 relay 落库（ask 会话不绑发起窗口生命周期，见
+ *     ElectronAgentHost.mapToHostQuery）；重新进入时 watch-session 重放
+ *     run_state + messages hydrate 自动续读。仅「清空历史」等用户显式终止
+ *     才中断 run；
  *   - 兑底：任何路径（含删除/清空）后 activeSessionId 为空时，若 store 内仍有
  *     ask 会话则自动绑定最近一个，保证 ChatPanel 永远有可用的受控会话。
  */
 
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MessageSquare, Trash2, Plus, RefreshCw } from 'lucide-react'
+import { toast } from '@components/ui'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { useDeviceStore } from '@stores/useDeviceStore'
 import { useChatStore } from '@stores/chat/useChatStore'
@@ -78,6 +87,12 @@ export const AskPage: React.FC = () => {
   const [workspaceLoading, setWorkspaceLoading] = useState(true)
   const [workspaceError, setWorkspaceError] = useState<string | null>(null)
   const [reloadKey, setReloadKey] = useState(0)
+  /**
+   * 完整 session 记录（id → ChatSession）：历史列表是自管精简 state，
+   * 而身份选择器 / 生命周朊等组件依赖 store 桶（getSessionById）。
+   * 打开历史会话时用它把记录 hydrate 进桶，避免「会话身份加载失败」。
+   */
+  const askSessionRecordsRef = useRef<Map<string, ChatSession>>(new Map())
 
   const organizationId = useOrganizationStore(s => s.selectedOrganization?.id ?? null)
   const organizationName = useOrganizationStore(s => s.selectedOrganization?.name ?? '')
@@ -130,6 +145,38 @@ export const AskPage: React.FC = () => {
 
   const spaceId = askWorkspace?.id ?? null
 
+  /**
+   * 把历史会话记录 hydrate 进 store 桶（幂等）：
+   * useAgentIdentitySelection 靠 getSessionById 判定会话记录存在性，
+   * 缺记录时正式会话会永远显示「会话身份加载失败」占位；
+   * ref 未命中（冷启动竞态）时从服务端拉详情兜底。
+   */
+  const hydrateSessionRecord = useCallback(async (sessionId: string) => {
+    if (!sessionId) return
+    if (useChatStore.getState().getSessionById(sessionId)) return
+    const fallbackSpaceId = spaceId ?? ''
+    const cached = askSessionRecordsRef.current.get(sessionId)
+    if (cached) {
+      const bucketId = cached.space_id ?? cached.workspace_id ?? fallbackSpaceId
+      if (bucketId) {
+        useChatStore.getState().upsertSessionInSpace(bucketId, cached)
+      }
+      return
+    }
+    try {
+      const session = await getChatClient().sessions.get(sessionId)
+      if (session) {
+        askSessionRecordsRef.current.set(sessionId, session)
+        const bucketId = session.space_id ?? session.workspace_id ?? fallbackSpaceId
+        if (bucketId) {
+          useChatStore.getState().upsertSessionInSpace(bucketId, session)
+        }
+      }
+    } catch (err) {
+      log.warn('[AskPage] hydrateSessionRecord failed:', err)
+    }
+  }, [spaceId])
+
   // ── 历史 ask 会话列表（自管，不走共享桶）──
   const refreshHistory = useCallback(async () => {
     if (!spaceId) return
@@ -144,9 +191,10 @@ export const AskPage: React.FC = () => {
         status: 'active',
       })
       const sessions = response?.sessions ?? []
+      askSessionRecordsRef.current = new Map(sessions.map(s => [s.id, s]))
       setHistory(sessions.map(toHistoryEntry))
     } catch (err) {
-      console.warn('[AskPage] refreshHistory failed:', err)
+      log.warn('[AskPage] refreshHistory failed:', err)
     } finally {
       setLoadingHistory(false)
     }
@@ -200,9 +248,10 @@ export const AskPage: React.FC = () => {
       })[0]
     if (latest) {
       setActiveSessionId(latest.id)
+      void hydrateSessionRecord(latest.id)
       void refreshHistory()
     }
-  }, [activeSessionId, spaceId, storeAskSessions, refreshHistory])
+  }, [activeSessionId, spaceId, storeAskSessions, refreshHistory, hydrateSessionRecord])
 
   // 切换 space 后：当前会话若不属于新 space 的 ask 池，清掉 active 指向
   useEffect(() => {
@@ -243,24 +292,33 @@ export const AskPage: React.FC = () => {
     return Array.from(byId.values())
   }, [history, storeAskSessions])
 
-  // 组件卸载时中断进行中的问答
-  useEffect(() => {
-    return () => {
-      if (activeSessionId) {
-        useChatStore.getState().abortStream(activeSessionId)
-      }
-    }
-  }, [activeSessionId])
+  // 注：离开问一句页不再中断生成中的 run（闭环调优）：
+  // 生成在主进程 host 后台队列执行，消息经 relay 落库；重新进入页面时
+  // watch-session 重放 run_state + messages hydrate 自动续读。
+  // 「清空历史」仍会显式中断（用户明确意图）。
 
-  /** 点击历史会话 → hydrate 消息 → 激活 */
+  /** 点击历史会话 → hydrate 会话记录与消息 → 激活 */
   const handleSelectHistory = useCallback(async (sessionId: string) => {
-    if (isSessionBusy(sessionId)) return
+    // 运行中会话允许进入：ChatContent 挂载后 watch 机制会自动 attach 流续读。
+    // （旧逻辑 isSessionBusy 直接 return，导致生成中的会话点了没反应。）
     setActiveSessionId(sessionId)
+    // 先把 session 记录写进 store 桶，再 hydrate 消息：
+    // 身份选择器依赖 getSessionById，缺记录会显示「会话身份加载失败」。
+    await hydrateSessionRecord(sessionId)
     const cached = useChatStore.getState().messagesBySessionId[sessionId]
     if (cached === undefined) {
-      await useChatStore.getState().loadSessionMessages(sessionId)
+      try {
+        await useChatStore.getState().loadSessionMessages(sessionId)
+      } catch (err) {
+        log.warn('[AskPage] loadSessionMessages failed:', err)
+        toast({
+          title: t('sidebar:ask.historyLoadError', { defaultValue: '历史消息加载失败' }),
+          description: t('sidebar:ask.historyLoadErrorHint', { defaultValue: '网络波动导致，请重新点击该会话重试' }),
+          variant: 'destructive',
+        })
+      }
     }
-  }, [])
+  }, [hydrateSessionRecord, t])
 
   /** 新问答：空白不堆积——active 空白停在原地，否则复用最近空白，无空白才新建 */
   const handleNewAsk = useCallback(async () => {
@@ -282,6 +340,7 @@ export const AskPage: React.FC = () => {
       // 复用前需确认目标不在运行中（如另一个空会话正被流式写入首答）
       if (!isSessionBusy(targetId)) {
         setActiveSessionId(targetId)
+        void hydrateSessionRecord(targetId)
         const cached = useChatStore.getState().messagesBySessionId[targetId]
         if (cached === undefined) {
           await useChatStore.getState().loadSessionMessages(targetId)
@@ -303,11 +362,16 @@ export const AskPage: React.FC = () => {
         void refreshHistory()
       }
     } catch (err) {
-      console.warn('[AskPage] handleNewAsk failed:', err)
+      log.warn('[AskPage] handleNewAsk failed:', err)
+      toast({
+        title: t('sidebar:ask.newAskError', { defaultValue: '新问答创建失败' }),
+        description: t('sidebar:ask.newAskErrorHint', { defaultValue: '请稍后重试' }),
+        variant: 'destructive',
+      })
     } finally {
       setCreatingSession(false)
     }
-  }, [activeSessionId, askDecisionPool, creatingSession, organizationId, refreshHistory, spaceId])
+  }, [activeSessionId, askDecisionPool, creatingSession, hydrateSessionRecord, organizationId, refreshHistory, spaceId, t])
 
   /** 删除单条 ask 会话 */
   const handleDeleteSession = useCallback(async (sessionId: string) => {
@@ -315,11 +379,16 @@ export const AskPage: React.FC = () => {
       const client = getChatClient()
       await client.sessions.delete(sessionId)
       setHistory(prev => prev.filter(h => h.id !== sessionId))
+      askSessionRecordsRef.current.delete(sessionId)
       if (activeSessionId === sessionId) setActiveSessionId(null)
     } catch (err) {
-      console.warn('[AskPage] deleteSession failed:', err)
+      log.warn('[AskPage] deleteSession failed:', err)
+      toast({
+        title: t('sidebar:ask.deleteSessionError', { defaultValue: '删除失败，请稍后重试' }),
+        variant: 'destructive',
+      })
     }
-  }, [activeSessionId])
+  }, [activeSessionId, t])
 
   /** 清空全部 ask 会话 */
   const handleClearHistory = useCallback(async () => {
@@ -329,14 +398,20 @@ export const AskPage: React.FC = () => {
         await client.sessions.delete(entry.id)
       }
       setHistory([])
+      askSessionRecordsRef.current.clear()
       if (activeSessionId) {
+        // 清空是用户明确终止意图：生成中的 run 一并中断
         useChatStore.getState().abortStream(activeSessionId)
         setActiveSessionId(null)
       }
     } catch (err) {
-      console.warn('[AskPage] clearHistory failed:', err)
+      log.warn('[AskPage] clearHistory failed:', err)
+      toast({
+        title: t('sidebar:ask.clearError', { defaultValue: '清空失败，请稍后重试' }),
+        variant: 'destructive',
+      })
     }
-  }, [history, activeSessionId])
+  }, [history, activeSessionId, t])
 
   // ChatPanel 所需 spaceContext：用 ask 专属工作空间构造
   const spaceContext = useMemo(() => {

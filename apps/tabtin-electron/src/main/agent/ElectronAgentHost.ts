@@ -5205,8 +5205,14 @@ export class ElectronAgentHost {
     runId: string,
   ): HostQuery<RuntimeBuildInput, AgentModeName, RuntimeDisabledAppsExtraKey> {
     const conversationId = request.businessThreadId ?? request.threadId
+    // 问一句（agentMode='ask'）轻量问答：run 不绑发起窗口生命周期。
+    // 刷新/切走后主进程继续生成并经 relay 持久化，重挂载的 watch-session 会
+    // 重放 run_state 续读（与 forward/daemon 路径 clientDisconnect=undefined
+    // 的「断开不中断」语义一致）。其余会话保持原语义：发起窗口销毁即 abort，
+    // 避免产生无人观看、却持续计费执行的孤儿 run。
+    const bindsClientDisconnect = request.agentMode !== 'ask'
     let clientDisconnect: AbortSignal | undefined
-    if (sender.onceDestroyed) {
+    if (bindsClientDisconnect && sender.onceDestroyed) {
       const controller = new AbortController()
       sender.onceDestroyed(() => {
         try { controller.abort() } catch { /* best effort */ }
