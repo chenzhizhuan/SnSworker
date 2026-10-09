@@ -27,36 +27,36 @@ class CaseInsensitiveLoginTests(TestCase):
 
     def test_username_exact_still_works(self):
         self.assertEqual(
-            self.backend.authenticate(username='J0325', password='Ai345678'),
+            self.backend.authenticate(None, username='J0325', password='Ai345678'),
             self.user,
         )
 
     def test_username_lowercase_variant_logs_in(self):
         self.assertEqual(
-            self.backend.authenticate(username='j0325', password='Ai345678'),
+            self.backend.authenticate(None, username='j0325', password='Ai345678'),
             self.user,
         )
 
     def test_username_mixed_case_variant_logs_in(self):
         self.assertEqual(
-            self.backend.authenticate(username='J0325', password='Ai345678'),
+            self.backend.authenticate(None, username='J0325', password='Ai345678'),
             self.user,
         )
 
     def test_email_lowercase_variant_logs_in(self):
         self.assertEqual(
-            self.backend.authenticate(username='j0325@huaxiyuan.invalid', password='Ai345678'),
+            self.backend.authenticate(None, username='j0325@huaxiyuan.invalid', password='Ai345678'),
             self.user,
         )
 
     def test_password_is_still_case_sensitive(self):
         self.assertIsNone(
-            self.backend.authenticate(username='j0325', password='ai345678'),
+            self.backend.authenticate(None, username='j0325', password='ai345678'),
         )
 
     def test_wrong_identifier_does_not_hit(self):
         self.assertIsNone(
-            self.backend.authenticate(username='j9999', password='Ai345678'),
+            self.backend.authenticate(None, username='j9999', password='Ai345678'),
         )
 
 

@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.test import RequestFactory, TestCase
+from django.test import RequestFactory, TestCase, override_settings
 
 from apps.users.auth.api.auth_routes import login_with_verification_code
 from apps.users.auth.authentication import MultiFieldAuthBackend
@@ -143,6 +143,12 @@ class PasswordLoginPhoneAliasTests(TestCase):
         self.assertEqual(authed.id, user.id)
 
 
+# 验证码登录端点受 TABTIN_VERIFICATION_LOGIN_ENABLED 总开关控制（生产默认关停）。
+# 该开关在 settings 导入时从 env 读取；pytest 由根 conftest 注入 true，而
+# ``manage.py test`` 不加载 conftest——测试自身显式声明前置条件（调用点读的是
+# ``getattr(settings, ...)``，override_settings 对两种 runner 均生效），
+# 不再依赖 runner 特定的 env 注入。
+@override_settings(TABTIN_VERIFICATION_LOGIN_ENABLED=True)
 class VerificationLoginPhoneAliasTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
