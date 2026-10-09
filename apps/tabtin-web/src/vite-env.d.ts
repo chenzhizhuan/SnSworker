@@ -7,6 +7,9 @@ interface ImportMetaEnv {
   readonly VITE_CENTRIFUGO_WS_URL?: string
   readonly VITE_TABLE_COLLAB_WS_URL?: string
   readonly VITE_TABLE_COLLAB_DISABLED?: string
+  readonly VITE_AUTH_EMAIL_LOGIN_ENABLED?: string
+  readonly VITE_REGISTRATION_ENABLED?: string
+  readonly VITE_VERIFICATION_LOGIN_ENABLED?: string
 }
 
 interface ImportMeta {

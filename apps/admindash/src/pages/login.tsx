@@ -9,6 +9,7 @@ import { useEffect, useId, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   parseEmailLoginEnabled,
+  parseOptionalFeatureFlag,
   isValidAuthIdentifier,
   normalizeAuthIdentifier,
   splitRegisterContact,
@@ -19,6 +20,15 @@ type LoginMethod = 'password' | 'verification'
 
 const EMAIL_LOGIN_ENABLED = parseEmailLoginEnabled(
   import.meta.env.VITE_AUTH_EMAIL_LOGIN_ENABLED,
+)
+
+// 验证码登录 / 注册入口开关：默认开启；VITE_*=false 关闭（公网 Web 部署形态，
+// 与后端 TABTIN_VERIFICATION_LOGIN_ENABLED / TABTIN_REGISTRATION_ENABLED 对应）。
+const VERIFICATION_LOGIN_ENABLED = parseOptionalFeatureFlag(
+  import.meta.env.VITE_VERIFICATION_LOGIN_ENABLED,
+)
+const REGISTRATION_ENABLED = parseOptionalFeatureFlag(
+  import.meta.env.VITE_REGISTRATION_ENABLED,
 )
 
 function resolveErrorMessage(error: unknown, fallback: string): string {
@@ -323,36 +333,38 @@ export function LoginPage() {
           <CardContent className="px-8 pb-8 pt-6">
             {mode === 'login' ? (
               <form onSubmit={handleLogin} className="space-y-6">
-                <div className="grid grid-cols-2 rounded-lg bg-muted p-1 text-subtitle">
-                  <button
-                    type="button"
-                    onClick={() => setLoginMethod('password')}
-                    className={`rounded-md px-3 py-3 font-semibold transition-colors ${
-                      loginMethod === 'password'
-                        ? 'bg-background text-foreground shadow-sm'
-                        : 'text-muted-foreground'
-                    }`}
-                  >
-                    密码登录
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setLoginMethod('verification')}
-                    className={`rounded-md px-3 py-3 font-semibold transition-colors ${
-                      loginMethod === 'verification'
-                        ? 'bg-background text-foreground shadow-sm'
-                        : 'text-muted-foreground'
-                    }`}
-                  >
-                    验证码登录
-                  </button>
-                </div>
+                {VERIFICATION_LOGIN_ENABLED ? (
+                  <div className="grid grid-cols-2 rounded-lg bg-muted p-1 text-subtitle">
+                    <button
+                      type="button"
+                      onClick={() => setLoginMethod('password')}
+                      className={`rounded-md px-3 py-3 font-semibold transition-colors ${
+                        loginMethod === 'password'
+                          ? 'bg-background text-foreground shadow-sm'
+                          : 'text-muted-foreground'
+                      }`}
+                    >
+                      密码登录
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLoginMethod('verification')}
+                      className={`rounded-md px-3 py-3 font-semibold transition-colors ${
+                        loginMethod === 'verification'
+                          ? 'bg-background text-foreground shadow-sm'
+                          : 'text-muted-foreground'
+                      }`}
+                    >
+                      验证码登录
+                    </button>
+                  </div>
+                ) : null}
 
                 <IdentifierInput
-                  label={loginMethod === 'password' ? '用户名 / 手机号' : EMAIL_LOGIN_ENABLED ? '邮箱或手机号' : '手机号'}
+                  label={loginMethod === 'password' ? '用户名 / 邮箱 / 手机号' : EMAIL_LOGIN_ENABLED ? '邮箱或手机号' : '手机号'}
                   value={identifier}
                   onChange={setIdentifier}
-                  placeholder={loginMethod === 'password' ? '请输入用户名或手机号' : EMAIL_LOGIN_ENABLED ? '请输入邮箱或手机号' : '请输入手机号'}
+                  placeholder={loginMethod === 'password' ? '请输入用户名、邮箱或手机号' : EMAIL_LOGIN_ENABLED ? '请输入邮箱或手机号' : '请输入手机号'}
                   disabled={isLoading || codeSending}
                 />
 
@@ -411,16 +423,18 @@ export function LoginPage() {
                   登录
                 </Button>
 
-                <div className="text-center text-subtitle text-muted-foreground">
-                  还没有账户？
-                  <button
-                    type="button"
-                    className="ml-2 font-semibold text-primary hover:underline"
-                    onClick={() => setNextMode('register')}
-                  >
-                    立即注册
-                  </button>
-                </div>
+                {REGISTRATION_ENABLED ? (
+                  <div className="text-center text-subtitle text-muted-foreground">
+                    还没有账户？
+                    <button
+                      type="button"
+                      className="ml-2 font-semibold text-primary hover:underline"
+                      onClick={() => setNextMode('register')}
+                    >
+                      立即注册
+                    </button>
+                  </div>
+                ) : null}
               </form>
             ) : null}
 

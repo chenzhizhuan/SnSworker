@@ -54,6 +54,8 @@
     "refresh_token_revoked": "Refresh token has been revoked, please log in again",
     "token_refresh_failed": "Token refresh failed: {detail}",
     "email_phone_already_registered": "This email/phone is already registered",
+    "registration_disabled": "Registration is closed. Please contact the administrator to get an account",
+    "verification_login_disabled": "Verification-code login is disabled. Please sign in with your password",
     "verification_code_sent": "Verification code sent, please check",
     "send_verification_failed": "Failed to send verification code: {detail}",
     "profile_updated": "Profile updated successfully",

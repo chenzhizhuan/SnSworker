@@ -103,6 +103,14 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 TABTIN_REQUIRE_INVITE_CODE = _env_bool('TABTIN_REQUIRE_INVITE_CODE', False)
 REQUIRE_INVITE_CODE = TABTIN_REQUIRE_INVITE_CODE
 
+# 注册与验证码登录入口总开关。默认 True（社区自服务形态）；
+# 公网 Web 部署形态（compose.web.yaml）默认关闭：
+#   TABTIN_REGISTRATION_ENABLED=false        → /api/auth/register 拒绝 + register 验证码不发
+#   TABTIN_VERIFICATION_LOGIN_ENABLED=false  → /api/auth/login/verification-code 拒绝 + login 验证码不发
+# 密码登录（用户名/邮箱/手机号 + 密码）与忘记密码（reset_password 验证码）不受影响。
+TABTIN_REGISTRATION_ENABLED = _env_bool('TABTIN_REGISTRATION_ENABLED', True)
+TABTIN_VERIFICATION_LOGIN_ENABLED = _env_bool('TABTIN_VERIFICATION_LOGIN_ENABLED', True)
+
 # CLI OAuth Device Authorization Flow：用户确认授权的前端页面地址。
 # 默认指向本地 Electron/Web dev 端口，生产环境按部署域名覆盖。
 TABTIN_DEVICE_VERIFY_URL = os.getenv('TABTIN_DEVICE_VERIFY_URL', 'http://localhost:5175/device')

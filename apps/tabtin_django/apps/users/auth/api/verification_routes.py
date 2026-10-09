@@ -1,5 +1,6 @@
 """验证码发送与验证相关 API 路由"""
 from ninja import Router
+from django.conf import settings
 
 from ._shared import (
     VerificationCodeManager,
@@ -53,6 +54,39 @@ def send_verification_code(request: HttpRequest, data: SendVerificationCodeSchem
     identifier = mask_identifier(data.username)
     logger.info("发送验证码函数开始: username=%s, code_type=%s", identifier, data.code_type)
     try:
+        # 入口开关：注册 / 验证码登录的验证码不发（公网部署形态两者均已关闭）。
+        # reset_password / bind_email / verify_* 等已登录或找回密码用途不受影响。
+        if data.code_type == "register" and not getattr(
+            settings, "TABTIN_REGISTRATION_ENABLED", True
+        ):
+            log_security_event(
+                "verification_send_blocked",
+                request,
+                success=False,
+                reason="registration_disabled",
+                extra={"code_type": data.code_type},
+            )
+            return ApiResponseSchema(
+                success=False,
+                message=_("auth.registration_disabled"),
+                code="REGISTRATION_DISABLED"
+            )
+        if data.code_type == "login" and not getattr(
+            settings, "TABTIN_VERIFICATION_LOGIN_ENABLED", True
+        ):
+            log_security_event(
+                "verification_send_blocked",
+                request,
+                success=False,
+                reason="verification_login_disabled",
+                extra={"code_type": data.code_type},
+            )
+            return ApiResponseSchema(
+                success=False,
+                message=_("auth.verification_login_disabled"),
+                code="VERIFICATION_LOGIN_DISABLED"
+            )
+
         # 使用统一的验证码管理器
         # 检查频率限制（账号/IP/组合）
         ip_address = get_client_ip(request)

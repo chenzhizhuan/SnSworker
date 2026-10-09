@@ -1,5 +1,6 @@
 """核心认证 API 路由（注册 / 登录 / 登出）"""
 from ninja import Router
+from django.conf import settings
 from django.db import IntegrityError
 
 from ._shared import (
@@ -211,7 +212,7 @@ def _generate_unique_username(*, email: str | None = None, phone: str | None = N
 
 @router.post(
     "/register",
-    response={200: dict, 400: ApiResponseSchema, 429: ApiResponseSchema, 500: ApiResponseSchema},
+    response={200: dict, 400: ApiResponseSchema, 403: ApiResponseSchema, 429: ApiResponseSchema, 500: ApiResponseSchema},
     auth=None,
     tags=["认证"],
 )
@@ -235,6 +236,20 @@ def register_user(request: HttpRequest, data: UserRegisterSchema):
     - 密码需满足强度要求
     - 用户名可选，用于@username主页标识
     """
+    # 注册入口总开关：公网部署形态关闭自助注册（TABTIN_REGISTRATION_ENABLED=false）
+    if not getattr(settings, "TABTIN_REGISTRATION_ENABLED", True):
+        log_security_event(
+            "register_blocked",
+            request,
+            success=False,
+            reason="registration_disabled",
+        )
+        return 403, ApiResponseSchema(
+            success=False,
+            message=_("auth.registration_disabled"),
+            code="REGISTRATION_DISABLED"
+        )
+
     try:
         # IP 级别速率限制
         ip_address = get_client_ip(request)
@@ -531,7 +546,7 @@ def login_user(request: HttpRequest, data: UserLoginSchema):
 
 @router.post(
     "/login/verification-code",
-    response={200: dict, 400: ApiResponseSchema, 401: ApiResponseSchema, 500: ApiResponseSchema},
+    response={200: dict, 400: ApiResponseSchema, 401: ApiResponseSchema, 403: ApiResponseSchema, 500: ApiResponseSchema},
     auth=None,
     tags=["认证"]
 )
@@ -552,6 +567,23 @@ def login_with_verification_code(request: HttpRequest, data: VerificationCodeLog
     - 自动注册的用户会生成随机用户名
     - 可以降低用户注册门槛，提升用户体验
     """
+    # 验证码登录总开关：公网部署形态关闭（TABTIN_VERIFICATION_LOGIN_ENABLED=false）。
+    # 该端点同时是「自动注册」的旁路入口，关闭它也堵住了绕过注册开关的路径。
+    if not getattr(settings, "TABTIN_VERIFICATION_LOGIN_ENABLED", True):
+        identifier = mask_identifier(data.username)
+        log_security_event(
+            "code_login_blocked",
+            request,
+            success=False,
+            reason="verification_login_disabled",
+            extra={"identifier": identifier},
+        )
+        return 403, ApiResponseSchema(
+            success=False,
+            message=_("auth.verification_login_disabled"),
+            code="VERIFICATION_LOGIN_DISABLED"
+        )
+
     identifier = mask_identifier(data.username)
     logger.info("验证码登录请求: username=%s", identifier)
 

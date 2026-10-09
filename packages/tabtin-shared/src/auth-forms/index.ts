@@ -16,6 +16,7 @@ export {
   allFilled,
   normalizeRegisterErrorMessage,
   parseEmailLoginEnabled,
+  parseOptionalFeatureFlag,
   isValidEmail,
   sanitizeAuthIdentifierInput,
   normalizeAuthIdentifier,

@@ -110,6 +110,12 @@ x-web-public-env: &web-public-env
   # 2026-09-10 发生两次）；改为在 service 的 env_file 里显式声明
   # .env.web-runtime，compose 直接从文件读，与调用方 shell 环境无关。
   COLLAB_LIVE_URL: http://collab-live:4100
+  # 注册与验证码登录入口：公网 Web 形态默认全部关闭，只保留密码登录
+  # （用户名/邮箱/手机号）。如需重新开放：根 .env 设
+  # TABTIN_REGISTRATION_ENABLED=true（或 TABTIN_VERIFICATION_LOGIN_ENABLED=true）
+  # 并重新 build web/admindash 镜像（VITE_* 是构建期内联）后重启。
+  TABTIN_REGISTRATION_ENABLED: '${TABTIN_REGISTRATION_ENABLED:-false}'
+  TABTIN_VERIFICATION_LOGIN_ENABLED: '${TABTIN_VERIFICATION_LOGIN_ENABLED:-false}'
   # 显式钉死 tracker 队列名。settings.py:_default_tracker_agent_queue() 会在
   # TABTIN_INFRA_MODE=remote 且非 K8s 时派生成 tracker_agent_<主机名>；本形态
   # 不设该变量本就走 canonical 名，但钉死可保证 producer 与 consumer 永不分叉。
@@ -282,6 +288,8 @@ services:
         VITE_CENTRIFUGO_WS_URL: ws://${SERVER_IP}:13494/connection/websocket
         VITE_AUTH_EMAIL_LOGIN_ENABLED: 'true'
         VITE_DOC_COLLAB_ENABLED: 'true'
+        VITE_REGISTRATION_ENABLED: '${TABTIN_REGISTRATION_ENABLED:-false}'
+        VITE_VERIFICATION_LOGIN_ENABLED: '${TABTIN_VERIFICATION_LOGIN_ENABLED:-false}'
     restart: unless-stopped
     depends_on:
       django: { condition: service_healthy }
@@ -298,6 +306,8 @@ services:
         VITE_API_BASE_URL: http://${SERVER_IP}:13492/api
         VITE_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
         VITE_AUTH_EMAIL_LOGIN_ENABLED: 'true'
+        VITE_REGISTRATION_ENABLED: '${TABTIN_REGISTRATION_ENABLED:-false}'
+        VITE_VERIFICATION_LOGIN_ENABLED: '${TABTIN_VERIFICATION_LOGIN_ENABLED:-false}'
     restart: unless-stopped
     depends_on:
       django: { condition: service_healthy }

@@ -6,6 +6,7 @@ import {
   sanitizeCnMobilePhoneInput,
   sanitizeSmsCodeInput,
   parseEmailLoginEnabled,
+  parseOptionalFeatureFlag,
   isValidEmail,
   sanitizeAuthIdentifierInput,
   normalizeAuthIdentifier,
@@ -42,6 +43,14 @@ describe('email-or-phone identifier rules', () => {
     expect(parseEmailLoginEnabled('true')).toBe(true)
     expect(parseEmailLoginEnabled('false')).toBe(false)
     expect(parseEmailLoginEnabled(' FALSE ')).toBe(false)
+  })
+
+  it('parseOptionalFeatureFlag defaults on and only explicit false disables', () => {
+    expect(parseOptionalFeatureFlag(undefined)).toBe(true)
+    expect(parseOptionalFeatureFlag('')).toBe(true)
+    expect(parseOptionalFeatureFlag('true')).toBe(true)
+    expect(parseOptionalFeatureFlag('false')).toBe(false)
+    expect(parseOptionalFeatureFlag(' FALSE ')).toBe(false)
   })
 
   it('isValidEmail accepts local@domain.tld', () => {

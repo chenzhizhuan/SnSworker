@@ -54,6 +54,8 @@
     "refresh_token_revoked": "Refresh Token 已失效，请重新登录",
     "token_refresh_failed": "Token刷新失败：{detail}",
     "email_phone_already_registered": "该邮箱/手机号已被注册",
+    "registration_disabled": "注册通道已关闭，如需开通账号请联系管理员",
+    "verification_login_disabled": "验证码登录已关闭，请使用密码登录",
     "verification_code_sent": "验证码已发送，请查收",
     "send_verification_failed": "发送验证码失败：{detail}",
     "profile_updated": "资料更新成功",

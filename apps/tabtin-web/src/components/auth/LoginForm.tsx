@@ -6,12 +6,21 @@ import { useAuthStore } from '@/stores/auth-store'
 import { authApi } from '@/services/auth-api'
 import { extractErrorMessage } from '@/utils/extract-api-error'
 import { useTranslation } from 'react-i18next'
-import { useLoginForm, CN_MOBILE_PHONE_MAX_LENGTH, parseEmailLoginEnabled } from '@tabtin/shared/auth-forms'
+import { useLoginForm, CN_MOBILE_PHONE_MAX_LENGTH, parseEmailLoginEnabled, parseOptionalFeatureFlag } from '@tabtin/shared/auth-forms'
 import { useCapsLockWarning } from '@tabtin/shared/use-caps-lock-warning'
 import { CapsLockHint } from './CapsLockHint'
 
 const AUTH_EMAIL_LOGIN_ENABLED = parseEmailLoginEnabled(
   import.meta.env.VITE_AUTH_EMAIL_LOGIN_ENABLED,
+)
+
+// 验证码登录 / 注册入口开关：默认开启；VITE_*=false 关闭（公网 Web 部署形态，
+// 与后端 TABTIN_VERIFICATION_LOGIN_ENABLED / TABTIN_REGISTRATION_ENABLED 对应）。
+const VERIFICATION_LOGIN_ENABLED = parseOptionalFeatureFlag(
+  import.meta.env.VITE_VERIFICATION_LOGIN_ENABLED,
+)
+const REGISTRATION_ENABLED = parseOptionalFeatureFlag(
+  import.meta.env.VITE_REGISTRATION_ENABLED,
 )
 
 interface LoginFormProps {
@@ -55,30 +64,32 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         <p className="text-muted-foreground">{t('loginForm.subheading')}</p>
       </div>
 
-      <div className="flex rounded-lg bg-muted p-1 mb-6">
-        <button
-          type="button"
-          onClick={() => form.switchMethod('password')}
-          className={`flex-1 py-2 px-4 rounded-md text-body font-medium transition-colors ${
-            form.method === 'password'
-              ? 'bg-background text-foreground'
-              : 'text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          {t('loginForm.method.password')}
-        </button>
-        <button
-          type="button"
-          onClick={() => form.switchMethod('verification')}
-          className={`flex-1 py-2 px-4 rounded-md text-body font-medium transition-colors ${
-            form.method === 'verification'
-              ? 'bg-background text-foreground'
-              : 'text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          {t('loginForm.method.code')}
-        </button>
-      </div>
+      {VERIFICATION_LOGIN_ENABLED && (
+        <div className="flex rounded-lg bg-muted p-1 mb-6">
+          <button
+            type="button"
+            onClick={() => form.switchMethod('password')}
+            className={`flex-1 py-2 px-4 rounded-md text-body font-medium transition-colors ${
+              form.method === 'password'
+                ? 'bg-background text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            {t('loginForm.method.password')}
+          </button>
+          <button
+            type="button"
+            onClick={() => form.switchMethod('verification')}
+            className={`flex-1 py-2 px-4 rounded-md text-body font-medium transition-colors ${
+              form.method === 'verification'
+                ? 'bg-background text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            {t('loginForm.method.code')}
+          </button>
+        </div>
+      )}
 
       <Form onSubmit={form.submit}>
         {form.successMessage && (
@@ -143,7 +154,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           </FormField>
         )}
 
-        {form.method === 'verification' && (
+        {VERIFICATION_LOGIN_ENABLED && form.method === 'verification' && (
           <FormField>
             <FormLabel htmlFor="verificationCode">
               {t('loginForm.labels.verificationCode')}
@@ -241,21 +252,23 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           )}
         </Button>
 
-        <div className="text-center">
-          <span className="text-body text-muted-foreground">
-            {t('loginForm.noAccount')}{' '}
-            <button
-              type="button"
-              onClick={() => {
-                form.resetFeedback()
-                onSwitchToRegister()
-              }}
-              className="text-primary hover:underline font-medium"
-            >
-              {t('loginForm.actions.registerNow')}
-            </button>
-          </span>
-        </div>
+        {REGISTRATION_ENABLED && (
+          <div className="text-center">
+            <span className="text-body text-muted-foreground">
+              {t('loginForm.noAccount')}{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  form.resetFeedback()
+                  onSwitchToRegister()
+                }}
+                className="text-primary hover:underline font-medium"
+              >
+                {t('loginForm.actions.registerNow')}
+              </button>
+            </span>
+          </div>
+        )}
       </Form>
     </motion.div>
   )

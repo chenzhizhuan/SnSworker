@@ -119,6 +119,14 @@ export function parseEmailLoginEnabled(raw: string | undefined): boolean {
   return String(raw ?? '').trim().toLowerCase() !== 'false'
 }
 
+/**
+ * 解析可选功能开关（VITE_REGISTRATION_ENABLED / VITE_VERIFICATION_LOGIN_ENABLED 等）。
+ * 与 parseEmailLoginEnabled 同语义的通用版本：未设置视为开启，显式 `false` 才关闭。
+ */
+export function parseOptionalFeatureFlag(raw: string | undefined): boolean {
+  return String(raw ?? '').trim().toLowerCase() !== 'false'
+}
+
 /** 简单邮箱格式校验（至少 local@domain.tld） */
 export function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())

@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AppHostClientProvider } from '@tabtin/app-host-sdk'
 import { Toaster } from '@tabtin/smartsheet-ui'
+import { parseOptionalFeatureFlag } from '@tabtin/shared/auth-forms'
 import { useAuthStore } from '@/stores/auth-store'
 import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { AppLoadingShell } from '@/components/layout/AppLoadingShell'
@@ -10,6 +11,12 @@ import { PublicRoute } from '@/components/layout/PublicRoute'
 import { SharedPageShell } from '@/components/layout/SharedPageShell'
 import { getSharedAppHostClient } from '@/adapters/sharedAppHostClient'
 import { WebPresentationProvider } from '@/components/layout/WebPresentationContext'
+
+// 注册入口开关：默认开启；VITE_REGISTRATION_ENABLED=false 时 /register 重定向到
+// /login（公网 Web 部署形态，与后端 TABTIN_REGISTRATION_ENABLED 对应）。
+const REGISTRATION_ENABLED = parseOptionalFeatureFlag(
+  import.meta.env.VITE_REGISTRATION_ENABLED,
+)
 
 const AppLayout = lazy(() =>
   import('@/components/layout/AppLayout').then((module) => ({ default: module.AppLayout })),
@@ -134,9 +141,13 @@ export default function App() {
             <Route
               path="/register"
               element={
-                <PublicRoute>
-                  <RegisterPage />
-                </PublicRoute>
+                REGISTRATION_ENABLED ? (
+                  <PublicRoute>
+                    <RegisterPage />
+                  </PublicRoute>
+                ) : (
+                  <Navigate to="/login" replace />
+                )
               }
             />
             <Route

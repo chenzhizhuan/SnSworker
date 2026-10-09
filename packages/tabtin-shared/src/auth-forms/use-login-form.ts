@@ -9,6 +9,7 @@ import {
   authFeedbackKey,
   authFeedbackMessage,
   isValidCnPhone,
+  isValidEmail,
   isValidSmsCode,
   resolveAuthFormFeedbacks,
   sanitizeCnMobilePhoneInput,
@@ -156,12 +157,23 @@ export function useLoginForm(deps: UseLoginFormDeps): UseLoginFormResult {
               ? 'loginForm.errors.usernameRequiredEmailOrPhone'
               : 'loginForm.errors.usernameRequired',
           )
-    } else if (!isValidAuthIdentifier(trimmedUsername, emailLoginEnabled)) {
-      errors.username = authFeedbackKey(
-        emailLoginEnabled && trimmedUsername.includes('@')
-          ? 'loginForm.errors.emailInvalid'
-          : 'loginForm.errors.phoneInvalid',
-      )
+    } else if (isVerification) {
+      // 验证码登录：发码只支持邮箱/手机号，维持原有格式校验
+      if (!isValidAuthIdentifier(trimmedUsername, emailLoginEnabled)) {
+        errors.username = authFeedbackKey(
+          emailLoginEnabled && trimmedUsername.includes('@')
+            ? 'loginForm.errors.emailInvalid'
+            : 'loginForm.errors.phoneInvalid',
+        )
+      }
+    } else if (
+      // 密码登录：后端 MultiFieldAuthBackend 按邮箱 → 手机号 → 用户名兜底查询，
+      // 客户端不再强制手机号格式；仅对「看起来像邮箱」的输入做格式防呆。
+      emailLoginEnabled &&
+      trimmedUsername.includes('@') &&
+      !isValidEmail(trimmedUsername)
+    ) {
+      errors.username = authFeedbackKey('loginForm.errors.emailInvalid')
     }
     if (method === 'password' && !password.trim()) {
       errors.password = authFeedbackKey('loginForm.errors.passwordRequired')
