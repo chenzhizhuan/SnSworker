@@ -103,13 +103,14 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 TABTIN_REQUIRE_INVITE_CODE = _env_bool('TABTIN_REQUIRE_INVITE_CODE', False)
 REQUIRE_INVITE_CODE = TABTIN_REQUIRE_INVITE_CODE
 
-# 注册与验证码登录入口总开关。默认 True（社区自服务形态）；
-# 公网 Web 部署形态（compose.web.yaml）默认关闭：
-#   TABTIN_REGISTRATION_ENABLED=false        → /api/auth/register 拒绝 + register 验证码不发
-#   TABTIN_VERIFICATION_LOGIN_ENABLED=false  → /api/auth/login/verification-code 拒绝 + login 验证码不发
-# 密码登录（用户名/邮箱/手机号 + 密码）与忘记密码（reset_password 验证码）不受影响。
-TABTIN_REGISTRATION_ENABLED = _env_bool('TABTIN_REGISTRATION_ENABLED', True)
-TABTIN_VERIFICATION_LOGIN_ENABLED = _env_bool('TABTIN_VERIFICATION_LOGIN_ENABLED', True)
+# 注册与验证码登录入口总开关。部署安全默认关停（与全端前端
+# 「未设置=关停，显式 true 才开启」语义对齐）：账号由管理员发放。
+#   TABTIN_REGISTRATION_ENABLED=true        → /api/auth/register 放行 + register 验证码可发
+#   TABTIN_VERIFICATION_LOGIN_ENABLED=true  → /api/auth/login/verification-code 放行 + login 验证码可发
+# 未设置或 false 均视为关闭；密码登录（用户名/邮箱/手机号 + 密码）与
+# 忘记密码（reset_password 验证码）不受影响。
+TABTIN_REGISTRATION_ENABLED = _env_bool('TABTIN_REGISTRATION_ENABLED', False)
+TABTIN_VERIFICATION_LOGIN_ENABLED = _env_bool('TABTIN_VERIFICATION_LOGIN_ENABLED', False)
 
 # CLI OAuth Device Authorization Flow：用户确认授权的前端页面地址。
 # 默认指向本地 Electron/Web dev 端口，生产环境按部署域名覆盖。

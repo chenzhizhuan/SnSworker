@@ -54,10 +54,11 @@ def send_verification_code(request: HttpRequest, data: SendVerificationCodeSchem
     identifier = mask_identifier(data.username)
     logger.info("发送验证码函数开始: username=%s, code_type=%s", identifier, data.code_type)
     try:
-        # 入口开关：注册 / 验证码登录的验证码不发（公网部署形态两者均已关闭）。
+        # 入口开关：注册 / 验证码登录的验证码不发（部署安全默认关停，
+        # settings 默认 False；显式注入 true 才开放）。
         # reset_password / bind_email / verify_* 等已登录或找回密码用途不受影响。
         if data.code_type == "register" and not getattr(
-            settings, "TABTIN_REGISTRATION_ENABLED", True
+            settings, "TABTIN_REGISTRATION_ENABLED", False
         ):
             log_security_event(
                 "verification_send_blocked",
@@ -72,7 +73,7 @@ def send_verification_code(request: HttpRequest, data: SendVerificationCodeSchem
                 code="REGISTRATION_DISABLED"
             )
         if data.code_type == "login" and not getattr(
-            settings, "TABTIN_VERIFICATION_LOGIN_ENABLED", True
+            settings, "TABTIN_VERIFICATION_LOGIN_ENABLED", False
         ):
             log_security_event(
                 "verification_send_blocked",

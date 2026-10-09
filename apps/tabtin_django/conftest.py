@@ -189,6 +189,15 @@ if _isolated_settings:
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tabtin.settings")
 
+# ---------------------------------------------------------------------------
+# 认证入口开关：生产 settings 默认关停（部署安全默认，TABTIN_REGISTRATION_ENABLED /
+# TABTIN_VERIFICATION_LOGIN_ENABLED 缺省均为 False）。测试套件覆盖注册 / 验证码登录
+# 全链路，属于「显式选择开启」的消费者——在 Django settings 模块导入前注入 true，
+# 与生产 env 注入方式一致；显式传入其他值时不覆盖（CI 可按需关闭测试）。
+# ---------------------------------------------------------------------------
+os.environ.setdefault("TABTIN_REGISTRATION_ENABLED", "true")
+os.environ.setdefault("TABTIN_VERIFICATION_LOGIN_ENABLED", "true")
+
 _CONFTEST_DIR = Path(__file__).resolve().parent
 
 # ---------------------------------------------------------------------------

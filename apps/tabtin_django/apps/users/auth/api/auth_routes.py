@@ -236,8 +236,9 @@ def register_user(request: HttpRequest, data: UserRegisterSchema):
     - 密码需满足强度要求
     - 用户名可选，用于@username主页标识
     """
-    # 注册入口总开关：公网部署形态关闭自助注册（TABTIN_REGISTRATION_ENABLED=false）
-    if not getattr(settings, "TABTIN_REGISTRATION_ENABLED", True):
+    # 注册入口总开关：部署安全默认关停（settings 默认 False），显式
+    # TABTIN_REGISTRATION_ENABLED=true 才开放自助注册。
+    if not getattr(settings, "TABTIN_REGISTRATION_ENABLED", False):
         log_security_event(
             "register_blocked",
             request,
@@ -567,9 +568,10 @@ def login_with_verification_code(request: HttpRequest, data: VerificationCodeLog
     - 自动注册的用户会生成随机用户名
     - 可以降低用户注册门槛，提升用户体验
     """
-    # 验证码登录总开关：公网部署形态关闭（TABTIN_VERIFICATION_LOGIN_ENABLED=false）。
+    # 验证码登录总开关：部署安全默认关停（settings 默认 False），显式
+    # TABTIN_VERIFICATION_LOGIN_ENABLED=true 才开放。
     # 该端点同时是「自动注册」的旁路入口，关闭它也堵住了绕过注册开关的路径。
-    if not getattr(settings, "TABTIN_VERIFICATION_LOGIN_ENABLED", True):
+    if not getattr(settings, "TABTIN_VERIFICATION_LOGIN_ENABLED", False):
         identifier = mask_identifier(data.username)
         log_security_event(
             "code_login_blocked",
