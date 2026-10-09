@@ -8,7 +8,8 @@ struct LoginView: View {
     @State private var privacy = PrivacyConsentStore.shared
     @State private var language = LanguageManager.shared
 
-    @State private var mode: LoginMode = .verificationCode
+    // 验证码登录关停（AppConfig.verificationLoginEnabled=false）时默认密码模式。
+    @State private var mode: LoginMode = AppConfig.verificationLoginEnabled ? .verificationCode : .password
     @State private var phone = ""
     @State private var code = ""
     @State private var password = ""
@@ -349,17 +350,21 @@ struct LoginView: View {
 
             Spacer(minLength: 4)
 
-            HStack(spacing: 2) {
-                loginModeButton(
-                    .verificationCode,
-                    title: isUsingChinese ? "验证码登录" : "Verification code"
-                )
-                loginModeButton(
-                    .password,
-                    title: isUsingChinese ? "密码登录" : "Password"
-                )
+            // 验证码登录关停（AppConfig.verificationLoginEnabled=false）时
+            // 隐藏「验证码/密码」切换，仅保留密码登录。
+            if AppConfig.verificationLoginEnabled {
+                HStack(spacing: 2) {
+                    loginModeButton(
+                        .verificationCode,
+                        title: isUsingChinese ? "验证码登录" : "Verification code"
+                    )
+                    loginModeButton(
+                        .password,
+                        title: isUsingChinese ? "密码登录" : "Password"
+                    )
+                }
+                .frame(height: 44)
             }
-            .frame(height: 44)
         }
         .accessibilityElement(children: .contain)
     }
@@ -610,7 +615,8 @@ struct LoginView: View {
 
             Spacer(minLength: 4)
 
-            if mode == .password {
+            // 「忘记密码」在移动端的落地是切换到验证码登录；验证码登录关停时一并隐藏。
+            if mode == .password && AppConfig.verificationLoginEnabled {
                 Button {
                     selectMode(.verificationCode)
                 } label: {
@@ -706,6 +712,8 @@ struct LoginView: View {
     }
 
     private func selectMode(_ targetMode: LoginMode) {
+        // 验证码登录关停时不允许切入验证码模式（UI 入口已隐藏，防御性兑底）。
+        guard AppConfig.verificationLoginEnabled || targetMode == .password else { return }
         guard mode != targetMode else { return }
         mode = targetMode
         errorMessage = nil

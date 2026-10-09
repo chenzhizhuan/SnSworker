@@ -41,6 +41,25 @@ enum AppConfig {
         #endif
     }
 
+    // MARK: - 认证入口编译期开关
+
+    /// 注册入口总开关（对齐后端 `TABTIN_REGISTRATION_ENABLED` 与 web / 桌面端
+    /// `VITE_REGISTRATION_ENABLED`）：与全端统一为「部署安全默认关停」——
+    /// DEBUG / RELEASE 均默认关，账号由管理员发放；需要开放自服务注册时
+    /// 在此处临时改回 true（或接入 xcconfig 编译条件注入）。
+    /// 当前 iOS 无注册界面，预留语义对齐。
+    static var registrationEnabled: Bool {
+        false
+    }
+
+    /// 验证码登录入口总开关（对齐后端 `TABTIN_VERIFICATION_LOGIN_ENABLED` 与
+    /// web / 桌面端 `VITE_VERIFICATION_LOGIN_ENABLED`）：关停时登录页隐藏
+    /// 「验证码/密码」切换与发码 UI，仅保留密码登录。
+    /// 与全端统一为「部署安全默认关停」；临时联调验证码登录流程时改为 true。
+    static var verificationLoginEnabled: Bool {
+        false
+    }
+
     /// 当前 API 使用 HTTP（本地/LAN 联调）时允许 ws:// 与非 TLS REST。
     static var allowsLocalCleartextNetworking: Bool {
         URLComponents(string: apiBaseURL)?.scheme?.lowercased() == "http"

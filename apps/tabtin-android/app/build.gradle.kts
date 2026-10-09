@@ -47,6 +47,24 @@ android {
     if (gitSha.isNotEmpty() && !gitSha.matches(Regex("[0-9a-f]{7,40}"))) {
         throw GradleException("TABTIN_GIT_SHA 必须是 7～40 位小写十六进制 Git SHA")
     }
+
+    // 注册 / 验证码登录入口编译期开关（对齐后端 TABTIN_REGISTRATION_ENABLED /
+    // TABTIN_VERIFICATION_LOGIN_ENABLED，以及 web / 桌面端同名 VITE_* 开关）。
+    // 默认语义：所有构建形态（dev/debug / release）一律默认关停（部署安全默认，
+    // 账号由管理员发放）；需要开放时用
+    // -PTABTIN_VERIFICATION_LOGIN_ENABLED=true / -PTABTIN_REGISTRATION_ENABLED=true 显式开启。
+    fun authFeatureFlag(propertyName: String): String {
+        val raw = (providers.gradleProperty(propertyName).orNull
+            ?: System.getenv(propertyName)
+            ?: "false").trim().lowercase()
+        if (raw != "true" && raw != "false") {
+            throw GradleException("$propertyName 仅支持 true / false，当前值: $raw")
+        }
+        return raw
+    }
+    val verificationLoginEnabled = authFeatureFlag("TABTIN_VERIFICATION_LOGIN_ENABLED")
+    val registrationEnabled = authFeatureFlag("TABTIN_REGISTRATION_ENABLED")
+
     val releaseApiBaseUrl = if (releaseUsesProduction) {
         "http://221.237.179.2:13492/api"
     } else {
@@ -111,6 +129,9 @@ android {
         buildConfigField("String", "CENTRIFUGO_WS_URL_PROD", "\"ws://221.237.179.2:13494/connection/websocket\"")
         buildConfigField("String", "OBSERVABILITY_ENVIRONMENT", "\"test\"")
         buildConfigField("String", "TABTIN_GIT_SHA", "\"$gitSha\"")
+        // 认证入口开关（dev/debug 也默认关，与全端「未设置=关停」语义一致）。
+        buildConfigField("boolean", "VERIFICATION_LOGIN_ENABLED", "false")
+        buildConfigField("boolean", "REGISTRATION_ENABLED", "false")
 
         externalNativeBuild {
             cmake {
@@ -160,6 +181,9 @@ android {
             buildConfigField("String", "IM_API_BASE_URL", "\"$releaseImApiBaseUrl\"")
             buildConfigField("String", "CENTRIFUGO_WS_URL_PROD", "\"ws://221.237.179.2:13494/connection/websocket\"")
             buildConfigField("String", "OBSERVABILITY_ENVIRONMENT", "\"$observabilityEnvironment\"")
+            // 认证入口开关：所有 release 环境默认关；可用 gradle property 显式开启。
+            buildConfigField("boolean", "VERIFICATION_LOGIN_ENABLED", verificationLoginEnabled)
+            buildConfigField("boolean", "REGISTRATION_ENABLED", registrationEnabled)
         }
     }
 

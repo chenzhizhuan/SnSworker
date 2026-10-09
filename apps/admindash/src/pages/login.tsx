@@ -22,8 +22,8 @@ const EMAIL_LOGIN_ENABLED = parseEmailLoginEnabled(
   import.meta.env.VITE_AUTH_EMAIL_LOGIN_ENABLED,
 )
 
-// 验证码登录 / 注册入口开关：默认开启；VITE_*=false 关闭（公网 Web 部署形态，
-// 与后端 TABTIN_VERIFICATION_LOGIN_ENABLED / TABTIN_REGISTRATION_ENABLED 对应）。
+// 验证码登录 / 注册入口开关：默认关停（部署安全默认）；显式 VITE_*=true 才开启
+// （与后端 TABTIN_VERIFICATION_LOGIN_ENABLED / TABTIN_REGISTRATION_ENABLED 的公网部署语义对应）。
 const VERIFICATION_LOGIN_ENABLED = parseOptionalFeatureFlag(
   import.meta.env.VITE_VERIFICATION_LOGIN_ENABLED,
 )

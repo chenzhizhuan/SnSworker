@@ -593,7 +593,8 @@ private fun LoginFooter(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        if (!state.isCodeMode) {
+        // 「忘记密码」在移动端的落地是切换到验证码登录；验证码登录关停时一并隐藏。
+        if (!state.isCodeMode && AuthFeatureFlags.verificationLoginEnabled) {
             Text(
                 text = if (language.isEnglishForLogin()) "Forgot password" else "忘记密码",
                 modifier = Modifier.clickable(
@@ -767,11 +768,15 @@ private fun LoginAuthPanel(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                LoginModeTabs(
-                    language = language,
-                    isCodeMode = state.isCodeMode,
-                    onModeSelected = onModeSelected,
-                )
+                // 验证码登录关停（AuthFeatureFlags.verificationLoginEnabled=false）时
+                // 隐藏「验证码/密码」切换 Tab，仅保留密码登录。
+                if (AuthFeatureFlags.verificationLoginEnabled) {
+                    LoginModeTabs(
+                        language = language,
+                        isCodeMode = state.isCodeMode,
+                        onModeSelected = onModeSelected,
+                    )
+                }
             }
             Spacer(Modifier.height(6.dp))
 

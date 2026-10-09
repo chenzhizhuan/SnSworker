@@ -45,12 +45,13 @@ describe('email-or-phone identifier rules', () => {
     expect(parseEmailLoginEnabled(' FALSE ')).toBe(false)
   })
 
-  it('parseOptionalFeatureFlag defaults on and only explicit false disables', () => {
-    expect(parseOptionalFeatureFlag(undefined)).toBe(true)
-    expect(parseOptionalFeatureFlag('')).toBe(true)
+  it('parseOptionalFeatureFlag defaults off and only explicit true enables', () => {
+    expect(parseOptionalFeatureFlag(undefined)).toBe(false)
+    expect(parseOptionalFeatureFlag('')).toBe(false)
     expect(parseOptionalFeatureFlag('true')).toBe(true)
+    expect(parseOptionalFeatureFlag(' TRUE ')).toBe(true)
     expect(parseOptionalFeatureFlag('false')).toBe(false)
-    expect(parseOptionalFeatureFlag(' FALSE ')).toBe(false)
+    expect(parseOptionalFeatureFlag('1')).toBe(false)
   })
 
   it('isValidEmail accepts local@domain.tld', () => {

@@ -12,8 +12,8 @@ import { SharedPageShell } from '@/components/layout/SharedPageShell'
 import { getSharedAppHostClient } from '@/adapters/sharedAppHostClient'
 import { WebPresentationProvider } from '@/components/layout/WebPresentationContext'
 
-// 注册入口开关：默认开启；VITE_REGISTRATION_ENABLED=false 时 /register 重定向到
-// /login（公网 Web 部署形态，与后端 TABTIN_REGISTRATION_ENABLED 对应）。
+// 注册入口开关：默认关停（部署安全默认），/register 重定向到 /login；
+// 显式 VITE_REGISTRATION_ENABLED=true 才开启（与后端 TABTIN_REGISTRATION_ENABLED 对应）。
 const REGISTRATION_ENABLED = parseOptionalFeatureFlag(
   import.meta.env.VITE_REGISTRATION_ENABLED,
 )

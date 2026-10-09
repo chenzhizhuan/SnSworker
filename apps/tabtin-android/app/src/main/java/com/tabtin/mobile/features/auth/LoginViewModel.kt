@@ -20,7 +20,8 @@ public data class LoginUiState(
     val phone: String = "",
     val password: String = "",
     val verificationCode: String = "",
-    val isCodeMode: Boolean = true,
+    // 验证码登录关停（AuthFeatureFlags.verificationLoginEnabled=false）时默认密码模式。
+    val isCodeMode: Boolean = AuthFeatureFlags.verificationLoginEnabled,
     /** 发验证码与登录分离，避免发码 loading 误伤登录按钮（对齐 iOS） */
     val isSendingCode: Boolean = false,
     val isLoggingIn: Boolean = false,
@@ -226,6 +227,8 @@ public class LoginViewModel @Inject constructor(
     }
 
     public fun toggleMode() {
+        // 验证码登录关停时不允许切换到验证码模式（UI 入口已隐藏，防御性兑底）。
+        if (!AuthFeatureFlags.verificationLoginEnabled) return
         _uiState.value = _uiState.value.copy(
             isCodeMode = !_uiState.value.isCodeMode,
             error = null,

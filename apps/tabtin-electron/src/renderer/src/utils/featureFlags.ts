@@ -161,8 +161,11 @@ export const AUTH_EMAIL_LOGIN_ENABLED: boolean = parseEmailLoginEnabled(
  * 注册入口 / 验证码登录入口是否对用户可见。
  *
  * 语义与 web 版 LoginForm 一致（对齐后端 TABTIN_REGISTRATION_ENABLED /
- * TABTIN_VERIFICATION_LOGIN_ENABLED）：未设置视为开启，显式 `false` 才关闭。
- * 公网部署形态由 `.env.community` 注入 false，与服务器端 Django 开关同步。
+ * TABTIN_VERIFICATION_LOGIN_ENABLED 的公网部署形态）：**默认关停**，
+ * 未设置或显式 `false` 均视为关闭，仅显式注入 `true` 才开启。
+ * 所有 profile（community / local / production / preprod）默认隐藏注册与
+ * 验证码登录；需要开放时在对应 env 文件注入 `VITE_REGISTRATION_ENABLED=true` /
+ * `VITE_VERIFICATION_LOGIN_ENABLED=true`。
  */
 export const AUTH_REGISTRATION_ENABLED: boolean = parseOptionalFeatureFlag(
   import.meta.env.VITE_REGISTRATION_ENABLED,
@@ -171,6 +174,7 @@ export const AUTH_REGISTRATION_ENABLED: boolean = parseOptionalFeatureFlag(
 /**
  * 验证码登录（含登录页「密码 / 验证码」方式切换 Tab）是否对用户可见。
  * 关闭时登录表单仅保留密码方式；注册入口另见 AUTH_REGISTRATION_ENABLED。
+ * 默认关停，显式注入 `true` 才开启（见上方语义说明）。
  */
 export const AUTH_VERIFICATION_LOGIN_ENABLED: boolean = parseOptionalFeatureFlag(
   import.meta.env.VITE_VERIFICATION_LOGIN_ENABLED,

@@ -120,11 +120,15 @@ export function parseEmailLoginEnabled(raw: string | undefined): boolean {
 }
 
 /**
- * 解析可选功能开关（VITE_REGISTRATION_ENABLED / VITE_VERIFICATION_LOGIN_ENABLED 等）。
- * 与 parseEmailLoginEnabled 同语义的通用版本：未设置视为开启，显式 `false` 才关闭。
+ * 解析「部署安全默认关停」功能开关（VITE_REGISTRATION_ENABLED / VITE_VERIFICATION_LOGIN_ENABLED）。
+ * 未设置或显式 false 均视为关闭；仅显式 `true`（忽略大小写与空白）才开启。
+ *
+ * 与后端 TABTIN_REGISTRATION_ENABLED / TABTIN_VERIFICATION_LOGIN_ENABLED 的公网部署语义
+ * 对齐：注册与验证码登录默认关停，账号由管理员发放；需要开放时在对应 env / profile
+ * 显式注入 `true`（如 .env.community / .env.local / compose 构建参数）。
  */
 export function parseOptionalFeatureFlag(raw: string | undefined): boolean {
-  return String(raw ?? '').trim().toLowerCase() !== 'false'
+  return String(raw ?? '').trim().toLowerCase() === 'true'
 }
 
 /** 简单邮箱格式校验（至少 local@domain.tld） */
