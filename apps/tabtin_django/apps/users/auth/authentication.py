@@ -15,7 +15,13 @@ User = get_user_model()
 
 
 class MultiFieldAuthBackend(BaseBackend):
-    """支持邮箱、手机号、用户名多字段登录的认证后端"""
+    """支持邮箱、手机号、用户名多字段登录的认证后端。
+
+    账号匹配不区分大小写：邮箱 / 用户名查询统一 ``__iexact``，
+    与 ``validate_unique_username`` / ``validate_unique_email`` 的大小写
+    不敏感唯一性校验配套，保证「同一账号仅能以任意大小写变体命中」。
+    密码校验本身仍走哈希、与大小写无关。
+    """
 
     def authenticate(self, request, username=None, password=None, **kwargs):
         """
@@ -56,19 +62,19 @@ class MultiFieldAuthBackend(BaseBackend):
             return None
 
     def _get_user_by_identifier(self, identifier):
-        """根据标识符获取用户（邮箱、手机号或用户名）"""
+        """根据标识符获取用户（邮箱、手机号或用户名）。邮箱 / 用户名不区分大小写。"""
         try:
             if self._is_email(identifier):
-                # 邮箱登录
-                return User.objects.get(email=identifier, is_active=True)
+                # 邮箱登录（不区分大小写）
+                return User.objects.get(email__iexact=identifier, is_active=True)
             elif self._is_phone(identifier):
                 # 手机号登录：+86 / 11 位互认
                 from .phone import resolve_user_by_phone
 
                 return resolve_user_by_phone(identifier, active_only=True)
             else:
-                # 用户名登录
-                return User.objects.get(username=identifier, is_active=True)
+                # 用户名登录（不区分大小写）
+                return User.objects.get(username__iexact=identifier, is_active=True)
         except User.DoesNotExist:
             return None
 
@@ -117,16 +123,16 @@ class VerificationCodeAuthBackend(BaseBackend):
             return None
 
     def _get_user_by_identifier(self, identifier):
-        """根据标识符获取用户"""
+        """根据标识符获取用户。邮箱 / 用户名不区分大小写（与 MultiFieldAuthBackend 语义一致）。"""
         try:
             if self._is_email(identifier):
-                return User.objects.get(email=identifier, is_active=True)
+                return User.objects.get(email__iexact=identifier, is_active=True)
             elif self._is_phone(identifier):
                 from .phone import resolve_user_by_phone
 
                 return resolve_user_by_phone(identifier, active_only=True)
             else:
-                return User.objects.get(username=identifier, is_active=True)
+                return User.objects.get(username__iexact=identifier, is_active=True)
         except User.DoesNotExist:
             return None
 

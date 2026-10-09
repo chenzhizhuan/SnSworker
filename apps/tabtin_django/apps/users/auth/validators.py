@@ -119,7 +119,7 @@ def validate_user_password(password, user=None):
 
 
 def validate_unique_email(email, user_id=None):
-    """验证邮箱唯一性"""
+    """验证邮箱唯一性（不区分大小写）"""
     if not email:
         return
 
@@ -129,8 +129,9 @@ def validate_unique_email(email, user_id=None):
     except ValidationError:
         raise ValidationError('邮箱格式不正确')
 
-    # 检查邮箱是否已存在
-    queryset = User.objects.filter(email=email)
+    # 检查邮箱是否已存在：与登录匹配（MultiFieldAuthBackend email__iexact）配套，
+    # 大小写变体视为同一邮箱，避免 Alice@x.com / alice@x.com 并存后登录匹配歧义。
+    queryset = User.objects.filter(email__iexact=email)
     if user_id:
         queryset = queryset.exclude(id=user_id)
 
@@ -153,15 +154,16 @@ def validate_unique_phone(phone, user_id=None):
 
 
 def validate_unique_username(username, user_id=None):
-    """验证用户名唯一性"""
+    """验证用户名唯一性（不区分大小写）"""
     if not username:
         return
 
     # 验证用户名格式
     validate_username(username)
 
-    # 检查用户名是否已存在
-    queryset = User.objects.filter(username=username)
+    # 检查用户名是否已存在：与登录匹配（MultiFieldAuthBackend username__iexact）配套，
+    # 大小写变体视为同一用户名，避免 J0325 / j0325 并存后登录命中歧义。
+    queryset = User.objects.filter(username__iexact=username)
     if user_id:
         queryset = queryset.exclude(id=user_id)
 

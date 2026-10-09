@@ -204,7 +204,8 @@ def _generate_unique_username(*, email: str | None = None, phone: str | None = N
 
     username = base_username
     counter = 1
-    while User.objects.filter(username=username).exists():
+    # 查重不区分大小写：与登录 username__iexact 配套，避免 J / j 变体并存。
+    while User.objects.filter(username__iexact=username).exists():
         username = f"{base_username}_{counter}"
         counter += 1
     return username
@@ -640,7 +641,8 @@ def login_with_verification_code(request: HttpRequest, data: VerificationCodeLog
 
         if '@' in data.username:
             try:
-                user = User.objects.get(email=data.username, is_active=True)
+                # 与密码登录同语义：邮箱匹配不区分大小写。
+                user = User.objects.get(email__iexact=data.username, is_active=True)
             except User.DoesNotExist:
                 user = None
         else:

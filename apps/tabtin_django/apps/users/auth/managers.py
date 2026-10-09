@@ -65,10 +65,13 @@ class UserManager(BaseUserManager):
         return self._create_user(email, phone, password, **extra_fields)
 
     def get_by_natural_key(self, username):
-        """通过自然键获取用户（支持邮箱、手机号、用户名）"""
+        """通过自然键获取用户（支持邮箱、手机号、用户名）。
+
+        邮箱 / 用户名不区分大小写，与 MultiFieldAuthBackend 登录语义统一。
+        """
         from .validators import is_phone_number
         if '@' in username:
-            return self.get(email=username)
+            return self.get(email__iexact=username)
         elif is_phone_number(username):
             from .phone import resolve_user_by_phone
 
@@ -79,7 +82,7 @@ class UserManager(BaseUserManager):
                 )
             return user
         else:
-            return self.get(username=username)
+            return self.get(username__iexact=username)
 
     def _validate_phone(self, phone):
         """验证手机号格式（E.164 简化版）"""
