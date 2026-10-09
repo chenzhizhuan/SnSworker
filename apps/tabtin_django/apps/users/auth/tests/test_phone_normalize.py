@@ -189,6 +189,7 @@ class VerificationLoginPhoneAliasTests(TestCase):
         payload = SimpleNamespace(
             username="+8613900030001",
             verification_code="123456",
+            challenge_key=None,
             invite_code=None,
             remember_me=False,
         )
@@ -223,6 +224,7 @@ class VerificationLoginPhoneAliasTests(TestCase):
         payload = SimpleNamespace(
             username="+8613900040001",
             verification_code="123456",
+            challenge_key=None,
             invite_code=None,
             remember_me=False,
         )
