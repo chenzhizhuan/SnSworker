@@ -135,7 +135,7 @@ export function LoginPage() {
     if (mode === 'forgot') {
       return EMAIL_LOGIN_ENABLED ? '通过邮箱或手机号验证码重设登录密码' : '通过手机号验证码重设登录密码'
     }
-    return '使用密码或验证码登录管理后台'
+    return VERIFICATION_LOGIN_ENABLED ? '使用密码或验证码登录管理后台' : '使用密码登录管理后台'
   }, [mode])
 
   const setNextMode = (nextMode: AuthMode) => {
