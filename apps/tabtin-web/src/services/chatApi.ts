@@ -4,6 +4,7 @@ import { useOrganizationStore } from '@tabtin/app-shell'
 import { API_BASE_URL, CHAT_API_BASE_URL } from '@/config/api'
 import { STORAGE_KEYS } from '@/platform'
 import { useWsConnectionStore } from '@/stores/ws-connection-store'
+import { randomUUID } from '@/utils/randomId'
 
 let instance: ChatClient | null = null
 
@@ -11,7 +12,8 @@ function getDeviceId(): string {
   const KEY = 'tabtin_web_device_id'
   let id = localStorage.getItem(KEY)
   if (!id) {
-    id = crypto.randomUUID()
+    // HTTP 非安全上下文下 crypto.randomUUID 不存在，必须走降级链
+    id = randomUUID()
     localStorage.setItem(KEY, id)
   }
   return id

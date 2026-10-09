@@ -45,6 +45,7 @@ import {
 import { useViewStore } from '@/stores/table/useViewStore'
 import { useTranslation } from 'react-i18next'
 import { createLooseTranslate } from '@/types/table-adapters'
+import { randomUUID } from '@/utils/randomId'
 import { WebViewEditorDialog } from './WebViewEditorDialog'
 
 interface WebViewFilterGroupBarProps {
@@ -552,7 +553,8 @@ export const WebViewFilterGroupBar: React.FC<WebViewFilterGroupBarProps> = ({
       const alreadyHas = existingFilters.some((f: ViewFilter) => f.field_id === fieldId)
       if (!alreadyHas) {
         setDraftFilters(viewId, [...existingFilters, {
-          id: crypto.randomUUID(),
+          // HTTP 非安全上下文下 crypto.randomUUID 不存在，走降级链
+          id: randomUUID(),
           field_id: fieldId,
           operator: 'is_not_empty',
           value: null,
