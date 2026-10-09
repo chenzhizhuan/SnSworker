@@ -9,8 +9,8 @@ describe('Project AI 编排折叠偏好', () => {
     localStorage.clear()
   })
 
-  it('没有已存偏好时默认折叠', () => {
-    expect(readProjectOrchestrationCollapsed('user-a')).toBe(true)
+  it('没有已存偏好时默认展开', () => {
+    expect(readProjectOrchestrationCollapsed('user-a')).toBe(false)
   })
 
   it('按用户保存并恢复展开或折叠状态', () => {
