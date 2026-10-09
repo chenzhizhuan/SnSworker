@@ -15,6 +15,7 @@ import { LoginForm } from './LoginForm'
 import { RegisterForm } from './RegisterForm'
 import { ForgotPasswordForm } from './ForgotPasswordForm'
 import { useTranslation } from 'react-i18next'
+import { AUTH_REGISTRATION_ENABLED } from '@/utils/featureFlags'
 import { selectNeedsInviteCode, useAuthStore } from '@stores/useAuthStore'
 import { runWithAgentContextSwitchGuard } from '@/services/agentContextSwitchGuard'
 import { InviteCodeContactStrip } from './InviteCodeAcquireCard'
@@ -34,7 +35,12 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({
   const { t } = useTranslation('auth')
   const needsInviteCode = useAuthStore(selectNeedsInviteCode)
 
-  const modeKey = mode === 'forgot-password' ? 'forgot' : mode
+  // 注册入口关停（VITE_REGISTRATION_ENABLED=false）时，外部传入或内部切换到 register
+  // 一律回退登录页，保证对话框不会出现空白或不可用的注册表单。
+  const effectiveMode =
+    mode === 'register' && !AUTH_REGISTRATION_ENABLED ? 'login' : mode
+
+  const modeKey = effectiveMode === 'forgot-password' ? 'forgot' : effectiveMode
 
   // 重置模式当对话框关闭时
   const handleClose = () => {
@@ -79,7 +85,7 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({
               </motion.div>
             )}
 
-            {!needsInviteCode && mode === 'login' && (
+            {!needsInviteCode && effectiveMode === 'login' && (
               <motion.div
                 key="login"
                 initial={{ opacity: 0, x: -20 }}
@@ -94,7 +100,7 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({
               </motion.div>
             )}
 
-            {!needsInviteCode && mode === 'register' && (
+            {!needsInviteCode && effectiveMode === 'register' && (
               <motion.div
                 key="register"
                 initial={{ opacity: 0, x: -20 }}
@@ -109,7 +115,7 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({
               </motion.div>
             )}
 
-            {!needsInviteCode && mode === 'forgot-password' && (
+            {!needsInviteCode && effectiveMode === 'forgot-password' && (
               <motion.div
                 key="forgot-password"
                 initial={{ opacity: 0, x: -20 }}

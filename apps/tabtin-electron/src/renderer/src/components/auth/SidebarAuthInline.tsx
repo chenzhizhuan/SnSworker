@@ -42,7 +42,7 @@ import {
   isValidAuthIdentifier,
 } from '@tabtin/shared/auth-forms'
 import { useCapsLockWarning } from '@tabtin/shared/use-caps-lock-warning'
-import { AUTH_EMAIL_LOGIN_ENABLED } from '@/utils/featureFlags'
+import { AUTH_EMAIL_LOGIN_ENABLED, AUTH_REGISTRATION_ENABLED, AUTH_VERIFICATION_LOGIN_ENABLED } from '@/utils/featureFlags'
 import apiService from '@services/api'
 import { extractErrorMessage, resolveStoredErrorMessage } from '@utils/extract-api-error'
 import { cn } from '@utils/cn'
@@ -65,6 +65,11 @@ export const SidebarAuthInline: React.FC = () => {
   )
   const setError = useAuthStore(s => s.setError)
   const needsInviteCode = useAuthStore(selectNeedsInviteCode)
+
+  // 注册入口关停（VITE_REGISTRATION_ENABLED=false）时，入口模式或外部切换到
+  // register 一律回退登录页，避免渲染出不可用的注册表单。
+  const effectiveMode: Mode =
+    mode === 'register' && !AUTH_REGISTRATION_ENABLED ? 'login' : mode
 
   const switchMode = (nextMode: Mode) => {
     setError(null)
@@ -98,9 +103,9 @@ export const SidebarAuthInline: React.FC = () => {
             >
               {needsInviteCode
                 ? t('sidebar.tagline.invite', { defaultValue: 'Complete invite verification' })
-                : mode === 'login'
+                : effectiveMode === 'login'
                   ? t('sidebar.tagline.login', { defaultValue: 'Visible AI work' })
-                  : mode === 'register'
+                  : effectiveMode === 'register'
                   ? t('sidebar.tagline.register', { defaultValue: 'Create your account' })
                   : t('sidebar.tagline.forgot', { defaultValue: 'Reset your password' })}
             </div>
@@ -111,16 +116,16 @@ export const SidebarAuthInline: React.FC = () => {
         <AnimatePresence mode="wait">
           {needsInviteCode ? (
             <InviteCodePanel key="invite" onBackToLogin={() => setMode('login')} />
-          ) : mode === 'login' ? (
+          ) : effectiveMode === 'login' ? (
             <LoginPanel
               key="login"
               onSwitchRegister={() => switchMode('register')}
               onForgot={() => switchMode('forgot')}
             />
-          ) : mode === 'register' ? (
+          ) : effectiveMode === 'register' ? (
             <RegisterPanel key="register" onSwitchLogin={() => switchMode('login')} />
           ) : (
-            <ForgotPanel key="forgot" onBackToLogin={() => switchMode('login')} />
+            <ForgotPanel key="forgot" onBackToLogin={() => setMode('login')} />
           )}
         </AnimatePresence>
       </div>
@@ -326,7 +331,7 @@ const LoginPanel: React.FC<{
     setError,
     translate: t,
     extractError: (err, key) => extractErrorMessage(err, key, undefined, 'auth'),
-    initialMethod: 'verification',
+    initialMethod: AUTH_VERIFICATION_LOGIN_ENABLED ? 'verification' : 'password',
     emailLoginEnabled: AUTH_EMAIL_LOGIN_ENABLED,
   })
 
@@ -342,21 +347,23 @@ const LoginPanel: React.FC<{
       transition={{ duration: 0.15 }}
       className="space-y-3"
     >
-      {/* 登录方式切换 */}
-      <div className="flex rounded-lg border border-border/60 bg-muted/30 p-1 gap-1">
-        <SegmentTab
-          active={form.method === 'password'}
-          onClick={() => form.switchMethod('password')}
-        >
-          {t('loginForm.method.password', { defaultValue: 'Password' })}
-        </SegmentTab>
-        <SegmentTab
-          active={form.method === 'verification'}
-          onClick={() => form.switchMethod('verification')}
-        >
-          {t('loginForm.method.code', { defaultValue: 'Verification code' })}
-        </SegmentTab>
-      </div>
+      {/* 登录方式切换（验证码登录关停时隐藏，仅保留密码登录） */}
+      {AUTH_VERIFICATION_LOGIN_ENABLED && (
+        <div className="flex rounded-lg border border-border/60 bg-muted/30 p-1 gap-1">
+          <SegmentTab
+            active={form.method === 'password'}
+            onClick={() => form.switchMethod('password')}
+          >
+            {t('loginForm.method.password', { defaultValue: 'Password' })}
+          </SegmentTab>
+          <SegmentTab
+            active={form.method === 'verification'}
+            onClick={() => form.switchMethod('verification')}
+          >
+            {t('loginForm.method.code', { defaultValue: 'Verification code' })}
+          </SegmentTab>
+        </div>
+      )}
 
       <FieldWithIcon icon={AUTH_EMAIL_LOGIN_ENABLED ? <Mail className="h-3.5 w-3.5" /> : <Smartphone className="h-3.5 w-3.5" />}>
         <Input
@@ -490,16 +497,19 @@ const LoginPanel: React.FC<{
         </button>
       )}
 
-      <button
-        type="button"
-        onClick={onSwitchRegister}
-        className="group mx-auto flex items-center justify-center gap-1.5 rounded-md px-2.5 py-1.5 text-caption text-muted-foreground transition-colors hover:bg-accent/10 hover:text-foreground"
-      >
-        <span>{t('loginForm.noAccount', { defaultValue: 'No account yet?' })}</span>
-        <span className="font-medium text-accent transition-colors group-hover:text-accent">
-          {t('loginForm.actions.registerNow', { defaultValue: 'Create one' })}
-        </span>
-      </button>
+      {/* 注册入口（注册关停时隐藏） */}
+      {AUTH_REGISTRATION_ENABLED && (
+        <button
+          type="button"
+          onClick={onSwitchRegister}
+          className="group mx-auto flex items-center justify-center gap-1.5 rounded-md px-2.5 py-1.5 text-caption text-muted-foreground transition-colors hover:bg-accent/10 hover:text-foreground"
+        >
+          <span>{t('loginForm.noAccount', { defaultValue: 'No account yet?' })}</span>
+          <span className="font-medium text-accent transition-colors group-hover:text-accent">
+            {t('loginForm.actions.registerNow', { defaultValue: 'Create one' })}
+          </span>
+        </button>
+      )}
     </motion.form>
   )
 }

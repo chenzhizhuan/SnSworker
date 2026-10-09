@@ -13,7 +13,7 @@
  * `import.meta.env.VITE_XXX === 'true'` 这一行。
  */
 
-import { parseEmailLoginEnabled } from '@tabtin/shared/auth-forms'
+import { parseEmailLoginEnabled, parseOptionalFeatureFlag } from '@tabtin/shared/auth-forms'
 
 /** local packaged build keeps app.isPackaged=true but exposes dev-like UI capabilities. */
 export function isDevLikeBuild(isViteDev: boolean, buildProfile: string): boolean {
@@ -155,4 +155,23 @@ export const CLOUD_DOCS_SHOW_DRIVE: boolean =
  */
 export const AUTH_EMAIL_LOGIN_ENABLED: boolean = parseEmailLoginEnabled(
   import.meta.env.VITE_AUTH_EMAIL_LOGIN_ENABLED,
+)
+
+/**
+ * 注册入口 / 验证码登录入口是否对用户可见。
+ *
+ * 语义与 web 版 LoginForm 一致（对齐后端 TABTIN_REGISTRATION_ENABLED /
+ * TABTIN_VERIFICATION_LOGIN_ENABLED）：未设置视为开启，显式 `false` 才关闭。
+ * 公网部署形态由 `.env.community` 注入 false，与服务器端 Django 开关同步。
+ */
+export const AUTH_REGISTRATION_ENABLED: boolean = parseOptionalFeatureFlag(
+  import.meta.env.VITE_REGISTRATION_ENABLED,
+)
+
+/**
+ * 验证码登录（含登录页「密码 / 验证码」方式切换 Tab）是否对用户可见。
+ * 关闭时登录表单仅保留密码方式；注册入口另见 AUTH_REGISTRATION_ENABLED。
+ */
+export const AUTH_VERIFICATION_LOGIN_ENABLED: boolean = parseOptionalFeatureFlag(
+  import.meta.env.VITE_VERIFICATION_LOGIN_ENABLED,
 )

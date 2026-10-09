@@ -13,7 +13,7 @@ import {
   SMS_CODE_MAX_LENGTH,
 } from '@tabtin/shared/auth-forms'
 import { useCapsLockWarning } from '@tabtin/shared/use-caps-lock-warning'
-import { AUTH_EMAIL_LOGIN_ENABLED } from '@/utils/featureFlags'
+import { AUTH_EMAIL_LOGIN_ENABLED, AUTH_REGISTRATION_ENABLED, AUTH_VERIFICATION_LOGIN_ENABLED } from '@/utils/featureFlags'
 import { CapsLockHint } from './CapsLockHint'
 import {
   formInputActionRowClassName,
@@ -74,23 +74,25 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </p>
       </div>
 
-      {/* 登录方式切换 */}
-      <div className="flex rounded-lg bg-muted p-1 mb-6 gap-1">
-        <button
-          type="button"
-          onClick={() => form.switchMethod('password')}
-          className={formMethodSegmentClassName(form.method === 'password')}
-        >
-          {t('loginForm.method.password')}
-        </button>
-        <button
-          type="button"
-          onClick={() => form.switchMethod('verification')}
-          className={formMethodSegmentClassName(form.method === 'verification')}
-        >
-          {t('loginForm.method.code')}
-        </button>
-      </div>
+      {/* 登录方式切换（验证码登录关停时隐藏，仅保留密码登录） */}
+      {AUTH_VERIFICATION_LOGIN_ENABLED && (
+        <div className="flex rounded-lg bg-muted p-1 mb-6 gap-1">
+          <button
+            type="button"
+            onClick={() => form.switchMethod('password')}
+            className={formMethodSegmentClassName(form.method === 'password')}
+          >
+            {t('loginForm.method.password')}
+          </button>
+          <button
+            type="button"
+            onClick={() => form.switchMethod('verification')}
+            className={formMethodSegmentClassName(form.method === 'verification')}
+          >
+            {t('loginForm.method.code')}
+          </button>
+        </div>
+      )}
 
       <Form onSubmit={form.submit}>
         {form.successMessage && (
@@ -274,22 +276,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           )}
         </Button>
 
-        {/* 注册链接 */}
-        <div className="text-center">
-          <span className="text-body text-muted-foreground">
-            {t('loginForm.noAccount')}{' '}
-            <button
-              type="button"
-              onClick={() => {
-                form.resetFeedback()
-                onSwitchToRegister()
-              }}
-              className="text-primary hover:underline font-medium"
-            >
-              {t('loginForm.actions.registerNow')}
-            </button>
-          </span>
-        </div>
+        {/* 注册链接（注册关停时隐藏） */}
+        {AUTH_REGISTRATION_ENABLED && (
+          <div className="text-center">
+            <span className="text-body text-muted-foreground">
+              {t('loginForm.noAccount')}{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  form.resetFeedback()
+                  onSwitchToRegister()
+                }}
+                className="text-primary hover:underline font-medium"
+              >
+                {t('loginForm.actions.registerNow')}
+              </button>
+            </span>
+          </div>
+        )}
       </Form>
     </motion.div>
   )
