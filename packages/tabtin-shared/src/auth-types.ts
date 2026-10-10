@@ -13,6 +13,15 @@ export interface UserInfo {
   login_count: number
   invite_code_required?: boolean
   invite_code_redeemed?: boolean
+  /**
+   * 全局管理员身份（后端 _build_user_info 始终下发）。
+   * - is_superuser：超级管理员（role='admin'）
+   * - is_staff：后台管理员（role='operator'）
+   * 用于与「组织角色」无关的全局功能门禁（如场景市场 / 经营看板）。
+   */
+  is_superuser?: boolean
+  is_staff?: boolean
+  role?: 'admin' | 'operator' | 'user'
 }
 
 export interface LoginRequest {

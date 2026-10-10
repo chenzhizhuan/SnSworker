@@ -10,6 +10,7 @@ const {
   overlayRenderRef,
   prefsState,
   orgRoleState,
+  authUserState,
 } = vi.hoisted(() => ({
   navigationMock: vi.fn(),
   setOrderMock: vi.fn(),
@@ -24,6 +25,9 @@ const {
   },
   orgRoleState: {
     role: null as 'owner' | 'admin' | 'editor' | 'viewer' | null,
+  },
+  authUserState: {
+    user: null as null | { is_superuser?: boolean; is_staff?: boolean },
   },
 }))
 
@@ -63,6 +67,12 @@ vi.mock('@/utils/featureFlags', () => ({
 vi.mock('@stores/useOrganizationStore', () => ({
   useOrganizationStore: (selector: (state: unknown) => unknown) => selector({
     currentUserRole: orgRoleState.role,
+  }),
+}))
+
+vi.mock('@stores/useAuthStore', () => ({
+  useAuthStore: (selector: (state: unknown) => unknown) => selector({
+    user: authUserState.user,
   }),
 }))
 
@@ -205,8 +215,9 @@ describe('ActivityRail domain ordering', () => {
     expect(container.querySelector('button')).toBeNull()
   })
 
-  it('hides scenarios and cockpit from non-manager members', () => {
+  it('hides scenarios and cockpit from regular users', () => {
     orgRoleState.role = 'editor'
+    authUserState.user = { is_superuser: false, is_staff: false }
 
     render(<ActivityRail executionSpaceId="space-1" />)
 
@@ -215,13 +226,38 @@ describe('ActivityRail domain ordering', () => {
     expect(labels).not.toContain('经营看板')
   })
 
-  it('shows scenarios and cockpit to the organization owner', () => {
-    orgRoleState.role = 'owner'
+  it('shows scenarios and cockpit to the superuser', () => {
+    orgRoleState.role = null
+    authUserState.user = { is_superuser: true, is_staff: false }
 
     render(<ActivityRail executionSpaceId="space-1" />)
 
     const labels = screen.getAllByRole('button').map(button => button.getAttribute('aria-label'))
     expect(labels).toContain('场景市场')
     expect(labels).toContain('经营看板')
+  })
+
+  it('shows scenarios and cockpit to staff (backend admin)', () => {
+    orgRoleState.role = null
+    authUserState.user = { is_superuser: false, is_staff: true }
+
+    render(<ActivityRail executionSpaceId="space-1" />)
+
+    const labels = screen.getAllByRole('button').map(button => button.getAttribute('aria-label'))
+    expect(labels).toContain('场景市场')
+    expect(labels).toContain('经营看板')
+  })
+
+  it('hides scenarios and cockpit from a personal-org owner without global admin identity', () => {
+    // 回归收口（2026-10-10）：两级模型下每个用户都是自己个人组织的 owner，
+    // 旧口径（组织 owner 可见）导致全员可见。组织角色不再影响该判定。
+    orgRoleState.role = 'owner'
+    authUserState.user = { is_superuser: false, is_staff: false }
+
+    render(<ActivityRail executionSpaceId="space-1" />)
+
+    const labels = screen.getAllByRole('button').map(button => button.getAttribute('aria-label'))
+    expect(labels).not.toContain('场景市场')
+    expect(labels).not.toContain('经营看板')
   })
 })

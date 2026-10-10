@@ -33,6 +33,11 @@ const PII_SAFE_USER_KEYS = [
   'is_verified_email',
   'is_verified_phone',
   'login_count',
+  // 全局管理员身份非 PII；落盘保证重启后管理员专属入口（场景市场/经营看板）
+  // 不因身份字段丢失而消失。loadAuthFromStorage 后仍会从服务端回填校正。
+  'is_superuser',
+  'is_staff',
+  'role',
   'invite_code_required',
   'invite_code_redeemed',
 ] as const satisfies readonly (keyof UserInfo)[]

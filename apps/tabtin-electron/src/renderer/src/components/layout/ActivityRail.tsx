@@ -4,8 +4,8 @@
  * 自上而下：组织头像 → 主导航域（问一句 / 办件事 / 做项目* / 数字助手 /
  * 协作沟通 / 资料空间 / 能力中心 / 场景市场* / 经营看板*）→
  * 底部客服 + 通知 + 个人头像。侧栏展开/折叠在 ShellTopBar 组织名旁。
- * （* 做项目受 PROJECTS_UI_ENABLED 开关控制；场景市场与经营看板仅组织
- *  管理者可见，见 resolveVisibleRailDomainIds。）
+ * （* 做项目受 PROJECTS_UI_ENABLED 开关控制；场景市场与经营看板仅全局
+ *  管理员（超级管理员 / 后台管理员）可见，见 resolveVisibleRailDomainIds。）
  *
  * 组织 / 个人头像点击固定落到组织资料 / 个人资料，不经齿轮中转、不复用上次 section。
  * 域切换派发与未读徽标和第二列内容面板同源（usePrimaryNavigation）；
@@ -42,8 +42,7 @@ import {
 } from './OrganizationProfileButton'
 import { usePrimaryNavigation } from './primaryNavigation'
 import { PROJECTS_UI_ENABLED } from '@/utils/featureFlags'
-import { useOrganizationStore } from '@stores/useOrganizationStore'
-import { canManageOrganization } from '@/hooks/useCanManageOrganization'
+import { useAuthStore } from '@stores/useAuthStore'
 import {
   DEFAULT_ACTIVITY_RAIL_DOMAIN_ORDER,
   isActivityRailDomainId,
@@ -139,7 +138,7 @@ const DOMAIN_NAV_ITEMS: Array<{
   { id: 'cockpit', labelKey: 'sidebar:rail.cockpit', defaultLabel: '经营看板', Icon: RailCockpitIcon },
 ]
 
-/** Projects 开关关闭时隐藏“做项目”域；场景市场 / 经营看板仅组织管理者可见；其余域不受开关控制。 */
+/** Projects 开关关闭时隐藏“做项目”域；场景市场 / 经营看板仅全局管理员可见；其余域不受开关控制。 */
 export function resolveVisibleRailDomainIds(input: {
   projectsEnabled: boolean
   isCockpitVisible: boolean
@@ -186,10 +185,12 @@ export const ActivityRail: React.FC<ActivityRailProps> = ({
     settingsCategory,
   })
 
-  const currentUserRole = useOrganizationStore(state => state.currentUserRole)
-  // 场景市场与经营看板同为组织管理者（owner）专属域，沿用同一判定保持语义一致；
-  // 未来需要差异化放开（如场景市场对 editor 开放）时再拆成独立条件。
-  const isManagerOnlyDomainVisible = canManageOrganization(currentUserRole)
+  const authUser = useAuthStore(state => state.user)
+  // 场景市场与经营看板为全局管理员专属域：仅超级管理员（is_superuser）/
+  // 后台管理员（is_staff）可见。
+  // 旧口径为组织 owner 可见——但两级模型下每个用户都是自己个人组织的
+  // owner，导致全员可见（2026-10-10 收口）；组织角色不再影响该判定。
+  const isManagerOnlyDomainVisible = Boolean(authUser?.is_superuser || authUser?.is_staff)
   const isCockpitVisible = isManagerOnlyDomainVisible
   const isScenariosVisible = isManagerOnlyDomainVisible
 
