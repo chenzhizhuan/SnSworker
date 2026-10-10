@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""桌面客户端一键发版（HTTP 自建更新源形态）。
+r"""桌面客户端一键发版（HTTP 自建更新源形态）。
 
 用法（服务器宿主机，/www/wwwroot/SnSworker 仓库根目录）：
   python3 scripts/community/publish-desktop-release.py \
-      --exe /path/to/智算方舟\ Setup\ 1.0.4.exe \
+      --exe '/path/to/智算方舟 Setup 1.0.4.exe' \
       --version 1.0.4 \
       --notes "更新说明"
 
