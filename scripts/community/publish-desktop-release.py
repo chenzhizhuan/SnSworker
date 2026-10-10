@@ -98,7 +98,7 @@ def upsert_release_record(args: argparse.Namespace, asset_name: str, checksum: s
     )
     if proc.returncode != 0:
         sys.stderr.write(proc.stderr[-2000:])
-        raise SystemExit("Django 发布记录写入失败")
+        raise SystemExit(f"Django 发布记录写入失败（exit={proc.returncode}）")
     for line in proc.stdout.splitlines():
         if line.startswith("{"):
             print("发布记录：", line)
@@ -116,7 +116,8 @@ def main() -> None:
 
     FEED_DIR.mkdir(parents=True, exist_ok=True)
     target = FEED_DIR / asset_name
-    shutil.copyfile(exe, target)
+    if exe.resolve() != target.resolve():
+        shutil.copyfile(exe, target)
 
     release_date = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
     manifest_file = "latest.yml" if args.channel == "stable" else f"{args.channel}.yml"
