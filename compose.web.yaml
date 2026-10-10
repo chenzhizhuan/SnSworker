@@ -103,6 +103,10 @@ x-web-public-env: &web-public-env
   CORS_ALLOWED_ORIGINS: http://${SERVER_IP}:13490,http://${SERVER_IP}:13491,tabtin-file://app
   TABTIN_PUBLIC_BASE_URL: http://${SERVER_IP}:13492
   TABTIN_PUBLIC_WEB_BASE_URL: http://${SERVER_IP}:13490
+  # 桌面更新就绪检查探测改写：公网 IP 自建部署无法回环访问自身公网地址
+  # （hairpin NAT 限制），readiness 从服务端探测 manifest/安装包时改写为
+  # docker 网络内的 web 容器地址；客户端拿到的仍是公网地址。
+  UPDATER_FEED_PROBE_REWRITE: http://${SERVER_IP}:13490=http://web:80
   ALLOW_LAN_HOSTS_IN_DEBUG: 'True'
   # collab-live 双向鉴权（X-Live-Secret），三方必须同值。
   # 🏷️ secret-by-env-file：不再用 ${COLLAB_LIVE_SECRET} 插值（忘了 export 会得到

@@ -1576,6 +1576,20 @@ for _slug_pair in (os.getenv('UPDATER_SHORT_LINK_SLUG_MAP', '') or '').split(','
         _slug_key, _slug_val = _slug_pair.split('=', 1)
         if _slug_key.strip() and _slug_val.strip():
             UPDATER_SHORT_LINK_SLUG_MAP[_slug_key.strip()] = _slug_val.strip()
+
+# 社区自建部署（公网 IP + HTTP）的就绪检查探测改写："公网origin=内网origin"，
+# 逗号分隔可多组。公网 IP 自建常见 hairpin NAT 限制：服务器自身无法回环访问
+# 自己的公网地址，发布前门禁（readiness）从服务端探测 manifest/安装包/blockmap
+# 时命中公网 origin 的 URL 改写为内网地址再请求；客户端拿到的仍是公网地址。
+# 例：UPDATER_FEED_PROBE_REWRITE=http://221.237.179.2:13490=http://web:80
+UPDATER_FEED_PROBE_REWRITE_MAP = {}
+for _rewrite_pair in (os.getenv('UPDATER_FEED_PROBE_REWRITE', '') or '').split(','):
+    if '=' in _rewrite_pair:
+        _rw_from, _rw_to = _rewrite_pair.split('=', 1)
+        if _rw_from.strip() and _rw_to.strip():
+            UPDATER_FEED_PROBE_REWRITE_MAP[_rw_from.strip().rstrip('/').lower()] = (
+                _rw_to.strip().rstrip('/')
+            )
 PUBLIC_API_BASE_URL = os.getenv('PUBLIC_API_BASE_URL', os.getenv('API_BASE_URL', ''))
 
 # 文件上传配置

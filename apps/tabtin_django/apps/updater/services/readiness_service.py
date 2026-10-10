@@ -15,6 +15,7 @@ from urllib.parse import parse_qsl, unquote, urlencode, urljoin, urlsplit, urlun
 
 import requests
 import yaml
+from django.conf import settings
 from django.utils import timezone
 
 from ..models import AppRelease
@@ -34,6 +35,11 @@ _RANGE_PROBE_HEADERS = {
     **_DEFAULT_HEADERS,
     "Accept": "*/*",
     "Range": "bytes=0-0",
+}
+_CLOUD_METADATA_HOSTS = {
+    "169.254.169.254",
+    "metadata.google.internal",
+    "metadata.internal",
 }
 
 
@@ -252,32 +258,57 @@ class ReleaseReadinessService:
         release: AppRelease,
         result: ReleaseReadinessResult,
     ) -> None:
-        """与桌面端 `UpdateManager.isAllowedFeedUrl` 口径对齐的发布前门禁。
+        """与桌面端 ``UpdateManager.isAllowedFeedUrl`` 口径对齐的发布前门禁。
 
-        客户端只接受 https + example.com / *.example.com 的更新源，其余一律
-        回落默认 feed——若后端下发的 feed 不满足白名单（最常见根因：未配置
-        ``UPDATER_OSS_CDN_DOMAIN``，feed 落在 OSS 直连域名上），自动更新
-        在客户端会静默失效。这里在发布阶段就把问题拦下来。
+        - 社区自建部署（``IS_COMMUNITY_EDITION``，公网 IP / 内网 + HTTP）：
+          客户端 community 打包形态按构建期注入的更新源 origin **精确匹配**，
+          允许 HTTP；安装包完整性由 latest.yml 内嵌 sha512 强校验兜底。服务端
+          门禁对齐该语义：协议限 http/https、禁 URL 内嵌凭据、禁云 metadata
+          主机。
+        - SaaS 发行：客户端仅接受 https + example.com / *.example.com，其余
+          一律回落默认 feed（最常见根因：未配置 ``UPDATER_OSS_CDN_DOMAIN``，
+          feed 落在 OSS 直连域名上）。
         """
         feed_url = release.get_effective_feed_url()
         parts = urlsplit(feed_url)
         host = (parts.hostname or "").lower()
-        allowed = parts.scheme == "https" and (
-            host == "example.com" or host.endswith(".example.com")
-        )
-        if not allowed:
-            self._issue(
-                result,
-                code="feed_url_rejected_by_client",
-                severity="error",
-                message=(
-                    "更新源域名不满足桌面端白名单（https 且 *.example.com），"
-                    "客户端会拒绝该 feed 并回落默认源，自动更新将失败。"
-                    "常见根因：未配置 UPDATER_OSS_CDN_DOMAIN，更新源落在 OSS 直连域名上。"
-                ),
-                actual=feed_url,
+        if getattr(settings, "IS_COMMUNITY_EDITION", False):
+            allowed = (
+                parts.scheme in {"http", "https"}
+                and bool(host)
+                and parts.username is None
+                and parts.password is None
+                and host not in _CLOUD_METADATA_HOSTS
             )
-            return
+            if not allowed:
+                self._issue(
+                    result,
+                    code="feed_url_rejected_by_client",
+                    severity="error",
+                    message=(
+                        "更新源地址不合法（社区自建部署要求 http/https、"
+                        "URL 内不得内嵌凭据、不得指向云 metadata 主机）。"
+                    ),
+                    actual=feed_url,
+                )
+                return
+        else:
+            allowed = parts.scheme == "https" and (
+                host == "example.com" or host.endswith(".example.com")
+            )
+            if not allowed:
+                self._issue(
+                    result,
+                    code="feed_url_rejected_by_client",
+                    severity="error",
+                    message=(
+                        "更新源域名不满足桌面端白名单（https 且 *.example.com），"
+                        "客户端会拒绝该 feed 并回落默认源，自动更新将失败。"
+                        "常见根因：未配置 UPDATER_OSS_CDN_DOMAIN，更新源落在 OSS 直连域名上。"
+                    ),
+                    actual=feed_url,
+                )
+                return
 
         self._check_stable_distribution_url(release, feed_url, result)
 
@@ -319,7 +350,7 @@ class ReleaseReadinessService:
         response = None
         try:
             response = requests.head(
-                blockmap_url,
+                self._probe_url(blockmap_url),
                 timeout=self.timeout_seconds,
                 headers=_DEFAULT_HEADERS,
                 allow_redirects=True,
@@ -327,7 +358,7 @@ class ReleaseReadinessService:
             if response.status_code == 405:
                 response.close()
                 response = requests.get(
-                    blockmap_url,
+                    self._probe_url(blockmap_url),
                     timeout=self.timeout_seconds,
                     headers=_DEFAULT_HEADERS,
                     allow_redirects=True,
@@ -346,10 +377,32 @@ class ReleaseReadinessService:
             if response is not None:
                 response.close()
 
+    def _probe_url(self, url: str) -> str:
+        """服务端探测 URL 的内网改写（社区自建部署 hairpin 回环兑底）。
+
+        公网 IP 自建部署常见限制：服务器自身无法回环访问自己的公网地址。
+        配置 ``UPDATER_FEED_PROBE_REWRITE``（形如
+        ``http://公网IP:端口=http://内网服务:端口``）后，命中公网 origin 的
+        探测 URL（manifest / 安装包 / blockmap）改写为内网地址再发请求。
+
+        仅影响服务端就绪检查的探测请求；客户端拿到的仍是公网地址，
+        URL 一致性比较与展示均使用原始值。
+        """
+        rewrite_map = getattr(settings, "UPDATER_FEED_PROBE_REWRITE_MAP", None) or {}
+        if not rewrite_map:
+            return url
+        parts = urlsplit(url)
+        origin = urlunsplit((parts.scheme.lower(), parts.netloc.lower(), "", "", ""))
+        probe_base = rewrite_map.get(origin)
+        if not probe_base:
+            return url
+        suffix = parts.path + (f"?{parts.query}" if parts.query else "")
+        return f"{probe_base.rstrip('/')}{suffix}"
+
     def _fetch_manifest(self, result: ReleaseReadinessResult) -> dict[str, Any] | None:
         try:
             response = requests.get(
-                result.manifest_url,
+                self._probe_url(result.manifest_url),
                 timeout=self.timeout_seconds,
                 headers=_DEFAULT_HEADERS,
                 allow_redirects=True,
@@ -490,7 +543,7 @@ class ReleaseReadinessService:
         try:
             try:
                 response = requests.head(
-                    asset.resolved_url,
+                    self._probe_url(asset.resolved_url),
                     timeout=self.timeout_seconds,
                     headers=_DEFAULT_HEADERS,
                     allow_redirects=True,
@@ -504,7 +557,7 @@ class ReleaseReadinessService:
 
             if response is None:
                 response = requests.get(
-                    asset.resolved_url,
+                    self._probe_url(asset.resolved_url),
                     timeout=self.timeout_seconds,
                     headers=_RANGE_PROBE_HEADERS,
                     allow_redirects=True,

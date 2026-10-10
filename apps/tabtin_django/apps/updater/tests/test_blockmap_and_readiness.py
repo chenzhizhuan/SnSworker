@@ -8,7 +8,7 @@
 from unittest.mock import patch
 
 import requests
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from apps.updater.models import AppRelease
 from apps.updater.services.asset_service import ReleaseAssetService
@@ -248,8 +248,13 @@ class WebsiteInstallerReadinessTests(SimpleTestCase):
         self.assertEqual(result.issues[0].code, "stable_asset_on_non_production_domain")
 
 
+@override_settings(IS_COMMUNITY_EDITION=False)
 class ReadinessFeedWhitelistTests(SimpleTestCase):
-    """与桌面端 isAllowedFeedUrl 口径对齐的发布前门禁。"""
+    """与桌面端 isAllowedFeedUrl 口径对齐的发布前门禁（SaaS 语义）。
+
+    显式锁定 IS_COMMUNITY_EDITION=False：社区容器（TABTIN_EDITION=community）
+    里跑测试时也保持 SaaS 判定，语义不受运行环境影响。
+    """
 
     def _check(self, file_url: str) -> ReleaseReadinessResult:
         release = AppRelease(
@@ -286,6 +291,99 @@ class ReadinessFeedWhitelistTests(SimpleTestCase):
         self.assertEqual(result.issues[0].code, "stable_asset_on_non_production_domain")
         self.assertEqual(result.issues[0].severity, "warning")
         self.assertEqual(result.blocking_issue_count, 0)
+
+
+class ReadinessFeedWhitelistCommunityEditionTests(SimpleTestCase):
+    """社区自建部署（community edition）的 feed 门禁。
+
+    与桌面端 isAllowedFeedUrl 的 community 分支对齐：community 打包形态按
+    构建期注入的更新源 origin 精确匹配、允许 HTTP（安装包完整性由 latest.yml
+    内嵌 sha512 强校验兜底）；服务端门禁仅拦协议非法/内嵌凭据/metadata 主机。
+    """
+
+    def _check(self, file_url: str) -> ReleaseReadinessResult:
+        release = AppRelease(
+            version="1.2.0",
+            platform="win",
+            arch="x64",
+            channel="stable",
+            file_url=file_url,
+            release_notes="notes",
+        )
+        result = ReleaseReadinessResult(manifest_url="", manifest_file="")
+        ReleaseReadinessService()._check_feed_url_client_whitelist(release, result)
+        return result
+
+    @override_settings(IS_COMMUNITY_EDITION=True)
+    def test_community_http_ip_port_feed_passes(self):
+        result = self._check(
+            "http://221.237.179.2:13490/desktop-updates/snsworker-1.2.0-x64.exe"
+        )
+        self.assertEqual(result.issues, [])
+
+    @override_settings(IS_COMMUNITY_EDITION=True)
+    def test_community_https_feed_passes(self):
+        result = self._check(
+            "https://updates.internal.example.com/desktop-updates/a.exe"
+        )
+        self.assertEqual(result.issues, [])
+
+    @override_settings(IS_COMMUNITY_EDITION=True)
+    def test_community_feed_with_credentials_blocked(self):
+        result = self._check(
+            "http://user:pass@221.237.179.2:13490/desktop-updates/a.exe"
+        )
+        self.assertEqual(result.issues[0].code, "feed_url_rejected_by_client")
+        self.assertEqual(result.issues[0].severity, "error")
+
+    @override_settings(IS_COMMUNITY_EDITION=True)
+    def test_community_metadata_host_blocked(self):
+        result = self._check("http://169.254.169.254/desktop-updates/a.exe")
+        self.assertEqual(result.issues[0].code, "feed_url_rejected_by_client")
+
+    @override_settings(IS_COMMUNITY_EDITION=True)
+    def test_community_non_http_scheme_blocked(self):
+        result = self._check("ftp://221.237.179.2:13490/desktop-updates/a.exe")
+        self.assertEqual(result.issues[0].code, "feed_url_rejected_by_client")
+
+    @override_settings(IS_COMMUNITY_EDITION=False)
+    def test_saas_edition_still_enforces_https_domain_whitelist(self):
+        # SaaS 语义不变：http + 任意域名仍被拒（客户端会回落默认 feed）
+        result = self._check("http://cdn.example.com/desktop-updates/a.exe")
+        self.assertEqual(result.issues[0].code, "feed_url_rejected_by_client")
+        self.assertEqual(result.issues[0].severity, "error")
+
+
+class ProbeUrlRewriteTests(SimpleTestCase):
+    """就绪检查探测 URL 的内网改写（hairpin 回环兜底）。"""
+
+    _MAP = {"http://221.237.179.2:13490": "http://web:80"}
+
+    @override_settings(UPDATER_FEED_PROBE_REWRITE_MAP=_MAP)
+    def test_public_origin_rewritten_to_internal(self):
+        url = "http://221.237.179.2:13490/desktop-updates/latest.yml"
+        self.assertEqual(
+            ReleaseReadinessService()._probe_url(url),
+            "http://web:80/desktop-updates/latest.yml",
+        )
+
+    @override_settings(UPDATER_FEED_PROBE_REWRITE_MAP=_MAP)
+    def test_query_string_preserved(self):
+        url = "http://221.237.179.2:13490/desktop-updates/a.exe?token=x"
+        self.assertEqual(
+            ReleaseReadinessService()._probe_url(url),
+            "http://web:80/desktop-updates/a.exe?token=x",
+        )
+
+    @override_settings(UPDATER_FEED_PROBE_REWRITE_MAP=_MAP)
+    def test_other_origin_untouched(self):
+        url = "https://cdn.example.com/releases/a.exe"
+        self.assertEqual(ReleaseReadinessService()._probe_url(url), url)
+
+    @override_settings(UPDATER_FEED_PROBE_REWRITE_MAP={})
+    def test_disabled_when_map_empty(self):
+        url = "http://221.237.179.2:13490/desktop-updates/latest.yml"
+        self.assertEqual(ReleaseReadinessService()._probe_url(url), url)
 
 
 class ReadinessBlockmapProbeTests(SimpleTestCase):
