@@ -440,6 +440,30 @@ def login_user(request: HttpRequest, data: UserLoginSchema):
 
         from ..authentication import MultiFieldAuthBackend
 
+        # ===== 临时诊断（登录失败时记录密码字符形态，不记录内容本身）=====
+        # 类别映射：a=小写字母 A=大写字母 d=数字 F=全角字符 s=空白 o=其他。
+        # 仅用于排查全角输入法/隐藏字符问题，定位后立即移除。
+        try:
+            _pw = data.password or ""
+            _shape = "".join(
+                "a" if c.isascii() and c.islower() else
+                "A" if c.isascii() and c.isupper() else
+                "d" if c.isascii() and c.isdigit() else
+                "F" if ord(c) in range(0xFF01, 0xFF60) or ord(c) == 0x3000 else
+                "s" if c.isspace() else
+                "o"
+                for c in _pw
+            )
+            import json as _json
+            import logging as _logging
+            _logging.getLogger("auth.security").info(
+                '{"event": "login_pw_shape_debug", "identifier": %s, "pw_len": %d, "pw_shape": "%s"}'
+                % (_json.dumps(data.username), len(_pw), _shape)
+            )
+        except Exception:
+            pass
+        # ===== 临时诊断结束 =====
+
         # 锁定窗口内的重试只返回剩余时间，不验证密码、不累计新的失败次数，
         # 因而不会因为用户反复点击而延长锁定窗口。
         probed_user = MultiFieldAuthBackend()._get_user_by_identifier(data.username)
