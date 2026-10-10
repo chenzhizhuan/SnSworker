@@ -60,6 +60,87 @@ class CaseInsensitiveLoginTests(TestCase):
         )
 
 
+class LoginInputWhitespaceNormalizationTests(TestCase):
+    """登录入参首尾空白归一。
+
+    真实事故（2026-10-10）：Windows 手输密码在输入法切换时带入前导空格，
+    视觉不可见但哈希不匹配，反复报「用户名或密码错误」。
+
+    收口语义（MultiFieldAuthBackend 双通道）：
+    - 密码「精确优先 + 空白归一重试」：第一通道兼容存量带空白的历史密码
+      （validators 禁空白规则之前注册的凭据），第二通道仅当首尾有空白时
+      用 strip 后的密码重试；中部空白不归一，仍按不匹配处理。
+    - 标识符（邮箱/用户名/手机号）本身不含空白，统一 strip。
+    - login_user 端点在限流前 strip username，保证限流键与认证一致。
+    """
+
+    def setUp(self):
+        self.backend = MultiFieldAuthBackend()
+        self.user = User.objects.create_user(
+            username='chenzhizhuan',
+            email='285625881@qq.com',
+            password='Angel192023',
+        )
+
+    def test_password_with_leading_space_logs_in(self):
+        self.assertEqual(
+            self.backend.authenticate(None, username='chenzhizhuan', password=' Angel192023'),
+            self.user,
+        )
+
+    def test_password_with_trailing_space_logs_in(self):
+        self.assertEqual(
+            self.backend.authenticate(None, username='chenzhizhuan', password='Angel192023 '),
+            self.user,
+        )
+
+    def test_password_with_surrounding_spaces_logs_in(self):
+        self.assertEqual(
+            self.backend.authenticate(None, username='chenzhizhuan', password=' Angel192023 '),
+            self.user,
+        )
+
+    def test_password_inner_space_still_rejected(self):
+        # 中部空格不会被 strip：合法密码不含空格，中部空格必然是输错
+        self.assertIsNone(
+            self.backend.authenticate(None, username='chenzhizhuan', password='Angel 192023'),
+        )
+
+    def test_identifier_with_surrounding_spaces_logs_in(self):
+        self.assertEqual(
+            self.backend.authenticate(None, username=' chenzhizhuan ', password='Angel192023'),
+            self.user,
+        )
+
+    def test_email_with_surrounding_spaces_logs_in(self):
+        self.assertEqual(
+            self.backend.authenticate(None, username=' 285625881@qq.com ', password='Angel192023'),
+            self.user,
+        )
+
+    def test_blank_identifier_returns_none(self):
+        self.assertIsNone(
+            self.backend.authenticate(None, username='   ', password='Angel192023'),
+        )
+
+    def test_login_user_endpoint_normalizes_credentials(self):
+        # 端点级归一：login_user 在限流前 strip username；
+        # password 由后端双通道归一（精确失败后空白重试）
+        from django.test import RequestFactory
+
+        from apps.users.auth.api.auth_routes import login_user
+        from apps.users.auth.schemas import UserLoginSchema
+
+        factory = RequestFactory()
+        request = factory.post('/api/auth/login')
+        data = UserLoginSchema(username=' chenzhizhuan ', password=' Angel192023 ')
+
+        status, payload = login_user(request, data)
+
+        self.assertEqual(status, 200)
+        self.assertTrue(payload.success)
+
+
 class CaseInsensitiveUniquenessTests(TestCase):
     def setUp(self):
         User.objects.create_user(

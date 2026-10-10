@@ -416,6 +416,13 @@ def register_user(request: HttpRequest, data: UserRegisterSchema):
 def login_user(request: HttpRequest, data: UserLoginSchema):
     """用户登录"""
     try:
+        # ==================== 入参归一化 ====================
+        # 用户名统一剔除首尾空白：手输/粘贴常带首尾空格，邮箱/用户名/手机号
+        # 本身不含空白；在限流之前归一，保证限流键与认证用同一标识符。
+        # 密码不做端点级 strip：由 MultiFieldAuthBackend 的「精确优先 +
+        # 空白归一重试」双通道统一收口（兼容存量带空白的历史密码）。
+        data.username = (data.username or "").strip()
+
         # ==================== IP/账号 级限流（防暴力破解） ====================
         ip_address = get_client_ip(request)
         rate_ok, rate_msg = check_login_rate_limit(data.username, ip_address)
@@ -439,30 +446,6 @@ def login_user(request: HttpRequest, data: UserLoginSchema):
             )
 
         from ..authentication import MultiFieldAuthBackend
-
-        # ===== 临时诊断（登录失败时记录密码字符形态，不记录内容本身）=====
-        # 类别映射：a=小写字母 A=大写字母 d=数字 F=全角字符 s=空白 o=其他。
-        # 仅用于排查全角输入法/隐藏字符问题，定位后立即移除。
-        try:
-            _pw = data.password or ""
-            _shape = "".join(
-                "a" if c.isascii() and c.islower() else
-                "A" if c.isascii() and c.isupper() else
-                "d" if c.isascii() and c.isdigit() else
-                "F" if ord(c) in range(0xFF01, 0xFF60) or ord(c) == 0x3000 else
-                "s" if c.isspace() else
-                "o"
-                for c in _pw
-            )
-            import json as _json
-            import logging as _logging
-            _logging.getLogger("auth.security").info(
-                '{"event": "login_pw_shape_debug", "identifier": %s, "pw_len": %d, "pw_shape": "%s"}'
-                % (_json.dumps(data.username), len(_pw), _shape)
-            )
-        except Exception:
-            pass
-        # ===== 临时诊断结束 =====
 
         # 锁定窗口内的重试只返回剩余时间，不验证密码、不累计新的失败次数，
         # 因而不会因为用户反复点击而延长锁定窗口。

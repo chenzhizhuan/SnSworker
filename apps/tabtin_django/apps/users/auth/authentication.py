@@ -27,6 +27,14 @@ class MultiFieldAuthBackend(BaseBackend):
         """
         认证用户
         支持邮箱、手机号、用户名登录
+
+        密码采用「精确优先 + 空白归一重试」双通道：
+        - 第一通道精确匹配，兼容存量带空白字符的密码（validators 禁空白规则
+          之前注册的历史凭据）；
+        - 第一通道失败且输入带首尾空白时，用 strip 后的密码重试一次——
+          本系统新设密码一律禁止空白，误输入的前导/尾随空格不应导致
+          「视觉无异常但反复登录失败」（2026-10-10 真实事故：输入法切换
+          带入前导空格）。中部空白不归一，仍按不匹配处理。
         """
         if username is None or password is None:
             return None
@@ -40,8 +48,7 @@ class MultiFieldAuthBackend(BaseBackend):
         if user.is_account_locked():
             return None
 
-        # 验证密码
-        if user.check_password(password):
+        def _on_success():
             # 登录成功，更新登录统计；顺带把 +86 收敛为 11 位（无冲突时）
             if self._is_phone(username):
                 from .phone import maybe_canonicalize_stored_phone
@@ -49,10 +56,19 @@ class MultiFieldAuthBackend(BaseBackend):
                 maybe_canonicalize_stored_phone(user)
             user.increment_login_count()
             return user
-        else:
-            # 登录失败，增加失败次数
-            user.increment_failed_login()
-            return None
+
+        # 验证密码（第一通道：精确匹配，兼容存量带空白的密码）
+        if user.check_password(password):
+            return _on_success()
+
+        # 第二通道：仅当首尾有空白时用归一后的密码重试
+        normalized = password.strip()
+        if normalized and normalized != password and user.check_password(normalized):
+            return _on_success()
+
+        # 登录失败，增加失败次数
+        user.increment_failed_login()
+        return None
 
     def get_user(self, user_id):
         """根据用户ID获取用户对象"""
@@ -62,7 +78,13 @@ class MultiFieldAuthBackend(BaseBackend):
             return None
 
     def _get_user_by_identifier(self, identifier):
-        """根据标识符获取用户（邮箱、手机号或用户名）。邮箱 / 用户名不区分大小写。"""
+        """根据标识符获取用户（邮箱、手机号或用户名）。邮箱 / 用户名不区分大小写。
+
+        标识符统一 strip：邮箱/用户名/手机号本身不含空白，手输或粘贴带的
+        首尾空格不应导致查不到账号。"""
+        identifier = (identifier or "").strip()
+        if not identifier:
+            return None
         try:
             if self._is_email(identifier):
                 # 邮箱登录（不区分大小写）
@@ -124,6 +146,9 @@ class VerificationCodeAuthBackend(BaseBackend):
 
     def _get_user_by_identifier(self, identifier):
         """根据标识符获取用户。邮箱 / 用户名不区分大小写（与 MultiFieldAuthBackend 语义一致）。"""
+        identifier = (identifier or "").strip()
+        if not identifier:
+            return None
         try:
             if self._is_email(identifier):
                 return User.objects.get(email__iexact=identifier, is_active=True)
