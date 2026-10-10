@@ -125,7 +125,9 @@ class LoginInputWhitespaceNormalizationTests(TestCase):
 
     def test_login_user_endpoint_normalizes_credentials(self):
         # 端点级归一：login_user 在限流前 strip username；
-        # password 由后端双通道归一（精确失败后空白重试）
+        # password 由后端双通道归一（精确失败后空白重试）。
+        # 成功路径 login_user 返回 dict（success_response 直接返回 dict，
+        # 由 ninja 序列化为 200）；失败路径才是 (status, schema) 二元组。
         from django.test import RequestFactory
 
         from apps.users.auth.api.auth_routes import login_user
@@ -135,10 +137,10 @@ class LoginInputWhitespaceNormalizationTests(TestCase):
         request = factory.post('/api/auth/login')
         data = UserLoginSchema(username=' chenzhizhuan ', password=' Angel192023 ')
 
-        status, payload = login_user(request, data)
+        result = login_user(request, data)
 
-        self.assertEqual(status, 200)
-        self.assertTrue(payload.success)
+        self.assertIsInstance(result, dict)
+        self.assertTrue(result.get('success'))
 
 
 class CaseInsensitiveUniquenessTests(TestCase):
