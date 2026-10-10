@@ -122,13 +122,18 @@ def main() -> None:
     release_date = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
     manifest_file = "latest.yml" if args.channel == "stable" else f"{args.channel}.yml"
     latest_yml = FEED_DIR / manifest_file
+    # electron-builder 标准混合格式：files[] 为主、顶层 path/sha512 兼容旧读取器，
+    # 与 dist-app/latest.yml 产物同构（readiness 门禁不再提示 legacy 字段）。
     latest_yml.write_text(
         "\n".join(
             [
                 f"version: {args.version}",
+                "files:",
+                f"  - url: {asset_name}",
+                f"    sha512: {checksum}",
+                f"    size: {size}",
                 f"path: {asset_name}",
                 f"sha512: {checksum}",
-                f"size: {size}",
                 f"releaseDate: '{release_date}'",
                 f"releaseNotes: {args.notes or args.version}",
                 "",
