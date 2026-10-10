@@ -89,19 +89,10 @@ if [ "$PROFILE" = "community" ]; then
   validate_community_endpoint TABTIN_COMMUNITY_CENTRIFUGO_WS_URL "$COMMUNITY_CENTRIFUGO_WS_URL" "ws:,wss:"
   validate_community_endpoint TABTIN_COMMUNITY_PUBLIC_WEB_BASE_URL "$COMMUNITY_PUBLIC_WEB_BASE_URL" "http:,https:"
   if [ -n "$COMMUNITY_UPDATE_FEED_URL" ]; then
-    node -e '
-      const parsed = new URL(process.argv[1])
-      const hostname = parsed.hostname.toLowerCase()
-      const companySuffixes = ["example.com", "example.com", "xmov.ai"]
-      const isCompany = companySuffixes.some(suffix => hostname === suffix || hostname.endsWith(`.${suffix}`))
-      if (parsed.protocol !== "https:" || parsed.username || parsed.password ||
-          ["169.254.169.254", "metadata.google.internal", "metadata.internal"].includes(hostname) || isCompany) {
-        process.exit(1)
-      }
-    ' "$COMMUNITY_UPDATE_FEED_URL" || {
-      echo "Invalid TABTIN_COMMUNITY_UPDATE_FEED_URL: expected an HTTPS URL without credentials" >&2
-      exit 1
-    }
+    # 更新源允许 HTTP：community 自建部署（公网 IP / 内网）无 HTTPS 域名时，
+    # 由 electron-updater 的 latest.yml sha512 强校验兜底安装包完整性，
+    # 且运行期 feed origin 与构建期注入值精确比对（UpdateManager.isAllowedFeedUrl）。
+    validate_community_endpoint TABTIN_COMMUNITY_UPDATE_FEED_URL "$COMMUNITY_UPDATE_FEED_URL" "http:,https:"
   fi
   TABTIN_DISTRIBUTION_KIND="community"
   export TABTIN_API_BASE_URL="$COMMUNITY_API_BASE_URL"

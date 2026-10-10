@@ -56,9 +56,11 @@ export function resolveDistributionProfile(
     const feedUrl = input.updateFeedUrl
       ? trustedHttpUrl(input.updateFeedUrl, 'updateFeedUrl')
       : null
-    if (feedUrl && feedUrl.protocol !== 'https:') {
-      throw new Error('blocked origin: updateFeedUrl must use HTTPS')
-    }
+    // community 自建部署（如公司内网 / 公网 IP + HTTP）允许 HTTP 更新源：
+    // - 安装包完整性由 latest.yml 内嵌 sha512 校验兜底（electron-updater 强校验）；
+    // - feed origin 在运行期与构建期注入值精确比对（UpdateManager.isAllowedFeedUrl）；
+    // - 仍禁止携带凭据与指向云 metadata 主机（trustedHttpUrl 已拦截，
+    //   且协议仅允许 http/https）。
     return Object.freeze({
       kind: 'community',
       apiOrigins: uniqueOrigins([apiUrl.origin]),

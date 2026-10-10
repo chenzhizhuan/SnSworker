@@ -230,15 +230,21 @@ export class UpdateManager {
   }
 
   /**
-   * SS-17: feedUrl 白名单校验，仅允许 https:// 且域名属于 *.example.com
+   * SS-17: feedUrl 白名单校验。
+   *
+   * - community 包（updaterRequiresExactFeedOrigin）：feed URL 必须与构建期
+   *   注入的更新源 origin 完全一致（协议+主机+端口）。HTTP 形态是 community
+   *   自建部署的显式选择——安装包完整性由 latest.yml 的 sha512 强校验兜底。
+   * - 其他兜底路径：仅允许 https:// 且域名属于 *.example.com。
    */
   private isAllowedFeedUrl(url: string): boolean {
     try {
       const parsed = new URL(url)
-      if (parsed.protocol !== 'https:') return false
+      if (parsed.username || parsed.password) return false
       if (this.updaterRequiresExactFeedOrigin && this.updaterFeedOrigin) {
         return parsed.origin === this.updaterFeedOrigin
       }
+      if (parsed.protocol !== 'https:') return false
       const host = parsed.hostname.toLowerCase()
       return host === 'example.com' || host.endsWith('.example.com')
     } catch {
