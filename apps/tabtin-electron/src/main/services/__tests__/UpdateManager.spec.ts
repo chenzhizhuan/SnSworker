@@ -964,4 +964,83 @@ describe('UpdateManager', () => {
       rmSync(tempDir, { recursive: true, force: true })
     }
   })
+
+  describe('「稍后提醒」去重', () => {
+    it('dismiss 持久化提醒版本并可读回', () => {
+      const manager = new UpdateManager({ checkOnStartup: false })
+
+      manager.dismissUpdate('1.0.5')
+
+      expect(manager.getDismissedVersion()).toBe('1.0.5')
+      const persisted = mocks.fileStore.get(join('/tmp/tabtin-user-data', 'update-dismissed.json'))
+      expect(persisted).toContain('1.0.5')
+    })
+
+    it('被 dismiss 的版本在自动检查时不再推送提醒事件', () => {
+      const manager = new UpdateManager({ checkOnStartup: false })
+      manager.dismissUpdate('1.0.5')
+      const send = vi.fn()
+      manager.setMainWindow({ webContents: { send } } as any)
+
+      mocks.emit('update-available', { version: '1.0.5' })
+
+      expect(send).not.toHaveBeenCalledWith(
+        'update-event',
+        expect.objectContaining({ event: 'update-available' }),
+      )
+      // 运行时状态仍更新，设置页可见可下载
+      expect(manager.getState().status).toBe('available')
+    })
+
+    it('发布更高版本后恢复提醒', () => {
+      const manager = new UpdateManager({ checkOnStartup: false })
+      manager.dismissUpdate('1.0.5')
+      const send = vi.fn()
+      manager.setMainWindow({ webContents: { send } } as any)
+
+      mocks.emit('update-available', { version: '1.0.6' })
+
+      expect(send).toHaveBeenCalledWith(
+        'update-event',
+        expect.objectContaining({ event: 'update-available' }),
+      )
+    })
+
+    it('强制更新不受「稍后提醒」影响', () => {
+      const manager = new UpdateManager({ checkOnStartup: false })
+      manager.dismissUpdate('1.0.5')
+      const send = vi.fn()
+      manager.setMainWindow({ webContents: { send } } as any)
+
+      mocks.emit('update-available', { version: '1.0.5', mandatory: true })
+
+      expect(send).toHaveBeenCalledWith(
+        'update-event',
+        expect.objectContaining({ event: 'update-available' }),
+      )
+    })
+
+    it('手动检查更新不受「稍后提醒」影响', async () => {
+      const manager = new UpdateManager({ checkOnStartup: false })
+      manager.dismissUpdate('1.0.5')
+      const send = vi.fn()
+      manager.setMainWindow({ webContents: { send } } as any)
+      vi.mocked(fetch).mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          success: true,
+          data: { has_update: true, version: '1.0.5' },
+        }),
+      } as any)
+      mocks.checkForUpdates.mockResolvedValue({ updateInfo: { version: '1.0.5' } })
+
+      await manager.checkForUpdates(false, 'manual')
+      mocks.emit('update-available', { version: '1.0.5' })
+
+      expect(send).toHaveBeenCalledWith(
+        'update-event',
+        expect.objectContaining({ event: 'update-available' }),
+      )
+    })
+  })
 })

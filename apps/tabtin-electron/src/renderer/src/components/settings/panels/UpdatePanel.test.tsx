@@ -94,6 +94,8 @@ const updaterApi = {
   checkForUpdates: vi.fn(),
   downloadUpdate: vi.fn(),
   quitAndInstall: vi.fn(),
+  dismissUpdate: vi.fn(),
+  getDismissedVersion: vi.fn(),
 }
 
 describe('UpdatePanel', () => {
@@ -192,5 +194,41 @@ describe('UpdatePanel', () => {
     expect(screen.getByText('260812')).toBeTruthy()
     expect(screen.getByText('server12')).toBeTruthy()
     expect(screen.getByText('https://api-test.example.com/api')).toBeTruthy()
+  })
+
+  it('offers "later reminder" for non-mandatory updates and dismisses the version', async () => {
+    updaterApi.getState.mockResolvedValue({
+      currentVersion: '1.0.0',
+      platform: 'win',
+      arch: 'x64',
+      channel: 'stable',
+      status: 'available',
+      updateInfo: { version: '1.0.5', mandatory: false },
+    })
+    render(<UpdatePanel />)
+
+    const laterButton = await screen.findByText('稍后提醒')
+    fireEvent.click(laterButton)
+
+    await waitFor(() => {
+      expect(updaterApi.dismissUpdate).toHaveBeenCalledWith('1.0.5')
+    })
+  })
+
+  it('does not offer "later reminder" for mandatory updates', async () => {
+    updaterApi.getState.mockResolvedValue({
+      currentVersion: '1.0.0',
+      platform: 'win',
+      arch: 'x64',
+      channel: 'stable',
+      status: 'available',
+      updateInfo: { version: '1.0.5', mandatory: true },
+    })
+    render(<UpdatePanel />)
+
+    await waitFor(() => {
+      expect(screen.getByText('这是必须安装的安全更新')).toBeTruthy()
+    })
+    expect(screen.queryByText('稍后提醒')).toBeNull()
   })
 })

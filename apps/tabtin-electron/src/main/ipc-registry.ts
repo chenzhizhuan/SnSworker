@@ -160,6 +160,15 @@ export function registerMainProcessIPCHandlers(
     dependencies.getUpdateManager()?.quitAndInstall()
   })
 
+  guardedHandle('dismiss-update', (_event, version: string) => {
+    dependencies.getUpdateManager()?.dismissUpdate(version)
+    return true
+  })
+
+  guardedHandle('get-dismissed-update', () => {
+    return dependencies.getUpdateManager()?.getDismissedVersion() ?? null
+  })
+
   guardedHandle('power:prevent-sleep', () => {
     if (sleepBlockerId !== null && powerSaveBlocker.isStarted(sleepBlockerId)) return
     sleepBlockerId = powerSaveBlocker.start('prevent-app-suspension')

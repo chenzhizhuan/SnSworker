@@ -65,6 +65,29 @@ export interface UpdateConfig {
 const WS_RETRY_BASE_DELAY_MS = 30_000
 const WS_RETRY_MAX_DELAY_MS = 2 * 60_000
 const PENDING_INSTALL_FILE = 'pending-update-install.json'
+const DISMISSED_UPDATE_FILE = 'update-dismissed.json'
+
+/**
+ * 简单 semver 比较（形如 1.0.5 / 1.0.5-beta.1），仅用于「稍后提醒」去重判断。
+ * 返回负数表示 a < b，0 表示相等，正数表示 a > b。
+ */
+function compareVersions(a: string, b: string): number {
+  const parse = (v: string): number[] =>
+    v
+      .split(/[.\-]/)
+      .map((part) => {
+        const n = Number.parseInt(part.replace(/[^0-9]/g, ''), 10)
+        return Number.isFinite(n) ? n : 0
+      })
+  const pa = parse(a)
+  const pb = parse(b)
+  for (let i = 0; i < Math.max(pa.length, pb.length); i += 1) {
+    const na = pa[i] ?? 0
+    const nb = pb[i] ?? 0
+    if (na !== nb) return na < nb ? -1 : 1
+  }
+  return 0
+}
 
 type BackendUpdateHint = {
   has_update: boolean
@@ -154,6 +177,7 @@ export class UpdateManager {
   private preparedDownloadVersion?: string
   private lastBackendHint?: Record<string, any> | null
   private lastTriggerSource: ProgressTriggerSource = 'http_poll'
+  private dismissedUpdateVersion: string | null = null
 
   private runtimeState: UpdateRuntimeState = {
     currentVersion: app.getVersion(),
@@ -171,6 +195,7 @@ export class UpdateManager {
 
   constructor(config?: UpdateConfig) {
     this.checkOnStartup = config?.checkOnStartup ?? true
+    this.dismissedUpdateVersion = this.loadDismissedUpdateVersion()
     this.configureUpdater(config)
     this.setupEventListeners()
     void this.reportPendingInstalledUpdate()
@@ -432,6 +457,16 @@ export class UpdateManager {
         errorMessage: null,
         releaseSource: 'feed',
       })
+
+      // 用户已对该版本点过「稍后提醒」：自动检查（非手动）不再打扰。
+      // 仍更新运行时状态（设置页可见），但跳过通知与 update-available 事件。
+      const userDismissed =
+        this.lastTriggerSource !== 'manual' && this.shouldSuppressReminder(merged.version, merged)
+      if (userDismissed) {
+        log.info(`[UpdateManager] v${merged.version} dismissed by user, skipping reminder`)
+        return
+      }
+
       this.notifyRenderer('update-available', merged)
 
       if (merged.version) {
@@ -1053,6 +1088,10 @@ export class UpdateManager {
   }
 
   private showUpdateNotification(payload: Record<string, any>): void {
+    if (this.shouldSuppressReminder(payload?.version, payload)) {
+      log.info(`[UpdateManager] v${payload?.version} dismissed by user, skipping notification`)
+      return
+    }
     this.notifyRenderer('update-available', payload)
     this.showUpdateDesktopNotification(payload, false)
   }
@@ -1127,5 +1166,57 @@ export class UpdateManager {
 
   private notifyRenderer(event: string, data?: any): void {
     this.mainWindow?.webContents.send('update-event', { event, data })
+  }
+
+  // ==================== 「稍后提醒」去重 ====================
+
+  /**
+   * 用户对某版本点「稍后提醒」后，在该版本仍是最新可用版本期间，
+   * 自动检查（startup / background / ws_push / silent）不再弹出提醒；
+   * 后端发布更高版本时会自动恢复提醒。强更（mandatory/critical）不受影响。
+   */
+  private shouldSuppressReminder(version?: string | null, meta?: Record<string, any>): boolean {
+    if (!version || !this.dismissedUpdateVersion) return false
+    if (meta && (Boolean(meta.mandatory) || meta.priority === 'critical')) return false
+    return compareVersions(version, this.dismissedUpdateVersion) <= 0
+  }
+
+  /** 用户暂不更新：记住该版本，后续自动检查不再提醒。 */
+  dismissUpdate(version: string): void {
+    const normalized = String(version || '').trim()
+    if (!normalized) return
+    this.dismissedUpdateVersion = normalized
+    try {
+      writeFileSync(
+        this.dismissedUpdatePath(),
+        JSON.stringify({ version: normalized, dismissedAt: new Date().toISOString() }),
+        { encoding: 'utf-8', mode: 0o600 },
+      )
+      log.info(`[UpdateManager] User dismissed update reminders for v${normalized}`)
+    } catch (err) {
+      log.warn('[UpdateManager] Failed to persist dismissed update version:', err)
+    }
+  }
+
+  /** 当前已「稍后提醒」的版本号（可能为 null）。 */
+  getDismissedVersion(): string | null {
+    return this.dismissedUpdateVersion
+  }
+
+  private dismissedUpdatePath(): string {
+    return join(app.getPath('userData'), DISMISSED_UPDATE_FILE)
+  }
+
+  private loadDismissedUpdateVersion(): string | null {
+    try {
+      const filePath = this.dismissedUpdatePath()
+      if (!existsSync(filePath)) return null
+      const raw = JSON.parse(readFileSync(filePath, 'utf-8')) as { version?: unknown }
+      const version = String(raw?.version ?? '').trim()
+      return version || null
+    } catch (err) {
+      log.warn('[UpdateManager] Failed to load dismissed update version:', err)
+      return null
+    }
   }
 }

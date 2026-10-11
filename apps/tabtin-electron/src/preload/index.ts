@@ -2590,6 +2590,8 @@ interface TabTinAPIShape {
     checkForUpdates: () => Promise<any>
     downloadUpdate: () => Promise<any>
     quitAndInstall: () => void
+    dismissUpdate: (version: string) => Promise<boolean>
+    getDismissedVersion: () => Promise<string | null>
     onUpdateEvent: (callback: (payload: { event: string; data?: any }) => void) => () => void
   }
 
@@ -5130,6 +5132,8 @@ const api = {
     checkForUpdates: () => invokeIpc('check-for-updates'),
     downloadUpdate: () => invokeIpc('download-update'),
     quitAndInstall: () => { invokeIpc('quit-and-install') },
+    dismissUpdate: (version: string) => invokeIpc('dismiss-update', version),
+    getDismissedVersion: () => invokeIpc('get-dismissed-update'),
     onUpdateEvent: (callback) => {
       const listener = (_event: any, payload: { event: string; data?: any }) => {
         callback(payload)

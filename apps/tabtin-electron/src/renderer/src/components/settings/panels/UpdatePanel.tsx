@@ -204,6 +204,26 @@ export const UpdatePanel: React.FC = () => {
     window.tabtin.updater.quitAndInstall()
   }, [])
 
+  // 「稍后提醒」：记住当前版本，自动检查不再打扰；发布更高版本后恢复提醒。
+  const handleDismissUpdate = useCallback(async () => {
+    const version = updateInfo?.version
+    if (!version) return
+    try {
+      await window.tabtin.updater.dismissUpdate(version)
+      toast({
+        title: t('update.dismissedToast', {
+          defaultValue: '已暂不提醒 v{{version}}，发布新版本后会再次提醒',
+          version,
+        }),
+      })
+    } catch {
+      toast({
+        title: t('update.dismissFailed', { defaultValue: '暂不提醒设置失败，请稍后重试' }),
+        variant: 'destructive',
+      })
+    }
+  }, [t, updateInfo?.version])
+
   // 自动更新失败时的兜底：直接在浏览器里下载安装包手动安装
   const manualDownloadUrl: string | null =
     updateInfo?.fileUrl || updateInfo?.file_url || null
@@ -392,6 +412,11 @@ export const UpdatePanel: React.FC = () => {
                   </p>
                 ) : null}
               </div>
+            )}
+            actions={updateInfo.mandatory ? undefined : (
+              <Button variant="outline" size="sm" onClick={handleDismissUpdate}>
+                {t('update.laterReminder', { defaultValue: '稍后提醒' })}
+              </Button>
             )}
           />
         </SettingsSectionCard>
