@@ -46,7 +46,7 @@ targets:
         INFOPLIST_FILE: Tabtin/Resources/Info.plist
         DEVELOPMENT_TEAM: ""
         PRODUCT_BUNDLE_IDENTIFIER: com.snsworker.mobile
-        MARKETING_VERSION: "1.0.1"
+        MARKETING_VERSION: "1.0.5"
         CURRENT_PROJECT_VERSION: "1"
         TABTIN_GIT_SHA: ""
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
