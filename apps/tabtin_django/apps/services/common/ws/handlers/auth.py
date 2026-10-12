@@ -729,6 +729,13 @@ def _ensure_electron_device_registered(
     try:
         from apps.tabtinspace.services.device_service import DeviceService
 
+        logger.debug(
+            "[Auth] auto-register Electron device (session capabilities not "
+            "written to device row): user=%s caps=%s",
+            getattr(user, "id", ""),
+            sorted(capabilities),
+        )
+
         info = device_info if isinstance(device_info, dict) else {}
         name = str(info.get("name") or "SnSworker Desktop").strip()[:255]
         os_name = str(info.get("os") or info.get("platform") or "").strip()
@@ -749,8 +756,16 @@ def _ensure_electron_device_registered(
                 device_type="electron",
                 name=name or "SnSworker Desktop",
                 os_info=os_info,
-                capabilities=sorted(capabilities),
+                # ：capabilities 传 None + preserve_capabilities=True。
+                # 这里的会话订阅能力（agent.stream / session.collaboration 等）
+                # 属于 WS 网关能力域，不是设备控制能力；真实设备能力由
+                # Electron HTTP 注册（ELECTRON_DEVICE_CAPABILITIES：terminal /
+                # browser / file / git 等）维护。此前直接把会话能力写入会
+                # 覆盖真实设备能力，污染 Device.capabilities 并触发
+                # CapabilityRegistry 告警。
+                capabilities=None,
                 identity_verified=True,
+                preserve_capabilities=True,
             )
         )
     except Exception:

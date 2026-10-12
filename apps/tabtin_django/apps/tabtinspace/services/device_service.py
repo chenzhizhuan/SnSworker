@@ -259,8 +259,16 @@ class DeviceService(BaseService):
         previous_fingerprint: Optional[str] = None,
         recovery_fingerprints: Optional[List[str]] = None,
         identity_verified: bool = False,
+        preserve_capabilities: bool = False,
     ) -> Optional[Device]:
         """注册或更新设备（upsert by fingerprint + user_id）。
+
+        ``preserve_capabilities=True``：更新已存在设备时不覆盖 capabilities
+        字段（新建时仍写入传入值）。供 WS 鉴权自动注册使用——那里的
+        capabilities 是会话订阅能力（agent.stream / session.collaboration
+        等），不是设备控制能力（terminal_execute / browser / file），
+        直接写入会用会话能力覆盖 HTTP 注册上报的真实设备能力，
+        污染 Device.capabilities 并触发 CapabilityRegistry 告警。
 
         用户级设备（Electron）：跨 Organization 时不更新 organization_id，直接返回已有设备
         并刷新 status/heartbeat。团队级设备（Daemon/Cloud）：跨 Organization 时返回 None
@@ -458,10 +466,19 @@ class DeviceService(BaseService):
                 'device_type': normalized_device_type,
                 'role': normalized_role,
                 'os_info': self._normalize_os_info(os_info),
-                'capabilities': normalized_capabilities,
                 'status': 'online',
                 'last_heartbeat_at': timezone.now(),
             }
+            if preserve_capabilities:
+                # 更新已有设备时不动 capabilities；新建时写入传入值
+                # （WS 自动注册传 None → 空列表，后续 HTTP 注册会补全真实能力）。
+                existing_for_caps = Device.objects.filter(
+                    fingerprint=fingerprint, user_id=self.user.id,
+                ).values_list('id', flat=True).first()
+                if existing_for_caps is None:
+                    defaults['capabilities'] = normalized_capabilities
+            else:
+                defaults['capabilities'] = normalized_capabilities
             if normalized_machine_key:
                 defaults['machine_key'] = normalized_machine_key
             device, created = Device.objects.update_or_create(
