@@ -210,11 +210,12 @@ class ProjectTaskServiceTests(TestCase):
             responsible_user_id=self.member.id,
         )
 
-        reassigned = ProjectTaskService(user=self.owner).reassign_task(
-            project_id=self.project.id,
-            task_id=created['id'],
-            responsible_user_id=third.id,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            reassigned = ProjectTaskService(user=self.owner).reassign_task(
+                project_id=self.project.id,
+                task_id=created['id'],
+                responsible_user_id=third.id,
+            )
 
         self.assertEqual(reassigned['responsible_user']['id'], str(third.id))
         self.assertEqual(
