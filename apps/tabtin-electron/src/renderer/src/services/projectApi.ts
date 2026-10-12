@@ -308,6 +308,19 @@ export class ProjectApiService {
     )
   }
 
+  static async reassignTask(
+    projectId: string,
+    taskId: string,
+    responsibleUserId: string,
+  ): Promise<ProjectTask> {
+    return this.taskCommand(
+      API_ENDPOINTS.PROJECT.TASK_REASSIGN(projectId, taskId),
+      'PUT',
+      { responsible_user_id: responsibleUserId },
+      '改派任务失败',
+    )
+  }
+
   static async configureTaskExecution(
     projectId: string,
     taskId: string,

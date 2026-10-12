@@ -996,6 +996,111 @@ class ProjectTaskService:
         schedule_project_task_invalidation(task, event_type)
         return self.serialize_task(self._load_task(project_id, task_id))
 
+    def _can_reassign(self, task: ProjectTask) -> bool:
+        """任务创建人或 Project editor+（含组织 owner）可改派。"""
+        if not self.user:
+            return False
+        if str(task.created_by_id) == str(self.user.id):
+            return True
+        project = task.project
+        if (
+            project.organization_id
+            and project.organization.owner_id == self.user.id
+        ):
+            return True
+        from apps.services.common.constants import ROLE_LEVELS
+
+        membership = ProjectMembership.objects.filter(
+            project=project,
+            user_id=self.user.id,
+            is_active=True,
+            status=ProjectMembership.Status.ACTIVE,
+        ).first()
+        if not membership:
+            return False
+        return ROLE_LEVELS.get(membership.role, 0) >= ROLE_LEVELS.get('editor', 0)
+
+    @transaction.atomic
+    def reassign_task(
+        self,
+        *,
+        project_id: UUID,
+        task_id: UUID,
+        responsible_user_id: UUID,
+    ) -> dict:
+        """创建人/管理者把未完成且无活跃执行的任务改派给其他生效成员。
+
+        - 终态（done / cancelled）与活跃 Run 期间不可改派；
+        - 改派后重置确认状态（新责任人待确认；自派即接受），并清空原责任人的
+          私有执行现场（Agent / Workspace / 确认时间），由新责任人重新配置；
+        - 过程态（in_progress / in_review / blocked）回到 todo，历史 Run 保留；
+        - 幂等：改派给当前责任人直接返回，不产生事件。
+        """
+        task = self._load_task(project_id, task_id, for_update=True)
+        if not self._can_reassign(task):
+            raise ServiceError(
+                'TASK_REASSIGN_FORBIDDEN',
+                '只有任务创建人或 Project 管理员可以改派任务',
+                403,
+            )
+        if task.work_status in (
+            ProjectTask.WorkStatus.DONE,
+            ProjectTask.WorkStatus.CANCELLED,
+        ):
+            raise ServiceError(
+                'TASK_REASSIGN_STATUS_INVALID',
+                '已完成或已取消的任务不能改派',
+                409,
+            )
+        if ProjectTaskRun.objects.filter(
+            task=task,
+            status__in=self._ACTIVE_RUN_STATUSES,
+        ).exists():
+            raise ServiceError(
+                'TASK_RUN_ALREADY_ACTIVE',
+                '任务执行中，请先取消执行或等待结束后再改派',
+                409,
+            )
+        new_responsible = self._load_member(task.project, responsible_user_id)
+        if str(new_responsible.id) == str(task.responsible_user_id):
+            return self.serialize_task(task, include_events=True)
+
+        previous_responsible = task.responsible_user
+        self_assigned = str(new_responsible.id) == str(self.user.id)
+        task.responsible_user = new_responsible
+        task.assignment_status = (
+            ProjectTask.AssignmentStatus.ACCEPTED
+            if self_assigned else ProjectTask.AssignmentStatus.PENDING
+        )
+        task.selected_agent = None
+        task.project_member_workspace = None
+        task.workspace_confirmed_at = None
+        if task.work_status != ProjectTask.WorkStatus.TODO:
+            task.work_status = ProjectTask.WorkStatus.TODO
+        task.version += 1
+        task.save(update_fields=[
+            'responsible_user', 'assignment_status', 'selected_agent',
+            'project_member_workspace', 'workspace_confirmed_at',
+            'work_status', 'version', 'updated_at',
+        ])
+        reassigned_payload = {
+            'previous_responsible_user_id': str(previous_responsible.id),
+            'previous_responsible_user_name': resolve_user_display_name(previous_responsible),
+            'responsible_user_id': str(new_responsible.id),
+            'responsible_user_name': resolve_user_display_name(new_responsible),
+            'assignment_status': task.assignment_status,
+            'self_assigned': self_assigned,
+        }
+        self._event(task, self.user, 'assignment_reassigned', reassigned_payload)
+        self._activity(
+            task,
+            self.user,
+            SpaceActivityEvent.EventType.TASK_ASSIGNED,
+            reassigned_payload,
+        )
+        schedule_project_task_invalidation(task, 'assignment_reassigned')
+        return self.serialize_task(self._load_task(project_id, task_id), include_events=True)
+
     @transaction.atomic
     def configure_execution(
         self,

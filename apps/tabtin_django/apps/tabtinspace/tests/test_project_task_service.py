@@ -182,7 +182,230 @@ class ProjectTaskServiceTests(TestCase):
 
         self.assertEqual(context.exception.code, 'TASK_RESPONSIBLE_ONLY')
 
-    def test_non_responsible_member_reads_results_but_not_private_details(self):
+    def _add_project_member(self, username: str, role: str = 'editor'):
+        member = User.objects.create_user(
+            username=username,
+            email=f'{username}@example.com',
+            password='pass',
+        )
+        OrganizationMember.objects.create(
+            organization=self.organization,
+            user=member,
+            role='editor',
+        )
+        ProjectMembership.objects.create(
+            project=self.project,
+            user=member,
+            role=role,
+            status=ProjectMembership.Status.ACTIVE,
+            is_active=True,
+        )
+        return member
+
+    def test_creator_reassigns_pending_task_to_other_member(self):
+        third = self._add_project_member('task-third')
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Reassign me',
+            responsible_user_id=self.member.id,
+        )
+
+        reassigned = ProjectTaskService(user=self.owner).reassign_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+            responsible_user_id=third.id,
+        )
+
+        self.assertEqual(reassigned['responsible_user']['id'], str(third.id))
+        self.assertEqual(
+            reassigned['assignment_status'],
+            ProjectTask.AssignmentStatus.PENDING,
+        )
+        task = ProjectTask.objects.get(id=created['id'])
+        self.assertEqual(str(task.responsible_user_id), str(third.id))
+        reassigned_event = next(
+            event for event in reassigned['events']
+            if event['event_type'] == 'assignment_reassigned'
+        )
+        self.assertEqual(
+            reassigned_event['payload']['previous_responsible_user_id'],
+            str(self.member.id),
+        )
+        self.assertEqual(
+            reassigned_event['payload']['responsible_user_id'],
+            str(third.id),
+        )
+        activity = SpaceActivityEvent.objects.filter(
+            space_id=self.project.id,
+            event_type=SpaceActivityEvent.EventType.TASK_ASSIGNED,
+            target_id=str(task.id),
+        ).first()
+        self.assertIsNotNone(activity)
+
+    def test_reassign_to_self_is_immediately_accepted(self):
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Take it back',
+            responsible_user_id=self.member.id,
+        )
+
+        reassigned = ProjectTaskService(user=self.owner).reassign_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+            responsible_user_id=self.owner.id,
+        )
+
+        self.assertEqual(
+            reassigned['assignment_status'],
+            ProjectTask.AssignmentStatus.ACCEPTED,
+        )
+
+    def test_editor_member_can_reassign_without_being_creator(self):
+        third = self._add_project_member('task-third2')
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Editor reassigns',
+            responsible_user_id=third.id,
+        )
+
+        reassigned = ProjectTaskService(user=self.member).reassign_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+            responsible_user_id=self.member.id,
+        )
+
+        self.assertEqual(
+            reassigned['responsible_user']['id'], str(self.member.id),
+        )
+
+    def test_viewer_member_cannot_reassign(self):
+        viewer = self._add_project_member('task-viewer', role='viewer')
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Viewer denied',
+            responsible_user_id=self.member.id,
+        )
+
+        with self.assertRaises(ServiceError) as context:
+            ProjectTaskService(user=viewer).reassign_task(
+                project_id=self.project.id,
+                task_id=created['id'],
+                responsible_user_id=viewer.id,
+            )
+
+        self.assertEqual(context.exception.code, 'TASK_REASSIGN_FORBIDDEN')
+
+    def test_done_and_cancelled_tasks_cannot_be_reassigned(self):
+        third = self._add_project_member('task-third3')
+        for status in (
+            ProjectTask.WorkStatus.DONE,
+            ProjectTask.WorkStatus.CANCELLED,
+        ):
+            task = ProjectTask.objects.create(
+                project=self.project,
+                title=f'Terminal {status}',
+                created_by=self.owner,
+                responsible_user=self.member,
+                work_status=status,
+            )
+            with self.assertRaises(ServiceError) as context:
+                ProjectTaskService(user=self.owner).reassign_task(
+                    project_id=self.project.id,
+                    task_id=task.id,
+                    responsible_user_id=third.id,
+                )
+            self.assertEqual(
+                context.exception.code, 'TASK_REASSIGN_STATUS_INVALID',
+            )
+
+    def test_reassign_blocked_while_run_active(self):
+        third = self._add_project_member('task-third4')
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Running task',
+            responsible_user_id=self.member.id,
+        )
+        ProjectTaskRun.objects.create(
+            task_id=created['id'],
+            responsible_user=self.member,
+            agent=self.member_agent,
+            workspace=self.member_workspace,
+            device=self.member_workspace.device,
+            status=ProjectTaskRun.Status.RUNNING,
+        )
+
+        with self.assertRaises(ServiceError) as context:
+            ProjectTaskService(user=self.owner).reassign_task(
+                project_id=self.project.id,
+                task_id=created['id'],
+                responsible_user_id=third.id,
+            )
+
+        self.assertEqual(context.exception.code, 'TASK_RUN_ALREADY_ACTIVE')
+
+    def test_reassign_resets_execution_config_and_work_status(self):
+        third = self._add_project_member('task-third5')
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Configured then reassigned',
+            responsible_user_id=self.member.id,
+        )
+        ProjectTaskService(user=self.member).respond_assignment(
+            project_id=self.project.id,
+            task_id=created['id'],
+            accept=True,
+        )
+        ProjectTaskService(user=self.member).configure_execution(
+            project_id=self.project.id,
+            task_id=created['id'],
+            agent_id=self.member_agent.id,
+            workspace_id=self.member_workspace.id,
+        )
+        ProjectTask.objects.filter(id=created['id']).update(
+            work_status=ProjectTask.WorkStatus.IN_PROGRESS,
+        )
+
+        reassigned = ProjectTaskService(user=self.owner).reassign_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+            responsible_user_id=third.id,
+        )
+
+        self.assertEqual(reassigned['work_status'], ProjectTask.WorkStatus.TODO)
+        self.assertIsNone(reassigned['selected_agent'])
+        self.assertFalse(reassigned['workspace_confirmed'])
+        self.assertFalse(reassigned['execution_ready'])
+        # 新责任人视角：待确认；私有执行现场为空。
+        third_view = ProjectTaskService(user=third).get_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+        )
+        self.assertIsNone(third_view['project_workspace'])
+
+    def test_reassign_to_current_responsible_is_idempotent(self):
+        created = ProjectTaskService(user=self.owner).create_task(
+            project_id=self.project.id,
+            title='Same owner',
+            responsible_user_id=self.member.id,
+        )
+        events_before = ProjectTaskEvent.objects.filter(
+            task_id=created['id'],
+        ).count()
+
+        reassigned = ProjectTaskService(user=self.owner).reassign_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+            responsible_user_id=self.member.id,
+        )
+
+        self.assertEqual(
+            reassigned['assignment_status'],
+            ProjectTask.AssignmentStatus.PENDING,
+        )
+        self.assertEqual(
+            ProjectTaskEvent.objects.filter(task_id=created['id']).count(),
+            events_before,
+        )
         created = ProjectTaskService(user=self.member).create_task(
             project_id=self.project.id,
             title='Private execution',

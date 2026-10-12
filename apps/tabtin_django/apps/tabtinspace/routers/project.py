@@ -63,6 +63,10 @@ class ProjectTaskAssignmentResponseIn(Schema):
     accept: bool
 
 
+class ProjectTaskReassignIn(Schema):
+    responsible_user_id: UUID
+
+
 class ProjectTaskExecutionIn(Schema):
     agent_id: UUID
     workspace_id: UUID
@@ -528,6 +532,30 @@ def respond_project_task_assignment(
     except ServiceError as e:
         return error_response(e.code, e.message, status_code=e.status)
     return success_response({"task": task})
+
+
+@router.put(
+    "/projects/{project_id}/tasks/{task_id}/assignee",
+    auth=jwt_auth,
+    response={200: dict, **RESP_WITH_CONFLICT},
+)
+def reassign_project_task(
+    request: HttpRequest,
+    project_id: UUID,
+    task_id: UUID,
+    data: ProjectTaskReassignIn,
+):
+    if not _projects_enabled():
+        return _project_feature_disabled_response()
+    try:
+        task = ProjectTaskService(user=request.auth).reassign_task(
+            project_id=project_id,
+            task_id=task_id,
+            responsible_user_id=data.responsible_user_id,
+        )
+    except ServiceError as e:
+        return error_response(e.code, e.message, status_code=e.status)
+    return success_response({"task": task}, message="任务已改派")
 
 
 @router.put(

@@ -132,6 +132,7 @@ const EVENT_LABEL: Record<string, string> = {
   created: '创建了任务',
   assignment_accepted: '接受了任务',
   assignment_rejected: '拒绝了任务',
+  assignment_reassigned: '改派了任务',
   execution_configured: '确认了工作空间与 Agent',
   run_prepared: '准备了执行会话',
   run_started: '启动了 Agent 执行',
@@ -196,6 +197,24 @@ const formatTaskEventDetails = (
       '';
     if (agentName) details.push(`Agent：${agentName}`);
     if (workspaceName) details.push(`工作空间：${workspaceName}`);
+    return details;
+  }
+
+  if (event.event_type === 'assignment_reassigned') {
+    const previousName = readEventText(payload, 'previous_responsible_user_name');
+    const nextName =
+      readEventText(payload, 'responsible_user_name') ||
+      task.responsible_user.name;
+    const assignmentStatus =
+      readEventText(payload, 'assignment_status') || task.assignment_status;
+    if (previousName) details.push(`原指派人：${previousName}`);
+    if (nextName) {
+      details.push(
+        nextName === previousName
+          ? `指派给 ${nextName}`
+          : `改派给 ${nextName}${assignmentStatus === 'pending' ? '（待确认）' : ''}`,
+      );
+    }
     return details;
   }
 
@@ -388,6 +407,23 @@ function canCancelTask(task: ProjectTask, currentUserId: string): boolean {
   );
 }
 
+function canReassignTask(
+  task: ProjectTask,
+  currentUserId: string,
+  canManage: boolean,
+): boolean {
+  if (task.work_status === 'done' || task.work_status === 'cancelled') {
+    return false;
+  }
+  const activeRunStatuses = ['preparing', 'pending', 'running'];
+  if (activeRunStatuses.includes(task.latest_run?.status ?? '')) {
+    return false;
+  }
+  return (
+    task.created_by.id === currentUserId || canManage
+  );
+}
+
 export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
   const { t, i18n } = useTranslation('project');
   const currentUserId = String(useAuthStore((state) => state.user?.id) ?? '');
@@ -425,6 +461,9 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
     Record<string, string>
   >({});
   const [selectedWorkspaceByTask, setSelectedWorkspaceByTask] = useState<
+    Record<string, string>
+  >({});
+  const [reassignUserIdByTask, setReassignUserIdByTask] = useState<
     Record<string, string>
   >({});
   const [reviewTask, setReviewTask] = useState<ProjectTask | null>(null);
@@ -642,6 +681,14 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
     detailTask.assignment_status === 'accepted' &&
     detailTask.work_status === 'todo' &&
     !detailTask.execution_ready,
+  );
+  const detailCanReassign = Boolean(
+    detailTask &&
+    canReassignTask(
+      detailTask,
+      currentUserId,
+      Boolean(projectDetail?.can_manage),
+    ),
   );
   const detailInProcess = Boolean(
     detailTask &&
@@ -1168,6 +1215,23 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
       if (detailRequestIdRef.current === requestId) setDetailLoading(false);
     }
     return true;
+  };
+
+  const handleReassign = async (task: ProjectTask) => {
+    const targetUserId =
+      reassignUserIdByTask[task.id] || task.responsible_user.id;
+    if (!targetUserId || targetUserId === task.responsible_user.id) return;
+    await runDetailAction(
+      task,
+      `reassign:${task.id}`,
+      () =>
+        ProjectApiService.reassignTask(
+          project.id,
+          task.id,
+          targetUserId,
+        ),
+      '任务已改派',
+    );
   };
 
   const handleAddComment = async () => {
@@ -2603,13 +2667,66 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
                     >
                       {t('assignee')}
                     </dt>
-                    <dd className="mt-1.5 flex items-center gap-2 text-body text-foreground/90">
-                      <UserRound
-                        className="h-4 w-4 text-muted-foreground/60"
-                        aria-hidden
-                      />
-                      {detailTask.responsible_user.name}
-                    </dd>
+                    {detailCanReassign ? (
+                      <dd className="mt-1.5 flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
+                          <UserRound
+                            className="h-4 w-4 shrink-0 text-muted-foreground/60"
+                            aria-hidden
+                          />
+                          <select
+                            aria-label="改派指派人"
+                            value={
+                              reassignUserIdByTask[detailTask.id] ||
+                              detailTask.responsible_user.id
+                            }
+                            onChange={(event) =>
+                              setReassignUserIdByTask((current) => ({
+                                ...current,
+                                [detailTask.id]: event.target.value,
+                              }))
+                            }
+                            disabled={detailIsBusy}
+                            className="h-8 min-w-0 flex-1 rounded-interactive border border-input bg-background px-2 text-body text-foreground"
+                          >
+                            {responsibleOptions.map((member) => (
+                              <option
+                                key={member.user_id}
+                                value={member.user_id}
+                              >
+                                {memberName(member)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="sm"
+                          className="w-full"
+                          disabled={
+                            detailIsBusy ||
+                            (reassignUserIdByTask[detailTask.id] ||
+                              detailTask.responsible_user.id) ===
+                              detailTask.responsible_user.id
+                          }
+                          onClick={() => void handleReassign(detailTask)}
+                        >
+                          改派给该成员
+                        </Button>
+                        <p className={cn('text-micro', CANVAS_TEXT_SECONDARY)}>
+                          改派后会重置确认状态并清空原执行配置，由新指派人重新接单。
+                        </p>
+                      </dd>
+                    ) : (
+                      <dd className="mt-1.5 flex items-center gap-2 text-body text-foreground/90">
+                        <UserRound
+                          className="h-4 w-4 text-muted-foreground/60"
+                          aria-hidden
+                        />
+                        {detailTask.responsible_user.name}
+                      </dd>
+                    )}
                   </div>
                   <div>
                     <dt

@@ -40,6 +40,8 @@ export interface Project {
   is_default?: boolean
   visibility: string
   member_count: number
+  /** 后端 _serialize_project 返回：当前用户是否具备 editor+ 管理权（组织 owner 亦为 true）。 */
+  can_manage?: boolean
   config_version?: number
   last_activity_at: string | null
   created_at: string

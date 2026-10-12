@@ -68,6 +68,11 @@ function isToolResult(value: Record<string, unknown> | ToolResult): value is Too
   return typeof (value as ToolResult).content === 'string'
 }
 
+interface ProjectTaskReassignInput {
+  task_id: string
+  responsible_user_id: string
+}
+
 export function createProjectTaskTools(deps: ProjectTaskToolsDeps): Tool[] {
   const projectPath = `/context/projects/${encodeURIComponent(deps.projectId)}`
 
@@ -190,6 +195,43 @@ export function createProjectTaskTools(deps: ProjectTaskToolsDeps): Tool[] {
           {
             method: 'POST',
             body: JSON.stringify({ tasks: params.tasks }),
+          },
+        )
+        if (isToolResult(payload)) return payload
+        return { content: JSON.stringify({ success: true, ...payload }) }
+      },
+    },
+    {
+      name: 'project_task_reassign',
+      description:
+        '把一项未完成且无活跃执行的任务改派给其他成员。调用前必须先向用户说明改派对象并获得明确确认；'
+        + '改派会重置确认状态并清空原执行配置，由新责任人重新接单。仅任务创建人或 Project 管理员可改派；'
+        + '已完成/已取消或执行中的任务不可改派。',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          task_id: { type: 'string', description: '要改派的任务 ID（来自 project_tasks_list）。' },
+          responsible_user_id: {
+            type: 'string',
+            description: '新责任人 user_id（来自 project_members_list 的真人成员）。',
+          },
+        },
+        required: ['task_id', 'responsible_user_id'],
+        additionalProperties: false,
+      },
+      isReadOnly: false,
+      riskLevel: 'review',
+      policyActionKind: 'object_write',
+      execute: async (input: unknown): Promise<ToolResult> => {
+        const params = input as ProjectTaskReassignInput
+        const payload = await request(
+          deps,
+          'project_task_reassign',
+          'task reassignment',
+          `${projectPath}/tasks/${encodeURIComponent(params.task_id)}/assignee`,
+          {
+            method: 'PUT',
+            body: JSON.stringify({ responsible_user_id: params.responsible_user_id }),
           },
         )
         if (isToolResult(payload)) return payload

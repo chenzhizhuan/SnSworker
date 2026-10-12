@@ -75,4 +75,27 @@ describe('project task tools', () => {
     expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toEqual({ tasks: input.tasks })
     expect(JSON.parse(result.content).total).toBe(1)
   })
+
+  it('reassigns a task through the assignee endpoint with review risk', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(response({
+      task: { id: 'task-9', responsible_user: { id: 'user-2', name: 'Nia' } },
+    }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const tool = createProjectTaskTools(deps).find(item => item.name === 'project_task_reassign')!
+    const result = await tool.execute(
+      { task_id: 'task-9', responsible_user_id: 'user-2' },
+      {} as never,
+    )
+
+    expect(tool.isReadOnly).toBe(false)
+    expect(tool.riskLevel).toBe('review')
+    expect(fetchMock.mock.calls[0][0]).toBe(
+      'https://api.example.com/api/context/projects/project-1/tasks/task-9/assignee',
+    )
+    const init = fetchMock.mock.calls[0][1] as RequestInit
+    expect(init.method).toBe('PUT')
+    expect(JSON.parse(String(init.body))).toEqual({ responsible_user_id: 'user-2' })
+    expect(JSON.parse(result.content).task.responsible_user.id).toBe('user-2')
+  })
 })

@@ -449,6 +449,8 @@ export const API_ENDPOINTS = {
       `/context/projects/${projectId}/tasks/${taskId}/comments`,
     TASK_ASSIGNMENT_RESPONSE: (projectId: string, taskId: string) =>
       `/context/projects/${projectId}/tasks/${taskId}/assignment-response`,
+    TASK_REASSIGN: (projectId: string, taskId: string) =>
+      `/context/projects/${projectId}/tasks/${taskId}/assignee`,
     TASK_EXECUTION: (projectId: string, taskId: string) =>
       `/context/projects/${projectId}/tasks/${taskId}/execution`,
     TASK_RUNS: (projectId: string, taskId: string) =>

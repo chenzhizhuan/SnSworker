@@ -154,8 +154,10 @@ describe('ElectronToolProvider × agentMode (W1-A)', () => {
       'project_members_list',
       'project_tasks_list',
       'project_tasks_create',
+      'project_task_reassign',
     ]))
     expect(workspaceProvider.getTools().map(tool => tool.name)).not.toContain('project_tasks_create')
+    expect(workspaceProvider.getTools().map(tool => tool.name)).not.toContain('project_task_reassign')
   })
 
   it('omitting agentMode keeps backward-compatible behavior identical to "agent"', () => {
