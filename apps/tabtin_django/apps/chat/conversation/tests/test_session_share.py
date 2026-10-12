@@ -481,6 +481,53 @@ class SessionShareTestCase(TestCase):
         self.assertEqual(item["detail"]["phase"], "deliveryUnconfirmed")
         self.assertFalse(item["detail"]["actions"]["can_open"])
 
+    def test_v2_detail_pending_invite_loads_for_recipient_without_server_error(self):
+        """回归：接收方查看「待确认」详情不得 500（历史 NameError: lifecycle）。
+
+        之前 ``_serialize_v2_detail`` 误引用未定义的 ``lifecycle`` 变量，
+        导致 batch-get / get_share_detail 全链路 500，接收方卡片永远显示
+        「详情不可用」，无法确认加入协作。
+        """
+        share = session_share_service.create_or_update_share(
+            session_id=str(self.session.id),
+            owner_user=self.owner,
+            grantee_user_id=str(self.grantee.id),
+            card_contract="session_share_v2",
+        )
+        share = session_share_service.set_share_delivery_status(share, "confirmed")
+
+        item = session_share_card_service.batch_get_share_details(
+            object_ids=[str(share.id)],
+            viewer_user=self.grantee,
+        )[0]
+
+        self.assertTrue(item["ok"])
+        self.assertEqual(item["detail"]["phase"], "awaitingJoin")
+        self.assertEqual(item["detail"]["role"], "recipient")
+        self.assertTrue(item["detail"]["actions"]["can_join"])
+        self.assertFalse(item["detail"]["actions"]["can_open"])
+
+    def test_v2_detail_owner_side_of_pending_invite_loads_without_server_error(self):
+        """发起方查看同一张待确认卡片也不得 500。"""
+        share = session_share_service.create_or_update_share(
+            session_id=str(self.session.id),
+            owner_user=self.owner,
+            grantee_user_id=str(self.grantee.id),
+            card_contract="session_share_v2",
+        )
+        share = session_share_service.set_share_delivery_status(share, "confirmed")
+
+        item = session_share_card_service.batch_get_share_details(
+            object_ids=[str(share.id)],
+            viewer_user=self.owner,
+        )[0]
+
+        self.assertTrue(item["ok"])
+        self.assertEqual(item["detail"]["phase"], "awaitingJoin")
+        self.assertEqual(item["detail"]["role"], "owner")
+        self.assertFalse(item["detail"]["actions"]["can_join"])
+        self.assertTrue(item["detail"]["actions"]["can_open"])
+
     def test_v2_detail_projects_latest_state_onto_older_cards(self):
         older = session_share_service.create_or_update_share(
             session_id=str(self.session.id),

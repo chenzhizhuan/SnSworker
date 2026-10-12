@@ -1004,7 +1004,11 @@ def _serialize_v2_detail(
         and share.status == "pending"
         and share.delivery_status == "confirmed"
     )
-    can_open = role == "owner" or (eligible and lifecycle.status == "active")
+    # ：share 即调用方传入的 lifecycle 解析结果（get_share_detail 传
+    # effective_share = _resolve_lifecycle_share(...)）。历史上这里误引用了
+    # 未定义的 lifecycle 变量（NameError → batch-get 500 → 接收方卡片
+    # 「详情不可用」），直接读 share.status 即为正确语义。
+    can_open = role == "owner" or (eligible and share.status == "active")
     shared_session_id = str(share.session_id) if share.session_id else None
     if not can_open:
         detail["session_id"] = None
