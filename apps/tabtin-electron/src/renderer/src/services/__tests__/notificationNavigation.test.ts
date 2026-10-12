@@ -44,6 +44,10 @@ const {
   mockEnterTeamSpaceProject,
   mockOpenProjectTaskChatSession,
   mockRequestCommentReveal,
+  mockRequestActivate,
+  mockConsumeRequest,
+  mockGetSessionDetail,
+  mockInvalidatePendingHubNavigation,
   state,
 } = vi.hoisted(() => {
   const toastFn = Object.assign(vi.fn(), {
@@ -109,6 +113,10 @@ const {
     mockEnterTeamSpaceProject: vi.fn(),
     mockOpenProjectTaskChatSession: vi.fn().mockResolvedValue(undefined),
     mockRequestCommentReveal: vi.fn(),
+    mockRequestActivate: vi.fn(),
+    mockConsumeRequest: vi.fn(),
+    mockGetSessionDetail: vi.fn().mockResolvedValue({ id: 'session-detail', agent_mode: undefined }),
+    mockInvalidatePendingHubNavigation: vi.fn(),
     state: s,
   }
 })
@@ -263,6 +271,27 @@ vi.mock('@stores/useMainNavStore', () => ({
       setCurrentTab: mockSetCurrentTab,
     }),
   },
+}))
+
+vi.mock('@stores/useAskActivationStore', () => ({
+  useAskActivationStore: {
+    getState: () => ({
+      requestActivate: mockRequestActivate,
+      consumeRequest: mockConsumeRequest,
+    }),
+  },
+}))
+
+vi.mock('@/services/chatApi', () => ({
+  getChatClient: () => ({
+    sessions: {
+      get: mockGetSessionDetail,
+    },
+  }),
+}))
+
+vi.mock('@/services/agentMemoryNavigation', () => ({
+  invalidatePendingHubNavigation: mockInvalidatePendingHubNavigation,
 }))
 
 vi.mock('@/services/tabchatApi', () => ({
@@ -449,6 +478,7 @@ beforeEach(() => {
   })
   mockGetConversation.mockResolvedValue({ id: 'conv-1', type: 'direct' })
   mockGetConversationNavigationKind.mockReturnValue('dm')
+  mockGetSessionDetail.mockResolvedValue({ id: 'session-detail', agent_mode: undefined })
   mockOpenResourceTab.mockImplementation(() => undefined)
   mockSelectSpaceById.mockImplementation(() => undefined)
   mockOpenSettings.mockImplementation(() => undefined)
@@ -628,6 +658,57 @@ describe('navigateToChatSession', () => {
     await navigateToChatSession('sess-1', 'as-1')
 
     expect(mockToastError).toHaveBeenCalledWith('通知跳转失败')
+  })
+})
+
+// ===========================================================================
+// navigateToChatSession — 问一句（ask）会话分流
+// ===========================================================================
+
+describe('navigateToChatSession — ask 会话分流', () => {
+  it('不进入办件事工作台：切 ask tab 并请求 AskPage 激活目标会话', async () => {
+    state.selectedSpace = { id: 'ask-ws-1' }
+    state.spaces = [{ id: 'ask-ws-1', name: '问一句工作空间' }]
+    state.sessionsBySpaceId = {
+      'ask-ws-1': [{ id: 'ask-sess-1', agent_mode: 'ask', space_id: 'ask-ws-1' }],
+    }
+
+    await navigateToChatSession('ask-sess-1', 'ask-ws-1')
+
+    // 核心断言：不再把用户流放到「办件事」（agent）tab，也绝不 selectSession
+    expect(mockSetCurrentTab).toHaveBeenCalledWith('ask')
+    expect(mockRequestActivate).toHaveBeenCalledWith('ask-sess-1')
+    expect(mockSelectSession).not.toHaveBeenCalled()
+    expect(mockSelectSpace).not.toHaveBeenCalled()
+    expect(mockCloseAppPage).toHaveBeenCalled()
+    expect(mockInvalidatePendingHubNavigation).toHaveBeenCalled()
+  })
+
+  it('冷启动（本地无会话缓存）时按服务端详情识别 ask 会话并分流', async () => {
+    state.selectedSpace = { id: 'ask-ws-1' }
+    state.spaces = [{ id: 'ask-ws-1', name: '问一句工作空间' }]
+    mockGetSessionDetail.mockResolvedValue({ id: 'ask-cold', agent_mode: 'ask', space_id: 'ask-ws-1' })
+
+    await navigateToChatSession('ask-cold')
+
+    expect(mockGetSessionDetail).toHaveBeenCalledWith('ask-cold')
+    expect(mockSetCurrentTab).toHaveBeenCalledWith('ask')
+    expect(mockRequestActivate).toHaveBeenCalledWith('ask-cold')
+    expect(mockSelectSession).not.toHaveBeenCalled()
+  })
+
+  it('普通任务会话不受影响：仍走 enterChatSession 链路', async () => {
+    state.selectedSpace = { id: 'as-1' }
+    state.spaces = [{ id: 'as-1', name: 'A' }]
+    state.sessionsBySpaceId = {
+      'as-1': [{ id: 'sess-1', agent_mode: 'agent', space_id: 'as-1' }],
+    }
+
+    await navigateToChatSession('sess-1', 'as-1')
+
+    expect(mockSetCurrentTab).not.toHaveBeenCalledWith('ask')
+    expect(mockRequestActivate).not.toHaveBeenCalled()
+    expect(mockSelectSession).toHaveBeenCalledWith('as-1', 'sess-1')
   })
 })
 

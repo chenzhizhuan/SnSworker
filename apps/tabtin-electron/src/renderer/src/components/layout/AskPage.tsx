@@ -41,6 +41,7 @@ import { toast } from '@components/ui'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { useDeviceStore } from '@stores/useDeviceStore'
 import { useChatStore } from '@stores/chat/useChatStore'
+import { useAskActivationStore } from '@stores/useAskActivationStore'
 import { isSessionBusy } from '@stores/chat/execution/sessionRunProjection'
 import { resolveChatSessionListQuery } from '@stores/chat/session/utils/chatSessionScope'
 import { ChatPanel } from '@components/chat/panel/ChatPanel'
@@ -319,6 +320,18 @@ export const AskPage: React.FC = () => {
       }
     }
   }, [hydrateSessionRecord, t])
+
+  // ── 外部激活：通知中心 / deep link 请求打开指定 ask 会话 ──
+  // 通知跳转链路在识别到 agent_mode='ask' 后会 setCurrentTab('ask') +
+  // requestActivate(sessionId)。本 effect 等 ask workspace（spaceId）就绪后
+  // 消费意图并激活目标会话——避免空间加载完成前切换被「space 变更清理」effect
+  // 清掉 active 指向（见下方 belongsToSpace 校验）。
+  const requestedSessionId = useAskActivationStore(s => s.requestedSessionId)
+  useEffect(() => {
+    if (!requestedSessionId || !spaceId) return
+    useAskActivationStore.getState().consumeRequest()
+    void handleSelectHistory(requestedSessionId)
+  }, [requestedSessionId, spaceId, handleSelectHistory])
 
   /** 新问答：空白不堆积——active 空白停在原地，否则复用最近空白，无空白才新建 */
   const handleNewAsk = useCallback(async () => {

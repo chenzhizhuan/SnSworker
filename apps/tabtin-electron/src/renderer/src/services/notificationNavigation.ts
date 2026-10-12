@@ -8,6 +8,7 @@
 import { toast } from '@tabtin/smartsheet-ui/toast'
 import i18n from '@/i18n'
 import { useChatStore } from '@stores/chat/useChatStore'
+import { useAskActivationStore } from '@stores/useAskActivationStore'
 import { useSpaceStore } from '@stores/useSpaceStore'
 import type { NotificationNavigateTarget } from '@services/notificationApi'
 import { useNotificationStore } from '@stores/useNotificationStore'
@@ -29,6 +30,7 @@ import { useIMStore } from '@stores/useIMStore'
 import { useUIStore } from '@stores/useUIStore'
 import { useSpaceViewPrefsStore } from '@stores/useSpaceViewPrefsStore'
 import { getConversation } from '@/services/tabchatApi'
+import { getChatClient } from '@/services/chatApi'
 import { getConversationNavigationKind, resolveSessionScopeId } from '@tabtin/app-shell'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { runWithAgentContextSwitchGuard } from '@/services/agentContextSwitchGuard'
@@ -40,6 +42,7 @@ import { ensureSpaceSelectedWithFeedback } from './spaceNavigation'
 import { enterChatSession } from './chatSessionNavigation'
 import { openProjectTaskChatSession } from './openProjectTaskChatSession'
 import { enterTeamSpaceProject } from '@components/layout/project/teamSpaceProjectNavigation'
+import { invalidatePendingHubNavigation } from '@/services/agentMemoryNavigation'
 import { sortConversations } from '@/lib/imFormat'
 import { getResourceIdEnvelopeKey } from './manifestResourceIdMap'
 import { createLogger } from '@/utils/logger'
@@ -214,11 +217,45 @@ async function resolveNavigationSpaceId(targetSpaceId?: string, organizationId?:
   return currentSpaceId
 }
 
+/**
+ * 解析会话的 agent_mode（本地 store 缓存优先，服务端详情兜底）。
+ *
+ * 用于区分「问一句（ask）」会话与普通任务会话：ask 会话有独立页面
+ * （AskPage）与会话池，不能走 enterChatSession 通用链路。
+ */
+async function resolveSessionAgentMode(sessionId: string): Promise<string | undefined> {
+  const chatStore = useChatStore.getState()
+  for (const sessions of Object.values(chatStore.sessionsBySpaceId)) {
+    const found = sessions?.find((s) => s.id === sessionId)
+    if (found?.agent_mode) return found.agent_mode
+  }
+  const global = chatStore.sessions?.find((s) => s.id === sessionId)
+  if (global?.agent_mode) return global.agent_mode
+  try {
+    const session = await getChatClient().sessions.get(sessionId)
+    return session?.agent_mode
+  } catch {
+    return undefined
+  }
+}
+
 async function doNavigateToChatSession(
   sessionId: string,
   hintSpaceId?: string,
   options?: { messageId?: string; organizationId?: string },
 ): Promise<void> {
+  // 问一句会话分流：不经过 enterChatSession（其内部会硬编码
+  // setCurrentTab('agent')，把用户从「问一句」流放到「办件事」工作台）。
+  // 改为切回 ask 域 + 由 AskPage 消费激活意图打开目标会话。
+  const agentMode = await resolveSessionAgentMode(sessionId)
+  if (agentMode === 'ask') {
+    invalidatePendingHubNavigation()
+    useAppPageStore.getState().closeAppPage()
+    useMainNavStore.getState().setCurrentTab('ask')
+    useAskActivationStore.getState().requestActivate(sessionId)
+    return
+  }
+
   const chatStore = useChatStore.getState()
 
   let spaceId = hintSpaceId
