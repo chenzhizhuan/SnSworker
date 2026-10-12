@@ -2226,6 +2226,16 @@ if [ "$TARGET_RUNTIME" = "darwin" ]; then
       (cd "$(dirname "$app_bundle")" && ditto -c -k --sequesterRsrc --keepParent "$(basename "$app_bundle")" "$zip_path")
       rm -f "$ARTIFACT_DIR/"*.blockmap
     done
+
+    # electron-builder 写出的 latest-mac.yml 仍是重签前旧包的校验值（ditto 重建的
+    # ZIP 与 create-styled-dmg 重建的 DMG 与之必然漂移）。用磁盘上的实际产物重算
+    # sha512/size 并回写清单，否则客户端升级报 sha512 checksum mismatch
+    # （2026-10-12 v1.0.6 Mac 发布事故：manifest size 444145969 vs 实际 453474332）。
+    echo "[5.4/5] 重算更新清单校验值: latest-mac.yml"
+    node "$SCRIPT_DIR/regenerate-update-manifest.mjs" \
+      --artifact-dir "$ARTIFACT_DIR" \
+      --manifest latest-mac.yml \
+      || { echo "  ✗ latest-mac.yml 校验值同步失败" >&2; exit 1; }
   fi
 fi
 
