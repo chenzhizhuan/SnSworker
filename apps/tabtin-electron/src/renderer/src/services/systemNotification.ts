@@ -80,6 +80,11 @@ interface AgentNotificationOpts {
   suppressWhenSourceWindowFocused?: boolean
   /** 原生焦点确认抑制后，把该会话标记为已读。 */
   markSessionViewedWhenSuppressed?: boolean
+  /**
+   * 会话池标识（如 'ask'）。发送侧已知时随通知携带；跳转侧优先消费，
+   * 消除点击时二次反查的竞态（旧客户端 ask 通知点击会被误分流到「办件事」）。
+   */
+  agentMode?: string
 }
 
 function sendAgentNotification(type: string, priority: Priority, opts: AgentNotificationOpts): void {
@@ -109,6 +114,7 @@ function sendAgentNotification(type: string, priority: Priority, opts: AgentNoti
           spaceId,
           ...(opts.organizationId ? { organizationId: opts.organizationId } : {}),
           ...(opts.messageId ? { messageId: opts.messageId } : {}),
+          ...(opts.agentMode ? { agent_mode: opts.agentMode } : {}),
         }
       : undefined,
   })

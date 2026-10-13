@@ -242,12 +242,14 @@ async function resolveSessionAgentMode(sessionId: string): Promise<string | unde
 async function doNavigateToChatSession(
   sessionId: string,
   hintSpaceId?: string,
-  options?: { messageId?: string; organizationId?: string },
+  options?: { messageId?: string; organizationId?: string; agentMode?: string },
 ): Promise<void> {
   // 问一句会话分流：不经过 enterChatSession（其内部会硬编码
   // setCurrentTab('agent')，把用户从「问一句」流放到「办件事」工作台）。
   // 改为切回 ask 域 + 由 AskPage 消费激活意图打开目标会话。
-  const agentMode = await resolveSessionAgentMode(sessionId)
+  // agentMode 优先用通知 payload 携带值（发送侧已知，消除点击时二次反查
+  // 的网络竞态），本地/服务端反查仅作兑底。
+  const agentMode = options?.agentMode || (await resolveSessionAgentMode(sessionId))
   if (agentMode === 'ask') {
     invalidatePendingHubNavigation()
     useAppPageStore.getState().closeAppPage()
@@ -295,7 +297,7 @@ async function doNavigateToChatSession(
 export async function navigateToChatSession(
   sessionId: string,
   hintSpaceId?: string,
-  options?: { messageId?: string; organizationId?: string },
+  options?: { messageId?: string; organizationId?: string; agentMode?: string },
 ): Promise<void> {
   if (navigating) return
   navigating = true
@@ -435,6 +437,7 @@ export async function navigateToTarget(target: NotificationNavigateTarget): Prom
         await navigateToChatSession(target.id, target.workspaceId || target.spaceId, {
           messageId: 'messageId' in target ? target.messageId : undefined,
           organizationId: target.organizationId,
+          agentMode: 'agent_mode' in target ? (target as { agent_mode?: string }).agent_mode : undefined,
         })
       } catch (err) {
         log.warn(`chat-session 跳转失败 id=${target.id}:`, err)

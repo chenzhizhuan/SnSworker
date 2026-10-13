@@ -96,6 +96,7 @@ function installChatApiCallbacks(): void {
       return Object.keys(map).filter((sid) => map[sid]?.busy)
     },
     getCurrentSessionId: () => useChatStore.getState().currentSessionId,
+    getSessionById: (sessionId) => useChatStore.getState().getSessionById(sessionId),
     syncSessionMessagesFromServer: (sessionId) => {
       void useChatStore.getState().syncSessionMessagesFromServer(sessionId)
     },

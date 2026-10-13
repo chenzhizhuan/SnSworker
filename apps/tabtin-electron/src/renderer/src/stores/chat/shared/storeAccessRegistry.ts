@@ -64,6 +64,8 @@ export interface ChatStoreCallbacks {
   applySessionRunStateEvent: (sessionId: string, runState: unknown) => boolean
   getStreamingSessionIds: () => string[]
   getCurrentSessionId: () => string | null
+  /** 按 id 查会话记录（含 agent_mode 等池标识）；供通知链路免反查携带。 */
+  getSessionById?: (sessionId: string) => ChatSession | undefined
   syncSessionMessagesFromServer: (sessionId: string) => void
   getSessionsBySpaceId: () => Record<string, ChatSession[]>
   updateSessionTitleInCaches: (

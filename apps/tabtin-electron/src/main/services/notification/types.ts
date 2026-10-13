@@ -34,6 +34,12 @@ export type NavigateTarget =
       workspaceId?: string
       /** Project 会话的展示/协作作用域，优先于 workspaceId 做导航。 */
       projectId?: string
+      /**
+       * 会话池标识（如 'ask'）。发送侧已知时随通知携带，跳转侧优先消费，
+       * 免去点击时的二次反查竞态（网络抖动会让 ask 会话被误判为普通会话，
+       * 导致点击「问一句」完成通知跳到「办件事」）。
+       */
+      agent_mode?: string
     })
   // Tracker 模块波次 4 Stage 2 一刀切：仅保留 ``tracker``。产品未上线，
   // 历史 ``goal`` / ``agenda`` union 成员已删除（详见上游 PRD §0 / 决策 6）。

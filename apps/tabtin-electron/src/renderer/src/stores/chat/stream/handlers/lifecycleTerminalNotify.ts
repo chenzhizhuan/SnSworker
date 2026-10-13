@@ -60,6 +60,9 @@ export function emitOrAckLifecycleTerminalNotification(
 ): 'notified' {
   const isCurrentSession =
     getChatStoreCallbacks()?.getCurrentSessionId() === input.sessionId
+  // 会话池标识随通知携带（'ask' 等）：跳转侧优先消费，避免点击时二次反查
+  // 的竞态把「问一句」完成通知误分流到「办件事」。
+  const sessionAgentMode = getChatStoreCallbacks()?.getSessionById?.(input.sessionId)?.agent_mode
   const common = {
     sessionId: input.sessionId,
     spaceId: input.spaceId,
@@ -68,6 +71,7 @@ export function emitOrAckLifecycleTerminalNotification(
     dedupRef: input.dedupRef,
     suppressWhenSourceWindowFocused: isCurrentSession,
     markSessionViewedWhenSuppressed: true,
+    ...(sessionAgentMode ? { agentMode: sessionAgentMode } : {}),
   }
 
   if (input.phase === 'end') {
