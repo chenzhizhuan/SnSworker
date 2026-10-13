@@ -2206,7 +2206,22 @@ if [ "$TARGET_RUNTIME" = "darwin" ]; then
       APP_COUNT=$((APP_COUNT + 1))
       echo "[5.25/5] ad-hoc 重签: $(basename "$app_bundle")"
       "$SCRIPT_DIR/repair-macos-framework-links.sh" "$app_bundle"
+      # 宽松 designated requirement：锚定 bundle identifier 而非 cdhash。
+      # ad-hoc 签名的默认 DR 是 cdhash 锚定（每次构建必变），Squirrel ShipIt
+      # 用「已装版本的 DR」验证「新下载版本」→ 跨版本自动升级必然报
+      # "code failed to satisfy specified code requirement(s)"（2026-10-12
+      # v1.0.5→v1.0.6 Mac 升级事故）。自建无证书分发形态下，改为 identifier
+      # 锚定后同 bundle ID 的新版本即可通过验证；下载完整性仍由
+      # electron-updater 的 latest.yml sha512 强校验兜底。接入正式 Developer ID
+      # 证书（CSC_NAME）时走 else 分支真实签名，本 hack 不生效。
+      # 注意 --deep 会把 --requirements 传染到嵌套代码（Helper/framework 的
+      # bundle ID 各不相同 → 嵌套 DR 与实际 identifier 不匹配 → verify 报
+      # nested code modified）。因此分两步：先全量重签（无 requirements），
+      # 再仅对主 app 追加注入宽松 DR（重算 seal，嵌套签名保持不变）。
       codesign --force --deep --sign - "$app_bundle"
+      codesign --force --sign - \
+        --requirements "=designated => identifier \"${PROFILE_APP_ID}\"" \
+        "$app_bundle"
       codesign --verify --verbose=2 "$app_bundle"
     done
     if [ "$APP_COUNT" -eq 0 ]; then
