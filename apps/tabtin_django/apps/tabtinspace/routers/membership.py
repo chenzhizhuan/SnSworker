@@ -296,6 +296,7 @@ def leave_organization(request: HttpRequest, organization_id: UUID):
 @router.get("/workspaces/{space_id}/memberships", auth=jwt_auth, response={200: dict, 401: ErrorResponse})
 @router.get("/projects/{space_id}/memberships", auth=jwt_auth, response={200: dict, 401: ErrorResponse})
 def list_space_memberships(request: HttpRequest, space_id: UUID):
+    from apps.tabtinspace.schemas.membership import MemberUserOut
     service = SpaceAccessService(user=request.auth)
     memberships = service.list_space_memberships(space_id)
     membership_data = [SpaceMembershipOut.from_orm(item).dict() for item in memberships]
