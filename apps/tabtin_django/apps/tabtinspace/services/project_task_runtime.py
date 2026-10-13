@@ -180,14 +180,24 @@ def evaluate_project_task_chat_send_gate(session_id: str) -> dict | None:
     if run is not None:
         task_id = task_id or str(run.task_id)
     if task_id:
-        task = (
-            ProjectTask.objects.filter(id=task_id)
-            .only(
-                'id', 'assignment_status', 'work_status', 'selected_agent_id',
-                'project_member_workspace_id', 'workspace_confirmed_at',
+        # context_data 属存量数据，_project_task_id 可能已失效/非 UUID；
+        # 查询失败只影响文案精确度，不得让门禁本身抛错拦掉发送。
+        try:
+            task = (
+                ProjectTask.objects.filter(id=task_id)
+                .only(
+                    'id', 'assignment_status', 'work_status', 'selected_agent_id',
+                    'project_member_workspace_id', 'workspace_confirmed_at',
+                )
+                .first()
             )
-            .first()
-        )
+        except Exception:
+            logger.debug(
+                '[ProjectTask] gate task lookup failed for %s',
+                task_id,
+                exc_info=True,
+            )
+            task = None
 
     return {
         'error_code': 'project_task_run_required',
