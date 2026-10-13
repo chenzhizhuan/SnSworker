@@ -40,6 +40,7 @@ import { MessageSquare, Trash2, Plus, RefreshCw } from 'lucide-react'
 import { toast } from '@components/ui'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { useDeviceStore } from '@stores/useDeviceStore'
+import { useSpaceStore } from '@stores/useSpaceStore'
 import { useChatStore } from '@stores/chat/useChatStore'
 import { useAskActivationStore } from '@stores/useAskActivationStore'
 import { isSessionBusy } from '@stores/chat/execution/sessionRunProjection'
@@ -127,6 +128,12 @@ export const AskPage: React.FC = () => {
           name: '问一句工作空间',
         })
         if (cancelled) return
+        // 首次进入问一句时 ensureAsk 才真正创建现场（lazy provision），此时
+        // loadSpaces 早已跑完、useSpaceStore.spaces 里没有该行；发送链路
+        // provisionNewSession 的 resolveChatScopeHost 只查 store，找不到会抛
+        // 「创建会话前必须加载目标 Space」→ 用户看到「创建会话失败，请重试
+        // 发送」。provision 后立即 upsert（幂等），保证首发 ensure 畅通。
+        useSpaceStore.getState().upsertWorkspace(workspace, organizationId)
         setAskWorkspace(workspace)
       } catch (err) {
         log.warn('ensureAsk failed:', err instanceof Error ? err.message : String(err))

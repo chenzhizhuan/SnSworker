@@ -188,6 +188,15 @@ interface SpaceStoreState extends LoadingState {
   revokeAllApprovalMemos: (workspaceId: string) => Promise<boolean>
   loadSpaces: (organizationId?: string) => Promise<void>
   loadAllOrganizationSpaces: (organizationIds: string[]) => Promise<void>
+  /**
+   * 幂等 upsert 一个外部获取的 Workspace 行进 spaces 列表。
+   *
+   * lazy-provision 场景（问一句 ensureAsk 等）在 loadSpaces 已完成后才创建
+   * 现场，store 快照里没有该行；发送链路 resolveChatScopeHost 只查 store，
+   * 找不到会抛「创建会话前必须加载目标 Space」→ 用户看到「创建会话失败」。
+   * provision 成功后立即 upsert 可保证后续 ensure / 发送畅通。
+   */
+  upsertWorkspace: (workspace: WorkspaceSummary, organizationId?: string) => void
   refreshSpace: (id: string) => Promise<void>
   getSpaceStats: (id: string) => Promise<SpaceStats | null>
 
@@ -814,6 +823,19 @@ export const useSpaceStore = create<SpaceStoreState>()(
             set({ isLoading: false })
           }
         }
+      },
+
+      upsertWorkspace: (workspace, organizationId) => {
+        const spaceLike = workspaceToSpaceLike(workspace, organizationId)
+        set((state) => {
+          const exists = state.spaces.some((s) => s.id === spaceLike.id)
+          return {
+            spaces: exists
+              ? state.spaces.map((s) => (s.id === spaceLike.id ? { ...s, ...spaceLike } : s))
+              : [...state.spaces, spaceLike],
+          }
+        })
+        log.info('Workspace upserted into store:', { id: spaceLike.id, name: spaceLike.name })
       },
 
       refreshSpace: async (id) => {
