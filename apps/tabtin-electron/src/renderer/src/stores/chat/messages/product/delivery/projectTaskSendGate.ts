@@ -18,12 +18,39 @@ export const PROJECT_TASK_CHAT_SEND_ALLOWED_STATUSES = new Set<ProjectTaskRun['s
   'completed',
 ])
 
+/** 兜底文案：任务详情按钮随状态变化（开始执行 / 再执行一轮 / 重新运行）。 */
 export const PROJECT_TASK_RUN_REQUIRED_MESSAGE =
-  '当前任务执行已结束或尚未开始，请回到任务详情点击「重新运行」创建新的执行。'
+  '当前任务执行已结束或尚未开始，请回到任务详情创建新的执行。'
+
+/** 未配置执行（接受指派后配置被重置）时，任务详情只有「确认工作空间与 Agent」。 */
+export const PROJECT_TASK_NOT_CONFIGURED_MESSAGE =
+  '当前任务尚未配置执行，请回到任务详情确认工作空间与 Agent 后开始执行。'
+
+export const PROJECT_TASK_TERMINAL_MESSAGE =
+  '当前任务已结束或已取消，不能在执行会话中继续发送。'
+
+/** 按任务状态给出可跟进的引导（与服务端 `_project_task_run_required_message` 同语义）。 */
+export function buildProjectTaskRunRequiredMessage(
+  task: Pick<ProjectTask, 'execution_ready' | 'work_status'> | null | undefined,
+): string {
+  if (!task) return PROJECT_TASK_RUN_REQUIRED_MESSAGE
+  if (task.work_status === 'done' || task.work_status === 'cancelled') {
+    return PROJECT_TASK_TERMINAL_MESSAGE
+  }
+  if (!task.execution_ready) {
+    return PROJECT_TASK_NOT_CONFIGURED_MESSAGE
+  }
+  if (task.work_status === 'blocked') {
+    return '当前任务执行已结束，请回到任务详情点击「重新运行」创建新的执行。'
+  }
+  return PROJECT_TASK_RUN_REQUIRED_MESSAGE
+}
 
 export interface ProjectTaskSendGateSnapshot {
   originSource: string | null
   runStatus: ProjectTaskRun['status'] | null
+  /** 可选任务投影：用于按状态生成引导文案（与任务详情按钮一致）。 */
+  task?: Pick<ProjectTask, 'execution_ready' | 'work_status'> | null
 }
 
 export interface ProjectTaskSendGateBlock {
@@ -31,6 +58,9 @@ export interface ProjectTaskSendGateBlock {
   errorMessage: string
   errorCategory: 'project_task_run_required'
   retryable: false
+  /** 供拦截反馈直接跳回任务详情。 */
+  projectId?: string
+  taskId?: string
 }
 
 /** 纯函数：与服务端 evaluate_project_task_chat_send_gate 判定一致。 */
@@ -48,7 +78,7 @@ export function evaluateProjectTaskChatSendGate(
   }
   return {
     errorCode: 'project_task_run_required',
-    errorMessage: PROJECT_TASK_RUN_REQUIRED_MESSAGE,
+    errorMessage: buildProjectTaskRunRequiredMessage(snapshot.task),
     errorCategory: 'project_task_run_required',
     retryable: false,
   }
@@ -204,15 +234,24 @@ export async function resolveProjectTaskChatSendGate(
 
   // 权威状态：始终拉任务详情。本地 cached running 不得短路。
   let runStatus: ProjectTaskRun['status'] | null = null
+  let task: ProjectTask | null = null
   if (projectId && taskId) {
     try {
-      const task = await ProjectApiService.getTask(projectId, taskId)
+      task = await ProjectApiService.getTask(projectId, taskId)
       runStatus = resolveRunStatusFromTask(task, sessionId, runId)
     } catch {
       runStatus = null
+      task = null
     }
   }
 
   rememberProjectTaskRunStatus(sessionId, runStatus)
-  return evaluateProjectTaskChatSendGate({ originSource, runStatus })
+  const block = evaluateProjectTaskChatSendGate({ originSource, runStatus, task })
+  if (!block) return null
+  // 携带定位信息，拦截反馈可直接跳回任务详情（dogfood：非创建者接受指派后被
+  // 历史会话卡住，只能靠用户自己找回任务面板）。
+  if (projectId && taskId) {
+    return { ...block, projectId, taskId }
+  }
+  return block
 }

@@ -56,6 +56,38 @@ _PROJECT_TASK_CHAT_SEND_ALLOWED_STATUSES = frozenset({
     ProjectTaskRun.Status.COMPLETED,
 })
 
+# 兜底文案：任务详情里的按钮随状态变化（开始执行 / 再执行一轮 / 重新运行），
+# 不能一律引导用户去找固定的「重新运行」按钮（接受指派后配置被重置时根本没有运行按钮）。
+_PROJECT_TASK_RUN_REQUIRED_FALLBACK_MESSAGE = (
+    '当前任务执行已结束或尚未开始，请回到任务详情创建新的执行。'
+)
+
+
+def _project_task_run_required_message(task: ProjectTask | None) -> str:
+    """按任务实际状态给出可跟进的引导文案。
+
+    场景（dogfood）：非创建者接受指派后打开历史执行会话被拒——
+    此时任务详情展示的是「确认工作空间与 Agent」而非「重新运行」，
+    旧文案会把用户引向一个不存在的按钮。
+    """
+    if task is None:
+        return _PROJECT_TASK_RUN_REQUIRED_FALLBACK_MESSAGE
+    if task.work_status in (
+        ProjectTask.WorkStatus.DONE,
+        ProjectTask.WorkStatus.CANCELLED,
+    ):
+        return '当前任务已结束或已取消，不能在执行会话中继续发送。'
+    if not (
+        task.assignment_status == ProjectTask.AssignmentStatus.ACCEPTED
+        and task.selected_agent_id
+        and task.project_member_workspace_id
+        and task.workspace_confirmed_at
+    ):
+        return '当前任务尚未配置执行，请回到任务详情确认工作空间与 Agent 后开始执行。'
+    if task.work_status == ProjectTask.WorkStatus.BLOCKED:
+        return '当前任务执行已结束，请回到任务详情点击「重新运行」创建新的执行。'
+    return _PROJECT_TASK_RUN_REQUIRED_FALLBACK_MESSAGE
+
 
 def _parse_bracket_error_code(*texts: object) -> str:
     """从 reply/content 等文本解析标准 ``[code]`` 前缀。"""
@@ -106,7 +138,8 @@ def evaluate_project_task_chat_send_gate(session_id: str) -> dict | None:
     """project_task 会话送信门禁。
 
     仅当 ChatContext._origin_source == 'project_task' 时生效；普通聊天直接放行。
-    无可运行 Run（失败终态 / 准备中 / 缺失）时返回 NAK 字段，引导创建新 Run。
+    无可运行 Run（失败终态 / 准备中 / 缺失）时返回 NAK 字段，引导创建新 Run；
+    文案按任务状态区分，避免引导用户去找不存在的按钮。
     """
     if not session_id:
         return None
@@ -124,17 +157,18 @@ def evaluate_project_task_chat_send_gate(session_id: str) -> dict | None:
         return None
 
     run = None
+    task_id = str(context_data.get('_project_task_id') or '').strip()
     run_id = str(context_data.get('_project_task_run_id') or '').strip()
     if run_id:
         run = (
             ProjectTaskRun.objects.filter(id=run_id)
-            .only('id', 'status')
+            .only('id', 'status', 'task_id')
             .first()
         )
     if run is None:
         run = (
             ProjectTaskRun.objects.filter(chat_session_id=session_id)
-            .only('id', 'status')
+            .only('id', 'status', 'task_id')
             .order_by('-created_at')
             .first()
         )
@@ -142,11 +176,22 @@ def evaluate_project_task_chat_send_gate(session_id: str) -> dict | None:
     if run is not None and run.status in _PROJECT_TASK_CHAT_SEND_ALLOWED_STATUSES:
         return None
 
+    task = None
+    if run is not None:
+        task_id = task_id or str(run.task_id)
+    if task_id:
+        task = (
+            ProjectTask.objects.filter(id=task_id)
+            .only(
+                'id', 'assignment_status', 'work_status', 'selected_agent_id',
+                'project_member_workspace_id', 'workspace_confirmed_at',
+            )
+            .first()
+        )
+
     return {
         'error_code': 'project_task_run_required',
-        'error_message': (
-            '当前任务执行已结束或尚未开始，请回到任务详情点击「重新运行」创建新的执行。'
-        ),
+        'error_message': _project_task_run_required_message(task),
         'error_category': 'project_task_run_required',
         'retryable': False,
     }

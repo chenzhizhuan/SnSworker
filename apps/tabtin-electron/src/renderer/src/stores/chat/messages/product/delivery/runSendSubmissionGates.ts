@@ -133,6 +133,16 @@ export async function runSendSubmissionGates(params: {
       reason: 'project_task_run_required',
       queueReason: 'project_task_run_required',
       userFeedback: 'project_task_run_required_toast',
+      projectTask: (
+        projectTaskGate.projectId
+        && projectTaskGate.taskId
+      )
+        ? {
+          projectId: projectTaskGate.projectId,
+          taskId: projectTaskGate.taskId,
+          message: projectTaskGate.errorMessage,
+        }
+        : undefined,
     }, {
       sessionId,
       sendTimingTrace,

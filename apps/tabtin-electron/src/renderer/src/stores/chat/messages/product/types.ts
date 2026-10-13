@@ -40,6 +40,12 @@ export type BlockedSubmission = {
   reason: SubmissionRejectReason
   queueReason: QueueFlushFailReason
   userFeedback: SubmissionUserFeedback
+  /** project_task_run_required 专用：定位信息 + 状态化文案，供拦截反馈直达任务详情。 */
+  projectTask?: {
+    projectId: string
+    taskId: string
+    message?: string
+  }
 }
 
 export type AllowedSubmission = {

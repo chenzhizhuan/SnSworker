@@ -1,9 +1,11 @@
 import i18n from '@/i18n'
-import { toast } from '@tabtin/smartsheet-ui/toast'
+import { createElement } from 'react'
+import { toast, ToastAction } from '@tabtin/smartsheet-ui/toast'
 import { trackSendTimingTelemetry } from '../../execution/sendTimingTrace'
 import type { BlockedSubmission } from '../product/types'
 import type { SendTimingTrace } from '../../execution/sendTimingTrace'
 import { isCommunityDistribution } from '@/config/distribution'
+import { PROJECT_TASK_RUN_REQUIRED_MESSAGE } from '../product/delivery/projectTaskSendGate'
 
 /**
  * 技术域：根据产品域阻断结果执行 UI / telemetry 副作用。
@@ -67,21 +69,42 @@ export function applyBlockedSubmissionFeedback(
         variant: 'destructive',
       })
       return
-    case 'project_task_run_required':
+    case 'project_task_run_required': {
       ctx.log.warn('sendMessage blocked: project task run required', {
         sessionId: ctx.sessionId,
       })
+      // 文案按任务状态生成：接受指派后未配置时任务详情并没有「重新运行」按钮。
+      const target = blocked.projectTask
       toast({
         title: i18n.t('chat:projectTask.runRequiredTitle', {
-          defaultValue: '请从任务详情重新运行',
+          defaultValue: '请回到任务详情继续任务',
         }),
-        description: i18n.t('chat:projectTask.runRequiredHint', {
-          defaultValue:
-            '当前任务执行已结束或尚未开始，请回到任务详情点击「重新运行」创建新的执行。',
-        }),
+        description: target?.message
+          ?? i18n.t('chat:projectTask.runRequiredHint', {
+            defaultValue: PROJECT_TASK_RUN_REQUIRED_MESSAGE,
+          }),
         variant: 'destructive',
+        // 直达任务详情，避免用户被历史会话卡在死胡同里（dogfood）。
+        ...(target ? {
+          action: createElement(
+            ToastAction,
+            {
+              altText: '去任务详情',
+              onClick: () => {
+                void import('@/services/focusProjectTask').then((mod) => {
+                  mod.focusProjectTask({
+                    projectId: target.projectId,
+                    taskId: target.taskId,
+                  })
+                })
+              },
+            },
+            '去任务详情',
+          ),
+        } : {}),
       })
       return
+    }
     default: {
       const _exhaustive: never = blocked.reason
       void _exhaustive

@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from django.contrib.auth import get_user_model
 from django.test import SimpleTestCase, TestCase, override_settings
+from django.utils import timezone
 from unittest.mock import patch
 
 from apps.agent.models import Agent
@@ -1267,6 +1268,92 @@ class ProjectTaskServiceTests(TestCase):
             context_data={'current_app_type': 'tabdoc'},
         )
         self.assertIsNone(evaluate_project_task_chat_send_gate(str(session.id)))
+
+    def _gate_with_failed_run_session(self, task: ProjectTask):
+        from apps.chat.conversation.models import ChatContext, ChatSession
+
+        session = ChatSession.objects.create(
+            user=task.responsible_user,
+            organization_id=str(self.organization.id),
+            workspace=self.member_workspace,
+            agent=self.member_agent,
+            title='执行',
+        )
+        run = ProjectTaskRun.objects.create(
+            task=task,
+            responsible_user=task.responsible_user,
+            agent=self.member_agent,
+            workspace=self.member_workspace,
+            device=self.member_workspace.device,
+            status=ProjectTaskRun.Status.FAILED,
+            chat_session=session,
+            binding_snapshot={'agent_id': str(self.member_agent.id)},
+        )
+        ChatContext.objects.create(
+            session=session,
+            current_space_id=str(self.project.id),
+            context_data={
+                '_origin_source': 'project_task',
+                '_project_task_id': str(task.id),
+                '_project_task_run_id': str(run.id),
+            },
+        )
+        return evaluate_project_task_chat_send_gate(str(session.id))
+
+    def test_chat_send_gate_message_guides_configuration_when_not_ready(self):
+        """dogfood：非创建者接受指派后配置被重置，任务详情没有「重新运行」按钮。"""
+        task = ProjectTask.objects.create(
+            project=self.project,
+            title='Accepted but not configured',
+            created_by=self.owner,
+            responsible_user=self.member,
+            assignment_status=ProjectTask.AssignmentStatus.ACCEPTED,
+            work_status=ProjectTask.WorkStatus.TODO,
+        )
+
+        gate = self._gate_with_failed_run_session(task)
+
+        self.assertIsNotNone(gate)
+        self.assertEqual(gate['error_code'], 'project_task_run_required')
+        self.assertIn('确认工作空间与 Agent', gate['error_message'])
+        self.assertNotIn('重新运行', gate['error_message'])
+
+    def test_chat_send_gate_message_keeps_rerun_hint_when_blocked(self):
+        task = ProjectTask.objects.create(
+            project=self.project,
+            title='Blocked with execution config',
+            created_by=self.member,
+            responsible_user=self.member,
+            assignment_status=ProjectTask.AssignmentStatus.ACCEPTED,
+            work_status=ProjectTask.WorkStatus.BLOCKED,
+            selected_agent=self.member_agent,
+            project_member_workspace=self.member_link,
+            workspace_confirmed_at=timezone.now(),
+        )
+
+        gate = self._gate_with_failed_run_session(task)
+
+        self.assertIsNotNone(gate)
+        self.assertEqual(gate['error_code'], 'project_task_run_required')
+        self.assertIn('重新运行', gate['error_message'])
+
+    def test_chat_send_gate_message_marks_terminal_task(self):
+        task = ProjectTask.objects.create(
+            project=self.project,
+            title='Done task',
+            created_by=self.member,
+            responsible_user=self.member,
+            assignment_status=ProjectTask.AssignmentStatus.ACCEPTED,
+            work_status=ProjectTask.WorkStatus.DONE,
+            selected_agent=self.member_agent,
+            project_member_workspace=self.member_link,
+            workspace_confirmed_at=timezone.now(),
+        )
+
+        gate = self._gate_with_failed_run_session(task)
+
+        self.assertIsNotNone(gate)
+        self.assertIn('已结束或已取消', gate['error_message'])
 
     def test_serialize_task_lists_all_run_conversations(self):
         from apps.chat.conversation.models import ChatSession

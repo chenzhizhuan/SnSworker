@@ -1704,7 +1704,7 @@ export function createCheckpointActions(
       if (mode === 'editAndResend' && isProjectTaskEditAndResendBlocked(effectiveSessionId)) {
         toast({
           title: i18n.t('chat:projectTask.runRequiredTitle', {
-            defaultValue: '请从任务详情重新运行',
+            defaultValue: '请回到任务详情继续任务',
           }),
           description: i18n.t('chat:projectTask.runRequiredHint', {
             defaultValue: PROJECT_TASK_RUN_REQUIRED_MESSAGE,
@@ -1763,7 +1763,7 @@ export function createCheckpointActions(
           set({ rewindPreview: null })
           toast({
             title: i18n.t('chat:projectTask.runRequiredTitle', {
-              defaultValue: '请从任务详情重新运行',
+              defaultValue: '请回到任务详情继续任务',
             }),
             description: i18n.t('chat:projectTask.runRequiredHint', {
               defaultValue: gate.errorMessage,

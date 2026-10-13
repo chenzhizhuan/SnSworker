@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  buildProjectTaskRunRequiredMessage,
   clearProjectTaskRunStatusCache,
   evaluateProjectTaskChatSendGate,
   isProjectTaskEditAndResendBlocked,
+  PROJECT_TASK_NOT_CONFIGURED_MESSAGE,
   PROJECT_TASK_RUN_REQUIRED_MESSAGE,
   rememberProjectTaskRunStatus,
   resolveProjectTaskChatSendGate,
@@ -72,6 +74,58 @@ describe('evaluateProjectTaskChatSendGate', () => {
       originSource: 'project_task',
       runStatus: null,
     })?.errorCode).toBe('project_task_run_required')
+  })
+
+  it('project_task + failed 且未配置执行 → 引导先配置，而非找「重新运行」', () => {
+    const block = evaluateProjectTaskChatSendGate({
+      originSource: 'project_task',
+      runStatus: 'failed',
+      task: { execution_ready: false, work_status: 'todo' },
+    })
+    expect(block?.errorMessage).toBe(PROJECT_TASK_NOT_CONFIGURED_MESSAGE)
+  })
+
+  it('project_task + failed 且受阻 → 引导点击「重新运行」', () => {
+    const block = evaluateProjectTaskChatSendGate({
+      originSource: 'project_task',
+      runStatus: 'failed',
+      task: { execution_ready: true, work_status: 'blocked' },
+    })
+    expect(block?.errorMessage).toBe(
+      '当前任务执行已结束，请回到任务详情点击「重新运行」创建新的执行。',
+    )
+  })
+
+  it('project_task + failed 且任务已结束 → 明确不能继续发送', () => {
+    const block = evaluateProjectTaskChatSendGate({
+      originSource: 'project_task',
+      runStatus: 'failed',
+      task: { execution_ready: true, work_status: 'done' },
+    })
+    expect(block?.errorMessage).toBe(
+      '当前任务已结束或已取消，不能在执行会话中继续发送。',
+    )
+  })
+})
+
+describe('buildProjectTaskRunRequiredMessage', () => {
+  it('无任务投影时回退通用文案', () => {
+    expect(buildProjectTaskRunRequiredMessage(null)).toBe(PROJECT_TASK_RUN_REQUIRED_MESSAGE)
+    expect(buildProjectTaskRunRequiredMessage(undefined)).toBe(PROJECT_TASK_RUN_REQUIRED_MESSAGE)
+  })
+
+  it('未配置执行（接受指派后配置被重置）→ 配置引导', () => {
+    expect(buildProjectTaskRunRequiredMessage({
+      execution_ready: false,
+      work_status: 'todo',
+    })).toBe(PROJECT_TASK_NOT_CONFIGURED_MESSAGE)
+  })
+
+  it('受阻且有配置 → 「重新运行」引导', () => {
+    expect(buildProjectTaskRunRequiredMessage({
+      execution_ready: true,
+      work_status: 'blocked',
+    })).toContain('重新运行')
   })
 })
 
@@ -146,6 +200,8 @@ describe('resolveProjectTaskChatSendGate', () => {
     })
     getTask.mockResolvedValue({
       id: 'task-1',
+      execution_ready: false,
+      work_status: 'todo',
       conversations: [{
         session_id: 'sess-1',
         run_id: 'run-1',
@@ -157,6 +213,11 @@ describe('resolveProjectTaskChatSendGate', () => {
     const gate = await resolveProjectTaskChatSendGate('sess-1')
     expect(gate?.errorCode).toBe('project_task_run_required')
     expect(getTask).toHaveBeenCalledWith('project-1', 'task-1')
+    // dogfood 修复：拦截反馈需要定位信息直达任务详情。
+    expect(gate?.projectId).toBe('project-1')
+    expect(gate?.taskId).toBe('task-1')
+    // 未配置执行时不得再引导用户去找「重新运行」按钮。
+    expect(gate?.errorMessage).toBe(PROJECT_TASK_NOT_CONFIGURED_MESSAGE)
   })
 
   it('普通聊天本机续聊不受影响，且不打 getSessionContext', async () => {
