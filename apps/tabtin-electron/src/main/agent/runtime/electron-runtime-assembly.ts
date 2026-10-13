@@ -220,6 +220,7 @@ import {
 // 读盘 helper（mtime 缓存 + 截断），两端宿主 import 同一份。
 import { readProjectRules } from '@tabtin/agent-runtime/tools'
 import { shouldInjectProjectTaskSkill } from './project-task-skill-gate'
+import { resolveRuntimeProjectId } from './project-id-binding'
 import {
   buildUserPortraitCacheKey,
   buildUserPortraitMeQuery,
@@ -842,10 +843,16 @@ export class ElectronRuntimeAssembly {
     const normalizedDisabledToolPrefixes = request.disabledToolPrefixes
       ?? existing?.disabledToolPrefixes
       ?? []
-    const projectIdCandidate = request.appContext?.appMeta?.project_id
-    const projectId = typeof projectIdCandidate === 'string'
-      ? projectIdCandidate.trim() || undefined
-      : existing?.projectId
+    // ：projectId 会话级粘性。chat 视觉 Focus 同步（appType='chat'、appMeta=null，
+    // 见 chatPanelController.requestContextSync P1-7）会清掉 appMeta.project_id；
+    // 若仅依赖 wire 快照，用户在编排对话里的下一条消息就会以「无 Project 上下文」
+    // 重建 runtime，project_members_list / project_tasks_create 等工具被静默摘除
+    // （TODO #4：AI 编排确认方案后不写看板）。会话归属的 Project 是创建期绑定，
+    // 视觉 Focus 不改变它 —— 因此 wire 未显式提供时沿用当前 HostState 的烘焙值。
+    const projectId = resolveRuntimeProjectId({
+      candidate: request.appContext?.appMeta?.project_id,
+      existingProjectId: existingForMode?.projectId ?? existing?.projectId,
+    })
     const cacheKeyInput = {
       modelId,
       customRules: request.customRules,

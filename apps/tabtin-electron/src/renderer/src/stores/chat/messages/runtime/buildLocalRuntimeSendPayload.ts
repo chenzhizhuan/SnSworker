@@ -8,6 +8,7 @@ import type { AgentConfig as AgentConfigV2 } from '@tabtin/app-shell'
 import { useMemoRecordStyleStore } from '@stores/useMemoRecordStyleStore'
 import { useOrganizationStore } from '@stores/useOrganizationStore'
 import { getLastAppContext } from '../../session/slices/contextSyncSlice'
+import { resolveChatScopeHost } from '../../session/utils/chatSessionScope'
 import { buildUserVisibleBlocks } from '../actions/buildUserVisibleBlocks'
 import type { EnabledAppInfoForSend } from '../../execution/captureEnabledAppsForSend'
 import type { SessionExecutionTarget } from '@/services/remoteExecutionGuard'
@@ -125,9 +126,24 @@ export function buildLocalRuntimeSendPayload(
     : undefined
 
   const cached = getLastAppContext(input.sessionId)
+  // Project 编排上下文保活（TODO #4）：chat 视觉 Focus 的 syncContext
+  // （chatPanelController.requestContextSync）会把 appMeta 置 null，覆盖编排
+  // 打开时写入的 { project_id }；app 重启后 _lastAppContext 也会从空开始。
+  // 会话宿主是 Project（capturedSpaceId 指向 team_space / 伴生 workspace）时，
+  // 发送前兜底补回 project_id，保证 runtime（含重启后的首轮重建）始终持有
+  // project_members_list / project_tasks_create 等编排工具。会话归属的 Project
+  // 是创建期绑定，视觉 Focus 不改变它。
+  const hostProjectId = input.capturedSpaceId
+    ? resolveChatScopeHost(input.capturedSpaceId).currentProjectId
+    : null
+  const cachedAppMeta = cached?.appMeta ?? null
+  const restoredAppMeta = hostProjectId && !cachedAppMeta?.project_id
+    ? { ...(cachedAppMeta ?? {}), project_id: hostProjectId }
+    : cachedAppMeta
   const appContext = (cached || input.capturedRuntimeSpaceId || input.capturedTabScopeKey)
     ? {
         ...(cached ?? {}),
+        ...(restoredAppMeta !== cachedAppMeta ? { appMeta: restoredAppMeta } : {}),
         ...(input.capturedRuntimeSpaceId ? { spaceId: input.capturedRuntimeSpaceId } : {}),
         ...(input.capturedSpaceId && input.capturedSpaceId !== input.capturedRuntimeSpaceId
           ? { projectSpaceId: input.capturedSpaceId }
