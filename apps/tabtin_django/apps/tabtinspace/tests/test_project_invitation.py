@@ -27,13 +27,14 @@ User = get_user_model()
 
 
 def _make_user(username: str):
-    u = User.objects.db_manager("default").create_user(
+    # single_pg 单库化后，postgresql 别名在测试配置里 MIRROR default（指向同一个
+    # 测试库、独立连接）。旧的双写同一主键会让 mirror 连接等待 default 事务里
+    # 未提交的 pkey 索引锁，命中 lock_timeout（LockNotAvailable）。
+    # 由 db_router 统一路由单写即可（与 test_organization_member_search 等现行
+    # 通过的套件同款姿势）。
+    return User.objects.create_user(
         username=username, email=f"{username}@test.com", password="testpass123",
     )
-    User.objects.db_manager("postgresql").create_user(
-        id=u.id, username=username, email=f"{username}@test.com", password="testpass123",
-    )
-    return u
 
 
 class ProjectInvitationTests(TestCase):
