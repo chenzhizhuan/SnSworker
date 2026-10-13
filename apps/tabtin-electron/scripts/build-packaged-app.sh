@@ -2270,7 +2270,26 @@ if [ "$TARGET_RUNTIME" = "win32" ]; then
   # win-unpacked here lets editor file watchers lock app.asar and can make
   # post-upload cleanup (or the next build) fail with EBUSY on Windows.
   mkdir -p "$APP_DIR/dist-app"
-  find "$ARTIFACT_DIR" -maxdepth 1 -type f -exec cp {} "$APP_DIR/dist-app/" \;
+  # dogfood(2026-10-14)：MSYS `find -exec cp` 在长 PATH + 深部署 CWD 下偶发
+  # "The environment is too large for exec()"——构建已全部通过却死在最后一步
+  # 复制上，触发 exit trap 把产物当垃圾回收（exe 直接丢失）。改用 node 复制
+  # 顶层文件（audit 阶段同一 bash 环境下 node 可正常 exec，绕开 find -exec）。
+  node -e '
+    const fs = require("node:fs")
+    const path = require("node:path")
+    const [src, dst] = process.argv.slice(1)
+    fs.mkdirSync(dst, { recursive: true })
+    let copied = 0
+    for (const entry of fs.readdirSync(src)) {
+      const from = path.join(src, entry)
+      if (fs.statSync(from).isFile()) {
+        fs.copyFileSync(from, path.join(dst, entry))
+        copied += 1
+      }
+    }
+    if (copied === 0) throw new Error(`no top-level files found under ${src}`)
+    console.log(`  · delivered ${copied} artifact files to ${dst}`)
+  ' "$ARTIFACT_DIR" "$APP_DIR/dist-app"
 else
   remove_tree_with_windows_retry "$APP_DIR/dist-app"
   mkdir -p "$APP_DIR/dist-app"
