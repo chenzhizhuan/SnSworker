@@ -25,6 +25,7 @@ import type { ProjectPendingInvitation } from '@/types/project'
 import { cn } from '@utils/cn'
 import { SpaceSettingsSectionHeader } from './SpaceSettingsSectionHeader'
 import { PROJECT_INVITATION_RECEIVED_EVENT } from '@components/layout/project/PendingProjectInvitations'
+import { MemberSearchSelect } from '@components/layout/project/MemberSearchSelect'
 
 export interface TeamSpaceMembersSectionProps {
   space: Space
@@ -110,7 +111,7 @@ export const TeamSpaceMembersSection: React.FC<TeamSpaceMembersSectionProps> = (
   }, [organizationMembers])
 
   const activeUserIds = useMemo(() => {
-    return new Set(memberships.map(item => item.user_id).filter(Boolean))
+    return new Set(memberships.map(item => item.user_id).filter(Boolean) as string[])
   }, [memberships])
 
   const pendingUserIds = useMemo(() => {
@@ -122,6 +123,14 @@ export const TeamSpaceMembersSection: React.FC<TeamSpaceMembersSectionProps> = (
       member => !activeUserIds.has(member.user_id) && !pendingUserIds.has(member.user_id),
     )
   }, [activeUserIds, organizationMembers, pendingUserIds])
+
+  /** 搜索结果中不可选的成员：已在项目 / 待接受，附原因文案灰显。 */
+  const inviteDisabledOptions = useMemo(() => {
+    const disabled: Record<string, string> = {}
+    activeUserIds.forEach(userId => { disabled[userId] = '已在项目' })
+    pendingUserIds.forEach(userId => { disabled[userId] = '待接受' })
+    return disabled
+  }, [activeUserIds, pendingUserIds])
 
   const displayMemberName = useCallback((userId?: string | null) => {
     if (!userId) return t('members.unknownIdentity', { defaultValue: '未知成员' })
@@ -178,25 +187,20 @@ export const TeamSpaceMembersSection: React.FC<TeamSpaceMembersSectionProps> = (
             {t('members.inviteLabel', { defaultValue: '邀请 Organization 成员' })}
           </label>
           <div className="flex gap-2">
-            <select
+            <MemberSearchSelect
+              organizationId={space.organization_id}
               value={selectedUserId}
-              onChange={event => setSelectedUserId(event.target.value)}
-              disabled={isLoading || inviteOptions.length === 0}
-              className={cn(
-                SETTINGS_CONTROL,
-                'flex-1 rounded-md border border-input bg-background px-3 text-body text-foreground outline-none'
-              )}
-            >
-              {inviteOptions.length === 0 ? (
-                <option value="">
-                  {t('members.noInviteOptions', { defaultValue: '没有可邀请成员' })}
-                </option>
-              ) : inviteOptions.map(member => (
-                <option key={member.user_id} value={member.user_id}>
-                  {displayMemberName(member.user_id)}
-                </option>
-              ))}
-            </select>
+              onChange={setSelectedUserId}
+              initialOptions={inviteOptions}
+              disabledOptions={inviteDisabledOptions}
+              disabled={isLoading}
+              ariaLabel={t('members.inviteLabel', { defaultValue: '邀请 Organization 成员' })}
+              placeholder={t('members.searchPlaceholder', {
+                defaultValue: '搜索姓名 / 用户名 / 邮箱',
+              })}
+              emptyHint={t('members.noInviteOptions', { defaultValue: '没有可邀请成员' })}
+              className="flex-1"
+            />
             <Button
               type="button"
               onClick={handleInvite}

@@ -269,6 +269,9 @@ export function usePrimaryNavigation(input: {
   const { executionSpaceId } = input
   const userId = useAuthStore(state => state.user?.id ?? null)
   const organizationId = useOrganizationStore(state => state.selectedOrganization?.id ?? null)
+  // 个人组织无 Project 权限：与构建期开关叠加，个人组织下隐藏/拦截「做项目」。
+  const selectedOrgType = useOrganizationStore(state => state.selectedOrganization?.type ?? null)
+  const projectsDomainEnabled = PROJECTS_UI_ENABLED && selectedOrgType !== 'personal'
   const spaces = useSpaceStore(state => state.spaces)
   const lastUsedWorkspaceId = useSpaceViewPrefsStore(state =>
     state.getLastUsedWorkspaceId(organizationId),
@@ -284,7 +287,7 @@ export function usePrimaryNavigation(input: {
   const setCurrentTab = useMainNavStore((s) => s.setCurrentTab)
   const effectiveMainNavTab = resolveEffectiveMainNavTab({
     mainNavTab,
-    projectsEnabled: PROJECTS_UI_ENABLED,
+    projectsEnabled: projectsDomainEnabled,
   })
   const activeAppPage = useAppPageStore(s => s.activePage)
   const isProjectNavActive = activeAppPage === 'project'
@@ -417,16 +420,16 @@ export function usePrimaryNavigation(input: {
   const pendingProjectInvitations = usePendingProjectInvitationStore((s) => s.invitations)
   const collaborationPendingCount = useMemo(
     () => (
-      PROJECTS_UI_ENABLED
+      projectsDomainEnabled
         ? countPendingProjectInvitations(pendingProjectInvitations, organizationId)
         : 0
     ),
-    [organizationId, pendingProjectInvitations],
+    [organizationId, pendingProjectInvitations, projectsDomainEnabled],
   )
   const collaborationPendingLabel = formatIMUnreadBadge(collaborationPendingCount)
 
   const handlePrimaryNavigation = useCallback((target: PrimaryNavId) => {
-    if (target === 'collaboration' && !PROJECTS_UI_ENABLED) return
+    if (target === 'collaboration' && !projectsDomainEnabled) return
     // 在任何 closeAppPage 之前快照沉浸态：离开 Project 必须统一走 exit 编排，
     // 否则执行工作空间交接会被「先关页、后读态」的时序吞掉（#P1）。
     const wasProjectImmersive = useAppPageStore.getState().activePage === 'project'
@@ -597,6 +600,7 @@ export function usePrimaryNavigation(input: {
     handleExitProject,
     organizationId,
     personalConversationSpaceId,
+    projectsDomainEnabled,
     setCurrentTab,
     setSidebarMode,
     userId,

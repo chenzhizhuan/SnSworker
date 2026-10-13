@@ -1,6 +1,6 @@
 import React from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 
 import { TeamSpaceMembersSection } from './TeamSpaceMembersSection'
 
@@ -117,8 +117,20 @@ describe('TeamSpaceMembersSection ', () => {
     expect(screen.getByText('徒弟')).not.toBeNull()
     expect(screen.getAllByText('待接受').length).toBeGreaterThan(0)
 
-    const select = screen.getByRole('combobox') as HTMLSelectElement
-    expect(select.options.length).toBe(1)
-    expect(select.options[0]?.textContent).toContain('没有可邀请成员')
+    // 新交互（MemberSearchSelect）：初始候选不含已在项目/待接受的成员 → 空态提示。
+    const combobox = screen.getByRole('combobox')
+    fireEvent.click(combobox)
+    const listbox = await screen.findByRole('listbox')
+    expect(within(listbox).getByText('暂无可选成员')).not.toBeNull()
+
+    // 搜索后两类成员都出现，但分别以「已在项目」「待接受」灰显且禁选。
+    fireEvent.change(combobox, { target: { value: '徒弟' } })
+    await waitFor(() => {
+      expect(within(listbox).getAllByRole('option').length).toBe(2)
+    })
+    const options = within(listbox).getAllByRole('option') as HTMLButtonElement[]
+    expect(options[0]?.textContent).toContain('已在项目')
+    expect(options[1]?.textContent).toContain('待接受')
+    expect(options.every(option => option.disabled)).toBe(true)
   })
 })

@@ -57,6 +57,7 @@ import { MemberApiService } from '@/services/memberApi';
 import { SpaceAccessApiService } from '@/services/spaceAccessApi';
 import { useChatStore } from '@stores/chat/useChatStore';
 import { rememberProjectTaskRunStatus } from '@/stores/chat/messages/product/delivery/projectTaskSendGate';
+import { MemberSearchSelect } from './MemberSearchSelect';
 import { useProjectTaskRealtime } from '@/hooks/useProjectTaskRealtime';
 import { useProjectTaskStore } from '@/stores/useProjectTaskStore';
 import { useUIStore } from '@stores/useUIStore';
@@ -585,6 +586,16 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
       organizationMembers.filter((member) => activeUserIds.has(member.user_id)),
     [activeUserIds, organizationMembers],
   );
+  /** 搜索结果中非 Project 成员灰显并附原因；只能指派给 Project 生效成员。 */
+  const assigneeDisabledOptions = useMemo(() => {
+    const disabled: Record<string, string> = {};
+    for (const member of organizationMembers) {
+      if (!activeUserIds.has(member.user_id)) {
+        disabled[member.user_id] = '未加入项目';
+      }
+    }
+    return disabled;
+  }, [activeUserIds, organizationMembers]);
   // 终态：不再要求 Agent 先加入 Project；责任人可选自己拥有的任意活跃非 human Agent。
   const availableAgents = useMemo(
     () => agents.filter((agent) => agent.is_active && agent.type !== 'human'),
@@ -2669,36 +2680,24 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
                     </dt>
                     {detailCanReassign ? (
                       <dd className="mt-1.5 flex flex-col gap-1.5">
-                        <div className="flex items-center gap-2">
-                          <UserRound
-                            className="h-4 w-4 shrink-0 text-muted-foreground/60"
-                            aria-hidden
-                          />
-                          <select
-                            aria-label="改派指派人"
-                            value={
-                              reassignUserIdByTask[detailTask.id] ||
-                              detailTask.responsible_user.id
-                            }
-                            onChange={(event) =>
-                              setReassignUserIdByTask((current) => ({
-                                ...current,
-                                [detailTask.id]: event.target.value,
-                              }))
-                            }
-                            disabled={detailIsBusy}
-                            className="h-8 min-w-0 flex-1 rounded-interactive border border-input bg-background px-2 text-body text-foreground"
-                          >
-                            {responsibleOptions.map((member) => (
-                              <option
-                                key={member.user_id}
-                                value={member.user_id}
-                              >
-                                {memberName(member)}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
+                        <MemberSearchSelect
+                          organizationId={project.organization_id}
+                          value={
+                            reassignUserIdByTask[detailTask.id] ||
+                            detailTask.responsible_user.id
+                          }
+                          onChange={(userId) =>
+                            setReassignUserIdByTask((current) => ({
+                              ...current,
+                              [detailTask.id]: userId,
+                            }))
+                          }
+                          initialOptions={responsibleOptions}
+                          disabledOptions={assigneeDisabledOptions}
+                          disabled={detailIsBusy}
+                          ariaLabel="改派指派人"
+                          placeholder="搜索姓名 / 用户名 / 邮箱"
+                        />
                         <Button
                           type="button"
                           variant="secondary"
@@ -2885,20 +2884,24 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
               />
             </label>
             <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block space-y-1.5 text-body font-medium text-foreground">
-                指派人
-                <select
+              <div className="space-y-1.5">
+                <span className="block text-body font-medium text-foreground">
+                  指派人
+                </span>
+                <MemberSearchSelect
+                  organizationId={project.organization_id}
                   value={responsibleUserId}
-                  onChange={(event) => setResponsibleUserId(event.target.value)}
-                  className="h-9 w-full rounded-interactive border border-input bg-background px-3 text-body text-foreground"
-                >
-                  {responsibleOptions.map((member) => (
-                    <option key={member.user_id} value={member.user_id}>
-                      {memberName(member)}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  onChange={setResponsibleUserId}
+                  initialOptions={responsibleOptions}
+                  disabledOptions={assigneeDisabledOptions}
+                  ariaLabel="指派人"
+                  placeholder="搜索姓名 / 用户名 / 邮箱"
+                  emptyHint="没有匹配的成员"
+                />
+                <p className={cn('text-caption', CANVAS_TEXT_SECONDARY)}>
+                  只能指派给 Project 成员；搜索结果里灰显的需先到「成员与执行」邀请。
+                </p>
+              </div>
               <label className="block space-y-1.5 text-body font-medium text-foreground">
                 优先级
                 <select

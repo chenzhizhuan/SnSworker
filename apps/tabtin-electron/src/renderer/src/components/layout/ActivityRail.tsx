@@ -43,6 +43,7 @@ import {
 import { usePrimaryNavigation } from './primaryNavigation'
 import { PROJECTS_UI_ENABLED } from '@/utils/featureFlags'
 import { useAuthStore } from '@stores/useAuthStore'
+import { useOrganizationStore } from '@stores/useOrganizationStore'
 import {
   DEFAULT_ACTIVITY_RAIL_DOMAIN_ORDER,
   isActivityRailDomainId,
@@ -186,6 +187,10 @@ export const ActivityRail: React.FC<ActivityRailProps> = ({
   })
 
   const authUser = useAuthStore(state => state.user)
+  // 个人组织无 Project 权限：直接隐藏「做项目」域，避免点进去无内容。
+  // 与 PROJECTS_UI_ENABLED（构建期开关）叠加：两者都开才可见。
+  const selectedOrgType = useOrganizationStore(state => state.selectedOrganization?.type ?? null)
+  const projectsDomainEnabled = PROJECTS_UI_ENABLED && selectedOrgType !== 'personal'
   // 场景市场与经营看板为全局管理员专属域：仅超级管理员（is_superuser）/
   // 后台管理员（is_staff）可见。
   // 旧口径为组织 owner 可见——但两级模型下每个用户都是自己个人组织的
@@ -237,11 +242,11 @@ export const ActivityRail: React.FC<ActivityRailProps> = ({
 
   const visibleDomainIds = useMemo(
     () => resolveVisibleRailDomainIds({
-      projectsEnabled: PROJECTS_UI_ENABLED,
+      projectsEnabled: projectsDomainEnabled,
       isCockpitVisible,
       isScenariosVisible,
     }),
-    [isCockpitVisible, isScenariosVisible],
+    [isCockpitVisible, isScenariosVisible, projectsDomainEnabled],
   )
   const orderedDomainIds = useMemo(
     () => resolveRailDomainOrder({ visibleIds: visibleDomainIds, storedOrder: railDomainOrder }),
