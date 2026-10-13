@@ -132,16 +132,28 @@ export const TeamSpaceMembersSection: React.FC<TeamSpaceMembersSectionProps> = (
     return disabled
   }, [activeUserIds, pendingUserIds])
 
-  const displayMemberName = useCallback((userId?: string | null) => {
-    if (!userId) return t('members.unknownIdentity', { defaultValue: '未知成员' })
-    const member = memberByUserId.get(userId)
-    return (
-      member?.user?.nickname ||
-      member?.user?.username ||
-      member?.user?.email ||
-      userId
-    )
-  }, [memberByUserId, t])
+  /**
+   * 成员显示名：优先用 memberships 接口自带的身份摘要（后端已填充
+   * nickname/username/email），不受组织成员列表「前 200 条」截断影响——
+   * 大组织（>200 人）中排位靠后的成员不能退化成裸 user_id（dogfood）。
+   * 摘要缺失时回退组织成员表，最后才是 user_id。
+   */
+  const displayMemberName = useCallback(
+    (userId?: string | null, summary?: SpaceMembership['user']) => {
+      const member = userId ? memberByUserId.get(userId) : undefined
+      return (
+        summary?.nickname?.trim() ||
+        summary?.username?.trim() ||
+        summary?.email?.trim() ||
+        member?.user?.nickname ||
+        member?.user?.username ||
+        member?.user?.email ||
+        userId ||
+        t('members.unknownIdentity', { defaultValue: '未知成员' })
+      )
+    },
+    [memberByUserId, t],
+  )
 
   const handleInvite = async () => {
     if (!selectedUserId) return
@@ -236,7 +248,7 @@ export const TeamSpaceMembersSection: React.FC<TeamSpaceMembersSectionProps> = (
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="truncate text-body font-medium text-foreground">
-                    {displayMemberName(membership.user_id)}
+                    {displayMemberName(membership.user_id, membership.user)}
                   </span>
                   {isOnline && (
                     <span
