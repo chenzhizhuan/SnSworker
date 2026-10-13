@@ -12,11 +12,22 @@ class OrganizationMemberRolePermissionTests(TestCase):
     databases = {"default", "postgresql"}
 
     def setUp(self):
-        self.owner = User.objects.create_user(username="member_role_owner")
-        self.admin = User.objects.create_user(username="member_role_admin")
-        self.editor = User.objects.create_user(username="member_role_editor")
-        self.viewer = User.objects.create_user(username="member_role_viewer")
-        self.peer_admin = User.objects.create_user(username="member_role_peer_admin")
+        # 用户管理器要求邮箱或手机号二选一（apps/users/auth/managers.py）。
+        self.owner = User.objects.create_user(
+            username="member_role_owner", email="member-role-owner@example.com",
+        )
+        self.admin = User.objects.create_user(
+            username="member_role_admin", email="member-role-admin@example.com",
+        )
+        self.editor = User.objects.create_user(
+            username="member_role_editor", email="member-role-editor@example.com",
+        )
+        self.viewer = User.objects.create_user(
+            username="member_role_viewer", email="member-role-viewer@example.com",
+        )
+        self.peer_admin = User.objects.create_user(
+            username="member_role_peer_admin", email="member-role-peer-admin@example.com",
+        )
         self.organization = Organization.objects.create(
             name="Member Role Permission Org",
             owner=self.owner,

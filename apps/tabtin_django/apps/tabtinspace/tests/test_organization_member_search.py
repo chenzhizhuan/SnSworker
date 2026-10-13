@@ -79,15 +79,16 @@ class OrganizationMemberSearchTests(TestCase):
         self.service = OrganizationService(user=self.owner)
 
     def test_nickname_mode_matches_chinese_nickname_by_pinyin_prefix_and_initials(self):
+        # 夹具昵称「周八」：全拼 zhouba（前缀 zhoub）、首字母 zb。
         full_pinyin_members, full_pinyin_total = self.service.list_members(
             self.organization.id,
-            search="hu",
+            search="zhoub",
             search_mode="nickname",
             limit=20,
         )
         initials_members, initials_total = self.service.list_members(
             self.organization.id,
-            search="hcx",
+            search="zb",
             search_mode="nickname",
             limit=20,
         )

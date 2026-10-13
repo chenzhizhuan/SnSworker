@@ -57,17 +57,26 @@ class ProjectFeatureFlagTests(TransactionTestCase):
         )
         return room
 
-    def test_team_space_list_is_empty_after_project_retire(self):
-        """#3266 终态：Space(type=team_space) 已随 0105 物理消解；即使 flag 开启也无历史行。"""
-        self._make_project_room()
+    def test_team_space_list_projects_after_space_retire(self):
+        """#3266 终态：Space(type=team_space) 表已随 0105 物理消化，列表改为读
+        Project 投影——flag 开启时返回可访问的 Project；关闭时返回空。"""
+        room = self._make_project_room()
 
         spaces, total = SpaceService(user=self.user).list_spaces(
             organization_id=self.organization.id,
             space_type=Space.SpaceType.TEAM_SPACE,
         )
 
-        self.assertEqual(spaces, [])
-        self.assertEqual(total, 0)
+        self.assertEqual(spaces, [room])
+        self.assertEqual(total, 1)
+
+        with override_settings(TABTIN_ENABLE_PROJECTS=False):
+            spaces_disabled, total_disabled = SpaceService(user=self.user).list_spaces(
+                organization_id=self.organization.id,
+                space_type=Space.SpaceType.TEAM_SPACE,
+            )
+        self.assertEqual(spaces_disabled, [])
+        self.assertEqual(total_disabled, 0)
 
     def test_team_space_create_is_rejected_after_project_migration(self):
         """#3266 终态：``create_space(TEAM_SPACE)`` 已停产，团队协作走 ProjectService。"""
