@@ -17,6 +17,15 @@ export interface SpaceMembership {
   is_active: boolean
   joined_at: string
   updated_at: string
+  /** 成员身份摘要（Project 成员接口附带），供指派人候选直接展示。 */
+  user?: {
+    id?: string
+    username?: string
+    nickname?: string
+    email?: string
+    phone?: string
+    avatar?: string
+  }
 }
 
 export interface SpaceMembershipListResponse {

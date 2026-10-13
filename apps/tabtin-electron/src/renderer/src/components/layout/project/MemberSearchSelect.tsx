@@ -38,6 +38,8 @@ export interface MemberSearchSelectProps {
   initialOptions: OrganizationMember[]
   /** 不可选的 user_id → 灰显原因文案（如「已在项目」「待接受」）。 */
   disabledOptions?: Record<string, string>
+  /** 生效成员集合：候选/搜索结果中的非成员将灰显「未加入项目」（不受组织成员前 N 条截断影响）。 */
+  projectActiveUserIds?: Set<string>
   disabled?: boolean
   placeholder?: string
   ariaLabel?: string
@@ -59,6 +61,7 @@ export const MemberSearchSelect: React.FC<MemberSearchSelectProps> = ({
   onChange,
   initialOptions,
   disabledOptions = {},
+  projectActiveUserIds,
   disabled = false,
   placeholder = '搜索姓名 / 用户名 / 邮箱',
   ariaLabel,
@@ -170,7 +173,11 @@ export const MemberSearchSelect: React.FC<MemberSearchSelectProps> = ({
                 : loading ? '正在搜索…' : emptyHint}
             </p>
           ) : options.map(member => {
-            const disabledReason = disabledOptions[member.user_id]
+            const disabledReason =
+              disabledOptions[member.user_id] ??
+              (projectActiveUserIds && !projectActiveUserIds.has(member.user_id)
+                ? '未加入项目'
+                : undefined)
             const isSelected = member.user_id === value
             return (
               <button

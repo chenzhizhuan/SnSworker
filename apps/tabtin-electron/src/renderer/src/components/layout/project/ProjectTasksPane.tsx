@@ -581,10 +581,23 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
       ),
     [memberships],
   );
+  /**
+   * 指派人候选 = Project 生效成员（memberships，无分页），直接附带身份摘要，
+   * 不依赖「组织成员前 200 条」——大组织（>200 人）中排位靠后的成员也能看到。
+   */
   const responsibleOptions = useMemo(
     () =>
-      organizationMembers.filter((member) => activeUserIds.has(member.user_id)),
-    [activeUserIds, organizationMembers],
+      memberships
+        .filter((item) => item.is_active && item.user_id && item.user)
+        .map((item) => ({
+          id: item.user_id as string,
+          organization_id: project.organization_id,
+          user_id: item.user_id as string,
+          role: item.role,
+          joined_at: item.joined_at,
+          user: item.user,
+        })),
+    [memberships, project.organization_id],
   );
   /** 搜索结果中非 Project 成员灰显并附原因；只能指派给 Project 生效成员。 */
   const assigneeDisabledOptions = useMemo(() => {
@@ -2694,6 +2707,7 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
                           }
                           initialOptions={responsibleOptions}
                           disabledOptions={assigneeDisabledOptions}
+                          projectActiveUserIds={activeUserIds}
                           disabled={detailIsBusy}
                           ariaLabel="改派指派人"
                           placeholder="搜索姓名 / 用户名 / 邮箱"
@@ -2894,6 +2908,7 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
                   onChange={setResponsibleUserId}
                   initialOptions={responsibleOptions}
                   disabledOptions={assigneeDisabledOptions}
+                  projectActiveUserIds={activeUserIds}
                   ariaLabel="指派人"
                   placeholder="搜索姓名 / 用户名 / 邮箱"
                   emptyHint="没有匹配的成员"

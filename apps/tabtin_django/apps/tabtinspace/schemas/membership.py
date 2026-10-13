@@ -70,6 +70,8 @@ class SpaceMembershipOut(BaseModel):
     is_primary: bool = False
     joined_at: datetime
     updated_at: datetime
+    # 成员身份摘要（昵称/用户名/邮箱/头像），供 Project 指派人候选等 UI 直接展示。
+    user: Optional[MemberUserOut] = None
     model_config = ConfigDict(from_attributes=True)
 
     @model_validator(mode='before')

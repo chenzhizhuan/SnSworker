@@ -299,6 +299,30 @@ def list_space_memberships(request: HttpRequest, space_id: UUID):
     service = SpaceAccessService(user=request.auth)
     memberships = service.list_space_memberships(space_id)
     membership_data = [SpaceMembershipOut.from_orm(item).dict() for item in memberships]
+    # 填充成员身份摘要（昵称/用户名/邮箱/头像）：Project 指派人候选、
+    # 改派等 UI 直接展示，避免依赖「组织成员前 N 条」导致 200 截断丢人。
+    user_ids = [str(m.get('user_id')) for m in membership_data if m.get('user_id')]
+    user_map: dict = {}
+    if user_ids:
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user_map = {
+            str(u['id']): u
+            for u in User.objects.filter(id__in=user_ids)
+            .values('id', 'nickname', 'username', 'email', 'avatar')
+        }
+    for m in membership_data:
+        uid = str(m.get('user_id')) if m.get('user_id') else None
+        u = user_map.get(uid) if uid else None
+        if u:
+            m['user'] = MemberUserOut(
+                id=uid,
+                nickname=u.get('nickname') or '',
+                username=u.get('username') or '',
+                email=u.get('email') or '',
+                phone='',
+                avatar=build_public_asset_url(u.get('avatar') or ''),
+            ).dict()
     return success_response({
         "memberships": membership_data,
         "total": memberships.count()
