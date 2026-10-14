@@ -638,7 +638,11 @@ export const SidebarConversationList: React.FC<SidebarConversationListProps> = R
     if (pinned?.includes(sessionId)) {
       useChatSplitStore.getState().togglePinSession(targetSpaceId, sessionId)
     }
-  }, [resolveSessionSpaceId, deleteSession])
+    // dogfood(2026-10-14)：任务执行会话归档后刷新任务列表——纯 stub 会话不在
+    // chat store，projectSessionFingerprint 不变，不刷新的话 conversations 里的
+    // 归档会话会被 mergeConversationSessionStubs 重新顶回侧栏。
+    refreshProjectTasks()
+  }, [resolveSessionSpaceId, deleteSession, refreshProjectTasks])
 
   const handleForkSession = useCallback(async (sessionId: string) => {
     const targetSpaceId = resolveSessionSpaceId(sessionId)

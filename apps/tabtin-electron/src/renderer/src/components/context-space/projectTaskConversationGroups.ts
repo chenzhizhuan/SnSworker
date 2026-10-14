@@ -17,7 +17,10 @@ export const PROJECT_CONVERSATION_SECTION_KEY = 'conversations'
 
 /** 与任务详情一致：优先 conversations[]，否则回退 latest_run。 */
 export function taskConversationsForSidebar(task: ProjectTask): ProjectTaskConversation[] {
-  if (task.conversations?.length) return task.conversations
+  // conversations 是数组（含空数组）时以其为准：全部会话归档后不再回退
+  // latest_run，否则会把已归档会话重新顶回侧栏（dogfood：消防演练）。
+  // 仅旧载荷（undefined）才回退。
+  if (task.conversations) return task.conversations
   const run = task.latest_run
   if (!run) return []
   return [{

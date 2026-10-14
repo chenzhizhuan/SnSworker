@@ -1438,6 +1438,77 @@ class ProjectTaskServiceTests(TestCase):
         self.assertIsNone(outsider['conversations'][1]['session_id'])
         self.assertEqual(outsider['conversations'][0]['run_id'], str(newer_run.id))
 
+    def test_serialize_task_hides_archived_conversation_sessions(self):
+        """dogfood：归档的执行会话不再进入 conversations[]，否则侧栏 stub 会顶回列表。"""
+        from apps.chat.conversation.models import ChatSession
+
+        created = ProjectTaskService(user=self.member).create_task(
+            project_id=self.project.id,
+            title='Archive hides conversations',
+            responsible_user_id=self.member.id,
+        )
+        ProjectTaskService(user=self.member).configure_execution(
+            project_id=self.project.id,
+            task_id=created['id'],
+            agent_id=self.member_agent.id,
+            workspace_id=self.member_workspace.id,
+        )
+
+        def _make_run(session_title, run_status, session_status='active'):
+            session = ChatSession.objects.create(
+                user=self.member,
+                organization_id=str(self.organization.id),
+                workspace=self.member_workspace,
+                agent=self.member_agent,
+                title=session_title,
+                status=session_status,
+            )
+            return ProjectTaskRun.objects.create(
+                task_id=created['id'],
+                responsible_user=self.member,
+                agent=self.member_agent,
+                workspace=self.member_workspace,
+                device=self.member_workspace.device,
+                status=run_status,
+                chat_session=session,
+                binding_snapshot={'agent_name': 'Member Agent'},
+            )
+
+        failed_archived = _make_run(
+            '[Task] Archive hides conversations · 1',
+            ProjectTaskRun.Status.FAILED,
+            session_status='archived',
+        )
+        failed_active = _make_run(
+            '[Task] Archive hides conversations · 2',
+            ProjectTaskRun.Status.FAILED,
+        )
+        completed_active = _make_run(
+            '[Task] Archive hides conversations · 3',
+            ProjectTaskRun.Status.COMPLETED,
+        )
+
+        detail = ProjectTaskService(user=self.member).get_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+        )
+        session_ids = [conv['session_id'] for conv in detail['conversations']]
+        self.assertEqual(len(detail['conversations']), 2)
+        self.assertNotIn(str(failed_archived.chat_session_id), session_ids)
+        self.assertIn(str(failed_active.chat_session_id), session_ids)
+        self.assertIn(str(completed_active.chat_session_id), session_ids)
+
+        # 全部归档 → conversations 为空数组（侧栏据此不再回退 latest_run）。
+        ChatSession.objects.filter(id=failed_active.chat_session_id).update(status='archived')
+        ChatSession.objects.filter(id=completed_active.chat_session_id).update(status='archived')
+        detail2 = ProjectTaskService(user=self.member).get_task(
+            project_id=self.project.id,
+            task_id=created['id'],
+        )
+        self.assertEqual(detail2['conversations'], [])
+        # latest_run 业务语义不变（重跑 / 完成发布仍看最近 run）。
+        self.assertIsNotNone(detail2['latest_run'])
+
 
 class ProjectTaskResourceTypeNormalizeTests(SimpleTestCase):
     def test_aliases_match_mobile_space_resource(self):

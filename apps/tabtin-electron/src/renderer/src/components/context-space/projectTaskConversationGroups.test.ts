@@ -89,6 +89,28 @@ describe('taskConversationsForSidebar', () => {
       title: '执行',
     })
   })
+
+  it('conversations 为空数组（全部归档）不回退 latest_run，避免归档会话被顶回侧栏', () => {
+    const allArchived = makeTask({
+      id: 't3',
+      title: '全归档',
+      conversations: [],
+      latest_run: {
+        id: 'r-9',
+        status: 'failed',
+        rerun_of_id: null,
+        chat_session_id: 's-archived',
+        result_summary: '',
+        result_items: [],
+        safe_failure_reason: '',
+        binding: {},
+        started_at: '2026-07-21T00:00:00Z',
+        ended_at: '2026-07-21T01:00:00Z',
+        created_at: '2026-07-21T00:00:00Z',
+      },
+    })
+    expect(taskConversationsForSidebar(allArchived)).toEqual([])
+  })
 })
 
 describe('matchProjectTaskIdBySessionTitle / buildProjectTaskConversationGroups', () => {

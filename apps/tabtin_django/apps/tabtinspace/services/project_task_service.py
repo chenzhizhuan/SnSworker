@@ -359,6 +359,17 @@ class ProjectTaskService:
             if runs is not None
             else list(task.runs.select_related('chat_session').all())
         )
+        # dogfood(2026-10-14)：已归档的执行会话不再进入任务会话列表——侧栏任务
+        # 分组按 conversations[] 注入 stub，归档会话留在列表里会被重新顶回侧栏，
+        # 用户感受是"归档不生效"（消防演练任务失败会话复现：DB 已 archived 仍展示）。
+        run_list = [
+            run for run in run_list
+            if run.chat_session_id is None
+            or (
+                getattr(run, 'chat_session', None) is not None
+                and run.chat_session.status != 'archived'
+            )
+        ]
         conversations: list[dict] = []
         for run in run_list:
             session = getattr(run, 'chat_session', None)
