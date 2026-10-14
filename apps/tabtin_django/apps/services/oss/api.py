@@ -66,12 +66,21 @@ def _check_business_resource_file_access(file_record: FileRecord, user) -> bool:
         from apps.chat.conversation.models import ChatMessage
         from .models import FileUsage
 
-        message_ids = FileUsage.objects.filter(
-            file_record=file_record,
-            module='chat',
-            context_type='message',
-            is_active=True,
-        ).exclude(context_id='').values_list('context_id', flat=True)
+        # dogfood(2026-10-14)：FileUsage.context_id 是 varchar、ChatMessage.id 是
+        # UUID；直接把 values_list 子查询塞进 id__in 会被 PG 编译成
+        # `uuid = character varying` 跨类型比较 → UndefinedFunction → 整段
+        # fail-closed，用户表现为聊天附件打不开。先物化再过滤非法 UUID。
+        message_ids = [
+            value for value in FileUsage.objects.filter(
+                file_record=file_record,
+                module='chat',
+                context_type='message',
+                is_active=True,
+            ).exclude(context_id='').values_list('context_id', flat=True)
+            if _is_valid_uuid(value)
+        ]
+        if not message_ids:
+            return False
         session_ids = ChatMessage.objects.filter(
             id__in=message_ids,
         ).values_list('session_id', flat=True).distinct()
@@ -84,6 +93,17 @@ def _check_business_resource_file_access(file_record: FileRecord, user) -> bool:
             exc_info=True,
         )
         return False
+
+
+def _is_valid_uuid(value) -> bool:
+    """宽松校验字符串是否为合法 UUID（FileUsage.context_id 存量数据可不干净）。"""
+    if not value or not isinstance(value, str):
+        return False
+    try:
+        uuid.UUID(value)
+    except (ValueError, AttributeError, TypeError):
+        return False
+    return True
 
 
 def _model_field_was_set(model, field_name: str) -> bool:

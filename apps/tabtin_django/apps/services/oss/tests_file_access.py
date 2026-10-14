@@ -1,6 +1,6 @@
 import tempfile
 from types import SimpleNamespace
-from unittest.mock import Mock, patch
+from unittest.mock import ANY, Mock, patch
 from urllib.parse import parse_qs, urlparse
 
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
@@ -38,8 +38,11 @@ class FileAccessResolverTests(SimpleTestCase):
     ):
         from apps.services.oss.api import _check_business_resource_file_access
 
+        # dogfood(2026-10-14)：context_id 需过 UUID 校验后才进 ChatMessage.id__in，
+        # mock 值必须是真实 UUID（与生产 varchar→uuid 跨类型场景对齐）。
+        message_uuid = "0f0e0d0c-0b0a-4909-9808-070605040302"
         attachment_service.return_value.can_access_existing_reference.return_value = False
-        file_usages.filter.return_value.exclude.return_value.values_list.return_value = ["message-1"]
+        file_usages.filter.return_value.exclude.return_value.values_list.return_value = [message_uuid]
         chat_messages.filter.return_value.values_list.return_value.distinct.return_value = ["session-1"]
         collaborator = SimpleNamespace(id="collaborator")
 
@@ -59,13 +62,61 @@ class FileAccessResolverTests(SimpleTestCase):
     ):
         from apps.services.oss.api import _check_business_resource_file_access
 
+        message_uuid = "0f0e0d0c-0b0a-4909-9808-070605040302"
         attachment_service.return_value.can_access_existing_reference.return_value = False
-        file_usages.filter.return_value.exclude.return_value.values_list.return_value = ["message-1"]
+        file_usages.filter.return_value.exclude.return_value.values_list.return_value = [message_uuid]
         chat_messages.filter.return_value.values_list.return_value.distinct.return_value = ["session-1"]
         stranger = SimpleNamespace(id="stranger")
 
         self.assertFalse(_check_business_resource_file_access(self.record, stranger))
         user_can_access_session.assert_called_once_with("session-1", stranger)
+
+    @patch("apps.chat.conversation.models.ChatMessage.objects")
+    @patch("apps.services.oss.models.FileUsage.objects")
+    @patch("apps.tabdata.services.attachment_service.AttachmentService")
+    def test_non_uuid_context_ids_are_filtered_and_empty_short_circuits(
+        self,
+        attachment_service,
+        file_usages,
+        chat_messages,
+    ):
+        """dogfood(2026-10-14)：跨类型修复的回归钉。
+
+        - context_id 为非 UUID 时被过滤，不进 ChatMessage.id__in
+          （生产 PG 会报 `operator does not exist: uuid = character varying`）
+        - 全部非法时短路返回 False，不查 ChatMessage
+        """
+        from apps.services.oss.api import _check_business_resource_file_access
+
+        attachment_service.return_value.can_access_existing_reference.return_value = False
+        # 混合：一条合法 UUID + 两条非法（非 UUID 字符串 / 空串被 exclude 拦）
+        file_usages.filter.return_value.exclude.return_value.values_list.return_value = [
+            "not-a-uuid",
+            "0f0e0d0c-0b0a-4909-9808-070605040302",
+        ]
+        chat_messages.filter.return_value.values_list.return_value.distinct.return_value = ["session-1"]
+
+        with patch(
+            "apps.chat.conversation.api._common.user_can_access_session",
+            return_value=True,
+        ) as user_can_access_session:
+            self.assertTrue(_check_business_resource_file_access(self.record, SimpleNamespace(id="u")))
+            # 只有合法 UUID 进查询
+            chat_messages.filter.assert_called_with(
+                id__in=["0f0e0d0c-0b0a-4909-9808-070605040302"],
+            )
+            user_can_access_session.assert_called_once_with("session-1", ANY)
+
+        # 全部非法 → 短路，不查 ChatMessage、不调权限函数
+        file_usages.filter.return_value.exclude.return_value.values_list.return_value = ["garbage"]
+        chat_messages.filter.reset_mock()
+        with patch(
+            "apps.chat.conversation.api._common.user_can_access_session",
+            return_value=True,
+        ) as user_can_access_session:
+            self.assertFalse(_check_business_resource_file_access(self.record, SimpleNamespace(id="u")))
+            chat_messages.filter.assert_not_called()
+            user_can_access_session.assert_not_called()
 
     @patch("apps.services.oss.services.file_access.is_organization_member", return_value=True)
     @patch(
