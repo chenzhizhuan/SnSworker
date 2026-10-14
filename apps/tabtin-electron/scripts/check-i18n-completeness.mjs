@@ -100,6 +100,63 @@ const hasUnexpectedEnglishChineseText = value => (
 
 const failures = []
 
+/**
+ * 扫描 JSON 原文中的重复 key。JSON.parse 对重复 key 静默覆盖（后者生效），
+ * 若字符串词条被同名对象覆盖，运行期 t() 渲染出
+ * "key 'xxx (zh-CN)' returned an object instead of string."（dogfood 2026-10-14）。
+ * 必须先于 JSON.parse 扫：覆盖发生后完整性比对看到的是被覆盖后的假象。
+ */
+const findDuplicateKeys = text => {
+  const duplicates = []
+  const stack = [{ keys: new Set(), path: '' }]
+  let i = 0
+  let pendingKey = null
+  const len = text.length
+  while (i < len) {
+    const ch = text[i]
+    if (ch === '{') {
+      stack.push({ keys: new Set(), path: pendingKey ?? stack[stack.length - 1].path })
+      pendingKey = null
+      i += 1
+    } else if (ch === '}') {
+      stack.pop()
+      i += 1
+    } else if (ch === '"') {
+      let j = i + 1
+      while (j < len && text[j] !== '"') {
+        if (text[j] === '\\') { j += 2; continue }
+        j += 1
+      }
+      const raw = text.slice(i + 1, j)
+      i = j + 1
+      while (i < len && /\s/.test(text[i])) i += 1
+      if (text[i] === ':') {
+        i += 1
+        const top = stack[stack.length - 1]
+        const unescaped = raw.replace(/\\(.)/g, '$1')
+        const fullKey = top.path ? `${top.path}.${unescaped}` : unescaped
+        if (top.keys.has(unescaped)) duplicates.push(fullKey)
+        else top.keys.add(unescaped)
+        pendingKey = fullKey
+      }
+    } else {
+      i += 1
+    }
+  }
+  return duplicates
+}
+
+for (const language of ['zh-CN', 'en-US', ...checkedLanguages.map(item => item.language)]) {
+  for (const namespace of listNamespaces(language)) {
+    const duplicateKeys = findDuplicateKeys(
+      fs.readFileSync(path.join(localesDir, language, namespace), 'utf8'),
+    )
+    for (const key of duplicateKeys) {
+      failures.push(`${language}/${namespace}: 重复 key "${key}"（后者覆盖前者；字符串词条被对象覆盖会让 t() 渲染 "returned an object instead of string"）`)
+    }
+  }
+}
+
 for (const namespace of listNamespaces('en-US')) {
   const entries = leafEntries(readNamespace('en-US', namespace))
   for (const [key, entry] of entries) {

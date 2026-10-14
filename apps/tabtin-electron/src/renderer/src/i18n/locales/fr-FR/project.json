@@ -69,7 +69,7 @@
     "assetsTitle": "Voir les ressources",
     "assetsDescription": "Réutiliser les fichiers et livrables de l’équipe"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "En attente",
     "rejected": "Refusé",
     "inProgress": "En cours",

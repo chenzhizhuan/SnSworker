@@ -69,7 +69,7 @@
     "assetsTitle": "アセットを表示",
     "assetsDescription": "チームが作成したファイルや成果物を再利用します"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "確認待ち",
     "rejected": "拒否済み",
     "inProgress": "実行中",

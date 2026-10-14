@@ -69,7 +69,7 @@
     "assetsTitle": "查看资产",
     "assetsDescription": "复用团队已经沉淀的文件与产物"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "待确认",
     "rejected": "已拒绝",
     "inProgress": "执行中",

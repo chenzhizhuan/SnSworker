@@ -69,7 +69,7 @@
     "assetsTitle": "查看資產",
     "assetsDescription": "重複使用團隊累積的檔案與產出"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "待確認",
     "rejected": "已拒絕",
     "inProgress": "執行中",

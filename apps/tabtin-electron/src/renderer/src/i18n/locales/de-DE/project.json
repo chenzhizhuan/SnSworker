@@ -69,7 +69,7 @@
     "assetsTitle": "Assets anzeigen",
     "assetsDescription": "Dateien und Ergebnisse des Teams wiederverwenden"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "Ausstehend",
     "rejected": "Abgelehnt",
     "inProgress": "In Bearbeitung",

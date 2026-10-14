@@ -543,7 +543,6 @@
       "createModelHint": "After saving the platform account and key, add the specific models you want to use in SnSworker.",
       "empty": "No model services yet. Use Add in the top right.",
       "codexLocalHint": "Available on this device only",
-      "modelCount": "{{count}} models",
       "createSuccess": "Channel added",
       "createSuccessContinueModel": "Channel added. Continue by adding a model under this channel.",
       "createSuccessWithModelHint": "Channel added. Add a model under it to continue.",

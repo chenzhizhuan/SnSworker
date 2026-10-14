@@ -238,13 +238,13 @@ export const ProjectOverviewPane: React.FC<{
                       )}
                     >
                       {task.assignment_status === 'pending'
-                        ? t('status.pendingConfirmation')
+                        ? t('invitationStatus.pendingConfirmation')
                         : task.assignment_status === 'rejected'
-                          ? t('status.rejected')
+                          ? t('invitationStatus.rejected')
                           : task.work_status === 'in_progress' ||
                               task.work_status === 'in_review'
-                            ? t('status.inProgress')
-                            : t('status.accepted')}
+                            ? t('invitationStatus.inProgress')
+                            : t('invitationStatus.accepted')}
                     </span>
                   </span>
                   <span

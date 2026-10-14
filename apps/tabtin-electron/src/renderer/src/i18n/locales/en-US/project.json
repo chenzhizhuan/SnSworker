@@ -69,7 +69,7 @@
     "assetsTitle": "View assets",
     "assetsDescription": "Reuse files and deliverables created by the team"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "Pending",
     "rejected": "Rejected",
     "inProgress": "In progress",

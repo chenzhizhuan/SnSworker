@@ -69,7 +69,7 @@
     "assetsTitle": "자산 보기",
     "assetsDescription": "팀이 만든 파일과 결과물을 재사용합니다"
   },
-  "status": {
+  "invitationStatus": {
     "pendingConfirmation": "확인 대기",
     "rejected": "거절됨",
     "inProgress": "진행 중",
