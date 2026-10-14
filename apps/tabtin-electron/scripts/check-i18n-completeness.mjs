@@ -146,7 +146,12 @@ const findDuplicateKeys = text => {
   return duplicates
 }
 
-for (const language of ['zh-CN', 'en-US', ...checkedLanguages.map(item => item.language)]) {
+// 动态枚举语言目录：新增语言若未登记进 checkedLanguages，完整性比对会漏，
+// 但重复 key 扫描必须覆盖（静默覆盖是运行期渲染事故，不是可比对项）。
+for (const language of fs.readdirSync(localesDir, { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .map(entry => entry.name)
+  .sort()) {
   for (const namespace of listNamespaces(language)) {
     const duplicateKeys = findDuplicateKeys(
       fs.readFileSync(path.join(localesDir, language, namespace), 'utf8'),
