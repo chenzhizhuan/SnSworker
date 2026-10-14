@@ -102,6 +102,24 @@ public object LoginPhoneNumber {
         return value.takeIf { cnMobilePattern.matches(it) }
     }
 
+    /**
+     * 密码登录标识符：对齐桌面端（tabtin-shared use-login-form）的口径——
+     * 后端 MultiFieldAuthBackend 按 邮箱 → 手机号 → 用户名 兜底查询，
+     * 客户端不再强制手机号格式；仅对「看起来像邮箱」的输入做格式防呆。
+     * 因此非邮箱标识符（工号 / 用户名 / 任意账号）原样 trim 后提交。
+     */
+    public fun normalizedForPassword(
+        input: String,
+        emailLoginEnabled: Boolean = LoginPhoneNumber.emailLoginEnabled,
+    ): String? {
+        val trimmed = input.trim()
+        if (trimmed.isEmpty()) return null
+        if (emailLoginEnabled && trimmed.contains('@')) {
+            return trimmed.lowercase().takeIf { emailPattern.matches(it) }
+        }
+        return trimmed
+    }
+
     private fun sanitizedCnMobilePhone(input: String): String {
         val digits = buildString {
             input.forEach { character ->
@@ -264,9 +282,20 @@ public class LoginViewModel @Inject constructor(
 
     public fun login(onSuccess: (requiresInviteCode: Boolean) -> Unit) {
         val state = _uiState.value
-        val phone = LoginPhoneNumber.normalized(state.phone) ?: run {
-            _uiState.value = state.copy(error = AppError.InvalidPhone.toUserMessage(context))
-            return
+        // 密码登录对齐桌面端：非邮箱标识符不再强制手机号格式（工号可直接登录），
+        // 由后端按 邮箱→手机号→用户名 兜底；验证码登录仍仅支持邮箱/大陆手机号。
+        val identifier = if (state.isCodeMode) {
+            LoginPhoneNumber.normalized(state.phone) ?: run {
+                _uiState.value = state.copy(error = AppError.InvalidPhone.toUserMessage(context))
+                return
+            }
+        } else {
+            LoginPhoneNumber.normalizedForPassword(state.phone) ?: run {
+                _uiState.value = state.copy(
+                    error = context.getString(com.tabtin.mobile.R.string.auth_error_account_required),
+                )
+                return
+            }
         }
 
         viewModelScope.launch {
@@ -280,9 +309,9 @@ public class LoginViewModel @Inject constructor(
                     )
                     return@launch
                 }
-                authRepository.loginWithCode(phone, state.verificationCode.trim(), challengeKey)
+                authRepository.loginWithCode(identifier, state.verificationCode.trim(), challengeKey)
             } else {
-                authRepository.loginWithPassword(phone, state.password)
+                authRepository.loginWithPassword(identifier, state.password)
             }
             result
                 .onSuccess {

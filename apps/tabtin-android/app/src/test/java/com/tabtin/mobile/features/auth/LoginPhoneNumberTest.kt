@@ -74,6 +74,25 @@ class LoginPhoneNumberTest {
     }
 
     @Test
+    fun `password identifier no longer forces phone format aligning desktop`() {
+        // 邮箱仍是合法格式（小写归一）
+        assertEquals(
+            "user@example.com",
+            LoginPhoneNumber.normalizedForPassword("  User@Example.COM "),
+        )
+        // 非邮箱标识符原样放行：工号 / 用户名 / 手机号均可提交，由后端兜底匹配
+        assertEquals("J0325", LoginPhoneNumber.normalizedForPassword(" J0325 "))
+        assertEquals("001234", LoginPhoneNumber.normalizedForPassword("001234"))
+        assertEquals("13800138000", LoginPhoneNumber.normalizedForPassword("13800138000"))
+        assertEquals("zhangsan", LoginPhoneNumber.normalizedForPassword("zhangsan"))
+        // 空输入仍然拒绝
+        assertNull(LoginPhoneNumber.normalizedForPassword("   "))
+        assertNull(LoginPhoneNumber.normalizedForPassword(""))
+        // 形似邮箱但格式错误仍做防呆
+        assertNull(LoginPhoneNumber.normalizedForPassword("user@"))
+    }
+
+    @Test
     fun `login errors expose short product copy instead of server detail`() {
         val raw = AppError.ActionFailed(ActionLabel.LOGIN, "[AUTH_INVALID] internal auth detail")
 
