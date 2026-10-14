@@ -95,8 +95,8 @@ android {
         applicationId = "com.snsworker.mobile"
         minSdk = 26
         targetSdk = 36
-        versionCode = overrideVersionCode ?: 7
-        versionName = overrideVersionName ?: "1.0.7"
+        versionCode = overrideVersionCode ?: 8
+        versionName = overrideVersionName ?: "1.0.8"
 
         // Debug 默认连 api-test，避免 Native API 与 WebView Web 环境错配。
         // 本地后端可用局域网 IP 覆盖：-PDEV_HOST=192.168.x.x -PDEV_PORT=6060。
