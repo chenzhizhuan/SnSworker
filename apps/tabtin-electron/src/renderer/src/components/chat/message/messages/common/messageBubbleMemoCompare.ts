@@ -30,6 +30,64 @@ type BubbleComparableProps = {
   accessCapabilities?: unknown
 }
 
+/**
+ * timelineMessages 消费点投影比较。
+ *
+ * 流式输出时 store 的 upsertMessage 是 `[...prev]; next[idx] = message`——
+ * 数组与流式目标消息对象每个 token 都换引用。气泡对 timelineMessages 的
+ * 实际消费只有两处（dogfood 2026-10-14 性能排查）：
+ *   1. collectAttachmentFilenameById —— 只读 user 消息的 id + attachments_json
+ *   2. shouldShowTurnArtifactsCard —— 只读消息的 role + message_kind
+ *      （isRegularUserMessage / canHostTurnArtifacts 的判定输入）
+ * 旧的全数组引用比较会让每个 token 批次打穿全部可见气泡的 memo（连带
+ * Markdown 重新解析），是打字卡顿的主因。改为只比较上述投影；流式消息
+ * 自身仍靠上方 message.content / content_blocks_json 比较正确刷新。
+ */
+type TimelineMessageProjection = {
+  id: unknown
+  role: unknown
+  message_kind: unknown
+  attachments_json: unknown
+}
+
+function timelineMessageProjectionAt(
+  messages: readonly unknown[],
+  index: number,
+): TimelineMessageProjection | null {
+  const message = messages[index]
+  if (message === null || typeof message !== 'object') return null
+  const record = message as Record<string, unknown>
+  return {
+    id: record.id,
+    role: record.role,
+    message_kind: record.message_kind,
+    attachments_json: record.attachments_json,
+  }
+}
+
+function timelineMessagesEqual(prev: unknown, next: unknown): boolean {
+  if (prev === next) return true
+  if (!Array.isArray(prev) || !Array.isArray(next)) return false
+  if (prev.length !== next.length) return false
+  for (let i = 0; i < prev.length; i++) {
+    const a = timelineMessageProjectionAt(prev, i)
+    const b = timelineMessageProjectionAt(next, i)
+    if (a === null || b === null) {
+      if (prev[i] !== next[i]) return false
+      continue
+    }
+    if (
+      a.id !== b.id
+      || a.role !== b.role
+      || a.message_kind !== b.message_kind
+      || a.attachments_json !== b.attachments_json
+    ) {
+      return false
+    }
+  }
+  return true
+}
+
 // eslint-disable-next-line complexity -- memo 比较必须显式列出会影响气泡展示的字段，避免隐式浅比较漏刷新。
 function firstUnequalField(
   prev: BubbleComparableProps,
@@ -97,7 +155,9 @@ function firstUnequalField(
   if (prev.isSameTurnAssistant !== next.isSameTurnAssistant) {
     return 'isSameTurnAssistant'
   }
-  if (prev.timelineMessages !== next.timelineMessages) return 'timelineMessages'
+  if (!timelineMessagesEqual(prev.timelineMessages, next.timelineMessages)) {
+    return 'timelineMessages'
+  }
   if (prev.timelineIndex !== next.timelineIndex) return 'timelineIndex'
   if (prev.includeSubagentMessages !== next.includeSubagentMessages) {
     return 'includeSubagentMessages'

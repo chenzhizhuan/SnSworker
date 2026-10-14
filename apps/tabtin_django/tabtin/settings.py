@@ -2111,6 +2111,26 @@ if os.getenv('LOG_TO_FILE', 'true').lower() != 'true':
     ]
     for _name in _file_handler_names:
         LOGGING['handlers'][_name] = {**_console_handler, 'level': LOGGING['handlers'][_name].get('level', 'INFO')}
+    # dogfood(2026-10-14 性能)：file→console 重定向后必须去重。原设计是
+    # 「console 一份 + 各 file 各一份」；file 全部重定向为 console 等价物后，
+    # django/root 挂 ['console','file','errors_file'] 会向 stdout 打 3 遍、
+    # apps.services 等挂 [x_file,'console'] 的打 2 遍（容器日志实测每条双份）。
+    # 规则：原本含 console 的 logger 只留 console；原本只有 file 的保留首个
+    # （已被重定向为 console 输出，保留各自的 level 差异语义）。
+    _file_name_set = set(_file_handler_names)
+
+    def _dedup_logging_handlers(handler_names: list) -> list:
+        if not handler_names:
+            return handler_names
+        if 'console' in handler_names:
+            return ['console']
+        deduped = [name for name in handler_names if name in _file_name_set]
+        return deduped[:1] if deduped else handler_names
+
+    for _logger_cfg in LOGGING['loggers'].values():
+        if 'handlers' in _logger_cfg:
+            _logger_cfg['handlers'] = _dedup_logging_handlers(_logger_cfg['handlers'])
+    LOGGING['root']['handlers'] = _dedup_logging_handlers(LOGGING['root']['handlers'])
 else:
     os.makedirs(BASE_DIR / 'logs', exist_ok=True)
 

@@ -566,9 +566,15 @@ export const ProjectTasksPane: React.FC<{ project: Space }> = ({ project }) => {
   );
   useEffect(() => {
     if (!hasActiveRun) return;
+    // 轮询兜底节流（dogfood 2026-10-14 性能）：任务变更主路径是
+    // useProjectTaskRealtime 的 WS 失效推送 + 窗口焦点 revalidate；4s 全量
+    // 轮询在多任务项目上是每分钟 15 次全量序列化 + 巨型面板全量重渲染，
+    // 是项目页卡顿的显著来源。降到 15s 且页面隐藏时暂停（visibilitychange
+    // 恢复时的 revalidate 已由 useProjectTaskRealtime 覆盖）。
     const timer = window.setInterval(() => {
+      if (document.visibilityState === 'hidden') return;
       void fetchTasks(project.id, { quiet: true });
-    }, 4000);
+    }, 15000);
     return () => window.clearInterval(timer);
   }, [fetchTasks, hasActiveRun, project.id]);
 

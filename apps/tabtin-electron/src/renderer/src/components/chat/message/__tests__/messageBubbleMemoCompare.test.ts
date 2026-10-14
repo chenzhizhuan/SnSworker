@@ -73,4 +73,75 @@ describe('messageBubblePropsAreEqual', () => {
       expect(messageBubblePropsAreEqual(base, { ...base, ...changed })).toBe(false)
     }
   })
+
+  it('流式 dogfood(2026-10-14)：timelineMessages 数组换引用但元素引用未变 → true（未变化气泡 memo 命中）', () => {
+    // store upsertMessage 是 [...prev]; next[idx] = message —— 只有流式目标
+    // 消息对象引用变化。未变化气泡的 message 引用相同，memo 必须命中，
+    // 否则每个 token 批次打穿全部可见气泡（打字卡顿主因）。
+    const userMsg = msg({ id: 'u1', role: 'user' })
+    const otherMsg = msg({ id: 'm2' })
+    const streamingPrev = msg({ id: 'm3', content: 'part' })
+    const streamingNext = msg({ id: 'm3', content: 'partial' })
+
+    const prev = {
+      message: otherMsg,
+      sessionId: 's1',
+      timelineMessages: [userMsg, otherMsg, streamingPrev],
+      timelineIndex: 1,
+    }
+    const next = {
+      message: otherMsg,
+      sessionId: 's1',
+      timelineMessages: [userMsg, otherMsg, streamingNext],
+      timelineIndex: 1,
+    }
+    expect(messageBubblePropsAreEqual(prev, next)).toBe(true)
+  })
+
+  it('流式 dogfood(2026-10-14)：timelineMessages 中本气泡消息对象被替换 → false（自身正确刷新）', () => {
+    const userMsg = msg({ id: 'u1', role: 'user' })
+    const streamingPrev = msg({ id: 'm3', content: 'part' })
+    const streamingNext = msg({ id: 'm3', content: 'partial' })
+
+    const prev = {
+      message: streamingPrev,
+      sessionId: 's1',
+      timelineMessages: [userMsg, streamingPrev],
+      timelineIndex: 1,
+    }
+    const next = {
+      message: streamingNext,
+      sessionId: 's1',
+      timelineMessages: [userMsg, streamingNext],
+      timelineIndex: 1,
+    }
+    expect(messageBubblePropsAreEqual(prev, next)).toBe(false)
+  })
+
+  it('timelineMessages 长度变化（新消息） → false', () => {
+    const userMsg = msg({ id: 'u1', role: 'user' })
+    const otherMsg = msg({ id: 'm2' })
+    const added = msg({ id: 'm3' })
+    const prev = { message: otherMsg, sessionId: 's1', timelineMessages: [userMsg, otherMsg] }
+    const next = { message: otherMsg, sessionId: 's1', timelineMessages: [userMsg, otherMsg, added] }
+    expect(messageBubblePropsAreEqual(prev, next)).toBe(false)
+  })
+
+  it('投影依赖变化：user 消息 attachments_json 变化 → false（filename map 依赖）', () => {
+    const userBefore = msg({ id: 'u1', role: 'user', attachments_json: [{ file_id: 'f1' }] })
+    const userAfter = msg({ id: 'u1', role: 'user', attachments_json: [{ file_id: 'f1' }, { file_id: 'f2' }] })
+    const otherMsg = msg({ id: 'm2' })
+    const prev = { message: otherMsg, sessionId: 's1', timelineMessages: [userBefore, otherMsg] }
+    const next = { message: otherMsg, sessionId: 's1', timelineMessages: [userAfter, otherMsg] }
+    expect(messageBubblePropsAreEqual(prev, next)).toBe(false)
+  })
+
+  it('投影依赖变化：消息 message_kind 变化 → false（轮末产物卡判定依赖）', () => {
+    const before = msg({ id: 'm2', message_kind: 'llm' })
+    const after = msg({ id: 'm2', message_kind: 'tool_artifact' })
+    const userMsg = msg({ id: 'u1', role: 'user' })
+    const prev = { message: before, sessionId: 's1', timelineMessages: [userMsg, before] }
+    const next = { message: after, sessionId: 's1', timelineMessages: [userMsg, after] }
+    expect(messageBubblePropsAreEqual(prev, next)).toBe(false)
+  })
 })
