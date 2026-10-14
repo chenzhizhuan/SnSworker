@@ -37,4 +37,18 @@
     <string name="auth_invite_code_required">Enter an invitation code</string>
     <string name="auth_invite_code_continue">Verify and continue</string>
     <string name="auth_invite_code_change_account">Use another account</string>
+    <string name="auth_forgot_title">Reset password</string>
+    <string name="auth_forgot_description">Enter the email registered to your account. We will send a verification code to it, and you can set a new password with the code.</string>
+    <string name="auth_forgot_email_label">Email</string>
+    <string name="auth_forgot_email_placeholder">Enter your registered email</string>
+    <string name="auth_forgot_new_password_label">New password</string>
+    <string name="auth_forgot_new_password_placeholder">Enter a new password</string>
+    <string name="auth_forgot_password_hint">At least 8 characters, with at least 3 of: uppercase, lowercase, digits, special characters. No spaces or CJK characters.</string>
+    <string name="auth_forgot_submit">Reset Password</string>
+    <string name="auth_forgot_back">Back to sign in</string>
+    <string name="auth_forgot_success_title">Password reset successfully</string>
+    <string name="auth_forgot_success_message">Sign in with your new password. If this wasn\'t you, contact the administrator immediately.</string>
+    <string name="auth_forgot_error_email">Enter the email registered to your account</string>
+    <string name="auth_forgot_error_code_not_sent">Get the verification code first</string>
+    <string name="auth_forgot_error_weak_password">At least 8 characters, with at least 3 of: uppercase, lowercase, digits, special characters</string>
 </resources>

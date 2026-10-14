@@ -15,6 +15,7 @@ import com.tabtin.mobile.data.model.LoginRequest
 import com.tabtin.mobile.data.model.LoginResponse
 import com.tabtin.mobile.data.model.CurrentPasswordResetRequest
 import com.tabtin.mobile.data.model.PasswordChangeRequest
+import com.tabtin.mobile.data.model.PasswordResetRequest
 import com.tabtin.mobile.data.model.RedeemInviteCodeRequest
 import com.tabtin.mobile.data.model.SendCodeRequest
 import com.tabtin.mobile.data.im.CentrifugoClient
@@ -75,14 +76,24 @@ public class AuthRepository @Inject constructor(
         return result
     }
 
+    // 移动端与桌面/Web 的「记住我」默认体验对齐：桌面端 use-login-form 默认
+    // remember_me=true（refresh 30 天），移动 App 同样默认长期会话（refresh 30 天、
+    // access 7 天）；显式登出后仍立即失效。
     public suspend fun loginWithPassword(phone: String, password: String): Result<Unit> = runCatching {
-        val resp = authApi.loginWithPassword(LoginRequest(username = phone, password = password)).unwrap()
+        val resp = authApi.loginWithPassword(
+            LoginRequest(username = phone, password = password, rememberMe = true),
+        ).unwrap()
         handleLoginSuccess(resp)
     }.mapAuthFailure(ActionLabel.LOGIN)
 
     public suspend fun loginWithCode(phone: String, code: String, challengeKey: String): Result<Unit> = runCatching {
         val resp = authApi.loginWithCode(
-            LoginRequest(username = phone, verificationCode = code, challengeKey = challengeKey),
+            LoginRequest(
+                username = phone,
+                verificationCode = code,
+                challengeKey = challengeKey,
+                rememberMe = true,
+            ),
         ).unwrap()
         handleLoginSuccess(resp)
     }.mapAuthFailure(ActionLabel.LOGIN)
@@ -141,6 +152,41 @@ public class AuthRepository @Inject constructor(
     ): Result<Unit> = runCatching {
         val resp = authApi.resetCurrentPassword(
             CurrentPasswordResetRequest(
+                verificationCode = verificationCode,
+                newPassword = newPassword,
+            ),
+        )
+        if (!resp.success) {
+            throw AppError.RequestFailed(resp.message, resp.errorCode ?: resp.code)
+        }
+    }
+
+    /**
+     * 未登录「忘记密码」：向注册邮箱/手机号发送重置验证码。
+     *
+     * code_type=reset_password 不受部署开关关停影响（后端注释明确豁免），
+     * 注册/验证码登录关停的公网形态下仍是唯一密码找回通道。
+     */
+    public suspend fun sendPasswordResetCode(identifier: String, challengeKey: String): Result<Unit> = runCatching {
+        val resp = authApi.sendVerificationCode(
+            SendCodeRequest(
+                username = identifier,
+                codeType = "reset_password",
+                challengeKey = challengeKey,
+            ),
+        )
+        if (!resp.success) throw AppError.SendCodeFailed(resp.message)
+    }.recoverCatching { error -> throw error.toSendCodeError() }
+
+    /** 未登录「忘记密码」：验证码 + 新密码重置；成功后所有旧会话失效。 */
+    public suspend fun resetPassword(
+        identifier: String,
+        verificationCode: String,
+        newPassword: String,
+    ): Result<Unit> = runCatching {
+        val resp = authApi.resetPassword(
+            PasswordResetRequest(
+                username = identifier,
                 verificationCode = verificationCode,
                 newPassword = newPassword,
             ),

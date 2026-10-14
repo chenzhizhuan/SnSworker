@@ -5,6 +5,7 @@ import com.tabtin.mobile.data.model.LoginRequest
 import com.tabtin.mobile.data.model.LoginResponse
 import com.tabtin.mobile.data.model.CurrentPasswordResetRequest
 import com.tabtin.mobile.data.model.PasswordChangeRequest
+import com.tabtin.mobile.data.model.PasswordResetRequest
 import com.tabtin.mobile.data.model.RefreshTokenRequest
 import com.tabtin.mobile.data.model.RefreshTokenResponse
 import com.tabtin.mobile.data.model.RedeemInviteCodeRequest
@@ -42,6 +43,10 @@ public interface AuthApi {
 
     @POST("auth/send-current-password-reset-code")
     public suspend fun sendCurrentPasswordResetCode(): ApiEnvelope<SendCodeResponse>
+
+    /** 未登录「忘记密码」：用注册邮箱/手机号 + 验证码重置密码。 */
+    @POST("auth/reset-password")
+    public suspend fun resetPassword(@Body body: PasswordResetRequest): ApiEnvelope<SendCodeResponse>
 
     @POST("auth/reset-current-password")
     public suspend fun resetCurrentPassword(@Body body: CurrentPasswordResetRequest): ApiEnvelope<SendCodeResponse>

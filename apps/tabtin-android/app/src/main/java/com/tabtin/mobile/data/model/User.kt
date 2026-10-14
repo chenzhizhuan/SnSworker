@@ -82,6 +82,19 @@ public data class CurrentPasswordResetRequest(
     @SerialName("new_password") val newPassword: String,
 )
 
+/**
+ * 未登录「忘记密码」重置请求：POST auth/reset-password。
+ *
+ * username 契约（后端 password_routes.reset_password）：含 `@` 按邮箱查用户，
+ * 否则按手机号查；工号等其余标识符不受支持——忘记密码页应引导输入注册邮箱。
+ */
+@Serializable
+public data class PasswordResetRequest(
+    val username: String,
+    @SerialName("verification_code") val verificationCode: String,
+    @SerialName("new_password") val newPassword: String,
+)
+
 @Serializable
 public data class RefreshTokenRequest(
     @SerialName("refresh_token") val refreshToken: String,

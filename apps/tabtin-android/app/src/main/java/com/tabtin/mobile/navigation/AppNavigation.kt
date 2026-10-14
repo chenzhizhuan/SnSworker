@@ -124,6 +124,7 @@ import com.tabtin.mobile.features.space.SubAgentListScreen
 import com.tabtin.mobile.features.space.SubAgentListViewModel
 import com.tabtin.mobile.features.auth.LoginScreen
 import com.tabtin.mobile.features.auth.LoginViewModel
+import com.tabtin.mobile.features.auth.ForgotPasswordScreen
 import com.tabtin.mobile.features.auth.InviteCodeGateDialog
 import com.tabtin.mobile.features.profile.AboutScreen
 import com.tabtin.mobile.features.profile.MeScreen
@@ -160,6 +161,7 @@ import kotlinx.serialization.Serializable
 // W_DT.2 Compose Navigation 2.8+ Type-Safe Routes（与 iOS Y_DT.2 等价）
 
 @Serializable public data object LoginRoute
+@Serializable public data object ForgotPasswordRoute
 @Serializable public data object MainRoute
 @Serializable public data object DeviceCapabilitiesRoute
 @Serializable public data object AboutRoute
@@ -838,6 +840,21 @@ public fun AppNavigation(deepLinkHandler: DeepLinkHandler) {
                             navController.navigateOnce(MainRoute) {
                                 popUpTo<LoginRoute> { inclusive = true }
                             }
+                        }
+                    }
+                },
+                onForgotPassword = {
+                    navController.navigateOnce(ForgotPasswordRoute)
+                },
+            )
+        }
+
+        composable<ForgotPasswordRoute> {
+            ForgotPasswordScreen(
+                onBack = {
+                    if (!navController.popBackStackSafely()) {
+                        navController.navigateOnce(LoginRoute) {
+                            popUpTo(navController.graph.id) { inclusive = true }
                         }
                     }
                 },

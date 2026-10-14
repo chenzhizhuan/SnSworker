@@ -37,4 +37,18 @@
     <string name="auth_invite_code_required">请输入邀请码</string>
     <string name="auth_invite_code_continue">验证并继续</string>
     <string name="auth_invite_code_change_account">换个账号</string>
+    <string name="auth_forgot_title">找回密码</string>
+    <string name="auth_forgot_description">输入账号注册时使用的邮箱，我们将向该邮箱发送验证码，凭验证码即可重置登录密码。</string>
+    <string name="auth_forgot_email_label">注册邮箱</string>
+    <string name="auth_forgot_email_placeholder">请输入注册邮箱</string>
+    <string name="auth_forgot_new_password_label">新密码</string>
+    <string name="auth_forgot_new_password_placeholder">请输入新密码</string>
+    <string name="auth_forgot_password_hint">密码需至少 8 位，且包含大写、小写、数字、特殊字符中的至少 3 种，不能含空格或中文</string>
+    <string name="auth_forgot_submit">重置密码</string>
+    <string name="auth_forgot_back">返回登录</string>
+    <string name="auth_forgot_success_title">密码重置成功</string>
+    <string name="auth_forgot_success_message">请使用新密码登录。若这不是您本人的操作，请立即联系管理员。</string>
+    <string name="auth_forgot_error_email">请输入账号注册时使用的邮箱</string>
+    <string name="auth_forgot_error_code_not_sent">请先获取验证码</string>
+    <string name="auth_forgot_error_weak_password">新密码需至少 8 位，且包含大写、小写、数字、特殊字符中的至少 3 种</string>
 </resources>

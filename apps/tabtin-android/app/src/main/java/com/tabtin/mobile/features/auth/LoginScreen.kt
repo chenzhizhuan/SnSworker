@@ -98,12 +98,13 @@ private const val TABLET_MIN_WIDTH_DP = 600
 private const val LANDSCAPE_AUTH_MIN_WIDTH_DP = 360
 private const val TABLET_LANDSCAPE_STAGE_WEIGHT = 0.62f
 
-private val LoginPaper = Color(0xFFF1EEE5)
-private val LoginInk = Color(0xFF20201C)
-private val LoginBlue = Color(0xFF086BE4)
-private val LoginMutedInk = Color(0xFF6E6961)
-private val LoginDisabled = Color(0xFFDEDAD0)
-private val LoginError = Color(0xFFB42318)
+// 登录/找回密码共用视觉令牌；internal 供 ForgotPasswordScreen 复用同一报纸风。
+internal val LoginPaper = Color(0xFFF1EEE5)
+internal val LoginInk = Color(0xFF20201C)
+internal val LoginBlue = Color(0xFF086BE4)
+internal val LoginMutedInk = Color(0xFF6E6961)
+internal val LoginDisabled = Color(0xFFDEDAD0)
+internal val LoginError = Color(0xFFB42318)
 
 private val LoginHeaderHeight = 54.dp
 private val LoginAuthHeight = 264.dp
@@ -117,7 +118,7 @@ private enum class LoginPrivacyPendingAction {
 /** 登录页是固定浅纸视觉；离开时把宿主主题的系统栏状态原样交还。 */
 @Composable
 @Suppress("DEPRECATION")
-private fun LoginPaperSystemBars() {
+internal fun LoginPaperSystemBars() {
     val view = LocalView.current
     val window = (view.context as? Activity)?.window
 
@@ -231,7 +232,7 @@ private fun LoginTopBar(
 }
 
 @Composable
-private fun LoginErrorHint(
+internal fun LoginErrorHint(
     message: String,
     modifier: Modifier = Modifier,
 ) {
@@ -352,7 +353,7 @@ private fun LoginModeTab(
 }
 
 @Composable
-private fun EditorialLoginField(
+internal fun EditorialLoginField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -411,7 +412,7 @@ private fun EditorialLoginField(
                 .weight(1f)
                 .fillMaxHeight()
                 .onFocusChanged { isFocused = it.isFocused }
-                .semantics { contentDescription = label },
+            .semantics { contentDescription = label },
             singleLine = true,
             textStyle = TextStyle(
                 color = LoginInk,
@@ -457,7 +458,7 @@ private fun EditorialLoginField(
 }
 
 @Composable
-private fun LoginCodeAction(
+internal fun LoginCodeAction(
     isSending: Boolean,
     countdownSeconds: Int,
     onClick: () -> Unit,
@@ -502,7 +503,7 @@ private fun LoginCodeAction(
 }
 
 @Composable
-private fun LoginPasswordAction(
+internal fun LoginPasswordAction(
     language: AppLanguage,
     isPasswordVisible: Boolean,
     onClick: () -> Unit,
@@ -536,12 +537,13 @@ private fun LoginPasswordAction(
 }
 
 @Composable
-private fun LoginSubmitButton(
+internal fun LoginSubmitButton(
     loading: Boolean,
     enabled: Boolean,
     onClick: () -> Unit,
+    label: String? = null,
 ) {
-    val label = stringResource(R.string.auth_login)
+    val resolvedLabel = label ?: stringResource(R.string.auth_login)
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -553,7 +555,7 @@ private fun LoginSubmitButton(
                 role = Role.Button,
                 onClick = onClick,
             )
-            .semantics { contentDescription = label },
+            .semantics { contentDescription = resolvedLabel },
         contentAlignment = Alignment.Center,
     ) {
         if (loading) {
@@ -564,7 +566,7 @@ private fun LoginSubmitButton(
             )
         } else {
             Text(
-                text = label,
+                text = resolvedLabel,
                 color = Color.White.copy(alpha = if (enabled) 1f else 0.64f),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -593,8 +595,9 @@ private fun LoginFooter(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        // 「忘记密码」在移动端的落地是切换到验证码登录；验证码登录关停时一并隐藏。
-        if (!state.isCodeMode && AuthFeatureFlags.verificationLoginEnabled) {
+        // 「忘记密码」指向独立的找回密码流程，不再依赖验证码登录开关——
+        // 公网形态验证码登录关停时，密码找回仍然是必须闭环的路径。
+        if (!state.isCodeMode) {
             Text(
                 text = if (language.isEnglishForLogin()) "Forgot password" else "忘记密码",
                 modifier = Modifier.clickable(
@@ -727,6 +730,7 @@ private fun LoginAuthPanel(
     onPasswordVisibilityToggle: () -> Unit,
     onSendCode: () -> Unit,
     onLogin: () -> Unit,
+    onForgotPassword: () -> Unit,
     onPrivacyPolicyAcceptedChange: (Boolean) -> Unit,
     onOpenPrivacyPolicy: () -> Unit,
     onDismissKeyboard: () -> Unit,
@@ -865,9 +869,7 @@ private fun LoginAuthPanel(
             LoginFooter(
                 state = state,
                 language = language,
-                onForgotPassword = {
-                    if (!state.isCodeMode) onModeSelected(true)
-                },
+                onForgotPassword = onForgotPassword,
             )
             LoginPrivacyLine(
                 checked = hasAcceptedPrivacyPolicy,
@@ -883,6 +885,7 @@ private fun LoginAuthPanel(
 public fun LoginScreen(
     viewModel: LoginViewModel,
     onLoginSuccess: (requiresInviteCode: Boolean) -> Unit,
+    onForgotPassword: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -1089,6 +1092,10 @@ public fun LoginScreen(
                                 viewModel.login(onLoginSuccess)
                             }
                         },
+                        onForgotPassword = {
+                            dismissKeyboard()
+                            onForgotPassword()
+                        },
                         onPrivacyPolicyAcceptedChange = { hasAcceptedPrivacyPolicy = it },
                         onOpenPrivacyPolicy = ::openPrivacyPolicy,
                         onDismissKeyboard = ::dismissKeyboard,
@@ -1112,7 +1119,7 @@ public fun LoginScreen(
     }
 }
 
-private fun Modifier.drawBottomRule(color: Color, width: Dp): Modifier = drawBehind {
+internal fun Modifier.drawBottomRule(color: Color, width: Dp): Modifier = drawBehind {
     val strokeWidth = width.toPx()
     drawLine(
         color = color,
@@ -1122,7 +1129,7 @@ private fun Modifier.drawBottomRule(color: Color, width: Dp): Modifier = drawBeh
     )
 }
 
-private fun Modifier.drawStartRule(color: Color, width: Dp): Modifier = drawBehind {
+internal fun Modifier.drawStartRule(color: Color, width: Dp): Modifier = drawBehind {
     val strokeWidth = width.toPx()
     drawLine(
         color = color,
@@ -1132,7 +1139,7 @@ private fun Modifier.drawStartRule(color: Color, width: Dp): Modifier = drawBehi
     )
 }
 
-private fun Modifier.drawEndRule(color: Color, width: Dp): Modifier = drawBehind {
+internal fun Modifier.drawEndRule(color: Color, width: Dp): Modifier = drawBehind {
     val strokeWidth = width.toPx()
     drawLine(
         color = color,
@@ -1143,7 +1150,7 @@ private fun Modifier.drawEndRule(color: Color, width: Dp): Modifier = drawBehind
 }
 
 /** SYSTEM 跟随系统语言；产品只提供中英文，因此非中文系统回落英文。 */
-private fun AppLanguage.isEnglishForLogin(): Boolean = when (this) {
+internal fun AppLanguage.isEnglishForLogin(): Boolean = when (this) {
     AppLanguage.EN -> true
     AppLanguage.ZH_CN -> false
     AppLanguage.SYSTEM -> !Locale.getDefault()
