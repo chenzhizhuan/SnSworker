@@ -6,8 +6,11 @@
     <string name="auth_login_title">Log in to SnSworker</string>
     <string name="auth_mode_code">Verification code</string>
     <string name="auth_mode_password">Password</string>
+    <!-- Label stays a compact word for the 64dp editorial label column;
+         the full wording lives in the placeholder, aligned with the desktop
+         loginForm.placeholders.emailOrPhone copy. -->
     <string name="auth_phone_label">Account</string>
-    <string name="auth_phone_placeholder">Email, phone, or employee ID</string>
+    <string name="auth_phone_placeholder">Enter username, email or phone number</string>
     <string name="auth_code_label">Verification Code</string>
     <string name="auth_code_placeholder">Enter verification code</string>
     <string name="auth_get_code">Get Code</string>
@@ -20,7 +23,7 @@
     <string name="auth_error_invalid_code">The code is invalid or expired. Get a new code.</string>
     <string name="auth_error_send_code">Couldn\'t send the code. Try again later.</string>
     <string name="auth_error_network">Check your connection and try again.</string>
-    <string name="auth_error_account_required">Enter your email, phone number, or employee ID</string>
+    <string name="auth_error_account_required">Enter username, email or phone number</string>
     <string name="auth_error_login">Couldn\'t log in. Try again later.</string>
     <string name="auth_login">Log In</string>
     <string name="auth_use_password">Log in with password</string>
