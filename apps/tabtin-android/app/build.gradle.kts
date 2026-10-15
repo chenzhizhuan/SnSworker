@@ -160,15 +160,18 @@ android {
                 storePassword = releaseStorePassword
                 keyAlias = releaseKeyAlias
                 keyPassword = releaseKeyPassword
-                // 厂商安装器兼容：部分国产 ROM（华为/荣耀等）的包安装校验只认
-                // v1 (JAR) 证书，缺 v1 会报「该安装包未包含任何证书」。
+                // 注意：AGP 9.2 实测下 minSdk>=24 时无条件跳过 v1 (JAR) 签名，
+                // 这里的 enableV1Signing=true 不生效（AGP 8 下有效）。
+                // 部分国产厂商安装器（华为/荣耀等）只认 v1 证书，缺 v1 会报
+                // 「该安装包未包含任何证书」；AGP 9 构建后必须用 apksigner
+                // 重签补 v1，见 scripts/android/sign-v1-compat.ps1。
                 enableV1Signing = true
                 enableV2Signing = true
             }
         }
-        // minSdk=26 时 AGP 默认关闭 v1 签名（v2 原生全覆盖）；但厂商安装器
-        // 仍要求 v1。release 未配置 keystore 时回退到本配置（现状即如此），
-        // 故这里必须同样显式开启，否则线上包缺 v1、部分机型装不上。
+        // 同上：AGP 9.2 下此开关不生效（仅 AGP 8 有效）；release 未配置
+        // keystore 时回退到本配置（现状即如此）。线上包的 v1 补齐依赖
+        // 构建后的 apksigner 重签脚本。
         getByName("debug") {
             enableV1Signing = true
             enableV2Signing = true
@@ -312,6 +315,21 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xjsr305=strict")                            // W C：strict null
         freeCompilerArgs.add("-Xannotation-default-target=param-property") // W D batch 9：消 76 处 KT-73255
+    }
+}
+
+// AGP 9.2 实测：signingConfigs DSL 与本处 Variant API 的 enableV1Signing 开关
+// 均不生效（minSdk>=24 时 AGP 无条件 v2-only 签名，输出的 APK 无 META-INF/*.SF
+// 等v1 JAR 签名文件）。部分国产厂商安装器（华为/荣耀等）强制要求 v1 证书，
+// 缺 v1 报「该安装包未包含任何证书」。
+// 本块保留正确语义（AGP 8 下有效、未来 AGP 修复后自动生效），
+// 但当前 v1 补齐必须跑构建后重签：scripts/android/sign-v1-compat.ps1。
+androidComponents {
+    onVariants(selector().withBuildType("release")) { variant ->
+        variant.signingConfig?.apply {
+            enableV1Signing.set(true)
+            enableV2Signing.set(true)
+        }
     }
 }
 
