@@ -160,7 +160,18 @@ android {
                 storePassword = releaseStorePassword
                 keyAlias = releaseKeyAlias
                 keyPassword = releaseKeyPassword
+                // 厂商安装器兼容：部分国产 ROM（华为/荣耀等）的包安装校验只认
+                // v1 (JAR) 证书，缺 v1 会报「该安装包未包含任何证书」。
+                enableV1Signing = true
+                enableV2Signing = true
             }
+        }
+        // minSdk=26 时 AGP 默认关闭 v1 签名（v2 原生全覆盖）；但厂商安装器
+        // 仍要求 v1。release 未配置 keystore 时回退到本配置（现状即如此），
+        // 故这里必须同样显式开启，否则线上包缺 v1、部分机型装不上。
+        getByName("debug") {
+            enableV1Signing = true
+            enableV2Signing = true
         }
     }
 
