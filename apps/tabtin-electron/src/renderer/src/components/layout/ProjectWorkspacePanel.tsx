@@ -53,7 +53,7 @@ import {
 import { directUpload } from '@/services/oss-direct-uploader'
 import { MemberApiService } from '@/services/memberApi'
 import { SpaceAccessApiService } from '@/services/spaceAccessApi'
-import { ProjectApiService } from '@/services/projectApi'
+import { ProjectApiError, ProjectApiService } from '@/services/projectApi'
 import { openProjectTaskChatSession } from '@/services/openProjectTaskChatSession'
 import {
   createProjectWithCompanionWorkspace,
@@ -1837,7 +1837,7 @@ const TeamSpaceSettingsDialog: React.FC<{
   onOpenChange: (open: boolean) => void
   space: Space | null
 }> = ({ open, onOpenChange, space }) => {
-  const updateSpace = useSpaceStore(state => state.updateSpace)
+  const refreshSpace = useSpaceStore(state => state.refreshSpace)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [workspace, setWorkspace] = useState<ProjectCompanionWorkspace | null>(null)
@@ -1889,20 +1889,29 @@ const TeamSpaceSettingsDialog: React.FC<{
     }
     setIsSaving(true)
     try {
-      const updated = await updateSpace(space.id, {
+      // Project 是 team_space：store.updateSpace 会拒绝 Space CRUD，必须走 Project API。
+      await ProjectApiService.updateProject(space.id, {
         name: trimmedName,
         description: description.trim(),
-        expected_version: space.config_version,
+        expected_version: space.config_version ?? null,
       })
-      if (!updated) {
-        toast({ title: 'Project 设置保存失败' })
-        return
-      }
+      // 服务端已更新：重载组织内列表，让侧栏/详情页立即反映新名称
+      await refreshSpace(space.id)
       toast({ title: 'Project 设置已保存' })
       onOpenChange(false)
     } catch (error) {
       projectLog.error('settings update failed', { projectId: space?.id, error })
-      toast({ title: 'Project 设置保存失败' })
+      let title = 'Project 设置保存失败'
+      if (error instanceof ProjectApiError) {
+        if (error.errorCode === 'PROJECT_VERSION_CONFLICT') {
+          title = 'Project 已被其他成员修改，请关闭后重新打开设置再保存'
+        } else if (error.statusCode === 403) {
+          title = '只有编辑者及以上权限可以修改 Project 设置'
+        } else if (error.statusCode === 409) {
+          title = '保存冲突，请重试'
+        }
+      }
+      toast({ title })
     } finally {
       setIsSaving(false)
     }

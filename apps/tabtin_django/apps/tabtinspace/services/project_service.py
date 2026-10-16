@@ -161,6 +161,55 @@ class ProjectService(BaseService):
             raise ServiceError('PERMISSION_DENIED', '没有权限设置主要负责 Agent', 403)
         return None
 
+    @transaction.atomic(using=postgres_app_db_alias())
+    def update_project(
+        self,
+        *,
+        project_id: UUID,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        expected_version: Optional[int] = None,
+    ) -> Project:
+        """更新 Project 基本信息（名称/描述），editor 及以上权限。
+
+        ``expected_version`` 为 CAS 乐观并发控制：传入客户端读到的
+        ``config_version``，不匹配时抛 409，避免并发互踩。
+        """
+        if not self.user:
+            raise ServiceError('AUTH_REQUIRED', '需要登录', 401)
+        project = (
+            Project.objects.select_for_update()
+            .select_related('organization')
+            .filter(id=project_id, trashed_at__isnull=True)
+            .first()
+        )
+        if not project:
+            raise ServiceError('PROJECT_NOT_FOUND', 'Project 不存在', 404)
+        if not self._can_manage(project_id=project_id, required_role='editor'):
+            raise ServiceError('PERMISSION_DENIED', '只有编辑者及以上权限可以修改 Project 设置', 403)
+        if expected_version is not None and int(expected_version) != project.config_version:
+            raise ServiceError(
+                'PROJECT_VERSION_CONFLICT',
+                'Project 已被其他成员修改，请刷新后重试',
+                409,
+            )
+
+        update_fields: list[str] = []
+        if name is not None:
+            trimmed = name.strip()
+            if not trimmed:
+                raise ServiceError('PROJECT_NAME_REQUIRED', 'Project 名称不能为空', 400)
+            project.name = trimmed
+            update_fields.append('name')
+        if description is not None:
+            project.description = description.strip()
+            update_fields.append('description')
+        if not update_fields:
+            return project
+        project.config_version = (project.config_version or 0) + 1
+        project.save(update_fields=[*update_fields, 'config_version', 'updated_at'])
+        return project
+
     def resolve_member_workspace(self, *, project: Project, user) -> Optional[Workspace]:
         """成员在此 Project 的执行 Workspace（成员自己的现场）。"""
         from apps.tabtinspace.services.project_execution import resolve_project_execution_workspace

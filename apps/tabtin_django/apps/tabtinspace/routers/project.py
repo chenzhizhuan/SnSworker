@@ -48,6 +48,12 @@ class ProjectPrimaryAgentIn(Schema):
     agent_id: Optional[UUID] = None
 
 
+class ProjectUpdateIn(Schema):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    expected_version: Optional[int] = None
+
+
 class ProjectTaskCreateIn(Schema):
     title: str
     description: str = ''
@@ -231,6 +237,25 @@ def get_project(request: HttpRequest, project_id: UUID):
     if not project:
         return not_found_response("Project")
     return success_response(_serialize_project(service, project, include_my_workspace=True))
+
+
+@router.put("/projects/{project_id}", auth=jwt_auth, response={200: dict, **RESP_WITH_CONFLICT})
+def update_project(request: HttpRequest, project_id: UUID, data: ProjectUpdateIn):
+    """更新 Project 名称/描述（编辑者及以上权限，CAS 并发控制）。"""
+    if not _projects_enabled():
+        return _project_feature_disabled_response()
+
+    service = ProjectService(user=request.auth)
+    try:
+        project = service.update_project(
+            project_id=project_id,
+            name=data.name,
+            description=data.description,
+            expected_version=data.expected_version,
+        )
+    except ServiceError as e:
+        return error_response(e.code, e.message, status_code=e.status)
+    return success_response(_serialize_project(service, project))
 
 
 @router.get("/projects/{project_id}/invitations", auth=jwt_auth, response={200: dict, **RESP_ERR})

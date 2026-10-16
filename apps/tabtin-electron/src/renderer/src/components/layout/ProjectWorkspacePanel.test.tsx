@@ -57,6 +57,14 @@ const mocks = vi.hoisted(() => ({
     execution_space_id: null,
     is_archived: false,
   })),
+  updateProject: vi.fn(() => Promise.resolve({
+    id: 'team-space-1',
+    name: '发布准备更新',
+    organization_id: 'organization-1',
+    type: 'team_space',
+    config_version: 8,
+  })),
+  refreshSpace: vi.fn(() => Promise.resolve()),
   currentConversationId: null as string | null,
   conversations: [
     {
@@ -285,22 +293,37 @@ vi.mock('@/components/context-space/tabdoc/InlineDocPreview', () => ({
   ),
 }))
 
-vi.mock('@/services/projectApi', () => ({
-  ProjectApiService: {
-    getProject: mocks.getProject,
-    listMyPendingInvitations: mocks.listMyPendingInvitations,
-    getTask: mocks.getTask,
-    listTasks: mocks.listTasks,
-    createTask: mocks.createTask,
-    respondTaskAssignment: mocks.respondTaskAssignment,
-    configureTaskExecution: mocks.configureTaskExecution,
-    prepareTaskRun: mocks.prepareTaskRun,
-    startTaskRun: mocks.startTaskRun,
-    cancelTask: mocks.cancelTask,
-    acceptTaskResult: mocks.acceptTaskResult,
-    setTaskResultVisibility: mocks.setTaskResultVisibility,
-  },
-}))
+vi.mock('@/services/projectApi', () => {
+  class ProjectApiError extends Error {
+    readonly statusCode: number
+    readonly errorCode?: string
+
+    constructor(message: string, statusCode: number, errorCode?: string) {
+      super(message)
+      this.name = 'ProjectApiError'
+      this.statusCode = statusCode
+      this.errorCode = errorCode
+    }
+  }
+  return {
+    ProjectApiError,
+    ProjectApiService: {
+      getProject: mocks.getProject,
+      updateProject: mocks.updateProject,
+      listMyPendingInvitations: mocks.listMyPendingInvitations,
+      getTask: mocks.getTask,
+      listTasks: mocks.listTasks,
+      createTask: mocks.createTask,
+      respondTaskAssignment: mocks.respondTaskAssignment,
+      configureTaskExecution: mocks.configureTaskExecution,
+      prepareTaskRun: mocks.prepareTaskRun,
+      startTaskRun: mocks.startTaskRun,
+      cancelTask: mocks.cancelTask,
+      acceptTaskResult: mocks.acceptTaskResult,
+      setTaskResultVisibility: mocks.setTaskResultVisibility,
+    },
+  }
+})
 
 vi.mock('@/services/spaceActivityApi', () => ({
   SpaceActivityApiService: {
@@ -331,10 +354,12 @@ vi.mock('@stores/useSpaceStore', () => ({
     (selector: (state: {
       spaces: Array<Record<string, unknown>>
       updateSpace: typeof mocks.updateSpace
+      refreshSpace: typeof mocks.refreshSpace
     }) => unknown) =>
       selector({
         spaces: mocks.spaces,
         updateSpace: mocks.updateSpace,
+        refreshSpace: mocks.refreshSpace,
       }),
     {
       setState: (updater: ((state: { spaces: Array<Record<string, unknown>> }) => { spaces?: Array<Record<string, unknown>> }) | { spaces?: Array<Record<string, unknown>> }) => {
@@ -551,6 +576,14 @@ describe('ProjectMainContent team conversations', () => {
       execution_space_id: null,
       is_archived: false,
     })
+    mocks.updateProject.mockResolvedValue({
+      id: 'team-space-1',
+      name: '发布准备更新',
+      organization_id: 'organization-1',
+      type: 'team_space',
+      config_version: 8,
+    })
+    mocks.refreshSpace.mockResolvedValue(undefined)
     mocks.spaces = [
       { id: 'space-1', name: '默认 Space', organization_id: 'organization-1', type: 'workspace', project_id: 'team-space-1' },
       {
@@ -1083,11 +1116,41 @@ describe('ProjectMainContent team conversations', () => {
     fireEvent.click(screen.getByRole('button', { name: '保存' }))
 
     await waitFor(() => {
-      expect(mocks.updateSpace).toHaveBeenCalledWith('team-space-1', {
+      expect(mocks.updateProject).toHaveBeenCalledWith('team-space-1', {
         name: '发布准备更新',
         description: '更新后的说明',
         expected_version: 7,
       })
+      expect(mocks.refreshSpace).toHaveBeenCalledWith('team-space-1')
+    })
+    // 保存成功后关闭弹窗
+    await waitFor(() => {
+      expect(screen.queryByText('Project 设置')).toBeNull()
+    })
+  })
+
+  it('详情页管理入口保存失败时提示保存失败', async () => {
+    const { ProjectMainContent, useProjectWorkspaceSelectionStore } = await import('./ProjectWorkspacePanel')
+    const { ProjectApiError } = await import('@/services/projectApi')
+    useProjectWorkspaceSelectionStore.getState().setSelectedProjectId('team-space-1')
+    mocks.updateProject.mockRejectedValueOnce(new ProjectApiError('boom', 500))
+
+    render(<ProjectMainContent />)
+    fireEvent.click(screen.getByRole('button', { name: '管理' }))
+    fireEvent.change(screen.getByDisplayValue('发布准备'), { target: { value: '发布准备更新' } })
+    fireEvent.click(screen.getByRole('button', { name: '保存' }))
+
+    await waitFor(() => {
+      expect(mocks.updateProject).toHaveBeenCalledWith('team-space-1', {
+        name: '发布准备更新',
+        description: '发布前准备工作',
+        expected_version: 7,
+      })
+    })
+    // 保存失败：不刷新列表，弹窗保持打开
+    expect(mocks.refreshSpace).not.toHaveBeenCalled()
+    await waitFor(() => {
+      expect(screen.getByText('Project 设置')).not.toBeNull()
     })
   })
 

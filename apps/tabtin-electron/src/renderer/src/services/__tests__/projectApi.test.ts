@@ -16,6 +16,7 @@ vi.mock('@/config/api', () => ({
       LIST: '/context/projects',
       CREATE_WITH_WORKSPACE: '/context/projects/create-with-workspace',
       DETAIL: (id: string) => `/context/projects/${id}`,
+      UPDATE: (id: string) => `/context/projects/${id}`,
       PENDING_INVITATIONS: '/context/projects/invitations/pending',
       INVITE: (id: string) => `/context/projects/${id}/invitations`,
       INVITE_ACCEPT: (id: string) => `/context/projects/${id}/invitations/accept`,
@@ -134,6 +135,43 @@ describe('ProjectApiService.getProject', () => {
     })
     const project = await ProjectApiService.getProject('p1')
     expect(project.my_workspace?.id).toBe('w1')
+  })
+})
+
+describe('ProjectApiService.updateProject', () => {
+  it('PUTs name/description/expected_version payload', async () => {
+    apiRequestMock.mockResolvedValue({
+      status: 200,
+      data: { success: true, data: { id: 'p1', name: '新名称', config_version: 2 } },
+    })
+    const project = await ProjectApiService.updateProject('p1', {
+      name: '新名称',
+      description: '新描述',
+      expected_version: 1,
+    })
+    expect(project.id).toBe('p1')
+    expect(project.config_version).toBe(2)
+    const call = apiRequestMock.mock.calls[0][0]
+    expect(call.url).toContain('/context/projects/p1')
+    expect(call.method).toBe('PUT')
+    expect(JSON.parse(call.body)).toEqual({
+      name: '新名称',
+      description: '新描述',
+      expected_version: 1,
+    })
+  })
+
+  it('throws ProjectApiError with errorCode on non-200', async () => {
+    apiRequestMock.mockResolvedValue({
+      status: 409,
+      data: { code: 'PROJECT_VERSION_CONFLICT', message: 'conflict' },
+    })
+    await expect(
+      ProjectApiService.updateProject('p1', { name: '新名称', description: '' }),
+    ).rejects.toMatchObject({
+      errorCode: 'PROJECT_VERSION_CONFLICT',
+      statusCode: 409,
+    })
   })
 })
 

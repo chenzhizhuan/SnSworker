@@ -135,6 +135,27 @@ export class ProjectApiService {
     return body.data
   }
 
+  /** 更新 Project 基本信息（名称/描述）；expected_version 走 CAS 乐观并发控制 */
+  static async updateProject(
+    projectId: string,
+    payload: { name: string; description: string; expected_version?: number | null },
+  ): Promise<Project> {
+    const response = await apiRequest({
+      url: url(API_ENDPOINTS.PROJECT.UPDATE(projectId)),
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    if (!response || response.status !== 200) {
+      throw buildError(response, '保存项目设置失败')
+    }
+    const body = response.data as ApiEnvelope<Project>
+    if (!body?.success || !body.data?.id) {
+      throw buildError(response, '保存项目设置返回数据异常')
+    }
+    return body.data
+  }
+
   static async listMyPendingInvitations(): Promise<PendingProjectInvitation[]> {
     const response = await apiRequest({
       url: url(API_ENDPOINTS.PROJECT.PENDING_INVITATIONS),
