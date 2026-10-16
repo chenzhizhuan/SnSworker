@@ -356,6 +356,58 @@ class TeamSpaceAssetTests(TestCase):
         self.assertEqual(TabFilesService.publish_message_assets(message.id), [])
 
     @patch("apps.tabtinspace.services.resource_bridge.ResourceBridge._update_search_vector")
+    def test_project_member_can_download_asset_uploaded_by_owner(self, _mock_update_search):
+        from types import SimpleNamespace
+
+        from apps.tabtinspace.routers.tabfiles import get_project_file_download_url
+        from apps.tabtinspace.services.tabfiles_service import TabFilesService
+
+        file_record = self._file_record(upload_user=str(self.owner.id))
+        item = TabFilesService(user=self.owner).upload_to_space(
+            space_id=self.team_space.id,
+            file_record_id=file_record.id,
+        )
+        self.assertIsNotNone(item)
+        self.assertIsNotNone(item.project_id)
+
+        with patch(
+            "apps.tabtinspace.services.tabfiles_service.TabFilesService.get_download_url",
+            return_value="https://oss.example/signed",
+        ):
+            response = get_project_file_download_url(
+                SimpleNamespace(auth=self.invited),
+                self.team_space.id,
+                item.id,
+            )
+
+        self.assertTrue(response["success"], response)
+        self.assertEqual(response["data"]["url"], "https://oss.example/signed")
+
+    @patch("apps.tabtinspace.services.resource_bridge.ResourceBridge._update_search_vector")
+    def test_removed_member_cannot_download_project_asset(self, _mock_update_search):
+        from types import SimpleNamespace
+
+        from apps.tabtinspace.routers.tabfiles import get_project_file_download_url
+        from apps.tabtinspace.services.tabfiles_service import TabFilesService
+
+        file_record = self._file_record(upload_user=str(self.owner.id))
+        item = TabFilesService(user=self.owner).upload_to_space(
+            space_id=self.team_space.id,
+            file_record_id=file_record.id,
+        )
+        OrganizationMember.objects.filter(
+            organization=self.organization, user=self.removed,
+        ).delete()
+
+        response = get_project_file_download_url(
+            SimpleNamespace(auth=self.removed),
+            self.team_space.id,
+            item.id,
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    @patch("apps.tabtinspace.services.resource_bridge.ResourceBridge._update_search_vector")
     def test_team_space_tabdoc_is_enriched_as_deliverable_asset(self, _mock_update_search):
         from apps.tabdoc.models import Document
         from apps.tabtinspace.models import ContextItem

@@ -154,6 +154,77 @@ class TabFilesDownloadUrlAuthTests(TestCase):
             as_attachment=False,
         )
 
+    @patch(
+        "apps.tabtinspace.services.cloud_resource_acl.check_item_resource_permission",
+        return_value=False,
+    )
+    @patch("apps.tabtinspace.routers.tabfiles.ContextItem")
+    @patch("apps.tabtinspace.routers.tabfiles.TabFilesService")
+    def test_download_url_allows_project_team_asset_for_member_even_when_not_owner(
+        self,
+        mock_service_cls,
+        mock_context_item,
+        _mock_resource_permission,
+    ):
+        """团队资产（宿主 Project）：项目成员 viewer+ 可下载，即使非 owner/无 FilePermission。"""
+        from apps.tabtinspace.routers.tabfiles import get_file_download_url
+
+        file_record_id = uuid4()
+        mock_service = MagicMock()
+        mock_service.check_space_permission.return_value = True
+        mock_service_cls.return_value = mock_service
+        mock_context_item.objects.get.return_value = SimpleNamespace(
+            resource_id=str(file_record_id),
+            project_id=uuid4(),  # 团队资产宿主
+            workspace_id=None,
+            metadata={"file_name": "team.docx", "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+            title="team.docx",
+        )
+        mock_service_cls.get_file_size.return_value = 2048
+        mock_service_cls.get_download_url.return_value = "https://oss.example/signed"
+
+        response = _response_body(get_file_download_url(self._request(), uuid4(), uuid4()))
+
+        self.assertTrue(response["success"])
+        self.assertEqual(response["data"]["url"], "https://oss.example/signed")
+        mock_service_cls.get_download_url.assert_called_once_with(
+            file_record_id,
+            as_attachment=True,
+        )
+
+    @patch(
+        "apps.tabtinspace.services.cloud_resource_acl.check_item_resource_permission",
+        return_value=False,
+    )
+    @patch("apps.tabtinspace.routers.tabfiles.ContextItem")
+    @patch("apps.tabtinspace.routers.tabfiles.TabFilesService")
+    def test_download_url_still_denies_personal_workspace_asset_for_non_owner(
+        self,
+        mock_service_cls,
+        mock_context_item,
+        _mock_resource_permission,
+    ):
+        """个人 Workspace 云盘资产保持资源级 ACL：非 owner / 无 FilePermission 仍拒绝。"""
+        from apps.tabtinspace.routers.tabfiles import get_file_download_url
+
+        file_record_id = uuid4()
+        mock_service = MagicMock()
+        mock_service.check_space_permission.return_value = True
+        mock_service_cls.return_value = mock_service
+        mock_context_item.objects.get.return_value = SimpleNamespace(
+            resource_id=str(file_record_id),
+            project_id=None,  # 个人云盘宿主
+            workspace_id=uuid4(),
+            metadata={"file_name": "private.txt", "mime_type": "text/plain"},
+            title="private.txt",
+        )
+        mock_service_cls.get_file_size.return_value = 100
+
+        response = get_file_download_url(self._request(), uuid4(), uuid4())
+
+        self.assertEqual(response.status_code, 403)
+        mock_service_cls.get_download_url.assert_not_called()
+
     @patch("apps.tabtinspace.routers.tabfiles.ContextItem")
     @patch("apps.tabtinspace.routers.tabfiles.TabFilesService")
     def test_pdf_over_preview_limit_does_not_generate_signed_url(

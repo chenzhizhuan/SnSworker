@@ -114,7 +114,12 @@ def _get_file_download_url_for_host(
 
     from apps.tabtinspace.services.cloud_resource_acl import check_item_resource_permission
     if not check_item_resource_permission(request.auth, item, 'viewer'):
-        return permission_denied_response(_("tabtinspace.permission_denied"))
+        # 团队资产（宿主为 Project）：项目资产列表只按项目成员可见性聚合，
+        # 打开/下载需与列表口径一致——已通过 check_space_permission（项目
+        # 成员 viewer+）即放行只读下载；个人 Workspace 云盘保持资源级 ACL
+        # （owner / FilePermission），不因组织角色抬权。
+        if getattr(item, 'project_id', None) is None:
+            return permission_denied_response(_("tabtinspace.permission_denied"))
 
     return _resolve_file_download_response(item, preview_max_bytes)
 
