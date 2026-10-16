@@ -497,3 +497,95 @@ class TabFilesUploadScopeIntegrationTests(DjangoTestCase):
             )
 
         self.assertEqual(ctx.exception.code, "FILE_ACCESS_DENIED")
+
+    def _project_member(self, nickname: str):
+        from django.contrib.auth import get_user_model
+        from apps.tabtinspace.models import OrganizationMember, ProjectMembership
+
+        member = get_user_model().objects.create_user(
+            phone=f"+86137{uuid4().int % 100000000:08d}",
+            password="x",
+            nickname=nickname,
+        )
+        OrganizationMember.objects.create(
+            organization=self.organization,
+            user=member,
+            role="editor",
+        )
+        ProjectMembership.objects.create(
+            project=self.space,
+            user=member,
+            role="editor",
+            is_active=True,
+            status=ProjectMembership.Status.ACTIVE,
+        )
+        return member
+
+    @patch("apps.tabtinspace.services.resource_bridge.ResourceBridge._update_search_vector")
+    def test_project_member_can_download_asset_uploaded_by_owner(self, _mock_update_search):
+        """项目成员可下载 owner 上传的项目资产（列表与下载口径一致）。"""
+        from types import SimpleNamespace
+
+        from apps.tabtinspace.routers.tabfiles import get_project_file_download_url
+        from apps.tabtinspace.services.tabfiles_service import TabFilesService
+
+        invited = self._project_member("invited")
+
+        file_record = self._file_record(
+            organization_id=str(self.organization.id),
+            upload_user=str(self.user.id),
+        )
+        item = TabFilesService(user=self.user).upload_to_space(
+            space_id=self.space.id,
+            file_record_id=file_record.id,
+        )
+        self.assertIsNotNone(item)
+        self.assertIsNotNone(item.project_id)
+
+        with patch(
+            "apps.tabtinspace.services.tabfiles_service.TabFilesService.get_download_url",
+            return_value="https://oss.example/signed",
+        ):
+            response = get_project_file_download_url(
+                SimpleNamespace(auth=invited),
+                self.space.id,
+                item.id,
+            )
+
+        self.assertTrue(response["success"], response)
+        self.assertEqual(response["data"]["url"], "https://oss.example/signed")
+
+    @patch("apps.tabtinspace.services.resource_bridge.ResourceBridge._update_search_vector")
+    def test_removed_project_member_cannot_download_project_asset(self, _mock_update_search):
+        """被移出项目的成员失去下载权（check_space_permission 拒绝 → 403）。"""
+        from types import SimpleNamespace
+
+        from apps.tabtinspace.models import OrganizationMember, ProjectMembership
+        from apps.tabtinspace.routers.tabfiles import get_project_file_download_url
+        from apps.tabtinspace.services.tabfiles_service import TabFilesService
+
+        removed = self._project_member("removed")
+
+        file_record = self._file_record(
+            organization_id=str(self.organization.id),
+            upload_user=str(self.user.id),
+        )
+        item = TabFilesService(user=self.user).upload_to_space(
+            space_id=self.space.id,
+            file_record_id=file_record.id,
+        )
+
+        ProjectMembership.objects.filter(
+            project=self.space, user=removed,
+        ).delete()
+        OrganizationMember.objects.filter(
+            organization=self.organization, user=removed,
+        ).delete()
+
+        response = get_project_file_download_url(
+            SimpleNamespace(auth=removed),
+            self.space.id,
+            item.id,
+        )
+
+        self.assertEqual(response.status_code, 403)
