@@ -651,6 +651,7 @@
     "justNow": "たった今",
     "minutesAgo": "{{count}} 分前",
     "hoursAgo": "{{count}} 時間前",
+    "yesterday": "昨日",
     "daysAgo": "{{count}}前"
   },
   "navigate": {

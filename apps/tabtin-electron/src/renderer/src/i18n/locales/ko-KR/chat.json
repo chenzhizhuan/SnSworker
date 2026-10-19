@@ -651,6 +651,7 @@
     "justNow": "지금 막",
     "minutesAgo": "{{count}}분 전",
     "hoursAgo": "{{count}}시간 전",
+    "yesterday": "어제",
     "daysAgo": "{{count}}일 전"
   },
   "navigate": {

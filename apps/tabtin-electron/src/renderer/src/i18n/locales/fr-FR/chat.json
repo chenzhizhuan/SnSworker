@@ -651,6 +651,7 @@
     "justNow": "Juste maintenant",
     "minutesAgo": "il y a {{count}} min",
     "hoursAgo": "Il y a {{count}} heure",
+    "yesterday": "Hier",
     "daysAgo": "Il y a {{count}}d"
   },
   "navigate": {
