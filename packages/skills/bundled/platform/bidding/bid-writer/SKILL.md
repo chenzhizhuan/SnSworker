@@ -1,17 +1,9 @@
 ---
-name: 标书编写
-description: 标书编写技能。Use when drafting bid proposal content, including 技术方案编写, 商务文件编写, 标书正文起草, 章节大纲设计, 评分点响应, 标书风格调整, or turning a response matrix into proposal prose. Triggers on 标书编写, 编写标书, 标书正文, 技术方案编写, 商务文件编写, 评分点响应, 根据响应矩阵写标书, 投标文件正文. Covers outline design, section drafting, style matching, and self-review before handoff to compliance reviewer.
-metadata:
-  tabtin:
-    category: writing
-    tags:
-      - tender
-      - bidding
-      - proposal
-      - writing
+name: bid-writer
+description: 标书编写师。Use when drafting bid proposal content, including 技术方案编写, 商务文件编写, 标书正文起草, 章节大纲设计, 评分点响应, 标书风格调整, or turning a response matrix into proposal prose. Covers outline design, section drafting, style matching, and self-review before handoff to compliance reviewer.
 ---
 
-# 标书编写技能
+# 标书编写师
 
 Use this skill to draft bid proposal sections based on a response matrix, proposal framework, scoring criteria, and reference materials. You are the core writer in the bid pipeline — the bid-analyst feeds you the response matrix and proposal framework, and you produce proposal prose.
 
@@ -231,7 +223,7 @@ Support partial-assignment bid work. The user may only own the technical volume,
 | 标题编号 | 正确/有误 | 如有误，列出位置 |
 | 目录包含 | 有/无 | 交付文档开头必须包含完整目录（封面后、正文前，实际渲染进文档），缺失即不合格 |
 | 格式规范 | 符合/不符合 | 对照 Document Formatting Specifications：标题黑体/正文宋体小四/1.5倍行距/首行缩进2字符/表格五号 |
-| 页数要求 | 满足/不满足 | |
+| 页数要求 | 满足/不满足 | 用下方「页数精确自检」以 COM 读取实际页数，禁止用字数估算 |
 | 配图必要性 | 合理/过多/过少 | |
 | 越界内容 | 有/无 | 如有，列出位置 |
 
@@ -241,7 +233,157 @@ Support partial-assignment bid work. The user may only own the technical volume,
 **约束：**
 - 如存在高风险（废标项未解决、关键评分点未覆盖），不要标记为可移交
 - 自查结果和正文一起移交给合规审查员
-- 标书编写完成并通过自查后，必须提示用户：`标书编写技能已完成，下一步建议使用「合规审查技能」，对完整投标文件进行废标风险、评分点覆盖、格式和交付质量审查。`
+
+**页数精确自检（必做，用 Word/WPS COM 读取实际页数，禁止用字数估算）：**
+
+依 Step 1 确认的「页数目标口径」选择自检模式：
+- **模式 A · 整份页数**（目标为整份/合计页数，或仅为建议值）：打开渲染后的 .docx，`ComputeStatistics(2)` 读取整份真实页数，对照合计目标判断增/减。
+- **模式 B · 逐章页数**（Step 1「逐章篇幅确认表」里任一章节的目标非空、来源为"招标文件要求"或"用户指定"）：对每个指定了目标页数的章节，用 `Find` 定位本章标题与下一章标题（末章取文档末），以 `Range.Information(3)`（wdActiveEndPageNumber）取每章起始页码，页数 = 下章起始页 − 本章起始页（末章 = 文档末页 − 本章起始页 + 1）。前提：每章从新页起（标书一级标题本就分页起首，本 skill 的渲染规范保证此点）；若某章紧接上章同页起，会少算一页，须先补分页符再测。
+- 两种要求同时存在 → A、B 都跑，任一不达标即「页数要求：不满足」。
+
+**A/B 共用 COM 释放纪律：** 本机以 WPS 为主，探测顺序为**先 WPS 再 Word 的 fallback**（一个创建失败就 catch 后试下一个，不要同时开两个实例）。两种 Office 二选一能起来即可。
+
+```python
+import gc
+import win32com.client
+
+def page_count(path):
+    app = None
+    # fallback probe: WPS first (primary on this box), then MS Word
+    for progid in ('KWPS.Application', 'Word.Application'):
+        try:
+            app = win32com.client.DispatchEx(progid)
+            break
+        except Exception:
+            app = None
+    if app is None:
+        raise RuntimeError('Word/WPS COM both unavailable; needs manual page confirmation')
+    doc = None
+    try:
+        try:
+            app.Visible = False          # Kwpp(PPT) errors on False; KWPS/Word safe
+        except Exception:
+            pass
+        doc = app.Documents.Open(path, ReadOnly=True)   # read-only: avoid lock/hang
+        return doc.ComputeStatistics(2)  # 2 = wdStatisticPages
+    finally:
+        # close doc, quit app, then drop ALL COM refs so the process really exits
+        if doc is not None:
+            try:
+                doc.Close(False)
+            except Exception:
+                pass
+            del doc
+        try:
+            app.Quit()
+        finally:
+            del app
+        gc.collect()                     # collect intermediate RCWs (Documents, etc.)
+```
+
+等价的 PowerShell 写法（同样 fallback + try/finally + ReleaseComObject + GC，确保进程释放）：
+
+```powershell
+$app = $null
+foreach ($p in 'KWPS.Application','Word.Application') {
+    try { $app = New-Object -ComObject $p; break } catch { $app = $null }
+}
+if ($null -eq $app) { throw 'Word/WPS COM both unavailable; needs manual page confirmation' }
+$doc = $null
+try {
+    $app.Visible = $false
+    $doc = $app.Documents.Open('投标文件.docx', $false, $true)   # arg3 ReadOnly = $true
+    $pages = $doc.ComputeStatistics(2)                          # wdStatisticPages = 2
+    Write-Host "精确页数: $pages"
+}
+finally {
+    if ($null -ne $doc) {
+        $doc.Close($false)
+        [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($doc)
+    }
+    $app.Quit()
+    [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($app)
+    [GC]::Collect(); [GC]::WaitForPendingFinalizers(); [GC]::Collect()
+}
+```
+
+**模式 B · 逐章页数（`Range` 精确测单章，本机 WPS 实测：各章页数之和 == 整份总页数）：**
+
+```python
+import gc
+import win32com.client
+
+def section_page_count(path, start_heading, end_heading=None):
+    """精确测某一章节占用的页数。
+    start_heading / end_heading：框架里本章标题与下一章标题的唯一文本串。
+    end_heading=None 表示测到文末（最后一章）。
+    前提：每章从新页起（标书规范）；否则先在正文补分页符再测。
+    """
+    app = None
+    for progid in ('KWPS.Application', 'Word.Application'):
+        try:
+            app = win32com.client.DispatchEx(progid)
+            break
+        except Exception:
+            app = None
+    if app is None:
+        raise RuntimeError('Word/WPS COM both unavailable; needs manual page confirmation')
+    doc = None
+
+    def _page_of_heading(h):
+        rng = doc.Content                      # 每次从全文重新查找，避免区间累积
+        f = rng.Find
+        f.Text = h
+        f.Forward = True
+        f.Wrap = 0                             # wdFindStop：找不到不外绕
+        if not f.Execute():
+            raise RuntimeError('heading not found: ' + h)
+        return doc.Range(rng.Start, rng.Start).Information(3)  # wdActiveEndPageNumber
+
+    try:
+        try:
+            app.Visible = False
+        except Exception:
+            pass
+        doc = app.Documents.Open(path, ReadOnly=True)
+        sp = _page_of_heading(start_heading)
+        if end_heading:
+            ep = _page_of_heading(end_heading)
+            return (ep - sp) if ep > sp else 1   # 相邻页起：至少算 1 页
+        last = doc.Range(doc.Content.End - 1,
+                         doc.Content.End - 1).Information(3)
+        return (last - sp + 1)
+    finally:
+        if doc is not None:
+            try:
+                doc.Close(False)
+            except Exception:
+                pass
+            del doc
+        try:
+            app.Quit()
+        finally:
+            del app
+        gc.collect()
+
+# 用法：把逐章目标非空的章节，按框架顺序用「本章标题 + 下一章标题」串起来；末章 end_heading=None。
+#   section_page_count(p, '第3章 技术方案', '第4章 实施方案')  -> 该章实际页数
+# 逐章对照 Step 1 各章目标判定增删；各章达标后仍要过一遍模式 A 校验整份总页数。
+```
+
+PowerShell 同理：`$doc.Range($start,$start).Information(3)` 取页码，边界用 `$doc.Content.Find` 定位标题文本；结束一样 `Close/Quit + ReleaseComObject + GC`。
+
+**A/B 共用的判定与增删闭环（循环直到命中目标区间）：**
+- 实际页数 **少于** 目标：回到 Step 5，对该章补充**有价值内容**——场景化说明、执行细节、招标针对性响应、质量控制、风险控制、交付闭环；单章超 30 页时补有信息量的表格/流程图/进度图——重新渲染后再次读取页数。
+- 实际页数 **多于** 目标：删除重复段落、碎标题、空壳表格/图、过度铺陈，改为厚段落承载实质内容，重新渲染后再次读取页数。
+- 落在允许区间（默认目标 ±10%，或用户指定容差）即判定达标：模式 A 看整份总页数，模式 B 看每个指定了目标的章节各自页数；**所有适用项都达标**才在自查表里标记「页数要求：满足」。
+- 模式 B 下所有单章都达标后，仍要跑一遍模式 A 复核整份总页数（逐章 ±10% 累积可能让整份越界），整份也达标才算通过。
+- 严禁用重复表格、重复模板、碎标题或空壳图凑页数来命中目标。
+
+注意（副作用与容错）：
+- 必须 `try/finally` 保证 `Quit()`：否则 Word/WPS 隐藏进程会堆积吃内存，并可能锁定文档导致下次打开变只读。
+- WPS 个别版本首启动会弹「设为默认/升级/协议」对话框，`Visible=False` 未必完全压制，脚本应能超时容错；本机已验证 `KWPS.Application` 可稳定读取 docx。
+- 若两 ProgID 都创建失败（环境无任何 Office），不要估算，按「需人工确认页数」标注并暂停。
 
 ---
 
