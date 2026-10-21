@@ -31,13 +31,14 @@ v6.0 采用**五层架构**：数据智能 + 模板锚定 + 风格记忆 + 创�
 
 当用户消息包含以下任一关键词时使用本技能:
 - "电信PPT" / "电信风格PPT" / "运营PPT" / "标准化运营PPT"
-- "红白高密度" / "电信红白高密度汇报PPT" / "artifact-template-ppt"（T35 模板路由，见下方「T35 模板」）
+- "红白高密度" / "电信红白高密度汇报PPT" / "artifact-template-ppt"（T35 模板路由）
+- "党课模板" / "党课红金" / "PPT设计大师" / "潘军模板" / "电信红金" / "HTML交互幻灯片"（T36 模板路由）
 - "座谈会" / "总经理座谈会" / "半年会" / "经营复盘" / "高管发言" / "发言材料" / "领导讲话材料" / "述职发言"
 - "框架图" / "总视图" / "架构图PPT"
 - "宣贯PPT" / "动员PPT"
 - 提供Excel/markdown/图片并要求"生成PPT"
 - "做PPT" / "PPT" / "幻灯片" / "汇报" / "答辩" / "课件"
-- 不要仅因用户泛泛提到 PPT、课件、答辩或普通公司汇报而触发
+- 不要仅因用户泛泛提到 PPT、课件、答辩或普通公司汇报而触发；**通用/非电信 PPT 一律路由 `teleagent/ppt-master`（通用主入口，原生深度管线）**，本技能只承接电信风格与党课红金场景
 
 ## T35 模板：电信红白高密度汇报（原 artifact-template-ppt 并入）
 
@@ -49,6 +50,18 @@ v6.0 采用**五层架构**：数据智能 + 模板锚定 + 风格记忆 + 创�
 4. 复用提示词：`red-white-compact/references/master-prompts.md`；交付前 QA：`red-white-compact/references/qa-checklist.md`
 5. 参考底版：`red-white-compact/assets/reference.pptx`（python-pptx 提取坐标/配色/布局，用 pptxgenjs 复现视觉系统而非直接克隆）；封面预览 `red-white-compact/assets/preview.png`
 6. 与主体深红视觉体系不同，T35 是红白紧凑风：文字密度高、证据优先、叙事服从沟通目标。T35 与 T1-T34 不混用
+
+## T36 模板：党课红金/PPT设计规范（原 ppt-design-master 并入）
+
+用户点名「PPT设计大师」「党课模板」「党课红金」「潘军模板」「电信风格红金」「模板7/C8配色」，或要求电信体系配色/字体/版式/图表设计规范、PPT审美评估、HTML交互幻灯片时，走 T36 路线：
+
+1. 读 `panjun-redgold/SKILL.md` 获取完整设计规范（配色体系/字体选择/图文排布/图表展示/设计原则/质量检查六大维度 + 7 套模板配置 + 14 张 AI 生图指令 + 61 页版式目录 + PptxGenJS 组件函数库）
+2. 党课/党建红金风格素材：`panjun-redgold/assets/panjun-template/`（bg_cover/bg_content/bg_transition/bg_end 四类背景图即用，含中国电信 Logo + 天翼 AI Logo）
+3. HTML 交互幻灯片模板：`panjun-redgold/templates/ppt-html-template.html`
+4. 生成脚本参考：`panjun-redgold/scripts/gen_lto_pptx_full.js`
+5. T36 与 T1-T35 不混用；通用非电信 PPT 需求路由 `teleagent/ppt-master`
+
+**历史来源**：2026-10-21 合并——原独立技能 `ppt-design-master`（PPT设计大师）目录平移至本目录，其通用设计方法论已被 ppt-master 技能覆盖，电信模板资产保留于本技能。
 
 ## 核心原则
 
@@ -641,25 +654,27 @@ telecom-ppt-master/
 
 ---
 
-## 双引擎架构（v7.2）
+## 双引擎架构（v7.2；v9.2 修正：Python 引擎真实指向 ppt-master 技能）
 
 ### 引擎选择
 
 | 场景 | 引擎 | 理由 |
 |------|------|------|
 | 电信业务报告/运营分析/宣贯 | **JS (pptxgenjs)** 默认 | 快速、内容组织强、数据智能成熟 |
-| 总经理座谈会/半年会封面设计 | **Python (SVG)** | 高设计感、原生深度 |
-| 需要幻灯片切换动画/元素入场动画 | **Python (SVG)** | JS引擎动画能力弱 |
-| 需要演讲者备注→语音旁白 | **Python (SVG)** | JS引擎不支持 |
-| 非16:9画布（小红书/朋友圈/海报） | **Python (SVG)** | 支持8种画布格式 |
-| 已有.pptx模板填充内容 | **Python (SVG)** | 原生模板填充工作流 |
+| 总经理座谈会/半年会封面设计 | **ppt-master 技能** | 高设计感、原生深度 |
+| 需要幻灯片切换动画/元素入场动画 | **ppt-master 技能** | JS引擎动画能力弱 |
+| 需要演讲者备注→语音旁白 | **ppt-master 技能** | JS引擎不支持 |
+| 非16:9画布（小红书/朋友圈/海报） | **ppt-master 技能** | 支持8种画布格式 |
+| 已有.pptx模板填充内容 | **ppt-master 技能** | 原生模板填充工作流 |
 | 数据驱动表格/图表密集型 | **JS (pptxgenjs)** | 数据智能层成熟 |
+
+「Python 引擎」指已全量预装的 `teleagent/ppt-master` 技能（原生 SVG 管线，依赖已内置 Python 运行时，断网可用）。本技能自身不再捆绑 Python 管道副本（v9.2 移除空壳 python-pipeline/ 目录）；深度场景按上表切换到 ppt-master，按其 SKILL.md 工作流执行，电信模板资产仍从本技能引用。
 
 详细决策树和配置指南见 `references/dual-engine-guide.md`。
 
 ### 设计方法论融入（来自 ppt-master）
 
-从 ppt-master (hugohe3, GitHub 39.8k stars, MIT) 提取了以下不依赖SVG管道的设计理念：
+从 ppt-master (hugohe3, GitHub 64.8k stars, MIT) 提取了以下不依赖SVG管道的设计理念（2026-10-21 起上游已全量预置为 `teleagent/ppt-master` 独立技能，本技能不再内嵌其管线副本）：
 
 - **双轨锁定**: design_spec(人类意图) + lock.json(机器约束)，防长PPT颜色/字体漂移
 - **逐页上下文投影**: 每页生成前注入全局锁+前一页节奏+图表映射
@@ -667,9 +682,7 @@ telecom-ppt-master/
 - **三角色协作**: 策略师→设计师→QA工程师，减少上下文混乱
 - **pptxgenjs能力边界表**: 明确什么能做/需要变通/做不到
 
-详见 `references/ppt-master-design-insights.md`。
-
-Python辅引擎模块位于 `python-pipeline/`，源码位于 `.temp/ppt-master-source/`。
+详见 `references/ppt-master-design-insights.md` 与 ppt-master 技能本体。
 
 ---
 
