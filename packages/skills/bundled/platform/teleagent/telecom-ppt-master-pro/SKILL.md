@@ -1,8 +1,8 @@
 ---
 name: 电信运营汇报 PPT
-description: Create, modify and quality-assure China Telecom-style PowerPoint for operations analysis, business review, symposium, work deployment, advocacy training, branch/user profiles and Excel data reports. Deep-red visual system, 7 themes, 34 page templates, 12 scenario presets, native 5G template inheritance, optional local progress preview, JS/Python engines, and an engineering quality gate (task routing, machine-readable artifacts, validation scripts, smoke tests).
+description: Create, modify and quality-assure China Telecom-style PowerPoint for operations analysis, business review, symposium, work deployment, advocacy training, branch/user profiles and Excel data reports. Deep-red visual system, 7 themes, 34 page templates + T35 电信红白高密度汇报模板（2026-10-19 并入原 artifact-template-ppt 技能：项目汇报/创新成果/先进评选/工匠事迹/培训交流/团建/安全/数字化/AI/内部领导汇报，红白紧凑证据优先风格），12 scenario presets, native 5G template inheritance, optional local progress preview, JS/Python engines, and an engineering quality gate. 触发词：电信PPT, 电信风格PPT, 红白高密度, artifact-template-ppt, 电信红白汇报PPT.
 name_cn: 电信PPT大师v91
-description_cn: 创建、原生编辑、模板复用并质检中国电信风格PPT，覆盖经营分析、业务复盘、座谈会、宣贯培训、专项汇报、营业部/用户画像及数据报表场景。深红视觉体系，7主题、34模板、12场景预设、5G原生模板继承；JS/Python双引擎，可选本地进度预览；v9.0工程化质量校验，数据可追溯、结果可校验。
+description_cn: 创建、原生编辑、模板复用并质检中国电信风格PPT，覆盖经营分析、业务复盘、座谈会、宣贯培训、专项汇报、营业部/用户画像及数据报表场景；含 T35 电信红白高密度汇报模板（红白紧凑、证据优先，适合项目汇报/创新成果/先进评选/工匠事迹/培训交流等内部汇报）。深红视觉体系，7主题、34+1模板、12场景预设、5G原生模板继承；JS/Python双引擎，可选本地进度预览；v9.0工程化质量校验。
 AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
@@ -31,12 +31,24 @@ v6.0 采用**五层架构**：数据智能 + 模板锚定 + 风格记忆 + 创�
 
 当用户消息包含以下任一关键词时使用本技能:
 - "电信PPT" / "电信风格PPT" / "运营PPT" / "标准化运营PPT"
+- "红白高密度" / "电信红白高密度汇报PPT" / "artifact-template-ppt"（T35 模板路由，见下方「T35 模板」）
 - "座谈会" / "总经理座谈会" / "半年会" / "经营复盘" / "高管发言" / "发言材料" / "领导讲话材料" / "述职发言"
 - "框架图" / "总视图" / "架构图PPT"
 - "宣贯PPT" / "动员PPT"
 - 提供Excel/markdown/图片并要求"生成PPT"
 - "做PPT" / "PPT" / "幻灯片" / "汇报" / "答辩" / "课件"
 - 不要仅因用户泛泛提到 PPT、课件、答辩或普通公司汇报而触发
+
+## T35 模板：电信红白高密度汇报（原 artifact-template-ppt 并入）
+
+用户点名"电信红白高密度汇报PPT"、"红白高密度"，或要项目汇报/创新成果/先进评选或工匠事迹/培训交流/团队建设/安全/数字化/AI/内部领导汇报类紧凑材料时，走 T35 路线：
+
+1. 读 `red-white-compact/SKILL.md` 获取完整工作流（事实账本→沟通目标→叙事模型→逐页地图→pptxgenjs 生成）
+2. 视觉规范：`red-white-compact/references/design-system.md`（画布网格/品牌色/页眉系统/信息密度控制）
+3. 页面逻辑与叙事：`red-white-compact/references/content-and-layout.md`
+4. 复用提示词：`red-white-compact/references/master-prompts.md`；交付前 QA：`red-white-compact/references/qa-checklist.md`
+5. 参考底版：`red-white-compact/assets/reference.pptx`（python-pptx 提取坐标/配色/布局，用 pptxgenjs 复现视觉系统而非直接克隆）；封面预览 `red-white-compact/assets/preview.png`
+6. 与主体深红视觉体系不同，T35 是红白紧凑风：文字密度高、证据优先、叙事服从沟通目标。T35 与 T1-T34 不混用
 
 ## 核心原则
 

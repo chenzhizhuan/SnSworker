@@ -1,6 +1,6 @@
 ---
 name: bid-writer
-description: 标书编写师。Use when drafting bid proposal content, including 技术方案编写, 商务文件编写, 标书正文起草, 章节大纲设计, 评分点响应, 标书风格调整, or turning a response matrix into proposal prose. Covers outline design, section drafting, style matching, and self-review before handoff to compliance reviewer.
+description: 标书编写师（含信息化行业专版）。Use when drafting bid proposal content, including 技术方案编写, 商务文件编写, 标书正文起草, 章节大纲设计, 评分点响应, 标书风格调整, or turning a response matrix into proposal prose. Covers outline design, section drafting, style matching, and self-review before handoff to compliance reviewer. 信息化/系统集成/软件开发/运维服务/网络安全/数据治理/云服务等行业项目加载 references/information-bidding.md 行业专版（标题驱动三级标题体系、评分逐项交叉引用表、字数再分配、IT 项目参数表、doc2txt 招标文件转换）。触发词：写标书, 技术标, 投标方案, 方案写作, 生成方案, 写第X章, 评分表, 招标文件分析, 标题体系, 标书大纲, 信息化, 系统集成, 等保, 信创, write bid, technical proposal, scoring table.
 ---
 
 # 标书编写师
@@ -459,3 +459,8 @@ All headings use 1.5x line spacing, bold, color auto.
 - Read `references/prompt-templates.md` when the user needs reusable prompts or staged execution prompts.
 - Read `references/quality-checklist.md` before self-review or delivery checks.
 - When the user uploads business material documents (docx/pdf) to be filled into the proposal, read `references/business-materials-filling.md` and follow its extract → compress → map-insert → render → verify flow.
+- **信息化行业专版**：信息化/系统集成/软件开发/运维服务/网络安全/等保/信创类项目，加载 `references/information-bidding.md`（原「信息化标书写作」技能并入），用其标题驱动三级标题体系、评分逐项交叉引用表（写作前必出必确认）、字数再分配公式与 IT 项目参数表；招标文件为 PDF/DOCX 时先用 `tools/doc2txt.py` 转换。
+
+## 历史来源
+
+2026-10-19 合并：「信息化标书写作」(ai-bid-writing) 技能目录移除，其行业专版全文收编为 `references/information-bidding.md`，`tools/doc2txt.py` 一并入列；触发词合并至本 description。投标链上游 tender-analysis、下游 compliance-reviewer 不变。

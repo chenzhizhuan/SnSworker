@@ -1,6 +1,6 @@
 ---
 name: 动画视频生成
-description: 'Generate real animated videos from text, images, prompts, or video scripts. Powered by 即梦 Seedream/Seedance with 7 modes: text2img, text2video, img2video (first+last frame), ref2video (≤9 ref images), vivid2video (motion replication), multimodal, video_extend. v2.4: storyboard refinement (action/shot_type/camera/ambient/emotion/duration_seconds), slash-archetype voice mapping fix, royalty-free BGM library index (BGM_LIBRARY_DIR two-tier match returning real file paths) + 10 synth SFX, real xfade transitions (no black frames), animate_video fix (--preview default off), platform specs (platform_specs.md) + free asset list (free_resources.md), 6-tier TTS fallback (火山→edge→gTTS→pyttsx3→SAPI5→静音). Supports both vertical (9:16) and horizontal (16:9/4:3) 1080P MP4 output via --ratio parameter across all scripts. Trigger: 动画视频, 短剧动画, 竖屏动画, 横屏动画, 抖音短剧, 快手短剧, 生成动画, 文字转动画, 图片转动画, 提示词生成短剧, 脚本转短剧, animation video, short drama.'
+description: 'Generate real animated videos from text, images, prompts, or video scripts. Powered by 即梦 Seedream/Seedance with 7 modes: text2img, text2video, img2video (first+last frame), ref2video (≤9 ref images), vivid2video (motion replication), multimodal, video_extend. v2.5 合并「AI 短视频制作」：新增零 API Key 短视频成片路线（ImageGen 图 + TTS 配音 + 字幕烧录 MP4+SRT），含抖音/快手/小红书/B站/视频号分辨率预设与 TTS 语速音调调节；即梦不可用或用户只需图文配音成片时自动走此路线。v2.4: storyboard refinement (action/shot_type/camera/ambient/emotion/duration_seconds), royalty-free BGM library index + 10 synth SFX, real xfade transitions (no black frames), 6-tier TTS fallback (火山→edge→gTTS→pyttsx3→SAPI5→静音). Supports vertical (9:16) and horizontal (16:9/4:3) 1080P MP4 output via --ratio. Trigger: 动画视频, 短剧动画, 竖屏动画, 横屏动画, 抖音短剧, 快手短剧, 生成动画, 文字转动画, 图片转动画, 提示词生成短剧, 脚本转短剧, animation video, short drama, 短视频, 做视频, 生成视频, 视频配音, 加字幕, 配旁白, text-to-video, image-to-video.'
 name_cn: 动画视频生成V4
 description_cn: |-
   动画视频生成 V4，即梦 Seedream/Seedance 驱动的短剧动画生成器。
@@ -294,12 +294,56 @@ python scripts/bgm_manager.py synth --name heartbeat --output hb.mp3 --duration 
 
 ---
 
-## 回退模式（无API Key）
+## 回退模式（无API Key）→ 零依赖短视频成片路线
 
-当 API 未配置时，自动降级为：
-1. ImageGen 生成场景关键帧图片
-2. FFmpeg Ken Burns 缓慢缩放效果（静态图+放大动画）
-3. 这是**降级方案**，输出的不是真正动画视频
+当即梦 API 未配置、不可用，或用户需求只是「文案/图片 + 配音 + 字幕」的图文成片时，走本路线（原 AI 短视频制作技能并入）：
+
+1. **文生视频模式**：用户文案 → ImageGen 逐段生图（约每 5-10 秒一张）→ TTS 配音 → 字幕烧录 → MP4 + 独立 SRT 字幕文件
+2. **图生视频模式**：用户自有图片 → TTS 配音 → 字幕烧录 → MP4 + SRT
+
+ImageGen 不可用时，用纯色背景卡+文字叠加代替。长文案（>3分钟）建议分段合成。
+
+### TTS 配音生成（generate_tts.py，edge-tts 免费语音）
+
+```bash
+python scripts/generate_tts.py \
+  --text "你的视频文案内容" \
+  --voice zh-CN-YunxiNeural \
+  --output_dir ./output \
+  --rate "+10%"
+```
+
+关键参数：`--text`/`--text_file` 文本来源；`--voice` 声音（推荐见 references/video_styles.md）；`--rate` 语速（+20%/-10%）；`--pitch` 音调（+5Hz/-3Hz）；`--list_voices` 列出全部声音。输出 `audio.mp3`、`subtitle.srt`、`segments.json`。
+
+### 成片合成（create_video.py）
+
+```bash
+python scripts/create_video.py \
+  --images_dir ./images \
+  --audio ./output/audio.mp3 \
+  --segments ./output/segments.json \
+  --subtitle_srt ./output/subtitle.srt \
+  --output ./output/video.mp4 \
+  --resolution 1080x1920 \
+  --fps 24
+```
+
+字幕参数：`--subtitle_font_size`（默认36）、`--subtitle_color`（默认白）、`--subtitle_stroke`（默认2）。
+
+### 平台分辨率预设
+
+| 平台 | 分辨率 | 参数 |
+|------|------|------|
+| 抖音/快手 | 1080x1920 | `--resolution 1080x1920` |
+| 小红书 | 1080x1440 | `--resolution 1080x1440` |
+| B站 | 1920x1080 | `--resolution 1920x1080` |
+| 微信视频号 | 1080x1080 | `--resolution 1080x1080` |
+
+声音与风格推荐详见 [references/video_styles.md](references/video_styles.md)。中间产物（audio/segments.json）存 `.temp/`。交付时同时给 MP4 与 SRT。
+
+### 纯降级兜底（即无 API Key 也无 ImageGen）
+
+FFmpeg Ken Burns 缓慢缩放（静态图+放大动画），输出非真正动画，仅保底可用。
 
 ---
 

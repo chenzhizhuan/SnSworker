@@ -10,9 +10,10 @@ description: >
   (3) User asks to write Party-building materials (党建材料/组织生活会/巡察整改),
   (4) User needs a formal work plan or implementation plan (工作方案/实施方案),
   (5) User asks for leadership speech or meeting remarks (领导讲话/发言稿),
-  (6) User says "写汇报材料/汇报提纲", (7) User provides document type and topic and wants a formatted document.
-name_cn: 公文写作神器
-description_cn: 一键生成规范公文Word文档，支持通知、请示、报告、方案、发言稿、党建材料等15种公文类型，符合党政机关公文格式标准。
+  (6) User says "写汇报材料/汇报提纲", (7) User provides document type and topic and wants a formatted document,
+  (8) User asks to format an existing docx per GB/T 9704 (公文格式化/请示排版/通知格式/红头文件/官方文档格式/体制内文档格式调整).
+name_cn: 公文写作神器（含格式化）
+description_cn: 一键生成规范公文Word文档，支持通知、请示、报告、方案、发言稿、党建材料等15种公文类型，符合党政机关公文格式标准；另支持对已有 docx 按国标 GB/T 9704 一键格式化。
 create_source: super-agent-skill-creator
 metadata:
   tabtin:
@@ -24,6 +25,10 @@ metadata:
 ## Overview
 
 Generate professional Chinese official documents (公文) that comply with formatting standards. Support 15 common document types. Output as Word (.docx) by default.
+
+两条使用路线：
+- **写作路线**（默认）：从零起草公文，走下方 Step 1-6
+- **格式化路线**：用户已有 docx 草稿，只需按 GB/T 9704 排版，直接跳「格式化路线（format_docx.py）」章节
 
 ## Supported Document Types
 
@@ -116,13 +121,63 @@ Provide the .docx file with a brief note on the document type and key sections c
 
 ## Edge Cases
 
-- **User provides an existing draft for revision**: Polish language, fix format, ensure compliance, preserve original intent
+- **User provides an existing draft for revision**: 若只需排版→走格式化路线；若需改内容→先改写再格式化
 - **User requests specific template or format**: Honor user's formatting preferences
 - **Sensitive political content**: Do not generate content involving political propaganda, attacks on political figures/systems, or prohibited content; decline politely
 - **Multiple documents needed**: Process each document separately
 - **User provides only document type**: Generate a template with placeholder fields marked [请补充：xxx]
 - **Meeting minutes (纪要)**: If user provides meeting content, also reference the meeting-minutes skill workflow
 - **Very long documents (>3000 words)**: Split generation into sections, write sequentially
+
+## 格式化路线（format_docx.py）
+
+用户提到"公文格式化""请示排版""红头文件""体制内文档格式调整"，或拿到已有 docx 只需排版时使用，无需重新起草。
+
+### 使用流程
+
+1. 确认待格式化的 docx 文件路径
+2. 识别文档类型（请示/通知/函/报告/一般文件）
+3. 执行脚本：
+   ```
+   python -B scripts/format_docx.py 输入文件.docx 输出文件.docx 文档类型
+   ```
+   文档类型参数：`请示`、`通知`、`函`、`报告`、`附件`、`general`
+4. 输出格式化后的 docx 文件
+
+### 格式规范速查
+
+| 要素 | 规格 |
+|------|------|
+| 页边距 | 上3.7cm 下3.5cm 左2.8cm 右2.6cm |
+| 大标题 | 方正小标宋简体 二号(22pt) 居中 |
+| 一级标题 | 黑体 三号(16pt) 首行缩进1.27cm 不加粗 |
+| 二级标题 | 楷体_GB2312 三号 首行缩进1.27cm |
+| 三级/四级/五级标题 | 仿宋_GB2312 三号 首行缩进1.27cm |
+| 正文 | 仿宋_GB2312 三号 首行缩进1.27cm |
+| 数字/英文 | Times New Roman 三号 |
+| 行间距 | 固定28磅 |
+| 段前/段后 | 0磅 |
+
+### 标题识别规则（自动判定）
+
+| 模式 | 字体 | 示例 |
+|------|------|------|
+| 含"请示/报告/通知"等关键词且<50字 | 方正小标宋简体 居中 | 关于XXX的请示 |
+| 一、XXX | 黑体 | 一、总体要求 |
+| （一）XXX | 楷体_GB2312 | （一）组织领导 |
+| 1.XXX | 仿宋_GB2312 | 1.工作目标 |
+| （1）XXX | 仿宋_GB2312 | （1）具体措施 |
+| ① XXX | 仿宋_GB2312 | ①第一项 |
+
+### 中英文混排与引号
+
+- 中文部分按层级设置对应中文字体；数字/英文统一 Times New Roman，自动拆分片段分别设置
+- 英文直引号（"）自动替换为中文弯引号（" "），单引号同理
+- 表格居中、自动调整列宽、全边框黑色单线0.5pt、单元格仿宋三号居中行距28磅
+
+### 常见陷阱
+
+详见 [references/lesson_learned.md](references/lesson_learned.md)（行间距、空行规范、引号类型等易错点及正确做法）。
 
 ## Quality Checklist
 
@@ -136,3 +191,11 @@ Before delivering, verify:
 - [ ] Signature line with organization name and date
 - [ ] No colloquial language, formal tone maintained throughout
 - [ ] Content is logical, complete, and actionable
+- [ ] （格式化路线）GB/T 9704 页边距/字体/行距全部达标，中英文分离正确
+
+## 历史来源
+
+本技能为二合一统一版（2026-10-19）：
+- `official-doc`（公文写作）→ 主体：公文起草六步工作流 + 模板/常用语 references
+- `official-doc-formatter`（官方公文格式化）→ 格式化路线 + format_docx.py 脚本 + lesson_learned.md
+原两个技能目录已移除，触发词与能力全部并入本技能。

@@ -1,8 +1,8 @@
 ---
 name: 软件开发技术团队
-description: 虚拟软件技术团队——覆盖架构设计、UI/UX、前端/后端/移动端编码、AI工程、代码审计、安全审查、性能优化、数据库设计、测试策略、DevOps、技术文档等全栈开发场景。当用户提出任何软件开发、功能实现、系统设计、代码审查、技术方案评估、bug修复、重构、性能调优等任务时自动触发。
+description: 虚拟软件技术团队（含全栈工程实践库）——覆盖架构设计、UI/UX、前端/后端/移动端编码、AI工程、代码审计、安全审查、性能优化、数据库设计、测试策略、DevOps、技术文档等全栈开发场景。2026-10-19 并入原「全栈开发」技能的工程实践库：feature-first 分层架构、API 设计、认证与环境变量、DB schema、Django 最佳实践、技术选型、测试策略、发布清单。当用户提出任何软件开发、功能实现、系统设计、代码审查、技术方案评估、bug修复、重构、性能调优、搭建全栈应用、后端服务、REST API、前后端集成等任务时自动触发。
 name_cn: "软件开发技术团队"
-description_cn: "虚拟开发团队技能，22个专家Agent，覆盖架构/设计/开发/审查/安全/性能/测试/AI/DevOps全栈场景"
+description_cn: "虚拟开发团队技能，22个专家Agent，覆盖架构/设计/开发/审查/安全/性能/测试/AI/DevOps全栈场景；含全栈工程实践库（API设计/认证/DB/Django/选型/测试/发布）"
 metadata:
   tabtin:
     category: developer
@@ -326,3 +326,22 @@ Task(
 7. **角色注入是关键**：每个 Task 的 prompt 必须包含完整的角色身份、专业领域、任务上下文和输出格式要求，确保 general Agent 能正确扮演角色
 8. **上下文传递**：串行阶段中，前一阶段的输出必须作为上下文注入后一阶段的 prompt 中
 9. **报告合规**：每个专家输出必须严格遵循第四步的模板，不可省略任何章节
+
+## 全栈工程实践库（原「全栈开发」技能并入）
+
+用户要做全栈应用搭建、后端服务、REST API、前后端集成、生产加固时，开发者/架构师专家按需加载以下工程实践（单人全栈场景也可直接用，不必调度多专家）：
+
+| 场景 | 加载 |
+|---|---|
+| 搭建全栈应用/后端服务整体实践 | `references/fullstack-practices.md`（feature-first 分层、错误处理、API 客户端、实时通信、生产加固） |
+| API 设计 | `references/api-design.md` |
+| 认证与环境变量 | `references/auth-and-env.md` |
+| 数据库 schema 设计 | `references/db-schema.md` |
+| Django 项目 | `references/django-best-practices.md` |
+| 技术选型 | `references/technology-selection.md` |
+| 测试策略 | `references/testing-strategy.md` |
+| 上线发布 | `references/release-checklist.md` |
+
+## 历史来源
+
+2026-10-19 合并：「全栈开发」(fullstack-dev) 技能目录移除，其 SKILL.md 收编为 `references/fullstack-practices.md`，7 份工程 references 一并入列；触发词合并至本 description。前端框架专项仍走 antd-frontend-develop。
