@@ -1814,6 +1814,29 @@ if [ "$TARGET_RUNTIME" = "darwin" ]; then
     fs.writeFileSync(p, `${JSON.stringify(pkg, null, 2)}\n`)
   ' "$DEPLOY_DIR/package.json" "$ARCH"
 fi
+if [ "$TARGET_RUNTIME" = "win32" ]; then
+  # 显式锁定 win.target 的 arch 为当前 ARCH：electron-builder 会把 CLI --ia32/--x64
+  # 与 package.json win.target[].arch 取并集（例如 ia32 构建请求会连打 x64+ia32
+  # 双架构两轮 packaging），磁盘与耗时翻倍；且 NSIS 产物名不含 arch
+  # （智算方舟 Setup x.y.z.exe），双架构同名互相覆盖，最终留在磁盘上的安装包
+  # 架构取决于完成顺序、不可控。与上方 mac 锁定同理，显式锁定单一目标架构。
+  node -e '
+    const fs = require("node:fs")
+    const p = process.argv[1]
+    const archArg = process.argv[2]
+    const pkg = JSON.parse(fs.readFileSync(p, "utf8"))
+    pkg.build = pkg.build || {}
+    const win = pkg.build.win || {}
+    const target = Array.isArray(win.target)
+      ? win.target
+      : [{ target: "nsis", arch: ["x64"] }]
+    win.target = target.map((t) =>
+      typeof t === "string" ? { target: t, arch: [archArg] } : { ...t, arch: [archArg] })
+    pkg.build.win = win
+    fs.writeFileSync(p, `${JSON.stringify(pkg, null, 2)}\n`)
+    console.log(`  · win.target arch locked to ${archArg}`)
+  ' "$DEPLOY_DIR/package.json" "$ARCH"
+fi
 pack_time_step_end "resource staging"
 
 # Step 3.5: 修复 pnpm deploy 漏 hoist / 外逃 workspace symlink。
