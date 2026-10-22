@@ -1076,7 +1076,9 @@ prune_packaged_resource_tree() {
     -name "playwright.config.*" -o \
     -name "*.pyc" -o \
     -name "*.pyo" -o \
-    -name ".DS_Store" \
+    -name ".DS_Store" -o \
+    -name ".env*" -o \
+    -name "secrets.env" \
   \) -delete 2>/dev/null || true
 }
 
