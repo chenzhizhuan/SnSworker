@@ -2198,10 +2198,18 @@ pack_time_step_begin "artifact audit and delivery"
 
 # Windows Electron 在进入 main JS 前会强校验 app.asar。跨平台打包时必须
 # 确认 PE 内记录使用 Windows 路径分隔符，避免安装成功但点击无响应。
+# electron-builder 的解包目录名带 arch 后缀：x64 → win-unpacked，ia32 →
+# win-ia32-unpacked。此前写死 win-unpacked，ia32 构建在 electron-builder
+# 成功产出安装包后被此断言误判失败（required packaged file not found），
+# 触发 exit trap 把已完成的产物当垃圾回收（1.0.9 x86 连续构建事故）。
 if [ "$TARGET_RUNTIME" = "win32" ]; then
-  echo "[5.05/5] Asserting Windows embedded ASAR integrity"
+  WIN_UNPACKED_SUBDIR="win-unpacked"
+  if [ "$ARCH" = "ia32" ]; then
+    WIN_UNPACKED_SUBDIR="win-ia32-unpacked"
+  fi
+  echo "[5.05/5] Asserting Windows embedded ASAR integrity (${WIN_UNPACKED_SUBDIR})"
   node "$SCRIPT_DIR/assert-windows-asar-integrity.mjs" \
-    --app-dir "$ARTIFACT_DIR/win-unpacked" \
+    --app-dir "$ARTIFACT_DIR/$WIN_UNPACKED_SUBDIR" \
     --exe-name "${PROFILE_EXECUTABLE_NAME}.exe"
 fi
 
