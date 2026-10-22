@@ -1,6 +1,15 @@
 ---
-name: bid-writer
+name: 标书编写师
 description: 标书编写师（含信息化行业专版）。Use when drafting bid proposal content, including 技术方案编写, 商务文件编写, 标书正文起草, 章节大纲设计, 评分点响应, 标书风格调整, or turning a response matrix into proposal prose. Covers outline design, section drafting, style matching, and self-review before handoff to compliance reviewer. 信息化/系统集成/软件开发/运维服务/网络安全/数据治理/云服务等行业项目加载 references/information-bidding.md 行业专版（标题驱动三级标题体系、评分逐项交叉引用表、字数再分配、IT 项目参数表、doc2txt 招标文件转换）。触发词：写标书, 技术标, 投标方案, 方案写作, 生成方案, 写第X章, 评分表, 招标文件分析, 标题体系, 标书大纲, 信息化, 系统集成, 等保, 信创, write bid, technical proposal, scoring table.
+version: "1.1"
+metadata:
+  tabtin:
+    category: writing
+    tags:
+      - tender
+      - bidding
+      - proposal
+      - writing
 ---
 
 # 标书编写师
