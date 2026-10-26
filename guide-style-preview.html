@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>桌面端使用指南 · 风格对比稿</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%232f6fe4'/%3E%3Cpath d='M13 4L6 14h5l-1 6 7-10h-5l1-6z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+/* ============ 共享基础 ============ */
+:root {
+  --font-body: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  --font-display: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
+  --font-kai: "Kaiti SC", "KaiTi", "STKaiti", serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 15px;
+  transition: background-color .25s ease;
+}
+
+/* ============ 主题令牌 ============ */
+/* 方案 A · 精密蓝 */
+body[data-theme="a"] {
+  --bg: #F6F8FB; --paper: #FFFFFF;
+  --ink: #16233F; --ink2: #5A6577; --ink3: #8B95A7;
+  --line: #E3E9F2; --line2: #C9D4E4;
+  --accent: #2E6BE6; --accent-ink: #1D4FB8; --accent-soft: #EAF0FC;
+  --ok: #0E9384; --ok-soft: #E6F5F2; --warn: #A05A00; --warn-soft: #FBF0E2;
+  --radius: 8px; --radius-s: 4px;
+  --font-display: var(--font-body);
+}
+/* 方案 B · 手册页 */
+body[data-theme="b"] {
+  --bg: #FCFBF8; --paper: #FFFFFF;
+  --ink: #14161A; --ink2: #55524C; --ink3: #8C877E;
+  --line: #E2DED6; --line2: #C8C2B6;
+  --accent: #1F3A5F; --accent-ink: #1F3A5F; --accent-soft: #EEF1F5;
+  --ok: #2F6B4F; --ok-soft: #EDF3EE; --warn: #8A5A18; --warn-soft: #F7F0E4;
+  --radius: 2px; --radius-s: 0px;
+  --font-display: "Noto Serif SC", "Songti SC", STSong, SimSun, serif;
+}
+/* 方案 C · 工作台蓝图 */
+body[data-theme="c"] {
+  --bg: #F7FAFD; --paper: #FFFFFF;
+  --ink: #1C2733; --ink2: #52616F; --ink3: #8494A5;
+  --line: #D5DFEB; --line2: #AFC2D8;
+  --accent: #1E5AA8; --accent-ink: #17497F; --accent-soft: #E8F0F9;
+  --ok: #0E7A5F; --ok-soft: #E9F5F0; --warn: #9A6700; --warn-soft: #FBF2DD;
+  --radius: 0px; --radius-s: 0px;
+  --font-display: var(--font-body);
+  --gridline: #E8EEF5;
+  background-image:
+    linear-gradient(var(--gridline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gridline) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ============ 对比说明条 ============ */
+.cmpbar {
+  background: var(--accent-soft); color: var(--accent-ink);
+  font-size: 12.5px; text-align: center; padding: 6px 12px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono); letter-spacing: .5px;
+}
+.cmpbar b { font-weight: 700; }
+
+/* ============ 顶部导航（B/C 用） ============ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+body[data-theme="b"] .topbar { backdrop-filter: none; background: var(--paper); border-bottom: 2px solid var(--ink); }
+.topbar-inner { max-width: 980px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 8px; height: 54px; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; margin-right: 14px; white-space: nowrap; }
+body[data-theme="b"] .brand { font-family: var(--font-display); font-size: 17px; letter-spacing: 1px; }
+.brand .logo-dot { width: 22px; height: 22px; border-radius: var(--radius-s); background: var(--accent); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.brand .logo-dot svg { width: 13px; height: 13px; stroke: #fff; }
+.topnav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.topnav::-webkit-scrollbar { display: none; }
+.topnav a { padding: 6px 12px; border-radius: var(--radius-s); font-size: 13.5px; color: var(--ink2); text-decoration: none; white-space: nowrap; }
+.topnav a:hover { color: var(--accent); }
+.topnav a.active { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+body[data-theme="c"] .topnav a.active { background: none; color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
+body[data-theme="b"] .topnav a.active { background: none; color: var(--ink); font-weight: 700; box-shadow: inset 0 -2px 0 var(--accent); }
+
+/* ============ A 专属：左侧章节栏 ============ */
+.leftrail { display: none; }
+body[data-theme="a"] .topbar { display: none; }
+body[data-theme="a"] .leftrail {
+  display: block; position: fixed; left: 0; top: 0; bottom: 0; width: 216px;
+  background: var(--paper); border-right: 1px solid var(--line);
+  padding: 22px 14px; z-index: 100;
+}
+.leftrail .lr-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14.5px; padding: 0 10px 16px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+.leftrail .lr-brand .logo-dot { width: 24px; height: 24px; border-radius: 6px; background: var(--accent); display: inline-flex; align-items: center; justify-content: center; }
+.leftrail .lr-brand .logo-dot svg { width: 14px; height: 14px; stroke: #fff; }
+.leftrail .lr-cap { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 2px; color: var(--ink3); padding: 0 10px 8px; }
+.leftrail nav { display: flex; flex-direction: column; gap: 1px; }
+.leftrail nav a {
+  display: flex; align-items: baseline; gap: 8px; padding: 7px 10px; border-radius: 6px;
+  color: var(--ink2); text-decoration: none; font-size: 13.5px;
+}
+.leftrail nav a .n { font-family: var(--font-mono); font-size: 11px; color: var(--ink3); }
+.leftrail nav a:hover { background: var(--accent-soft); color: var(--accent-ink); }
+.leftrail nav a.active { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; }
+.leftrail nav a.active .n { color: var(--accent); }
+body[data-theme="a"] .wrap { padding-left: 216px; }
+body[data-theme="a"] .cmpbar { padding-left: 228px; }
+
+/* ============ B 专属：右缘拇指索引 ============ */
+.thumbindex { display: none; }
+body[data-theme="b"] .thumbindex {
+  display: flex; flex-direction: column; gap: 8px; position: fixed; right: 0; top: 50%;
+  transform: translateY(-50%); z-index: 90;
+}
+.thumbindex a {
+  writing-mode: vertical-rl; text-decoration: none; font-family: var(--font-display);
+  font-size: 12px; letter-spacing: 3px; color: var(--ink2);
+  background: var(--paper); border: 1px solid var(--line2); border-right: none;
+  padding: 12px 7px; border-radius: 4px 0 0 4px;
+}
+.thumbindex a.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ============ 页头 ============ */
+.hero { background: var(--paper); border-bottom: 1px solid var(--line); }
+body[data-theme="b"] .hero { border-bottom: 3px double var(--line2); }
+body[data-theme="c"] .hero { background: var(--paper); }
+.hero-inner { max-width: 980px; margin: 0 auto; padding: 48px 20px 36px; display: flex; gap: 30px; align-items: center; }
+.hero-text { flex: 1; min-width: 0; }
+.hero-art { flex: none; width: 190px; text-align: center; }
+.hero-art img { width: 100%; height: auto; }
+.hero-art .art-note { font-size: 11.5px; color: var(--ink3); margin-top: 2px; font-family: var(--font-kai); }
+.hero .kicker {
+  display: inline-block; font-size: 11.5px; letter-spacing: 2.5px; color: var(--accent-ink);
+  font-family: var(--font-mono); font-weight: 700; margin-bottom: 14px;
+  padding: 3px 0; border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent);
+  padding: 3px 10px;
+}
+body[data-theme="b"] .hero .kicker { font-family: var(--font-display); border: none; letter-spacing: 4px; }
+body[data-theme="c"] .hero .kicker { border: 1px solid var(--accent); background: var(--accent-soft); }
+.hero h1 { font-family: var(--font-display); font-size: 30px; line-height: 1.32; font-weight: 800; margin-bottom: 10px; letter-spacing: -.5px; }
+body[data-theme="b"] .hero h1 { font-weight: 700; letter-spacing: 0; }
+.hero p.sub { color: var(--ink2); font-size: 16px; max-width: 620px; }
+.hero .meta { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--ink3); font-size: 13px; }
+.hero .meta b { color: var(--ink2); font-weight: 600; }
+body[data-theme="a"] .hero-art, body[data-theme="c"] .hero-art { display: none; }
+
+/* ============ 签名元素：最短路径管线 ============ */
+.pipeline { margin-top: 26px; padding: 16px 0 4px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 6px 0; }
+.pipeline .pl-cap { width: 100%; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 2px; color: var(--ink3); margin-bottom: 8px; }
+.pl-node { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); white-space: nowrap; }
+.pl-node .pn { font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); font-weight: 700; }
+.pl-sep { color: var(--line2); padding: 0 7px; font-family: var(--font-mono); }
+body[data-theme="b"] .pipeline { border-top: 3px double var(--line2); }
+body[data-theme="b"] .pl-node { font-family: var(--font-display); font-size: 13.5px; }
+body[data-theme="b"] .pl-node .pn { font-family: var(--font-display); font-size: 11px; }
+body[data-theme="b"] .pl-sep { color: var(--accent); }
+body[data-theme="c"] .pipeline { border-top: 1px dashed var(--line2); }
+body[data-theme="c"] .pl-sep { position: relative; width: 22px; height: 1px; background: var(--accent); padding: 0; }
+body[data-theme="c"] .pl-sep::before, body[data-theme="c"] .pl-sep::after {
+  content: ""; position: absolute; top: -2.5px; width: 1px; height: 6px; background: var(--accent);
+}
+body[data-theme="c"] .pl-sep::before { left: 0; } body[data-theme="c"] .pl-sep::after { right: 0; }
+
+/* ============ 章节 ============ */
+main { max-width: 980px; margin: 0 auto; padding: 8px 20px 60px; }
+section { padding-top: 30px; }
+body[data-theme="b"] section { border-top: 3px double var(--line2); margin-top: 26px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin: 10px 0 6px; }
+.sec-num {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent-ink);
+  border: 1px solid var(--accent); border-radius: var(--radius-s);
+  padding: 2px 8px; letter-spacing: 1px; flex: none;
+}
+body[data-theme="b"] .sec-num {
+  font-family: var(--font-display); font-size: 38px; font-weight: 700; color: var(--accent);
+  border: none; padding: 0; line-height: 1; letter-spacing: 0;
+}
+body[data-theme="c"] .sec-num { box-shadow: 2px 2px 0 var(--accent-soft); }
+.sec-head h2 { font-family: var(--font-display); font-size: 23px; font-weight: 800; letter-spacing: -.3px; }
+body[data-theme="b"] .sec-head h2 { font-weight: 700; }
+.sec-lead { color: var(--ink2); margin-bottom: 18px; max-width: 720px; }
+
+/* ============ 卡片 ============ */
+.card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 22px; margin-bottom: 14px;
+}
+body[data-theme="b"] .card { border-color: var(--line2); box-shadow: 3px 3px 0 var(--accent-soft); }
+body[data-theme="c"] .card { border-style: dashed; border-color: var(--line2); }
+.card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; }
+body[data-theme="b"] .card h3 { font-family: var(--font-display); }
+.card p { color: var(--ink2); }
+.card-split { display: flex; gap: 20px; align-items: flex-start; }
+.card-split .cs-text { flex: 1; min-width: 0; }
+.card-split .cs-art { flex: none; width: 128px; text-align: center; }
+.card-split .cs-art img { width: 100%; height: auto; }
+.card-split .cs-art .art-note { font-size: 11px; color: var(--ink3); margin-top: 2px; font-family: var(--font-kai); }
+body[data-theme="a"] .card-split .cs-art, body[data-theme="c"] .card-split .cs-art { display: none; }
+body[data-theme="b"] .card-split .cs-art img { border: 1px solid var(--line2); background: #fff; padding: 6px; }
+
+/* ============ 步骤 ============ */
+.step { display: flex; gap: 14px; padding: 14px 0; border-top: 1px dashed var(--line); }
+.step:first-of-type { border-top: none; padding-top: 4px; }
+body[data-theme="b"] .step { border-top: 1px solid var(--line); }
+.step-no {
+  flex: none; width: 26px; height: 26px; border-radius: var(--radius-s);
+  background: var(--accent); color: #fff; font-family: var(--font-mono);
+  font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 3px;
+}
+body[data-theme="b"] .step-no { background: none; color: var(--accent); font-family: var(--font-display); font-size: 22px; width: auto; height: auto; font-weight: 700; }
+body[data-theme="c"] .step-no { background: var(--accent-soft); color: var(--accent-ink); border: 1px solid var(--accent); }
+.step-body { flex: 1; min-width: 0; }
+.step-body h4 { font-size: 15.5px; font-weight: 700; margin-bottom: 2px; }
+body[data-theme="b"] .step-body h4 { font-family: var(--font-display); }
+.step-body p { color: var(--ink2); }
+.step-body b { color: var(--ink); }
+
+/* ============ 示例指令框 ============ */
+.prompt-box {
+  background: var(--accent-soft); border: 1px solid var(--line2); border-left: 3px solid var(--accent);
+  border-radius: var(--radius-s); padding: 12px 16px; margin: 10px 0 4px;
+  font-size: 14px; color: var(--ink); white-space: pre-wrap; line-height: 1.8;
+}
+.prompt-box .pb-label { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--accent-ink); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 4px; }
+body[data-theme="b"] .prompt-box { border-left-width: 2px; }
+body[data-theme="b"] .prompt-box .pb-label { font-family: var(--font-display); letter-spacing: 3px; }
+body[data-theme="c"] .prompt-box { border: 1px dashed var(--accent); border-left: 3px solid var(--accent); }
+
+/* ============ 提示条 ============ */
+.tip { display: flex; gap: 10px; border-radius: var(--radius-s); padding: 12px 16px; margin: 12px 0; font-size: 14px; border: 1px solid; align-items: flex-start; }
+.tip svg { flex: none; width: 17px; height: 17px; margin-top: 4px; }
+.tip-blue { background: var(--accent-soft); border-color: var(--line2); color: var(--accent-ink); }
+.tip-warn { background: var(--warn-soft); border-color: #E4CF9E; color: var(--warn); }
+.tip-ok { background: var(--ok-soft); border-color: #B8DCCB; color: var(--ok); }
+
+/* ============ 表格 ============ */
+table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+.tbl th { text-align: left; background: var(--accent-soft); color: var(--ink); font-weight: 700; padding: 9px 12px; border: 1px solid var(--line); white-space: nowrap; }
+.tbl td { padding: 9px 12px; border: 1px solid var(--line); color: var(--ink2); vertical-align: top; }
+.tbl td:first-child { white-space: nowrap; font-weight: 600; color: var(--ink); }
+.tbl code { font-family: var(--font-mono); background: var(--accent-soft); border: 1px solid var(--line2); border-radius: var(--radius-s); padding: 1px 6px; font-size: 13px; color: var(--accent-ink); }
+body[data-theme="b"] .tbl th { background: var(--paper); border-top: 2px solid var(--ink); }
+body[data-theme="b"] .tbl tr:last-child td { border-bottom: 2px solid var(--ink); }
+body[data-theme="c"] .tbl th { border: 1px solid var(--line2); }
+
+/* ============ 折叠 FAQ ============ */
+details.faq { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); margin-bottom: 10px; overflow: hidden; }
+details.faq summary { cursor: pointer; list-style: none; padding: 14px 18px; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+body[data-theme="b"] details.faq summary { font-family: var(--font-display); font-weight: 700; }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary .chev { flex: none; width: 18px; height: 18px; stroke: var(--ink3); transition: transform .2s; }
+details.faq[open] summary .chev { transform: rotate(180deg); }
+details.faq .faq-body { padding: 2px 18px 16px; border-top: 1px dashed var(--line); color: var(--ink2); }
+details.faq .faq-body ol { padding-left: 20px; margin: 8px 0; }
+details.faq .faq-body li { margin: 4px 0; }
+details.faq .faq-body .esc { margin-top: 8px; font-size: 13.5px; color: var(--ink3); }
+body[data-theme="b"] details.faq .faq-body { border-top: 1px solid var(--line); }
+
+/* ============ 投标流程图 ============ */
+.flow { display: flex; align-items: stretch; gap: 0; margin: 16px 0; flex-wrap: wrap; }
+.flow-node { flex: 1 1 240px; background: var(--paper); border: 1.5px solid var(--line2); border-radius: var(--radius); padding: 14px 16px; min-width: 220px; }
+body[data-theme="c"] .flow-node { border-style: dashed; }
+.flow-node .fn-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #fff; background: var(--accent); border-radius: var(--radius-s); padding: 1px 8px; margin-bottom: 6px; letter-spacing: 1.5px; }
+body[data-theme="b"] .flow-node .fn-tag { font-family: var(--font-display); letter-spacing: 3px; }
+.flow-node h4 { font-family: var(--font-display); font-size: 15.5px; font-weight: 800; margin-bottom: 3px; }
+.flow-node p { font-size: 13.5px; color: var(--ink2); line-height: 1.65; }
+.flow-node .fn-io { font-family: var(--font-mono); font-size: 12px; color: var(--ink3); margin-top: 8px; line-height: 1.6; }
+.flow-arrow { flex: none; display: flex; align-items: center; padding: 0 6px; }
+.flow-arrow svg { width: 20px; height: 20px; stroke: var(--accent); }
+@media (max-width: 860px) { .flow-arrow { transform: rotate(90deg); justify-content: center; padding: 4px 0; } }
+
+/* ============ 两列小卡 ============ */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+.mini { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+body[data-theme="c"] .mini { border-style: dashed; border-color: var(--line2); }
+.mini h4 { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--accent-ink); margin-bottom: 6px; }
+body[data-theme="b"] .mini h4 { font-family: var(--font-display); font-size: 14.5px; letter-spacing: 0; color: var(--ink); }
+.mini p { font-size: 13.5px; color: var(--ink2); }
+
+/* ============ C 专属：界面解剖图 ============ */
+.schematic { display: none; }
+body[data-theme="c"] .schematic { display: block; position: relative; margin: 18px 0 8px; padding: 6px 130px 10px; }
+.sch-window { max-width: 540px; margin: 0 auto; border: 1.5px solid var(--accent); background: var(--paper); box-shadow: 4px 4px 0 var(--accent-soft); }
+.sch-titlebar { display: flex; gap: 5px; align-items: center; padding: 6px 10px; border-bottom: 1px solid var(--line2); font-family: var(--font-mono); font-size: 11px; color: var(--ink3); }
+.sch-titlebar i { width: 8px; height: 8px; border-radius: 50%; background: var(--line2); }
+.sch-body { display: flex; min-height: 150px; }
+.sch-rail { width: 30px; border-right: 1px dashed var(--line2); display: flex; flex-direction: column; gap: 8px; padding: 10px 0; align-items: center; }
+.sch-rail i { width: 13px; height: 13px; border: 1.5px solid var(--ink3); border-radius: 3px; }
+.sch-rail i.on { border-color: var(--accent); background: var(--accent-soft); }
+.sch-side { width: 120px; border-right: 1px dashed var(--line2); padding: 8px; }
+.sch-org { font-size: 10.5px; font-family: var(--font-mono); color: var(--accent-ink); border: 1px solid var(--line2); padding: 2px 6px; margin-bottom: 8px; }
+.sch-item { height: 14px; border: 1px solid var(--line2); border-radius: 3px; margin-bottom: 6px; }
+.sch-item.on { border-color: var(--accent); background: var(--accent-soft); }
+.sch-main { flex: 1; padding: 10px; display: flex; flex-direction: column; }
+.sch-bubble { width: 62%; height: 18px; border: 1px solid var(--line2); border-radius: 4px; margin-bottom: 6px; }
+.sch-bubble.r { align-self: flex-end; width: 48%; border-color: var(--accent); background: var(--accent-soft); }
+.sch-input { margin-top: auto; border: 1px dashed var(--accent); padding: 4px 8px; display: flex; gap: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--ink2); }
+.sch-anno { position: absolute; font-family: var(--font-mono); font-size: 11px; color: var(--accent-ink); background: var(--accent-soft); border: 1px solid var(--accent); padding: 2px 7px; white-space: nowrap; }
+.sch-anno::before { content: ""; position: absolute; top: 50%; width: 34px; border-top: 1px dashed var(--accent); }
+.sch-anno.left { left: 0; } .sch-anno.left::before { right: -34px; }
+.sch-anno.right { right: 0; } .sch-anno.right::before { left: -34px; }
+.sch-anno.a1 { top: 66px; } .sch-anno.a2 { top: 106px; } .sch-anno.a3 { bottom: 46px; } .sch-anno.a4 { bottom: 14px; }
+
+/* ============ C 专属：边注 ============ */
+.mnote { display: none; }
+body[data-theme="c"] .mnote {
+  display: block; float: right; clear: right; width: 190px; margin: 4px -210px 10px 14px;
+  font-size: 12px; color: var(--ink2); border-left: 2px solid var(--accent);
+  padding-left: 10px; line-height: 1.6;
+}
+.mnote .mn-cap { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--accent-ink); font-weight: 700; display: block; margin-bottom: 2px; }
+@media (max-width: 1180px) { body[data-theme="c"] .mnote { float: none; width: auto; margin: 10px 0; } }
+
+/* ============ 页脚 ============ */
+.foot { border-top: 1px solid var(--line); margin-top: 40px; padding: 26px 20px 90px; text-align: center; color: var(--ink3); font-size: 13px; }
+body[data-theme="b"] .foot { border-top: 3px double var(--line2); font-family: var(--font-display); }
+body[data-theme="a"] .foot { margin-right: 0; }
+
+/* ============ 主题切换器 ============ */
+.themeswitch {
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 200;
+  display: flex; gap: 4px; padding: 5px; border-radius: 12px;
+  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line2); box-shadow: 0 6px 24px rgba(15, 25, 45, .14);
+}
+.themeswitch button {
+  font-family: var(--font-body); font-size: 12.5px; border: none; cursor: pointer;
+  padding: 6px 13px; border-radius: 8px; background: transparent; color: var(--ink2);
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+}
+.themeswitch button .k { font-family: var(--font-mono); font-weight: 700; font-size: 11px; width: 18px; height: 18px; border-radius: 5px; border: 1px solid var(--line2); display: inline-flex; align-items: center; justify-content: center; }
+.themeswitch button:hover { background: var(--accent-soft); color: var(--accent-ink); }
+.themeswitch button.active { background: var(--accent); color: #fff; font-weight: 700; }
+.themeswitch button.active .k { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.4); color: #fff; }
+@media (max-width: 640px) { .themeswitch button .t { display: none; } }
+
+@media print { .topbar, .leftrail, .thumbindex, .themeswitch, .cmpbar { display: none !important; } }
+@media (max-width: 900px) {
+  .leftrail, .thumbindex { display: none !important; }
+  body[data-theme="a"] .topbar { display: block !important; }
+  body[data-theme="a"] .wrap { padding-left: 0; }
+  body[data-theme="a"] .cmpbar { padding-left: 0; }
+}
+</style>
+</head>
+<body data-theme="a">
+
+<div class="cmpbar">风格对比稿 STYLE SPECIMEN — 同一份指南内容 · 三种视觉方案 · 底部切换预览，选定后即为正式版</div>
+
+<!-- 顶部导航（B/C） -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">
+      <span class="logo-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+      桌面端使用指南
+    </span>
+    <nav class="topnav" id="topnav">
+      <a href="#start">快速上手</a>
+      <a href="#ui">界面导览</a>
+      <a href="#daily">日常场景</a>
+      <a href="#bid">投标实战</a>
+      <a href="#faq">问题排查</a>
+      <a href="#appendix">附录</a>
+    </nav>
+  </div>
+</div>
+
+<!-- A 专属左侧章节栏 -->
+<aside class="leftrail">
+  <div class="lr-brand">
+    <span class="logo-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+    桌面端使用指南
+  </div>
+  <div class="lr-cap">INTERNAL GUIDE 1.0.9</div>
+  <nav id="railnav">
+    <a href="#start"><span class="n">01</span>快速上手</a>
+    <a href="#ui"><span class="n">02</span>界面导览</a>
+    <a href="#daily"><span class="n">03</span>日常场景</a>
+    <a href="#bid"><span class="n">04</span>投标实战</a>
+    <a href="#faq"><span class="n">05</span>问题排查</a>
+    <a href="#appendix"><span class="n">06</span>附录</a>
+  </nav>
+</aside>
+
+<!-- B 专属右缘拇指索引 -->
+<nav class="thumbindex" id="thumbnav">
+  <a href="#start">快速上手</a>
+  <a href="#ui">界面导览</a>
+  <a href="#daily">日常场景</a>
+  <a href="#bid">投标实战</a>
+  <a href="#faq">问题排查</a>
+  <a href="#appendix">附录</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ===================== 页头 ===================== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="kicker">INTERNAL GUIDE</span>
+      <h1>5 分钟上手桌面端，<br>把日常工作和投标任务交给 AI</h1>
+      <p class="sub">面向公司内部同事：从安装登录，到发出第一个任务，再到用「招标文件分析 → 标书编写 → 合规审查」跑完投标链条。遇到问题直接翻第 5 章按现象排查。</p>
+      <div class="pipeline">
+        <div class="pl-cap">SHORTEST PATH · 最短路径</div>
+        <span class="pl-node"><span class="pn">1</span>登录</span><span class="pl-sep">→</span>
+        <span class="pl-node"><span class="pn">2</span>选公司组织</span><span class="pl-sep">→</span>
+        <span class="pl-node"><span class="pn">3</span>进工作空间</span><span class="pl-sep">→</span>
+        <span class="pl-node"><span class="pn">4</span>发新任务</span><span class="pl-sep">→</span>
+        <span class="pl-node"><span class="pn">5</span>允许操作</span><span class="pl-sep">→</span>
+        <span class="pl-node"><span class="pn">6</span>看结果</span><span class="pl-sep">→</span>
+        <span class="pl-node"><span class="pn">7</span>继续改</span>
+      </div>
+      <div class="meta">
+        <span><b>适用端</b>：Windows / macOS 桌面客户端</span>
+        <span><b>对应版本</b>：1.0.9</span>
+        <span><b>更新</b>：2026-10-23</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="guide-assets/mascot.png" alt="TabTin 吉祥物">
+      <div class="art-note">图 0 · 产品吉祥物</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ===================== 01 快速上手 ===================== -->
+<section id="start">
+  <div class="sec-head"><span class="sec-num">01</span><h2>快速上手：5 分钟发出第一个任务</h2></div>
+  <p class="sec-lead">不需要先学完所有功能。走完下面 3 步，你就完成了从「装软件」到「AI 干活」的最短路径。</p>
+
+  <div class="card">
+    <h3>准备工作（一次性）</h3>
+    <p>开始前向管理员确认两件事：</p>
+    <div style="height:8px"></div>
+    <table class="tbl">
+      <tr><th style="width:150px">需要确认</th><th>说明</th></tr>
+      <tr><td>账号密码</td><td>内部统一开通（手机号或邮箱 + 密码），首次登录后建议尽快在「个人设置」里修改密码</td></tr>
+      <tr><td>所在组织</td><td>登录后侧栏顶部的组织切换器要选到<b>公司组织</b>（不是「个人」），权限和额度都跟着组织走</td></tr>
+    </table>
+    <div class="tip tip-blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>桌面端<b>不需要填服务器地址</b>：内部发放的安装包已内置公司服务器，装好登录即连。切勿从外部网站下载安装包，那会连到官方公共服务。</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>第 1 步 · 下载并安装</h3>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body">
+        <h4>从内部发布渠道下载安装包</h4>
+        <p>Windows 选 x64 安装包（.exe），macOS 选对应安装包。安装包由运维统一打包发布。</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body">
+        <h4>双击安装，遇到系统拦截点「仍要运行」</h4>
+        <p>Windows 首次运行可能弹出蓝色「Windows 已保护你的电脑」提示：点击 <b>更多信息 → 仍要运行</b>，然后跟着安装向导走完即可。macOS 若提示「无法验证开发者」，在「系统设置 → 隐私与安全性」中点「仍要打开」。</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-no">3</span>
+      <div class="step-body">
+        <h4>首次启动，在左侧登录</h4>
+        <p>启动后主界面是产品欢迎页，<b>登录表单就在左侧侧边栏</b>：输入管理员开通的手机号/邮箱和密码，点登录。登录成功后侧边栏会变成你的工作空间列表。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>第 2 步 · 选好组织，进入工作空间</h3>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body">
+        <h4>确认当前组织是公司组织</h4>
+        <p>登录后留意侧栏顶部的组织切换器（「个人」/公司组织）。在<b>个人</b>组织下创建的内容不共享；公司日常协作请切到公司组织。</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body">
+        <h4>进入（或新建）一个工作空间</h4>
+        <p>侧边栏中间的列表就是<b>工作空间</b>——每一位 AI 同事就是一个工作空间，有自己的人设、记忆和技能。第一次用直接<b>新建工作空间</b>，或进入管理员/同事已建好的。想批量管理组织内的 AI 同事，用侧栏「数字助手」入口。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>第 3 步 · 发出你的第一个任务</h3>
+    <p>用下面这个真实小任务练手，全程约 1 分钟：</p>
+    <div style="height:8px"></div>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body"><h4>点「新任务」，写任务描述</h4><p>在当前工作空间点 <b>新任务</b>（或直接在输入框输入），说清三件事：<b>做什么 + 有什么要求 + 最后要什么。</b>不用学复杂的提示词。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body"><h4>模式保持「执行」</h4><p>输入框左下角的<b>模式选择器</b>默认是「执行」——直接帮你做出结果，新手保持默认即可。另外三个模式的用法见第 2 章。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">3</span>
+      <div class="step-body"><h4>审批档保持「请求批准」</h4><p>AI 在创建、修改内容前会先把准备执行的操作展示给你，由你点「允许」再继续。新手保持这一档能看清 AI 每一步；熟练后可按第 2 章放宽。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">4</span>
+      <div class="step-body"><h4>确认操作 → 查看结果 → 继续修改</h4><p>AI 规划好操作后逐条向你确认；完成后打开生成的文档查看。结果不满意<b>不用重发任务</b>，直接在同一对话里继续说，例如「把三个目标改得更具体」。</p>
+        <div class="prompt-box"><span class="pb-label">示例指令 · 可直接复制</span>请在当前工作空间创建一份名为「我的工作启动清单」的文档，包含：
+1. 今天开工前要确认的三个事项；
+2. 三个今天能完成的小目标；
+3. 每个目标对应的一步具体行动；
+4. 一份下班前自查的完成情况清单。</div>
+      </div>
+    </div>
+    <div class="tip tip-ok">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <span>记住这条最短路径：<b>登录 → 选公司组织 → 进工作空间 → 新任务（执行模式）→ 允许操作 → 看结果 → 继续改</b>。先拿今天真要做的一件小事练手。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 02 界面导览 ===================== -->
+<section id="ui">
+  <div class="sec-head"><span class="sec-num">02</span><h2>界面导览：认识你的工作台</h2></div>
+  <p class="sec-lead">桌面端 = 左侧两级导航 + 主区域（任务对话 / 工作台应用）。日常操作 90% 集中在这些区域。</p>
+
+  <!-- C 专属：界面解剖示意 -->
+  <div class="schematic">
+    <span class="sch-anno a1 left">B-01 组织切换器</span>
+    <span class="sch-anno a2 left">B-02 工作空间列表</span>
+    <span class="sch-anno a3 right">B-03 模式选择器</span>
+    <span class="sch-anno a4 right">B-04 审批档</span>
+    <div class="sch-window">
+      <div class="sch-titlebar"><i></i><i></i><i></i><span style="margin-left:6px">TabTin — 桌面客户端</span></div>
+      <div class="sch-body">
+        <div class="sch-rail"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="sch-side">
+          <div class="sch-org">公司组织 ▾</div>
+          <div class="sch-item on"></div><div class="sch-item"></div><div class="sch-item"></div><div class="sch-item"></div>
+        </div>
+        <div class="sch-main">
+          <div class="sch-bubble"></div>
+          <div class="sch-bubble r"></div>
+          <div class="sch-bubble" style="width:40%"></div>
+          <div class="sch-input"><span>模式: 执行 ▾</span><span>审批: 请求批准 ▾</span><span style="margin-left:auto">发送</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>左侧两级导航</h3>
+    <table class="tbl">
+      <tr><th style="width:160px">区域</th><th>内容</th></tr>
+      <tr><td>窄栏（最左一列）</td><td>八个入口：<b>问一句、办件事、协作沟通、资料空间、做项目、能力中心、场景市场、经营看板</b>，底部还有客服入口。点谁切谁，一屏一个功能域</td></tr>
+      <tr><td>侧栏（第二列）</td><td>顶部：<b>组织切换器</b>（个人 / 公司组织）；中部：<b>工作空间列表</b>（每位 AI 同事一格，可固定、筛选）；底部：当前<b>设备状态</b>（在线 / 忙碌 / 离线 / 本机）与工作目录</td></tr>
+      <tr><td>侧栏页签</td><td><b>任务</b>（当前工作空间的对话列表，按今天/昨天/本周分组）、<b>应用</b>（工作台应用）、<b>消息</b></td></tr>
+    </table>
+    <div class="tip tip-blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>拿不准去哪时记住：要跟 AI 干活 → <b>工作空间 → 任务</b>；要找文档表格 → <b>资料空间</b>；要装技能 → <b>能力中心</b>；要查公司数据 → <b>经营看板</b>。</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>主区域与输入区</h3>
+    <table class="tbl">
+      <tr><th style="width:160px">区域</th><th>用途</th></tr>
+      <tr><td>任务对话区</td><td>和 AI 的对话流：进度、工具调用、审批卡片、产物（文档/表格卡片）都在这里，随时回来接着聊</td></tr>
+      <tr><td>输入框左下</td><td>两个选择器：<b>工作空间身份</b>（这次任务用哪位 AI 同事）+ <b>模式</b>（执行/规划/PMO）；旁边是<b>审批档</b>入口</td></tr>
+      <tr><td>工作台应用</td><td>侧栏「应用」页签打开：<b>在线文档、多维表格、浏览器、演示、终端</b>等，AI 生成的产物也在应用里打开编辑</td></tr>
+      <tr><td>审批卡片</td><td>「请求批准」档下，AI 执行创建/修改前会展示准备做的事，看清后点「允许」或拒绝</td></tr>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="mini">
+      <h4>模式怎么选（输入框左下）</h4>
+      <p><b>执行</b>：默认。直接做出结果：写文档、改文件、处理资料。<br><b>规划</b>：只读调研后产出结构化方案，你在方案卡片上点「执行」才动手。目标没想清时用它。<br><b>PMO</b>：以项目管理者身份拆解任务、调度多个子 Agent 协作，适合一摊子事。<br><b>问一句</b>（窄栏入口）：纯问答，只调研分析不动手，查资料问概念最快。</p>
+    </div>
+    <div class="mini">
+      <h4>审批档怎么选（输入框旁）</h4>
+      <p><b>请求批准</b>：默认。工作区内自动放行，出界/敏感/破坏性操作先问你。<br><b>自动通过</b>：除风险红线外自动批，适合信任后的批量重复活。<br><b>全部允许</b>：只拦灾难级命令。仅在明确风险可控时用。<br>注：PMO 群会话固定「请求批准」，不能放宽。</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="card-split">
+      <div class="cs-text">
+        <h3>工作空间：什么时候新建一个</h3>
+        <p>工作空间就是一位 AI 同事的身份卡：它有自己的<b>人设与规则、记忆、技能携带集</b>，并且会随共同完成的任务不断积累对你的理解。当某类工作反复出现且口径固定（周报、招标分析、数据整理），就为它建一个专属工作空间，把要求和经验固化进去；组织级统一管理用侧栏「<b>数字助手</b>」入口（新建、改名、设定人设与技能携带集）。</p>
+      </div>
+      <div class="cs-art">
+        <img src="guide-assets/twin-custom.webp" alt="创建你的分身">
+        <div class="art-note">图 1 · 创建你的分身</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>能力入口：技能从哪来</h3>
+    <p>公司内置技能（含投标三环、政企招投标助手等）已随服务端开通。<b>直接在任务里描述需求即可自动触发</b>（如说「帮我做招标文件分析」）；想浏览与管理可用技能，走窄栏<b>能力中心</b>或侧栏「技能和连接器」。</p>
+  </div>
+</section>
+
+<!-- ===================== 03 日常场景 ===================== -->
+<section id="daily">
+  <div class="sec-head"><span class="sec-num">03</span><h2>日常通用场景：四件高频小事</h2></div>
+  <p class="sec-lead">四个场景覆盖日常办公的大头。示例指令采用官方推荐口径，照抄就能用。</p>
+
+  <div class="card">
+    <div class="card-split">
+      <div class="cs-text">
+        <h3>场景 A · 在线文档：把想法和资料写成文档</h3>
+        <p><b>适合</b>：会议纪要、周报、方案初稿、制度整理。AI 可以直接创建和编辑文档，同事可以接着编辑，可回看历史版本并导出。</p>
+        <div class="prompt-box"><span class="pb-label">官方示例指令</span>把这份会议记录整理成清晰的纪要，列出结论、负责人和下一步。</div>
+        <p>生成后不满意就在对话里继续说（精简开头、补充数据、调整顺序），不用重开任务；定稿分享给同事即可。</p>
+      </div>
+      <div class="cs-art">
+        <img src="guide-assets/twin-knowledge.webp" alt="知识分身插画">
+        <div class="art-note">图 2 · 知识分身</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-split">
+      <div class="cs-text">
+        <h3>场景 B · 多维表格：把记录整理成表格</h3>
+        <p><b>适合</b>：待办跟进、客户反馈登记、投标商机台账、数据汇总。让 AI 建表、填内容、按条件筛选统计；整理完导出或分享协作。</p>
+        <div class="prompt-box"><span class="pb-label">官方示例指令</span>把这些客户反馈整理成表格，按问题类型、优先级和进度分类。</div>
+        <div class="prompt-box"><span class="pb-label">结合投标工作的示例</span>建一张「投标商机跟进表」，列：项目名称、采购单位、预算、投标截止日、负责人、当前状态。把我上传的 5 条招标公告逐条填进去，按截止日期升序排列。</div>
+      </div>
+      <div class="cs-art">
+        <img src="guide-assets/twin-data.webp" alt="数据分身插画">
+        <div class="art-note">图 3 · 数据分身</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-split">
+      <div class="cs-text">
+        <h3>场景 C · 浏览器：查资料、比信息</h3>
+        <p><b>适合</b>：查招标公告、政策、竞品资料。在工作台打开<b>浏览器</b>应用访问真实网页，把内容交给 AI 提取要点、汇总成表，抓到的结果直接回填文档或表格。</p>
+        <div class="prompt-box"><span class="pb-label">官方示例指令</span>帮我比较这几家产品的功能和价格，整理结果并保留来源链接。</div>
+        <div class="prompt-box"><span class="pb-label">结合招标工作的示例</span>打开中国政府采购网的搜索结果页，把前 10 条公告的「项目名称、采购单位、预算金额、截止时间」提取出来，汇总成一张表格。</div>
+      </div>
+      <div class="cs-art">
+        <img src="guide-assets/twin-research.webp" alt="研究分身插画">
+        <div class="art-note">图 4 · 研究分身</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>场景 D · 本地文件与资料空间</h3>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body"><h4>本地文件：让 AI 读你电脑里的文件夹</h4><p>把目标文件夹设为该工作空间的<b>工作目录</b>（侧栏底部可见「执行根」），然后告诉 AI 要的汇总口径，让它<b>逐个读取 → 提取 → 汇总 → 保存结果</b>。附件也可以在发消息时直接挂「本地文件」。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body"><h4>资料空间：公司云文档的家</h4><p>窄栏「<b>资料空间</b>」集中保存组织内的文档、表格与文件：按「全部 / 最近 / 分享给我」浏览，可搜索、可建子文档/子表格。跨设备打开同一份资源，改完自动同步。</p></div>
+    </div>
+    <div class="mnote"><span class="mn-cap">NOTE · D-1</span>设备状态在侧栏底部：在线 / 忙碌 / 离线 / 本机。离线时本地文件任务会挂起，恢复联网自动继续。</div>
+    <div class="prompt-box"><span class="pb-label">示例指令</span>读取工作目录里「出差报销」文件夹中的所有发票和行程单，按「日期、事由、金额、票据类型」汇总成一张表，保存到同一文件夹，命名「X月出差费用汇总」。</div>
+    <div class="tip tip-warn">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+      <span>本地文件只在拥有该文件的电脑上处理：换设备或设备离线时读不到，需回到对应电脑操作（侧栏底部设备状态显示「离线」即此原因）。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 04 投标实战 ===================== -->
+<section id="bid">
+  <div class="sec-head"><span class="sec-num">04</span><h2>投标实战：一条链跑完「分析 → 编写 → 审查」</h2></div>
+  <p class="sec-lead">公司已内置投标链条三个配套技能，对应投标的三个环节，按顺序使用：上一步的输出就是下一步的输入。直接在任务里描述需求即可触发对应技能。</p>
+
+  <div class="flow">
+    <div class="flow-node">
+      <span class="fn-tag">第一环</span>
+      <h4>招标文件分析</h4>
+      <p>读懂招标文件：提取资格条件、否决条款、评分标准，产出响应矩阵和投标文件框架。</p>
+      <div class="fn-io">输入：招标文件 PDF/Word<br>输出：清单 + 矩阵 + 框架</div>
+    </div>
+    <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="flow-node">
+      <span class="fn-tag">第二环</span>
+      <h4>标书编写师</h4>
+      <p>基于响应矩阵和框架逐章编写正文，交付结构完整、带目录的投标文件。</p>
+      <div class="fn-io">输入：矩阵 + 框架 + 素材<br>输出：投标文件 docx</div>
+    </div>
+    <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="flow-node">
+      <span class="fn-tag">第三环</span>
+      <h4>标书合规审查</h4>
+      <p>交标前最后防线：废标风险、评分点覆盖、报价一致性、产品证书一致性逐项核查。</p>
+      <div class="fn-io">输入：草稿 + 招标文件<br>输出：审查报告 / 清单</div>
+    </div>
+  </div>
+  <div class="mnote"><span class="mn-cap">NOTE · E-1</span>三环产物都保留在各自任务对话里：矩阵、框架、草稿、审查报告，随时回溯，不必重复上传。</div>
+
+  <div class="card">
+    <h3>场景 E · 招标文件分析（决定投不投、怎么投）</h3>
+    <p><b>目标</b>：拿到招标文件后，先把「废标红线」和「得分点」全部拆出来，再决定投入多少资源。</p>
+    <div style="height:6px"></div>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body"><p>在工作空间里<b>新建任务</b>，上传完整招标文件（PDF/Word），说「帮我做招标文件分析」。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body"><p>AI 会逐条拆解并输出四份结构化结果：<b>资格条件清单</b>（我司是否满足）、<b>否决条款清单</b>（风险等级 + 需准备材料）、<b>评分标准矩阵</b>（分值 + 响应策略）、<b>投标文件框架</b>（章节结构）。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">3</span>
+      <div class="step-body"><p>逐条确认标了「需人工确认」的项（AI 不会替你臆断），补齐材料后再进入编写环节。</p></div>
+    </div>
+    <div class="prompt-box"><span class="pb-label">示例指令</span>上传了本项目的招标文件，请做完整的招标文件分析：重点提取否决条款和评分标准，输出响应矩阵和投标文件框架。资质和业绩相关的项，凡是文件里依据不足的都标「需人工确认」。</div>
+    <p><b>延伸</b>：还没拿到招标文件、先想找商机？直接说「帮我搜索最近一周 XX 领域的招标公告」会触发政企招投标助手，汇总成网页台账。</p>
+  </div>
+
+  <div class="card">
+    <h3>场景 F · 标书编写师（写出能拿分的正文）</h3>
+    <p><b>目标</b>：基于分析结果逐章编写，拿到一份<b>结构完整、带目录、可直接排版交付</b>的投标文件。</p>
+    <div style="height:6px"></div>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body"><p>把<b>响应矩阵、投标文件框架</b>发给 AI（接着分析任务的对话继续也行），如有公司<b>历史中标标书、方案素材</b>一并上传——AI 会优先参考你认可的历史稿，而不是套通用模板。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body"><p>先让 AI 出<b>章节大纲</b>并确认，确认后再逐章编写正文；每章写完可单独提修改意见。指定页数时 AI 会按章核对页数并补足实质内容。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">3</span>
+      <div class="step-body"><p>需要把营业执照、资质证书、业绩合同等<b>商务资料贴进对应章节</b>时，直接上传并说明「贴到标书对应位置」，AI 会按内容类型插入框架对应章节。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">4</span>
+      <div class="step-body"><p>交付物是 <b>.docx 完整投标文件</b>：保留框架章节编号、封面后带完整目录、黑体宋体规范排版。信息化/系统集成类项目自动启用行业专版（信创、等保等口径）。</p></div>
+    </div>
+    <div class="prompt-box"><span class="pb-label">示例指令</span>这是招标文件分析输出的响应矩阵和投标文件框架，另附我们去年中标的同类项目标书。请先按框架出章节大纲给我确认，确认后编写第 3 章「技术方案」，目标 20 页，响应策略按矩阵里标注的来，不要出现「根据招标文件要求」这类索引式表述。</div>
+  </div>
+
+  <div class="card">
+    <h3>场景 G · 标书合规审查（交标前必做）</h3>
+    <p><b>目标</b>：交标前把「会废标的问题」和「丢分的问题」全部找出来。</p>
+    <div style="height:6px"></div>
+    <div class="step">
+      <span class="step-no">1</span>
+      <div class="step-body"><p>把<b>正文草稿 + 招标文件</b>（以及分析输出的资格清单、否决条款清单、评分矩阵）交给 AI，发起合规审查。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">2</span>
+      <div class="step-body"><p>AI 逐项核查：<b>资格与否决条款覆盖</b>、<b>评分点响应完整度</b>、<b>报价一致性</b>（投标函/开标一览表/正文交叉核对）、<b>产品与证书一致性</b>（型号、证书编号、有效期、持有人）、<b>格式与内容质量</b>（索引式表述、重复内容检查）。</p></div>
+    </div>
+    <div class="step">
+      <span class="step-no">3</span>
+      <div class="step-body"><p>按审查报告逐条整改，<b>改完必须回炉复审</b>，确认风险清零后再定稿交付。</p></div>
+    </div>
+    <div class="prompt-box"><span class="pb-label">示例指令</span>对这份投标文件草稿做交标前的合规审查：招标文件和资格/否决/评分三份清单都附上了。重点核查报价前后一致性和产品证书有效期，输出按「风险等级 + 位置 + 问题 + 整改建议」列清单。</div>
+    <div class="tip tip-ok">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <span>团队分工建议：为三个环节各建一个专属工作空间，把各自的人设、口径固化进去；三个任务的产物（矩阵、框架、草稿、审查报告）都保留在各自对话里，随时回溯。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 问题排查 ===================== -->
+<section id="faq">
+  <div class="sec-head"><span class="sec-num">05</span><h2>问题排查：按现象找下一步</h2></div>
+  <p class="sec-lead">先按下面对照现象自查，多数问题 1 分钟能解决；仍未解决再找运维（附录有渠道），带上报错截图。</p>
+
+  <details class="faq">
+    <summary>登录不上，或提示需要重新授权？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>确认装的是<b>内部发放的安装包</b>（连公司服务器）；从外部网站下载的版本连的是官方公共服务，账号不通用。</li>
+        <li>确认手机号/邮箱和密码正确；忘了密码走登录表单下方的找回流程，或找管理员重置。</li>
+        <li>确认本机能访问公司服务器：浏览器打开 Web 工作台入口（见附录），打不开就是网络问题，找运维。</li>
+        <li>提示接入的模型账号需要重新授权：按界面提示在弹出的授权页重新完成登录即可。</li>
+      </ol>
+      <div class="esc">仍未解决：截图登录表单完整报错 + 发生时间，联系运维。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>提示「无额度」或被限流？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>先确认<b>当前组织正确</b>（个人 / 公司组织额度分开算）。</li>
+        <li>额度跟组织与成员规则走：超额会有明确提示；确需提高找管理员在运营管理台调整。</li>
+        <li>限流通常是短时间内请求过于密集：稍等几分钟再试，不要连续重试。</li>
+        <li>重新登录一次，让额度状态刷新。</li>
+      </ol>
+      <div class="esc">仍未解决：截图额度提示 + 你的账号名，联系运维核对。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>AI 说「当前模式只读」或让我切换模式？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>你可能在<b>「问一句」</b>（纯问答）或<b>「规划」</b>模式里让它改东西：这两类模式本来就只读。</li>
+        <li>按 AI 的提示，到<b>输入框左下角的模式选择器</b>切回「执行」再发一次。</li>
+        <li>规划模式产出的方案卡片上有「执行」按钮，点它即可自动进入执行，不必手动切。</li>
+      </ol>
+      <div class="esc">模式能力一览见第 2 章「模式怎么选」。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>提示设备离线，本地文件读不了？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>看侧栏底部的<b>设备状态</b>：显示「离线」说明这台电脑与服务器断连，先检查网络。</li>
+        <li>本地文件只在<b>拥有该文件的电脑</b>上处理：换电脑后要把文件夹重新设为该工作空间的工作目录。</li>
+        <li>电脑休眠/锁屏可能掉线：保持客户端运行，重新联网后稍等自动恢复。</li>
+      </ol>
+      <div class="esc">仍未解决：说明是哪台设备、哪个文件夹，联系运维。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>文档或表格一直「同步中」？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>「连接中」「同步中」不代表已保存到云端：先<b>保留未同步的重要内容，别关页面</b>。</li>
+        <li>确认网络和账号正常；跨设备查看时核对打开的是<b>同一份资源</b>（资料空间里搜索确认）。</li>
+        <li>等状态变为「已同步」后，再到另一台设备核对内容一致。</li>
+      </ol>
+      <div class="esc">仍未解决：不要反复刷新，截图同步状态，联系运维。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>消息、附件或任务发送失败？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>先看失败的是哪一条：核对接收对象、当前组织，以及附件是否已上传完成。</li>
+        <li>消息失败：检查连接后<b>重试同一条</b>，不要反复新发相同内容。</li>
+        <li>任务失败：先读错误提示——附件上传失败、模型认证失败、无额度、限流要分别处理；确认原任务状态后再决定是否重试。</li>
+      </ol>
+      <div class="esc">仍未解决：截图失败提示 + 时间点，联系运维。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>AI 说做完了，但生成的文件找不到？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>回到<b>原任务的对话</b>查看产物卡片（文档/表格），点开确认内容和保存位置。</li>
+        <li>云文档去<b>资料空间</b>搜索；保存到本地的核对工作目录里目标文件夹和文件名。</li>
+        <li>导出后打开文件确认是最新版本；找不到就在原对话里让 AI 重新给出文件位置或再次导出。</li>
+      </ol>
+      <div class="esc">仍未解决：把任务名和文件名发给运维协助定位。</div>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>AI 一直在等我确认，或提示没有权限？<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="faq-body">
+      <ol>
+        <li>「请求批准」档下这是正常流程：查看它准备执行的操作、目标和权限提示，判断后点允许或拒绝。</li>
+        <li>确认频率过高时，用输入框旁的审批档入口升到<b>「自动通过」</b>；PMO 群会话固定请求批准，属预期行为。</li>
+        <li>文档只能看不能改：请文档所有者核对你的访问权限——<b>被分享 ≠ 有编辑权</b>。</li>
+      </ol>
+      <div class="esc">仍未解决：截图权限提示内容，联系运维。</div>
+    </div>
+  </details>
+</section>
+
+<!-- ===================== 06 附录 ===================== -->
+<section id="appendix">
+  <div class="sec-head"><span class="sec-num">06</span><h2>附录：入口地址与支持渠道</h2></div>
+  <p class="sec-lead">以下为当前服务器对外服务入口（2026-10-23 实测）。桌面端登录后自动连接，无需手动配置。</p>
+
+  <div class="card">
+    <h3>服务器入口一览</h3>
+    <table class="tbl">
+      <tr><th style="width:110px">端口</th><th style="width:190px">服务</th><th>说明</th></tr>
+      <tr><td><code>13490</code></td><td>Web 工作台</td><td>浏览器直接访问的日常工作台，与桌面端账号通用</td></tr>
+      <tr><td><code>13491</code></td><td>运营管理台</td><td>管理员用：成员、额度、权限配置</td></tr>
+      <tr><td><code>13492</code></td><td>API 服务</td><td>后端接口（Django），桌面端/工作台的数据通道</td></tr>
+      <tr><td><code>13493</code></td><td>协作 WebSocket</td><td>多人协作实时通道</td></tr>
+      <tr><td><code>13494</code></td><td>实时消息 WebSocket</td><td>消息与通知实时推送通道</td></tr>
+      <tr><td><code>13483</code></td><td>桌面端应用服务</td><td>桌面端配套的 Web 应用入口</td></tr>
+      <tr><td><code>13495</code></td><td>本使用指南</td><td>就是你正在看的这个页面</td></tr>
+    </table>
+    <div class="tip tip-blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>排查「服务是否在线」可用本表：浏览器能打开对应端口 = 服务在线。打不开找运维。</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>获取支持</h3>
+    <table class="tbl">
+      <tr><th style="width:170px">情况</th><th>找谁</th></tr>
+      <tr><td>使用问题 / 疑问</td><td>内部使用交流群，先搜索群历史，多数问题已被问过</td></tr>
+      <tr><td>账号 / 额度 / 权限</td><td>联系管理员在运营管理台处理</td></tr>
+      <tr><td>故障报修</td><td>联系运维，附上：<b>发生时间 + 客户端版本 + 操作步骤 + 完整报错截图</b>（敏感信息打码）；不要发送密码、验证码</td></tr>
+      <tr><td>安装包获取 / 更新</td><td>内部发布渠道统一下载，勿用外部来源</td></tr>
+    </table>
+  </div>
+
+</section>
+
+</main>
+
+<div class="foot">
+  桌面端使用指南 · 内部版 v1.2 风格对比稿 · 2026-10-23<br>
+  内容按桌面端 1.0.9 实际界面编写；本页为风格对比稿，选定方案后将作为正式版发布。<span id="foot-theme"></span>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- 主题切换器 -->
+<div class="themeswitch" id="themeswitch">
+  <button data-t="a" class="active"><span class="k">A</span><span class="t">精密蓝 · 产品文档风</span></button>
+  <button data-t="b"><span class="k">B</span><span class="t">手册页 · 正式印刷风</span></button>
+  <button data-t="c"><span class="k">C</span><span class="t">工作台蓝图 · 工程图纸风</span></button>
+</div>
+
+<script>
+(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#themeswitch button'));
+  var names = { a: '当前方案 A · 精密蓝', b: '当前方案 B · 手册页', c: '当前方案 C · 工作台蓝图' };
+  function applyTheme(t) {
+    if (['a', 'b', 'c'].indexOf(t) < 0) t = 'a';
+    document.body.dataset.theme = t;
+    btns.forEach(function (b) { b.classList.toggle('active', b.dataset.t === t); });
+    var ft = document.getElementById('foot-theme');
+    if (ft) ft.textContent = ' · ' + names[t];
+    try { localStorage.setItem('guideThemePreview', t); } catch (e) {}
+    update();
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { applyTheme(b.dataset.t); });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem('guideThemePreview'); } catch (e) {}
+  applyTheme(saved || 'a');
+
+  // 导航高亮（顶部导航 + 左侧栏 + 拇指索引三套同步）
+  var navSets = ['#topnav a', '#railnav a', '#thumbnav a'].map(function (s) {
+    return Array.prototype.slice.call(document.querySelectorAll(s));
+  });
+  function update() {
+    if (!navSets) return;
+    var pos = window.scrollY + 140;
+    var current = null;
+    var secs = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+    secs.forEach(function (s) { if (s.offsetTop <= pos) current = s.id; });
+    navSets.forEach(function (links) {
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

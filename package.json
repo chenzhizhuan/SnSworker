@@ -22,6 +22,7 @@
     "deploy:env:init": "node deployment/init-compose-env.mjs",
     "security:opensource": "python3 scripts/shared/open_source_security_audit.py",
     "test": "pnpm -r test",
+    "test:guide": "node tests/guide/guide.spec.mjs",
     "e2e": "tsx tests/electron/runner/cli.ts",
     "e2e:doctor": "tsx tests/electron/runner/cli.ts doctor",
     "e2e:list": "tsx tests/electron/runner/cli.ts list",

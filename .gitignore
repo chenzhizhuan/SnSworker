@@ -179,6 +179,8 @@ apps/tabtin-electron/electron.vite.config.*.mjs
 !/tests/electron/**
 !/tests/mobile-contract/
 !/tests/mobile-contract/**
+!/tests/guide/
+!/tests/guide/**
 .coverage
 htmlcov/
 .pytest_cache/
