@@ -181,6 +181,7 @@ import {
   nodeBufferToAgentDataUrl,
 } from '../../shared/llm-image-url.js'
 import { rewriteUnreachableImageUrlsInMessages } from './conversation/llm-image-message-rewriter.js'
+import { mapChatAttachmentsToRuntimeAttachments } from './conversation/chat-attachment-runtime-mapping.js'
 import {
   SESSION_CODE_ROOT_CHANGED_CHANNEL,
   type SessionCodeRootChangedEvent,
@@ -4987,7 +4988,19 @@ export class ElectronAgentHost {
         })
         return [prompt, attachmentMetadata].filter(Boolean).join('\n\n')
       },
-      prepareRuntimeAttachments: async () => [],
+      // ：修复桌面端多图识别胡乱回答——此前是 `async () => []` 空桩，附件
+      // 在主进程被整批丢弃，模型从未见过图片本体（prompt 里只有文件名元数据），
+      // 多图时只能按文件名编造。对齐 DaemonAgentHost：全量透传供 runtime 装配
+      // ImageBlock / VideoBlock / DocumentBlock；无视频能力时 video 降级 file。
+      // URL 直传不内联 base64——受信本机 OSS 由 Django wire_adapter 直读转
+      // base64，客户端内联会撑爆代理 1MB 进站闸门（proxy_api.py:476）。
+      prepareRuntimeAttachments: async ({ attachments, query }) => {
+        const request = ctxOf(query.identity.runId)?.request
+        return mapChatAttachmentsToRuntimeAttachments(
+          attachments as QueryRequest['attachments'],
+          { supportsVideoInput: request?.modelSupportsVideoInput },
+        )
+      },
       prepareInitialMessages: async (messages) =>
         rewriteUnreachableImageUrlsInMessages(
           projectHistoricalFileBlocksAsResources(messages),

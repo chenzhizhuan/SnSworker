@@ -23,6 +23,10 @@ The first public release is still being verified. This section records only veri
 
 - **Auto memory enhancement enabled by default**: new Workspaces now have auto memory enhancement enabled by default, with the memory model bound to the Zhisuan Fangzhou official default model. The settings page allows direct toggling in official-default mode without selecting a specific model first. Existing Workspaces are switched on by a data migration.
 
+### Fixed
+
+- **Desktop image recognition answering nonsense**: fixed the issue where the desktop client gave irrelevant answers after uploading images (especially multiple images) — attachments were dropped wholesale by a stub port in the main process, so the model never saw the image content and invented answers from filenames. Attachments are now fully forwarded to the model (images passed through directly, videos passed through or downgraded to files based on model capability, documents passed through), restoring correct multi-image recognition.
+
 At release time, verified entries will be classified as Added, Changed, Deprecated, Removed, Fixed, or Security and moved into a versioned and dated section.
 
 > AI生成
