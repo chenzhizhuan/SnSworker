@@ -144,3 +144,134 @@ class ProviderMediaUploadHelpersTests(SimpleTestCase):
             cache_put_mock.call_args.kwargs["prefix"],
             "llm:pdf_local_extract:v2:",
         )
+
+    # ------------------------------------------------------------------
+    #  本地 OOXML / 纯文本提取（自建 OpenAI 兼容端点无 Files API）
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _build_minimal_docx() -> bytes:
+        import io
+        import zipfile
+
+        document = (
+            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+            "<w:body>"
+            "<w:p><w:r><w:t>第一章 招标公告：本项目为某某大厦安防系统采购。</w:t></w:r></w:p>"
+            "</w:body></w:document>"
+        )
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as archive:
+            archive.writestr("word/document.xml", document)
+        return buffer.getvalue()
+
+    def test_docx_uses_local_office_extract_instead_of_files_api(self):
+        with patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_get",
+            return_value=None,
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_put",
+        ) as cache_put_mock, patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.upload_media_bytes",
+        ) as upload_mock:
+            text = extract_document_text_via_files_api(
+                api_base="http://172.23.0.1:13477/v1",
+                api_key="vllm-test",
+                content=self._build_minimal_docx(),
+                filename="招标文件.docx",
+                mime_type=(
+                    "application/vnd.openxmlformats-officedocument"
+                    ".wordprocessingml.document"
+                ),
+                use_cache=True,
+                cleanup_remote=True,
+            )
+
+        self.assertIn("招标公告", text)
+        self.assertIn("招标文件.docx", text)
+        upload_mock.assert_not_called()
+        self.assertEqual(
+            cache_put_mock.call_args.kwargs["prefix"],
+            "llm:office_local_extract:v1:",
+        )
+
+    def test_txt_attachment_uses_local_extract(self):
+        with patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_get",
+            return_value=None,
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_put",
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.upload_media_bytes",
+        ) as upload_mock:
+            text = extract_document_text_via_files_api(
+                api_base="http://172.23.0.1:13477/v1",
+                api_key="vllm-test",
+                content="招标编号：ABC-2026-001".encode("utf-8"),
+                filename="公告.txt",
+                mime_type="text/plain",
+            )
+
+        self.assertIn("ABC-2026-001", text)
+        upload_mock.assert_not_called()
+
+    def test_corrupt_docx_falls_back_to_files_api(self):
+        import io
+        import zipfile
+
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as archive:
+            archive.writestr("word/document.xml", "<w:document>not-valid-xml")
+        corrupt_docx = buffer.getvalue()
+
+        with patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_get",
+            return_value=None,
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_put",
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.upload_media_bytes",
+            return_value="file-doc-9",
+        ) as upload_mock, patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.fetch_file_extract_content",
+            return_value="upstream extracted text",
+        ) as content_mock, patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.delete_uploaded_file",
+        ):
+            text = extract_document_text_via_files_api(
+                api_base="https://api.moonshot.cn/v1",
+                api_key="sk-test",
+                content=corrupt_docx,
+                filename="broken.docx",
+                use_cache=True,
+                cleanup_remote=True,
+            )
+
+        self.assertEqual(text, "upstream extracted text")
+        upload_mock.assert_called_once()
+        content_mock.assert_called_once()
+
+    def test_office_cache_hit_short_circuits_extraction(self):
+        with patch(
+            "apps.services.llm.wire_adapter.provider_media_upload._file_extract_cache_get",
+            return_value="缓存的 office 提取文本",
+        ) as cache_get_mock, patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.extract_office_text_for_model",
+        ) as office_mock, patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.upload_media_bytes",
+        ) as upload_mock:
+            text = extract_document_text_via_files_api(
+                api_base="http://172.23.0.1:13477/v1",
+                api_key="vllm-test",
+                content=self._build_minimal_docx(),
+                filename="招标文件.docx",
+            )
+
+        self.assertEqual(text, "缓存的 office 提取文本")
+        office_mock.assert_not_called()
+        upload_mock.assert_not_called()
+        self.assertEqual(
+            cache_get_mock.call_args.kwargs["prefix"],
+            "llm:office_local_extract:v1:",
+        )

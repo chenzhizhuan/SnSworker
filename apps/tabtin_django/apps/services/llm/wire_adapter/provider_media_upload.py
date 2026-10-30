@@ -23,6 +23,11 @@ from urllib.parse import unquote, urlparse
 
 import httpx
 
+from .office_text_extractor import (
+    extract_office_text_for_model,
+    extract_text_document_for_model,
+)
+
 logger = logging.getLogger(__name__)
 
 DEFAULT_VIDEO_MAX_BYTES = 100 * 1024 * 1024
@@ -31,6 +36,7 @@ DEFAULT_DOCUMENT_MAX_BYTES = 100 * 1024 * 1024
 DEFAULT_UPLOAD_TIMEOUT_S = 180.0
 FILE_EXTRACT_CACHE_PREFIX = "llm:file_extract:"
 PDF_LOCAL_EXTRACT_CACHE_PREFIX = "llm:pdf_local_extract:v2:"
+OFFICE_LOCAL_EXTRACT_CACHE_PREFIX = "llm:office_local_extract:v1:"
 FILE_EXTRACT_CACHE_TTL_S = 24 * 3600
 
 
@@ -232,6 +238,7 @@ def extract_document_text_via_files_api(
     api_key: str,
     content: bytes,
     filename: str,
+    mime_type: str = "",
     purpose: str = "file-extract",
     endpoint: str = "/files",
     id_field: str = "id",
@@ -244,6 +251,8 @@ def extract_document_text_via_files_api(
     """上传文档 → 拉取 extract 文本 →（可选）删远程文件 / 写缓存。
 
     Moonshot 官方文档 Q&A 路径；返回可注入 messages 的纯文本。
+    ``docx/xlsx/pptx/txt`` 等本地可解析格式优先走零依赖本地提取
+    （见 :mod:`office_text_extractor`），不依赖上游 Files API。
     """
     if content.startswith(b"%PDF-"):
         try:
@@ -280,6 +289,53 @@ def extract_document_text_via_files_api(
                 "falling back to provider Files API: %s",
                 exc,
             )
+
+    # === OOXML 办公文档（docx/xlsx/pptx）与纯文本附件：本地零依赖提取 ===
+    # 自建 vLLM 等 OpenAI 兼容端点没有 Files API；本地提取 + 文本注入
+    # 的路径与上游能力无关，任何 chat 端点都能消费。
+    cached_office = (
+        _file_extract_cache_get(content, prefix=OFFICE_LOCAL_EXTRACT_CACHE_PREFIX)
+        if use_cache
+        else None
+    )
+    if cached_office is not None:
+        return _truncate_extract(cached_office, max_extract_chars)
+
+    local_office_text: Optional[str] = None
+    try:
+        local_office_text = extract_office_text_for_model(
+            content,
+            filename=filename,
+            mime_type=mime_type,
+        )
+        if local_office_text is None:
+            local_office_text = extract_text_document_for_model(
+                content,
+                filename=filename,
+                mime_type=mime_type,
+            )
+    except Exception as exc:  # noqa: BLE001
+        logger.warning(
+            "[provider_media_upload] local office extract failed; "
+            "falling back to provider Files API: %s",
+            exc,
+        )
+        local_office_text = None
+
+    if local_office_text is not None:
+        truncated_office = _truncate_extract(local_office_text, max_extract_chars)
+        if use_cache:
+            _file_extract_cache_put(
+                content,
+                truncated_office,
+                prefix=OFFICE_LOCAL_EXTRACT_CACHE_PREFIX,
+            )
+        logger.info(
+            "[provider_media_upload] local office extract bytes=%d chars=%d",
+            len(content),
+            len(truncated_office),
+        )
+        return truncated_office
 
     if use_cache:
         cached = _file_extract_cache_get(content)

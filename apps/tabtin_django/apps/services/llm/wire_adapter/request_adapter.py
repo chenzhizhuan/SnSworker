@@ -890,6 +890,7 @@ def _rewrite_documents_file_extract(
                     api_key=api_key,
                     content=doc.content,
                     filename=doc.filename,
+                    mime_type=doc.mime_type,
                     purpose=str(getattr(files_api, "purpose", "file-extract") or "file-extract"),
                     endpoint=str(getattr(files_api, "endpoint", "/files") or "/files"),
                     id_field=str(getattr(files_api, "id_field", "id") or "id"),
