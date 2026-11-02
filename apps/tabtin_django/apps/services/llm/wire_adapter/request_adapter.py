@@ -977,8 +977,46 @@ def _rewrite_documents_file_extract(
         {"role": inject_role, "content": extract_by_url[url]}
         for url in extract_order
     ]
-    # Moonshot 官方：file system messages 放在 messages 列表头部
-    return inject_msgs + stripped
+
+    # 严格 chat template（Qwen3 系 vLLM 等）只允许 system 出现在 messages 首位。
+    # 会话通常已带首条 system（系统提示词），若按 Moonshot 习惯再前置一条
+    # system，会形成 [system(文档), system(原提示词), ...]，上游直接 400
+    # "System message must be at the beginning"（2026-11-02 生产事故）。
+    # 处理策略：
+    # - inject_role=system 且已有首条 system → 文档文本合并进首条 system；
+    # - inject_role=system 且无 system → 维持 Moonshot 头部前置行为（单条 system）；
+    # - 其他 inject_role → 插入头部 system 段之后，避免把原 system 挤到中间。
+    if (
+        inject_role == "system"
+        and stripped
+        and isinstance(stripped[0], dict)
+        and stripped[0].get("role") == "system"
+    ):
+        doc_text = "\n\n".join(extract_by_url[url] for url in extract_order)
+        merged = dict(stripped[0])
+        base_content = merged.get("content")
+        if isinstance(base_content, str) and base_content.strip():
+            merged["content"] = f"{base_content}\n\n{doc_text}"
+        elif isinstance(base_content, list):
+            merged["content"] = [{"type": "text", "text": doc_text}] + list(base_content)
+        else:
+            merged["content"] = doc_text
+        logger.info(
+            "[wire_adapter][normalize_documents] merged document extract into "
+            "leading system message request_id=%s docs=%d merged_chars=%d",
+            request_id, len(extract_order), len(doc_text),
+        )
+        return [merged] + list(stripped[1:])
+
+    head_end = 0
+    for msg in stripped:
+        if isinstance(msg, dict) and msg.get("role") == "system":
+            head_end += 1
+        else:
+            break
+    # Moonshot 官方：file system messages 放在 messages 列表头部；
+    # 有头部 system 段时插到其后，保持 system 首位不被挤到中间。
+    return list(stripped[:head_end]) + inject_msgs + list(stripped[head_end:])
 
 
 # ---------------------------------------------------------------------------

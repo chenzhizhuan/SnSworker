@@ -523,14 +523,126 @@ class NormalizeDocumentsTests(SimpleTestCase):
             out = _normalize_documents(body, caps, ctx)
 
         msgs = out["messages"]
+        # 严格模板（Qwen3 vLLM）只允许 system 居首位：文档文本合并进首条
+        # system，而不是再前置一条 system（曾触发上游 400
+        # "System message must be at the beginning"，2026-11-02 生产事故）。
+        self.assertEqual(len(msgs), 2)
         self.assertEqual(msgs[0]["role"], "system")
-        self.assertEqual(msgs[0]["content"], "TABTIN6945NATIVEFEED extracted")
-        self.assertEqual(msgs[1]["role"], "system")
-        self.assertEqual(msgs[1]["content"], "you are helpful")
-        self.assertEqual(msgs[2]["role"], "user")
-        self.assertEqual(msgs[2]["content"], "摘要一下")
+        self.assertEqual(
+            msgs[0]["content"],
+            "you are helpful\n\nTABTIN6945NATIVEFEED extracted",
+        )
+        self.assertEqual(msgs[1]["role"], "user")
+        self.assertEqual(msgs[1]["content"], "摘要一下")
         extract_mock.assert_called_once()
         self.assertEqual(extract_mock.call_args.kwargs["purpose"], "file-extract")
+
+    def test_file_extract_prepends_system_when_no_leading_system(self):
+        from apps.services.llm.wire_adapter.document_media_resolver import DocumentBytes
+
+        caps = ResolvedCapabilities()
+        caps.document = DocumentCaps(
+            enabled=True,
+            upload_mode="file_extract",
+            files_api=MediaFilesApiCaps(
+                endpoint="/files",
+                purpose="file-extract",
+                url_scheme="ms://",
+            ),
+        )
+        local_url = (
+            "http://127.0.0.1:6060/api/services/oss/local-object"
+            "?object_key=chat%2Fattachments%2Fdemo.pdf"
+        )
+        body = {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "file", "file_url": {"url": local_url}, "file_name": "demo.pdf"},
+                        {"type": "text", "text": "摘要一下"},
+                    ],
+                },
+            ],
+        }
+        ctx = _ctx("kimi-k2.6")
+        ctx.api_base = "https://api.moonshot.cn/v1"
+        ctx.api_key = "sk-test"
+
+        with patch(
+            "apps.services.llm.wire_adapter.document_media_resolver.resolve_document_bytes",
+            return_value=DocumentBytes(
+                content=b"%PDF-1.1 TABTIN6945NATIVEFEED",
+                filename="demo.pdf",
+                mime_type="application/pdf",
+            ),
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.extract_document_text_via_files_api",
+            return_value="TABTIN6945NATIVEFEED extracted",
+        ):
+            out = _normalize_documents(body, caps, ctx)
+
+        msgs = out["messages"]
+        self.assertEqual(msgs[0]["role"], "system")
+        self.assertEqual(msgs[0]["content"], "TABTIN6945NATIVEFEED extracted")
+        self.assertEqual(msgs[1]["role"], "user")
+        self.assertEqual(msgs[1]["content"], "摘要一下")
+
+    def test_file_extract_user_role_inserted_after_leading_system(self):
+        from apps.services.llm.wire_adapter.document_media_resolver import DocumentBytes
+
+        caps = ResolvedCapabilities()
+        caps.document = DocumentCaps(
+            enabled=True,
+            upload_mode="file_extract",
+            inject_role="user",
+            files_api=MediaFilesApiCaps(
+                endpoint="/files",
+                purpose="file-extract",
+                url_scheme="ms://",
+            ),
+        )
+        local_url = (
+            "http://127.0.0.1:6060/api/services/oss/local-object"
+            "?object_key=chat%2Fattachments%2Fdemo.pdf"
+        )
+        body = {
+            "messages": [
+                {"role": "system", "content": "you are helpful"},
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "file", "file_url": {"url": local_url}, "file_name": "demo.pdf"},
+                        {"type": "text", "text": "摘要一下"},
+                    ],
+                },
+            ],
+        }
+        ctx = _ctx("kimi-k2.6")
+        ctx.api_base = "https://api.moonshot.cn/v1"
+        ctx.api_key = "sk-test"
+
+        with patch(
+            "apps.services.llm.wire_adapter.document_media_resolver.resolve_document_bytes",
+            return_value=DocumentBytes(
+                content=b"%PDF-1.1 TABTIN6945NATIVEFEED",
+                filename="demo.pdf",
+                mime_type="application/pdf",
+            ),
+        ), patch(
+            "apps.services.llm.wire_adapter.provider_media_upload.extract_document_text_via_files_api",
+            return_value="TABTIN6945NATIVEFEED extracted",
+        ):
+            out = _normalize_documents(body, caps, ctx)
+
+        msgs = out["messages"]
+        # inject_role=user：插到头部 system 段之后，system 仍保持首位
+        self.assertEqual(msgs[0]["role"], "system")
+        self.assertEqual(msgs[0]["content"], "you are helpful")
+        self.assertEqual(msgs[1]["role"], "user")
+        self.assertEqual(msgs[1]["content"], "TABTIN6945NATIVEFEED extracted")
+        self.assertEqual(msgs[2]["role"], "user")
+        self.assertEqual(msgs[2]["content"], "摘要一下")
 
     def test_file_extract_attachment_only_user_gets_placeholder(self):
         """#7299：仅附件无正文时 user 不得为空，否则 Kimi 拒收。"""
