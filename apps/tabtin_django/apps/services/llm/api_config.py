@@ -47,8 +47,10 @@ from .services import get_available_models, invalidate_models_cache
 from .models import LLMProvider, LLMModel, LLMProviderKey
 from .permissions import ensure_self_user_id, ensure_organization_permission
 from .utils.custom_model_capabilities import (
+    ensure_custom_chat_document_capability,
     ensure_custom_chat_json_capability,
     ensure_known_provider_chat_capabilities,
+    ensure_wire_capability_switch_sync,
     resolve_known_provider_chat_max_output_tokens,
 )
 from .utils.known_byok_capabilities import ensure_known_byok_wire_capability
@@ -824,6 +826,14 @@ def create_organization_model(request, organization_id: str, payload: Organizati
             model_name=payload.model_name,
             capabilities_config=capabilities_config,
         )
+        # 自定义渠道 chat 模型默认开启文档附件（与 0062 迁移口径对齐），
+        # 顶层视觉开关勾选时同步补齐 wire_adapter.image 结构段。
+        capabilities_config = ensure_custom_chat_document_capability(
+            capabilities_config
+        )
+        capabilities_config = ensure_wire_capability_switch_sync(
+            capabilities_config
+        )
 
     # 运行时 base_url 跟 Model 走。创建时优先用请求体，其次渠道默认端点，
     # 最后兼容历史渠道，继承同渠道已有真实 endpoint。
@@ -983,6 +993,12 @@ def update_organization_model(
             provider_key=provider.provider_key or provider.name,
             model_name=model.model_name,
             capabilities_config=model.capabilities_config,
+        )
+        # 后台表单勾选只写顶层 supports_* 兼容字段；wire gate 只读
+        # wire_adapter.*.enabled。同步补齐结构段，保证勾选真正生效，
+        # 同时修复历史「顶层 true + wire 段缺失」数据（如 bca71e82）。
+        model.capabilities_config = ensure_wire_capability_switch_sync(
+            model.capabilities_config
         )
     # v0.1：模型 is_active 字段已删（0022），下线模型直接 DELETE。
 
