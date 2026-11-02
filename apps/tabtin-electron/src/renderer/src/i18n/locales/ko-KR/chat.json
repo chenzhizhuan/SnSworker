@@ -514,7 +514,7 @@
     "remove": "제거",
     "fileTooLarge": "{{limit}}MB 크기 제한을 초과했습니다.",
     "fileTypeNotAllowed": "지원되지 않는 파일 형식",
-    "imageLimitReached": "최대 10개의 이미지를 추가할 수 있습니다.",
+    "imageLimitReached": "최대 100개의 이미지를 추가할 수 있습니다.",
     "fileRejectedSingle": "파일 {{name}} 건너뛰기: {{reason}}",
     "fileRejectedMultiple": "{{count}} 파일을 건너뛰었습니다.",
     "presetCannotSubmit": "제출 조건이 충족되지 않았습니다. 확인하신 후 다시 시도해 주세요.",

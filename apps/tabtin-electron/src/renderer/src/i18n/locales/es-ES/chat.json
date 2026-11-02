@@ -514,7 +514,7 @@
     "remove": "Quitar",
     "fileTooLarge": "Supera el límite de tamaño de {{limit}}MB",
     "fileTypeNotAllowed": "Tipo de archivo no compatible",
-    "imageLimitReached": "Puedes agregar hasta 10 imágenes.",
+    "imageLimitReached": "Puedes agregar hasta 100 imágenes.",
     "fileRejectedSingle": "Archivo {{name}} omitido: {{reason}}",
     "fileRejectedMultiple": "{{count}} archivos omitidos",
     "presetCannotSubmit": "Condiciones de envío no cumplidas. Por favor verifique e intente nuevamente.",

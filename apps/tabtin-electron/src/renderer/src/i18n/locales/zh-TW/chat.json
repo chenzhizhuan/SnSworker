@@ -514,7 +514,7 @@
     "remove": "移除",
     "fileTooLarge": "超過 {{limit}}MB 大小限制",
     "fileTypeNotAllowed": "不支援的文件類型",
-    "imageLimitReached": "最多新增10張圖片",
+    "imageLimitReached": "最多新增100張圖片",
     "fileRejectedSingle": "檔案 {{name}} 被跳過：{{reason}}",
     "fileRejectedMultiple": "{{count}} 個檔案被跳過",
     "presetCannotSubmit": "目前參數不符合提交條件，請檢查後重試",

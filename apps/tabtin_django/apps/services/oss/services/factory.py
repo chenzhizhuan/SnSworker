@@ -108,7 +108,7 @@ def _get_local_config() -> Dict[str, Any]:
         'public_base_url': getattr(settings, 'LOCAL_OSS_PUBLIC_BASE_URL', ''),
         'upload_base_url': getattr(settings, 'LOCAL_OSS_UPLOAD_BASE_URL', ''),
         'access_mode': 'public-read',
-        'max_file_size': getattr(settings, 'OSS_MAX_FILE_SIZE', 200 * 1024 * 1024),
+        'max_file_size': getattr(settings, 'OSS_MAX_FILE_SIZE', 2000 * 1024 * 1024),
     }
     _validate_local_config(config)
     return config
@@ -294,7 +294,7 @@ def get_provider_info(provider: str) -> Dict[str, Any]:
             ],
             'regions': ['local'],
             'storage_classes': ['Local'],
-            'max_file_size': f"{getattr(settings, 'OSS_MAX_FILE_SIZE', 209715200) // (1024 * 1024)}MB",
+            'max_file_size': f"{getattr(settings, 'OSS_MAX_FILE_SIZE', 2147483648) // (1024 * 1024)}MB",
             'max_bucket_count': 1,
         }
     }
@@ -317,7 +317,7 @@ def get_default_config() -> Dict[str, Any]:
         'internal_endpoint': 'oss-cn-wuhan-lr-internal.aliyuncs.com',
         'access_mode': 'public-read',
         'cdn_domain': '',
-        'max_file_size': getattr(settings, 'OSS_MAX_FILE_SIZE', 104857600),
+        'max_file_size': getattr(settings, 'OSS_MAX_FILE_SIZE', 2147483648),
         'allowed_extensions': ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'zip'],
         'chunk_size': 5242880,  # 5MB
         'max_chunks': 1000

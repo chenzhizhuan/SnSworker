@@ -514,7 +514,7 @@
     "remove": "Entfernen",
     "fileTooLarge": "Überschreitet die Größenbeschränkung von {{limit}}MB",
     "fileTypeNotAllowed": "Nicht unterstützter Dateityp",
-    "imageLimitReached": "Sie können bis zu 10 Bilder hinzufügen.",
+    "imageLimitReached": "Sie können bis zu 100 Bilder hinzufügen.",
     "fileRejectedSingle": "Datei {{name}} übersprungen: {{reason}}",
     "fileRejectedMultiple": "{{count}}-Dateien wurden übersprungen",
     "presetCannotSubmit": "Einsendebedingungen nicht erfüllt. Bitte überprüfen Sie es und versuchen Sie es erneut.",

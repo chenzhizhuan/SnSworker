@@ -1593,7 +1593,7 @@ for _rewrite_pair in (os.getenv('UPDATER_FEED_PROBE_REWRITE', '') or '').split('
 PUBLIC_API_BASE_URL = os.getenv('PUBLIC_API_BASE_URL', os.getenv('API_BASE_URL', ''))
 
 # 文件上传配置
-OSS_MAX_FILE_SIZE = int(os.getenv('OSS_MAX_FILE_SIZE', '209715200'))  # 200MB
+OSS_MAX_FILE_SIZE = int(os.getenv('OSS_MAX_FILE_SIZE', '2147483648'))  # 2000MB（2GB）
 OSS_ALLOWED_EXTENSIONS = os.getenv(
     'OSS_ALLOWED_EXTENSIONS',
     'jpg,jpeg,jfif,png,gif,webp,bmp,avif,apng,svg,heic,heif,'
@@ -1621,7 +1621,7 @@ AWS_S3_SES_BUCKET = os.getenv('AWS_S3_SES_BUCKET', '')
 _MB = 1024 * 1024
 OSS_UPLOAD_PRESETS = {
     'IMAGE': {
-        'maxSize': 20 * _MB,
+        'maxSize': 200 * _MB,
         'accept': [
             'image/jpeg', 'image/jpg', 'image/png', 'image/gif',
             'image/webp', 'image/bmp', 'image/x-ms-bmp', 'image/avif',
@@ -1630,11 +1630,11 @@ OSS_UPLOAD_PRESETS = {
         ],
     },
     'FILE': {
-        'maxSize': 50 * _MB,
+        'maxSize': 500 * _MB,
         'accept': None,
     },
     'MEDIA': {
-        'maxSize': 200 * _MB,
+        'maxSize': 2000 * _MB,
         'accept': [
             'video/mp4', 'video/webm', 'video/quicktime', 'video/ogg', 'video/x-msvideo',
             'audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/webm',

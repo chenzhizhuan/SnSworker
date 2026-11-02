@@ -58,9 +58,9 @@ export interface FileValidationResult {
 // ======================== 预设对象 ========================
 
 export const UPLOAD_PRESETS = {
-  IMAGE: { maxSize: 20 * MB, accept: ACCEPTED_IMAGE_MIMES } as UploadPreset,
-  FILE: { maxSize: 50 * MB, accept: null } as UploadPreset,
-  MEDIA: { maxSize: 200 * MB, accept: ACCEPTED_MEDIA_MIMES } as UploadPreset,
+  IMAGE: { maxSize: 200 * MB, accept: ACCEPTED_IMAGE_MIMES } as UploadPreset,
+  FILE: { maxSize: 500 * MB, accept: null } as UploadPreset,
+  MEDIA: { maxSize: 2000 * MB, accept: ACCEPTED_MEDIA_MIMES } as UploadPreset,
   ATTACHMENT: { maxSize: 100 * MB, accept: null } as UploadPreset,
   DOCUMENT: { maxSize: 50 * MB, accept: ACCEPTED_DOCUMENT_MIMES } as UploadPreset,
 }

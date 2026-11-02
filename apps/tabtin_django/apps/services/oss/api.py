@@ -1757,7 +1757,7 @@ def batch_upload_files_api(
             for idx, file in enumerate(files):
                 try:
                     # 检查文件大小
-                    max_size = settings.OSS_MAX_FILE_SIZE  # 100MB
+                    max_size = settings.OSS_MAX_FILE_SIZE  # 2000MB（2GB）
                     if file.size > max_size:
                         logger.warning(f"文件 {file.name} 大小超过限制: {file.size} > {max_size}")
                         failed_count += 1
@@ -1939,7 +1939,7 @@ def batch_upload_files_api(
                         })
 
             for file in files:
-                max_size = settings.OSS_MAX_FILE_SIZE  # 100MB
+                max_size = settings.OSS_MAX_FILE_SIZE  # 2000MB（2GB）
                 if file.size > max_size:
                     logger.warning(f"文件 {file.name} 大小超过限制: {file.size} > {max_size}")
                     continue

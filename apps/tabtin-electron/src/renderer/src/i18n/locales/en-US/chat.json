@@ -514,7 +514,7 @@
     "remove": "Remove",
     "fileTooLarge": "Exceeds {{limit}}MB size limit",
     "fileTypeNotAllowed": "Unsupported file type",
-    "imageLimitReached": "You can add up to 10 images.",
+    "imageLimitReached": "You can add up to 100 images.",
     "fileRejectedSingle": "File {{name}} skipped: {{reason}}",
     "fileRejectedMultiple": "{{count}} files skipped",
     "presetCannotSubmit": "Submission conditions not met. Please check and try again.",

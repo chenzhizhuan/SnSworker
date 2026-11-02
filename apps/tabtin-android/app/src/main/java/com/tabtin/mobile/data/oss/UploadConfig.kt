@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 // ---------------------------------------------------------------------------
 
 public object UploadConfig {
-    public const val MAX_ATTACHMENTS: Int = 10
+    public const val MAX_ATTACHMENTS: Int = 100
     public const val MAX_CONCURRENT_UPLOADS: Int = 3
 
     // 图片压缩参数
@@ -18,15 +18,15 @@ public object UploadConfig {
     public val SKIP_COMPRESSION_MIMES: Set<String> = setOf("image/gif", "image/svg+xml")
 
     @Volatile
-    public var MAX_IMAGE_SIZE: Long = 20L * 1024 * 1024
+    public var MAX_IMAGE_SIZE: Long = 200L * 1024 * 1024
         private set
 
     @Volatile
-    public var MAX_FILE_SIZE: Long = 50L * 1024 * 1024
+    public var MAX_FILE_SIZE: Long = 500L * 1024 * 1024
         private set
 
     @Volatile
-    public var MAX_MEDIA_SIZE: Long = 200L * 1024 * 1024
+    public var MAX_MEDIA_SIZE: Long = 2000L * 1024 * 1024
         private set
 
     @Volatile

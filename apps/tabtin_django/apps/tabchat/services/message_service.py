@@ -62,7 +62,7 @@ MAX_METADATA_SIZE = 5000  # metadata JSON 字符数上限
 # 指令卡专用 metadata 预算：prompt_text 上限 8000 字符，JSON 转义（换行/引号）
 # 最坏情况下体积翻倍，通用 5000 上限装不下，单独放宽。
 MAX_PROMPT_METADATA_SIZE = 20_000
-MAX_FILE_SIZE = 200 * 1024 * 1024  # 200 MB
+MAX_FILE_SIZE = 2000 * 1024 * 1024  # 2000 MB（2GB），与 OSS_UPLOAD_PRESETS.MEDIA 对齐
 MAX_CONTENT_LENGTH = 10_000  # 与 Schema 层 SendMessageRequest.content.max_length 对齐
 
 

@@ -54,7 +54,7 @@ export const FILE_LIMITS = {
   get MAX_IMAGE_SIZE() { return UPLOAD_PRESETS.IMAGE.maxSize },
   get MAX_FILE_SIZE() { return UPLOAD_PRESETS.FILE.maxSize },
   get MAX_MEDIA_SIZE() { return UPLOAD_PRESETS.MEDIA.maxSize },
-  MAX_ATTACHMENTS: 10,
+  MAX_ATTACHMENTS: 100,
 } as const
 
 /** 支持的图片 MIME 类型 — 实时从 Set 读取，远程配置更新后自动生效 */

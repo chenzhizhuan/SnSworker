@@ -39,7 +39,7 @@ export function useChatInputAttachments(
           notificationsScheduled = true
           queueMicrotask(() => {
             toast.warning(t('input.imageLimitReached', {
-              defaultValue: '最多添加10张图片',
+              defaultValue: '最多添加100张图片',
             }))
           })
         }
@@ -68,7 +68,7 @@ export function useChatInputAttachments(
         if (imageLimitReached) {
           queueMicrotask(() => {
             toast.warning(t('input.imageLimitReached', {
-              defaultValue: '最多添加10张图片',
+              defaultValue: '最多添加100张图片',
             }))
           })
         }

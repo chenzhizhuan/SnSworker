@@ -9,12 +9,12 @@ import UniformTypeIdentifiers
 // MARK: - 附件管理
 
 enum ChatAttachmentUploadConfig {
-    static let maxAttachments = 10
+    static let maxAttachments = 100
     static let maxRetryCount = 3
     static let maxConcurrentUploads = 3
-    static let imageMaxSize: Int64 = 20 * 1024 * 1024
-    static let fileMaxSize: Int64 = 50 * 1024 * 1024
-    static let mediaMaxSize: Int64 = 200 * 1024 * 1024
+    static let imageMaxSize: Int64 = 200 * 1024 * 1024
+    static let fileMaxSize: Int64 = 500 * 1024 * 1024
+    static let mediaMaxSize: Int64 = 2000 * 1024 * 1024
     static let largeFileThreshold: Int64 = 10 * 1024 * 1024
     static let imageMaxDimension: CGFloat = 2048
     static let jpegQuality: CGFloat = 0.82

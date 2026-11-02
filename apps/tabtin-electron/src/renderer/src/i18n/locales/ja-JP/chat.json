@@ -514,7 +514,7 @@
     "remove": "削除",
     "fileTooLarge": "{{limit}}MB サイズ制限を超えています",
     "fileTypeNotAllowed": "サポートされていないファイル形式です",
-    "imageLimitReached": "最大 10 枚の画像を追加できます。",
+    "imageLimitReached": "最大 100 枚の画像を追加できます。",
     "fileRejectedSingle": "ファイル {{name}} がスキップされました: {{reason}}",
     "fileRejectedMultiple": "{{count}} ファイルはスキップされました",
     "presetCannotSubmit": "提出条件が満たされていません。確認してもう一度お試しください。",
